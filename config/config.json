@@ -1,0 +1,11 @@
+{
+  "projectName": "Stripe Fee Auditor",
+  "environment": "development",
+  "features": {
+    "csvUpload": true,
+    "feeAnalysis": true,
+    "emailGate": true,
+    "payments": true,
+    "exports": true
+  }
+}
