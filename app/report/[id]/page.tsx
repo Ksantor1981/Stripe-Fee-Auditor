@@ -3,10 +3,11 @@ import { getReport } from "@/lib/db";
 import { ReportShell } from "./_components/ReportShell";
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function generateMetadata({ params }: Props) {
+  const { id } = await params;
   return {
     title: `Your Stripe Fee Report — Stripe Fee Auditor`,
     robots: "noindex",
@@ -14,11 +15,12 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default async function ReportPage({ params }: Props) {
-  const report = await getReport(params.id);
+  const { id } = await params;
+  const report = await getReport(id);
 
   if (!report || !report.result) {
     notFound();
   }
 
-  return <ReportShell reportId={params.id} result={report.result} isPaid={report.is_paid ?? false} />;
+  return <ReportShell reportId={id} result={report.result} isPaid={report.is_paid ?? false} />;
 }

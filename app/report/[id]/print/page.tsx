@@ -3,14 +3,16 @@ import { getReport } from "@/lib/db";
 import { fmt$, fmtPct, fmtMonth, fmtDate } from "@/lib/format";
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function ReportPrintPage({ params }: Props) {
-  const report = await getReport(params.id);
+  const { id } = await params;
+  const report = await getReport(id);
   if (!report?.result || !report.is_paid) notFound();
 
   const { chargeVolume, chargeFees, chargeRate, otherFees, monthly, anomalies, topDrivers, mode, periodDelta } = report.result;
+  const params_id = id;
 
   return (
     <>
@@ -53,7 +55,7 @@ export default async function ReportPrintPage({ params }: Props) {
           <div>
             <h1>Stripe Fee Analysis Report</h1>
             <div className="meta">
-              Report ID: {params.id.slice(0, 8)} · Generated: {new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+              Report ID: {params_id.slice(0, 8)} · Generated: {new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
             </div>
           </div>
           <div style={{ textAlign: "right" }}>
