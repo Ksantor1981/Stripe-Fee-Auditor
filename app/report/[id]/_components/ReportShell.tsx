@@ -28,12 +28,32 @@ export function ReportShell({ reportId, result, isPaid }: Props) {
       <header className="bg-white border-b px-6 py-4">
         <div className="mx-auto max-w-4xl flex items-center justify-between">
           <a href="/" className="text-sm font-semibold text-gray-900">Stripe Fee Auditor</a>
-          <a
-            href="/analyze"
-            className="text-sm text-blue-600 hover:underline"
-          >
-            Analyze another file →
-          </a>
+          <div className="flex items-center gap-3">
+            {isPaid && (
+              <>
+                <a
+                  href={`/api/export/csv?reportId=${reportId}`}
+                  className="text-xs font-medium text-gray-500 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5 hover:border-gray-300 transition-colors"
+                >
+                  ↓ CSV
+                </a>
+                <a
+                  href={`/report/${reportId}/print`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-medium text-gray-500 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5 hover:border-gray-300 transition-colors"
+                >
+                  ↓ PDF
+                </a>
+              </>
+            )}
+            <a
+              href="/analyze"
+              className="text-sm text-blue-600 hover:underline"
+            >
+              Analyze another file →
+            </a>
+          </div>
         </div>
       </header>
 
