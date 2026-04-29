@@ -26,21 +26,15 @@ export async function POST(req: NextRequest) {
 
     // ── Parse request ──────────────────────────────────────────────────────────
     const body = (await req.json()) as {
-      blobUrl: string;
-      sessionId: string;
+      csvText?: string;
       columnMapping?: Record<string, string>;
     };
 
-    if (!body.blobUrl || !body.sessionId) {
-      return NextResponse.json({ error: "blobUrl and sessionId are required" }, { status: 400 });
+    if (!body.csvText || !body.csvText.trim()) {
+      return NextResponse.json({ error: "csvText is required" }, { status: 400 });
     }
 
-    // ── Fetch CSV from Blob ────────────────────────────────────────────────────
-    const csvResponse = await fetch(body.blobUrl);
-    if (!csvResponse.ok) {
-      return NextResponse.json({ error: "Could not fetch uploaded file" }, { status: 400 });
-    }
-    const csvText = await csvResponse.text();
+    const csvText = body.csvText;
 
     // ── Parse CSV ─────────────────────────────────────────────────────────────
     const parsed = Papa.parse<RawRow>(csvText, {
@@ -99,8 +93,8 @@ export async function POST(req: NextRequest) {
 
     // ── Save to DB ─────────────────────────────────────────────────────────────
     const reportId = await createReport({
-      sessionId: body.sessionId,
-      blobUrl: body.blobUrl,
+      sessionId: crypto.randomUUID(),
+      blobUrl: null,
       result,
     });
 

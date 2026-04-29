@@ -21,7 +21,7 @@ export interface ReportRow {
 
 export async function createReport(params: {
   sessionId: string;
-  blobUrl: string;
+  blobUrl: string | null;
   result: AnalysisResult;
 }): Promise<string> {
   const rows = await sql`

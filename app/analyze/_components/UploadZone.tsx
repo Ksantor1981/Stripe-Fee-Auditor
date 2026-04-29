@@ -92,23 +92,15 @@ export function UploadZone({ onBack }: Props) {
     setError(null);
 
     try {
-      // ── Step 1: Upload file to Vercel Blob ───────────────────────────────────
+      // Read full CSV text client-side — no Blob storage needed
       setStage("uploading");
-      const form = new FormData();
-      form.append("file", parsed.file);
-      const uploadRes = await fetch("/api/upload", { method: "POST", body: form });
-      if (!uploadRes.ok) {
-        const j = await uploadRes.json();
-        throw new Error(j.error ?? "Upload failed");
-      }
-      const { blobUrl, sessionId } = await uploadRes.json();
+      const csvText = await parsed.file.text();
 
-      // ── Step 2: Analyze ──────────────────────────────────────────────────────
       setStage("analyzing");
       const analyzeRes = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ blobUrl, sessionId, columnMapping: mapping }),
+        body: JSON.stringify({ csvText, columnMapping: mapping }),
       });
       if (!analyzeRes.ok) {
         const j = await analyzeRes.json();
@@ -125,7 +117,7 @@ export function UploadZone({ onBack }: Props) {
 
   const stageLabel: Record<Stage, string> = {
     idle: "Analyze My Fees →",
-    uploading: "Uploading…",
+    uploading: "Reading file…",
     analyzing: "Analyzing…",
   };
 
