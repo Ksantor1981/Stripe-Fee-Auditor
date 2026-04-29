@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useDropzone } from "react-dropzone";
 import Papa from "papaparse";
 import { Button } from "@/components/ui/button";
@@ -10,15 +11,14 @@ const REQUIRED_COLUMNS = ["id", "type", "amount", "fee", "net", "currency", "cre
 type RequiredCol = (typeof REQUIRED_COLUMNS)[number];
 
 interface ParsedFile {
+  file: File;
   fileName: string;
   headers: string[];
   rows: Record<string, string>[];
   totalRows: number;
 }
 
-interface ColumnMapping {
-  [key: string]: string;
-}
+type ColumnMapping = Partial<Record<RequiredCol, string>>;
 
 function autoDetect(headers: string[]): ColumnMapping {
   const mapping: ColumnMapping = {};
@@ -39,16 +39,18 @@ interface Props {
   onBack: () => void;
 }
 
+type Stage = "idle" | "uploading" | "analyzing";
+
 export function UploadZone({ onBack }: Props) {
+  const router = useRouter();
   const [parsed, setParsed] = useState<ParsedFile | null>(null);
   const [mapping, setMapping] = useState<ColumnMapping>({});
   const [error, setError] = useState<string | null>(null);
-  const [analyzing, setAnalyzing] = useState(false);
+  const [stage, setStage] = useState<Stage>("idle");
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     if (!file) return;
-
     setError(null);
     setParsed(null);
 
@@ -57,26 +59,22 @@ export function UploadZone({ onBack }: Props) {
       return;
     }
 
+    // preview only — read first 6 data rows for display
     Papa.parse<Record<string, string>>(file, {
       header: true,
       skipEmptyLines: true,
       preview: 6,
       complete: (results) => {
         const headers = results.meta.fields ?? [];
-        if (headers.length === 0) {
+        if (!headers.length) {
           setError("Could not detect columns. Is this a valid CSV?");
           return;
         }
-        const allRows = results.data as Record<string, string>[];
-        setParsed({
-          fileName: file.name,
-          headers,
-          rows: allRows.slice(0, 5),
-          totalRows: allRows.length,
-        });
+        const rows = results.data as Record<string, string>[];
+        setParsed({ file, fileName: file.name, headers, rows: rows.slice(0, 5), totalRows: rows.length });
         setMapping(autoDetect(headers));
       },
-      error: () => setError("Failed to parse the CSV file. Please try again."),
+      error: () => setError("Failed to parse the file. Please try again."),
     });
   }, []);
 
@@ -87,14 +85,49 @@ export function UploadZone({ onBack }: Props) {
   });
 
   const missing = missingCols(mapping);
-  const needsMapping = parsed && missing.length > 0;
-  const canAnalyze = parsed && missing.length === 0;
+  const canAnalyze = !!parsed && missing.length === 0 && stage === "idle";
 
-  function handleAnalyze() {
-    setAnalyzing(true);
-    // Day 3: POST /api/analyze
-    setTimeout(() => setAnalyzing(false), 1500);
+  async function handleAnalyze() {
+    if (!parsed) return;
+    setError(null);
+
+    try {
+      // ── Step 1: Upload file to Vercel Blob ───────────────────────────────────
+      setStage("uploading");
+      const form = new FormData();
+      form.append("file", parsed.file);
+      const uploadRes = await fetch("/api/upload", { method: "POST", body: form });
+      if (!uploadRes.ok) {
+        const j = await uploadRes.json();
+        throw new Error(j.error ?? "Upload failed");
+      }
+      const { blobUrl, sessionId } = await uploadRes.json();
+
+      // ── Step 2: Analyze ──────────────────────────────────────────────────────
+      setStage("analyzing");
+      const analyzeRes = await fetch("/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ blobUrl, sessionId, columnMapping: mapping }),
+      });
+      if (!analyzeRes.ok) {
+        const j = await analyzeRes.json();
+        throw new Error(j.error ?? "Analysis failed");
+      }
+      const { reportId } = await analyzeRes.json();
+
+      router.push(`/report/${reportId}`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+      setStage("idle");
+    }
   }
+
+  const stageLabel: Record<Stage, string> = {
+    idle: "Analyze My Fees →",
+    uploading: "Uploading…",
+    analyzing: "Analyzing…",
+  };
 
   return (
     <div className="space-y-8">
@@ -103,9 +136,9 @@ export function UploadZone({ onBack }: Props) {
         <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-2">Step 2 of 2</p>
         <h1 className="text-2xl font-bold text-gray-900">Upload your CSV</h1>
         <p className="mt-2 text-gray-500 text-sm">
-          Drop the file you just exported from Stripe.{" "}
+          Drop the file you exported from Stripe.{" "}
           <button className="text-blue-600 underline underline-offset-2 hover:text-blue-800" onClick={onBack}>
-            Back to export instructions
+            Back to instructions
           </button>
         </p>
       </div>
@@ -115,15 +148,12 @@ export function UploadZone({ onBack }: Props) {
         {...getRootProps()}
         className={[
           "relative rounded-2xl border-2 border-dashed cursor-pointer transition-colors p-10 text-center",
-          isDragActive
-            ? "border-blue-400 bg-blue-50"
-            : parsed
-            ? "border-green-300 bg-green-50"
+          isDragActive ? "border-blue-400 bg-blue-50"
+            : parsed ? "border-green-300 bg-green-50"
             : "border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50/40",
         ].join(" ")}
       >
         <input {...getInputProps()} />
-
         {!parsed ? (
           <div className="flex flex-col items-center gap-3 pointer-events-none">
             <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-100 text-3xl">
@@ -133,18 +163,16 @@ export function UploadZone({ onBack }: Props) {
               <p className="font-semibold text-gray-700">
                 {isDragActive ? "Drop it here!" : "Drag & drop your CSV"}
               </p>
-              <p className="text-sm text-gray-400 mt-1">or click to browse files</p>
+              <p className="text-sm text-gray-400 mt-1">or click to browse</p>
             </div>
-            <Badge variant="outline" className="text-xs text-gray-400">
-              .csv files only
-            </Badge>
+            <Badge variant="outline" className="text-xs text-gray-400">.csv only · max 10 MB</Badge>
           </div>
         ) : (
           <div className="flex items-center justify-center gap-3 pointer-events-none">
             <span className="text-2xl">✅</span>
             <div className="text-left">
               <p className="font-semibold text-gray-800">{parsed.fileName}</p>
-              <p className="text-xs text-gray-500">{parsed.totalRows} rows parsed</p>
+              <p className="text-xs text-gray-500">{parsed.totalRows} rows in preview</p>
             </div>
             <button
               className="pointer-events-auto ml-4 text-xs text-gray-400 hover:text-red-500 underline"
@@ -183,7 +211,7 @@ export function UploadZone({ onBack }: Props) {
                 {parsed.rows.map((row, i) => (
                   <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
                     {parsed.headers.map((h) => (
-                      <td key={h} className="px-3 py-2 text-gray-600 whitespace-nowrap max-w-[160px] truncate">
+                      <td key={h} className="px-3 py-2 text-gray-600 whitespace-nowrap max-w-[140px] truncate">
                         {row[h] ?? ""}
                       </td>
                     ))}
@@ -195,14 +223,14 @@ export function UploadZone({ onBack }: Props) {
         </div>
       )}
 
-      {/* Column mapping — only if auto-detect failed */}
-      {needsMapping && (
+      {/* Column mapping */}
+      {parsed && missing.length > 0 && (
         <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">
           <p className="text-sm font-semibold text-amber-800 mb-1">
             ⚠️ Some columns couldn&apos;t be auto-detected
           </p>
           <p className="text-xs text-amber-700 mb-4">
-            Please map the missing columns manually. Expected:{" "}
+            Map the missing columns manually:&nbsp;
             {missing.map((c) => (
               <code key={c} className="mx-0.5 bg-amber-100 px-1 rounded">{c}</code>
             ))}
@@ -229,13 +257,11 @@ export function UploadZone({ onBack }: Props) {
         </div>
       )}
 
-      {/* Auto-detect success badge */}
-      {parsed && !needsMapping && (
+      {/* Auto-detect success */}
+      {parsed && missing.length === 0 && (
         <div className="flex items-center gap-2 rounded-xl bg-green-50 border border-green-200 px-4 py-3">
           <span className="text-green-600">✅</span>
-          <p className="text-sm text-green-800">
-            All required columns detected automatically.
-          </p>
+          <p className="text-sm text-green-800">All required columns detected automatically.</p>
         </div>
       )}
 
@@ -244,20 +270,20 @@ export function UploadZone({ onBack }: Props) {
         <div className="text-center pt-2">
           <Button
             size="lg"
-            disabled={!canAnalyze || analyzing}
+            disabled={!canAnalyze}
             className="bg-blue-600 hover:bg-blue-700 text-white px-10 disabled:opacity-50"
             onClick={handleAnalyze}
           >
-            {analyzing ? (
+            {stage !== "idle" ? (
               <span className="flex items-center gap-2">
                 <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                 </svg>
-                Analyzing…
+                {stageLabel[stage]}
               </span>
             ) : (
-              "Analyze My Fees →"
+              stageLabel.idle
             )}
           </Button>
           <p className="mt-3 text-xs text-gray-400">
