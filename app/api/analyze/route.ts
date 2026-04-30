@@ -34,6 +34,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "csvText is required" }, { status: 400 });
     }
 
+    // ~10 MB limit on raw CSV text
+    if (body.csvText.length > 10 * 1024 * 1024) {
+      return NextResponse.json({ error: "File too large (max 10 MB)" }, { status: 413 });
+    }
+
     const csvText = body.csvText;
 
     // ── Parse CSV ─────────────────────────────────────────────────────────────

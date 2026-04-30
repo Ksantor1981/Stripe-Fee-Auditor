@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import Papa from "papaparse";
 import { getReport } from "@/lib/db";
 
+// Prevent CSV formula injection (Excel/Sheets executes cells starting with = + - @ |)
+function sanitize(value: string): string {
+  if (typeof value !== "string") return value;
+  return /^[=+\-@|]/.test(value) ? `'${value}` : value;
+}
+
 export async function GET(req: NextRequest) {
   const reportId = req.nextUrl.searchParams.get("reportId");
   if (!reportId) {
@@ -41,13 +47,16 @@ export async function GET(req: NextRequest) {
   // Sheet 3 — anomalies
   const anomalyRows = anomalies.map((r) => ({
     section: "Anomaly",
-    id: r.id,
-    date: r.date,
+    id: san(r.id),
+    date: san(r.date),
     amount: r.amount.toFixed(2),
     fee: r.fee.toFixed(2),
     rate_pct: r.amount > 0 ? ((r.fee / r.amount) * 100).toFixed(4) : "0",
     currency: r.currency,
   }));
+
+  // Sanitize transaction IDs against CSV injection
+  const san = sanitize;
 
   // Combine into one CSV
   const allRows = [
@@ -56,12 +65,12 @@ export async function GET(req: NextRequest) {
     ...anomalyRows,
     ...topDrivers.slice(0, 20).map((r) => ({
       section: "TopDriver",
-      id: r.id,
-      date: r.date,
+      id: san(r.id),
+      date: san(r.date),
       amount: r.amount.toFixed(2),
       fee: r.fee.toFixed(2),
       rate_pct: r.amount > 0 ? ((r.fee / r.amount) * 100).toFixed(4) : "0",
-      currency: r.currency,
+      currency: san(r.currency),
     })),
   ];
 

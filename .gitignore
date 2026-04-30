@@ -29,4 +29,22 @@ __pycache__/
 *.pyc
 *.pyo
 
+# Vercel
 .vercel
+
+# TypeScript build info
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
+# User data — never commit CSV files or analysis results
+*.csv
+*.pdf
+data/
+storage/
+results/
+temp/
+
+# Secrets (extra safety net)
+*.pem
+secrets.json
+*_keys.json
