@@ -23,10 +23,15 @@ await sql`
     result      JSONB,
     is_paid     BOOLEAN NOT NULL DEFAULT FALSE,
     email       TEXT,
+    access_token_hash TEXT,
+    paid_at     TIMESTAMPTZ,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     expires_at  TIMESTAMPTZ NOT NULL DEFAULT NOW() + INTERVAL '1 hour'
   )
 `;
+
+await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS access_token_hash TEXT`;
+await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS paid_at TIMESTAMPTZ`;
 
 await sql`
   CREATE TABLE IF NOT EXISTS rate_limits (
@@ -36,8 +41,17 @@ await sql`
   )
 `;
 
+await sql`
+  CREATE TABLE IF NOT EXISTS webhook_events (
+    id         TEXT PRIMARY KEY,
+    event_name TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  )
+`;
+
 await sql`CREATE INDEX IF NOT EXISTS idx_rate_limits_ip_created ON rate_limits(ip, created_at)`;
 await sql`CREATE INDEX IF NOT EXISTS idx_reports_session ON reports(session_id)`;
 await sql`CREATE INDEX IF NOT EXISTS idx_reports_expires ON reports(expires_at)`;
+await sql`CREATE INDEX IF NOT EXISTS idx_reports_access ON reports(id, access_token_hash)`;
 
-console.log("Done. Tables created: reports, rate_limits");
+console.log("Done. Tables ready: reports, rate_limits, webhook_events");

@@ -6,6 +6,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: BASE, lastModified: new Date(), changeFrequency: "monthly", priority: 1 },
     { url: `${BASE}/analyze`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/stripe-fee-calculator`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/stripe-balance-csv`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.85 },
+    {
+      url: `${BASE}/why-stripe-fee-rate-higher-than-2-9`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
     { url: `${BASE}/blog`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.7 },
     {
       url: `${BASE}/blog/why-stripe-fees-increase`,

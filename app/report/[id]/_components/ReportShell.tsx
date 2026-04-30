@@ -9,18 +9,20 @@ import { LowVolumeReport } from "./LowVolumeReport";
 
 interface Props {
   reportId: string;
+  accessToken: string;
   result: AnalysisResult;
   isPaid: boolean;
 }
 
-export function ReportShell({ reportId, result, isPaid }: Props) {
+export function ReportShell({ reportId, accessToken, result, isPaid }: Props) {
   const [unlocked, setUnlocked] = useState(false);
+  const tokenQuery = `token=${encodeURIComponent(accessToken)}`;
 
   if (!unlocked) {
-    return <EmailGate reportId={reportId} onUnlock={() => setUnlocked(true)} />;
+    return <EmailGate reportId={reportId} accessToken={accessToken} onUnlock={() => setUnlocked(true)} />;
   }
 
-  const reportProps = { reportId, result, isPaid };
+  const reportProps = { reportId, accessToken, result, isPaid };
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -32,13 +34,13 @@ export function ReportShell({ reportId, result, isPaid }: Props) {
             {isPaid && (
               <>
                 <a
-                  href={`/api/export/csv?reportId=${reportId}`}
+                  href={`/api/export/csv?reportId=${reportId}&${tokenQuery}`}
                   className="text-xs font-medium text-gray-500 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5 hover:border-gray-300 transition-colors"
                 >
                   ↓ CSV
                 </a>
                 <a
-                  href={`/report/${reportId}/print`}
+                  href={`/report/${reportId}/print?${tokenQuery}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs font-medium text-gray-500 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5 hover:border-gray-300 transition-colors"

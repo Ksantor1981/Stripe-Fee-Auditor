@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const TRUST_SIGNALS = [
-  { icon: "🗑️", label: "File deleted after 1 hour" },
+  { icon: "🗑️", label: "CSV file is not stored" },
   { icon: "🔒", label: "No account required" },
   { icon: "⚡", label: "Results in 30 seconds" },
 ];
@@ -130,6 +130,13 @@ export default function HomePage() {
           <Link href="/privacy" className="underline hover:text-gray-600">Privacy Policy</Link>
           {" · "}
           <Link href="/terms" className="underline hover:text-gray-600">Terms of Service</Link>
+        </p>
+        <p className="flex justify-center gap-3 flex-wrap">
+          <Link href="/stripe-fee-calculator" className="hover:underline">Stripe fee calculator</Link>
+          <span>·</span>
+          <Link href="/stripe-balance-csv" className="hover:underline">Stripe Balance CSV</Link>
+          <span>·</span>
+          <Link href="/why-stripe-fee-rate-higher-than-2-9" className="hover:underline">Why fees exceed 2.9%</Link>
         </p>
         <p className="flex justify-center gap-3 flex-wrap">
           <Link href="/blog/why-stripe-fees-increase" className="hover:underline">Why Stripe fees increase</Link>

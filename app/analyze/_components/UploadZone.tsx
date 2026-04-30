@@ -106,9 +106,9 @@ export function UploadZone({ onBack }: Props) {
         const j = await analyzeRes.json();
         throw new Error(j.error ?? "Analysis failed");
       }
-      const { reportId } = await analyzeRes.json();
+      const { reportId, accessToken } = await analyzeRes.json();
 
-      router.push(`/report/${reportId}`);
+      router.push(`/report/${reportId}?token=${encodeURIComponent(accessToken)}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
       setStage("idle");
@@ -279,7 +279,7 @@ export function UploadZone({ onBack }: Props) {
             )}
           </Button>
           <p className="mt-3 text-xs text-gray-400">
-            Your file is processed in memory only. Results expire in 1 hour.
+            Your file is processed in memory only. Free previews expire in 1 hour.
           </p>
         </div>
       )}

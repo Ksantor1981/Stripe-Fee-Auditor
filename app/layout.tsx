@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
-
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -11,7 +7,7 @@ export const metadata: Metadata = {
   ),
   title: "Stripe Fee Auditor — See Your Real Stripe Fee Rate",
   description:
-    "Upload your Stripe Balance CSV and instantly see your effective fee rate, fee drivers, and savings opportunities. No account required. Results expire in 1 hour.",
+    "Upload your Stripe Balance CSV and instantly see your effective fee rate, fee drivers, and savings opportunities. No account required. CSV files are not stored.",
   openGraph: {
     title: "Stripe Fee Auditor",
     description: "See your real Stripe fee rate in 30 seconds.",
@@ -25,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
+    <html lang="en">
       <body className="antialiased">{children}</body>
     </html>
   );

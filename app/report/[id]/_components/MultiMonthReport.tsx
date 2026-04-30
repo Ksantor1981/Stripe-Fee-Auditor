@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from "recharts";
@@ -12,11 +11,12 @@ import { PaywallBanner } from "./PaywallBanner";
 
 interface Props {
   reportId: string;
+  accessToken: string;
   result: AnalysisResult;
   isPaid: boolean;
 }
 
-export function MultiMonthReport({ reportId, result, isPaid }: Props) {
+export function MultiMonthReport({ reportId, accessToken, result, isPaid }: Props) {
   const { chargeFees, chargeRate, chargeVolume, otherFees, monthly, topDrivers, anomalies, periodDelta } = result;
 
   const chartData = monthly.map((m) => ({
@@ -26,7 +26,6 @@ export function MultiMonthReport({ reportId, result, isPaid }: Props) {
   }));
 
   const deltaPositive = periodDelta !== null && periodDelta > 0;
-  const lastMonth = monthly[monthly.length - 1];
 
   return (
     <div className="space-y-8">
@@ -142,7 +141,7 @@ export function MultiMonthReport({ reportId, result, isPaid }: Props) {
               </div>
             )}
           </div>
-          {!isPaid && <div className="mt-4"><PaywallBanner reportId={reportId} /></div>}
+          {!isPaid && <div className="mt-4"><PaywallBanner reportId={reportId} accessToken={accessToken} /></div>}
         </TabsContent>
 
         {/* Anomalies tab */}
@@ -187,7 +186,7 @@ export function MultiMonthReport({ reportId, result, isPaid }: Props) {
                   {anomalies.length} anomalies found
                 </p>
                 <p className="text-xs text-gray-400 mb-4">Unlock to see which charges are costing you the most</p>
-                <PaywallBanner reportId={reportId} />
+                <PaywallBanner reportId={reportId} accessToken={accessToken} />
               </div>
             )}
           </div>
@@ -237,7 +236,7 @@ export function MultiMonthReport({ reportId, result, isPaid }: Props) {
               <p className="text-sm font-semibold text-gray-700 mb-4">
                 Detailed monthly breakdown is in the paid report
               </p>
-              <PaywallBanner reportId={reportId} />
+              <PaywallBanner reportId={reportId} accessToken={accessToken} />
             </div>
           )}
         </TabsContent>

@@ -1,14 +1,22 @@
 import { notFound } from "next/navigation";
-import { getReport } from "@/lib/db";
+import { getReportWithAccess } from "@/lib/db";
 import { fmt$, fmtPct, fmtMonth, fmtDate } from "@/lib/format";
+import { PrintButton } from "../_components/PrintButton";
 
 interface Props {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ token?: string }>;
 }
 
-export default async function ReportPrintPage({ params }: Props) {
+const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+export default async function ReportPrintPage({ params, searchParams }: Props) {
   const { id } = await params;
-  const report = await getReport(id);
+  const { token = "" } = await searchParams;
+
+  if (!UUID_V4.test(id)) notFound();
+
+  const report = await getReportWithAccess(id, token);
   if (!report?.result || !report.is_paid) notFound();
 
   const { chargeVolume, chargeFees, chargeRate, otherFees, monthly, anomalies, topDrivers, mode, periodDelta } = report.result;
@@ -209,12 +217,7 @@ export default async function ReportPrintPage({ params }: Props) {
       </div>
 
       {/* Print button — hidden when printing */}
-      <button
-        className="print-btn no-print"
-        onClick={() => { if (typeof window !== "undefined") window.print(); }}
-      >
-        Download PDF
-      </button>
+      <PrintButton />
     </>
   );
 }

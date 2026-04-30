@@ -6,6 +6,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 interface Props {
   reportId: string;
+  accessToken: string;
   email?: string;
 }
 
@@ -31,11 +32,11 @@ const PLANS: { id: string; label: string; price: string; features: string[]; hig
   },
 ];
 
-export function PaywallBanner({ reportId, email }: Props) {
+export function PaywallBanner({ reportId, accessToken, email }: Props) {
   const [open, setOpen] = useState(false);
 
   function checkout(planId: string) {
-    const params = new URLSearchParams({ plan: planId, reportId });
+    const params = new URLSearchParams({ plan: planId, reportId, token: accessToken });
     if (email) params.set("email", email);
     window.location.href = `/api/checkout?${params}`;
   }
@@ -49,7 +50,7 @@ export function PaywallBanner({ reportId, email }: Props) {
         </p>
         <h3 className="text-lg font-bold text-gray-900 mb-1">See the complete picture</h3>
         <p className="text-sm text-gray-500 mb-4 max-w-sm mx-auto">
-          Full anomaly list, all monthly details, CSV export &amp; print to PDF — starting at $5.
+          Full anomaly list, all monthly details, CSV export, and print-ready report.
         </p>
         <Button
           className="bg-blue-600 hover:bg-blue-700 text-white px-6"

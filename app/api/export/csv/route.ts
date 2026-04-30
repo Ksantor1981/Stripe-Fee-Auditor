@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import Papa from "papaparse";
-import { getReport } from "@/lib/db";
+import { getReportWithAccess } from "@/lib/db";
+
+const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 // Prevent CSV formula injection (Excel/Sheets executes cells starting with = + - @ |)
 function sanitize(value: string): string {
@@ -10,11 +12,16 @@ function sanitize(value: string): string {
 
 export async function GET(req: NextRequest) {
   const reportId = req.nextUrl.searchParams.get("reportId");
-  if (!reportId) {
-    return NextResponse.json({ error: "reportId required" }, { status: 400 });
+  const token = req.nextUrl.searchParams.get("token") ?? "";
+  if (!reportId || !token) {
+    return NextResponse.json({ error: "reportId and token required" }, { status: 400 });
   }
 
-  const report = await getReport(reportId);
+  if (!UUID_V4.test(reportId)) {
+    return NextResponse.json({ error: "Invalid report ID" }, { status: 400 });
+  }
+
+  const report = await getReportWithAccess(reportId, token);
   if (!report || !report.result) {
     return NextResponse.json({ error: "Report not found or expired" }, { status: 404 });
   }
@@ -55,7 +62,7 @@ export async function GET(req: NextRequest) {
     amount: r.amount.toFixed(2),
     fee: r.fee.toFixed(2),
     rate_pct: r.amount > 0 ? ((r.fee / r.amount) * 100).toFixed(4) : "0",
-    currency: r.currency,
+    currency: san(r.currency),
   }));
 
   // Combine into one CSV

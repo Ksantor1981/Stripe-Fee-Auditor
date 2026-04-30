@@ -189,11 +189,11 @@ export default function StripeFeeCalculatorPage() {
             Real Data Calculator
           </p>
           <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
-            Your Real Stripe Fee Rate Isn't 2.9%
+            Your Real Stripe Fee Rate Isn&apos;t 2.9%
           </h1>
           <p className="text-lg text-gray-500 leading-relaxed">
             Most fee calculators ask you to enter a transaction amount and
-            estimate the cost. That's useful for one transaction. Your actual
+            estimate the cost. That&apos;s useful for one transaction. Your actual
             effective rate — across hundreds of real charges — is different, and
             it depends on your specific customer mix.
           </p>
@@ -241,7 +241,7 @@ export default function StripeFeeCalculatorPage() {
               <span className="font-semibold text-gray-900">
                 $200/month extra — $2,400/year
               </span>
-              . Knowing what's driving it tells you what to actually do about
+              . Knowing what&apos;s driving it tells you what to actually do about
               it.
             </p>
           </div>
@@ -265,7 +265,7 @@ export default function StripeFeeCalculatorPage() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-gray-300 mt-0.5">—</span>
-                  <span>Get Stripe's published fee</span>
+                  <span>Get Stripe&apos;s published fee</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-gray-300 mt-0.5">—</span>
@@ -358,13 +358,13 @@ export default function StripeFeeCalculatorPage() {
             Analyze My Fees →
           </Link>
           <p className="text-xs text-gray-400 mt-3">
-            No account · File deleted in 1 hour · Results in 30 seconds
+            No account · CSV not stored · Results in 30 seconds
           </p>
         </div>
 
         {/* Need the CSV */}
         <div className="mt-8 pt-8 border-t border-gray-100 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm text-gray-400">
-          <span>Don't have the CSV yet?</span>
+          <span>Don&apos;t have the CSV yet?</span>
           <Link
             href="/stripe-balance-csv"
             className="text-blue-600 hover:text-blue-700 font-medium"

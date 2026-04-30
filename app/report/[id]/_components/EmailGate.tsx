@@ -6,10 +6,11 @@ import { Input } from "@/components/ui/input";
 
 interface Props {
   reportId: string;
+  accessToken: string;
   onUnlock: () => void;
 }
 
-export function EmailGate({ reportId, onUnlock }: Props) {
+export function EmailGate({ reportId, accessToken, onUnlock }: Props) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -26,13 +27,19 @@ export function EmailGate({ reportId, onUnlock }: Props) {
     }
     setLoading(true);
     try {
-      await fetch(`/api/reports/${reportId}/email`, {
+      const res = await fetch(`/api/reports/${reportId}/email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, token: accessToken }),
       });
-    } catch {
-      // Non-blocking — unlock regardless; email save is best-effort
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.error ?? "Could not open this report.");
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not open this report.");
+      setLoading(false);
+      return;
     }
     onUnlock();
   }
@@ -75,7 +82,7 @@ export function EmailGate({ reportId, onUnlock }: Props) {
           </form>
 
           <p className="mt-4 text-xs text-gray-400 text-center">
-            No spam. Unsubscribe anytime. Results expire in 1 hour.
+            No spam. Unsubscribe anytime. Free previews expire in 1 hour.
           </p>
         </div>
 

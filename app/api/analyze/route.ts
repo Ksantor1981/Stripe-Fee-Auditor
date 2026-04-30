@@ -2,11 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 import Papa from "papaparse";
 import { validateColumns, normalizeRow, type RawRow } from "@/lib/csv-parser";
 import { analyze } from "@/lib/fee-analyzer";
-import { createReport, countReportsForIp, recordIpRequest } from "@/lib/db";
+import {
+  consumeIpRequest,
+  createReport,
+  createReportAccessToken,
+  hashReportAccessToken,
+} from "@/lib/db";
 
 export const maxDuration = 30;
 
 const FREE_LIMIT = 3;
+const MAX_CSV_BYTES = 10 * 1024 * 1024;
 
 // Only these canonical column names are allowed in mapping to prevent prototype pollution
 const ALLOWED_CANONICAL = new Set(["id", "type", "amount", "fee", "net", "currency", "created", "description", "source", "status"]);
@@ -15,6 +21,7 @@ export async function POST(req: NextRequest) {
   try {
     // ── Rate limiting ──────────────────────────────────────────────────────────
     const ip =
+      req.headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim() ??
       req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
       req.headers.get("x-real-ip") ??
       null;
@@ -26,12 +33,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const count = await countReportsForIp(ip);
-    if (count >= FREE_LIMIT) {
+    const allowed = await consumeIpRequest(ip, FREE_LIMIT);
+    if (!allowed) {
       return NextResponse.json(
         { error: "Rate limit reached. Max 3 free reports per day per IP." },
         { status: 429 }
       );
+    }
+
+    const contentLength = Number(req.headers.get("content-length") ?? 0);
+    if (contentLength > MAX_CSV_BYTES + 256 * 1024) {
+      return NextResponse.json({ error: "File too large (max 10 MB)" }, { status: 413 });
     }
 
     // ── Parse request ──────────────────────────────────────────────────────────
@@ -45,7 +57,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Server-side size limit (~10 MB of raw CSV text)
-    if (body.csvText.length > 10 * 1024 * 1024) {
+    if (body.csvText.length > MAX_CSV_BYTES) {
       return NextResponse.json({ error: "File too large (max 10 MB)" }, { status: 413 });
     }
 
@@ -105,19 +117,20 @@ export async function POST(req: NextRequest) {
 
     // ── Analyze ────────────────────────────────────────────────────────────────
     const result = analyze(normalized);
+    const accessToken = createReportAccessToken();
 
     // ── Save to DB ─────────────────────────────────────────────────────────────
     const reportId = await createReport({
       sessionId: crypto.randomUUID(),
       blobUrl: null,
       result,
+      accessTokenHash: hashReportAccessToken(accessToken),
     });
-
-    await recordIpRequest(ip);
 
     // ── Response ───────────────────────────────────────────────────────────────
     return NextResponse.json({
       reportId,
+      accessToken,
       mode: result.mode,
       summary: {
         chargeVolume: result.chargeVolume,
