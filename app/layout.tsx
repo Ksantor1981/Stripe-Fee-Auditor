@@ -6,9 +6,12 @@ import { cn } from "@/lib/utils";
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_BASE_URL ?? "https://stripe-fee-auditor.vercel.app"
+  ),
   title: "Stripe Fee Auditor — See Your Real Stripe Fee Rate",
   description:
-    "Upload your Stripe Balance CSV and instantly see your effective fee rate, fee drivers, and savings opportunities. No account required. File deleted after 1 hour.",
+    "Upload your Stripe Balance CSV and instantly see your effective fee rate, fee drivers, and savings opportunities. No account required. Results expire in 1 hour.",
   openGraph: {
     title: "Stripe Fee Auditor",
     description: "See your real Stripe fee rate in 30 seconds.",

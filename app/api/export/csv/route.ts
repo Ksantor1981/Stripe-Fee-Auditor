@@ -44,6 +44,9 @@ export async function GET(req: NextRequest) {
     charge_count: m.count,
   }));
 
+  // Alias used throughout — must be declared before first use
+  const san = sanitize;
+
   // Sheet 3 — anomalies
   const anomalyRows = anomalies.map((r) => ({
     section: "Anomaly",
@@ -54,9 +57,6 @@ export async function GET(req: NextRequest) {
     rate_pct: r.amount > 0 ? ((r.fee / r.amount) * 100).toFixed(4) : "0",
     currency: r.currency,
   }));
-
-  // Sanitize transaction IDs against CSV injection
-  const san = sanitize;
 
   // Combine into one CSV
   const allRows = [

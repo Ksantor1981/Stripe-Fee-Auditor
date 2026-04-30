@@ -17,7 +17,7 @@ export function ReportShell({ reportId, result, isPaid }: Props) {
   const [unlocked, setUnlocked] = useState(false);
 
   if (!unlocked) {
-    return <EmailGate onUnlock={() => setUnlocked(true)} />;
+    return <EmailGate reportId={reportId} onUnlock={() => setUnlocked(true)} />;
   }
 
   const reportProps = { reportId, result, isPaid };
@@ -43,7 +43,7 @@ export function ReportShell({ reportId, result, isPaid }: Props) {
                   rel="noopener noreferrer"
                   className="text-xs font-medium text-gray-500 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5 hover:border-gray-300 transition-colors"
                 >
-                  ↓ PDF
+                  ↓ Print PDF
                 </a>
               </>
             )}
@@ -63,8 +63,15 @@ export function ReportShell({ reportId, result, isPaid }: Props) {
         {result.mode === "low-volume" && <LowVolumeReport {...reportProps} />}
       </div>
 
-      <footer className="border-t px-4 py-6 text-center text-xs text-gray-400">
-        Stripe Fee Auditor · Not affiliated with Stripe, Inc.
+      <footer className="border-t px-4 py-6 text-center text-xs text-gray-400 space-y-1">
+        <p>Stripe Fee Auditor · Not affiliated with Stripe, Inc.</p>
+        <p className="flex justify-center gap-3 flex-wrap">
+          <a href="/blog/why-stripe-fees-increase" className="hover:underline">Why fees increase</a>
+          <span>·</span>
+          <a href="/blog/how-to-reduce-stripe-fees" className="hover:underline">Reduce Stripe fees</a>
+          <span>·</span>
+          <a href="/blog/stripe-effective-fee-rate-explained" className="hover:underline">Fee rate explained</a>
+        </p>
       </footer>
     </main>
   );

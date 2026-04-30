@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 interface Props {
+  reportId: string;
   onUnlock: () => void;
 }
 
-export function EmailGate({ onUnlock }: Props) {
+export function EmailGate({ reportId, onUnlock }: Props) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -24,8 +25,15 @@ export function EmailGate({ onUnlock }: Props) {
       return;
     }
     setLoading(true);
-    // Store email client-side only for now; Day 5 will persist it
-    await new Promise((r) => setTimeout(r, 400));
+    try {
+      await fetch(`/api/reports/${reportId}/email`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+    } catch {
+      // Non-blocking — unlock regardless; email save is best-effort
+    }
     onUnlock();
   }
 
@@ -67,7 +75,7 @@ export function EmailGate({ onUnlock }: Props) {
           </form>
 
           <p className="mt-4 text-xs text-gray-400 text-center">
-            No spam. Unsubscribe anytime. File deleted after 1 hour.
+            No spam. Unsubscribe anytime. Results expire in 1 hour.
           </p>
         </div>
 

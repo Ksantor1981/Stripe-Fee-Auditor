@@ -20,7 +20,7 @@ const PLANS: { id: string; label: string; price: string; features: string[]; hig
     id: "pro",
     label: "Pro Report",
     price: "$12",
-    features: ["Everything in Basic", "PDF export", "Full monthly breakdown"],
+    features: ["Everything in Basic", "Print to PDF", "Full monthly breakdown"],
     highlight: true,
   },
   {
@@ -49,7 +49,7 @@ export function PaywallBanner({ reportId, email }: Props) {
         </p>
         <h3 className="text-lg font-bold text-gray-900 mb-1">See the complete picture</h3>
         <p className="text-sm text-gray-500 mb-4 max-w-sm mx-auto">
-          Full anomaly list, all monthly details, PDF &amp; CSV export — starting at $5.
+          Full anomaly list, all monthly details, CSV export &amp; print to PDF — starting at $5.
         </p>
         <Button
           className="bg-blue-600 hover:bg-blue-700 text-white px-6"

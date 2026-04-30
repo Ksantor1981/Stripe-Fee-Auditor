@@ -1,10 +1,12 @@
 import type { NextConfig } from "next";
 
-// CSP: allow Next.js inline scripts + Recharts inline styles, block everything else
+const isDev = process.env.NODE_ENV === "development";
+
+// CSP: strict in production, relaxed only for Next/React dev overlay
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'", // Next.js requires unsafe-inline for hydration
-  "style-src 'self' 'unsafe-inline'",  // Tailwind + Recharts inline styles
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
   "connect-src 'self'",

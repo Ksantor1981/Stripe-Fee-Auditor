@@ -50,6 +50,13 @@ export async function markReportPaid(id: string, email: string): Promise<void> {
   `;
 }
 
+export async function saveReportEmail(id: string, email: string): Promise<void> {
+  await sql`
+    UPDATE reports SET email = ${email}
+    WHERE id = ${id} AND expires_at > NOW() AND email IS NULL
+  `;
+}
+
 export async function countReportsForIp(ip: string): Promise<number> {
   const rows = await sql`
     SELECT COUNT(*) as cnt FROM rate_limits

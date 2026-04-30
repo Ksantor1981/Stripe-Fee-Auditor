@@ -124,16 +124,19 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t px-4 py-8 text-center text-xs text-gray-400">
+      <footer className="border-t px-4 py-8 text-center text-xs text-gray-400 space-y-2">
         <p>
           Stripe Fee Auditor is not affiliated with Stripe, Inc.{" "}
-          <Link href="/privacy" className="underline hover:text-gray-600">
-            Privacy Policy
-          </Link>{" "}
-          ·{" "}
-          <Link href="/terms" className="underline hover:text-gray-600">
-            Terms of Service
-          </Link>
+          <Link href="/privacy" className="underline hover:text-gray-600">Privacy Policy</Link>
+          {" · "}
+          <Link href="/terms" className="underline hover:text-gray-600">Terms of Service</Link>
+        </p>
+        <p className="flex justify-center gap-3 flex-wrap">
+          <Link href="/blog/why-stripe-fees-increase" className="hover:underline">Why Stripe fees increase</Link>
+          <span>·</span>
+          <Link href="/blog/how-to-reduce-stripe-fees" className="hover:underline">How to reduce fees</Link>
+          <span>·</span>
+          <Link href="/blog/stripe-effective-fee-rate-explained" className="hover:underline">Fee rate explained</Link>
         </p>
       </footer>
     </main>
