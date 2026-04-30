@@ -8,25 +8,35 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const STEPS = [
   {
     num: "1",
-    title: "Open Stripe Dashboard",
-    body: 'Go to dashboard.stripe.com and log in to your account.',
+    title: "Open Stripe Dashboard → Reports",
+    body: 'In the left sidebar click Reporting → Reports. You\'ll see Balance summary, All fees, and Payout reconciliation.',
     hint: "Make sure you have access to Reporting — Owners and Admins can see this.",
+    screenshot: "/screenshots/stripe-step1-reports.png",
+    screenshotAlt: "Stripe Dashboard Reports page showing Balance summary, All fees, and Payout reconciliation",
+    screenshotH: 420,
   },
   {
     num: "2",
-    title: 'Go to Reporting → Balance',
-    body: 'In the left sidebar: Reports → Balance. You\'ll see a table of all transactions.',
-    hint: 'URL looks like: dashboard.stripe.com/reports/balance',
+    title: 'Click "Balance summary" → set date range → Export',
+    body: 'Under Track money movement click Balance summary. Set your date range (last 3–12 months recommended), then click Export in the top right.',
+    hint: 'URL looks like: dashboard.stripe.com/reports/balance_summary',
+    screenshot: "/screenshots/stripe-step2-balance.png",
+    screenshotAlt: "Stripe Balance summary report with Export button in top right corner",
+    screenshotH: 380,
   },
   {
     num: "3",
-    title: "Download CSV",
-    body: 'Click "Export" (top-right), select date range (last 3–12 months for best results), then Download.',
-    hint: "The file will be named something like balance_YYYY-MM-DD.csv",
+    title: 'Click "Download to system" → Save CSV',
+    body: 'In the Export dropdown select Download to system. The file downloads as a CSV named something like balance_YYYY-MM-DD.csv.',
+    hint: "Choose 'Download to system' — not 'Export to warehouse'.",
+    screenshot: "/screenshots/stripe-step3-export.png",
+    screenshotAlt: "Stripe Export dropdown showing Download to system option highlighted",
+    screenshotH: 340,
   },
 ];
 
@@ -60,7 +70,7 @@ export function ExportInstructions({ onReady }: Props) {
 
       {/* Steps */}
       <div className="space-y-4">
-        {STEPS.map(({ num, title, body, hint }) => (
+        {STEPS.map(({ num, title, body, hint, screenshot, screenshotAlt, screenshotH }) => (
           <div key={num} className="flex gap-4 rounded-xl bg-white p-5 shadow-sm border border-gray-100">
             <div className="flex-shrink-0 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white mt-0.5">
               {num}
@@ -68,9 +78,16 @@ export function ExportInstructions({ onReady }: Props) {
             <div className="flex-1">
               <h3 className="font-semibold text-gray-900 mb-1">{title}</h3>
               <p className="text-sm text-gray-500">{body}</p>
-              {/* Placeholder for screenshot */}
-              <div className="mt-3 rounded-lg bg-gray-100 border border-dashed border-gray-300 h-28 flex items-center justify-center">
-                <span className="text-xs text-gray-400">Screenshot placeholder — Step {num}</span>
+              {/* Screenshot */}
+              <div className="mt-3 rounded-lg overflow-hidden border border-gray-200">
+                <Image
+                  src={screenshot}
+                  alt={screenshotAlt}
+                  width={800}
+                  height={screenshotH}
+                  className="w-full h-auto"
+                  priority={num === "1"}
+                />
               </div>
               <p className="mt-2 text-xs text-gray-400 italic">💡 {hint}</p>
             </div>
@@ -100,7 +117,7 @@ export function ExportInstructions({ onReady }: Props) {
             What if I downloaded the wrong file?
           </AccordionTrigger>
           <AccordionContent className="text-sm text-gray-500 pb-4">
-            Make sure you downloaded from <strong>Reports → Balance</strong>, not Payments or Payouts.
+            Make sure you downloaded from <strong>Reports → Balance summary</strong>, not Payments or Payouts.
             The correct file has columns like <code className="bg-gray-100 px-1 rounded">id</code>,{" "}
             <code className="bg-gray-100 px-1 rounded">type</code>,{" "}
             <code className="bg-gray-100 px-1 rounded">amount</code>,{" "}
