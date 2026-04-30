@@ -279,7 +279,7 @@ export function UploadZone({ onBack }: Props) {
             )}
           </Button>
           <p className="mt-3 text-xs text-gray-400">
-            Your file is processed securely and deleted after 1 hour.
+            Your file is processed in memory only. Results expire in 1 hour.
           </p>
         </div>
       )}

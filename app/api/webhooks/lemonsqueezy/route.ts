@@ -45,7 +45,8 @@ export async function POST(req: NextRequest) {
       }
     } catch (err) {
       console.error("[webhook] DB update failed:", err);
-      // Return 200 to prevent LemonSqueezy from retrying; log for manual review
+      // Return 500 so LemonSqueezy retries — user paid, must not lose the unlock
+      return NextResponse.json({ error: "DB error, will retry" }, { status: 500 });
     }
   }
 

@@ -6,7 +6,10 @@ import { createReport, countReportsForIp, recordIpRequest } from "@/lib/db";
 
 export const maxDuration = 30;
 
-const FREE_LIMIT = 3; // requests per IP per day
+const FREE_LIMIT = 3;
+
+// Only these canonical column names are allowed in mapping to prevent prototype pollution
+const ALLOWED_CANONICAL = new Set(["id", "type", "amount", "fee", "net", "currency", "created", "description", "source", "status"]);
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,7 +17,14 @@ export async function POST(req: NextRequest) {
     const ip =
       req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
       req.headers.get("x-real-ip") ??
-      "unknown";
+      null;
+
+    if (!ip) {
+      return NextResponse.json(
+        { error: "Unable to verify request origin" },
+        { status: 400 }
+      );
+    }
 
     const count = await countReportsForIp(ip);
     if (count >= FREE_LIMIT) {
@@ -34,12 +44,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "csvText is required" }, { status: 400 });
     }
 
-    // ~10 MB limit on raw CSV text
+    // Server-side size limit (~10 MB of raw CSV text)
     if (body.csvText.length > 10 * 1024 * 1024) {
       return NextResponse.json({ error: "File too large (max 10 MB)" }, { status: 413 });
     }
 
     const csvText = body.csvText;
+    // csvText is used only in-memory and passed to analyze(); it is never logged or written to disk.
 
     // ── Parse CSV ─────────────────────────────────────────────────────────────
     const parsed = Papa.parse<RawRow>(csvText, {
@@ -52,14 +63,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "CSV is empty or could not be parsed" }, { status: 422 });
     }
 
-    const headers = parsed.meta.fields ?? [];
-
-    // Apply column mapping if provided
+    // Apply column mapping if provided — only allow known canonical keys
     let rows = parsed.data;
     if (body.columnMapping && Object.keys(body.columnMapping).length > 0) {
       rows = rows.map((row) => {
         const remapped: RawRow = { ...row };
         for (const [canonical, original] of Object.entries(body.columnMapping!)) {
+          if (!ALLOWED_CANONICAL.has(canonical)) continue; // blocks __proto__, constructor, etc.
           if (original && original !== canonical) {
             remapped[canonical] = row[original];
           }
