@@ -15,7 +15,7 @@ const HOW_IT_WORKS = [
   {
     step: "2",
     title: "Drop it here",
-    body: "Upload your CSV — we parse it entirely in the browser, nothing leaves your machine until analysis.",
+    body: "Upload your CSV — your file is processed securely and deleted within 1 hour.",
   },
   {
     step: "3",

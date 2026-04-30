@@ -32,9 +32,12 @@ __pycache__/
 # Vercel
 .vercel
 
-# TypeScript build info
+# TypeScript build info (local cache — do not commit)
 tsconfig.tsbuildinfo
 *.tsbuildinfo
+
+# Stray Python placeholder at repo root (Next.js project is not pip-based)
+requirements.txt
 
 # User data — never commit CSV files or analysis results
 *.csv
