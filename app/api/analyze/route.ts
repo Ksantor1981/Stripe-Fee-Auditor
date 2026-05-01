@@ -13,7 +13,10 @@ import { getTrustedClientIp } from "@/lib/request-ip";
 export const maxDuration = 30;
 
 const FREE_LIMIT = 3;
-const MAX_CSV_BYTES = 10 * 1024 * 1024;
+/** Vercel Serverless request body cap (~4.5 MB); keep CSV below so JSON envelope fits */
+const VERCEL_MAX_BODY_BYTES = Math.floor(4.5 * 1024 * 1024);
+/** Conservative CSV UTF-8 cap — aligns with hosting limits */
+const MAX_CSV_BYTES = 4 * 1024 * 1024;
 
 // Only these canonical column names are allowed in mapping to prevent prototype pollution
 const ALLOWED_CANONICAL = new Set(["id", "type", "amount", "fee", "net", "currency", "created", "description", "source", "status"]);
@@ -38,8 +41,8 @@ export async function POST(req: NextRequest) {
     }
 
     const contentLength = Number(req.headers.get("content-length") ?? 0);
-    if (contentLength > MAX_CSV_BYTES + 256 * 1024) {
-      return NextResponse.json({ error: "File too large (max 10 MB)" }, { status: 413 });
+    if (contentLength > VERCEL_MAX_BODY_BYTES) {
+      return NextResponse.json({ error: "Request body too large (max ~4 MB CSV)" }, { status: 413 });
     }
 
     // ── Parse request ──────────────────────────────────────────────────────────
@@ -52,9 +55,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "csvText is required" }, { status: 400 });
     }
 
-    // Server-side size limit (~10 MB UTF-8 bytes — String.length is UTF-16 units)
+    // UTF-8 byte cap (must stay under Vercel Function body limit when wrapped in JSON)
     if (Buffer.byteLength(body.csvText, "utf8") > MAX_CSV_BYTES) {
-      return NextResponse.json({ error: "File too large (max 10 MB)" }, { status: 413 });
+      return NextResponse.json({ error: "File too large (max 4 MB)" }, { status: 413 });
     }
 
     const csvText = body.csvText;

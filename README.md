@@ -67,6 +67,7 @@ Security notes
 - `Referrer-Policy: same-origin` reduces leaking `?token=` via Referer on cross-origin clicks; tokens in URLs still appear in server logs and browser history — POST/cookie-based access is a future hardening.
 - Lemon Squeezy webhook returns **500** on DB errors so payments can retry safely.
 - Set **REPORT_TOKEN_SALT** in production for stronger token hashes (omit or empty = legacy SHA256(token) only).
+- Max CSV upload **4 MB** (UTF-8) so JSON+CSV fits under Vercel’s **~4.5 MB** function body cap; use a shorter Stripe date range if the export is larger.
 
 DB schema
 Three tables:

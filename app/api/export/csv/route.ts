@@ -82,7 +82,7 @@ export async function GET(req: NextRequest) {
     })),
   ];
 
-  const csv = Papa.unparse(allRows);
+  const csv = Papa.unparse(allRows, { escapeFormulae: true });
 
   return new NextResponse(csv, {
     headers: {

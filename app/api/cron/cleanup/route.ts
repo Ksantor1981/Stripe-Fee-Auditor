@@ -32,14 +32,23 @@ export async function GET(req: NextRequest) {
   let deletedReports = 0;
 
   try {
-    // Delete expired reports from Neon
+    // Delete expired reports (bounded rows per run — cron may run again if backlog grows)
     const result = await sql`
-      DELETE FROM reports WHERE expires_at < NOW() RETURNING id
+      DELETE FROM reports
+      WHERE id IN (
+        SELECT id FROM reports WHERE expires_at < NOW() LIMIT 1000
+      )
+      RETURNING id
     `;
     deletedReports = result.length;
 
-    // Clean up old rate_limits entries (older than 2 days)
-    await sql`DELETE FROM rate_limits WHERE created_at < NOW() - INTERVAL '2 days'`;
+    // Clean up old rate_limits entries (older than 2 days), bounded per run
+    await sql`
+      DELETE FROM rate_limits
+      WHERE ctid IN (
+        SELECT ctid FROM rate_limits WHERE created_at < NOW() - INTERVAL '2 days' LIMIT 1000
+      )
+    `;
 
   } catch (err) {
     console.error("[cron/cleanup]", err);

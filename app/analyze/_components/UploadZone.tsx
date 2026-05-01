@@ -96,6 +96,13 @@ export function UploadZone({ onBack }: Props) {
       setStage("uploading");
       const csvText = await parsed.file.text();
 
+      const maxCsvBytes = 4 * 1024 * 1024;
+      if (new TextEncoder().encode(csvText).length > maxCsvBytes) {
+        setError("File too large (max 4 MB). Try a shorter date range in Stripe export.");
+        setStage("idle");
+        return;
+      }
+
       setStage("analyzing");
       const analyzeRes = await fetch("/api/analyze", {
         method: "POST",
@@ -157,7 +164,7 @@ export function UploadZone({ onBack }: Props) {
               </p>
               <p className="text-sm text-gray-400 mt-1">or click to browse</p>
             </div>
-            <Badge variant="outline" className="text-xs text-gray-400">.csv only · max 10 MB</Badge>
+            <Badge variant="outline" className="text-xs text-gray-400">.csv only · max 4 MB</Badge>
           </div>
         ) : (
           <div className="flex items-center justify-center gap-3 pointer-events-none">
