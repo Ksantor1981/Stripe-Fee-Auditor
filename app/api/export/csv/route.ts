@@ -4,7 +4,8 @@ import { getReportWithAccess } from "@/lib/db";
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-// Prevent CSV formula injection (Excel/Sheets executes cells starting with = + - @ |)
+// Prevent CSV formula injection (Excel/Sheets executes cells starting with = + - @ |).
+// If you export description or other free-text columns later, run those cells through sanitize().
 function sanitize(value: string): string {
   if (typeof value !== "string") return value;
   return /^[=+\-@|]/.test(value) ? `'${value}` : value;

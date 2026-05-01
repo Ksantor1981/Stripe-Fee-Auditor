@@ -8,6 +8,7 @@ import {
   createReportAccessToken,
   hashReportAccessToken,
 } from "@/lib/db";
+import { getTrustedClientIp } from "@/lib/request-ip";
 
 export const maxDuration = 30;
 
@@ -20,15 +21,10 @@ const ALLOWED_CANONICAL = new Set(["id", "type", "amount", "fee", "net", "curren
 export async function POST(req: NextRequest) {
   try {
     // ── Rate limiting ──────────────────────────────────────────────────────────
-    const ip =
-      req.headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim() ??
-      req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-      req.headers.get("x-real-ip") ??
-      null;
-
+    const ip = getTrustedClientIp(req);
     if (!ip) {
       return NextResponse.json(
-        { error: "Unable to verify request origin" },
+        { error: "Unable to process request" },
         { status: 400 }
       );
     }
@@ -56,8 +52,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "csvText is required" }, { status: 400 });
     }
 
-    // Server-side size limit (~10 MB of raw CSV text)
-    if (body.csvText.length > MAX_CSV_BYTES) {
+    // Server-side size limit (~10 MB UTF-8 bytes — String.length is UTF-16 units)
+    if (Buffer.byteLength(body.csvText, "utf8") > MAX_CSV_BYTES) {
       return NextResponse.json({ error: "File too large (max 10 MB)" }, { status: 413 });
     }
 

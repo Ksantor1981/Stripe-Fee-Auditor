@@ -1,5 +1,18 @@
+import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import sql from "@/lib/db";
+
+function timingSafeBearerMatch(authHeader: string | null, secret: string): boolean {
+  const prefix = "Bearer ";
+  const expected = Buffer.from(`${prefix}${secret}`, "utf8");
+  const actual = Buffer.from(authHeader ?? "", "utf8");
+  if (expected.length !== actual.length) return false;
+  try {
+    return crypto.timingSafeEqual(expected, actual);
+  } catch {
+    return false;
+  }
+}
 
 export const maxDuration = 60;
 
@@ -12,7 +25,7 @@ export async function GET(req: NextRequest) {
   }
 
   const authHeader = req.headers.get("authorization");
-  if (authHeader !== `Bearer ${cronSecret}`) {
+  if (!timingSafeBearerMatch(authHeader, cronSecret)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

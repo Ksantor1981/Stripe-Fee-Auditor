@@ -27,7 +27,8 @@ const nextConfig: NextConfig = {
           { key: "X-Frame-Options", value: "DENY" },
           { key: "Content-Security-Policy", value: CSP },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=()" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          // Reduces chance of access_token in full URL leaking via Referer on cross-origin navigations
+          { key: "Referrer-Policy", value: "same-origin" },
           { key: "X-DNS-Prefetch-Control", value: "on" },
         ],
       },

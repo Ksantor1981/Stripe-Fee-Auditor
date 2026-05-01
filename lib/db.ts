@@ -25,8 +25,13 @@ export function createReportAccessToken(): string {
   return crypto.randomBytes(32).toString("base64url");
 }
 
+/** Optional REPORT_TOKEN_SALT (pepper): when non-empty, strengthens hashes vs rainbow tables. Empty = legacy SHA256(token) only. */
 export function hashReportAccessToken(token: string): string {
-  return crypto.createHash("sha256").update(token, "utf8").digest("hex");
+  const pepper = process.env.REPORT_TOKEN_SALT ?? "";
+  const h = crypto.createHash("sha256");
+  if (pepper) h.update(pepper, "utf8");
+  h.update(token, "utf8");
+  return h.digest("hex");
 }
 
 export async function createReport(params: {

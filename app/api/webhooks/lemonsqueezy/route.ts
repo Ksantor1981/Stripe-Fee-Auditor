@@ -86,11 +86,9 @@ export async function POST(req: NextRequest) {
       }
 
       if (status === "report_not_found") {
-        console.warn(`[webhook] Report ${reportId} not found for paid order ${eventId}`);
+        console.warn("[webhook] report_not_found for paid order", String(eventId ?? "").slice(0, 16));
         return NextResponse.json({ error: "Report not found" }, { status: 404 });
       }
-
-      console.log(`[webhook] Report ${reportId} marked as paid`);
 
       if (email) {
         await sendReportEmail(email, reportId, accessToken).catch((err) =>
