@@ -98,6 +98,8 @@ Requires CRON_SECRET in env — Vercel sends it automatically as Authorization: 
 LemonSqueezy webhook URL: https://your-domain/api/webhooks/lemonsqueezy
 Event to enable: order_created
 
+SEO (built-in): after deploy verify `NEXT_PUBLIC_BASE_URL` matches production, then open `/sitemap.xml` and `/robots.txt`.
+
 What this is not
 
 Not a reconciliation tool (doesn't compare with bank statements)

@@ -68,6 +68,11 @@ export function ReportShell({ reportId, accessToken, result, isPaid }: Props) {
       <footer className="border-t px-4 py-6 text-center text-xs text-gray-400 space-y-1">
         <p>Stripe Fee Auditor · Not affiliated with Stripe, Inc.</p>
         <p className="flex justify-center gap-3 flex-wrap">
+          <a href="/privacy" className="hover:underline">Privacy Policy</a>
+          <span>·</span>
+          <a href="/terms" className="hover:underline">Terms of Service</a>
+        </p>
+        <p className="flex justify-center gap-3 flex-wrap">
           <a href="/blog/why-stripe-fees-increase" className="hover:underline">Why fees increase</a>
           <span>·</span>
           <a href="/blog/how-to-reduce-stripe-fees" className="hover:underline">Reduce Stripe fees</a>

@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+  },
+};
 
 const TRUST_SIGNALS = [
   { icon: "🗑️", label: "CSV file is not stored" },

@@ -1,37 +1,51 @@
 import type { MetadataRoute } from "next";
 
-const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://stripe-fee-auditor.vercel.app";
+/** Set NEXT_PUBLIC_BASE_URL in production when you use a custom domain. */
+const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://stripe-fee-auditor.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const now = new Date();
   return [
-    { url: BASE, lastModified: new Date(), changeFrequency: "monthly", priority: 1 },
-    { url: `${BASE}/analyze`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
-    { url: `${BASE}/stripe-fee-calculator`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
-    { url: `${BASE}/stripe-balance-csv`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.85 },
+    { url: base, lastModified: now, changeFrequency: "weekly", priority: 1 },
+    { url: `${base}/analyze`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     {
-      url: `${BASE}/why-stripe-fee-rate-higher-than-2-9`,
-      lastModified: new Date(),
+      url: `${base}/blog/why-stripe-fees-increase`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${base}/stripe-fee-calculator`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${base}/stripe-balance-csv`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${base}/why-stripe-fee-rate-higher-than-2-9`,
+      lastModified: now,
       changeFrequency: "monthly",
       priority: 0.85,
     },
-    { url: `${BASE}/blog`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.7 },
+    { url: `${base}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.72 },
     {
-      url: `${BASE}/blog/why-stripe-fees-increase`,
-      lastModified: new Date(),
+      url: `${base}/blog/how-to-reduce-stripe-fees`,
+      lastModified: now,
       changeFrequency: "monthly",
-      priority: 0.6,
+      priority: 0.65,
     },
     {
-      url: `${BASE}/blog/how-to-reduce-stripe-fees`,
-      lastModified: new Date(),
+      url: `${base}/blog/stripe-effective-fee-rate-explained`,
+      lastModified: now,
       changeFrequency: "monthly",
-      priority: 0.6,
+      priority: 0.65,
     },
-    {
-      url: `${BASE}/blog/stripe-effective-fee-rate-explained`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
+    { url: `${base}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${base}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
   ];
 }
