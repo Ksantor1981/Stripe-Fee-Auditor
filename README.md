@@ -50,6 +50,7 @@ LEMONSQUEEZY_VARIANT_TEAM=        # variant ID for Team plan ($29)
 CRON_SECRET=                      # any random string — protects /api/cron/cleanup from public calls
 RESEND_API_KEY=                   # from resend.com — used to email report link after payment
 NEXT_PUBLIC_BASE_URL=             # e.g. https://stripe-fee-auditor.vercel.app
+NEXT_PUBLIC_CONTACT_EMAIL=        # shown on /privacy and /terms (one address is enough)
 
 All required except RESEND_API_KEY (email is skipped if not set — report still unlocks).
 App will throw on missing DATABASE_URL or LemonSqueezy vars.
