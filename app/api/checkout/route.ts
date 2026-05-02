@@ -5,7 +5,6 @@ import { getTrustedClientIp } from "@/lib/request-ip";
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-/** Separate bucket from /api/analyze — avoids flooding LemonSqueezy checkout links. */
 const CHECKOUT_LIMIT_PER_IP_PER_DAY = 30;
 
 export async function GET(req: NextRequest) {
@@ -49,7 +48,9 @@ export async function GET(req: NextRequest) {
   }
 
   if (report.is_paid) {
-    return NextResponse.redirect(new URL(`/report/${reportId}?token=${encodeURIComponent(token)}`, req.url));
+    return NextResponse.redirect(
+      new URL(`/report/${reportId}?token=${encodeURIComponent(token)}`, req.url)
+    );
   }
 
   try {
