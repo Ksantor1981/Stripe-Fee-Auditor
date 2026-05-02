@@ -15,7 +15,9 @@ interface Props {
 }
 
 export function ReportShell({ reportId, accessToken, result, isPaid }: Props) {
-  const [unlocked, setUnlocked] = useState(false);
+  // Paid users skip EmailGate entirely — they already provided email at checkout.
+  // Free users must go through EmailGate once per session.
+  const [unlocked, setUnlocked] = useState(isPaid);
   const tokenQuery = `token=${encodeURIComponent(accessToken)}`;
 
   if (!unlocked) {
