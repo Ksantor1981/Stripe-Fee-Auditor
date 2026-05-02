@@ -74,17 +74,17 @@ export default function RefundPage() {
               <a href={`mailto:${CONTACT_EMAIL}`} className="text-blue-600 hover:underline">
                 {CONTACT_EMAIL}
               </a>{" "}
-              with your Paddle order/receipt ID, the email used at checkout, and a short description of the
-              issue. We aim to respond within <strong>3 business days</strong>. Approved refunds are processed
-              through Paddle according to their timelines.
+              with your order or receipt reference (from your payment confirmation), the email used at checkout,
+              and a short description of the issue. We aim to respond within <strong>3 business days</strong>.
+              Approved refunds are processed through our payment provider according to its standard timelines.
             </p>
           </section>
 
           <section>
             <h2 className="text-lg font-semibold text-gray-900 mb-3">6. Related policies</h2>
             <p className="text-gray-600 leading-relaxed">
-              Payment processing may show Paddle branding depending on checkout configuration. For broader
-              terms, see our{" "}
+              Checkout pages may be branded by us or by third-party payment services we use. For broader terms,
+              see our{" "}
               <Link href="/terms" className="text-blue-600 hover:underline">
                 Terms of Service
               </Link>{" "}

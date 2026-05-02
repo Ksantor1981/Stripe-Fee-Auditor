@@ -108,7 +108,7 @@ LemonSqueezy webhook URL: https://your-domain/api/webhooks/lemonsqueezy
 Event to enable: order_created
 
 SEO (built-in): after deploy verify `NEXT_PUBLIC_BASE_URL` matches production, then open `/sitemap.xml` and `/robots.txt`.
-Refund policy (Paddle): `https://<your-domain>/refund`.
+Refund policy URL for checkout/provider compliance: `https://<your-domain>/refund`.
 
 What this is not
 

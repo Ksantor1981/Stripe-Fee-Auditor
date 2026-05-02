@@ -103,7 +103,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-lg font-semibold text-gray-900 mb-3">7. Payments and Refunds</h2>
             <p className="text-gray-600 leading-relaxed">
-              Paid reports are processed through Lemon Squeezy. Digital delivery is considered
+              Paid reports are processed through our payment provider. Digital delivery is considered
               complete when your report is unlocked. If the Service fails to deliver unlock or
               access due to an error on our side, contact us within 7 days; we will work with you
               in good faith (including refunds where appropriate). Other refund requests are
