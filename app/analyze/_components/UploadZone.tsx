@@ -6,16 +6,18 @@ import { useDropzone } from "react-dropzone";
 import Papa from "papaparse";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { SAMPLE_CSV, SAMPLE_COLUMN_MAPPING } from "@/lib/sampleData";
 
 const REQUIRED_COLUMNS = ["id", "type", "amount", "fee", "net", "currency", "created"] as const;
 type RequiredCol = (typeof REQUIRED_COLUMNS)[number];
 
 interface ParsedFile {
-  file: File;
+  file: File | null;
   fileName: string;
   headers: string[];
   rows: Record<string, string>[];
   totalRows: number;
+  isSample?: boolean;
 }
 
 type ColumnMapping = Partial<Record<RequiredCol, string>>;
@@ -59,7 +61,6 @@ export function UploadZone({ onBack }: Props) {
       return;
     }
 
-    // preview only — read first 6 data rows for display
     Papa.parse<Record<string, string>>(file, {
       header: true,
       skipEmptyLines: true,
@@ -78,6 +79,27 @@ export function UploadZone({ onBack }: Props) {
     });
   }, []);
 
+  function loadSampleData() {
+    setError(null);
+    Papa.parse<Record<string, string>>(SAMPLE_CSV, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        const headers = results.meta.fields ?? [];
+        const rows = results.data as Record<string, string>[];
+        setParsed({
+          file: null,
+          fileName: "sample-stripe-balance.csv",
+          headers,
+          rows: rows.slice(0, 5),
+          totalRows: rows.length,
+          isSample: true,
+        });
+        setMapping(SAMPLE_COLUMN_MAPPING as ColumnMapping);
+      },
+    });
+  }
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: { "text/csv": [".csv"], "application/vnd.ms-excel": [".csv"] },
@@ -92,15 +114,19 @@ export function UploadZone({ onBack }: Props) {
     setError(null);
 
     try {
-      // Read full CSV text client-side — no Blob storage needed
       setStage("uploading");
-      const csvText = await parsed.file.text();
 
-      const maxCsvBytes = 4 * 1024 * 1024;
-      if (new TextEncoder().encode(csvText).length > maxCsvBytes) {
-        setError("File too large (max 4 MB). Try a shorter date range in Stripe export.");
-        setStage("idle");
-        return;
+      const csvText = parsed.isSample
+        ? SAMPLE_CSV
+        : await parsed.file!.text();
+
+      if (!parsed.isSample) {
+        const maxCsvBytes = 4 * 1024 * 1024;
+        if (new TextEncoder().encode(csvText).length > maxCsvBytes) {
+          setError("File too large (max 4 MB). Try a shorter date range in Stripe export.");
+          setStage("idle");
+          return;
+        }
       }
 
       setStage("analyzing");
@@ -168,10 +194,12 @@ export function UploadZone({ onBack }: Props) {
           </div>
         ) : (
           <div className="flex items-center justify-center gap-3 pointer-events-none">
-            <span className="text-2xl">✅</span>
+            <span className="text-2xl">{parsed.isSample ? "🧪" : "✅"}</span>
             <div className="text-left">
               <p className="font-semibold text-gray-800">{parsed.fileName}</p>
-              <p className="text-xs text-gray-500">{parsed.totalRows} rows in preview</p>
+              <p className="text-xs text-gray-500">
+                {parsed.isSample ? "Sample data · " : ""}{parsed.totalRows} rows in preview
+              </p>
             </div>
             <button
               className="pointer-events-auto ml-4 text-xs text-gray-400 hover:text-red-500 underline"
@@ -182,6 +210,19 @@ export function UploadZone({ onBack }: Props) {
           </div>
         )}
       </div>
+
+      {/* Try with sample data */}
+      {!parsed && (
+        <div className="text-center">
+          <p className="text-sm text-gray-400 mb-2">Don&apos;t have your CSV yet?</p>
+          <button
+            onClick={loadSampleData}
+            className="text-sm font-medium text-blue-600 hover:text-blue-800 underline underline-offset-2"
+          >
+            Try with sample data →
+          </button>
+        </div>
+      )}
 
       {error && (
         <p className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
@@ -194,6 +235,9 @@ export function UploadZone({ onBack }: Props) {
         <div>
           <p className="text-sm font-medium text-gray-700 mb-2">
             Preview <span className="text-gray-400 font-normal">(first {parsed.rows.length} rows)</span>
+            {parsed.isSample && (
+              <span className="ml-2 text-xs text-blue-500 font-normal">· sample data</span>
+            )}
           </p>
           <div className="overflow-x-auto rounded-xl border border-gray-100 shadow-sm">
             <table className="min-w-full text-xs">
@@ -286,7 +330,9 @@ export function UploadZone({ onBack }: Props) {
             )}
           </Button>
           <p className="mt-3 text-xs text-gray-400">
-            Your file is processed in memory only. Free previews expire in 1 hour.
+            {parsed.isSample
+              ? "This is sample data for demonstration purposes."
+              : "Your file is processed in memory only. Free previews expire in 1 hour."}
           </p>
         </div>
       )}
