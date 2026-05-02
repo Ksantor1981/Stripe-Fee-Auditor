@@ -71,6 +71,8 @@ export function ReportShell({ reportId, accessToken, result, isPaid }: Props) {
           <a href="/privacy" className="hover:underline">Privacy Policy</a>
           <span>·</span>
           <a href="/terms" className="hover:underline">Terms of Service</a>
+          <span>·</span>
+          <a href="/refund" className="hover:underline">Refund Policy</a>
         </p>
         <p className="flex justify-center gap-3 flex-wrap">
           <a href="/blog/why-stripe-fees-increase" className="hover:underline">Why fees increase</a>

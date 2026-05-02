@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 /** Same env as Privacy (`NEXT_PUBLIC_CONTACT_EMAIL`) — one inbox is fine. */
 const CONTACT_EMAIL =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "privacy@stripefeeauditor.com";
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "ksantor19811606@gmail.com";
 
 export default function TermsPage() {
   return (
@@ -159,8 +159,9 @@ export default function TermsPage() {
           </section>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-100 flex gap-4 text-sm text-gray-400">
+        <div className="mt-12 pt-8 border-t border-gray-100 flex gap-4 text-sm text-gray-400 flex-wrap">
           <Link href="/privacy" className="hover:text-gray-600">Privacy Policy</Link>
+          <Link href="/refund" className="hover:text-gray-600">Refund Policy</Link>
           <Link href="/" className="hover:text-gray-600">← Back to home</Link>
         </div>
       </main>

@@ -137,6 +137,8 @@ export default function HomePage() {
           <Link href="/privacy" className="underline hover:text-gray-600">Privacy Policy</Link>
           {" · "}
           <Link href="/terms" className="underline hover:text-gray-600">Terms of Service</Link>
+          {" · "}
+          <Link href="/refund" className="underline hover:text-gray-600">Refund Policy</Link>
         </p>
         <p className="flex justify-center gap-3 flex-wrap">
           <Link href="/stripe-fee-calculator" className="hover:underline">Stripe fee calculator</Link>

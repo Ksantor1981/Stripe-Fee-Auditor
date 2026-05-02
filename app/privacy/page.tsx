@@ -6,9 +6,9 @@ export const metadata: Metadata = {
   description: "Privacy Policy for Stripe Fee Auditor — how we handle your data.",
 };
 
-/** Set in Vercel / .env.local — one address is enough for privacy & legal. */
+/** Set in Vercel / .env.local — env overrides this fallback address. */
 const CONTACT_EMAIL =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "privacy@stripefeeauditor.com";
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "ksantor19811606@gmail.com";
 
 export default function PrivacyPage() {
   return (
@@ -200,8 +200,9 @@ export default function PrivacyPage() {
           </section>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-100 flex gap-4 text-sm text-gray-400">
+        <div className="mt-12 pt-8 border-t border-gray-100 flex gap-4 text-sm text-gray-400 flex-wrap">
           <Link href="/terms" className="hover:text-gray-600">Terms of Service</Link>
+          <Link href="/refund" className="hover:text-gray-600">Refund Policy</Link>
           <Link href="/" className="hover:text-gray-600">← Back to home</Link>
         </div>
       </main>
