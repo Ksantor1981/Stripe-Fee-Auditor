@@ -32,6 +32,9 @@ __pycache__/
 # Vercel
 .vercel
 
+# Local npm cache (never commit — some tools create project-local .npm-cache)
+.npm-cache/
+
 # TypeScript build info (local cache — do not commit)
 tsconfig.tsbuildinfo
 *.tsbuildinfo
