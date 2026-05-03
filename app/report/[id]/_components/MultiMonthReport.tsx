@@ -14,10 +14,13 @@ interface Props {
   accessToken: string;
   result: AnalysisResult;
   isPaid: boolean;
+  /** Free preview strips anomaly rows; keep real count for badges and copy. */
+  previewAnomalyCount?: number;
 }
 
-export function MultiMonthReport({ reportId, accessToken, result, isPaid }: Props) {
+export function MultiMonthReport({ reportId, accessToken, result, isPaid, previewAnomalyCount }: Props) {
   const { chargeFees, chargeRate, chargeVolume, otherFees, monthly, topDrivers, anomalies, periodDelta } = result;
+  const anomalyUiCount = previewAnomalyCount ?? anomalies.length;
 
   const chartData = monthly.map((m) => ({
     name: fmtMonth(m.month),
@@ -57,7 +60,7 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid }: Prop
             { label: "Charge Volume", value: fmt$(chargeVolume) },
             { label: "Charge Fees", value: fmt$(chargeFees) },
             { label: "Other Fees", value: fmt$(otherFees) },
-            { label: "Anomalies", value: String(anomalies.length) },
+            { label: "Anomalies", value: String(anomalyUiCount) },
           ].map(({ label, value }) => (
             <div key={label} className="rounded-xl bg-gray-50 px-4 py-3">
               <p className="text-xs text-gray-400 mb-0.5">{label}</p>
@@ -96,8 +99,8 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid }: Prop
           <TabsTrigger value="overview" className="flex-1">Overview</TabsTrigger>
           <TabsTrigger value="anomalies" className="flex-1">
             Anomalies
-            {anomalies.length > 0 && (
-              <Badge className="ml-1.5 bg-red-100 text-red-700 text-xs">{anomalies.length}</Badge>
+            {anomalyUiCount > 0 && (
+              <Badge className="ml-1.5 bg-red-100 text-red-700 text-xs">{anomalyUiCount}</Badge>
             )}
           </TabsTrigger>
           <TabsTrigger value="monthly" className="flex-1">Monthly Detail</TabsTrigger>
@@ -183,7 +186,7 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid }: Prop
               <div className="px-5 py-10 text-center">
                 <p className="text-2xl mb-2">🔒</p>
                 <p className="text-sm font-semibold text-gray-700 mb-1">
-                  {anomalies.length} anomalies found
+                  {anomalyUiCount} anomalies found
                 </p>
                 <p className="text-xs text-gray-400 mb-4">Unlock to see which charges are costing you the most</p>
                 <PaywallBanner reportId={reportId} accessToken={accessToken} />

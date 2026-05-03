@@ -141,7 +141,9 @@ export function UploadZone({ onBack }: Props) {
       }
       const { reportId, accessToken } = await analyzeRes.json();
 
-      router.push(`/report/${reportId}?token=${encodeURIComponent(accessToken)}`);
+      const qs = new URLSearchParams({ token: accessToken });
+      if (parsed.isSample) qs.set("demo", "1");
+      router.push(`/report/${reportId}?${qs}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
       setStage("idle");

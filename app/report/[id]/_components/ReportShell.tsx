@@ -12,19 +12,30 @@ interface Props {
   accessToken: string;
   result: AnalysisResult;
   isPaid: boolean;
+  /** Sample/demo flow: URL ?demo=1 skips email capture (same UX priority as paid unlock). */
+  demoSkipEmailGate?: boolean;
+  /** Full anomaly count before preview strips rows (free tier UI). */
+  previewAnomalyCount?: number;
 }
 
-export function ReportShell({ reportId, accessToken, result, isPaid }: Props) {
+export function ReportShell({
+  reportId,
+  accessToken,
+  result,
+  isPaid,
+  demoSkipEmailGate = false,
+  previewAnomalyCount,
+}: Props) {
   // Paid users skip EmailGate entirely — they already provided email at checkout.
-  // Free users must go through EmailGate once per session.
-  const [unlocked, setUnlocked] = useState(isPaid);
+  // Demo/sample links (?demo=1) skip gate for frictionless product tour.
+  const [unlocked, setUnlocked] = useState(isPaid || demoSkipEmailGate);
   const tokenQuery = `token=${encodeURIComponent(accessToken)}`;
 
   if (!unlocked) {
     return <EmailGate reportId={reportId} accessToken={accessToken} onUnlock={() => setUnlocked(true)} />;
   }
 
-  const reportProps = { reportId, accessToken, result, isPaid };
+  const baseReportProps = { reportId, accessToken, result, isPaid };
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -62,9 +73,11 @@ export function ReportShell({ reportId, accessToken, result, isPaid }: Props) {
       </header>
 
       <div className="mx-auto max-w-4xl px-4 py-10">
-        {result.mode === "multi-month" && <MultiMonthReport {...reportProps} />}
-        {result.mode === "single-month" && <SingleMonthReport {...reportProps} />}
-        {result.mode === "low-volume" && <LowVolumeReport {...reportProps} />}
+        {result.mode === "multi-month" && (
+          <MultiMonthReport {...baseReportProps} previewAnomalyCount={previewAnomalyCount} />
+        )}
+        {result.mode === "single-month" && <SingleMonthReport {...baseReportProps} />}
+        {result.mode === "low-volume" && <LowVolumeReport reportId={reportId} result={result} isPaid={isPaid} />}
       </div>
 
       <footer className="border-t px-4 py-6 text-center text-xs text-gray-400 space-y-1">

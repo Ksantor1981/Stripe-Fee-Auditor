@@ -58,7 +58,12 @@ export function PaywallBanner({ reportId, accessToken, email }: Props) {
         >
           Unlock Full Report →
         </Button>
-        <p className="mt-3 text-xs text-gray-400">One-time payment · Instant access · 30-day refund</p>
+        <p className="mt-3 text-xs text-gray-400">
+          One-time payment · Instant access · Refund available — see{" "}
+          <a href="/refund" className="underline hover:text-gray-600">
+            policy
+          </a>
+        </p>
       </div>
 
       {/* Payment modal */}
@@ -66,7 +71,12 @@ export function PaywallBanner({ reportId, accessToken, email }: Props) {
         <DialogContent className="max-w-md p-0 overflow-hidden">
           <div className="bg-gray-900 px-6 py-5">
             <h2 className="text-lg font-bold text-white">Unlock Your Report</h2>
-            <p className="text-sm text-gray-400 mt-1">One-time payment · No subscription · 30-day refund</p>
+            <p className="text-sm text-gray-400 mt-1">
+              One-time payment · No subscription · Refund per{" "}
+              <a href="/refund" className="underline hover:text-gray-300">
+                refund policy
+              </a>
+            </p>
           </div>
           <div className="p-5 space-y-3">
             {PLANS.map((plan) => (

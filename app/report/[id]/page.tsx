@@ -5,7 +5,7 @@ import { ReportShell } from "./_components/ReportShell";
 
 interface Props {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ token?: string }>;
+  searchParams: Promise<{ token?: string; demo?: string }>;
 }
 
 export async function generateMetadata() {
@@ -35,7 +35,8 @@ function toPreviewResult(result: AnalysisResult): AnalysisResult {
 
 export default async function ReportPage({ params, searchParams }: Props) {
   const { id } = await params;
-  const { token = "" } = await searchParams;
+  const { token = "", demo } = await searchParams;
+  const demoSkipGate = demo === "1" || demo === "true";
 
   if (!UUID_V4.test(id)) notFound();
 
@@ -45,12 +46,16 @@ export default async function ReportPage({ params, searchParams }: Props) {
     notFound();
   }
 
+  const rawResult = report.result;
+
   return (
     <ReportShell
       reportId={id}
       accessToken={token}
-      result={report.is_paid ? report.result : toPreviewResult(report.result)}
+      result={report.is_paid ? rawResult : toPreviewResult(rawResult)}
       isPaid={report.is_paid ?? false}
+      demoSkipEmailGate={demoSkipGate}
+      previewAnomalyCount={report.is_paid ? undefined : rawResult.anomalies.length}
     />
   );
 }
