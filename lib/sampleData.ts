@@ -29,9 +29,17 @@ function buildSampleCsv(): string {
     }
   }
 
-  // Explicit outliers (elevated fee / amount) — should rank as statistical anomalies vs baseline mix.
-  const outliers: { amount: number; fee: number; desc: string; month: number; day: number }[] = [
+  // Explicit outliers — human-readable ids for screenshots (still unique balance-row labels).
+  const outliers: {
+    rowId: string;
+    amount: number;
+    fee: number;
+    desc: string;
+    month: number;
+    day: number;
+  }[] = [
     {
+      rowId: "Fraud review — Acme Corp payment",
       amount: 10000,
       fee: 2200,
       desc: "Premium fraud-screened charge — routing anomaly",
@@ -39,6 +47,7 @@ function buildSampleCsv(): string {
       day: 11,
     },
     {
+      rowId: "International card — Nexus GmbH",
       amount: 49900,
       fee: 8990,
       desc: "Enterprise payment — FX cross-border premium",
@@ -46,6 +55,7 @@ function buildSampleCsv(): string {
       day: 9,
     },
     {
+      rowId: "Micropayment fee spike — Helix Bio",
       amount: 4900,
       fee: 1470,
       desc: "Micropayment — fixed fee dominates",
@@ -53,6 +63,7 @@ function buildSampleCsv(): string {
       day: 7,
     },
     {
+      rowId: "Manual capture — DataSync renewal",
       amount: 19900,
       fee: 4975,
       desc: "Manual capture — elevated interchange",
@@ -60,6 +71,7 @@ function buildSampleCsv(): string {
       day: 22,
     },
     {
+      rowId: "International card — Meridian AG",
       amount: 9900,
       fee: 2890,
       desc: "International card premium corridor",
@@ -67,6 +79,7 @@ function buildSampleCsv(): string {
       day: 18,
     },
     {
+      rowId: "Corporate purchasing — BuilderCo",
       amount: 29900,
       fee: 6880,
       desc: "Corporate purchasing card uplift",
@@ -77,7 +90,7 @@ function buildSampleCsv(): string {
 
   for (const o of outliers) {
     lines.push(
-      `${nextId()},charge,${o.amount},${o.fee},${o.amount - o.fee},usd,${isoUtc(
+      `${o.rowId},charge,${o.amount},${o.fee},${o.amount - o.fee},usd,${isoUtc(
         2026,
         o.month,
         o.day,
@@ -85,6 +98,7 @@ function buildSampleCsv(): string {
       )},${o.desc}`
     );
   }
+  seq += outliers.length;
 
   lines.push(
     `${nextId()},refund,-9900,0,-9900,usd,${isoUtc(2026, 2, 14)},Refund partial — demo customer`
