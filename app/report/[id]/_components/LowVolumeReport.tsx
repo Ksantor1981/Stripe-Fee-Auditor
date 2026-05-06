@@ -2,6 +2,7 @@
 
 import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { fmt$, fmtPct, fmtDate } from "@/lib/format";
+import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { Badge } from "@/components/ui/badge";
 
 interface Props {
@@ -13,6 +14,9 @@ interface Props {
 export function LowVolumeReport({ result }: Props) {
   const { chargeFees, chargeRate, chargeVolume, otherFees, topDrivers, monthly } = result;
   const totalCharges = monthly.reduce((a, m) => a + m.count, 0);
+  const monthCount = monthly.length;
+  const periodFees = periodTotalFees(chargeFees, otherFees);
+  const yearlyAtThisRate = annualRunRate(periodFees, monthCount);
 
   return (
     <div className="space-y-6">
@@ -26,6 +30,15 @@ export function LowVolumeReport({ result }: Props) {
         </h1>
         <p className="text-sm text-gray-400 mt-1">
           {totalCharges} charges analyzed — statistical anomaly detection requires 50+ transactions.
+        </p>
+        <p className="mt-3 text-sm text-gray-700 leading-snug">
+          You paid <span className="font-semibold text-gray-900">{fmt$(periodFees)}</span> in Stripe fees{" "}
+          {stripeFeesPeriodTail(Math.max(1, monthCount))}
+        </p>
+        <p className="mt-1 text-sm text-gray-600">
+          That&apos;s{" "}
+          <span className="font-semibold text-gray-900">{fmt$(yearlyAtThisRate)}</span>
+          /year at this rate.
         </p>
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">

@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getReportWithAccess } from "@/lib/db";
 import { fmt$, fmtPct, fmtMonth, fmtDate } from "@/lib/format";
+import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { PrintButton } from "../_components/PrintButton";
 
 interface Props {
@@ -21,6 +22,9 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
 
   const { chargeVolume, chargeFees, chargeRate, otherFees, monthly, anomalies, topDrivers, mode, periodDelta } = report.result;
   const params_id = id;
+  const periodFees = periodTotalFees(chargeFees, otherFees);
+  const monthCount = monthly.length;
+  const yearlyAtThisRate = annualRunRate(periodFees, Math.max(1, monthCount));
 
   return (
     <>
@@ -90,6 +94,15 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
             <div className="label">Other Fees</div>
             <div className="value">{fmt$(otherFees)}</div>
           </div>
+        </div>
+
+        <div style={{ marginBottom: 24, fontSize: 14, lineHeight: 1.55 }}>
+          <p style={{ margin: "0 0 6px" }}>
+            You paid <strong>{fmt$(periodFees)}</strong> in Stripe fees {stripeFeesPeriodTail(monthCount || 1)}
+          </p>
+          <p style={{ margin: 0, color: "#4b5563" }}>
+            That&apos;s <strong>{fmt$(yearlyAtThisRate)}</strong>/year at this rate.
+          </p>
         </div>
 
         {/* Period delta */}

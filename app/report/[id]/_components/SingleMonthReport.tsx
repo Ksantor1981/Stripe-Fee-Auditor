@@ -2,6 +2,7 @@
 
 import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { fmt$, fmtPct, fmtMonth, fmtDate } from "@/lib/format";
+import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { PaywallBanner } from "./PaywallBanner";
 
 interface Props {
@@ -14,6 +15,8 @@ interface Props {
 export function SingleMonthReport({ reportId, accessToken, result, isPaid }: Props) {
   const { chargeFees, chargeRate, chargeVolume, otherFees, monthly, topDrivers } = result;
   const month = monthly[0];
+  const periodFees = periodTotalFees(chargeFees, otherFees);
+  const yearlyAtThisRate = annualRunRate(periodFees, 1);
 
   return (
     <div className="space-y-6">
@@ -26,6 +29,15 @@ export function SingleMonthReport({ reportId, accessToken, result, isPaid }: Pro
           Your Stripe fees for{" "}
           <span className="text-blue-600">{month ? fmtMonth(month.month) : "this period"}</span>
         </h1>
+        <p className="mt-2 text-sm text-gray-700 leading-snug">
+          You paid <span className="font-semibold text-gray-900">{fmt$(periodFees)}</span> in Stripe fees{" "}
+          {stripeFeesPeriodTail(1)}
+        </p>
+        <p className="mt-1 text-sm text-gray-600">
+          That&apos;s{" "}
+          <span className="font-semibold text-gray-900">{fmt$(yearlyAtThisRate)}</span>
+          /year at this rate.
+        </p>
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[

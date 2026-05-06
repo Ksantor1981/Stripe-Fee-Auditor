@@ -7,6 +7,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { fmt$, fmtPct, fmtMonth, fmtDate } from "@/lib/format";
+import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { PaywallBanner } from "./PaywallBanner";
 
 interface Props {
@@ -29,6 +30,9 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
   }));
 
   const deltaPositive = periodDelta !== null && periodDelta > 0;
+  const monthCount = monthly.length;
+  const periodFees = periodTotalFees(chargeFees, otherFees);
+  const yearlyAtThisRate = annualRunRate(periodFees, monthCount);
 
   return (
     <div className="space-y-8">
@@ -39,9 +43,15 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
             <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">
               {monthly.length}-month analysis
             </p>
-            <h1 className="text-2xl font-bold text-gray-900">
-              You paid <span className="text-blue-600">{fmt$(chargeFees)}</span> in Stripe fees
+            <h1 className="text-2xl font-bold text-gray-900 leading-snug">
+              You paid <span className="text-blue-600">{fmt$(periodFees)}</span> in Stripe fees{" "}
+              {stripeFeesPeriodTail(monthCount)}
             </h1>
+            <p className="mt-2 text-sm text-gray-600">
+              That&apos;s{" "}
+              <span className="font-semibold text-gray-900">{fmt$(yearlyAtThisRate)}</span>
+              /year at this rate.
+            </p>
             {periodDelta !== null && (
               <p className={`mt-1 text-sm font-medium ${deltaPositive ? "text-red-600" : "text-green-600"}`}>
                 {deltaPositive ? "▲" : "▼"} {fmt$(Math.abs(periodDelta))} vs previous period
