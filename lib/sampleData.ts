@@ -9,8 +9,84 @@ function isoUtc(year: number, month: number, day: number, hour = 12, minute = 0)
     .replace(/\.\d{3}Z$/, "Z");
 }
 
+/** RFC 4180-style quoted field (handles commas and quotes in text). */
+function csvCell(value: string): string {
+  return `"${value.replace(/"/g, '""')}"`;
+}
+
 function buildSampleCsv(): string {
   const lines: string[] = [HEADER];
+
+  // Outliers first so UI CSV preview (first 5 rows) shows readable anomaly-style IDs for demos.
+  const outliers: {
+    rowId: string;
+    amount: number;
+    fee: number;
+    desc: string;
+    month: number;
+    day: number;
+  }[] = [
+    {
+      rowId: "Fraud review - Acme Corp payment",
+      amount: 10000,
+      fee: 2200,
+      desc: "Premium fraud-screened charge — routing anomaly",
+      month: 1,
+      day: 11,
+    },
+    {
+      rowId: "International card - Nexus GmbH",
+      amount: 49900,
+      fee: 8990,
+      desc: "Enterprise payment — FX cross-border premium",
+      month: 2,
+      day: 9,
+    },
+    {
+      rowId: "Micropayment fee spike - Helix Bio",
+      amount: 4900,
+      fee: 1470,
+      desc: "Micropayment — fixed fee dominates",
+      month: 3,
+      day: 7,
+    },
+    {
+      rowId: "Manual capture - DataSync renewal",
+      amount: 19900,
+      fee: 4975,
+      desc: "Manual capture — elevated interchange",
+      month: 1,
+      day: 22,
+    },
+    {
+      rowId: "International card - Meridian AG",
+      amount: 9900,
+      fee: 2890,
+      desc: "International card premium corridor",
+      month: 2,
+      day: 18,
+    },
+    {
+      rowId: "Corporate purchasing - BuilderCo",
+      amount: 29900,
+      fee: 6880,
+      desc: "Corporate purchasing card uplift",
+      month: 3,
+      day: 16,
+    },
+  ];
+
+  for (const o of outliers) {
+    lines.push(
+      `${csvCell(o.rowId)},charge,${o.amount},${o.fee},${o.amount - o.fee},usd,${isoUtc(
+        2026,
+        o.month,
+        o.day,
+        15
+      )},${csvCell(o.desc)}`
+    );
+  }
+
   let seq = 1;
   const nextId = () => `txn_demo${String(seq++).padStart(3, "0")}`;
 
@@ -28,77 +104,6 @@ function buildSampleCsv(): string {
       );
     }
   }
-
-  // Explicit outliers — human-readable ids for screenshots (still unique balance-row labels).
-  const outliers: {
-    rowId: string;
-    amount: number;
-    fee: number;
-    desc: string;
-    month: number;
-    day: number;
-  }[] = [
-    {
-      rowId: "Fraud review — Acme Corp payment",
-      amount: 10000,
-      fee: 2200,
-      desc: "Premium fraud-screened charge — routing anomaly",
-      month: 1,
-      day: 11,
-    },
-    {
-      rowId: "International card — Nexus GmbH",
-      amount: 49900,
-      fee: 8990,
-      desc: "Enterprise payment — FX cross-border premium",
-      month: 2,
-      day: 9,
-    },
-    {
-      rowId: "Micropayment fee spike — Helix Bio",
-      amount: 4900,
-      fee: 1470,
-      desc: "Micropayment — fixed fee dominates",
-      month: 3,
-      day: 7,
-    },
-    {
-      rowId: "Manual capture — DataSync renewal",
-      amount: 19900,
-      fee: 4975,
-      desc: "Manual capture — elevated interchange",
-      month: 1,
-      day: 22,
-    },
-    {
-      rowId: "International card — Meridian AG",
-      amount: 9900,
-      fee: 2890,
-      desc: "International card premium corridor",
-      month: 2,
-      day: 18,
-    },
-    {
-      rowId: "Corporate purchasing — BuilderCo",
-      amount: 29900,
-      fee: 6880,
-      desc: "Corporate purchasing card uplift",
-      month: 3,
-      day: 16,
-    },
-  ];
-
-  for (const o of outliers) {
-    lines.push(
-      `${o.rowId},charge,${o.amount},${o.fee},${o.amount - o.fee},usd,${isoUtc(
-        2026,
-        o.month,
-        o.day,
-        15
-      )},${o.desc}`
-    );
-  }
-  seq += outliers.length;
 
   lines.push(
     `${nextId()},refund,-9900,0,-9900,usd,${isoUtc(2026, 2, 14)},Refund partial — demo customer`
