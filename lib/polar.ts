@@ -40,13 +40,18 @@ export function buildCheckoutUrl(
   accessToken: string,
   email?: string
 ): string {
-  const productId = process.env[PLANS[planId].productEnvKey];
-  if (!productId) {
-    throw new Error(`Polar not configured: missing ${PLANS[planId].productEnvKey}`);
+  const checkoutLinkEnvKey = {
+    basic: "POLAR_CHECKOUT_BASIC",
+    pro: "POLAR_CHECKOUT_PRO",
+    team: "POLAR_CHECKOUT_TEAM",
+  }[planId];
+
+  const checkoutLink = process.env[checkoutLinkEnvKey];
+  if (!checkoutLink) {
+    throw new Error(`Polar not configured: missing ${checkoutLinkEnvKey}`);
   }
 
-  const url = new URL("https://buy.polar.sh/stripe-fee-auditor");
-  url.searchParams.set("product", productId);
+  const url = new URL(`https://buy.polar.sh/${checkoutLink}`);
   url.searchParams.set("metadata[report_id]", reportId);
   url.searchParams.set("metadata[access_token]", accessToken);
   if (email) url.searchParams.set("customer_email", email);
