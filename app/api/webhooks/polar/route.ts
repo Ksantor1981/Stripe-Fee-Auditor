@@ -24,8 +24,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
   }
 
-  // Only handle successful orders
-  if (event.type !== "order.created") {
+  // Only handle paid orders (Polar sends order.paid when payment succeeds)
+  if (event.type !== "order.paid") {
     return NextResponse.json({ received: true });
   }
 
@@ -49,14 +49,14 @@ export async function POST(req: NextRequest) {
   }
 
   if (!reportId || !UUID_V4.test(reportId) || !accessToken) {
-    console.warn("[polar-webhook] order.created without valid report_id/access_token in metadata");
+    console.warn("[polar-webhook] order.paid without valid report_id/access_token in metadata");
     return NextResponse.json({ error: "Invalid report metadata" }, { status: 400 });
   }
 
   try {
     const status = await processPaidWebhook({
       eventId,
-      eventName: "order.created",
+      eventName: "order.paid",
       reportId,
       email,
       accessToken,

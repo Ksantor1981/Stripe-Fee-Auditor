@@ -104,7 +104,7 @@ npm run dev
 Cron (/api/cron/cleanup) runs daily at midnight on Vercel Hobby plan.
 Requires CRON_SECRET in env — Vercel sends it automatically as Authorization: Bearer <secret>.
 Polar webhook URL: https://your-domain/api/webhooks/polar
-Event to enable: order.created (handled in route)
+Event to enable: order.paid (handled in route)
 
 SEO (built-in): after deploy verify `NEXT_PUBLIC_BASE_URL` matches production, then open `/sitemap.xml` and `/robots.txt`.
 Refund policy URL for checkout/provider compliance: `https://<your-domain>/refund`.
