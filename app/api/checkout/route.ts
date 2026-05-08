@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { buildCheckoutUrl, isPlanId } from "@/lib/lemonsqueezy";
+import { buildCheckoutUrl, isPlanId } from "@/lib/polar";
 import { consumeIpRequest, extendReportForCheckout, getReportWithAccess } from "@/lib/db";
 import { getTrustedClientIp } from "@/lib/request-ip";
 
