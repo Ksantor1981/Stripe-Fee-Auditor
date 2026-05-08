@@ -1,5 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
+import { StripeFeeMiniEstimate } from "@/components/stripe-fee-mini-estimate";
+import { absoluteUrl } from "@/lib/site-url";
 
 const pageTitle = "Stripe Effective Fee Rate Calculator - From Real Data";
 const pageDescription =
@@ -107,15 +110,18 @@ const faqItems = [
   },
 ];
 
+const ABS_HOME = absoluteUrl("/");
+const ABS_PAGE = absoluteUrl(pagePath);
+
 const structuredData = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "@id": `${pagePath}#software`,
+    "@id": `${ABS_PAGE}#software`,
     name: "Stripe Fee Auditor",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web",
-    url: pagePath,
+    url: ABS_PAGE,
     description:
       "Stripe Fee Auditor analyzes Stripe Balance CSV exports to calculate the real effective Stripe fee rate, monthly fee trends, and transactions driving payment processing costs.",
     offers: {
@@ -128,7 +134,7 @@ const structuredData = [
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "@id": `${pagePath}#faq`,
+    "@id": `${ABS_PAGE}#faq`,
     mainEntity: faqItems.map((item) => ({
       "@type": "Question",
       name: item.question,
@@ -141,19 +147,19 @@ const structuredData = [
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "@id": `${pagePath}#breadcrumb`,
+    "@id": `${ABS_PAGE}#breadcrumb`,
     itemListElement: [
       {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "/",
+        item: ABS_HOME,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: pageTitle,
-        item: pagePath,
+        item: ABS_PAGE,
       },
     ],
   },
@@ -203,6 +209,8 @@ export default function StripeFeeCalculatorPage() {
             Balance CSV exports instead of averages.
           </p>
         </div>
+
+        <StripeFeeMiniEstimate />
 
         {/* Why estimate vs real */}
         <div className="mb-14">
@@ -381,6 +389,8 @@ export default function StripeFeeCalculatorPage() {
             Why fees run higher →
           </Link>
         </div>
+
+        <SeoPageTrustFooter />
       </main>
     </div>
   );

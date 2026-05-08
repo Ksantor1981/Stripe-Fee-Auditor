@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
+import { absoluteUrl } from "@/lib/site-url";
 
 const pageTitle = "Why Is My Stripe Fee Rate Higher Than 2.9%?";
 const pageDescription =
@@ -101,17 +103,20 @@ const faqItems = [
   },
 ];
 
+const ABS_HOME = absoluteUrl("/");
+const ABS_PAGE = absoluteUrl(pagePath);
+
 const structuredData = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "@id": `${pagePath}#article`,
+    "@id": `${ABS_PAGE}#article`,
     headline: pageTitle,
     description: pageDescription,
     inLanguage: "en-US",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": pagePath,
+      "@id": ABS_PAGE,
     },
     publisher: {
       "@type": "Organization",
@@ -127,7 +132,7 @@ const structuredData = [
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "@id": `${pagePath}#faq`,
+    "@id": `${ABS_PAGE}#faq`,
     mainEntity: faqItems.map((item) => ({
       "@type": "Question",
       name: item.question,
@@ -140,19 +145,19 @@ const structuredData = [
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "@id": `${pagePath}#breadcrumb`,
+    "@id": `${ABS_PAGE}#breadcrumb`,
     itemListElement: [
       {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "/",
+        item: ABS_HOME,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: pageTitle,
-        item: pagePath,
+        item: ABS_PAGE,
       },
     ],
   },
@@ -266,6 +271,8 @@ export default function WhyStripeFeesIncreasePage() {
             CSV Export Guide →
           </Link>
         </div>
+
+        <SeoPageTrustFooter />
       </main>
     </div>
   );

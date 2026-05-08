@@ -120,6 +120,8 @@ Refund policy URL for checkout/provider compliance: `https://feeauditor.com/refu
    - `EMAIL_FROM` = `Fee Auditor <noreply@feeauditor.com>`  
    Redeploy after saving.
 
+   **`www` → apex:** the repo includes a permanent redirect in `vercel.json` so `https://www.feeauditor.com/*` goes to `https://feeauditor.com/*`. Confirm in production after DNS points both hosts at Vercel.
+
 2. **Resend**: add domain `feeauditor.com`, then in **Namecheap** create DNS records **exactly** as Resend shows (SPF / DKIM / Return-Path — copy host & value character-for-character).
 
 3. **DMARC** (Namecheap, separate from Resend’s wizard):  

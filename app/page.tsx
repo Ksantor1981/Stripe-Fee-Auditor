@@ -55,7 +55,7 @@ export default function HomePage() {
       {/* Hero */}
       <section className="flex flex-col items-center justify-center px-4 py-20 text-center">
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">
-          No account · No data stored · Free to start
+          No account · CSV not stored · Temporary report link · Free to start
         </div>
         <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl leading-tight">
           See Your Real{" "}

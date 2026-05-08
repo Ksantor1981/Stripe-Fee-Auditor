@@ -4,5 +4,13 @@
       "path": "/api/cron/cleanup",
       "schedule": "0 0 * * *"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.feeauditor.com" }],
+      "destination": "https://feeauditor.com/:path*",
+      "permanent": true
+    }
   ]
 }

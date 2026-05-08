@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
+import { absoluteUrl } from "@/lib/site-url";
 
 const pageTitle = "How to Export Stripe Balance CSV - Step by Step";
 const pageDescription =
@@ -129,11 +131,14 @@ const faqItems = [
   },
 ];
 
+const ABS_HOME = absoluteUrl("/");
+const ABS_PAGE = absoluteUrl(pagePath);
+
 const structuredData = [
   {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    "@id": `${pagePath}#howto`,
+    "@id": `${ABS_PAGE}#howto`,
     name: pageTitle,
     description: pageDescription,
     inLanguage: "en-US",
@@ -142,13 +147,13 @@ const structuredData = [
       position: Number(step.number),
       name: step.title,
       text: step.schemaText,
-      url: `${pagePath}#step-${step.number}`,
+      url: `${ABS_PAGE}#step-${step.number}`,
     })),
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "@id": `${pagePath}#faq`,
+    "@id": `${ABS_PAGE}#faq`,
     mainEntity: faqItems.map((item) => ({
       "@type": "Question",
       name: item.question,
@@ -161,19 +166,19 @@ const structuredData = [
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "@id": `${pagePath}#breadcrumb`,
+    "@id": `${ABS_PAGE}#breadcrumb`,
     itemListElement: [
       {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "/",
+        item: ABS_HOME,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: pageTitle,
-        item: pagePath,
+        item: ABS_PAGE,
       },
     ],
   },
@@ -320,6 +325,8 @@ export default function StripeBalanceCsvPage() {
             No account · CSV not stored · Results in 30 seconds
           </p>
         </div>
+
+        <SeoPageTrustFooter />
       </main>
     </div>
   );

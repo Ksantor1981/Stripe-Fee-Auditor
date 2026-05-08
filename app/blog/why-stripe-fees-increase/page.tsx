@@ -63,6 +63,20 @@ export default function BlogPost1() {
             <Link href="/" className="text-blue-600 underline">Stripe Fee Auditor</Link> for an instant
             breakdown of your effective rate and top cost drivers.
           </p>
+          <p className="mt-4">
+            <span className="font-semibold text-gray-900">Related guides:</span>{" "}
+            <Link href="/why-stripe-fee-rate-higher-than-2-9" className="text-blue-600 underline">
+              Why your fee rate can be higher than 2.9%
+            </Link>
+            {" · "}
+            <Link href="/stripe-fee-calculator" className="text-blue-600 underline">
+              Effective fee rate calculator walkthrough
+            </Link>
+            {" · "}
+            <Link href="/stripe-balance-csv" className="text-blue-600 underline">
+              How to export Balance CSV
+            </Link>
+          </p>
         </div>
 
         <div className="mt-12 rounded-xl bg-blue-50 border border-blue-100 p-6 text-center">
