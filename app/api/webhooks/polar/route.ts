@@ -31,12 +31,11 @@ export async function POST(req: NextRequest) {
 
   const order = event.data;
   const eventId = order.id;
-  const productId = order.product_id;
+  const productId = order.productId;
   const email = order.customer?.email ?? "";
 
-  // Validate product
-  if (!isAllowedProductId(productId)) {
-    console.warn(`[polar-webhook] Unknown product id: ${productId}`);
+  if (!productId || !isAllowedProductId(productId)) {
+    console.warn(`[polar-webhook] Unknown or missing product id: ${productId}`);
     return NextResponse.json({ error: "Invalid product" }, { status: 400 });
   }
 

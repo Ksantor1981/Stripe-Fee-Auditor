@@ -16,7 +16,7 @@ multi-month — 2+ months: shows MoM trend and delta
 single — 1 month: shows breakdown without trend
 low-volume — under 50 charges: shows top 5 by fee rate, skips anomaly detection (std dev is noisy on small samples)
 
-Freemium model: free tier shows summary + top 3 anomalies, export (PDF/CSV) and full list require payment via LemonSqueezy.
+Freemium model: free tier shows summary + top 3 anomalies, export (PDF/CSV) and full list require payment via Polar.
 
 How it works
 User uploads CSV in browser
@@ -25,28 +25,27 @@ User uploads CSV in browser
   → Result saved to Neon DB with UUID + hashed access token
   → reportId + accessToken returned to client
   → Client opens /report/[id]?token=...
-  → Paid features unlocked via LemonSqueezy webhook after signature, variant, token, and event-id checks
+  → Paid features unlocked via Polar webhook after signature verification, product id, report metadata, and idempotent event handling
 CSV is not stored anywhere. Free previews expire in 1 hour; paid report access is extended to 30 days.
 
 Key files
 app/api/analyze/route.ts      — main endpoint: parse CSV, run analysis, save result
-app/api/webhooks/lemonsqueezy — verify signature, mark report paid, send email
+app/api/webhooks/polar — verify signature, mark report paid, send email
 app/api/cron/cleanup/route.ts — delete expired reports + rate_limit rows (runs daily on Hobby plan)
 lib/csv-parser.ts             — normalize raw CSV rows (amounts ÷100, dates, types)
 lib/fee-analyzer.ts           — all business logic: metrics, anomalies, period comparison
 lib/db.ts                     — Neon SQL client + all DB operations
-lib/lemonsqueezy.ts           — checkout URL builder + webhook signature verification (HMAC-SHA256)
+lib/polar.ts                  — Polar checkout URL builder + webhook verification (@polar-sh/sdk)
 lib/email.ts                  — send report link email after payment (via Resend)
 If you change the analysis logic — lib/fee-analyzer.ts is the only place to touch.
 If Stripe changes their CSV format — lib/csv-parser.ts is where to fix column mapping.
 
 Environment variables
 DATABASE_URL=                     # Neon PostgreSQL connection string (sslmode=require)
-LEMONSQUEEZY_WEBHOOK_SECRET=      # from LemonSqueezy → Settings → Webhooks (signing secret)
-LEMONSQUEEZY_STORE_SUBDOMAIN=     # e.g. "yourstore" from yourstore.lemonsqueezy.com
-LEMONSQUEEZY_VARIANT_BASIC=       # variant ID for Basic plan ($5)
-LEMONSQUEEZY_VARIANT_PRO=         # variant ID for Pro plan ($12)
-LEMONSQUEEZY_VARIANT_TEAM=        # variant ID for Team plan ($29)
+POLAR_WEBHOOK_SECRET=             # Polar dashboard → Webhooks (signing secret)
+POLAR_PRODUCT_BASIC=              # Product UUID for Basic plan ($5)
+POLAR_PRODUCT_PRO=                # Product UUID for Pro plan ($12)
+POLAR_PRODUCT_TEAM=               # Product UUID for Team plan ($29)
 CRON_SECRET=                      # any random string — protects /api/cron/cleanup from public calls
 RESEND_API_KEY=                   # from resend.com — used to email report link after payment
 NEXT_PUBLIC_BASE_URL=             # e.g. https://stripe-fee-auditor.vercel.app
@@ -54,18 +53,18 @@ NEXT_PUBLIC_CONTACT_EMAIL=        # shown on /privacy and /terms (one address is
 REPORT_TOKEN_SALT=                # optional pepper for access-token hashing (recommended: 32+ random chars in prod)
 
 All required except RESEND_API_KEY (email is skipped if not set — report still unlocks).
-App will throw on missing DATABASE_URL or LemonSqueezy vars.
+App will throw on missing DATABASE_URL or required Polar product env vars at checkout / webhook verify time.
 
 Rate limiting
 3 free analyses per IP per day. Tracked in rate_limits table in Neon.
-Up to 30 `/api/checkout` redirects per IP per day (separate key `checkout:<ip>`), counted only after report + token validate — limits LemonSqueezy noise without burning quota on bad IDs.
+Up to 30 `/api/checkout` redirects per IP per day (separate key `checkout:<ip>`), counted only after report + token validate — limits checkout noise without burning quota on bad IDs.
 Old entries cleaned up by cron (runs daily at midnight, deletes rows older than 2 days).
 If IP is missing or the literal `unknown` — request is rejected with 400.
 
 Security notes
 - CSP and related headers: `next.config.ts`.
 - `Referrer-Policy: same-origin` reduces leaking `?token=` via Referer on cross-origin clicks; tokens in URLs still appear in server logs and browser history — POST/cookie-based access is a future hardening.
-- Lemon Squeezy webhook returns **500** on DB errors so payments can retry safely.
+- Polar webhook returns **500** on DB errors so payments can retry safely.
 - Set **REPORT_TOKEN_SALT** in production for stronger token hashes (omit or empty = legacy SHA256(token) only).
 - Max CSV upload **4 MB** (UTF-8) so JSON+CSV fits under Vercel’s **~4.5 MB** function body cap; use a shorter Stripe date range if the export is larger.
 
@@ -76,7 +75,7 @@ reports — one row per analysis
   id          uuid primary key (v4, generated by DB)
   access_token_hash text     -- SHA-256 hash of access token (optional REPORT_TOKEN_SALT pepper)
   result      jsonb          -- full analysis output
-  is_paid     boolean        -- unlocked by LemonSqueezy webhook
+  is_paid     boolean        -- unlocked by Polar webhook
   email       text           -- set when paid
   paid_at     timestamptz
   expires_at  timestamptz    -- 1 hour for free previews, extended to 30 days after payment
@@ -86,7 +85,7 @@ rate_limits — one row per IP per request
   ip          text
   created_at  timestamptz
 
-webhook_events — LemonSqueezy idempotency guard
+webhook_events — payment webhook idempotency guard
   id          text primary key
   event_name  text
   created_at  timestamptz
@@ -95,7 +94,7 @@ No migrations tool — schema created by scripts/init-db.mjs.
 Run once: node scripts/init-db.mjs
 
 Deploy
-Vercel + Neon + LemonSqueezy. No Docker, no separate backend.
+Vercel + Neon + Polar. No Docker, no separate backend.
 
 npm install
 cp .env.example .env.local  # fill in all values
@@ -104,8 +103,8 @@ npm run dev
 
 Cron (/api/cron/cleanup) runs daily at midnight on Vercel Hobby plan.
 Requires CRON_SECRET in env — Vercel sends it automatically as Authorization: Bearer <secret>.
-LemonSqueezy webhook URL: https://your-domain/api/webhooks/lemonsqueezy
-Event to enable: order_created
+Polar webhook URL: https://your-domain/api/webhooks/polar
+Event to enable: order.created (handled in route)
 
 SEO (built-in): after deploy verify `NEXT_PUBLIC_BASE_URL` matches production, then open `/sitemap.xml` and `/robots.txt`.
 Refund policy URL for checkout/provider compliance: `https://<your-domain>/refund`.

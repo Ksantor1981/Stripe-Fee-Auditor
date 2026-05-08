@@ -109,7 +109,7 @@ export function PaywallBanner({ reportId, accessToken, email }: Props) {
               </button>
             ))}
             <p className="text-xs text-center text-gray-400 pt-1">
-              Secure payment via LemonSqueezy
+              Secure payment via Polar
             </p>
           </div>
         </DialogContent>

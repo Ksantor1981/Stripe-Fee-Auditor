@@ -12,7 +12,7 @@
 - База данных: Neon PostgreSQL
 - Файлы: Vercel Blob
 - Деплой: Vercel (auto-deploy from `main`)
-- Оплата: LemonSqueezy
+- Оплата: Polar
 
 ## 3. Основные user flows
 
@@ -65,7 +65,7 @@
 - `POST /api/analyze` -> `{ reportId, summary, mode }`
 - `GET /api/export/pdf?reportId=...` -> `application/pdf`
 - `GET /api/export/csv?reportId=...` -> `text/csv`
-- `POST /api/webhooks/lemonsqueezy` -> `200 OK` + update `isPaid`
+- `POST /api/webhooks/polar` -> `200 OK` + update `isPaid`
 
 ## 6. Структура приложения
 
@@ -80,7 +80,7 @@
   /analyze/route.ts
   /export/pdf/route.ts
   /export/csv/route.ts
-  /webhooks/lemonsqueezy/route.ts
+  /webhooks/polar/route.ts
 /lib
   /csv-parser.ts
   /fee-analyzer.ts

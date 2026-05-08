@@ -13,7 +13,7 @@ const CSP = [
   "frame-ancestors 'none'",
   "object-src 'none'",
   "base-uri 'self'",
-  "form-action 'self' *.lemonsqueezy.com",
+  "form-action 'self' *.polar.sh",
 ].join("; ");
 
 const nextConfig: NextConfig = {

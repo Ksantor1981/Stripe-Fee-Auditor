@@ -1,4 +1,4 @@
-import { validateWebhook } from "@polar-sh/sdk/webhooks";
+import { validateEvent } from "@polar-sh/sdk/webhooks";
 
 export type PlanId = "basic" | "pro" | "team";
 
@@ -57,8 +57,8 @@ export function buildCheckoutUrl(
 export function verifyPolarWebhook(
   rawBody: string,
   headers: Record<string, string>
-): ReturnType<typeof validateWebhook> {
+): ReturnType<typeof validateEvent> {
   const secret = process.env.POLAR_WEBHOOK_SECRET;
   if (!secret) throw new Error("POLAR_WEBHOOK_SECRET not set");
-  return validateWebhook(rawBody, headers, secret);
+  return validateEvent(rawBody, headers, secret);
 }

@@ -107,7 +107,7 @@ export default function PrivacyPage() {
             <ul className="list-disc list-inside text-gray-600 space-y-2 leading-relaxed">
               <li><strong>Vercel</strong> — hosting and edge infrastructure (vercel.com/legal/privacy-policy)</li>
               <li><strong>Neon</strong> — PostgreSQL for report metadata and analysis results (neon.com/privacy-policy)</li>
-              <li><strong>Lemon Squeezy</strong> — payment processing (lemonsqueezy.com/privacy)</li>
+              <li><strong>Polar</strong> - payment processing (polar.sh/legal/privacy)</li>
               <li><strong>Resend</strong> — transactional email delivery when enabled (resend.com/legal/privacy-policy)</li>
             </ul>
             <p className="text-gray-600 mt-3">
