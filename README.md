@@ -46,10 +46,13 @@ POLAR_WEBHOOK_SECRET=             # Polar dashboard → Webhooks (signing secret
 POLAR_PRODUCT_BASIC=              # Product UUID for Basic plan ($5)
 POLAR_PRODUCT_PRO=                # Product UUID for Pro plan ($12)
 POLAR_PRODUCT_TEAM=               # Product UUID for Team plan ($29)
+POLAR_CHECKOUT_BASIC=             # Polar checkout link slug/path (see Polar dashboard)
+POLAR_CHECKOUT_PRO=
+POLAR_CHECKOUT_TEAM=
 CRON_SECRET=                      # any random string — protects /api/cron/cleanup from public calls
 RESEND_API_KEY=                   # from resend.com — used to email report link after payment
-EMAIL_FROM=                       # e.g. Fee Auditor <noreply@feeauditor.com>
-NEXT_PUBLIC_BASE_URL=             # e.g. https://feeauditor.com
+EMAIL_FROM=                       # production: Fee Auditor <noreply@feeauditor.com> (domain must be verified in Resend)
+NEXT_PUBLIC_BASE_URL=             # production: https://feeauditor.com — drives metadataBase, sitemap, robots, email links
 NEXT_PUBLIC_CONTACT_EMAIL=        # shown on /privacy and /terms (one address is enough)
 REPORT_TOKEN_SALT=                # optional pepper for access-token hashing (recommended: 32+ random chars in prod)
 
@@ -104,11 +107,32 @@ npm run dev
 
 Cron (/api/cron/cleanup) runs daily at midnight on Vercel Hobby plan.
 Requires CRON_SECRET in env — Vercel sends it automatically as Authorization: Bearer <secret>.
-Polar webhook URL: https://your-domain/api/webhooks/polar
+Polar webhook URL: https://feeauditor.com/api/webhooks/polar
 Event to enable: order.paid (handled in route)
 
 SEO (built-in): after deploy verify `NEXT_PUBLIC_BASE_URL` matches production, then open `/sitemap.xml` and `/robots.txt`.
-Refund policy URL for checkout/provider compliance: `https://<your-domain>/refund`.
+Refund policy URL for checkout/provider compliance: `https://feeauditor.com/refund`.
+
+### Production domain & email (`feeauditor.com`)
+
+1. **Vercel → Project → Settings → Environment Variables** (at least **Production**):  
+   - `NEXT_PUBLIC_BASE_URL` = `https://feeauditor.com`  
+   - `EMAIL_FROM` = `Fee Auditor <noreply@feeauditor.com>`  
+   Redeploy after saving.
+
+2. **Resend**: add domain `feeauditor.com`, then in **Namecheap** create DNS records **exactly** as Resend shows (SPF / DKIM / Return-Path — copy host & value character-for-character).
+
+3. **DMARC** (Namecheap, separate from Resend’s wizard):  
+   - Type: **TXT** · Host: **`_dmarc`** · Value: **`v=DMARC1; p=none;`** · TTL: Automatic  
+
+4. After **Verify domain** in Resend: run the paid report flow and confirm the message is from `Fee Auditor <noreply@feeauditor.com>`.
+
+5. **Smoke URLs** (after deploy):  
+   `https://feeauditor.com`, `/sitemap.xml`, `/robots.txt`, `/stripe-fee-calculator`, `/stripe-balance-csv`, `/why-stripe-fee-rate-higher-than-2-9`
+
+6. **Google Search Console**: add property `feeauditor.com`, verify via **TXT** at Namecheap as GSC instructs, submit sitemap `https://feeauditor.com/sitemap.xml`.
+
+---
 
 What this is not
 
