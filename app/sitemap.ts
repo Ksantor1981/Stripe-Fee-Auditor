@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 /** Set NEXT_PUBLIC_BASE_URL in production when you use a custom domain. */
-const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://stripe-fee-auditor.vercel.app";
+const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://feeauditor.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

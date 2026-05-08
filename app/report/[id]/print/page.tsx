@@ -225,7 +225,7 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
         {/* Footer */}
         <div className="footer">
           <span>Stripe Fee Auditor · Not affiliated with Stripe, Inc.</span>
-          <span>stripe-fee-auditor.vercel.app</span>
+          <span>feeauditor.com</span>
         </div>
       </div>
 

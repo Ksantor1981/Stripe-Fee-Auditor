@@ -1,6 +1,6 @@
 Stripe Fee Auditor
 Upload your Stripe Balance CSV — see your real effective fee rate, monthly fee changes, and which transactions are driving them up.
-Live: <https://stripe-fee-auditor.vercel.app>
+Live: <https://feeauditor.com>
 
 What it does
 Stripe charges 2.9% + $0.30 by default, but your actual effective rate is usually higher. International cards, currency conversion, refunds (where Stripe keeps the fee), and Radar fees all push it up — and Stripe Dashboard doesn't aggregate this clearly.
@@ -48,7 +48,8 @@ POLAR_PRODUCT_PRO=                # Product UUID for Pro plan ($12)
 POLAR_PRODUCT_TEAM=               # Product UUID for Team plan ($29)
 CRON_SECRET=                      # any random string — protects /api/cron/cleanup from public calls
 RESEND_API_KEY=                   # from resend.com — used to email report link after payment
-NEXT_PUBLIC_BASE_URL=             # e.g. https://stripe-fee-auditor.vercel.app
+EMAIL_FROM=                       # e.g. Fee Auditor <noreply@feeauditor.com>
+NEXT_PUBLIC_BASE_URL=             # e.g. https://feeauditor.com
 NEXT_PUBLIC_CONTACT_EMAIL=        # shown on /privacy and /terms (one address is enough)
 REPORT_TOKEN_SALT=                # optional pepper for access-token hashing (recommended: 32+ random chars in prod)
 

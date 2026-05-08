@@ -1,5 +1,8 @@
 import { Resend } from "resend";
 
+const DEFAULT_BASE_URL = "https://feeauditor.com";
+const DEFAULT_EMAIL_FROM = "Fee Auditor <noreply@feeauditor.com>";
+
 function getResend(): Resend {
   if (!process.env.RESEND_API_KEY) throw new Error("RESEND_API_KEY not set");
   return new Resend(process.env.RESEND_API_KEY);
@@ -11,12 +14,13 @@ export async function sendReportEmail(to: string, reportId: string, accessToken?
     return;
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://stripe-fee-auditor.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? DEFAULT_BASE_URL;
+  const from = process.env.EMAIL_FROM ?? DEFAULT_EMAIL_FROM;
   const reportUrl = new URL(`/report/${reportId}`, baseUrl);
   if (accessToken) reportUrl.searchParams.set("token", accessToken);
 
   await getResend().emails.send({
-    from: "Stripe Fee Auditor <noreply@stripe-fee-auditor.vercel.app>",
+    from,
     to,
     subject: "Your Stripe Fee Report is ready",
     html: `
