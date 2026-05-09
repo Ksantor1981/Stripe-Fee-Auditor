@@ -31,6 +31,13 @@ const HOW_IT_WORKS = [
   },
 ];
 
+const COMMON_SURPRISES = [
+  "International cards quietly adding cross-border fees",
+  "Small $5-$20 charges where the fixed $0.30 fee dominates",
+  "Months where your fee rate jumped without an obvious reason",
+  "Large B2B invoices that could be cheaper via ACH",
+];
+
 const WHAT_YOU_GET = [
   { icon: "📊", title: "Your true blended fee rate", desc: "Not Stripe's advertised 2.9% — your actual weighted average across all charge types." },
   { icon: "🔍", title: "Why your rate is higher", desc: "International cards, small transactions, Amex, currency conversion — pinpointed by transaction." },
@@ -65,11 +72,11 @@ export default function HomePage() {
           No account · Raw CSV not stored · Free to start
         </div>
         <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">
-          Your Stripe fees are{" "}
-          <span className="text-blue-600">probably not 2.9%.</span>
+          Stripe says 2.9%. Your real fee rate is{" "}
+          <span className="text-blue-600">probably higher.</span>
         </h1>
         <p className="mt-5 max-w-xl text-lg text-gray-500 leading-relaxed">
-          Upload your Stripe Balance CSV. See your real effective rate, the charges driving it up, and what to fix first.
+          Upload your Stripe Balance CSV and see exactly which transactions, fee patterns, and payment methods are driving the gap.
         </p>
 
         {/* CTAs */}
@@ -78,7 +85,7 @@ export default function HomePage() {
             href="/analyze"
             className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow-md hover:bg-blue-700 active:scale-95 transition-all"
           >
-            Analyze My Fees
+            Analyze My CSV
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
@@ -99,6 +106,32 @@ export default function HomePage() {
               <span>{label}</span>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Example result */}
+      <section className="px-4 pb-16">
+        <div className="mx-auto max-w-3xl rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-6 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-2">
+            Example output
+          </p>
+          <div className="grid gap-3 sm:grid-cols-5">
+            {[
+              { label: "Processed", value: "$18,420" },
+              { label: "Stripe fees", value: "$642.18" },
+              { label: "Effective rate", value: "3.49%" },
+              { label: "Anomalies", value: "12" },
+              { label: "Savings", value: "~$720/yr" },
+            ].map(({ label, value }) => (
+              <div key={label} className="rounded-xl bg-white px-4 py-3 border border-blue-50">
+                <p className="text-xs text-gray-400">{label}</p>
+                <p className="text-lg font-bold text-gray-900">{value}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 text-sm text-gray-600">
+            The report turns a raw Balance CSV into a plain-English explanation of why your actual rate is higher than expected.
+          </p>
         </div>
       </section>
 
@@ -129,6 +162,25 @@ export default function HomePage() {
             >
               See a sample report without uploading anything →
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Common surprises */}
+      <section className="px-4 py-16">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
+            Common surprises we catch
+          </p>
+          <h2 className="text-center text-2xl font-bold text-gray-900 mb-8">
+            Where the extra fees usually hide
+          </h2>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {COMMON_SURPRISES.map((item) => (
+              <div key={item} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+                <p className="text-sm text-gray-700">{item}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

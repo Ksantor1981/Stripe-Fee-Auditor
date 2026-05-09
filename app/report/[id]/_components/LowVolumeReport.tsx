@@ -26,6 +26,9 @@ export function LowVolumeReport({ result }: Props) {
   const monthCount = monthly.length;
   const periodFees = periodTotalFees(chargeFees, otherFees);
   const yearlyAtThisRate = annualRunRate(periodFees, monthCount);
+  const advertisedRate = 2.9;
+  const rateGap = chargeRate - advertisedRate;
+  const rateGapText = `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp vs 2.9%`;
 
   return (
     <div className="space-y-6">
@@ -62,6 +65,17 @@ export function LowVolumeReport({ result }: Props) {
               <p className={`text-xl font-bold ${accent ? "text-blue-700" : "text-gray-900"}`}>{value}</p>
             </div>
           ))}
+        </div>
+
+        <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
+          <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-1">
+            Your rate vs advertised card pricing
+          </p>
+          <p className="text-sm text-blue-900">
+            Your blended charge fee rate is <span className="font-semibold">{fmtPct(chargeRate)}</span>{" "}
+            (<span className="font-semibold">{rateGapText}</span>). On low-volume exports, fixed $0.30 fees and a few
+            unusual charges can move the blended rate a lot.
+          </p>
         </div>
       </div>
 

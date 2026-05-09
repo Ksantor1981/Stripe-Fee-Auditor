@@ -26,6 +26,9 @@ export function SingleMonthReport({ reportId, accessToken, result, isPaid }: Pro
   const month = monthly[0];
   const periodFees = periodTotalFees(chargeFees, otherFees);
   const yearlyAtThisRate = annualRunRate(periodFees, 1);
+  const advertisedRate = 2.9;
+  const rateGap = chargeRate - advertisedRate;
+  const rateGapText = `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp vs 2.9%`;
 
   return (
     <div className="space-y-6">
@@ -60,6 +63,17 @@ export function SingleMonthReport({ reportId, accessToken, result, isPaid }: Pro
               <p className={`text-xl font-bold ${highlight ? "text-blue-700" : "text-gray-900"}`}>{value}</p>
             </div>
           ))}
+        </div>
+
+        <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
+          <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-1">
+            Your rate vs advertised card pricing
+          </p>
+          <p className="text-sm text-blue-900">
+            Your blended charge fee rate is <span className="font-semibold">{fmtPct(chargeRate)}</span>{" "}
+            (<span className="font-semibold">{rateGapText}</span>). Stripe&apos;s advertised card rate starts at
+            2.9% + $0.30, but the real rate often moves higher because of fixed fees, international cards, and card mix.
+          </p>
         </div>
       </div>
 

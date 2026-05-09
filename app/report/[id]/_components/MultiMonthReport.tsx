@@ -32,6 +32,9 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
   const { chargeFees, chargeRate, chargeVolume, otherFees, monthly, topDrivers, anomalies, periodDelta } = result;
   const anomalyUiCount = previewAnomalyCount ?? anomalies.length;
   const savings = result.savingsOpportunities ?? [];
+  const advertisedRate = 2.9;
+  const rateGap = chargeRate - advertisedRate;
+  const rateGapText = `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp vs 2.9%`;
 
   const paidAnomalyRows: AnnotatedRow[] =
     result.annotatedAnomalies && result.annotatedAnomalies.length > 0
@@ -92,6 +95,18 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
               <p className="text-lg font-bold text-gray-900">{value}</p>
             </div>
           ))}
+        </div>
+
+        <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
+          <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-1">
+            Your rate vs advertised card pricing
+          </p>
+          <p className="text-sm text-blue-900">
+            Your blended charge fee rate is <span className="font-semibold">{fmtPct(chargeRate)}</span>{" "}
+            (<span className="font-semibold">{rateGapText}</span>). Stripe&apos;s advertised card rate starts at
+            2.9% + $0.30, but international cards, small charges, card mix, currency conversion, and add-ons can push
+            the real rate higher.
+          </p>
         </div>
       </div>
 
