@@ -66,7 +66,6 @@ function stdDev(values: number[]): number {
 function classifyAnomaly(row: NormalizedRow, baselineRate: number): AnomalyExplanation {
   const desc = (row.description ?? "").toLowerCase();
   const rate = row.amount > 0 ? (row.fee / row.amount) * 100 : 0;
-  const excessRate = rate - baselineRate;
 
   // 1. International card — most common cause
   if (desc.includes("[international]") || desc.includes("international")) {
@@ -113,9 +112,9 @@ function classifyAnomaly(row: NormalizedRow, baselineRate: number): AnomalyExpla
   // 5. Generic elevated rate
   return {
     reason: "elevated_rate",
-    label: "Elevated rate",
-    detail: `This transaction's effective rate (${rate.toFixed(2)}%) is ${excessRate.toFixed(2)}pp above your ${baselineRate.toFixed(2)}% baseline — likely a premium card type (Amex, corporate card) or additional Stripe add-on.`,
-    savingsTip: "Check if this customer uses an American Express or corporate card. ACH may be a better option for high-value B2B invoices.",
+    label: "Slightly elevated rate",
+    detail: `This charge has a ${rate.toFixed(2)}% effective rate vs your ${baselineRate.toFixed(2)}% baseline. This typically occurs with certain card types (Amex, corporate cards) or minor interchange variations — not a major issue but worth monitoring if it appears often.`,
+    savingsTip: "For B2B invoices over $500, offering ACH bank transfer (0.8%, capped at $5) can significantly reduce fees compared to card processing.",
   };
 }
 
@@ -225,7 +224,7 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
     topDrivers = [...charges].sort((a, b) => b.fee / b.amount - a.fee / a.amount).slice(0, 5);
   } else {
     const rates = monthly.map((m) => m.rate);
-    const threshold = chargeRate + 2 * stdDev(rates);
+    const threshold = chargeRate + 2.5 * stdDev(rates);
     anomalies = charges.filter((c) => c.amount > 0 && (c.fee / c.amount) * 100 > threshold);
     topDrivers = [...charges].sort((a, b) => b.fee - a.fee).slice(0, 10);
   }
