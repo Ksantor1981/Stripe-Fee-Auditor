@@ -59,7 +59,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Report not found or expired" }, { status: 404 });
     }
 
-    const url = buildCheckoutUrl(planId, reportId, token, email);
+    const url = await buildCheckoutUrl(planId, reportId, token, email);
     return NextResponse.redirect(url);
   } catch (err) {
     const msg = err instanceof Error ? err.message : "Checkout unavailable";

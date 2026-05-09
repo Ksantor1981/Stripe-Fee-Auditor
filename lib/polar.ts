@@ -1,4 +1,6 @@
+import { Polar } from "@polar-sh/sdk";
 import { validateEvent } from "@polar-sh/sdk/webhooks";
+import { absoluteUrl } from "@/lib/site-url";
 
 export type PlanId = "basic" | "pro" | "team";
 
@@ -34,12 +36,51 @@ export function isAllowedProductId(productId: string): boolean {
   return allowed.includes(productId);
 }
 
-export function buildCheckoutUrl(
+function getRequiredProductId(planId: PlanId): string {
+  const productId = process.env[PLANS[planId].productEnvKey];
+  if (!productId) {
+    throw new Error(`Polar not configured: missing ${PLANS[planId].productEnvKey}`);
+  }
+  return productId;
+}
+
+function getPolarClient(): Polar | null {
+  const accessToken = process.env.POLAR_ACCESS_TOKEN;
+  return accessToken ? new Polar({ accessToken }) : null;
+}
+
+export async function buildCheckoutUrl(
   planId: PlanId,
   reportId: string,
   accessToken: string,
   email?: string
-): string {
+): Promise<string> {
+  const productId = getRequiredProductId(planId);
+  const reportPath = `/report/${reportId}?token=${encodeURIComponent(accessToken)}`;
+  const successUrl = absoluteUrl(`${reportPath}&payment=success&checkout_id={CHECKOUT_ID}`);
+  const returnUrl = absoluteUrl(reportPath);
+
+  const polar = getPolarClient();
+  if (polar) {
+    const checkout = await polar.checkouts.create({
+      products: [productId],
+      metadata: {
+        report_id: reportId,
+        access_token: accessToken,
+        plan: planId,
+      },
+      customerEmail: email,
+      successUrl,
+      returnUrl,
+      allowDiscountCodes: true,
+      requireBillingAddress: false,
+    });
+
+    return checkout.url;
+  }
+
+  // Fallback for environments that still use static Polar checkout links.
+  // Dynamic per-report success redirects require POLAR_ACCESS_TOKEN.
   const checkoutLinkEnvKey = {
     basic: "POLAR_CHECKOUT_BASIC",
     pro: "POLAR_CHECKOUT_PRO",

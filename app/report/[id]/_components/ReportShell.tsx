@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { EmailGate } from "./EmailGate";
 import { MultiMonthReport } from "./MultiMonthReport";
@@ -14,6 +15,8 @@ interface Props {
   isPaid: boolean;
   /** Sample/demo flow: URL ?demo=1 skips email capture (same UX priority as paid unlock). */
   demoSkipEmailGate?: boolean;
+  /** Polar redirected back before the payment webhook finished processing. */
+  paymentPending?: boolean;
   /** Full anomaly count before preview strips rows (free tier UI). */
   previewAnomalyCount?: number;
 }
@@ -24,12 +27,24 @@ export function ReportShell({
   result,
   isPaid,
   demoSkipEmailGate = false,
+  paymentPending = false,
   previewAnomalyCount,
 }: Props) {
+  const router = useRouter();
   // Paid users skip EmailGate entirely — they already provided email at checkout.
   // Demo/sample links (?demo=1) skip gate for frictionless product tour.
-  const [unlocked, setUnlocked] = useState(isPaid || demoSkipEmailGate);
+  const [unlocked, setUnlocked] = useState(isPaid || demoSkipEmailGate || paymentPending);
   const tokenQuery = `token=${encodeURIComponent(accessToken)}`;
+
+  useEffect(() => {
+    if (!paymentPending || isPaid) return;
+    const interval = window.setInterval(() => router.refresh(), 2500);
+    const timeout = window.setTimeout(() => window.clearInterval(interval), 30000);
+    return () => {
+      window.clearInterval(interval);
+      window.clearTimeout(timeout);
+    };
+  }, [isPaid, paymentPending, router]);
 
   if (!unlocked) {
     return <EmailGate reportId={reportId} accessToken={accessToken} onUnlock={() => setUnlocked(true)} />;
@@ -73,6 +88,11 @@ export function ReportShell({
       </header>
 
       <div className="mx-auto max-w-4xl px-4 py-10">
+        {paymentPending && !isPaid && (
+          <div className="mb-6 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800">
+            Payment received. We&apos;re unlocking your report now. This page will refresh automatically.
+          </div>
+        )}
         {result.mode === "multi-month" && (
           <MultiMonthReport {...baseReportProps} previewAnomalyCount={previewAnomalyCount} />
         )}

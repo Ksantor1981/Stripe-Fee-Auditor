@@ -46,6 +46,7 @@ POLAR_WEBHOOK_SECRET=             # Polar dashboard → Webhooks (signing secret
 POLAR_PRODUCT_BASIC=              # Product UUID for Basic plan ($5)
 POLAR_PRODUCT_PRO=                # Product UUID for Pro plan ($12)
 POLAR_PRODUCT_TEAM=               # Product UUID for Team plan ($29)
+POLAR_ACCESS_TOKEN=               # Polar API token with checkouts:write; used for dynamic success redirects
 POLAR_CHECKOUT_BASIC=             # Polar checkout link slug/path (see Polar dashboard)
 POLAR_CHECKOUT_PRO=
 POLAR_CHECKOUT_TEAM=
@@ -109,6 +110,7 @@ Cron (/api/cron/cleanup) runs daily at midnight on Vercel Hobby plan.
 Requires CRON_SECRET in env — Vercel sends it automatically as Authorization: Bearer <secret>.
 Polar webhook URL: https://feeauditor.com/api/webhooks/polar
 Event to enable: order.paid (handled in route)
+For the best paid flow, set POLAR_ACCESS_TOKEN so the app creates a per-report checkout session with a success URL back to the exact report. Static checkout links remain as a fallback, but they cannot return users directly to a specific report.
 
 SEO (built-in): after deploy verify `NEXT_PUBLIC_BASE_URL` matches production, then open `/sitemap.xml` and `/robots.txt`.
 Refund policy URL for checkout/provider compliance: `https://feeauditor.com/refund`.
