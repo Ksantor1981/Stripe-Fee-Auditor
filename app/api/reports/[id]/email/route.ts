@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { saveReportEmail } from "@/lib/db";
+import { consumeIpRequest, saveReportEmail } from "@/lib/db";
 import { sendReportEmail } from "@/lib/email";
+import { getTrustedClientIp } from "@/lib/request-ip";
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_LIMIT_PER_IP_PER_DAY = 10;
 
 export async function POST(
   req: NextRequest,
@@ -31,6 +33,19 @@ export async function POST(
 
   if (!token) {
     return NextResponse.json({ error: "Report access token required" }, { status: 401 });
+  }
+
+  const ip = getTrustedClientIp(req);
+  if (!ip) {
+    return NextResponse.json({ error: "Unable to process request" }, { status: 400 });
+  }
+
+  const emailAllowed = await consumeIpRequest(`email:${ip}`, EMAIL_LIMIT_PER_IP_PER_DAY);
+  if (!emailAllowed) {
+    return NextResponse.json(
+      { error: "Too many email requests from this network. Try again tomorrow." },
+      { status: 429 }
+    );
   }
 
   try {

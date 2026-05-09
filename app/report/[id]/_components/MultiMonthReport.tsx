@@ -6,9 +6,18 @@ import {
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import type { AnalysisResult, AnnotatedRow } from "@/lib/fee-analyzer";
+import type { NormalizedRow } from "@/lib/csv-parser";
 import { fmt$, fmtPct, fmtMonth, fmtDate } from "@/lib/format";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { PaywallBanner } from "./PaywallBanner";
+
+function transactionLabel(row: Pick<NormalizedRow, "id" | "description">): string {
+  return row.description || row.id;
+}
+
+function transactionMeta(row: Pick<NormalizedRow, "id" | "description">): string | null {
+  return row.description ? row.id : null;
+}
 
 interface Props {
   reportId: string;
@@ -22,6 +31,7 @@ interface Props {
 export function MultiMonthReport({ reportId, accessToken, result, isPaid, previewAnomalyCount }: Props) {
   const { chargeFees, chargeRate, chargeVolume, otherFees, monthly, topDrivers, anomalies, periodDelta } = result;
   const anomalyUiCount = previewAnomalyCount ?? anomalies.length;
+  const savings = result.savingsOpportunities ?? [];
 
   const paidAnomalyRows: AnnotatedRow[] =
     result.annotatedAnomalies && result.annotatedAnomalies.length > 0
@@ -85,6 +95,32 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
         </div>
       </div>
 
+      {/* What to fix first — paid/demo full access */}
+      {isPaid && savings.length > 0 && (
+        <div className="rounded-2xl bg-white border border-emerald-100 shadow-sm p-6">
+          <p className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-1">
+            What to fix first
+          </p>
+          <h2 className="text-lg font-bold text-gray-900 mb-1">Estimated savings opportunities</h2>
+          <p className="text-xs text-gray-500 mb-4">
+            Based on your transaction patterns. Treat these as directional estimates before changing billing rules.
+          </p>
+          <div className="space-y-3">
+            {savings.map((opp, i) => (
+              <div key={i} className="rounded-xl border border-emerald-100 bg-emerald-50/60 px-4 py-3">
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="text-sm font-semibold text-gray-800">{opp.title}</p>
+                  <span className="text-sm font-bold text-emerald-700">
+                    ~{fmt$(opp.annualSavings)}/yr
+                  </span>
+                </div>
+                <p className="mt-1 text-xs text-gray-600 leading-relaxed">{opp.tip}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Chart */}
       <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
         <h2 className="text-sm font-semibold text-gray-700 mb-4">Monthly Fees ($)</h2>
@@ -133,8 +169,10 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
                 <div className="flex items-center gap-3 min-w-0">
                   <span className="text-xs font-bold text-gray-300 w-4">{i + 1}</span>
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-gray-800 truncate">{row.id}</p>
-                    <p className="text-xs text-gray-400">{fmtDate(row.date)}</p>
+                    <p className="text-sm font-medium text-gray-800 truncate">{transactionLabel(row)}</p>
+                    <p className="text-xs text-gray-400 truncate">
+                      {transactionMeta(row) ? `${fmtDate(row.date)} · ${transactionMeta(row)}` : fmtDate(row.date)}
+                    </p>
                   </div>
                 </div>
                 <div className="text-right flex-shrink-0">
@@ -151,7 +189,7 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
               <div className="relative">
                 {topDrivers.slice(3, 6).map((row) => (
                   <div key={row.id} className="flex items-center justify-between px-5 py-3.5 gap-4 select-none pointer-events-none blur-sm opacity-60">
-                    <p className="text-sm text-gray-800 truncate">{row.id}</p>
+                    <p className="text-sm text-gray-800 truncate">{transactionLabel(row)}</p>
                     <p className="text-sm font-semibold">{fmt$(row.fee)}</p>
                   </div>
                 ))}
@@ -170,7 +208,7 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
                 Anomalous Transactions
               </h3>
               <p className="text-xs text-gray-400 mt-0.5">
-                Charges with fee rate &gt; avg + 2σ
+                Charges with unusually high fee rate versus your baseline
               </p>
             </div>
 
@@ -187,8 +225,10 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
                       className="flex flex-col gap-2 px-5 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-4"
                     >
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium text-gray-800 truncate">{row.id}</p>
-                        <p className="text-xs text-gray-400">{fmtDate(row.date)}</p>
+                        <p className="text-sm font-medium text-gray-800 truncate">{transactionLabel(row)}</p>
+                        <p className="text-xs text-gray-400 truncate">
+                          {transactionMeta(row) ? `${fmtDate(row.date)} · ${transactionMeta(row)}` : fmtDate(row.date)}
+                        </p>
                         {row.explanation && (
                           <div className="mt-3 rounded-lg border border-gray-100 bg-gray-50/80 px-3 py-2.5 space-y-1.5">
                             <Badge variant="outline" className="text-[10px] font-medium text-gray-700 border-gray-200">
@@ -273,29 +313,6 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
           )}
         </TabsContent>
       </Tabs>
-
-      {/* Savings Opportunities — Pro only */}
-      {isPaid && result.savingsOpportunities && result.savingsOpportunities.length > 0 && (
-        <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
-          <h2 className="text-sm font-semibold text-gray-700 mb-1">💡 Savings Opportunities</h2>
-          <p className="text-xs text-gray-400 mb-4">
-            Estimated annual savings based on your transaction patterns
-          </p>
-          <div className="space-y-3">
-            {result.savingsOpportunities.map((opp, i) => (
-              <div key={i} className="rounded-xl border border-emerald-100 bg-emerald-50/60 px-4 py-3">
-                <div className="flex items-center justify-between mb-1">
-                  <p className="text-sm font-semibold text-gray-800">{opp.title}</p>
-                  <span className="text-sm font-bold text-emerald-700">
-                    ~{fmt$(opp.annualSavings)}/yr
-                  </span>
-                </div>
-                <p className="text-xs text-gray-600 leading-relaxed">{opp.tip}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDropzone } from "react-dropzone";
 import Papa from "papaparse";
@@ -39,16 +39,38 @@ function missingCols(mapping: ColumnMapping): RequiredCol[] {
 
 interface Props {
   onBack: () => void;
+  autoLoadSample?: boolean;
 }
 
 type Stage = "idle" | "uploading" | "analyzing";
 
-export function UploadZone({ onBack }: Props) {
+export function UploadZone({ onBack, autoLoadSample }: Props) {
   const router = useRouter();
   const [parsed, setParsed] = useState<ParsedFile | null>(null);
   const [mapping, setMapping] = useState<ColumnMapping>({});
   const [error, setError] = useState<string | null>(null);
   const [stage, setStage] = useState<Stage>("idle");
+
+  // Auto-load sample data when coming from ?sample=1
+  useEffect(() => {
+    if (!autoLoadSample) return;
+    const result = Papa.parse<Record<string, string>>(SAMPLE_CSV, {
+      header: true,
+      skipEmptyLines: true,
+    });
+    const headers = result.meta.fields ?? [];
+    const rows = result.data;
+    const detectedMapping = autoDetect(headers);
+    setParsed({
+      file: null,
+      fileName: "sample-stripe-balance.csv",
+      headers,
+      rows,
+      totalRows: rows.length,
+      isSample: true,
+    });
+    setMapping({ ...detectedMapping, ...SAMPLE_COLUMN_MAPPING });
+  }, [autoLoadSample]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];

@@ -1,73 +1,81 @@
-# TECH_SPEC: Stripe Fee Auditor MVP v1.2
+# TECH_SPEC: Stripe Fee Auditor MVP v1.3
 
 ## 1. Цель
 
-Запустить MVP за 5 дней (27 часов), который принимает Stripe Balance CSV и возвращает отчет по комиссиям с freemium-моделью и платной разблокировкой полного анализа.
+MVP принимает Stripe Balance CSV, считает реальную эффективную ставку комиссий и показывает, какие транзакции и паттерны поднимают стоимость обработки платежей. Модель монетизации: бесплатное превью + одноразовая разблокировка полного отчета через Polar.
 
 ## 2. Стек и окружение
 
-- Frontend/Backend: Next.js 14 (App Router), TypeScript
+- Frontend/Backend: Next.js App Router, TypeScript
 - UI: Tailwind, shadcn/ui, Recharts
-- CSV: PapaParse
+- CSV: Papa Parse
 - База данных: Neon PostgreSQL
-- Файлы: Vercel Blob
-- Деплой: Vercel (auto-deploy from `main`)
-- Оплата: Polar
+- Оплата: Polar checkout + signed webhooks
+- Email: Resend
+- Деплой: Vercel
+
+Raw CSV не пишется в Blob/bucket и не сохраняется как файл. На сервер отправляется CSV-текст, он парсится в памяти, а в Neon сохраняется только результат анализа.
 
 ## 3. Основные user flows
 
-1. Пользователь открывает лендинг `/`.
-2. Переходит на `/analyze`, видит инструкции экспорта.
-3. Загружает CSV, получает preview и запускает анализ.
-4. Видит результат в одном из 3 режимов:
-   - multi-month
-   - single-month
-   - low-volume (<50 transactions)
-5. Для полного отчета выполняет оплату.
+1. Пользователь открывает `/`.
+2. Переходит на `/analyze`, видит инструкции экспорта Balance CSV.
+3. Загружает CSV или открывает demo flow `/analyze?sample=1`.
+4. Получает отчет `/report/[id]?token=...` в одном из 3 режимов:
+   - `multi-month`
+   - `single-month`
+   - `low-volume` (<50 charge-транзакций)
+5. Free preview показывает summary + top 3 fee drivers.
+6. Full Report через Polar разблокирует anomalies, savings opportunities, monthly detail, CSV export и print-ready report.
+7. После оплаты Polar webhook помечает отчет как paid, продлевает TTL до 30 дней и отправляет email-ссылку при наличии Resend.
 
 ## 4. Функциональные требования
 
 ### 4.1 Upload & Parse
 
-- Поддержка Balance CSV от Stripe
+- Поддержка Stripe Balance Transactions CSV
 - Автодетект обязательных колонок: `id`, `type`, `amount`, `fee`, `net`, `currency`, `created`
 - Ручной column mapping как fallback
-- Preview первых 5 строк
+- Preview первых строк перед анализом
+- Максимальный CSV: 4 MB
 
 ### 4.2 Аналитика
 
-- Расчет:
-  - `chargeVolume`
-  - `chargeFees`
-  - `chargeRate`
-  - `otherFees`
+- Расчет `chargeVolume`, `chargeFees`, `chargeRate`, `otherFees`
 - Monthly breakdown по `YYYY-MM`
-- Adaptive anomaly strategy:
-  - `<50` charge-транзакций: top 5 highest-fee transactions
-  - `>=50`: статистическое выделение аномалий по порогу `avg + 2*std`
-- Period comparison при `>=2` месяцев, иначе fallback single-period
+- Period comparison при 2+ месяцах
+- Adaptive strategy:
+  - `<50` charge-транзакций: top 5 highest fee-rate transactions, без статистической anomaly-модели
+  - `>=50`: anomaly threshold = blended charge rate + `2.5 * stdDev(monthly rates)`
+- Savings opportunities считаются в major currency units после нормализации CSV (`1000` cents -> `$10.00`)
 
 ### 4.3 Freemium / Paid
 
-- Free: summary + top 3 drivers
-- Paid: полный список аномалий, monthly detail, PDF/CSV export
-- Email gate перед показом free preview
+- Free: summary + top 3 fee drivers + paywall
+- Paid Full Report: full anomaly list, explanations, savings opportunities, monthly detail, CSV export, print-ready report
+- Public paid UI currently exposes one product: `pro` / Full Report ($12)
+- Basic/Team tiers should not be shown until the backend stores plan-level entitlements
 
 ### 4.4 Retention & Privacy
 
-- Удаление загруженных CSV через 1 час
-- Rate limiting: 3 free reports / IP / day
-- Email verification в free tier
+- Raw CSV is processed in memory only
+- Free previews expire after about 1 hour
+- Checkout extends free report TTL to reduce payment/webhook race risk
+- Paid report access expires after about 30 days
+- Report access requires `reportId + accessToken`; token is hashed in DB
+- `?token=` bearer links are convenient but remain a known hardening target for a future httpOnly-cookie exchange
 
-## 5. API контракты (MVP)
+## 5. API contracts
 
-- `POST /api/upload` -> `{ sessionId, blobUrl }`
-- `POST /api/analyze` -> `{ reportId, summary, mode }`
-- `GET /api/export/pdf?reportId=...` -> `application/pdf`
-- `GET /api/export/csv?reportId=...` -> `text/csv`
-- `POST /api/webhooks/polar` -> `200 OK` + update `isPaid`
+- `POST /api/analyze` -> `{ reportId, accessToken, mode, isDemo, summary }`
+- `GET /api/checkout?plan=pro&reportId=...&token=...` -> Polar redirect
+- `POST /api/webhooks/polar` -> verifies signature, product id, metadata and idempotency; marks report paid
+- `POST /api/reports/[id]/email` -> stores email and sends report link when Resend is configured
+- `GET /api/export/csv?reportId=...&token=...` -> paid CSV export
+- `/report/[id]/print?token=...` -> paid print-ready report page
+- `GET /api/cron/cleanup` -> deletes expired reports/rate-limit rows; requires `CRON_SECRET` bearer auth
 
-## 6. Структура приложения
+## 6. Structure
 
 ```text
 /app
@@ -75,35 +83,32 @@
   /analyze/page.tsx
   /report/[id]/page.tsx
   /report/[id]/print/page.tsx
-/api
-  /upload/route.ts
-  /analyze/route.ts
-  /export/pdf/route.ts
-  /export/csv/route.ts
-  /webhooks/polar/route.ts
+  /api/analyze/route.ts
+  /api/checkout/route.ts
+  /api/export/csv/route.ts
+  /api/reports/[id]/email/route.ts
+  /api/webhooks/polar/route.ts
+  /api/cron/cleanup/route.ts
 /lib
   /csv-parser.ts
   /fee-analyzer.ts
   /db.ts
+  /polar.ts
+  /email.ts
 ```
 
-## 7. Нефункциональные требования
+## 7. Rate Limits
 
-- Время анализа типового CSV: до 3 секунд
-- Надежная обработка пустых/поврежденных строк
-- Отсутствие хранения raw CSV дольше TTL
-- HSTS и TLS в production
+- Real CSV analysis: 3/day/IP
+- Demo sample analysis: 20/day/IP
+- Email gate sends: 10/day/IP
+- Checkout redirects: 30/day/IP after report token validation
 
-## 8. Риски и mitigation
+## 8. Definition of Done
 
-- Нестабильный формат CSV -> robust mapping + информативные ошибки
-- Малый объем данных -> отдельный low-volume режим
-- Платежные edge-cases -> идемпотентный webhook handler
-
-## 9. Definition of Done (MVP)
-
-- Все 3 режима отчета работают на реальных данных
-- Оплата успешно разблокирует full report
-- PDF/CSV export отдают корректные файлы
-- Деплой на Vercel с настроенными env vars
-- Есть страницы Privacy Policy и Terms of Service
+- Все 3 режима отчета работают на sample и реальных Stripe CSV
+- Free preview не отправляет full paid result в client payload
+- Polar paid flow разблокирует отчет даже если redirect пришел раньше webhook
+- Webhook идемпотентен и возвращает 500 на retryable DB/report failures
+- Sitemap/robots/canonical используют `https://feeauditor.com`
+- Privacy/Terms/Refund актуальны для Polar + Resend + Neon

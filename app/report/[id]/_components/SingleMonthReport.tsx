@@ -1,9 +1,18 @@
 "use client";
 
 import type { AnalysisResult } from "@/lib/fee-analyzer";
+import type { NormalizedRow } from "@/lib/csv-parser";
 import { fmt$, fmtPct, fmtMonth, fmtDate } from "@/lib/format";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { PaywallBanner } from "./PaywallBanner";
+
+function transactionLabel(row: Pick<NormalizedRow, "id" | "description">): string {
+  return row.description || row.id;
+}
+
+function transactionMeta(row: Pick<NormalizedRow, "id" | "description">): string | null {
+  return row.description ? row.id : null;
+}
 
 interface Props {
   reportId: string;
@@ -87,8 +96,10 @@ export function SingleMonthReport({ reportId, accessToken, result, isPaid }: Pro
               <div className="flex items-center gap-3 min-w-0">
                 <span className="text-xs font-bold text-gray-300 w-4">{i + 1}</span>
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-gray-800 truncate">{row.id}</p>
-                  <p className="text-xs text-gray-400">{fmtDate(row.date)}</p>
+                  <p className="text-sm font-medium text-gray-800 truncate">{transactionLabel(row)}</p>
+                  <p className="text-xs text-gray-400 truncate">
+                    {transactionMeta(row) ? `${fmtDate(row.date)} · ${transactionMeta(row)}` : fmtDate(row.date)}
+                  </p>
                 </div>
               </div>
               <div className="text-right">

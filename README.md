@@ -16,7 +16,7 @@ multi-month — 2+ months: shows MoM trend and delta
 single — 1 month: shows breakdown without trend
 low-volume — under 50 charges: shows top 5 by fee rate, skips anomaly detection (std dev is noisy on small samples)
 
-Freemium model: free tier shows summary + top 3 anomalies, export (PDF/CSV) and full list require payment via Polar.
+Freemium model: free tier shows summary + top 3 fee drivers. The one-time Full Report unlock shows full anomalies, savings opportunities, monthly detail, CSV export, and print-ready report via Polar.
 
 How it works
 User uploads CSV in browser
@@ -43,13 +43,9 @@ If Stripe changes their CSV format — lib/csv-parser.ts is where to fix column 
 Environment variables
 DATABASE_URL=                     # Neon PostgreSQL connection string (sslmode=require)
 POLAR_WEBHOOK_SECRET=             # Polar dashboard → Webhooks (signing secret)
-POLAR_PRODUCT_BASIC=              # Product UUID for Basic plan ($5)
-POLAR_PRODUCT_PRO=                # Product UUID for Pro plan ($12)
-POLAR_PRODUCT_TEAM=               # Product UUID for Team plan ($29)
+POLAR_PRODUCT_PRO=                # Product UUID for the one-time Full Report ($12)
 POLAR_ACCESS_TOKEN=               # Polar API token with checkouts:write + checkouts:read; used for dynamic checkout redirects and webhook metadata recovery
-POLAR_CHECKOUT_BASIC=             # Polar checkout link slug/path (see Polar dashboard)
-POLAR_CHECKOUT_PRO=
-POLAR_CHECKOUT_TEAM=
+POLAR_CHECKOUT_PRO=               # Optional static fallback checkout link slug/path
 CRON_SECRET=                      # any random string — protects /api/cron/cleanup from public calls
 RESEND_API_KEY=                   # from resend.com — used to email report link after payment
 EMAIL_FROM=                       # production: Fee Auditor <noreply@feeauditor.com> (domain must be verified in Resend)
@@ -57,11 +53,11 @@ NEXT_PUBLIC_BASE_URL=             # production: https://feeauditor.com — drive
 NEXT_PUBLIC_CONTACT_EMAIL=        # shown on /privacy and /terms (one address is enough)
 REPORT_TOKEN_SALT=                # optional pepper for access-token hashing (recommended: 32+ random chars in prod)
 
-All required except RESEND_API_KEY (email is skipped if not set — report still unlocks).
+All required except RESEND_API_KEY and POLAR_CHECKOUT_PRO (email is skipped if not set — report still unlocks; static checkout link is only a fallback when POLAR_ACCESS_TOKEN is unavailable).
 App will throw on missing DATABASE_URL or required Polar product env vars at checkout / webhook verify time.
 
 Rate limiting
-3 free analyses per IP per day. Tracked in rate_limits table in Neon.
+3 free analyses per IP per day. Demo sample reports have a separate 20/day/IP limit. Email-gate sends are limited to 10/day/IP. Tracked in rate_limits table in Neon.
 Up to 30 `/api/checkout` redirects per IP per day (separate key `checkout:<ip>`), counted only after report + token validate — limits checkout noise without burning quota on bad IDs.
 Old entries cleaned up by cron (runs daily at midnight, deletes rows older than 2 days).
 If IP is missing or the literal `unknown` — request is rejected with 400.

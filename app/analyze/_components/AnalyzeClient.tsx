@@ -1,13 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { ExportInstructions } from "./ExportInstructions";
 import { UploadZone } from "./UploadZone";
 
 export type AnalyzeStep = "instructions" | "upload";
 
-export function AnalyzeClient() {
-  const [step, setStep] = useState<AnalyzeStep>("instructions");
+function AnalyzeClientInner() {
+  const searchParams = useSearchParams();
+  const isSample = searchParams.get("sample") === "1";
+
+  // If ?sample=1 — skip instructions and go straight to upload with autoSample flag
+  const [step, setStep] = useState<AnalyzeStep>(isSample ? "upload" : "instructions");
+
+  // If sample param added after mount — jump to upload
+  useEffect(() => {
+    if (isSample) setStep("upload");
+  }, [isSample]);
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -38,9 +48,20 @@ export function AnalyzeClient() {
         {step === "instructions" ? (
           <ExportInstructions onReady={() => setStep("upload")} />
         ) : (
-          <UploadZone onBack={() => setStep("instructions")} />
+          <UploadZone
+            onBack={() => setStep("instructions")}
+            autoLoadSample={isSample}
+          />
         )}
       </div>
     </main>
+  );
+}
+
+export function AnalyzeClient() {
+  return (
+    <Suspense fallback={<main className="min-h-screen bg-gray-50" />}>
+      <AnalyzeClientInner />
+    </Suspense>
   );
 }

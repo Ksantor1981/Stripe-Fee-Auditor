@@ -49,17 +49,20 @@ export default async function ReportPage({ params, searchParams }: Props) {
   }
 
   const rawResult = report.result;
+  const demoFullAccess = demoSkipGate && report.session_id === "demo-sample";
+  const hasFullAccess = Boolean(report.is_paid || demoFullAccess);
   const paymentPending = payment === "success" && !report.is_paid;
 
   return (
     <ReportShell
       reportId={id}
       accessToken={token}
-      result={report.is_paid ? rawResult : toPreviewResult(rawResult)}
+      result={hasFullAccess ? rawResult : toPreviewResult(rawResult)}
       isPaid={report.is_paid ?? false}
       demoSkipEmailGate={demoSkipGate}
+      demoFullAccess={demoFullAccess}
       paymentPending={paymentPending}
-      previewAnomalyCount={report.is_paid ? undefined : rawResult.anomalies.length}
+      previewAnomalyCount={hasFullAccess ? undefined : rawResult.anomalies.length}
     />
   );
 }

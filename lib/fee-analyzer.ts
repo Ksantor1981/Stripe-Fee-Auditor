@@ -62,35 +62,45 @@ function stdDev(values: number[]): number {
   return Math.sqrt(variance);
 }
 
+const FIXED_CARD_FEE_USD = 0.3;
+const SMALL_TRANSACTION_USD = 20;
+const LARGE_CARD_CHARGE_USD = 500;
+const ACH_RATE = 0.008;
+const ACH_CAP_USD = 5;
+
+function searchableText(row: NormalizedRow): string {
+  return `${row.id} ${row.description ?? ""}`.toLowerCase();
+}
+
 /** Classify why a charge has an elevated fee rate */
 function classifyAnomaly(row: NormalizedRow, baselineRate: number): AnomalyExplanation {
-  const desc = (row.description ?? "").toLowerCase();
+  const desc = searchableText(row);
   const rate = row.amount > 0 ? (row.fee / row.amount) * 100 : 0;
 
   // 1. International card — most common cause
   if (desc.includes("[international]") || desc.includes("international")) {
-    const extraFee = Math.round(row.amount * 0.015); // ~1.5% cross-border fee
+    const extraFee = row.amount * 0.015; // ~1.5% cross-border fee
     return {
       reason: "international_card",
       label: "International card",
-      detail: `Stripe adds a 1.5% cross-border fee for cards issued outside your country. This transaction paid ~$${(extraFee / 100).toFixed(2)} extra.`,
+      detail: `Stripe adds a 1.5% cross-border fee for cards issued outside your country. This transaction paid ~$${extraFee.toFixed(2)} extra.`,
       savingsTip: "Consider enabling local payment methods (iDEAL, SEPA, etc.) for EU customers to avoid cross-border fees.",
     };
   }
 
   // 2. Small transaction — fixed $0.30 fee dominates
-  if (row.amount > 0 && row.amount < 2000) {
-    const fixedFeeImpact = (30 / row.amount) * 100;
+  if (row.amount > 0 && row.amount < SMALL_TRANSACTION_USD) {
+    const fixedFeeImpact = (FIXED_CARD_FEE_USD / row.amount) * 100;
     return {
       reason: "small_transaction",
       label: "Small transaction",
-      detail: `The fixed $0.30 Stripe fee represents ${fixedFeeImpact.toFixed(1)}% of this $${(row.amount / 100).toFixed(2)} charge — much more than on larger transactions.`,
+      detail: `The fixed $0.30 Stripe fee represents ${fixedFeeImpact.toFixed(1)}% of this $${row.amount.toFixed(2)} charge — much more than on larger transactions.`,
       savingsTip: "Bundle small charges or switch to monthly billing to reduce the fixed-fee impact.",
     };
   }
 
   // 3. Non-USD currency conversion
-  if (row.currency && row.currency !== "usd") {
+  if (row.currency && row.currency.toLowerCase() !== "usd") {
     return {
       reason: "currency_conversion",
       label: "Currency conversion",
@@ -128,9 +138,7 @@ function buildSavingsOpportunities(
   const monthsInData = new Set(charges.map((r) => r.month)).size || 1;
 
   // International card savings
-  const intlCharges = charges.filter(
-    (r) => (r.description ?? "").toLowerCase().includes("international")
-  );
+  const intlCharges = charges.filter((r) => searchableText(r).includes("international"));
   if (intlCharges.length > 0) {
     const intlFees = sum(intlCharges, "fee");
     const expectedFees = intlCharges.reduce((acc, r) => acc + r.amount * (baselineRate / 100), 0);
@@ -146,16 +154,16 @@ function buildSavingsOpportunities(
   }
 
   // Small transaction savings
-  const smallCharges = charges.filter((r) => r.amount > 0 && r.amount < 2000);
+  const smallCharges = charges.filter((r) => r.amount > 0 && r.amount < SMALL_TRANSACTION_USD);
   if (smallCharges.length > 5) {
     const avgSmallAmount = sum(smallCharges, "amount") / smallCharges.length;
-    const fixedFeeWaste = smallCharges.length * 30; // $0.30 per charge
+    const fixedFeeWaste = smallCharges.length * FIXED_CARD_FEE_USD;
     const annualSavings = Math.round(((fixedFeeWaste * 12) / monthsInData) / 10) * 10;
     if (annualSavings > 0) {
       opportunities.push({
         title: `${smallCharges.length} small transactions under $20`,
         annualSavings,
-        tip: `Bundling charges or switching to monthly billing for avg $${(avgSmallAmount / 100).toFixed(2)} transactions reduces the fixed $0.30 fee impact.`,
+        tip: `Bundling charges or switching to monthly billing for avg $${avgSmallAmount.toFixed(2)} transactions reduces the fixed $0.30 fee impact.`,
       });
     }
   }
@@ -163,13 +171,15 @@ function buildSavingsOpportunities(
   // ACH opportunity for large charges
   const largeCardCharges = charges.filter(
     (r) =>
-      r.amount >= 50000 &&
-      !(r.description ?? "").toLowerCase().includes("ach")
+      r.amount >= LARGE_CARD_CHARGE_USD &&
+      !searchableText(r).includes("ach")
   );
   if (largeCardCharges.length > 0) {
-    const totalLargeVolume = sum(largeCardCharges, "amount");
     const cardFees = sum(largeCardCharges, "fee");
-    const achFees = Math.min(largeCardCharges.length * 500, totalLargeVolume * 0.008); // ACH: 0.8% capped at $5
+    const achFees = largeCardCharges.reduce(
+      (acc, r) => acc + Math.min(ACH_CAP_USD, r.amount * ACH_RATE),
+      0
+    );
     const savings = cardFees - achFees;
     if (savings > 0) {
       opportunities.push({

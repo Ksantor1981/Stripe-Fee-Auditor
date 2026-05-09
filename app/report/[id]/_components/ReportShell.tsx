@@ -13,8 +13,10 @@ interface Props {
   accessToken: string;
   result: AnalysisResult;
   isPaid: boolean;
-  /** Sample/demo flow: URL ?demo=1 skips email capture (same UX priority as paid unlock). */
+  /** Sample/demo flow: URL ?demo=1 skips email capture. */
   demoSkipEmailGate?: boolean;
+  /** Demo sample reports can show paid sections without enabling paid exports. */
+  demoFullAccess?: boolean;
   /** Polar redirected back before the payment webhook finished processing. */
   paymentPending?: boolean;
   /** Full anomaly count before preview strips rows (free tier UI). */
@@ -27,30 +29,32 @@ export function ReportShell({
   result,
   isPaid,
   demoSkipEmailGate = false,
+  demoFullAccess = false,
   paymentPending = false,
   previewAnomalyCount,
 }: Props) {
   const router = useRouter();
   // Paid users skip EmailGate entirely — they already provided email at checkout.
-  // Demo/sample links (?demo=1) skip gate for frictionless product tour.
-  const [unlocked, setUnlocked] = useState(isPaid || demoSkipEmailGate || paymentPending);
+  // Demo sample links skip the gate and show full sample insights without enabling exports.
+  const hasFullAccess = isPaid || demoFullAccess;
+  const [unlocked, setUnlocked] = useState(hasFullAccess || demoSkipEmailGate || paymentPending);
   const tokenQuery = `token=${encodeURIComponent(accessToken)}`;
 
   useEffect(() => {
-    if (!paymentPending || isPaid) return;
+    if (!paymentPending || hasFullAccess) return;
     const interval = window.setInterval(() => router.refresh(), 2500);
     const timeout = window.setTimeout(() => window.clearInterval(interval), 30000);
     return () => {
       window.clearInterval(interval);
       window.clearTimeout(timeout);
     };
-  }, [isPaid, paymentPending, router]);
+  }, [hasFullAccess, paymentPending, router]);
 
   if (!unlocked) {
     return <EmailGate reportId={reportId} accessToken={accessToken} onUnlock={() => setUnlocked(true)} />;
   }
 
-  const baseReportProps = { reportId, accessToken, result, isPaid };
+  const baseReportProps = { reportId, accessToken, result, isPaid: hasFullAccess };
 
   return (
     <main className="min-h-screen bg-gray-50">

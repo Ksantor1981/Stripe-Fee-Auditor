@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const TRUST_SIGNALS = [
-  { icon: "🗑️", label: "CSV file is not stored" },
+  { icon: "🗑️", label: "Raw CSV is not stored" },
   { icon: "🔒", label: "No account required" },
   { icon: "⚡", label: "Results in 30 seconds" },
 ];
@@ -22,7 +22,7 @@ const HOW_IT_WORKS = [
   {
     step: "2",
     title: "Drop it here",
-    body: "Upload your CSV — your file is processed securely and deleted within 1 hour.",
+    body: "Upload your CSV — your raw file is processed in memory and never stored.",
   },
   {
     step: "3",
@@ -31,10 +31,17 @@ const HOW_IT_WORKS = [
   },
 ];
 
+const WHAT_YOU_GET = [
+  { icon: "📊", title: "Your true blended fee rate", desc: "Not Stripe's advertised 2.9% — your actual weighted average across all charge types." },
+  { icon: "🔍", title: "Why your rate is higher", desc: "International cards, small transactions, Amex, currency conversion — pinpointed by transaction." },
+  { icon: "📅", title: "Monthly fee trends", desc: "See which months spiked and why. Catch fee increases before they compound." },
+  { icon: "💡", title: "Savings opportunities", desc: "Estimated annual savings from switching specific charge types to ACH, local payments, or bundling." },
+];
+
 const METRICS = [
   { label: "Effective fee rate", example: "3.24%", desc: "Weighted avg across all charges" },
   { label: "Fee vs last period", example: "+$412", desc: "Month-over-month delta" },
-  { label: "Anomaly count", example: "7 charges", desc: "Transactions >2σ above avg rate" },
+  { label: "Anomaly count", example: "7 charges", desc: "Unusually high fee-rate charges" },
   { label: "Top fee driver", example: "Intl cards", desc: "Category costing you the most" },
 ];
 
@@ -55,25 +62,34 @@ export default function HomePage() {
       {/* Hero */}
       <section className="flex flex-col items-center justify-center px-4 py-20 text-center">
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">
-          No account · CSV not stored · Temporary report link · Free to start
+          No account · Raw CSV not stored · Free to start
         </div>
-        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl leading-tight">
-          See Your Real{" "}
-          <span className="text-blue-600">Stripe Fee Rate</span>
+        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">
+          Your Stripe fees are{" "}
+          <span className="text-blue-600">probably not 2.9%.</span>
         </h1>
         <p className="mt-5 max-w-xl text-lg text-gray-500 leading-relaxed">
-          Upload your Stripe Balance CSV and instantly see your effective fee rate,
-          fee drivers, anomalies, and month-over-month trends.
+          Upload your Stripe Balance CSV. See your real effective rate, the charges driving it up, and what to fix first.
         </p>
-        <Link
-          href="/analyze"
-          className="mt-8 inline-flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow-md hover:bg-blue-700 active:scale-95 transition-all"
-        >
-          Analyze My Fees
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </Link>
+
+        {/* CTAs */}
+        <div className="mt-8 flex flex-col sm:flex-row items-center gap-3">
+          <Link
+            href="/analyze"
+            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow-md hover:bg-blue-700 active:scale-95 transition-all"
+          >
+            Analyze My Fees
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
+          <Link
+            href="/analyze?sample=1"
+            className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-6 py-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:text-gray-900 transition-all"
+          >
+            Try sample report →
+          </Link>
+        </div>
 
         {/* Trust signals */}
         <div className="mt-8 flex flex-wrap justify-center gap-5 text-sm text-gray-400">
@@ -86,8 +102,39 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Metrics preview */}
+      {/* What the report tells you */}
       <section className="bg-gray-50 px-4 py-16">
+        <div className="mx-auto max-w-4xl">
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
+            What the report tells you
+          </p>
+          <h2 className="text-center text-2xl font-bold text-gray-900 mb-10">
+            Not just a number — a full breakdown
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {WHAT_YOU_GET.map(({ icon, title, desc }) => (
+              <div key={title} className="rounded-xl bg-white p-5 shadow-sm border border-gray-100 flex gap-4">
+                <span className="text-2xl flex-shrink-0">{icon}</span>
+                <div>
+                  <p className="font-semibold text-gray-900 mb-1">{title}</p>
+                  <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <Link
+              href="/analyze?sample=1"
+              className="text-sm text-blue-600 hover:underline"
+            >
+              See a sample report without uploading anything →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Metrics preview */}
+      <section className="px-4 py-16">
         <div className="mx-auto max-w-4xl">
           <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-8">
             What you&apos;ll discover
@@ -105,7 +152,7 @@ export default function HomePage() {
       </section>
 
       {/* How it works */}
-      <section className="px-4 py-20">
+      <section className="bg-gray-50 px-4 py-20">
         <div className="mx-auto max-w-3xl">
           <h2 className="mb-12 text-center text-2xl font-bold text-gray-900">How It Works</h2>
           <div className="grid gap-6 sm:grid-cols-3">

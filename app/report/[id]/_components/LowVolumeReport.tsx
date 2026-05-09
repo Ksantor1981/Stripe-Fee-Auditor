@@ -1,9 +1,18 @@
 "use client";
 
 import type { AnalysisResult } from "@/lib/fee-analyzer";
+import type { NormalizedRow } from "@/lib/csv-parser";
 import { fmt$, fmtPct, fmtDate } from "@/lib/format";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { Badge } from "@/components/ui/badge";
+
+function transactionLabel(row: Pick<NormalizedRow, "id" | "description">): string {
+  return row.description || row.id;
+}
+
+function transactionMeta(row: Pick<NormalizedRow, "id" | "description">): string | null {
+  return row.description ? row.id : null;
+}
 
 interface Props {
   reportId: string;
@@ -66,7 +75,7 @@ export function LowVolumeReport({ result }: Props) {
           <thead>
             <tr className="bg-gray-50 border-b border-gray-100">
               <th className="px-5 py-3 text-left text-xs font-medium text-gray-500">#</th>
-              <th className="px-5 py-3 text-left text-xs font-medium text-gray-500">Transaction ID</th>
+              <th className="px-5 py-3 text-left text-xs font-medium text-gray-500">Transaction</th>
               <th className="px-5 py-3 text-left text-xs font-medium text-gray-500">Date</th>
               <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">Amount</th>
               <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">Fee</th>
@@ -77,7 +86,12 @@ export function LowVolumeReport({ result }: Props) {
             {topDrivers.slice(0, 5).map((row, i) => (
               <tr key={row.id} className="hover:bg-gray-50/50">
                 <td className="px-5 py-3 text-xs font-bold text-gray-300">{i + 1}</td>
-                <td className="px-5 py-3 font-mono text-xs text-gray-600 max-w-[140px] truncate">{row.id}</td>
+                <td className="px-5 py-3 text-xs text-gray-600 max-w-[180px]">
+                  <div className="truncate font-medium text-gray-800">{transactionLabel(row)}</div>
+                  {transactionMeta(row) && (
+                    <div className="truncate font-mono text-[11px] text-gray-400">{transactionMeta(row)}</div>
+                  )}
+                </td>
                 <td className="px-5 py-3 text-xs text-gray-500">{fmtDate(row.date)}</td>
                 <td className="px-5 py-3 text-right text-gray-700">{fmt$(row.amount)}</td>
                 <td className="px-5 py-3 text-right font-semibold text-gray-900">{fmt$(row.fee)}</td>

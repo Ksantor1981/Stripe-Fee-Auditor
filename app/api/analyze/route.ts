@@ -14,6 +14,7 @@ import { SAMPLE_CSV } from "@/lib/sampleData";
 export const maxDuration = 30;
 
 const FREE_LIMIT = 3;
+const DEMO_LIMIT = 20;
 const VERCEL_MAX_BODY_BYTES = Math.floor(4.5 * 1024 * 1024);
 const MAX_CSV_BYTES = 4 * 1024 * 1024;
 
@@ -49,23 +50,27 @@ export async function POST(req: NextRequest) {
     const csvText = body.csvText;
     const isDemo = isSampleCsv(csvText);
 
-    // ── Rate limiting — skip for demo sample ──────────────────────────────────
-    if (!isDemo) {
-      const ip = getTrustedClientIp(req);
-      if (!ip) {
-        return NextResponse.json(
-          { error: "Unable to process request" },
-          { status: 400 }
-        );
-      }
+    // ── Rate limiting ─────────────────────────────────────────────────────────
+    const ip = getTrustedClientIp(req);
+    if (!ip) {
+      return NextResponse.json(
+        { error: "Unable to process request" },
+        { status: 400 }
+      );
+    }
 
-      const allowed = await consumeIpRequest(ip, FREE_LIMIT);
-      if (!allowed) {
-        return NextResponse.json(
-          { error: "Rate limit reached. Max 3 free reports per day per IP." },
-          { status: 429 }
-        );
-      }
+    const limitKey = isDemo ? `sample:${ip}` : ip;
+    const limit = isDemo ? DEMO_LIMIT : FREE_LIMIT;
+    const allowed = await consumeIpRequest(limitKey, limit);
+    if (!allowed) {
+      return NextResponse.json(
+        {
+          error: isDemo
+            ? "Sample report limit reached. Please try again tomorrow."
+            : "Rate limit reached. Max 3 free reports per day per IP.",
+        },
+        { status: 429 }
+      );
     }
 
     // ── Parse CSV ─────────────────────────────────────────────────────────────
@@ -122,7 +127,7 @@ export async function POST(req: NextRequest) {
     const accessToken = createReportAccessToken();
 
     const reportId = await createReport({
-      sessionId: crypto.randomUUID(),
+      sessionId: isDemo ? "demo-sample" : crypto.randomUUID(),
       blobUrl: null,
       result,
       accessTokenHash: hashReportAccessToken(accessToken),

@@ -12,23 +12,17 @@ interface Props {
 
 const PLANS: { id: string; label: string; price: string; features: string[]; highlight?: boolean }[] = [
   {
-    id: "basic",
-    label: "Basic Report",
-    price: "$5",
-    features: ["Full anomaly list", "CSV export", "Shareable link"],
-  },
-  {
     id: "pro",
-    label: "Pro Report",
+    label: "Full Report",
     price: "$12",
-    features: ["Everything in Basic", "Print to PDF", "Full monthly breakdown"],
+    features: [
+      "Full anomaly list",
+      "Savings opportunities",
+      "Monthly breakdown",
+      "CSV export",
+      "Print-ready report",
+    ],
     highlight: true,
-  },
-  {
-    id: "team",
-    label: "Team",
-    price: "$29",
-    features: ["Everything in Pro", "5 report credits", "Priority support"],
   },
 ];
 
@@ -50,7 +44,7 @@ export function PaywallBanner({ reportId, accessToken, email }: Props) {
         </p>
         <h3 className="text-lg font-bold text-gray-900 mb-1">See the complete picture</h3>
         <p className="text-sm text-gray-500 mb-4 max-w-sm mx-auto">
-          Full anomaly list, all monthly details, CSV export, and print-ready report.
+          Full anomaly list, savings opportunities, monthly details, CSV export, and print-ready report.
         </p>
         <Button
           className="bg-blue-600 hover:bg-blue-700 text-white px-6"
@@ -59,7 +53,7 @@ export function PaywallBanner({ reportId, accessToken, email }: Props) {
           Unlock Full Report →
         </Button>
         <p className="mt-3 text-xs text-gray-400">
-          One-time payment · Instant access · Refund available — see{" "}
+          One-time unlock · Instant access · Refund available — see{" "}
           <a href="/refund" className="underline hover:text-gray-600">
             policy
           </a>
@@ -72,7 +66,7 @@ export function PaywallBanner({ reportId, accessToken, email }: Props) {
           <div className="bg-gray-900 px-6 py-5">
             <h2 className="text-lg font-bold text-white">Unlock Your Report</h2>
             <p className="text-sm text-gray-400 mt-1">
-              One-time payment · No subscription · Refund per{" "}
+              One-time unlock · No subscription · Refund per{" "}
               <a href="/refund" className="underline hover:text-gray-300">
                 refund policy
               </a>

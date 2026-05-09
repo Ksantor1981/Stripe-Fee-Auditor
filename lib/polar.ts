@@ -2,26 +2,14 @@ import { Polar } from "@polar-sh/sdk";
 import { validateEvent } from "@polar-sh/sdk/webhooks";
 import { absoluteUrl } from "@/lib/site-url";
 
-export type PlanId = "basic" | "pro" | "team";
+export type PlanId = "pro";
 
 export const PLANS: Record<PlanId, { label: string; price: string; desc: string; productEnvKey: string }> = {
-  basic: {
-    label: "Basic Report",
-    price: "$5",
-    desc: "Full anomaly list + CSV export",
-    productEnvKey: "POLAR_PRODUCT_BASIC",
-  },
   pro: {
-    label: "Pro Report",
+    label: "Full Report",
     price: "$12",
-    desc: "Everything + PDF export + monthly breakdown",
+    desc: "Full anomaly list + savings opportunities + monthly breakdown + CSV export",
     productEnvKey: "POLAR_PRODUCT_PRO",
-  },
-  team: {
-    label: "Team",
-    price: "$29",
-    desc: "Pro + 5 reports + priority support",
-    productEnvKey: "POLAR_PRODUCT_TEAM",
   },
 };
 
@@ -32,7 +20,7 @@ export type ReportCheckoutMetadata = {
 };
 
 export function isPlanId(value: string | null): value is PlanId {
-  return value === "basic" || value === "pro" || value === "team";
+  return value === "pro";
 }
 
 export function isAllowedProductId(productId: string): boolean {
@@ -111,9 +99,7 @@ export async function buildCheckoutUrl(
   // Fallback for environments that still use static Polar checkout links.
   // Dynamic per-report success redirects require POLAR_ACCESS_TOKEN.
   const checkoutLinkEnvKey = {
-    basic: "POLAR_CHECKOUT_BASIC",
     pro: "POLAR_CHECKOUT_PRO",
-    team: "POLAR_CHECKOUT_TEAM",
   }[planId];
 
   const checkoutLink = process.env[checkoutLinkEnvKey];

@@ -150,6 +150,23 @@ test("chargeRate calculation is correct", () => {
   assertClose(r.chargeRate, 3.0, 0.01, "chargeRate");
 });
 
+test("small-transaction savings use dollar units", () => {
+  const rows = Array.from({ length: 60 }, (_, i) => ({
+    id: `ch_small_${i}`,
+    type: "charge" as const,
+    amount: 10,
+    fee: 0.59,
+    net: 9.41,
+    currency: "USD",
+    date: "2024-01-15",
+    month: "2024-01",
+  }));
+  const r = analyze(rows);
+  const small = r.savingsOpportunities?.find((opp) => opp.title.includes("small transactions"));
+  assert(Boolean(small), "should produce a small-transaction opportunity");
+  assertClose(small?.annualSavings ?? 0, 220, 0.1, "annual savings should be 60 * $0.30 * 12, rounded");
+});
+
 test("periodDelta is last.fees - prev.fees", () => {
   const m1 = makeCharges(60, "2024-01", 3.0);  // 60*3 = $180
   const m2 = makeCharges(60, "2024-02", 4.0);  // 60*4 = $240
