@@ -25,6 +25,12 @@ export const PLANS: Record<PlanId, { label: string; price: string; desc: string;
   },
 };
 
+export type ReportCheckoutMetadata = {
+  reportId?: string;
+  accessToken?: string;
+  plan?: PlanId;
+};
+
 export function isPlanId(value: string | null): value is PlanId {
   return value === "basic" || value === "pro" || value === "team";
 }
@@ -47,6 +53,29 @@ function getRequiredProductId(planId: PlanId): string {
 function getPolarClient(): Polar | null {
   const accessToken = process.env.POLAR_ACCESS_TOKEN;
   return accessToken ? new Polar({ accessToken }) : null;
+}
+
+function readStringMetadata(metadata: Record<string, unknown> | null | undefined, key: string): string | undefined {
+  const value = metadata?.[key];
+  return typeof value === "string" ? value : undefined;
+}
+
+export function readReportMetadata(metadata: Record<string, unknown> | null | undefined): ReportCheckoutMetadata {
+  const plan = readStringMetadata(metadata, "plan") ?? null;
+
+  return {
+    reportId: readStringMetadata(metadata, "report_id"),
+    accessToken: readStringMetadata(metadata, "access_token"),
+    plan: isPlanId(plan) ? plan : undefined,
+  };
+}
+
+export async function getCheckoutReportMetadata(checkoutId: string | null | undefined): Promise<ReportCheckoutMetadata> {
+  if (!checkoutId) return {};
+  const polar = getPolarClient();
+  if (!polar) return {};
+  const checkout = await polar.checkouts.get({ id: checkoutId });
+  return readReportMetadata(checkout.metadata);
 }
 
 export async function buildCheckoutUrl(

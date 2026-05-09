@@ -84,35 +84,51 @@ export async function processPaidWebhook(params: {
   reportId: string;
   email: string;
   accessToken: string;
-}): Promise<"processed" | "duplicate" | "report_not_found"> {
+}): Promise<"processed" | "duplicate" | "already_paid" | "report_not_found"> {
   if (!params.accessToken) return "report_not_found";
 
-  const rows = await sql`
-    WITH event AS (
-      INSERT INTO webhook_events (id, event_name)
-      VALUES (${params.eventId}, ${params.eventName})
-      ON CONFLICT (id) DO NOTHING
-      RETURNING id
-    ),
-    updated AS (
-      UPDATE reports
-      SET
-        is_paid = true,
-        email = COALESCE(NULLIF(${params.email}, ''), email),
-        paid_at = NOW(),
-        expires_at = GREATEST(expires_at, NOW() + INTERVAL '30 days')
-      FROM event
-      WHERE reports.id = ${params.reportId}
-        AND reports.access_token_hash = ${hashReportAccessToken(params.accessToken)}
-      RETURNING reports.id
-    )
-    SELECT
-      (SELECT COUNT(*)::int FROM event) AS event_count,
-      (SELECT COUNT(*)::int FROM updated) AS updated_count
+  const existingEvents = await sql`
+    SELECT id
+    FROM webhook_events
+    WHERE id = ${params.eventId}
+    LIMIT 1
   `;
 
-  if (Number(rows[0]?.event_count ?? 0) === 0) return "duplicate";
-  return Number(rows[0]?.updated_count ?? 0) > 0 ? "processed" : "report_not_found";
+  if (existingEvents.length > 0) return "duplicate";
+
+  const updated = await sql`
+    UPDATE reports
+    SET
+      is_paid = true,
+      email = COALESCE(NULLIF(${params.email}, ''), email),
+      paid_at = COALESCE(paid_at, NOW()),
+      expires_at = GREATEST(expires_at, NOW() + INTERVAL '30 days')
+    WHERE id = ${params.reportId}
+      AND access_token_hash = ${hashReportAccessToken(params.accessToken)}
+      AND is_paid = false
+    RETURNING id
+  `;
+
+  if (updated.length === 0) {
+    const reports = await sql`
+      SELECT is_paid
+      FROM reports
+      WHERE id = ${params.reportId}
+        AND access_token_hash = ${hashReportAccessToken(params.accessToken)}
+      LIMIT 1
+    `;
+
+    return reports[0]?.is_paid === true ? "already_paid" : "report_not_found";
+  }
+
+  const insertedEvents = await sql`
+    INSERT INTO webhook_events (id, event_name)
+    VALUES (${params.eventId}, ${params.eventName})
+    ON CONFLICT (id) DO NOTHING
+    RETURNING id
+  `;
+
+  return insertedEvents.length > 0 ? "processed" : "duplicate";
 }
 
 export async function saveReportEmail(id: string, email: string, accessToken: string): Promise<boolean> {
