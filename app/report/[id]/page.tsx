@@ -23,6 +23,8 @@ function toPreviewResult(result: AnalysisResult): AnalysisResult {
     // Free preview deliberately contains only the rows the UI is allowed to show.
     topDrivers: result.topDrivers.slice(0, 3),
     anomalies: [],
+    annotatedAnomalies: [],
+    savingsOpportunities: [],
     monthly: result.monthly.map((month) => ({
       month: month.month,
       fees: month.fees,

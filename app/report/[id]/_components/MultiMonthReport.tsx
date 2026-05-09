@@ -5,7 +5,7 @@ import {
 } from "recharts";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import type { AnalysisResult } from "@/lib/fee-analyzer";
+import type { AnalysisResult, AnnotatedRow } from "@/lib/fee-analyzer";
 import { fmt$, fmtPct, fmtMonth, fmtDate } from "@/lib/format";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { PaywallBanner } from "./PaywallBanner";
@@ -22,6 +22,11 @@ interface Props {
 export function MultiMonthReport({ reportId, accessToken, result, isPaid, previewAnomalyCount }: Props) {
   const { chargeFees, chargeRate, chargeVolume, otherFees, monthly, topDrivers, anomalies, periodDelta } = result;
   const anomalyUiCount = previewAnomalyCount ?? anomalies.length;
+
+  const paidAnomalyRows: AnnotatedRow[] =
+    result.annotatedAnomalies && result.annotatedAnomalies.length > 0
+      ? result.annotatedAnomalies
+      : anomalies.map((row) => ({ ...row }));
 
   const chartData = monthly.map((m) => ({
     name: fmtMonth(m.month),
@@ -176,15 +181,29 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
                 </p>
               ) : (
                 <div className="divide-y divide-gray-50">
-                  {anomalies.map((row) => (
-                    <div key={row.id} className="flex items-center justify-between px-5 py-3.5 gap-4">
-                      <div className="min-w-0">
+                  {paidAnomalyRows.map((row) => (
+                    <div
+                      key={row.id}
+                      className="flex flex-col gap-2 px-5 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-4"
+                    >
+                      <div className="min-w-0 flex-1">
                         <p className="text-sm font-medium text-gray-800 truncate">{row.id}</p>
                         <p className="text-xs text-gray-400">{fmtDate(row.date)}</p>
+                        {row.explanation && (
+                          <div className="mt-3 rounded-lg border border-gray-100 bg-gray-50/80 px-3 py-2.5 space-y-1.5">
+                            <Badge variant="outline" className="text-[10px] font-medium text-gray-700 border-gray-200">
+                              {row.explanation.label}
+                            </Badge>
+                            <p className="text-xs text-gray-600 leading-relaxed">{row.explanation.detail}</p>
+                            <p className="text-xs text-emerald-800 leading-relaxed">
+                              <span className="font-medium">Tip:</span> {row.explanation.savingsTip}
+                            </p>
+                          </div>
+                        )}
                       </div>
-                      <div className="text-right">
+                      <div className="text-left sm:text-right flex-shrink-0">
                         <p className="text-sm font-semibold text-red-600">{fmt$(row.fee)}</p>
-                        <Badge className="text-xs bg-red-50 text-red-700">
+                        <Badge className="text-xs bg-red-50 text-red-700 mt-1">
                           {fmtPct((row.fee / row.amount) * 100)} rate
                         </Badge>
                       </div>
@@ -254,6 +273,29 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
           )}
         </TabsContent>
       </Tabs>
+
+      {/* Savings Opportunities — Pro only */}
+      {isPaid && result.savingsOpportunities && result.savingsOpportunities.length > 0 && (
+        <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
+          <h2 className="text-sm font-semibold text-gray-700 mb-1">💡 Savings Opportunities</h2>
+          <p className="text-xs text-gray-400 mb-4">
+            Estimated annual savings based on your transaction patterns
+          </p>
+          <div className="space-y-3">
+            {result.savingsOpportunities.map((opp, i) => (
+              <div key={i} className="rounded-xl border border-emerald-100 bg-emerald-50/60 px-4 py-3">
+                <div className="flex items-center justify-between mb-1">
+                  <p className="text-sm font-semibold text-gray-800">{opp.title}</p>
+                  <span className="text-sm font-bold text-emerald-700">
+                    ~{fmt$(opp.annualSavings)}/yr
+                  </span>
+                </div>
+                <p className="text-xs text-gray-600 leading-relaxed">{opp.tip}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

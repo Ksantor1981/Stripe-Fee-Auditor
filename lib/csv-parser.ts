@@ -9,6 +9,8 @@ export interface NormalizedRow {
   currency: string;
   date: string;
   month: string;
+  /** From Balance CSV description column when present — used for anomaly classification. */
+  description?: string;
 }
 
 export const REQUIRED_COLUMNS = [
@@ -48,6 +50,9 @@ export function normalizeRow(r: RawRow): NormalizedRow {
 
   const isoDate = ts.toISOString();
 
+  const descRaw = r.description ?? r.Description ?? "";
+  const description = String(descRaw).trim() || undefined;
+
   return {
     id: r.id ?? "",
     type: (r.type ?? "").toLowerCase().trim(),
@@ -57,5 +62,6 @@ export function normalizeRow(r: RawRow): NormalizedRow {
     currency: (r.currency ?? "USD").toUpperCase(),
     date: isoDate.slice(0, 10),
     month: isoDate.slice(0, 7),
+    description,
   };
 }
