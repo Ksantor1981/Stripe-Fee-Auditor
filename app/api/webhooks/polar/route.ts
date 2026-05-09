@@ -165,7 +165,20 @@ export async function POST(req: NextRequest) {
   }
 
   if (email) {
-    await sendReportEmail(email, reportId, accessToken).catch((err) =>
+    // Get total fees from report result for personalized subject line
+    let totalFeesCents: number | undefined;
+    try {
+      const { getReportWithAccess } = await import("@/lib/db");
+      const report = await getReportWithAccess(reportId, accessToken);
+      if (report?.result) {
+        const r = report.result;
+        totalFeesCents = Math.round((r.chargeFees + r.otherFees) * 100);
+      }
+    } catch {
+      // non-critical — send email without fee amount
+    }
+
+    await sendReportEmail(email, reportId, accessToken, totalFeesCents).catch((err) =>
       console.error("[polar-webhook] Email send failed:", err)
     );
   }
