@@ -125,6 +125,7 @@ function buildSavingsOpportunities(
   baselineRate: number
 ): SavingsOpportunity[] {
   const opportunities: SavingsOpportunity[] = [];
+  const monthsInData = new Set(charges.map((r) => r.month)).size || 1;
 
   // International card savings
   const intlCharges = charges.filter(
@@ -135,7 +136,7 @@ function buildSavingsOpportunities(
     const expectedFees = intlCharges.reduce((acc, r) => acc + r.amount * (baselineRate / 100), 0);
     const excessFees = intlFees - expectedFees;
     if (excessFees > 0) {
-      const annualSavings = Math.round((excessFees / charges.length) * 12 * intlCharges.length / 100) * 100;
+      const annualSavings = Math.round(((excessFees * 12) / monthsInData) / 10) * 10;
       opportunities.push({
         title: `${intlCharges.length} international card charges`,
         annualSavings,
@@ -149,7 +150,7 @@ function buildSavingsOpportunities(
   if (smallCharges.length > 5) {
     const avgSmallAmount = sum(smallCharges, "amount") / smallCharges.length;
     const fixedFeeWaste = smallCharges.length * 30; // $0.30 per charge
-    const annualSavings = Math.round((fixedFeeWaste / charges.length) * 12 / 100) * 100;
+    const annualSavings = Math.round(((fixedFeeWaste * 12) / monthsInData) / 10) * 10;
     if (annualSavings > 0) {
       opportunities.push({
         title: `${smallCharges.length} small transactions under $20`,
@@ -173,7 +174,7 @@ function buildSavingsOpportunities(
     if (savings > 0) {
       opportunities.push({
         title: `${largeCardCharges.length} large card charges over $500`,
-        annualSavings: Math.round((savings / charges.length) * 12 / 100) * 100,
+        annualSavings: Math.round(((savings * 12) / monthsInData) / 10) * 10,
         tip: "Offer ACH/bank transfer for invoices over $500. ACH costs 0.8% (max $5) vs 2.9%+ for cards.",
       });
     }
