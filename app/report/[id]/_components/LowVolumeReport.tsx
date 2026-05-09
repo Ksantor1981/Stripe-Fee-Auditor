@@ -29,6 +29,10 @@ export function LowVolumeReport({ result }: Props) {
   const advertisedRate = 2.9;
   const rateGap = chargeRate - advertisedRate;
   const rateGapText = `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp vs 2.9%`;
+  const diagnosis =
+    rateGap > 0.25
+      ? "Diagnosis: your small sample is already above advertised card pricing; upload a longer range to confirm the pattern."
+      : "Diagnosis: this sample is too small for statistical anomalies; upload more months for a stronger read.";
 
   return (
     <div className="space-y-6">
@@ -51,6 +55,9 @@ export function LowVolumeReport({ result }: Props) {
           That&apos;s{" "}
           <span className="font-semibold text-gray-900">{fmt$(yearlyAtThisRate)}</span>
           /year at this rate.
+        </p>
+        <p className="mt-2 max-w-2xl text-sm font-medium text-gray-800">
+          {diagnosis}
         </p>
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">

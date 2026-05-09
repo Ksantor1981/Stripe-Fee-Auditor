@@ -35,6 +35,12 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
   const advertisedRate = 2.9;
   const rateGap = chargeRate - advertisedRate;
   const rateGapText = `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp vs 2.9%`;
+  const diagnosis =
+    rateGap > 0.25
+      ? "Diagnosis: your blended rate is materially above advertised card pricing; start with savings opportunities and anomalous transactions."
+      : anomalyUiCount > 0
+        ? "Diagnosis: your blended rate is close to baseline, but several transactions are still worth reviewing."
+        : "Diagnosis: your blended rate looks consistent; monitor monthly changes for future spikes.";
 
   const paidAnomalyRows: AnnotatedRow[] =
     result.annotatedAnomalies && result.annotatedAnomalies.length > 0
@@ -69,6 +75,9 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
               That&apos;s{" "}
               <span className="font-semibold text-gray-900">{fmt$(yearlyAtThisRate)}</span>
               /year at this rate.
+            </p>
+            <p className="mt-2 max-w-2xl text-sm font-medium text-gray-800">
+              {diagnosis}
             </p>
             {periodDelta !== null && (
               <p className={`mt-1 text-sm font-medium ${deltaPositive ? "text-red-600" : "text-green-600"}`}>

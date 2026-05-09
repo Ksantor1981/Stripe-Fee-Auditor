@@ -39,10 +39,10 @@ const COMMON_SURPRISES = [
 ];
 
 const WHAT_YOU_GET = [
-  { icon: "📊", title: "Your true blended fee rate", desc: "Not Stripe's advertised 2.9% — your actual weighted average across all charge types." },
-  { icon: "🔍", title: "Why your rate is higher", desc: "International cards, small transactions, Amex, currency conversion — pinpointed by transaction." },
-  { icon: "📅", title: "Monthly fee trends", desc: "See which months spiked and why. Catch fee increases before they compound." },
-  { icon: "💡", title: "Savings opportunities", desc: "Estimated annual savings from switching specific charge types to ACH, local payments, or bundling." },
+  { marker: "RATE", title: "Your true blended fee rate", desc: "Not Stripe's advertised 2.9% — your actual weighted average across all charge types." },
+  { marker: "WHY", title: "Why your rate is higher", desc: "International cards, small transactions, Amex, currency conversion — pinpointed by transaction." },
+  { marker: "TREND", title: "Monthly fee trends", desc: "See which months spiked and why. Catch fee increases before they compound." },
+  { marker: "SAVE", title: "Savings opportunities", desc: "Estimated annual savings from switching specific charge types to ACH, local payments, or bundling." },
 ];
 
 const METRICS = [
@@ -145,9 +145,11 @@ export default function HomePage() {
             Not just a number — a full breakdown
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
-            {WHAT_YOU_GET.map(({ icon, title, desc }) => (
+            {WHAT_YOU_GET.map(({ marker, title, desc }) => (
               <div key={title} className="rounded-xl bg-white p-5 shadow-sm border border-gray-100 flex gap-4">
-                <span className="text-2xl flex-shrink-0">{icon}</span>
+                <span className="flex h-9 w-12 flex-shrink-0 items-center justify-center rounded-lg border border-blue-100 bg-blue-50 text-[10px] font-bold tracking-wide text-blue-700">
+                  {marker}
+                </span>
                 <div>
                   <p className="font-semibold text-gray-900 mb-1">{title}</p>
                   <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
