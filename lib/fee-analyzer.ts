@@ -50,6 +50,8 @@ export interface AnalysisResult {
   /** Pro: actionable savings — may be absent on older stored reports. */
   savingsOpportunities?: SavingsOpportunity[];
   periodDelta: number | null;
+  /** Unique currencies found in charge rows — used for multi-currency warning. */
+  currencies: string[];
 }
 
 function sum(rows: NormalizedRow[], key: keyof NormalizedRow): number {
@@ -257,6 +259,8 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
     periodDelta = last.fees - prev.fees;
   }
 
+  const currencies = [...new Set(charges.map((r) => r.currency).filter(Boolean))];
+
   return {
     mode,
     chargeVolume,
@@ -269,5 +273,6 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
     annotatedAnomalies,
     savingsOpportunities,
     periodDelta,
+    currencies,
   };
 }

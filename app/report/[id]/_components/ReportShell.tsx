@@ -107,6 +107,17 @@ export function ReportShell({
             </span>
           </div>
         )}
+        {/* Multi-currency warning */}
+        {result.currencies && result.currencies.length > 1 && (
+          <div className="mb-6 rounded-xl border border-yellow-100 bg-yellow-50 px-4 py-3 text-sm text-yellow-800 flex items-start gap-2">
+            <span className="flex-shrink-0">⚠️</span>
+            <span>
+              Your export contains multiple currencies ({result.currencies.join(", ").toUpperCase()}).
+              Amounts are shown as-is without conversion — totals may not be directly comparable.
+              For best results, export a single-currency period.
+            </span>
+          </div>
+        )}
         {result.mode === "multi-month" && (
           <MultiMonthReport {...baseReportProps} previewAnomalyCount={previewAnomalyCount} />
         )}
