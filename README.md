@@ -68,6 +68,9 @@ Security notes
 - Polar webhook returns **500** on DB errors so payments can retry safely.
 - Set **REPORT_TOKEN_SALT** in production for stronger token hashes (omit or empty = legacy SHA256(token) only).
 - Max CSV upload **4 MB** (UTF-8) so JSON+CSV fits under Vercel’s **~4.5 MB** function body cap; use a shorter Stripe date range if the export is larger.
+- Hard cap on **parsed CSV rows** per analyze request (see `MAX_CSV_ROWS` in `lib/analyze-input.ts`) to bound CPU/memory.
+- `/api/analyze` expects **`Content-Type: application/json`**; column remap payloads are sanitized (dangerous keys dropped; allowlisted Stripe columns only).
+- Cron cleanup (`/api/cron/cleanup`) verifies **`Authorization: Bearer`** via timing-safe compare (`lib/cron-bearer.ts`).
 
 DB schema
 Three tables:

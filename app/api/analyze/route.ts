@@ -10,6 +10,7 @@ import {
 } from "@/lib/db";
 import { getTrustedClientIp } from "@/lib/request-ip";
 import { SAMPLE_CSV } from "@/lib/sampleData";
+import { MAX_CSV_ROWS, sanitizeColumnMapping } from "@/lib/analyze-input";
 
 export const maxDuration = 30;
 
@@ -29,15 +30,22 @@ function isSampleCsv(csvText: string): boolean {
 
 export async function POST(req: NextRequest) {
   try {
+    const contentType = req.headers.get("content-type") ?? "";
+    if (!contentType.includes("application/json")) {
+      return NextResponse.json({ error: "Content-Type must be application/json" }, { status: 415 });
+    }
+
     const contentLength = Number(req.headers.get("content-length") ?? 0);
     if (contentLength > VERCEL_MAX_BODY_BYTES) {
       return NextResponse.json({ error: "Request body too large (max ~4 MB CSV)" }, { status: 413 });
     }
 
-    const body = (await req.json()) as {
-      csvText?: string;
-      columnMapping?: Record<string, string>;
-    };
+    let body: { csvText?: string; columnMapping?: Record<string, string> };
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
 
     if (!body.csvText || !body.csvText.trim()) {
       return NextResponse.json({ error: "csvText is required" }, { status: 400 });
@@ -84,11 +92,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "CSV is empty or could not be parsed" }, { status: 422 });
     }
 
+    if (parsed.data.length > MAX_CSV_ROWS) {
+      return NextResponse.json(
+        { error: `CSV too many rows (max ${MAX_CSV_ROWS}). Narrow your Stripe date range and export again.` },
+        { status: 413 }
+      );
+    }
+
+    const columnMapping = sanitizeColumnMapping(body.columnMapping, ALLOWED_CANONICAL);
+
     let rows = parsed.data;
-    if (body.columnMapping && Object.keys(body.columnMapping).length > 0) {
+    if (columnMapping && Object.keys(columnMapping).length > 0) {
       rows = rows.map((row) => {
         const remapped: RawRow = { ...row };
-        for (const [canonical, original] of Object.entries(body.columnMapping!)) {
+        for (const [canonical, original] of Object.entries(columnMapping)) {
           if (!ALLOWED_CANONICAL.has(canonical)) continue;
           if (original && original !== canonical) {
             remapped[canonical] = row[original];

@@ -5,6 +5,8 @@ import { getTrustedClientIp } from "@/lib/request-ip";
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/** RFC-aligned practical upper bound (avoid oversized payloads / DB abuse). */
+const MAX_EMAIL_LEN = 254;
 const EMAIL_LIMIT_PER_IP_PER_DAY = 10;
 
 export async function POST(
@@ -25,6 +27,10 @@ export async function POST(
     token = typeof body?.token === "string" ? body.token.trim() : "";
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  if (email.length > MAX_EMAIL_LEN) {
+    return NextResponse.json({ error: "Email address too long" }, { status: 400 });
   }
 
   if (!EMAIL_RE.test(email)) {
