@@ -57,7 +57,7 @@ All required except RESEND_API_KEY and POLAR_CHECKOUT_PRO (email is skipped if n
 App will throw on missing DATABASE_URL or required Polar product env vars at checkout / webhook verify time.
 
 Rate limiting
-3 free analyses per IP per day. Demo sample reports have a separate 20/day/IP limit. Email-gate sends are limited to 10/day/IP. Tracked in rate_limits table in Neon.
+10 free analyses per IP per day. Demo sample reports have a separate 20/day/IP limit. Email-gate sends are limited to 10/day/IP. Tracked in rate_limits table in Neon.
 Up to 30 `/api/checkout` redirects per IP per day (separate key `checkout:<ip>`), counted only after report + token validate — limits checkout noise without burning quota on bad IDs.
 Old entries cleaned up by cron (runs daily at midnight, deletes rows older than 2 days).
 If IP is missing or the literal `unknown` — request is rejected with 400.
