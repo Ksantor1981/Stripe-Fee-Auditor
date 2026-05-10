@@ -42,6 +42,7 @@ export async function sendReportEmail(
     from,
     to,
     subject,
+    replyTo: process.env.EMAIL_REPLY_TO,
     html: `
       <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px">
         <h1 style="font-size:20px;color:#111">Your Stripe fee report is ready.</h1>

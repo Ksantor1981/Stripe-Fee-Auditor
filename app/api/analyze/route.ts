@@ -15,7 +15,7 @@ import { MAX_CSV_ROWS, sanitizeColumnMapping } from "@/lib/analyze-input";
 
 export const maxDuration = 30;
 
-const FREE_LIMIT = 3;
+const ANALYZE_LIMIT_PER_IP_PER_DAY = 10;
 const DEMO_LIMIT = 20;
 const VERCEL_MAX_BODY_BYTES = Math.floor(4.5 * 1024 * 1024);
 const MAX_CSV_BYTES = 4 * 1024 * 1024;
@@ -69,14 +69,14 @@ export async function POST(req: NextRequest) {
     }
 
     const limitKey = isDemo ? `sample:${ip}` : ip;
-    const limit = isDemo ? DEMO_LIMIT : FREE_LIMIT;
+    const limit = isDemo ? DEMO_LIMIT : ANALYZE_LIMIT_PER_IP_PER_DAY;
     const allowed = await consumeIpRequest(limitKey, limit);
     if (!allowed) {
       return NextResponse.json(
         {
           error: isDemo
             ? "Sample report limit reached. Please try again tomorrow."
-            : "Rate limit reached. Max 3 free reports per day per IP.",
+            : "Rate limit reached. Max 10 free reports per day per IP.",
         },
         { status: 429 }
       );
