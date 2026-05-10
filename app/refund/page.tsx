@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 /** Fallback until NEXT_PUBLIC_CONTACT_EMAIL is set on Vercel. Env overrides when configured. */
 const CONTACT_EMAIL =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "ksantor19811606@gmail.com";
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "support@feeauditor.com";
 
 export default function RefundPage() {
   return (
@@ -24,7 +24,7 @@ export default function RefundPage() {
 
       <main className="max-w-2xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Refund Policy</h1>
-        <p className="text-sm text-gray-400 mb-10">Last updated: May 1, 2026</p>
+        <p className="text-sm text-gray-400 mb-10">Last updated: May 10, 2026</p>
 
         <div className="prose prose-sm prose-gray max-w-none space-y-8">
           <section>
@@ -40,9 +40,10 @@ export default function RefundPage() {
             <h2 className="text-lg font-semibold text-gray-900 mb-3">2. Refunds — general</h2>
             <p className="text-gray-600 leading-relaxed">
               Because the deliverable is digital and produced instantly after payment, <strong>all sales are
-              final</strong> except where mandatory consumer law requires otherwise or where we approve a refund
-              in our discretion (for example duplicate charges or a verified failure on our side to unlock your
-              report).
+              generally final after access begins</strong> except where mandatory consumer law requires otherwise
+              or where we approve a refund in our discretion (for example duplicate charges or a verified failure
+              on our side to unlock your report). If the law where you live gives you withdrawal or refund rights
+              that cannot be waived, this policy does not limit those rights.
             </p>
           </section>
 
@@ -76,7 +77,8 @@ export default function RefundPage() {
               </a>{" "}
               with your order or receipt reference (from your payment confirmation), the email used at checkout,
               and a short description of the issue. We aim to respond within <strong>3 business days</strong>.
-              Approved refunds are processed through our payment provider according to its standard timelines.
+              Approved refunds are processed through Polar or the applicable payment provider according
+              to its standard timelines.
             </p>
           </section>
 

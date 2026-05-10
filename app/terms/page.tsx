@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 /** Same env as Privacy (`NEXT_PUBLIC_CONTACT_EMAIL`) — one inbox is fine. */
 const CONTACT_EMAIL =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "ksantor19811606@gmail.com";
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "support@feeauditor.com";
 
 export default function TermsPage() {
   return (
@@ -23,7 +23,7 @@ export default function TermsPage() {
 
       <main className="max-w-2xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Terms of Service</h1>
-        <p className="text-sm text-gray-400 mb-10">Last updated: May 1, 2026</p>
+        <p className="text-sm text-gray-400 mb-10">Last updated: May 10, 2026</p>
 
         <div className="prose prose-sm prose-gray max-w-none space-y-8">
           <section>
@@ -86,6 +86,11 @@ export default function TermsPage() {
               exceed the greater of <strong>$100 USD</strong> or the amount you paid for the
               Service in the 30 days preceding the claim.
             </p>
+            <p className="text-gray-600 leading-relaxed mt-3">
+              Nothing in these Terms excludes or limits liability that cannot be excluded or limited
+              by law, including statutory consumer rights, fraud, wilful misconduct, gross negligence,
+              or liability for death or personal injury where such limits are not allowed.
+            </p>
           </section>
 
           <section>
@@ -103,11 +108,13 @@ export default function TermsPage() {
           <section>
             <h2 className="text-lg font-semibold text-gray-900 mb-3">7. Payments and Refunds</h2>
             <p className="text-gray-600 leading-relaxed">
-              Paid reports are processed through our payment provider. Digital delivery is considered
-              complete when your report is unlocked. If the Service fails to deliver unlock or
+              Paid reports are processed through Polar, which may act as payment provider, reseller,
+              or merchant of record depending on the checkout configuration and your location.
+              Digital delivery is considered complete when your report is unlocked. If the Service fails to deliver unlock or
               access due to an error on our side, contact us within 7 days; we will work with you
               in good faith (including refunds where appropriate). Other refund requests are
-              evaluated case by case and may be subject to the payment provider&apos;s policies.
+              evaluated case by case and may be subject to Polar&apos;s policies. Nothing in these
+              Terms limits mandatory consumer rights that apply to you.
             </p>
           </section>
 
@@ -133,10 +140,10 @@ export default function TermsPage() {
           <section>
             <h2 className="text-lg font-semibold text-gray-900 mb-3">10. Governing Law</h2>
             <p className="text-gray-600 leading-relaxed">
-              These Terms are governed by the laws of the European Union and applicable member
-              state law where the operator is located, excluding conflict-of-law rules. Disputes
-              shall be brought in the competent courts of that jurisdiction unless mandatory
-              consumer law in your country says otherwise.
+              These Terms are governed by applicable law, excluding conflict-of-law rules. Disputes
+              shall be brought before the competent courts of the jurisdiction where the operator of
+              Stripe Fee Auditor is established or legally resident, unless mandatory consumer
+              protection laws in your country provide otherwise.
             </p>
           </section>
 

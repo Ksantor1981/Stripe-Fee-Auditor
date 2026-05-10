@@ -6,9 +6,9 @@ export const metadata: Metadata = {
   description: "Privacy Policy for Stripe Fee Auditor — how we handle your data.",
 };
 
-/** Set in Vercel / .env.local — env overrides this fallback address. */
+/** Set in Vercel / .env.local — env overrides this public support address. */
 const CONTACT_EMAIL =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "ksantor19811606@gmail.com";
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "support@feeauditor.com";
 
 export default function PrivacyPage() {
   return (
@@ -23,7 +23,7 @@ export default function PrivacyPage() {
 
       <main className="max-w-2xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Privacy Policy</h1>
-        <p className="text-sm text-gray-400 mb-10">Last updated: May 1, 2026</p>
+        <p className="text-sm text-gray-400 mb-10">Last updated: May 10, 2026</p>
 
         <div className="prose prose-sm prose-gray max-w-none space-y-8">
           <section>
@@ -31,7 +31,12 @@ export default function PrivacyPage() {
             <p className="text-gray-600 leading-relaxed">
               Stripe Fee Auditor (&quot;we&quot;, &quot;our&quot;, &quot;the Service&quot;) is a tool that analyzes
               Stripe Balance CSV exports to help you understand your fee structure.
-              We are committed to handling your data with care and transparency.
+              We are committed to handling your data with care and transparency. The operator
+              of Stripe Fee Auditor is the controller for the personal data described in this
+              policy. You can contact the operator at{" "}
+              <a href={`mailto:${CONTACT_EMAIL}`} className="text-blue-600 hover:underline">
+                {CONTACT_EMAIL}
+              </a>.
             </p>
           </section>
 
@@ -75,6 +80,14 @@ export default function PrivacyPage() {
                 </p>
               </div>
               <div>
+                <p className="font-medium text-gray-800 mb-1">Operational logs</p>
+                <p>
+                  Our hosting and infrastructure providers may process limited technical logs
+                  such as request timestamps, IP addresses, URLs, error traces, and user-agent
+                  data so the Service can run securely and reliably.
+                </p>
+              </div>
+              <div>
                 <p className="font-medium text-gray-800 mb-1">Analytics</p>
                 <p>
                   We do not use third-party cookie-based behavioural advertising on this site at
@@ -100,24 +113,39 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">4. Third-Party Services</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">4. Legal Bases</h2>
+            <p className="text-gray-600 leading-relaxed mb-3">
+              Where data protection law requires a legal basis, we rely on:
+            </p>
+            <ul className="list-disc list-inside text-gray-600 space-y-2 leading-relaxed">
+              <li><strong>Contract</strong> — to process your CSV, generate reports, unlock paid access, and send transactional report messages.</li>
+              <li><strong>Legitimate interests</strong> — to prevent abuse, secure the Service, debug errors, and keep minimal operational logs.</li>
+              <li><strong>Legal obligations</strong> — where payment, tax, accounting, dispute, or consumer-protection records must be retained.</li>
+              <li><strong>Consent</strong> — where we specifically ask for it, such as optional future marketing or analytics features.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">5. Third-Party Services</h2>
             <p className="text-gray-600 leading-relaxed mb-3">
               We use the following infrastructure and service providers (their own policies apply):
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 leading-relaxed">
               <li><strong>Vercel</strong> — hosting and edge infrastructure (vercel.com/legal/privacy-policy)</li>
               <li><strong>Neon</strong> — PostgreSQL for report metadata and analysis results (neon.com/privacy-policy)</li>
-              <li><strong>Polar</strong> - payment processing (polar.sh/legal/privacy)</li>
+              <li><strong>Polar</strong> — checkout, payment processing, receipts, and order-related records as our payment provider / merchant of record where applicable (polar.sh/legal/privacy)</li>
               <li><strong>Resend</strong> — transactional email delivery when enabled (resend.com/legal/privacy-policy)</li>
             </ul>
             <p className="text-gray-600 mt-3">
               We only share with them what is needed to run the Service (for example payment
               receipts, report identifiers you pass at checkout, or an email address you give us).
+              These providers may process data in countries outside your own. Where required,
+              we rely on their published transfer safeguards and data processing terms.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">5. Data Retention</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">6. Data Retention</h2>
             <div className="border border-gray-200 rounded-xl overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
@@ -153,7 +181,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">6. Security</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">7. Security</h2>
             <p className="text-gray-600 leading-relaxed">
               Data is transmitted over HTTPS. CSV content is processed on the server for analysis
               and is not written to a public bucket. Report access uses a secret token in addition
@@ -162,7 +190,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">7. Your Rights</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">8. Your Rights</h2>
             <p className="text-gray-600 leading-relaxed">
               You may request deletion of the stored analysis associated with your report by
               contacting us and providing your report ID (and any access details we need to verify
@@ -170,18 +198,33 @@ export default function PrivacyPage() {
               a user account system, so there is no separate &quot;profile&quot; beyond what is tied
               to an active report row.
             </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">8. Children</h2>
-            <p className="text-gray-600 leading-relaxed">
-              The Service is not directed at children under 13. We do not knowingly collect data
-              from children.
+            <p className="text-gray-600 leading-relaxed mt-3">
+              Depending on where you live, you may also have rights to access, correct, delete,
+              restrict, object to, or receive a copy of your personal data, and to complain to a
+              local data protection authority. We will not discriminate against you for exercising
+              privacy rights that apply to you.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">9. Changes</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">9. Automated Analysis</h2>
+            <p className="text-gray-600 leading-relaxed">
+              Reports are generated automatically from the CSV data you provide. The report is
+              informational only and does not make legal, financial, credit, employment, or other
+              similarly significant decisions about you.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">10. Children</h2>
+            <p className="text-gray-600 leading-relaxed">
+              The Service is not directed at children. We do not knowingly collect data from
+              children under 13, or under the higher age threshold that may apply in your country.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">11. Changes</h2>
             <p className="text-gray-600 leading-relaxed">
               We may update this Privacy Policy. Material changes will be reflected in the
               &quot;Last updated&quot; date above. Continued use of the Service after changes
@@ -190,7 +233,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">10. Contact</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">12. Contact</h2>
             <p className="text-gray-600 leading-relaxed">
               For privacy-related questions or data requests, contact us at:{" "}
               <a href={`mailto:${CONTACT_EMAIL}`} className="text-blue-600 hover:underline">
