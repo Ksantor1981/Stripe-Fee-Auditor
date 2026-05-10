@@ -77,6 +77,20 @@ test("uppercases currency", () => {
   assert(r.currency === "USD", `expected USD, got ${r.currency}`);
 });
 
+test("zero-decimal currencies skip cents divide (e.g. JPY)", () => {
+  const r = normalizeRow({
+    ...VALID_ROW,
+    currency: "jpy",
+    amount: "150000",
+    fee: "471",
+    net: "149529",
+  });
+  assertClose(r.amount, 150000, 0.001, "JPY amount");
+  assertClose(r.fee, 471, 0.001, "JPY fee");
+  assertClose(r.net, 149529, 0.001, "JPY net");
+  assert(r.currency === "JPY", `expected JPY, got ${r.currency}`);
+});
+
 test("lowercases type", () => {
   const r = normalizeRow({ ...VALID_ROW, type: "CHARGE" });
   assert(r.type === "charge", `expected charge, got ${r.type}`);

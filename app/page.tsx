@@ -9,7 +9,11 @@ export const metadata: Metadata = {
 };
 
 const TRUST_SIGNALS = [
-  { icon: "🗑️", label: "Raw CSV is not stored" },
+  {
+    icon: "🗑️",
+    label:
+      "Raw CSV is never stored. Derived report data is retained for 30 days to give you access to your results.",
+  },
   { icon: "🔒", label: "No account required" },
   { icon: "⚡", label: "Results in 30 seconds" },
 ];
@@ -23,7 +27,7 @@ const HOW_IT_WORKS = [
   {
     step: "2",
     title: "Drop it here",
-    body: "Upload your CSV — your raw file is processed in memory and never stored.",
+    body: "Raw CSV is never stored. Derived report data is retained for 30 days to give you access to your results.",
   },
   {
     step: "3",
@@ -71,8 +75,12 @@ export default function HomePage() {
 
       {/* Hero */}
       <section className="flex flex-col items-center justify-center px-4 py-20 text-center">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">
-          No account · Raw CSV not stored · Free to start
+        <div className="mb-4 max-w-xl mx-auto rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-xs font-medium text-blue-800 leading-relaxed text-center space-y-1">
+          <p>
+            Raw CSV is never stored. Derived report data is retained for 30 days to give you access to your
+            results.
+          </p>
+          <p className="text-blue-700">No account · Free to start</p>
         </div>
         <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">
           Stripe says 2.9%. Your real fee rate is{" "}
