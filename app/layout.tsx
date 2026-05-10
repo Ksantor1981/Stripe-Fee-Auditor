@@ -5,6 +5,13 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://feeauditor.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+  },
   title: "Stripe Fee Auditor — See Your Real Stripe Fee Rate",
   description:
     "Upload your Stripe Balance CSV and instantly see your effective fee rate, fee drivers, and savings opportunities. No account required. CSV files are not stored.",
