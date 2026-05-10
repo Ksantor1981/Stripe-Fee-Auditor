@@ -70,6 +70,8 @@ Security notes
 - Max CSV upload **4 MB** (UTF-8) so JSON+CSV fits under Vercel’s **~4.5 MB** function body cap; use a shorter Stripe date range if the export is larger.
 - Hard cap on **parsed CSV rows** per analyze request (see `MAX_CSV_ROWS` in `lib/analyze-input.ts`) to bound CPU/memory.
 - `/api/analyze` expects **`Content-Type: application/json`**; column remap payloads are sanitized (dangerous keys dropped; allowlisted Stripe columns only).
+- **USD-only (beta):** non-sample uploads with currencies other than **USD** return **422**; demo/sample CSV is exempt.
+- If **more than 10%** of parsed CSV rows fail normalization, the API returns **422** (possible wrong export format).
 - Cron cleanup (`/api/cron/cleanup`) verifies **`Authorization: Bearer`** via timing-safe compare (`lib/cron-bearer.ts`).
 
 DB schema

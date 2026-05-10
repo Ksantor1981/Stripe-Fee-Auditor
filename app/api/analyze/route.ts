@@ -140,6 +140,31 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No valid rows after normalization" }, { status: 422 });
     }
 
+    // Warn if too many rows were skipped (silent data loss prevention)
+    const skipped = rows.length - normalized.length;
+    if (skipped > 0 && skipped > rows.length * 0.1) {
+      return NextResponse.json(
+        {
+          error: `${skipped} of ${rows.length} rows could not be parsed. Please check your CSV format or use the Itemized export from Stripe.`,
+        },
+        { status: 422 }
+      );
+    }
+
+    // USD-only beta: block non-USD CSV
+    if (!isDemo) {
+      const currencies = [...new Set(normalized.map((r) => r.currency?.toLowerCase()).filter(Boolean))];
+      const nonUsd = currencies.filter((c) => c !== "usd");
+      if (nonUsd.length > 0) {
+        return NextResponse.json(
+          {
+            error: `USD accounts only in beta. Your CSV contains: ${nonUsd.map((c) => c.toUpperCase()).join(", ")}. Multi-currency support is coming soon.`,
+          },
+          { status: 422 }
+        );
+      }
+    }
+
     // ── Analyze ────────────────────────────────────────────────────────────────
     const result = analyze(normalized);
     const accessToken = createReportAccessToken();
