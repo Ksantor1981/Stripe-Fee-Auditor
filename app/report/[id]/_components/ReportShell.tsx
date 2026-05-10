@@ -97,6 +97,16 @@ export function ReportShell({
             Payment received. We&apos;re unlocking your report now. This page will refresh automatically.
           </div>
         )}
+        {/* Save link reminder */}
+        {isPaid && (
+          <div className="mb-6 rounded-xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm text-amber-800 flex items-start gap-2">
+            <span className="flex-shrink-0">🔗</span>
+            <span>
+              <strong>Save this page link</strong> — your private report is available for 30 days.{" "}
+              We also sent it to your email.
+            </span>
+          </div>
+        )}
         {result.mode === "multi-month" && (
           <MultiMonthReport {...baseReportProps} previewAnomalyCount={previewAnomalyCount} />
         )}
