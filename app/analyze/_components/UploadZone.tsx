@@ -7,6 +7,7 @@ import Papa from "papaparse";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SAMPLE_CSV, SAMPLE_COLUMN_MAPPING } from "@/lib/sampleData";
+import { trackEvent } from "@/lib/analytics";
 
 const REQUIRED_COLUMNS = ["id", "type", "amount", "fee", "net", "currency", "created"] as const;
 /** Rows shown in the UI preview table (full file still analyzed server-side). */
@@ -72,6 +73,7 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
       isSample: true,
     });
     setMapping({ ...detectedMapping, ...SAMPLE_COLUMN_MAPPING });
+    trackEvent("funnel_csv_loaded", { sample: true });
   }, [autoLoadSample]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -104,6 +106,7 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
           totalRows: rows.length,
         });
         setMapping(autoDetect(headers));
+        trackEvent("funnel_csv_loaded", { sample: false });
       },
       error: () => setError("Failed to parse the file. Please try again."),
     });
@@ -126,6 +129,7 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
           isSample: true,
         });
         setMapping(SAMPLE_COLUMN_MAPPING as ColumnMapping);
+        trackEvent("funnel_csv_loaded", { sample: true });
       },
     });
   }
@@ -145,6 +149,7 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
 
     try {
       setStage("uploading");
+      trackEvent("funnel_analyze_submit", { sample: Boolean(parsed.isSample) });
 
       const csvText = parsed.isSample
         ? SAMPLE_CSV
@@ -169,7 +174,12 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
         const j = await analyzeRes.json();
         throw new Error(j.error ?? "Analysis failed");
       }
-      const { reportId, accessToken } = await analyzeRes.json();
+      const { reportId, accessToken, mode } = await analyzeRes.json();
+
+      trackEvent("funnel_analyze_client_ok", {
+        sample: Boolean(parsed.isSample),
+        mode: typeof mode === "string" ? mode : "unknown",
+      });
 
       const qs = new URLSearchParams({ token: accessToken });
       if (parsed.isSample) qs.set("demo", "1");

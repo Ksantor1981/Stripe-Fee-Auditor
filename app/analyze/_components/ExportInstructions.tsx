@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { trackEvent } from "@/lib/analytics";
 
 const STEPS = [
   {
@@ -141,7 +142,10 @@ export function ExportInstructions({ onReady }: Props) {
           <Button
             size="lg"
             className="bg-blue-600 hover:bg-blue-700 text-white px-8"
-            onClick={onReady}
+            onClick={() => {
+              trackEvent("funnel_export_instructions_done");
+              onReady();
+            }}
           >
             I have my CSV →
           </Button>

@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { ExportInstructions } from "./ExportInstructions";
 import { UploadZone } from "./UploadZone";
+import { trackEvent } from "@/lib/analytics";
 
 export type AnalyzeStep = "instructions" | "upload";
 
@@ -17,6 +18,10 @@ function AnalyzeClientInner() {
   // If sample param added after mount — jump to upload
   useEffect(() => {
     if (isSample) setStep("upload");
+  }, [isSample]);
+
+  useEffect(() => {
+    trackEvent("funnel_analyze_page_view", { sample_query: isSample });
   }, [isSample]);
 
   return (

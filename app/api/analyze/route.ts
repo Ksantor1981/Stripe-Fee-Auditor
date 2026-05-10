@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Papa from "papaparse";
 import { validateColumns, normalizeRow, type RawRow } from "@/lib/csv-parser";
 import { analyze } from "@/lib/fee-analyzer";
+import { logFunnelServer } from "@/lib/funnel-log";
 import {
   consumeIpRequest,
   createReport,
@@ -148,6 +149,11 @@ export async function POST(req: NextRequest) {
       blobUrl: null,
       result,
       accessTokenHash: hashReportAccessToken(accessToken),
+    });
+
+    logFunnelServer("funnel_analyze_saved", {
+      mode: result.mode,
+      is_demo: isDemo,
     });
 
     return NextResponse.json({

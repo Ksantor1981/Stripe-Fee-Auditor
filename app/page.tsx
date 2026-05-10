@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { TrackedLink } from "@/components/TrackedLink";
 
 export const metadata: Metadata = {
   alternates: {
@@ -58,12 +59,14 @@ export default function HomePage() {
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-4 max-w-5xl mx-auto">
         <span className="font-bold text-gray-900 text-lg">Stripe Fee Auditor</span>
-        <Link
+        <TrackedLink
           href="/analyze"
+          funnelEvent="funnel_landing_cta"
+          funnelProps={{ placement: "nav" }}
           className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
         >
           Analyze My Fees
-        </Link>
+        </TrackedLink>
       </nav>
 
       {/* Hero */}
@@ -81,21 +84,25 @@ export default function HomePage() {
 
         {/* CTAs */}
         <div className="mt-8 flex flex-col sm:flex-row items-center gap-3">
-          <Link
+          <TrackedLink
             href="/analyze"
+            funnelEvent="funnel_landing_cta"
+            funnelProps={{ placement: "hero_primary" }}
             className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow-md hover:bg-blue-700 active:scale-95 transition-all"
           >
             Analyze My CSV
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </Link>
-          <Link
+          </TrackedLink>
+          <TrackedLink
             href="/analyze?sample=1"
+            funnelEvent="funnel_landing_cta"
+            funnelProps={{ placement: "hero_sample" }}
             className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-6 py-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:text-gray-900 transition-all"
           >
             Try sample report →
-          </Link>
+          </TrackedLink>
         </div>
 
         {/* Trust signals */}
@@ -158,12 +165,14 @@ export default function HomePage() {
             ))}
           </div>
           <div className="mt-8 text-center">
-            <Link
+            <TrackedLink
               href="/analyze?sample=1"
+              funnelEvent="funnel_landing_cta"
+              funnelProps={{ placement: "mid_sample" }}
               className="text-sm text-blue-600 hover:underline"
             >
               See a sample report without uploading anything →
-            </Link>
+            </TrackedLink>
           </div>
         </div>
       </section>
@@ -221,12 +230,14 @@ export default function HomePage() {
             ))}
           </div>
           <div className="mt-10 text-center">
-            <Link
+            <TrackedLink
               href="/analyze"
+              funnelEvent="funnel_landing_cta"
+              funnelProps={{ placement: "footer" }}
               className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow hover:bg-blue-700 transition-colors"
             >
               Get Started — It&apos;s Free
-            </Link>
+            </TrackedLink>
           </div>
         </div>
       </section>

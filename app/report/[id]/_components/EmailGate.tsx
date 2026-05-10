@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { trackEvent } from "@/lib/analytics";
 
 interface Props {
   reportId: string;
@@ -14,6 +15,10 @@ export function EmailGate({ reportId, accessToken, onUnlock }: Props) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    trackEvent("funnel_email_gate_view");
+  }, []);
 
   function isValidEmail(e: string) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
@@ -41,6 +46,7 @@ export function EmailGate({ reportId, accessToken, onUnlock }: Props) {
       setLoading(false);
       return;
     }
+    trackEvent("funnel_email_unlock_ok");
     onUnlock();
   }
 

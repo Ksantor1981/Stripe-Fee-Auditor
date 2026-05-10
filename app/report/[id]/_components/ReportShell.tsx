@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
+import { trackEvent } from "@/lib/analytics";
 import { EmailGate } from "./EmailGate";
 import { MultiMonthReport } from "./MultiMonthReport";
 import { SingleMonthReport } from "./SingleMonthReport";
@@ -49,6 +50,15 @@ export function ReportShell({
       window.clearTimeout(timeout);
     };
   }, [hasFullAccess, paymentPending, router]);
+
+  useEffect(() => {
+    trackEvent("funnel_report_view", {
+      mode: result.mode,
+      paid: isPaid,
+      demo_access: demoFullAccess,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- once per mount; token/report identity must not leak to analytics
+  }, []);
 
   if (!unlocked) {
     return <EmailGate reportId={reportId} accessToken={accessToken} onUnlock={() => setUnlocked(true)} />;

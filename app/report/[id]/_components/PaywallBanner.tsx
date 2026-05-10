@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { trackEvent } from "@/lib/analytics";
 
 interface Props {
   reportId: string;
@@ -30,6 +31,7 @@ export function PaywallBanner({ reportId, accessToken, email }: Props) {
   const [open, setOpen] = useState(false);
 
   function checkout(planId: string) {
+    trackEvent("funnel_checkout_redirect", { plan: planId });
     const params = new URLSearchParams({ plan: planId, reportId, token: accessToken });
     if (email) params.set("email", email);
     window.location.href = `/api/checkout?${params}`;
@@ -48,7 +50,10 @@ export function PaywallBanner({ reportId, accessToken, email }: Props) {
         </p>
         <Button
           className="bg-blue-600 hover:bg-blue-700 text-white px-6"
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            trackEvent("funnel_paywall_modal_open");
+            setOpen(true);
+          }}
         >
           Unlock Full Report →
         </Button>
