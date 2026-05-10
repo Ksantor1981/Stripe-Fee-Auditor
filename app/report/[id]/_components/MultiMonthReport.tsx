@@ -291,7 +291,7 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
         {/* Monthly detail tab */}
         <TabsContent value="monthly">
           {isPaid ? (
-            <div className="rounded-2xl bg-white border border-gray-100 shadow-sm mt-3 overflow-hidden">
+            <div className="rounded-2xl bg-white border border-gray-100 shadow-sm mt-3 overflow-x-auto">
               <table className="min-w-full text-sm">
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-100">

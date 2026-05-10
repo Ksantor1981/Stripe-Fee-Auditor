@@ -10,8 +10,6 @@ import { SAMPLE_CSV, SAMPLE_COLUMN_MAPPING } from "@/lib/sampleData";
 import { trackEvent } from "@/lib/analytics";
 
 const REQUIRED_COLUMNS = ["id", "type", "amount", "fee", "net", "currency", "created"] as const;
-/** Rows shown in the UI preview table (full file still analyzed server-side). */
-const PREVIEW_TABLE_ROWS = 5;
 type RequiredCol = (typeof REQUIRED_COLUMNS)[number];
 
 interface ParsedFile {
@@ -68,7 +66,7 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
       file: null,
       fileName: "sample-stripe-balance.csv",
       headers,
-      rows: rows.slice(0, PREVIEW_TABLE_ROWS),
+      rows,
       totalRows: rows.length,
       isSample: true,
     });
@@ -90,7 +88,6 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
     Papa.parse<Record<string, string>>(file, {
       header: true,
       skipEmptyLines: true,
-      preview: PREVIEW_TABLE_ROWS,
       complete: (results) => {
         const headers = results.meta.fields ?? [];
         if (!headers.length) {
@@ -102,7 +99,7 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
           file,
           fileName: file.name,
           headers,
-          rows: rows.slice(0, PREVIEW_TABLE_ROWS),
+          rows,
           totalRows: rows.length,
         });
         setMapping(autoDetect(headers));
@@ -124,7 +121,7 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
           file: null,
           fileName: "sample-stripe-balance.csv",
           headers,
-          rows: rows.slice(0, PREVIEW_TABLE_ROWS),
+          rows,
           totalRows: rows.length,
           isSample: true,
         });
@@ -240,7 +237,8 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
             <div className="text-left">
               <p className="font-semibold text-gray-800">{parsed.fileName}</p>
               <p className="text-xs text-gray-500">
-                {parsed.isSample ? "Sample data · " : ""}{parsed.totalRows} rows in preview
+                {parsed.isSample ? "Sample data · " : ""}
+                {parsed.rows.length} rows · scroll preview below
               </p>
             </div>
             <button
@@ -278,7 +276,7 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
           <p className="text-sm font-medium text-gray-700 mb-2">
             Preview{" "}
             <span className="text-gray-400 font-normal">
-              (first {Math.min(PREVIEW_TABLE_ROWS, parsed.rows.length)} of {parsed.totalRows} rows)
+              ({parsed.rows.length} rows · scroll vertically to browse)
             </span>
             {parsed.isSample && (
               <span className="ml-2 text-xs text-blue-500 font-normal">· sample data</span>
@@ -296,7 +294,7 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
                 </tr>
               </thead>
               <tbody>
-                {parsed.rows.slice(0, PREVIEW_TABLE_ROWS).map((row, i) => (
+                {parsed.rows.map((row, i) => (
                   <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
                     {parsed.headers.map((h) => (
                       <td key={h} className="px-3 py-2 text-gray-600 whitespace-nowrap max-w-[140px] truncate">
