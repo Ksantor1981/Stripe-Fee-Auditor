@@ -113,7 +113,7 @@ export function ReportShell({
             <span className="flex-shrink-0">🔗</span>
             <span>
               <strong>Save this page link</strong> — your private report is available for 30 days.{" "}
-              We also sent it to your email.
+              We also sent it to your email if delivery is configured.
             </span>
           </div>
         )}

@@ -15,19 +15,19 @@ const STEPS = [
   {
     num: "1",
     title: "Open Stripe Dashboard → Reports",
-    body: 'In the left sidebar click Reporting → Reports. You\'ll see Balance summary, All fees, and Payout reconciliation.',
+    body: 'In the left sidebar click Reporting → Reports. You\'ll see Balance transactions (Itemized), All fees, and Payout reconciliation.',
     hint: "Make sure you have access to Reporting — Owners and Admins can see this.",
     screenshot: "/screenshots/stripe-step1-reports.png",
-    screenshotAlt: "Stripe Dashboard Reports page showing Balance summary, All fees, and Payout reconciliation",
+    screenshotAlt: "Stripe Dashboard Reports page showing Balance transactions (Itemized), All fees, and Payout reconciliation",
     screenshotH: 420,
   },
   {
     num: "2",
-    title: 'Click "Balance summary" → set date range → Export',
-    body: 'Under Track money movement click Balance summary. Set your date range (last 3–12 months recommended), then click Export in the top right.',
+    title: 'Click "Balance transactions (Itemized)" → set date range → Export',
+    body: 'Under Track money movement click Balance transactions (Itemized). Set your date range (last 3–12 months recommended), then click Export in the top right.',
     hint: '⚠️ In the Export dropdown choose "Itemized" (not Summary). The itemized CSV contains individual transactions with the correct format. File downloads as balance_YYYY-MM-DD.csv.',
     screenshot: "/screenshots/stripe-step2-balance.png",
-    screenshotAlt: "Stripe Balance summary report with Export button in top right corner",
+    screenshotAlt: "Stripe Balance transactions (Itemized) report with Export button in top right corner",
     screenshotH: 380,
   },
   {
@@ -122,7 +122,7 @@ export function ExportInstructions({ onReady }: Props) {
             What if I downloaded the wrong file?
           </AccordionTrigger>
           <AccordionContent className="text-sm text-gray-500 pb-4">
-            Make sure you downloaded from <strong>Reports → Balance summary</strong>, not Payments or Payouts.
+            Make sure you downloaded from <strong>Reports → Balance transactions (Itemized)</strong>, not Payments or Payouts.
             The correct file has columns like <code className="bg-gray-100 px-1 rounded">id</code>,{" "}
             <code className="bg-gray-100 px-1 rounded">type</code>,{" "}
             <code className="bg-gray-100 px-1 rounded">amount</code>,{" "}

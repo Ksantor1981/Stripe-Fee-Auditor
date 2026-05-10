@@ -67,7 +67,7 @@ const reasons = [
     title: "Refunds",
     description:
       "Stripe keeps the processing fee when you issue a refund. The original transaction fee is not returned. A 5% refund rate adds meaningful cost across large volumes.",
-    example: "5% refund rate on $100k revenue = $1,450 in non-refundable fees",
+    example: "5% refund rate on $100k revenue = $145 in non-refundable fees",
   },
   {
     number: "04",

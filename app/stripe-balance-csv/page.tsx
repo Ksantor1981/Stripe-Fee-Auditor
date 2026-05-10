@@ -127,7 +127,7 @@ const faqItems = [
   {
     question: "How much data should I export?",
     answer:
-      "Export at least one month of data. Three or more months gives better trend data and month-over-month comparison. Stripe Fee Auditor supports files up to 50MB.",
+      "Export at least one month of data. Three or more months gives better trend data and month-over-month comparison. Stripe Fee Auditor supports files up to 4MB.",
   },
 ];
 
