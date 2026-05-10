@@ -99,7 +99,7 @@ Raw CSV не пишется в Blob/bucket и не сохраняется как
 
 ## 7. Rate Limits
 
-- Real CSV analysis: 3/day/IP
+- Real CSV analysis: 10/day/IP (launch default; adjust in `app/api/analyze/route.ts` if needed)
 - Demo sample analysis: 20/day/IP
 - Email gate sends: 10/day/IP
 - Checkout redirects: 30/day/IP after report token validation
