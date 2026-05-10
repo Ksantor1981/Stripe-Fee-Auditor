@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
   }
 
   if (!report.is_paid) {
-    return NextResponse.json({ error: "Purchase required to export" }, { status: 403 });
+    return NextResponse.json({ error: "Report not found or expired" }, { status: 404 });
   }
 
   const { monthly, topDrivers, anomalies, chargeVolume, chargeFees, chargeRate, otherFees } = report.result;
