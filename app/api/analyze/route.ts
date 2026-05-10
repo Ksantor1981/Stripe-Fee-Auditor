@@ -140,9 +140,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No valid rows after normalization" }, { status: 422 });
     }
 
-    // Warn if too many rows were skipped (silent data loss prevention)
+    // Financial reports must not silently ignore malformed rows.
     const skipped = rows.length - normalized.length;
-    if (skipped > 0 && skipped > rows.length * 0.1) {
+    if (skipped > 0) {
       return NextResponse.json(
         {
           error: `${skipped} of ${rows.length} rows could not be parsed. Please check your CSV format or use the Itemized export from Stripe.`,

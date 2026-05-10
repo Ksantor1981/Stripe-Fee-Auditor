@@ -49,8 +49,9 @@ POLAR_CHECKOUT_PRO=               # Optional static fallback checkout link slug/
 CRON_SECRET=                      # any random string — protects /api/cron/cleanup from public calls
 RESEND_API_KEY=                   # from resend.com — used to email report link after payment
 EMAIL_FROM=                       # production: Fee Auditor <noreply@feeauditor.com> (domain must be verified in Resend)
+EMAIL_REPLY_TO=support@feeauditor.com
 NEXT_PUBLIC_BASE_URL=             # production: https://feeauditor.com — drives metadataBase, sitemap, robots, email links
-NEXT_PUBLIC_CONTACT_EMAIL=        # shown on /privacy and /terms (one address is enough)
+NEXT_PUBLIC_CONTACT_EMAIL=support@feeauditor.com
 REPORT_TOKEN_SALT=                # optional pepper for access-token hashing (recommended: 32+ random chars in prod)
 
 All required except RESEND_API_KEY and POLAR_CHECKOUT_PRO (email is skipped if not set — report still unlocks; static checkout link is only a fallback when POLAR_ACCESS_TOKEN is unavailable).
@@ -71,7 +72,7 @@ Security notes
 - Hard cap on **parsed CSV rows** per analyze request (see `MAX_CSV_ROWS` in `lib/analyze-input.ts`) to bound CPU/memory.
 - `/api/analyze` expects **`Content-Type: application/json`**; column remap payloads are sanitized (dangerous keys dropped; allowlisted Stripe columns only).
 - **USD-only (beta):** non-sample uploads with currencies other than **USD** return **422**; demo/sample CSV is exempt.
-- If **more than 10%** of parsed CSV rows fail normalization, the API returns **422** (possible wrong export format).
+- If **any** parsed CSV rows fail normalization, the API returns **422** (financial reports must not silently drop rows).
 - Cron cleanup (`/api/cron/cleanup`) verifies **`Authorization: Bearer`** via timing-safe compare (`lib/cron-bearer.ts`).
 
 DB schema

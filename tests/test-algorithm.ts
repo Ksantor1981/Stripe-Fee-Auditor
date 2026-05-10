@@ -72,6 +72,23 @@ test("normalizes amounts from cents to dollars", () => {
   assertClose(r.net, 9.41, 0.001, "net");
 });
 
+test("normalizes required fields case-insensitively", () => {
+  const r = normalizeRow({
+    ID: "ch_upper",
+    Type: "CHARGE",
+    Amount: "2500",
+    Fee: "103",
+    Net: "2397",
+    Currency: "usd",
+    Created: "1700000000",
+  });
+  assert(r.id === "ch_upper", `expected ch_upper, got ${r.id}`);
+  assert(r.type === "charge", `expected charge, got ${r.type}`);
+  assertClose(r.amount, 25.00, 0.001, "amount");
+  assertClose(r.fee, 1.03, 0.001, "fee");
+  assertClose(r.net, 23.97, 0.001, "net");
+});
+
 test("uppercases currency", () => {
   const r = normalizeRow(VALID_ROW);
   assert(r.currency === "USD", `expected USD, got ${r.currency}`);
@@ -111,6 +128,15 @@ test("parses ISO date string", () => {
 test("handles zero fee (free plan charges)", () => {
   const r = normalizeRow({ ...VALID_ROW, fee: "0", net: "1000" });
   assertClose(r.fee, 0, 0.001, "fee should be 0");
+});
+
+test("throws on missing required row values", () => {
+  for (const key of ["id", "type", "amount", "fee", "net", "currency", "created"] as const) {
+    let threw = false;
+    try { normalizeRow({ ...VALID_ROW, [key]: "" }); }
+    catch { threw = true; }
+    assert(threw, `should throw when ${key} is missing`);
+  }
 });
 
 test("throws on invalid date", () => {
