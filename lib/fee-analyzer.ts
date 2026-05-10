@@ -148,7 +148,7 @@ function buildSavingsOpportunities(
     if (excessFees > 0) {
       const annualSavings = Math.round(((excessFees * 12) / monthsInData) / 10) * 10;
       opportunities.push({
-        title: `${intlCharges.length} international card charges`,
+        title: `Up to ~${intlCharges.length} international card charges (est. savings)`,
         annualSavings,
         tip: "Enable local payment methods (SEPA, iDEAL, Bancontact) to avoid the 1.5% cross-border surcharge.",
       });
@@ -163,7 +163,7 @@ function buildSavingsOpportunities(
     const annualSavings = Math.round(((fixedFeeWaste * 12) / monthsInData) / 10) * 10;
     if (annualSavings > 0) {
       opportunities.push({
-        title: `${smallCharges.length} small transactions under $20`,
+        title: `Up to ~${smallCharges.length} small transactions under $20`,
         annualSavings,
         tip: `Bundling charges or switching to monthly billing for avg $${avgSmallAmount.toFixed(2)} transactions reduces the fixed $0.30 fee impact.`,
       });
@@ -185,7 +185,7 @@ function buildSavingsOpportunities(
     const savings = cardFees - achFees;
     if (savings > 0) {
       opportunities.push({
-        title: `${largeCardCharges.length} large card charges over $500`,
+        title: `Up to ~${largeCardCharges.length} large card charges over $500`,
         annualSavings: Math.round(((savings * 12) / monthsInData) / 10) * 10,
         tip: "Offer ACH/bank transfer for invoices over $500. ACH costs 0.8% (max $5) vs 2.9%+ for cards.",
       });

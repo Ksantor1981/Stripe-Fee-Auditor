@@ -25,7 +25,7 @@ const STEPS = [
     num: "2",
     title: 'Click "Balance summary" → set date range → Export',
     body: 'Under Track money movement click Balance summary. Set your date range (last 3–12 months recommended), then click Export in the top right.',
-    hint: 'URL looks like: dashboard.stripe.com/reports/balance_summary',
+    hint: '⚠️ In the Export dropdown choose "Itemized" (not Summary). The itemized CSV contains individual transactions with the correct format. File downloads as balance_YYYY-MM-DD.csv.',
     screenshot: "/screenshots/stripe-step2-balance.png",
     screenshotAlt: "Stripe Balance summary report with Export button in top right corner",
     screenshotH: 380,
@@ -67,6 +67,10 @@ export function ExportInstructions({ onReady }: Props) {
         <p className="mt-2 text-gray-500 text-sm">
           Stripe keeps a detailed record of every transaction fee. Follow the steps below to export it.
         </p>
+        <div className="mb-6 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800">
+          <strong>USD accounts:</strong> This tool works best with single-currency USD Stripe accounts.
+          Multi-currency support is coming soon.
+        </div>
       </div>
 
       {/* Steps */}

@@ -135,7 +135,7 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                   <p className="text-sm font-semibold text-gray-800">{opp.title}</p>
                   <span className="text-sm font-bold text-emerald-700">
-                    ~{fmt$(opp.annualSavings)}/yr
+                    up to ~{fmt$(opp.annualSavings)}/yr
                   </span>
                 </div>
                 <p className="mt-1 text-xs text-gray-600 leading-relaxed">{opp.tip}</p>
