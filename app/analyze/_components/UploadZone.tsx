@@ -9,6 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { SAMPLE_CSV, SAMPLE_COLUMN_MAPPING } from "@/lib/sampleData";
 
 const REQUIRED_COLUMNS = ["id", "type", "amount", "fee", "net", "currency", "created"] as const;
+/** Rows shown in the UI preview table (full file still analyzed server-side). */
+const PREVIEW_TABLE_ROWS = 5;
 type RequiredCol = (typeof REQUIRED_COLUMNS)[number];
 
 interface ParsedFile {
@@ -65,7 +67,7 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
       file: null,
       fileName: "sample-stripe-balance.csv",
       headers,
-      rows,
+      rows: rows.slice(0, PREVIEW_TABLE_ROWS),
       totalRows: rows.length,
       isSample: true,
     });
@@ -86,7 +88,7 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
     Papa.parse<Record<string, string>>(file, {
       header: true,
       skipEmptyLines: true,
-      preview: 6,
+      preview: PREVIEW_TABLE_ROWS,
       complete: (results) => {
         const headers = results.meta.fields ?? [];
         if (!headers.length) {
@@ -94,7 +96,13 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
           return;
         }
         const rows = results.data as Record<string, string>[];
-        setParsed({ file, fileName: file.name, headers, rows: rows.slice(0, 5), totalRows: rows.length });
+        setParsed({
+          file,
+          fileName: file.name,
+          headers,
+          rows: rows.slice(0, PREVIEW_TABLE_ROWS),
+          totalRows: rows.length,
+        });
         setMapping(autoDetect(headers));
       },
       error: () => setError("Failed to parse the file. Please try again."),
@@ -113,7 +121,7 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
           file: null,
           fileName: "sample-stripe-balance.csv",
           headers,
-          rows: rows.slice(0, 5),
+          rows: rows.slice(0, PREVIEW_TABLE_ROWS),
           totalRows: rows.length,
           isSample: true,
         });
@@ -258,15 +266,18 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
       {parsed && parsed.rows.length > 0 && (
         <div>
           <p className="text-sm font-medium text-gray-700 mb-2">
-            Preview <span className="text-gray-400 font-normal">(first {parsed.rows.length} rows)</span>
+            Preview{" "}
+            <span className="text-gray-400 font-normal">
+              (first {Math.min(PREVIEW_TABLE_ROWS, parsed.rows.length)} of {parsed.totalRows} rows)
+            </span>
             {parsed.isSample && (
               <span className="ml-2 text-xs text-blue-500 font-normal">· sample data</span>
             )}
           </p>
-          <div className="overflow-x-auto rounded-xl border border-gray-100 shadow-sm">
+          <div className="max-h-52 overflow-auto rounded-xl border border-gray-100 shadow-sm">
             <table className="min-w-full text-xs">
-              <thead>
-                <tr className="bg-gray-50 border-b border-gray-100">
+              <thead className="sticky top-0 z-[1] bg-gray-50 shadow-[0_1px_0_0_rgb(243_244_246)]">
+                <tr className="border-b border-gray-100">
                   {parsed.headers.map((h) => (
                     <th key={h} className="px-3 py-2 text-left font-medium text-gray-500 whitespace-nowrap">
                       {h}
@@ -275,7 +286,7 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
                 </tr>
               </thead>
               <tbody>
-                {parsed.rows.map((row, i) => (
+                {parsed.rows.slice(0, PREVIEW_TABLE_ROWS).map((row, i) => (
                   <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
                     {parsed.headers.map((h) => (
                       <td key={h} className="px-3 py-2 text-gray-600 whitespace-nowrap max-w-[140px] truncate">
