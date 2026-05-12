@@ -23,7 +23,7 @@ export default function TermsPage() {
 
       <main className="max-w-2xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Terms of Service</h1>
-        <p className="text-sm text-gray-400 mb-10">Last updated: May 10, 2026</p>
+        <p className="text-sm text-gray-400 mb-10">Last updated: May 11, 2026</p>
 
         <div className="prose prose-sm prose-gray max-w-none space-y-8">
           <section>
@@ -41,6 +41,12 @@ export default function TermsPage() {
               Stripe Fee Auditor is an automated data analysis tool that processes Stripe Balance
               CSV exports to provide fee analysis reports. The Service is for informational
               purposes only and does not constitute financial, accounting, legal, or tax advice.
+              How we collect and use information when you browse the site — including aggregate
+              analytics — is described in our{" "}
+              <Link href="/privacy" className="text-blue-600 hover:underline">
+                Privacy Policy
+              </Link>
+              .
             </p>
           </section>
 

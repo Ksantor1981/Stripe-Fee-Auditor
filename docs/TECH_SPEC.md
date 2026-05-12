@@ -58,6 +58,7 @@ Raw CSV не пишется в Blob/bucket и не сохраняется как
 
 ### 4.4 Retention & Privacy
 
+- Public pages load **Plausible Analytics** (aggregate traffic; see Privacy Policy / CSP `plausible.io`)
 - Raw CSV is processed in memory only
 - Free previews expire after about 1 hour
 - Checkout extends free report TTL to reduce payment/webhook race risk

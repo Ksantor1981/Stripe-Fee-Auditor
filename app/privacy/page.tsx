@@ -23,7 +23,7 @@ export default function PrivacyPage() {
 
       <main className="max-w-2xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Privacy Policy</h1>
-        <p className="text-sm text-gray-400 mb-10">Last updated: May 10, 2026</p>
+        <p className="text-sm text-gray-400 mb-10">Last updated: May 11, 2026</p>
 
         <div className="prose prose-sm prose-gray max-w-none space-y-8">
           <section>
@@ -108,6 +108,7 @@ export default function PrivacyPage() {
               <li>To send transactional messages about your report (when email is provided and a mail provider is configured)</li>
               <li>To enforce rate limits and prevent abuse</li>
               <li>To operate payments and unlock paid features</li>
+              <li>To understand aggregate traffic and improve the Service (via Plausible Analytics — see section 2)</li>
             </ul>
             <p className="text-gray-600 mt-3">
               We do not use your financial data for advertising, profiling, or any purpose beyond
@@ -122,9 +123,9 @@ export default function PrivacyPage() {
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 leading-relaxed">
               <li><strong>Contract</strong> — to process your CSV, generate reports, unlock paid access, and send transactional report messages.</li>
-              <li><strong>Legitimate interests</strong> — to prevent abuse, secure the Service, debug errors, and keep minimal operational logs.</li>
+              <li><strong>Legitimate interests</strong> — to prevent abuse, secure the Service, debug errors, keep minimal operational logs, and measure aggregate website usage (Plausible).</li>
               <li><strong>Legal obligations</strong> — where payment, tax, accounting, dispute, or consumer-protection records must be retained.</li>
-              <li><strong>Consent</strong> — where we specifically ask for it, such as optional future marketing or analytics features.</li>
+              <li><strong>Consent</strong> — where we specifically ask for it (for example optional marketing).</li>
             </ul>
           </section>
 
@@ -178,6 +179,10 @@ export default function PrivacyPage() {
                   <tr>
                     <td className="px-4 py-3">IP address (rate limit)</td>
                     <td className="px-4 py-3">Deleted after about 2 days</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3">Site analytics (Plausible)</td>
+                    <td className="px-4 py-3">Processed by Plausible under their retention policy; we do not receive raw CSV or report contents there</td>
                   </tr>
                 </tbody>
               </table>

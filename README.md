@@ -28,6 +28,8 @@ User uploads CSV in browser
   → Paid features unlocked via Polar webhook after signature verification, product id, report metadata, and idempotent event handling
 CSV is not stored anywhere. Free previews expire in 1 hour; paid report access is extended to 30 days.
 
+Public site traffic: **Plausible Analytics** (script in `app/layout.tsx`; see Privacy Policy). First‑party funnel events still go to `POST /api/event` → server logs only.
+
 Key files
 app/api/analyze/route.ts      — main endpoint: parse CSV, run analysis, save result
 app/api/webhooks/polar — verify signature, mark report paid, send email
