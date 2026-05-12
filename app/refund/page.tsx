@@ -24,7 +24,7 @@ export default function RefundPage() {
 
       <main className="max-w-2xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Refund Policy</h1>
-        <p className="text-sm text-gray-400 mb-10">Last updated: May 10, 2026</p>
+        <p className="text-sm text-gray-400 mb-10">Last updated: May 11, 2026</p>
 
         <div className="prose prose-sm prose-gray max-w-none space-y-8">
           <section>
