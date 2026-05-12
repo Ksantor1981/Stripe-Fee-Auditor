@@ -5,11 +5,11 @@ const isDev = process.env.NODE_ENV === "development";
 // CSP: strict in production, relaxed only for Next/React dev overlay
 const CSP = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' https://plausible.io${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
-  "connect-src 'self'",
+  "connect-src 'self' https://plausible.io",
   "frame-ancestors 'none'",
   "object-src 'none'",
   "base-uri 'self'",

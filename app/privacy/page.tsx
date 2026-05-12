@@ -90,9 +90,12 @@ export default function PrivacyPage() {
               <div>
                 <p className="font-medium text-gray-800 mb-1">Analytics</p>
                 <p>
-                  We do not use third-party cookie-based behavioural advertising on this site at
-                  launch. If we add privacy-friendly, aggregate-only analytics later, we will
-                  update this policy and list the provider here.
+                  We use{" "}
+                  <a href="https://plausible.io/privacy" className="text-blue-600 hover:underline" rel="noopener noreferrer">
+                    Plausible Analytics
+                  </a>{" "}
+                  (EU-hosted, privacy-focused, no cookies by default) to measure aggregate traffic.
+                  We do not use third-party cookie-based behavioural advertising.
                 </p>
               </div>
             </div>
@@ -135,6 +138,7 @@ export default function PrivacyPage() {
               <li><strong>Neon</strong> — PostgreSQL for report metadata and analysis results (neon.com/privacy-policy)</li>
               <li><strong>Polar</strong> — checkout, payment processing, receipts, and order-related records as our payment provider / merchant of record where applicable (polar.sh/legal/privacy)</li>
               <li><strong>Resend</strong> — transactional email delivery when enabled (resend.com/legal/privacy-policy)</li>
+              <li><strong>Plausible Analytics</strong> — privacy-oriented, aggregate traffic metrics (plausible.io/privacy)</li>
             </ul>
             <p className="text-gray-600 mt-3">
               We only share with them what is needed to run the Service (for example payment

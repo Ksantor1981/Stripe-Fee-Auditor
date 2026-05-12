@@ -38,6 +38,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script async src="https://plausible.io/js/pa-NtZAVMy_DG97Ek3wmMn6V.js" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init()
+`.trim(),
+          }}
+        />
+      </head>
       <body className="antialiased">{children}</body>
     </html>
   );
