@@ -27,6 +27,24 @@ const POSTS = [
     time: "7 min",
   },
   {
+    slug: "stripe-fees-small-transactions",
+    title: "Stripe Fees for Small Transactions: Why Your Rate Is Higher",
+    desc: "The $0.30 fixed fee dominates micro-transactions — and how feeauditor.com surfaces it.",
+    time: "5 min",
+  },
+  {
+    slug: "stripe-blended-rate-calculator",
+    title: "Stripe Blended Rate Calculator: Your True Fee Rate",
+    desc: "Formula for blended rate, what pushes it above 2.9%, and how to verify from your CSV.",
+    time: "6 min",
+  },
+  {
+    slug: "how-to-export-stripe-balance-csv",
+    title: "How to Export Your Stripe Balance CSV",
+    desc: "Itemized export, required columns, and mistakes that break fee analysis.",
+    time: "4 min",
+  },
+  {
     slug: "why-stripe-fees-increase",
     title: "Why Did My Stripe Fees Increase?",
     desc: "5 common reasons your effective rate is climbing.",

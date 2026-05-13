@@ -52,6 +52,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.72,
     },
     {
+      url: `${base}/blog/stripe-fees-small-transactions`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.71,
+    },
+    {
+      url: `${base}/blog/stripe-blended-rate-calculator`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.71,
+    },
+    {
+      url: `${base}/blog/how-to-export-stripe-balance-csv`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.73,
+    },
+    {
       url: `${base}/blog/how-to-reduce-stripe-fees`,
       lastModified: now,
       changeFrequency: "monthly",
