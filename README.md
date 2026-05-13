@@ -1,150 +1,258 @@
-Stripe Fee Auditor
-Upload your Stripe Balance CSV — see your real effective fee rate, monthly fee changes, and which transactions are driving them up.
-Live: <https://feeauditor.com>
+# Stripe Fee Auditor
 
-What it does
-Stripe charges 2.9% + $0.30 by default, but your actual effective rate is usually higher. International cards, currency conversion, refunds (where Stripe keeps the fee), and Radar fees all push it up — and Stripe Dashboard doesn't aggregate this clearly.
-This tool takes your Balance Transactions CSV export and shows:
+Upload your Stripe Balance Transactions CSV and see your **real effective fee rate**, month-over-month fee changes, and which transactions drive the rate up — without storing raw CSV on disk.
 
-Your effective fee rate for the period (charge fees only, separated from other fees)
-Month-over-month fee change in dollars
-Which specific transactions have the highest fee rate and why
-
-Three result modes depending on the data:
-
-multi-month — 2+ months: shows MoM trend and delta
-single — 1 month: shows breakdown without trend
-low-volume — under 50 charges: shows top 5 by fee rate, skips anomaly detection (std dev is noisy on small samples)
-
-Freemium model: free tier shows summary + top 3 fee drivers. The one-time Full Report unlock shows full anomalies, savings opportunities, monthly detail, CSV export, and print-ready report via Polar.
-
-How it works
-User uploads CSV in browser
-  → CSV text sent to POST /api/analyze
-  → Parsed, normalized, analyzed in memory (never written to disk)
-  → Result saved to Neon DB with UUID + hashed access token
-  → reportId + accessToken returned to client
-  → Client opens /report/[id]?token=...
-  → Paid features unlocked via Polar webhook after signature verification, product id, report metadata, and idempotent event handling
-CSV is not stored anywhere. Free previews expire in 1 hour; paid report access is extended to 30 days.
-
-Public site traffic: **Plausible Analytics** (script in `app/layout.tsx`; see Privacy Policy). First‑party funnel events still go to `POST /api/event` → server logs only.
-
-Key files
-app/api/analyze/route.ts      — main endpoint: parse CSV, run analysis, save result
-app/api/webhooks/polar — verify signature, mark report paid, send email
-app/api/cron/cleanup/route.ts — delete expired reports + rate_limit rows (runs daily on Hobby plan)
-lib/csv-parser.ts             — normalize raw CSV rows (amounts ÷100, dates, types)
-lib/fee-analyzer.ts           — all business logic: metrics, anomalies, period comparison
-lib/db.ts                     — Neon SQL client + all DB operations
-lib/polar.ts                  — Polar checkout URL builder + webhook verification (@polar-sh/sdk)
-lib/email.ts                  — send report link email after payment (via Resend)
-If you change the analysis logic — lib/fee-analyzer.ts is the only place to touch.
-If Stripe changes their CSV format — lib/csv-parser.ts is where to fix column mapping.
-
-Environment variables
-DATABASE_URL=                     # Neon PostgreSQL connection string (sslmode=require)
-POLAR_WEBHOOK_SECRET=             # Polar dashboard → Webhooks (signing secret)
-POLAR_PRODUCT_PRO=                # Product UUID for the one-time Full Report ($12)
-POLAR_ACCESS_TOKEN=               # Polar API token with checkouts:write + checkouts:read; used for dynamic checkout redirects and webhook metadata recovery
-POLAR_CHECKOUT_PRO=               # Optional static fallback checkout link slug/path
-CRON_SECRET=                      # any random string — protects /api/cron/cleanup from public calls
-RESEND_API_KEY=                   # from resend.com — used to email report link after payment
-EMAIL_FROM=                       # production: Fee Auditor <noreply@feeauditor.com> (domain must be verified in Resend)
-EMAIL_REPLY_TO=support@feeauditor.com
-NEXT_PUBLIC_BASE_URL=             # production: https://feeauditor.com — drives metadataBase, sitemap, robots, email links
-NEXT_PUBLIC_CONTACT_EMAIL=support@feeauditor.com
-REPORT_TOKEN_SALT=                # optional pepper for access-token hashing (recommended: 32+ random chars in prod)
-
-All required except RESEND_API_KEY and POLAR_CHECKOUT_PRO (email is skipped if not set — report still unlocks; static checkout link is only a fallback when POLAR_ACCESS_TOKEN is unavailable).
-App will throw on missing DATABASE_URL or required Polar product env vars at checkout / webhook verify time.
-
-Rate limiting
-10 free analyses per IP per day. Demo sample reports have a separate 20/day/IP limit. Email-gate sends are limited to 10/day/IP. Tracked in rate_limits table in Neon.
-Up to 30 `/api/checkout` redirects per IP per day (separate key `checkout:<ip>`), counted only after report + token validate — limits checkout noise without burning quota on bad IDs.
-Old entries cleaned up by cron (runs daily at midnight, deletes rows older than 2 days).
-If IP is missing or the literal `unknown` — request is rejected with 400.
-
-Security notes
-- CSP and related headers: `next.config.ts`.
-- `Referrer-Policy: same-origin` reduces leaking `?token=` via Referer on cross-origin clicks; tokens in URLs still appear in server logs and browser history — POST/cookie-based access is a future hardening.
-- Polar webhook returns **500** on DB errors so payments can retry safely.
-- Set **REPORT_TOKEN_SALT** in production for stronger token hashes (omit or empty = legacy SHA256(token) only).
-- Max CSV upload **4 MB** (UTF-8) so JSON+CSV fits under Vercel’s **~4.5 MB** function body cap; use a shorter Stripe date range if the export is larger.
-- Hard cap on **parsed CSV rows** per analyze request (see `MAX_CSV_ROWS` in `lib/analyze-input.ts`) to bound CPU/memory.
-- `/api/analyze` expects **`Content-Type: application/json`**; column remap payloads are sanitized (dangerous keys dropped; allowlisted Stripe columns only).
-- **USD-only (beta):** non-sample uploads with currencies other than **USD** return **422**; demo/sample CSV is exempt.
-- If **any** parsed CSV rows fail normalization, the API returns **422** (financial reports must not silently drop rows).
-- Cron cleanup (`/api/cron/cleanup`) verifies **`Authorization: Bearer`** via timing-safe compare (`lib/cron-bearer.ts`).
-
-DB schema
-Three tables:
-
-reports — one row per analysis
-  id          uuid primary key (v4, generated by DB)
-  access_token_hash text     -- SHA-256 hash of access token (optional REPORT_TOKEN_SALT pepper)
-  result      jsonb          -- full analysis output
-  is_paid     boolean        -- unlocked by Polar webhook
-  email       text           -- set when paid
-  paid_at     timestamptz
-  expires_at  timestamptz    -- 1 hour for free previews, extended to 30 days after payment
-  created_at  timestamptz
-
-rate_limits — one row per IP per request
-  ip          text
-  created_at  timestamptz
-
-webhook_events — payment webhook idempotency guard
-  id          text primary key
-  event_name  text
-  created_at  timestamptz
-
-No migrations tool — schema created by scripts/init-db.mjs.
-Run once: node scripts/init-db.mjs
-
-Deploy
-Vercel + Neon + Polar. No Docker, no separate backend.
-
-npm install
-cp .env.example .env.local  # fill in all values
-node scripts/init-db.mjs    # create DB tables (once)
-npm run dev
-
-Cron (/api/cron/cleanup) runs daily at midnight on Vercel Hobby plan.
-Requires CRON_SECRET in env — Vercel sends it automatically as Authorization: Bearer <secret>.
-Polar webhook URL: https://feeauditor.com/api/webhooks/polar
-Events to enable: order.paid, order.created, checkout.updated (handled in route)
-For the best paid flow, set POLAR_ACCESS_TOKEN so the app creates a per-report checkout session with a success URL back to the exact report. Static checkout links remain as a fallback, but they cannot return users directly to a specific report.
-
-SEO (built-in): after deploy verify `NEXT_PUBLIC_BASE_URL` matches production, then open `/sitemap.xml` and `/robots.txt`.
-Refund policy URL for checkout/provider compliance: `https://feeauditor.com/refund`.
-
-### Production domain & email (`feeauditor.com`)
-
-1. **Vercel → Project → Settings → Environment Variables** (at least **Production**):  
-   - `NEXT_PUBLIC_BASE_URL` = `https://feeauditor.com`  
-   - `EMAIL_FROM` = `Fee Auditor <noreply@feeauditor.com>`  
-   Redeploy after saving.
-
-   **`www` → apex:** the repo includes a permanent redirect in `vercel.json` so `https://www.feeauditor.com/*` goes to `https://feeauditor.com/*`. Confirm in production after DNS points both hosts at Vercel.
-
-2. **Resend**: add domain `feeauditor.com`, then in **Namecheap** create DNS records **exactly** as Resend shows (SPF / DKIM / Return-Path — copy host & value character-for-character).
-
-3. **DMARC** (Namecheap, separate from Resend’s wizard):  
-   - Type: **TXT** · Host: **`_dmarc`** · Value: **`v=DMARC1; p=none;`** · TTL: Automatic  
-
-4. After **Verify domain** in Resend: run the paid report flow and confirm the message is from `Fee Auditor <noreply@feeauditor.com>`.
-
-5. **Smoke URLs** (after deploy):  
-   `https://feeauditor.com`, `/sitemap.xml`, `/robots.txt`, `/stripe-fee-calculator`, `/stripe-balance-csv`, `/why-stripe-fee-rate-higher-than-2-9`
-
-6. **Google Search Console**: add property `feeauditor.com`, verify via **TXT** at Namecheap as GSC instructs, submit sitemap `https://feeauditor.com/sitemap.xml`.
+**Live:** https://feeauditor.com
 
 ---
 
-What this is not
+## What it does
 
-Not a reconciliation tool (doesn't compare with bank statements)
-Not financial advice
-Not guaranteed to be 100% accurate — results depend on what Stripe exports
-Not a replacement for Stripe Dashboard — it's a layer on top for trend visibility
+Stripe advertises **2.9% + $0.30**, but blended rates are usually higher (international cards, FX, refunds where Stripe keeps the fee, Radar, small-ticket fixed fee, etc.). The Dashboard doesn’t surface this in one clear view.
+
+This app:
+
+- Parses Balance CSV **in memory**, analyzes charges vs other row types, and saves **computed JSON** to Postgres (Neon).
+- Shows **free preview** (summary + top fee drivers); **one-time paid unlock** (Polar) adds full anomalies, savings hints, monthly detail, CSV export, and print view.
+- Supports three report modes: **multi-month**, **single-month**, **low-volume** (fewer than 50 charges).
+
+---
+
+## How it works
+
+1. **Upload** — User pastes/uploads CSV on `/analyze`; browser sends JSON to `POST /api/analyze`.
+2. **Parse & normalize** — Papa Parse + `lib/csv-parser.ts` (USD-only for non-demo in beta); malformed rows → **422** (no silent drops).
+3. **Analyze** — `lib/fee-analyzer.ts` computes volumes, blended rate, monthly breakdown, anomalies (when sample size allows).
+4. **Persist** — One row in `reports` with UUID + **hashed** access token; raw CSV is **not** written to blob/disk.
+5. **View** — Client opens `/report/[id]?token=…` (secret link).
+6. **Pay** — `GET /api/checkout` builds Polar checkout with metadata; webhook verifies signature and unlocks report + extends TTL.
+7. **Cleanup** — Vercel cron hits `GET /api/cron/cleanup` daily (expired reports + old rate-limit rows).
+
+**Analytics:** Plausible on public pages (`app/layout.tsx`); first-party funnel events → `POST /api/event` → server logs only (see Privacy Policy).
+
+---
+
+## Tech stack
+
+| Layer | Technology |
+|--------|------------|
+| Framework | Next.js 16 (App Router) + TypeScript |
+| Database | PostgreSQL via **Neon** (`@neondatabase/serverless`) |
+| CSV | Papa Parse |
+| Payments | **Polar** (checkout + signed webhooks, `@polar-sh/sdk`) |
+| Email | **Resend** (transactional; optional) |
+| UI | Tailwind CSS v4 + shadcn-style components + Recharts |
+| Hosting | **Vercel** (serverless + cron in `vercel.json`) |
+| Analytics | Plausible (privacy-oriented; CSP allows `plausible.io`) |
+
+---
+
+## Prerequisites
+
+- **Node.js 20+** (recommended for Next 16)
+- A **Neon** database (free tier works)
+- **Polar** account — product for one-time “Full Report”, API token for dynamic checkouts, webhook secret
+- **Resend** (optional — emails skipped if `RESEND_API_KEY` unset)
+- **Vercel** (or compatible host) if you deploy with cron
+
+---
+
+## Local development
+
+### 1. Clone and install
+
+```bash
+git clone https://github.com/Ksantor1981/Stripe-Fee-Auditor.git
+cd Stripe-Fee-Auditor
+npm install
+```
+
+### 2. Neon
+
+1. Create a project at [neon.tech](https://neon.tech).
+2. Copy the connection string (use **`sslmode=require`**).
+3. Set `DATABASE_URL` in `.env.local`.
+
+### 3. Polar
+
+1. Create a **one-time** (or suitable) product for the Full Report.
+2. Copy **Product ID** → `POLAR_PRODUCT_PRO`.
+3. Create an **organization access token** with checkout read/write → `POLAR_ACCESS_TOKEN`.
+4. After app is reachable, add webhook `POST https://YOUR_DOMAIN/api/webhooks/polar` and copy signing secret → `POLAR_WEBHOOK_SECRET`.
+5. Optionally set `POLAR_CHECKOUT_PRO` static slug if you run **without** `POLAR_ACCESS_TOKEN` (fallback only).
+
+### 4. Resend (optional)
+
+1. Create API key → `RESEND_API_KEY`.
+2. Set `EMAIL_FROM` (verified domain in production).
+3. Set `EMAIL_REPLY_TO` / `NEXT_PUBLIC_CONTACT_EMAIL` as needed.
+
+### 5. Environment variables
+
+Copy `.env.example` to `.env.local` and fill values (see repo root — ignored paths may hide it in some tools; variable names match sections below).
+
+**Required for core flows**
+
+| Variable | Purpose |
+|----------|---------|
+| `DATABASE_URL` | Neon Postgres (`sslmode=require`) |
+| `POLAR_WEBHOOK_SECRET` | Webhook signature verification |
+| `POLAR_PRODUCT_PRO` | Allowed product UUID at checkout/webhook |
+| `POLAR_ACCESS_TOKEN` | Dynamic checkout URLs + checkout metadata recovery |
+| `CRON_SECRET` | Bearer secret for `/api/cron/cleanup` |
+| `NEXT_PUBLIC_BASE_URL` | Canonical URL (sitemap, metadata, email links) — e.g. `http://localhost:3000` locally |
+
+**Optional / recommended**
+
+| Variable | Purpose |
+|----------|---------|
+| `POLAR_CHECKOUT_PRO` | Static Polar checkout path fallback |
+| `RESEND_API_KEY` | Send report link after payment |
+| `EMAIL_FROM` | From header (domain verified in Resend for prod) |
+| `EMAIL_REPLY_TO` | Reply-To |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | Legal/support footer |
+| `REPORT_TOKEN_SALT` | Pepper for access-token hashing (recommended in prod) |
+
+### 6. Initialize database
+
+Schema is applied with a one-off script (no Prisma migrations in this repo):
+
+```bash
+node scripts/init-db.mjs
+```
+
+### 7. Run dev server
+
+```bash
+npm run dev
+```
+
+Open http://localhost:3000.
+
+### 8. Polar webhook (local)
+
+Expose your app (e.g. `ngrok`) or test webhooks on a deployed preview. Webhook handler expects **raw body** for signature verification (do not swap `request.text()` for `.json()` in `app/api/webhooks/polar/route.ts`).
+
+### 9. Test cron cleanup
+
+```bash
+curl -sS "http://localhost:3000/api/cron/cleanup" \
+  -H "Authorization: Bearer YOUR_CRON_SECRET"
+```
+
+---
+
+## Deployment (Vercel)
+
+1. Push to GitHub and import the repo in Vercel.
+2. Set **all** env vars for Production (and Preview if needed).
+3. Configure **Polar** webhook to `https://feeauditor.com/api/webhooks/polar` (or your domain). Enable events handled in code: **`order.paid`**, **`order.created`**, **`checkout.updated`**.
+4. Cron is declared in `vercel.json`: **`/api/cron/cleanup`** at **`0 0 * * *`** (daily midnight UTC). Set `CRON_SECRET`; Vercel sends `Authorization: Bearer …` automatically for cron invocations.
+5. **`www` → apex:** `vercel.json` redirects `www.feeauditor.com` → `feeauditor.com`.
+6. After deploy: verify `NEXT_PUBLIC_BASE_URL`, `/sitemap.xml`, `/robots.txt`. Checkout compliance links: `/privacy`, `/terms`, `/refund`.
+
+**Production email (short checklist)**
+
+- Vercel: `NEXT_PUBLIC_BASE_URL`, `EMAIL_FROM` (verified sender).
+- Resend: domain DNS (SPF/DKIM); optional DMARC TXT `_dmarc`.
+
+---
+
+## Project structure
+
+```text
+├── app/
+│   ├── page.tsx                    Landing
+│   ├── analyze/                    CSV upload + instructions
+│   ├── report/[id]/                Report UI (+ print subroute)
+│   ├── api/
+│   │   ├── analyze/route.ts        Parse CSV → analyze → save report
+│   │   ├── checkout/route.ts       Polar redirect (validated report + token)
+│   │   ├── cron/cleanup/route.ts   Expired rows + rate_limits cleanup
+│   │   ├── event/route.ts          First-party funnel → logs
+│   │   ├── export/csv/route.ts     Paid CSV export
+│   │   ├── reports/[id]/email/     Email gate + Resend
+│   │   └── webhooks/polar/route.ts Polar signature verify → unlock + email
+│   ├── blog/                       SEO articles
+│   ├── privacy/, terms/, refund/   Legal
+│   └── layout.tsx                  Root layout + Plausible
+├── components/                     Shared UI (shadcn-style)
+├── lib/
+│   ├── csv-parser.ts               Stripe row normalization
+│   ├── fee-analyzer.ts             Metrics, anomalies, savings copy
+│   ├── db.ts                       Neon SQL + report CRUD + rate limits + webhook idempotency
+│   ├── polar.ts                    Checkout URL + webhook verify helpers
+│   ├── email.ts                    Resend transactional email
+│   ├── analyze-input.ts            Row cap + column-mapping sanitization
+│   ├── cron-bearer.ts              Timing-safe cron auth
+│   └── …
+├── scripts/
+│   └── init-db.mjs                 Creates tables (run once per DB)
+├── tests/                          tsx smoke tests (pipeline + security helpers)
+├── docs/
+│   └── TECH_SPEC.md                Product/technical spec
+├── next.config.ts                  CSP, security headers
+└── vercel.json                     Cron + www redirect
+```
+
+---
+
+## Database schema
+
+| Table | Role |
+|-------|------|
+| **reports** | One row per analysis: `result` JSONB, `access_token_hash`, `is_paid`, `email`, `expires_at`, etc. |
+| **rate_limits** | IP-scoped counters for analyze / sample / email / checkout quotas |
+| **webhook_events** | Polar event idempotency (`id` primary key) |
+
+Full column list and behaviors: see **`scripts/init-db.mjs`** and **`README`** historical notes in `docs/TECH_SPEC.md`.
+
+---
+
+## Key implementation notes
+
+- **No raw CSV persistence** — only derived analysis JSON in `reports.result`.
+- **Polar webhook** — verify with SDK/`validateEvent` using **raw body string**; return **500** on retryable DB/report errors so Polar retries.
+- **Access control** — report URLs use high-entropy token; hash stored with optional `REPORT_TOKEN_SALT`. `Referrer-Policy: same-origin` reduces token leakage via Referer; URLs still appear in logs/history.
+- **Rate limits** — enforced in Neon with advisory locks per IP key (`lib/db.ts`); analyze **10**/IP/day (real CSV), sample **20**/IP/day.
+- **USD-only (beta)** — non-sample CSV with non-USD currencies → **422**.
+- **CSP** — `connect-src` includes `'self'` and `https://plausible.io` for analytics.
+
+---
+
+## Rate limiting (summary)
+
+| Endpoint / flow | Limit (per IP / day unless noted) |
+|-----------------|-------------------------------------|
+| Real CSV analyze | 10 |
+| Demo sample analyze | 20 |
+| Email gate POST | 10 |
+| Checkout redirect | 30 (after valid report + token) |
+| Client funnel POST `/api/event` | 120 |
+
+`rate_limits` rows older than ~2 days removed by cron.
+
+---
+
+## What this is **not**
+
+- Not bank reconciliation.
+- Not financial or tax advice.
+- Not guaranteed identical to every Stripe internal calculation — depends on export correctness.
+- Not a full replacement for Stripe Dashboard; it’s an aggregation/lens on Balance CSV.
+
+---
+
+## Contributing
+
+Pull requests are welcome. For larger changes, open an issue first.
+
+1. Fork / branch: `git checkout -b feature/your-change`
+2. Run `npm run lint` and relevant tests under `tests/` (`npx tsx tests/...`).
+3. Open a PR with a clear description.
+
+---
+
+## License
+
+Specify in the repository root if you add a `LICENSE` file; until then, rights remain with the project owner.
