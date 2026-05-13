@@ -34,6 +34,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     { url: `${base}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.72 },
     {
+      url: `${base}/blog/why-stripe-effective-rate-higher-than-2-9-percent`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
+    {
+      url: `${base}/blog/stripe-international-card-fees`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.72,
+    },
+    {
+      url: `${base}/blog/stripe-ach-vs-credit-card-fees`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.72,
+    },
+    {
       url: `${base}/blog/how-to-reduce-stripe-fees`,
       lastModified: now,
       changeFrequency: "monthly",
