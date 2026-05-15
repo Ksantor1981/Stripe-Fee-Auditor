@@ -57,6 +57,17 @@ export interface RefundSummary {
   estimatedAnnualCost: number;
 }
 
+export interface TransactionBucket {
+  label: string; // "<$20", "$20–50", etc.
+  minAmount: number;
+  maxAmount: number;
+  count: number;
+  volume: number;
+  fees: number;
+  rate: number; // effective rate %
+  avgFee: number; // avg fee per transaction
+}
+
 export interface AnalysisResult {
   mode: AnalysisMode;
   chargeVolume: number;
@@ -74,6 +85,7 @@ export interface AnalysisResult {
   benchmark?: FeeBenchmark;
   /** Estimated cost of refunds where the original processing fee is not returned. */
   refundSummary?: RefundSummary;
+  transactionBuckets?: TransactionBucket[];
   periodDelta: number | null;
   /** Unique currencies found in charge rows — used for multi-currency warning. */
   currencies: string[];
@@ -324,6 +336,32 @@ function buildFeeBenchmark(
   };
 }
 
+function buildTransactionBuckets(charges: NormalizedRow[]): TransactionBucket[] {
+  const BUCKETS: { label: string; min: number; max: number }[] = [
+    { label: "<$20", min: 0, max: 20 },
+    { label: "$20–50", min: 20, max: 50 },
+    { label: "$50–100", min: 50, max: 100 },
+    { label: "$100–250", min: 100, max: 250 },
+    { label: "$250+", min: 250, max: Infinity },
+  ];
+
+  return BUCKETS.map(({ label, min, max }) => {
+    const rows = charges.filter((r) => r.amount >= min && r.amount < max);
+    const volume = rows.reduce((a, r) => a + r.amount, 0);
+    const fees = rows.reduce((a, r) => a + r.fee, 0);
+    return {
+      label,
+      minAmount: min,
+      maxAmount: max,
+      count: rows.length,
+      volume: roundMoney(volume),
+      fees: roundMoney(fees),
+      rate: volume > 0 ? roundMoney((fees / volume) * 100) : 0,
+      avgFee: rows.length > 0 ? roundMoney(fees / rows.length) : 0,
+    };
+  }).filter((b) => b.count > 0);
+}
+
 export function analyze(rows: NormalizedRow[]): AnalysisResult {
   const charges = rows.filter((r) => r.type === "charge");
   const others = rows.filter((r) => r.type !== "charge");
@@ -393,6 +431,8 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
 
   const currencies = [...new Set(charges.map((r) => r.currency).filter(Boolean))];
 
+  const transactionBuckets = buildTransactionBuckets(charges);
+
   return {
     mode,
     chargeVolume,
@@ -406,6 +446,7 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
     savingsOpportunities,
     benchmark,
     refundSummary,
+    transactionBuckets,
     periodDelta,
     currencies,
   };
