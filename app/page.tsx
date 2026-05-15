@@ -60,6 +60,20 @@ const METRICS = [
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-white">
+
+      {/* Beta banner */}
+      <div className="bg-emerald-600 px-4 py-2.5 text-center text-sm font-medium text-white">
+        🎉 Free during beta — full report access, no payment required.{" "}
+        <TrackedLink
+          href="/analyze"
+          funnelEvent="funnel_landing_cta"
+          funnelProps={{ placement: "beta_banner" }}
+          className="underline underline-offset-2 hover:text-emerald-100 transition-colors"
+        >
+          Try it now →
+        </TrackedLink>
+      </div>
+
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-4 max-w-5xl mx-auto">
         <span className="font-bold text-gray-900 text-lg">Stripe Fee Auditor</span>
