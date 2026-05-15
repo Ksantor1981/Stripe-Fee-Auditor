@@ -9,11 +9,8 @@ export const metadata: Metadata = {
 };
 
 const TRUST_SIGNALS = [
-  {
-    icon: "🗑️",
-    label:
-      "Raw CSV is never stored. Derived report data is retained for 30 days to give you access to your results.",
-  },
+  { icon: "🔐", label: "No Stripe API access or OAuth required" },
+  { icon: "🗑️", label: "Raw CSV is never stored" },
   { icon: "🔒", label: "No account required" },
   { icon: "⚡", label: "Results in 30 seconds" },
 ];
@@ -22,7 +19,7 @@ const HOW_IT_WORKS = [
   {
     step: "1",
     title: "Export your CSV",
-    body: "Go to Stripe Dashboard → Reporting → Balance → Download. Takes 30 seconds.",
+    body: "Go to Stripe Dashboard → Reporting → Balance → Download. Takes 30 seconds. No API access needed.",
   },
   {
     step: "2",
@@ -32,7 +29,7 @@ const HOW_IT_WORKS = [
   {
     step: "3",
     title: "See your real rate",
-    body: "Get effective fee rate, top cost drivers, anomalies, and month-over-month trends.",
+    body: "Get effective fee rate, benchmark verdict, anomalies, refund leakage, and savings opportunities.",
   },
 ];
 
@@ -91,13 +88,13 @@ export default function HomePage() {
 
       {/* Hero */}
       <section className="flex flex-col items-center justify-center px-4 py-20 text-center">
-        <div className="mb-4 max-w-xl mx-auto rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-xs font-medium text-blue-800 leading-relaxed text-center space-y-1">
-          <p>
-            Raw CSV is never stored. Derived report data is retained for 30 days to give you access to your
-            results.
-          </p>
-          <p className="text-blue-700">No account · Free to start</p>
+
+        {/* No OAuth badge */}
+        <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-1.5 text-xs font-medium text-gray-600 shadow-sm">
+          <span className="text-green-500">✓</span>
+          No Stripe API access · No OAuth · Just a CSV
         </div>
+
         <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">
           Stripe says 2.9%. Your real fee rate is{" "}
           <span className="text-blue-600">probably higher.</span>
@@ -140,6 +137,19 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* vs OAuth tools callout */}
+      <section className="px-4 pb-12">
+        <div className="mx-auto max-w-3xl rounded-2xl border border-amber-100 bg-amber-50 p-5">
+          <p className="text-sm font-semibold text-amber-800 mb-2">
+            🔒 Why some founders prefer CSV over OAuth
+          </p>
+          <p className="text-sm text-amber-700 leading-relaxed">
+            Other Stripe fee tools require OAuth access to your Stripe account — read access to your full transaction history, customer data, and payout details, permanently until you revoke it.
+            Stripe Fee Auditor never connects to your Stripe account. You export a CSV, upload it, get your analysis, and that&apos;s it. The raw file is deleted immediately.
+          </p>
+        </div>
+      </section>
+
       {/* Example result */}
       <section className="px-4 pb-16">
         <div className="mx-auto max-w-3xl rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-6 shadow-sm">
@@ -151,7 +161,7 @@ export default function HomePage() {
               { label: "Processed", value: "$18,420" },
               { label: "Stripe fees", value: "$642.18" },
               { label: "Effective rate", value: "3.49%" },
-              { label: "Anomalies", value: "12" },
+              { label: "Benchmark", value: "High" },
               { label: "Savings", value: "~$720/yr" },
             ].map(({ label, value }) => (
               <div key={label} className="rounded-xl bg-white px-4 py-3 border border-blue-50">
@@ -294,4 +304,3 @@ export default function HomePage() {
     </main>
   );
 }
-
