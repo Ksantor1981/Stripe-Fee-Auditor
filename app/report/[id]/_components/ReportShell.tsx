@@ -19,6 +19,8 @@ interface Props {
   demoSkipEmailGate?: boolean;
   /** Demo sample reports can show paid sections without enabling paid exports. */
   demoFullAccess?: boolean;
+  /** Temporary beta flow: real uploaded reports show full insights without checkout. */
+  betaFullAccess?: boolean;
   /** Polar redirected back before the payment webhook finished processing. */
   paymentPending?: boolean;
   /** Full anomaly count before preview strips rows (free tier UI). */
@@ -32,13 +34,15 @@ export function ReportShell({
   isPaid,
   demoSkipEmailGate = false,
   demoFullAccess = false,
+  betaFullAccess = false,
   paymentPending = false,
   previewAnomalyCount,
 }: Props) {
   const router = useRouter();
   // Paid users skip EmailGate entirely — they already provided email at checkout.
   // Demo sample links skip the gate and show full sample insights without enabling exports.
-  const hasFullAccess = isPaid || demoFullAccess;
+  const hasFullAccess = isPaid || demoFullAccess || betaFullAccess;
+  const exportsEnabled = isPaid || betaFullAccess;
   const [unlocked, setUnlocked] = useState(hasFullAccess || demoSkipEmailGate || paymentPending);
   const tokenQuery = `token=${encodeURIComponent(accessToken)}`;
 
@@ -57,6 +61,7 @@ export function ReportShell({
       mode: result.mode,
       paid: isPaid,
       demo_access: demoFullAccess,
+      beta_full_access: betaFullAccess,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps -- once per mount; token/report identity must not leak to analytics
   }, []);
@@ -74,7 +79,7 @@ export function ReportShell({
         <div className="mx-auto max-w-4xl flex items-center justify-between">
           <a href="/" className="text-sm font-semibold text-gray-900">Stripe Fee Auditor</a>
           <div className="flex items-center gap-3">
-            {isPaid && (
+            {exportsEnabled && (
               <>
                 <a
                   href={`/api/export/csv?reportId=${reportId}&${tokenQuery}`}
@@ -118,6 +123,11 @@ export function ReportShell({
             </span>
           </div>
         )}
+        {betaFullAccess && !isPaid && (
+          <div className="mb-6 rounded-xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+            Full report is free during beta. Save this private link if you want to come back later.
+          </div>
+        )}
         {/* Multi-currency warning */}
         {result.currencies && result.currencies.length > 1 && (
           <div className="mb-6 rounded-xl border border-yellow-100 bg-yellow-50 px-4 py-3 text-sm text-yellow-800 flex items-start gap-2">
@@ -133,7 +143,7 @@ export function ReportShell({
           <MultiMonthReport {...baseReportProps} previewAnomalyCount={previewAnomalyCount} />
         )}
         {result.mode === "single-month" && <SingleMonthReport {...baseReportProps} />}
-        {result.mode === "low-volume" && <LowVolumeReport reportId={reportId} result={result} isPaid={isPaid} />}
+        {result.mode === "low-volume" && <LowVolumeReport reportId={reportId} result={result} isPaid={hasFullAccess} />}
 
         <div className="mt-8">
           <FeedbackForm reportId={reportId} />

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Papa from "papaparse";
 import { getReportWithAccess } from "@/lib/db";
+import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -27,7 +28,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Report not found or expired" }, { status: 404 });
   }
 
-  if (!report.is_paid) {
+  if (!report.is_paid && !FULL_REPORTS_FREE_DURING_BETA) {
     return NextResponse.json({ error: "Report not found or expired" }, { status: 404 });
   }
 

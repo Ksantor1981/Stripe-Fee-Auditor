@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getReportWithAccess } from "@/lib/db";
+import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { fmt$, fmtPct, fmtMonth, fmtDate } from "@/lib/format";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { PrintButton } from "../_components/PrintButton";
@@ -18,7 +19,7 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
   if (!UUID_V4.test(id)) notFound();
 
   const report = await getReportWithAccess(id, token);
-  if (!report?.result || !report.is_paid) notFound();
+  if (!report?.result || (!report.is_paid && !FULL_REPORTS_FREE_DURING_BETA)) notFound();
 
   const { chargeVolume, chargeFees, chargeRate, otherFees, monthly, anomalies, topDrivers, mode, periodDelta } = report.result;
   const params_id = id;

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getReportWithAccess } from "@/lib/db";
+import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { ReportShell } from "./_components/ReportShell";
 
@@ -50,8 +51,9 @@ export default async function ReportPage({ params, searchParams }: Props) {
 
   const rawResult = report.result;
   const demoFullAccess = demoSkipGate && report.session_id === "demo-sample";
-  const hasFullAccess = Boolean(report.is_paid || demoFullAccess);
-  const paymentPending = payment === "success" && !report.is_paid;
+  const betaFullAccess = FULL_REPORTS_FREE_DURING_BETA && !demoFullAccess;
+  const hasFullAccess = Boolean(report.is_paid || demoFullAccess || betaFullAccess);
+  const paymentPending = payment === "success" && !report.is_paid && !betaFullAccess;
 
   return (
     <ReportShell
@@ -61,6 +63,7 @@ export default async function ReportPage({ params, searchParams }: Props) {
       isPaid={report.is_paid ?? false}
       demoSkipEmailGate={demoSkipGate}
       demoFullAccess={demoFullAccess}
+      betaFullAccess={betaFullAccess}
       paymentPending={paymentPending}
       previewAnomalyCount={hasFullAccess ? undefined : rawResult.anomalies.length}
     />
