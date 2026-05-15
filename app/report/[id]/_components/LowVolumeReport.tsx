@@ -5,6 +5,7 @@ import type { NormalizedRow } from "@/lib/csv-parser";
 import { fmt$, fmtPct, fmtDate } from "@/lib/format";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { Badge } from "@/components/ui/badge";
+import { FeeInsightCards } from "./FeeInsightCards";
 
 function transactionLabel(row: Pick<NormalizedRow, "id" | "description">): string {
   return row.description || row.id;
@@ -86,6 +87,8 @@ export function LowVolumeReport({ result }: Props) {
         </div>
       </div>
 
+      <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
+
       {/* Top 5 highest-fee transactions */}
       <div className="rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden">
         <div className="px-5 py-4 border-b border-gray-50">
@@ -149,3 +152,4 @@ export function LowVolumeReport({ result }: Props) {
     </div>
   );
 }
+

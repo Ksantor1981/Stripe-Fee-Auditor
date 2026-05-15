@@ -5,6 +5,7 @@ import type { NormalizedRow } from "@/lib/csv-parser";
 import { fmt$, fmtPct, fmtMonth, fmtDate } from "@/lib/format";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { PaywallBanner } from "./PaywallBanner";
+import { FeeInsightCards } from "./FeeInsightCards";
 
 function transactionLabel(row: Pick<NormalizedRow, "id" | "description">): string {
   return row.description || row.id;
@@ -84,6 +85,8 @@ export function SingleMonthReport({ reportId, accessToken, result, isPaid }: Pro
         </div>
       </div>
 
+      <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
+
       {/* Fee blocks */}
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-5">
@@ -149,3 +152,4 @@ export function SingleMonthReport({ reportId, accessToken, result, isPaid }: Pro
     </div>
   );
 }
+

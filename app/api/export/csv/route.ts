@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Report not found or expired" }, { status: 404 });
   }
 
-  const { monthly, topDrivers, anomalies, chargeVolume, chargeFees, chargeRate, otherFees } = report.result;
+  const { monthly, topDrivers, anomalies, chargeVolume, chargeFees, chargeRate, otherFees, benchmark, refundSummary } = report.result;
 
   // Sheet 1 — summary row
   const summaryRows = [
@@ -40,6 +40,15 @@ export async function GET(req: NextRequest) {
     { section: "Summary", key: "Charge Fees", value: chargeFees.toFixed(2) },
     { section: "Summary", key: "Effective Rate %", value: chargeRate.toFixed(4) },
     { section: "Summary", key: "Other Fees", value: otherFees.toFixed(2) },
+    ...(benchmark ? [
+      { section: "Summary", key: "Benchmark Status", value: benchmark.label },
+      { section: "Summary", key: "Benchmark Range %", value: `${benchmark.rangeLow.toFixed(2)}-${benchmark.rangeHigh.toFixed(2)}` },
+    ] : []),
+    ...(refundSummary ? [
+      { section: "Summary", key: "Refund Count", value: String(refundSummary.count) },
+      { section: "Summary", key: "Refund Volume", value: refundSummary.volume.toFixed(2) },
+      { section: "Summary", key: "Estimated Retained Refund Fees", value: refundSummary.estimatedRetainedFees.toFixed(2) },
+    ] : []),
     { section: "", key: "", value: "" },
   ];
 
@@ -92,3 +101,4 @@ export async function GET(req: NextRequest) {
     },
   });
 }
+

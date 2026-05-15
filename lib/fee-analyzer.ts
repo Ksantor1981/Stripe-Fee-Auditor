@@ -36,6 +36,27 @@ export interface SavingsOpportunity {
   tip: string;
 }
 
+export type BenchmarkStatus = "normal" | "watch" | "high";
+
+export interface FeeBenchmark {
+  status: BenchmarkStatus;
+  label: string;
+  rangeLow: number;
+  rangeHigh: number;
+  expectedRate: number;
+  summary: string;
+  drivers: string[];
+}
+
+export interface RefundSummary {
+  count: number;
+  volume: number;
+  refundRate: number;
+  directFees: number;
+  estimatedRetainedFees: number;
+  estimatedAnnualCost: number;
+}
+
 export interface AnalysisResult {
   mode: AnalysisMode;
   chargeVolume: number;
@@ -49,6 +70,10 @@ export interface AnalysisResult {
   annotatedAnomalies?: AnnotatedRow[];
   /** Pro: actionable savings — may be absent on older stored reports. */
   savingsOpportunities?: SavingsOpportunity[];
+  /** Rough directional benchmark against the expected Stripe fee range for this transaction mix. */
+  benchmark?: FeeBenchmark;
+  /** Estimated cost of refunds where the original processing fee is not returned. */
+  refundSummary?: RefundSummary;
   periodDelta: number | null;
   /** Unique currencies found in charge rows — used for multi-currency warning. */
   currencies: string[];
@@ -72,6 +97,15 @@ const ACH_CAP_USD = 5;
 
 function searchableText(row: NormalizedRow): string {
   return `${row.id} ${row.description ?? ""}`.toLowerCase();
+}
+
+function isInternationalLike(row: NormalizedRow): boolean {
+  const text = searchableText(row);
+  return text.includes("[international]") || text.includes("international") || text.includes("cross-border");
+}
+
+function roundMoney(value: number): number {
+  return Math.round(value * 100) / 100;
 }
 
 /** Classify why a charge has an elevated fee rate */
@@ -140,7 +174,7 @@ function buildSavingsOpportunities(
   const monthsInData = new Set(charges.map((r) => r.month)).size || 1;
 
   // International card savings
-  const intlCharges = charges.filter((r) => searchableText(r).includes("international"));
+  const intlCharges = charges.filter(isInternationalLike);
   if (intlCharges.length > 0) {
     const intlFees = sum(intlCharges, "fee");
     const expectedFees = intlCharges.reduce((acc, r) => acc + r.amount * (baselineRate / 100), 0);
@@ -195,6 +229,101 @@ function buildSavingsOpportunities(
   return opportunities.slice(0, 3); // max 3 tips
 }
 
+function buildRefundSummary(
+  rows: NormalizedRow[],
+  chargeVolume: number,
+  chargeRate: number,
+  monthsInData: number
+): RefundSummary {
+  const refunds = rows.filter((r) => r.type.toLowerCase().includes("refund"));
+  const volume = refunds.reduce((acc, r) => acc + Math.abs(r.amount), 0);
+  const directFees = refunds.reduce((acc, r) => acc + Math.abs(r.fee), 0);
+  const estimatedOriginalFees = chargeRate > 0 ? volume * (chargeRate / 100) : 0;
+  const estimatedRetainedFees = roundMoney(estimatedOriginalFees + directFees);
+
+  return {
+    count: refunds.length,
+    volume: roundMoney(volume),
+    refundRate: chargeVolume > 0 ? (volume / chargeVolume) * 100 : 0,
+    directFees: roundMoney(directFees),
+    estimatedRetainedFees,
+    estimatedAnnualCost: monthsInData > 0 ? roundMoney((estimatedRetainedFees * 12) / monthsInData) : 0,
+  };
+}
+
+function buildFeeBenchmark(
+  charges: NormalizedRow[],
+  chargeRate: number,
+  refundSummary: RefundSummary
+): FeeBenchmark {
+  const chargeVolume = sum(charges, "amount");
+  if (charges.length === 0 || chargeVolume <= 0) {
+    return {
+      status: "normal",
+      label: "No charge benchmark",
+      rangeLow: 0,
+      rangeHigh: 0,
+      expectedRate: 0,
+      summary: "There are no charge rows to benchmark yet.",
+      drivers: [],
+    };
+  }
+
+  const baseCardFees = charges.reduce(
+    (acc, r) => acc + Math.max(0, r.amount) * 0.029 + FIXED_CARD_FEE_USD,
+    0
+  );
+  const internationalCharges = charges.filter(isInternationalLike);
+  const nonUsdCharges = charges.filter((r) => r.currency && r.currency.toLowerCase() !== "usd");
+  const smallCharges = charges.filter((r) => r.amount > 0 && r.amount < SMALL_TRANSACTION_USD);
+  const internationalVolume = sum(internationalCharges, "amount");
+  const nonUsdVolume = sum(nonUsdCharges, "amount");
+
+  // Directional benchmark: published card pricing + common visible surcharges in the CSV.
+  const expectedFees = baseCardFees + internationalVolume * 0.015 + nonUsdVolume * 0.01;
+  const expectedRate = (expectedFees / chargeVolume) * 100;
+  const lowVolumePadding = charges.length < 50 ? 1.0 : 0.65;
+  const rangeLow = Math.max(0, expectedRate - 0.25);
+  const rangeHigh = expectedRate + lowVolumePadding;
+
+  const status: BenchmarkStatus =
+    chargeRate <= rangeHigh ? "normal" : chargeRate <= rangeHigh + 0.75 ? "watch" : "high";
+
+  const drivers: string[] = [];
+  if (internationalVolume / chargeVolume >= 0.05) drivers.push("international / cross-border cards");
+  if (nonUsdVolume > 0) drivers.push("non-USD or currency conversion mix");
+  if (smallCharges.length / charges.length >= 0.15) drivers.push("small charges where the fixed $0.30 fee matters");
+  if (refundSummary.count > 0) drivers.push("refunds with retained processing fees");
+  if (status !== "normal" && drivers.length === 0) {
+    drivers.push("premium cards, disputes, Radar/add-on fees, or plan-specific pricing");
+  }
+  if (drivers.length === 0) drivers.push("domestic card mix and fixed per-transaction fees");
+
+  const label =
+    status === "normal"
+      ? charges.length < 50 ? "Directional benchmark" : "Looks normal for this mix"
+      : status === "watch"
+        ? "Worth reviewing"
+        : "High versus typical range";
+
+  const summary =
+    status === "normal"
+      ? `Your ${chargeRate.toFixed(2)}% blended rate is inside the rough range expected for this transaction mix.`
+      : status === "watch"
+        ? `Your ${chargeRate.toFixed(2)}% blended rate is slightly above the rough expected range for this mix.`
+        : `Your ${chargeRate.toFixed(2)}% blended rate is materially above the rough expected range for this mix.`;
+
+  return {
+    status,
+    label,
+    rangeLow: roundMoney(rangeLow),
+    rangeHigh: roundMoney(rangeHigh),
+    expectedRate: roundMoney(expectedRate),
+    summary,
+    drivers,
+  };
+}
+
 export function analyze(rows: NormalizedRow[]): AnalysisResult {
   const charges = rows.filter((r) => r.type === "charge");
   const others = rows.filter((r) => r.type !== "charge");
@@ -203,6 +332,7 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
   const chargeFees = sum(charges, "fee");
   const chargeRate = chargeVolume > 0 ? (chargeFees / chargeVolume) * 100 : 0;
   const otherFees = sum(others, "fee");
+  const monthsInData = new Set(rows.map((r) => r.month).filter(Boolean)).size || 1;
 
   // Monthly breakdown
   const monthMap = new Map<string, NormalizedRow[]>();
@@ -250,6 +380,8 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
 
   // Build savings opportunities (used for Pro tier)
   const savingsOpportunities = buildSavingsOpportunities(charges, anomalies, chargeRate);
+  const refundSummary = buildRefundSummary(rows, chargeVolume, chargeRate, monthsInData);
+  const benchmark = buildFeeBenchmark(charges, chargeRate, refundSummary);
 
   // Period delta
   let periodDelta: number | null = null;
@@ -272,7 +404,10 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
     anomalies,
     annotatedAnomalies,
     savingsOpportunities,
+    benchmark,
+    refundSummary,
     periodDelta,
     currencies,
   };
 }
+

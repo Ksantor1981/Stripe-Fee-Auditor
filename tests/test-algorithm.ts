@@ -207,6 +207,35 @@ test("small-transaction savings use dollar units", () => {
   assertClose(small?.annualSavings ?? 0, 220, 0.1, "annual savings should be 60 * $0.30 * 12, rounded");
 });
 
+test("benchmark marks a normal domestic card mix as normal", () => {
+  const rows = makeCharges(60, "2024-01", 3.2); // $100 charge -> 2.9% + $0.30 = 3.2%
+  const r = analyze(rows);
+  const b = r.benchmark;
+  assert(b?.status === "normal", `expected normal, got ${b?.status}`);
+  if (b === undefined) throw new Error("benchmark should exist");
+  assert(b.rangeLow < r.chargeRate && b.rangeHigh > r.chargeRate, "benchmark range should contain chargeRate");
+});
+
+test("benchmark flags materially high blended rates", () => {
+  const rows = makeCharges(60, "2024-01", 5.25);
+  const r = analyze(rows);
+  assert(r.benchmark?.status === "high", `expected high, got ${r.benchmark?.status}`);
+  assert((r.benchmark?.rangeHigh ?? 0) < r.chargeRate, "range high should be below actual high rate");
+});
+
+test("refund summary estimates retained original fees", () => {
+  const charges = makeCharges(60, "2024-01", 3.0); // $6,000 volume, 3% charge rate
+  const refunds = [
+    { id: "re_1", type: "refund" as const, amount: -200, fee: 0, net: -200, currency: "USD", date: "2024-01-15", month: "2024-01" },
+    { id: "re_2", type: "refund" as const, amount: -300, fee: 0, net: -300, currency: "USD", date: "2024-01-16", month: "2024-01" },
+  ];
+  const r = analyze([...charges, ...refunds]);
+  assert(r.refundSummary?.count === 2, `expected 2 refunds, got ${r.refundSummary?.count}`);
+  assertClose(r.refundSummary?.volume ?? 0, 500, 0.01, "refund volume");
+  assertClose(r.refundSummary?.estimatedRetainedFees ?? 0, 15, 0.01, "retained fee estimate");
+  assertClose(r.refundSummary?.refundRate ?? 0, 8.333, 0.01, "refund rate");
+});
+
 test("periodDelta is last.fees - prev.fees", () => {
   const m1 = makeCharges(60, "2024-01", 3.0);  // 60*3 = $180
   const m2 = makeCharges(60, "2024-02", 4.0);  // 60*4 = $240
@@ -278,3 +307,4 @@ if (failures.length) {
 } else {
   console.log("All tests passed ✅\n");
 }
+

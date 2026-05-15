@@ -21,7 +21,7 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
   const report = await getReportWithAccess(id, token);
   if (!report?.result || (!report.is_paid && !FULL_REPORTS_FREE_DURING_BETA)) notFound();
 
-  const { chargeVolume, chargeFees, chargeRate, otherFees, monthly, anomalies, topDrivers, mode, periodDelta } = report.result;
+  const { chargeVolume, chargeFees, chargeRate, otherFees, monthly, anomalies, topDrivers, mode, periodDelta, benchmark, refundSummary } = report.result;
   const params_id = id;
   const periodFees = periodTotalFees(chargeFees, otherFees);
   const monthCount = monthly.length;
@@ -105,6 +105,34 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
             That&apos;s <strong>{fmt$(yearlyAtThisRate)}</strong>/year at this rate.
           </p>
         </div>
+
+        {/* Benchmark and refund leakage */}
+        {(benchmark || (refundSummary && refundSummary.count > 0)) && (
+          <div style={{ marginBottom: 24, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            {benchmark && (
+              <div style={{ padding: "12px 14px", background: "#f8fafc", borderRadius: 8, border: "1px solid #e5e7eb", fontSize: 12 }}>
+                <div style={{ color: "#6b7280", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 }}>
+                  Benchmark
+                </div>
+                <div style={{ fontWeight: 700, fontSize: 15 }}>{benchmark.label}</div>
+                <div style={{ color: "#4b5563", marginTop: 4 }}>
+                  Rough range: {fmtPct(benchmark.rangeLow)}–{fmtPct(benchmark.rangeHigh)}
+                </div>
+              </div>
+            )}
+            {refundSummary && refundSummary.count > 0 && (
+              <div style={{ padding: "12px 14px", background: "#f8fafc", borderRadius: 8, border: "1px solid #e5e7eb", fontSize: 12 }}>
+                <div style={{ color: "#6b7280", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 }}>
+                  Refund fee leakage
+                </div>
+                <div style={{ fontWeight: 700, fontSize: 15 }}>~{fmt$(refundSummary.estimatedRetainedFees)}</div>
+                <div style={{ color: "#4b5563", marginTop: 4 }}>
+                  {refundSummary.count} refunds · {fmt$(refundSummary.volume)} refunded · {fmtPct(refundSummary.refundRate)} refund rate
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Period delta */}
         {periodDelta !== null && (
@@ -235,3 +263,4 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
     </>
   );
 }
+

@@ -41,19 +41,21 @@ const COMMON_SURPRISES = [
   "Small $5-$20 charges where the fixed $0.30 fee dominates",
   "Months where your fee rate jumped without an obvious reason",
   "Large B2B invoices that could be cheaper via ACH",
+  "A 4.5% blended rate that may be normal — or a sign something is leaking margin",
 ];
 
 const WHAT_YOU_GET = [
   { marker: "RATE", title: "Your true blended fee rate", desc: "Not Stripe's advertised 2.9% — your actual weighted average across all charge types." },
+  { marker: "BENCH", title: "Is your rate normal?", desc: "A rough benchmark range for your transaction mix, so you can see whether your rate is expected or unusually high." },
   { marker: "WHY", title: "Why your rate is higher", desc: "International cards, small transactions, Amex, currency conversion — pinpointed by transaction." },
-  { marker: "TREND", title: "Monthly fee trends", desc: "See which months spiked and why. Catch fee increases before they compound." },
+  { marker: "REFUND", title: "Refund fee leakage", desc: "Estimate how much retained processing fees on refunds are quietly eating into margin." },
   { marker: "SAVE", title: "Savings opportunities", desc: "Estimated annual savings from switching specific charge types to ACH, local payments, or bundling." },
 ];
 
 const METRICS = [
   { label: "Effective fee rate", example: "3.24%", desc: "Weighted avg across all charges" },
-  { label: "Fee vs last period", example: "+$412", desc: "Month-over-month delta" },
-  { label: "Anomaly count", example: "7 charges", desc: "Unusually high fee-rate charges" },
+  { label: "Benchmark verdict", example: "High", desc: "Normal range for your mix" },
+  { label: "Refund leakage", example: "~$91", desc: "Estimated retained fees" },
   { label: "Top fee driver", example: "Intl cards", desc: "Category costing you the most" },
 ];
 
@@ -101,7 +103,7 @@ export default function HomePage() {
           <span className="text-blue-600">probably higher.</span>
         </h1>
         <p className="mt-5 max-w-xl text-lg text-gray-500 leading-relaxed">
-          Upload your Stripe Balance CSV and see exactly which transactions, fee patterns, and payment methods are driving the gap.
+          Upload your Stripe Balance CSV and see whether your fee rate is normal, what is driving it up, and how much refunds may be leaking from margin.
         </p>
 
         {/* CTAs */}
@@ -159,7 +161,7 @@ export default function HomePage() {
             ))}
           </div>
           <p className="mt-4 text-sm text-gray-600">
-            The report turns a raw Balance CSV into a plain-English explanation of why your actual rate is higher than expected.
+            The report turns a raw Balance CSV into a plain-English answer to: is this rate normal, what is driving it up, and what should I look at first?
           </p>
         </div>
       </section>
@@ -292,3 +294,4 @@ export default function HomePage() {
     </main>
   );
 }
+
