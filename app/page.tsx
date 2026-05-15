@@ -74,16 +74,28 @@ export default function HomePage() {
       </div>
 
       {/* Nav */}
-      <nav className="flex items-center justify-between px-6 py-4 max-w-5xl mx-auto">
-        <span className="font-bold text-gray-900 text-lg">Stripe Fee Auditor</span>
-        <TrackedLink
-          href="/analyze"
-          funnelEvent="funnel_landing_cta"
-          funnelProps={{ placement: "nav" }}
-          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
-        >
-          Analyze My Fees
-        </TrackedLink>
+      <nav className="flex items-center justify-between gap-4 px-6 py-4 max-w-5xl mx-auto">
+        <Link href="/" className="font-bold text-gray-900 text-lg hover:text-gray-700 transition-colors">
+          Stripe Fee Auditor
+        </Link>
+        <div className="flex items-center gap-4">
+          <TrackedLink
+            href="/blog"
+            funnelEvent="funnel_nav_blog"
+            funnelProps={{ placement: "nav" }}
+            className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            Blog
+          </TrackedLink>
+          <TrackedLink
+            href="/analyze"
+            funnelEvent="funnel_landing_cta"
+            funnelProps={{ placement: "nav" }}
+            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
+          >
+            Analyze My Fees
+          </TrackedLink>
+        </div>
       </nav>
 
       {/* Hero */}
