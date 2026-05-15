@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { trackEvent } from "@/lib/analytics";
 import { EmailGate } from "./EmailGate";
+import { FeedbackForm } from "./FeedbackForm";
 import { MultiMonthReport } from "./MultiMonthReport";
 import { SingleMonthReport } from "./SingleMonthReport";
 import { LowVolumeReport } from "./LowVolumeReport";
@@ -133,6 +134,10 @@ export function ReportShell({
         )}
         {result.mode === "single-month" && <SingleMonthReport {...baseReportProps} />}
         {result.mode === "low-volume" && <LowVolumeReport reportId={reportId} result={result} isPaid={isPaid} />}
+
+        <div className="mt-8">
+          <FeedbackForm reportId={reportId} />
+        </div>
       </div>
 
       <footer className="border-t px-4 py-6 text-center text-xs text-gray-400 space-y-1">

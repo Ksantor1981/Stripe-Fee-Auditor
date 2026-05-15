@@ -11,28 +11,12 @@ interface Props {
   email?: string;
 }
 
-const PLANS: { id: string; label: string; price: string; features: string[]; highlight?: boolean }[] = [
-  {
-    id: "pro",
-    label: "Full Report",
-    price: "$12",
-    features: [
-      "Full anomaly list",
-      "Savings opportunities",
-      "Monthly breakdown",
-      "CSV export",
-      "Print-ready report",
-    ],
-    highlight: true,
-  },
-];
-
 export function PaywallBanner({ reportId, accessToken, email }: Props) {
   const [open, setOpen] = useState(false);
 
-  function checkout(planId: string) {
-    trackEvent("funnel_checkout_redirect", { plan: planId });
-    const params = new URLSearchParams({ plan: planId, reportId, token: accessToken });
+  function unlock() {
+    trackEvent("funnel_checkout_redirect", { plan: "pro" });
+    const params = new URLSearchParams({ plan: "pro", reportId, token: accessToken });
     if (email) params.set("email", email);
     window.location.href = `/api/checkout?${params}`;
   }
@@ -40,75 +24,65 @@ export function PaywallBanner({ reportId, accessToken, email }: Props) {
   return (
     <>
       {/* Inline banner */}
-      <div className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 text-center">
-        <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-1">
-          Unlock Full Report
-        </p>
-        <h3 className="text-lg font-bold text-gray-900 mb-1">See the complete picture</h3>
+      <div className="rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-white p-6 text-center">
+        <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700 mb-3">
+          🎉 Free during beta
+        </div>
+        <h3 className="text-lg font-bold text-gray-900 mb-1">Unlock the full report</h3>
         <p className="text-sm text-gray-500 mb-4 max-w-sm mx-auto">
-          Full anomaly list, savings opportunities, monthly details, CSV export, and print-ready report.
+          Full anomaly breakdown with explanations, savings opportunities, monthly details, CSV export, and print-ready report.
         </p>
         <Button
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6"
+          className="bg-emerald-600 hover:bg-emerald-700 text-white px-6"
           onClick={() => {
             trackEvent("funnel_paywall_modal_open");
             setOpen(true);
           }}
         >
-          Unlock Full Report →
+          Get Full Report — Free →
         </Button>
         <p className="mt-3 text-xs text-gray-400">
-          One-time unlock · Instant access · Refund available — see{" "}
-          <a href="/refund" className="underline hover:text-gray-600">
-            policy
-          </a>
+          No payment required during beta · Instant access
         </p>
       </div>
 
-      {/* Payment modal */}
+      {/* Confirmation modal */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-md p-0 overflow-hidden">
           <div className="bg-gray-900 px-6 py-5">
-            <h2 className="text-lg font-bold text-white">Unlock Your Report</h2>
+            <h2 className="text-lg font-bold text-white">Get Full Report</h2>
             <p className="text-sm text-gray-400 mt-1">
-              One-time unlock · No subscription · Refund per{" "}
-              <a href="/refund" className="underline hover:text-gray-300">
-                refund policy
-              </a>
+              Free during beta — no payment required
             </p>
           </div>
-          <div className="p-5 space-y-3">
-            {PLANS.map((plan) => (
-              <button
-                key={plan.id}
-                className={[
-                  "w-full rounded-xl border px-4 py-4 text-left transition-colors group",
-                  plan.highlight
-                    ? "border-blue-400 bg-blue-50 hover:bg-blue-100"
-                    : "border-gray-200 hover:border-blue-300 hover:bg-gray-50",
-                ].join(" ")}
-                onClick={() => checkout(plan.id)}
-              >
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className={`font-semibold ${plan.highlight ? "text-blue-700" : "text-gray-900"}`}>
-                    {plan.label}
-                    {plan.highlight && (
-                      <span className="ml-2 text-xs bg-blue-600 text-white rounded-full px-2 py-0.5">Popular</span>
-                    )}
-                  </span>
-                  <span className="text-lg font-bold text-gray-900">{plan.price}</span>
-                </div>
-                <ul className="space-y-0.5">
-                  {plan.features.map((f) => (
-                    <li key={f} className="text-xs text-gray-500 flex items-center gap-1">
-                      <span className="text-green-500">✓</span> {f}
-                    </li>
-                  ))}
-                </ul>
-              </button>
-            ))}
-            <p className="text-xs text-center text-gray-400 pt-1">
-              Secure payment via Polar
+          <div className="p-5">
+            <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-4 mb-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-semibold text-emerald-700">Full Report</span>
+                <span className="text-sm font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">Free β</span>
+              </div>
+              <ul className="space-y-1">
+                {[
+                  "Full anomaly list with explanations",
+                  "Savings opportunities (est. annual)",
+                  "Monthly fee breakdown",
+                  "CSV export",
+                  "Print-ready report",
+                ].map((f) => (
+                  <li key={f} className="text-xs text-gray-600 flex items-center gap-1.5">
+                    <span className="text-emerald-500">✓</span> {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <button
+              className="w-full rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 transition-colors"
+              onClick={unlock}
+            >
+              Unlock Now — It&apos;s Free →
+            </button>
+            <p className="text-xs text-center text-gray-400 mt-3">
+              Beta pricing · Will move to paid after launch
             </p>
           </div>
         </DialogContent>
