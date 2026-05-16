@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { PRIVACY_ARTICLE_INDEX } from "./blog/_data/privacyPosts";
 
 /** Set NEXT_PUBLIC_BASE_URL in production when you use a custom domain. */
 const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://feeauditor.com";
@@ -33,6 +34,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.85,
     },
     { url: `${base}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.72 },
+    ...PRIVACY_ARTICLE_INDEX.map((post) => ({
+      url: `${base}/blog/${post.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.74,
+    })),
     {
       url: `${base}/blog/why-stripe-effective-rate-higher-than-2-9-percent`,
       lastModified: now,
