@@ -1,6 +1,7 @@
 import { Polar } from "@polar-sh/sdk";
 import { validateEvent } from "@polar-sh/sdk/webhooks";
 import { absoluteUrl } from "@/lib/site-url";
+import { createCheckoutSession } from "@/lib/db";
 
 export type PlanId = "pro";
 
@@ -73,9 +74,8 @@ export async function buildCheckoutUrl(
   email?: string
 ): Promise<string> {
   const productId = getRequiredProductId(planId);
-  const reportPath = `/report/${reportId}?token=${encodeURIComponent(accessToken)}`;
-  const successUrl = absoluteUrl(`${reportPath}&payment=success&checkout_id={CHECKOUT_ID}`);
-  const returnUrl = absoluteUrl(reportPath);
+  const successUrl = absoluteUrl("/api/checkout/success?checkout_id={CHECKOUT_ID}");
+  const returnUrl = absoluteUrl("/analyze");
 
   const polar = getPolarClient();
   if (polar) {
@@ -83,7 +83,6 @@ export async function buildCheckoutUrl(
       products: [productId],
       metadata: {
         report_id: reportId,
-        access_token: accessToken,
         plan: planId,
       },
       customerEmail: email,
@@ -93,11 +92,26 @@ export async function buildCheckoutUrl(
       requireBillingAddress: false,
     });
 
+    if (!checkout.id) {
+      throw new Error("Polar checkout did not return an id");
+    }
+
+    await createCheckoutSession({
+      checkoutId: checkout.id,
+      reportId,
+      accessToken,
+      plan: planId,
+    });
+
     return checkout.url;
   }
 
   // Fallback for environments that still use static Polar checkout links.
   // Dynamic per-report success redirects require POLAR_ACCESS_TOKEN.
+  if (process.env.ALLOW_POLAR_STATIC_CHECKOUT_FALLBACK !== "true") {
+    throw new Error("Polar dynamic checkout is required: set POLAR_ACCESS_TOKEN");
+  }
+
   const checkoutLinkEnvKey = {
     pro: "POLAR_CHECKOUT_PRO",
   }[planId];

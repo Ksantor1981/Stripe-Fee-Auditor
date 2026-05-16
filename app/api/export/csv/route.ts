@@ -32,14 +32,28 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Report not found or expired" }, { status: 404 });
   }
 
-  const { monthly, topDrivers, anomalies, chargeVolume, chargeFees, chargeRate, otherFees, benchmark, refundSummary } = report.result;
+  const {
+    monthly,
+    topDrivers,
+    anomalies,
+    chargeVolume,
+    chargeFees,
+    chargeRate,
+    otherFees,
+    allInFees,
+    allInRate,
+    benchmark,
+    refundSummary,
+  } = report.result;
 
   // Sheet 1 — summary row
   const summaryRows = [
     { section: "Summary", key: "Charge Volume", value: chargeVolume.toFixed(2) },
     { section: "Summary", key: "Charge Fees", value: chargeFees.toFixed(2) },
-    { section: "Summary", key: "Effective Rate %", value: chargeRate.toFixed(4) },
+    { section: "Summary", key: "Processing Fee Rate %", value: chargeRate.toFixed(4) },
     { section: "Summary", key: "Other Fees", value: otherFees.toFixed(2) },
+    { section: "Summary", key: "All-in Fees", value: allInFees.toFixed(2) },
+    { section: "Summary", key: "All-in Cost Rate %", value: allInRate.toFixed(4) },
     ...(benchmark ? [
       { section: "Summary", key: "Benchmark Status", value: benchmark.label },
       { section: "Summary", key: "Benchmark Range %", value: `${benchmark.rangeLow.toFixed(2)}-${benchmark.rangeHigh.toFixed(2)}` },

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { buildCheckoutUrl, isPlanId } from "@/lib/polar";
 import { consumeIpRequest, extendReportForCheckout, getReportWithAccess } from "@/lib/db";
 import { getTrustedClientIp } from "@/lib/request-ip";
+import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -31,6 +32,12 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(
       { error: "Report not found or expired. Please re-upload your CSV." },
       { status: 404 }
+    );
+  }
+
+  if (FULL_REPORTS_FREE_DURING_BETA) {
+    return NextResponse.redirect(
+      new URL(`/report/${reportId}?token=${encodeURIComponent(token)}`, req.url)
     );
   }
 

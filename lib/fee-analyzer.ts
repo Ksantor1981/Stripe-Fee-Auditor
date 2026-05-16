@@ -74,6 +74,10 @@ export interface AnalysisResult {
   chargeFees: number;
   chargeRate: number;
   otherFees: number;
+  /** Direct Stripe fees in the export: charge fees + non-charge fee lines. */
+  allInFees: number;
+  /** Direct Stripe fees divided by charge volume. This excludes estimated retained refund fees. */
+  allInRate: number;
   monthly: MonthlyBreakdown[];
   topDrivers: NormalizedRow[];
   anomalies: NormalizedRow[];
@@ -112,8 +116,28 @@ function searchableText(row: NormalizedRow): string {
 }
 
 function isInternationalLike(row: NormalizedRow): boolean {
+  if (row.cardCountry && row.cardCountry.toUpperCase() !== "US") return true;
   const text = searchableText(row);
   return text.includes("[international]") || text.includes("international") || text.includes("cross-border");
+}
+
+function isAchLike(row: NormalizedRow): boolean {
+  const text = `${row.paymentMethodType ?? ""} ${searchableText(row)}`.toLowerCase();
+  return text.includes("ach") || text.includes("us_bank_account");
+}
+
+function nonChargeFeeAmount(row: NormalizedRow): number {
+  if (row.type === "charge") return 0;
+
+  const directFee = Math.abs(row.fee);
+  if (directFee > 0) return directFee;
+
+  const category = `${row.type} ${row.reportingCategory ?? ""}`.toLowerCase();
+  if (category.includes("fee")) {
+    return Math.abs(row.amount || row.net);
+  }
+
+  return 0;
 }
 
 function roundMoney(value: number): number {
@@ -122,11 +146,10 @@ function roundMoney(value: number): number {
 
 /** Classify why a charge has an elevated fee rate */
 function classifyAnomaly(row: NormalizedRow, baselineRate: number): AnomalyExplanation {
-  const desc = searchableText(row);
   const rate = row.amount > 0 ? (row.fee / row.amount) * 100 : 0;
 
   // 1. International card — most common cause
-  if (desc.includes("[international]") || desc.includes("international")) {
+  if (isInternationalLike(row)) {
     const extraFee = row.amount * 0.015; // ~1.5% cross-border fee
     return {
       reason: "international_card",
@@ -158,7 +181,7 @@ function classifyAnomaly(row: NormalizedRow, baselineRate: number): AnomalyExpla
   }
 
   // 4. ACH mismatch (ACH should be cheap — flag if expensive)
-  if (desc.includes("ach")) {
+  if (isAchLike(row)) {
     return {
       reason: "ach_mismatch",
       label: "ACH anomaly",
@@ -220,7 +243,7 @@ function buildSavingsOpportunities(
   const largeCardCharges = charges.filter(
     (r) =>
       r.amount >= LARGE_CARD_CHARGE_USD &&
-      !searchableText(r).includes("ach")
+      !isAchLike(r)
   );
   if (largeCardCharges.length > 0) {
     const cardFees = sum(largeCardCharges, "fee");
@@ -362,6 +385,25 @@ function buildTransactionBuckets(charges: NormalizedRow[]): TransactionBucket[] 
   }).filter((b) => b.count > 0);
 }
 
+function redactStoredRow<T extends NormalizedRow>(row: T): T {
+  const clone = { ...row };
+  delete clone.description;
+  return clone;
+}
+
+/**
+ * Keep descriptions available in-memory for classification, but avoid persisting
+ * free-text customer/order details from Stripe CSV exports in report JSON.
+ */
+export function redactAnalysisResultForStorage(result: AnalysisResult): AnalysisResult {
+  return {
+    ...result,
+    topDrivers: result.topDrivers.map(redactStoredRow),
+    anomalies: result.anomalies.map(redactStoredRow),
+    annotatedAnomalies: result.annotatedAnomalies?.map(redactStoredRow),
+  };
+}
+
 export function analyze(rows: NormalizedRow[]): AnalysisResult {
   const charges = rows.filter((r) => r.type === "charge");
   const others = rows.filter((r) => r.type !== "charge");
@@ -369,7 +411,9 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
   const chargeVolume = sum(charges, "amount");
   const chargeFees = sum(charges, "fee");
   const chargeRate = chargeVolume > 0 ? (chargeFees / chargeVolume) * 100 : 0;
-  const otherFees = sum(others, "fee");
+  const otherFees = others.reduce((acc, row) => acc + nonChargeFeeAmount(row), 0);
+  const allInFees = chargeFees + otherFees;
+  const allInRate = chargeVolume > 0 ? (allInFees / chargeVolume) * 100 : 0;
   const monthsInData = new Set(rows.map((r) => r.month).filter(Boolean)).size || 1;
 
   // Monthly breakdown
@@ -439,6 +483,8 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
     chargeFees,
     chargeRate,
     otherFees,
+    allInFees,
+    allInRate,
     monthly,
     topDrivers,
     anomalies,

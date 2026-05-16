@@ -5,7 +5,7 @@ import {
   readReportMetadata,
   verifyPolarWebhook,
 } from "@/lib/polar";
-import { processPaidWebhook } from "@/lib/db";
+import { getCheckoutSession, processPaidWebhook } from "@/lib/db";
 import { sendReportEmail } from "@/lib/email";
 
 export const maxDuration = 30;
@@ -46,6 +46,17 @@ async function buildUnlockPayload(event: ReturnType<typeof verifyPolarWebhook>):
 
     if ((!reportId || !accessToken) && order.checkoutId) {
       try {
+        const checkoutSession = await getCheckoutSession(order.checkoutId);
+        reportId ??= checkoutSession?.reportId;
+        accessToken ??= checkoutSession?.accessToken;
+      } catch (err) {
+        metadataLookupFailed = true;
+        console.error("[polar-webhook] Checkout session lookup failed:", err);
+      }
+    }
+
+    if ((!reportId || !accessToken) && order.checkoutId) {
+      try {
         const checkoutMetadata = await getCheckoutReportMetadata(order.checkoutId);
         reportId ??= checkoutMetadata.reportId;
         accessToken ??= checkoutMetadata.accessToken;
@@ -74,13 +85,14 @@ async function buildUnlockPayload(event: ReturnType<typeof verifyPolarWebhook>):
     }
 
     const metadata = readReportMetadata(checkout.metadata);
+    const checkoutSession = await getCheckoutSession(checkout.id);
     return {
       eventId: `${event.type}:${checkout.id}`,
       eventName: event.type,
       productId: checkout.productId,
       email: checkout.customerEmail ?? "",
-      reportId: metadata.reportId,
-      accessToken: metadata.accessToken,
+      reportId: checkoutSession?.reportId ?? metadata.reportId,
+      accessToken: checkoutSession?.accessToken ?? metadata.accessToken,
     };
   }
 

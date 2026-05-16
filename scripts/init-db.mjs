@@ -49,9 +49,23 @@ await sql`
   )
 `;
 
+await sql`
+  CREATE TABLE IF NOT EXISTS checkout_sessions (
+    checkout_id TEXT PRIMARY KEY,
+    report_id UUID NOT NULL REFERENCES reports(id) ON DELETE CASCADE,
+    access_token TEXT NOT NULL,
+    access_token_hash TEXT NOT NULL,
+    plan TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    expires_at TIMESTAMPTZ NOT NULL DEFAULT NOW() + INTERVAL '24 hours'
+  )
+`;
+
 await sql`CREATE INDEX IF NOT EXISTS idx_rate_limits_ip_created ON rate_limits(ip, created_at)`;
 await sql`CREATE INDEX IF NOT EXISTS idx_reports_session ON reports(session_id)`;
 await sql`CREATE INDEX IF NOT EXISTS idx_reports_expires ON reports(expires_at)`;
 await sql`CREATE INDEX IF NOT EXISTS idx_reports_access ON reports(id, access_token_hash)`;
+await sql`CREATE INDEX IF NOT EXISTS idx_checkout_sessions_report_id ON checkout_sessions(report_id)`;
+await sql`CREATE INDEX IF NOT EXISTS idx_checkout_sessions_expires ON checkout_sessions(expires_at)`;
 
-console.log("Done. Tables ready: reports, rate_limits, webhook_events");
+console.log("Done. Tables ready: reports, rate_limits, webhook_events, checkout_sessions");

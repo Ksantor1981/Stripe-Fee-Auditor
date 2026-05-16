@@ -38,6 +38,18 @@ export async function GET(req: NextRequest) {
       )
     `;
 
+    await sql`
+      DELETE FROM checkout_sessions
+      WHERE expires_at < NOW()
+    `;
+
+    await sql`
+      DELETE FROM webhook_events
+      WHERE ctid IN (
+        SELECT ctid FROM webhook_events WHERE created_at < NOW() - INTERVAL '90 days' LIMIT 1000
+      )
+    `;
+
   } catch (err) {
     console.error("[cron/cleanup]", err);
     return NextResponse.json({ error: "Cleanup failed" }, { status: 500 });

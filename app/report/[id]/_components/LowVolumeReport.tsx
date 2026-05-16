@@ -25,7 +25,8 @@ export function LowVolumeReport({ result }: Props) {
   const { chargeFees, chargeRate, chargeVolume, otherFees, topDrivers, monthly } = result;
   const totalCharges = monthly.reduce((a, m) => a + m.count, 0);
   const monthCount = monthly.length;
-  const periodFees = periodTotalFees(chargeFees, otherFees);
+  const periodFees = result.allInFees ?? periodTotalFees(chargeFees, otherFees);
+  const allInRate = result.allInRate ?? (chargeVolume > 0 ? (periodFees / chargeVolume) * 100 : 0);
   const yearlyAtThisRate = annualRunRate(periodFees, monthCount);
   const advertisedRate = 2.9;
   const rateGap = chargeRate - advertisedRate;
@@ -63,10 +64,10 @@ export function LowVolumeReport({ result }: Props) {
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
-            { label: "Effective Rate", value: fmtPct(chargeRate), accent: true },
-            { label: "Total Fees", value: fmt$(chargeFees + otherFees) },
+            { label: "Processing Rate", value: fmtPct(chargeRate), accent: true },
+            { label: "All-in Cost Rate", value: fmtPct(allInRate) },
             { label: "Charge Volume", value: fmt$(chargeVolume) },
-            { label: "Charge Fees", value: fmt$(chargeFees) },
+            { label: "All-in Fees", value: fmt$(periodFees) },
           ].map(({ label, value, accent }) => (
             <div key={label} className={`rounded-xl px-4 py-3 ${accent ? "bg-blue-50 border border-blue-100" : "bg-gray-50"}`}>
               <p className={`text-xs mb-0.5 ${accent ? "text-blue-500 font-semibold" : "text-gray-400"}`}>{label}</p>
@@ -80,9 +81,10 @@ export function LowVolumeReport({ result }: Props) {
             Your rate vs advertised card pricing
           </p>
           <p className="text-sm text-blue-900">
-            Your blended charge fee rate is <span className="font-semibold">{fmtPct(chargeRate)}</span>{" "}
+            Your card/charge processing rate is <span className="font-semibold">{fmtPct(chargeRate)}</span>{" "}
             (<span className="font-semibold">{rateGapText}</span>). On low-volume exports, fixed $0.30 fees and a few
-            unusual charges can move the blended rate a lot.
+            unusual charges can move the blended rate a lot. Your all-in Stripe cost rate for this export is{" "}
+            <span className="font-semibold">{fmtPct(allInRate)}</span>.
           </p>
         </div>
       </div>

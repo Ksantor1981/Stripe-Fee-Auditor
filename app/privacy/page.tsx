@@ -58,9 +58,12 @@ export default function PrivacyPage() {
                   The computed analysis (fee totals, rates, anomalies, etc.) is stored in our
                   database and linked to a random report ID plus a private access token you
                   receive in the URL. <strong>Free preview reports expire about 1 hour</strong>{" "}
-                  after creation. If you complete a purchase, we extend access so your report
-                  remains available for <strong>up to 30 days</strong> from the time of payment.
-                  Stored results are derived from your CSV — not a full copy of the file.
+                  after creation. During beta, full report links may remain available for{" "}
+                  <strong>up to 30 days</strong>. If you complete a purchase, we also extend
+                  access so your report remains available for <strong>up to 30 days</strong>{" "}
+                  from the time of payment. Stored results are derived from your CSV — not a
+                  full copy of the file — and we remove free-text transaction descriptions from
+                  stored report rows where they are not needed after analysis.
                 </p>
               </div>
               <div>
@@ -143,7 +146,7 @@ export default function PrivacyPage() {
             </ul>
             <p className="text-gray-600 mt-3">
               We only share with them what is needed to run the Service (for example payment
-              receipts, report identifiers you pass at checkout, or an email address you give us).
+              receipts, report identifiers needed for checkout, or an email address you give us).
               These providers may process data in countries outside your own. Where required,
               we rely on their published transfer safeguards and data processing terms.
             </p>
@@ -171,6 +174,18 @@ export default function PrivacyPage() {
                   <tr>
                     <td className="px-4 py-3">Analysis result (after successful payment)</td>
                     <td className="px-4 py-3">Up to 30 days from payment, then deleted automatically</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3">Analysis result (beta full access)</td>
+                    <td className="px-4 py-3">Up to 30 days from report creation while the beta flag is enabled</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3">Checkout session link state</td>
+                    <td className="px-4 py-3">Short-lived server-side checkout state expires after about 24 hours</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3">Payment webhook event IDs</td>
+                    <td className="px-4 py-3">Kept for up to 90 days to prevent duplicate payment processing</td>
                   </tr>
                   <tr>
                     <td className="px-4 py-3">Email address</td>

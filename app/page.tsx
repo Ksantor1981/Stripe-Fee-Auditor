@@ -24,12 +24,12 @@ const HOW_IT_WORKS = [
   {
     step: "2",
     title: "Drop it here",
-    body: "Raw CSV is never stored. Derived report data is retained for 30 days to give you access to your results.",
+    body: "Raw CSV is never stored. During beta, your private report link stays available for up to 30 days.",
   },
   {
     step: "3",
     title: "See your real rate",
-    body: "Get effective fee rate, benchmark verdict, anomalies, refund leakage, and savings opportunities.",
+    body: "Get processing rate, all-in cost rate, benchmark verdict, anomalies, refund leakage, and savings opportunities.",
   },
 ];
 
@@ -42,7 +42,7 @@ const COMMON_SURPRISES = [
 ];
 
 const WHAT_YOU_GET = [
-  { marker: "RATE", title: "Your true blended fee rate", desc: "Not Stripe's advertised 2.9% — your actual weighted average across all charge types." },
+  { marker: "RATE", title: "Processing rate vs all-in cost", desc: "Separate the card/charge processing rate from the all-in Stripe cost rate across refunds, payouts, disputes, and other fee lines." },
   { marker: "BENCH", title: "Is your rate normal?", desc: "A rough benchmark range for your transaction mix, so you can see whether your rate is expected or unusually high." },
   { marker: "WHY", title: "Why your rate is higher", desc: "International cards, small transactions, Amex, currency conversion — pinpointed by transaction." },
   { marker: "REFUND", title: "Refund fee leakage", desc: "Estimate how much retained processing fees on refunds are quietly eating into margin." },
@@ -50,10 +50,10 @@ const WHAT_YOU_GET = [
 ];
 
 const METRICS = [
-  { label: "Effective fee rate", example: "3.24%", desc: "Weighted avg across all charges" },
+  { label: "Processing rate", example: "3.24%", desc: "Weighted avg across charges" },
+  { label: "All-in cost rate", example: "3.49%", desc: "Includes other fee lines" },
   { label: "Benchmark verdict", example: "High", desc: "Normal range for your mix" },
   { label: "Refund leakage", example: "~$91", desc: "Estimated retained fees" },
-  { label: "Top fee driver", example: "Intl cards", desc: "Category costing you the most" },
 ];
 
 export default function HomePage() {
@@ -157,7 +157,7 @@ export default function HomePage() {
           </p>
           <p className="text-sm text-amber-700 leading-relaxed">
             Other Stripe fee tools require OAuth access to your Stripe account — read access to your full transaction history, customer data, and payout details, permanently until you revoke it.
-            Stripe Fee Auditor never connects to your Stripe account. You export a CSV, upload it, get your analysis, and that&apos;s it. The raw file is deleted immediately.
+            Stripe Fee Auditor never connects to your Stripe account. You export a CSV, upload it, get your analysis, and that&apos;s it. The raw file is processed in memory and never stored as a file.
           </p>
         </div>
       </section>
@@ -172,7 +172,7 @@ export default function HomePage() {
             {[
               { label: "Processed", value: "$18,420" },
               { label: "Stripe fees", value: "$642.18" },
-              { label: "Effective rate", value: "3.49%" },
+              { label: "All-in cost rate", value: "3.49%" },
               { label: "Benchmark", value: "High" },
               { label: "Savings", value: "~$720/yr" },
             ].map(({ label, value }) => (

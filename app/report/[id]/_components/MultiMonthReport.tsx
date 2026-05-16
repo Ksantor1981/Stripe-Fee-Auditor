@@ -31,7 +31,18 @@ interface Props {
 }
 
 export function MultiMonthReport({ reportId, accessToken, result, isPaid, previewAnomalyCount }: Props) {
-  const { chargeFees, chargeRate, chargeVolume, otherFees, monthly, topDrivers, anomalies, periodDelta } = result;
+  const {
+    chargeFees,
+    chargeRate,
+    chargeVolume,
+    otherFees,
+    allInFees,
+    allInRate,
+    monthly,
+    topDrivers,
+    anomalies,
+    periodDelta,
+  } = result;
   const anomalyUiCount = previewAnomalyCount ?? anomalies.length;
   const savings = result.savingsOpportunities ?? [];
   const advertisedRate = 2.9;
@@ -57,7 +68,8 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
 
   const deltaPositive = periodDelta !== null && periodDelta > 0;
   const monthCount = monthly.length;
-  const periodFees = periodTotalFees(chargeFees, otherFees);
+  const periodFees = allInFees ?? periodTotalFees(chargeFees, otherFees);
+  const displayAllInRate = allInRate ?? (chargeVolume > 0 ? (periodFees / chargeVolume) * 100 : 0);
   const yearlyAtThisRate = annualRunRate(periodFees, monthCount);
 
   return (
@@ -89,7 +101,9 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
           </div>
           <div className="text-right">
             <p className="text-3xl font-bold text-gray-900">{fmtPct(chargeRate)}</p>
-            <p className="text-xs text-gray-400 mt-0.5">effective fee rate</p>
+            <p className="text-xs text-gray-400 mt-0.5">processing fee rate</p>
+            <p className="mt-2 text-xl font-bold text-gray-700">{fmtPct(displayAllInRate)}</p>
+            <p className="text-xs text-gray-400 mt-0.5">all-in cost rate</p>
           </div>
         </div>
 
@@ -98,7 +112,7 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
           {[
             { label: "Charge Volume", value: fmt$(chargeVolume) },
             { label: "Charge Fees", value: fmt$(chargeFees) },
-            { label: "Other Fees", value: fmt$(otherFees) },
+            { label: "All-in Fees", value: fmt$(periodFees) },
             { label: "Anomalies", value: String(anomalyUiCount) },
           ].map(({ label, value }) => (
             <div key={label} className="rounded-xl bg-gray-50 px-4 py-3">
@@ -113,10 +127,11 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
             Your rate vs advertised card pricing
           </p>
           <p className="text-sm text-blue-900">
-            Your blended charge fee rate is <span className="font-semibold">{fmtPct(chargeRate)}</span>{" "}
+            Your card/charge processing rate is <span className="font-semibold">{fmtPct(chargeRate)}</span>{" "}
             (<span className="font-semibold">{rateGapText}</span>). Stripe&apos;s advertised card rate starts at
             2.9% + $0.30, but international cards, small charges, card mix, currency conversion, and add-ons can push
-            the real rate higher.
+            the real rate higher. Your all-in Stripe cost rate for this export is{" "}
+            <span className="font-semibold">{fmtPct(displayAllInRate)}</span>.
           </p>
         </div>
       </div>

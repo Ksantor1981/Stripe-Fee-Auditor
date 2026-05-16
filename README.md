@@ -107,6 +107,8 @@ Copy `.env.example` to `.env.local` and fill values (see repo root — ignored p
 | Variable | Purpose |
 |----------|---------|
 | `POLAR_CHECKOUT_PRO` | Static Polar checkout path fallback |
+| `FULL_REPORTS_FREE_DURING_BETA` | Set `true` only during beta to show full reports and exports without payment; beta reports are retained up to 30 days |
+| `ALLOW_POLAR_STATIC_CHECKOUT_FALLBACK` | Set `true` only if you intentionally accept the older static Polar checkout flow |
 | `RESEND_API_KEY` | Send report link after payment |
 | `EMAIL_FROM` | From header (domain verified in Resend for prod) |
 | `EMAIL_REPLY_TO` | Reply-To |
@@ -214,6 +216,7 @@ Full column list and behaviors: see **`scripts/init-db.mjs`** and **`README`** h
 - **No raw CSV persistence** — only derived analysis JSON in `reports.result`.
 - **Polar webhook** — verify with SDK/`validateEvent` using **raw body string**; return **500** on retryable DB/report errors so Polar retries.
 - **Access control** — report URLs use high-entropy token; hash stored with optional `REPORT_TOKEN_SALT`. `Referrer-Policy: same-origin` reduces token leakage via Referer; URLs still appear in logs/history.
+- **Checkout token isolation** — dynamic Polar checkout sessions store report access on our side for a short time and no longer send the report bearer token in Polar metadata.
 - **Rate limits** — enforced in Neon with advisory locks per IP key (`lib/db.ts`); analyze **10**/IP/day (real CSV), sample **20**/IP/day.
 - **USD-only (beta)** — non-sample CSV with non-USD currencies → **422**.
 - **CSP** — `connect-src` includes `'self'` and `https://plausible.io` for analytics.

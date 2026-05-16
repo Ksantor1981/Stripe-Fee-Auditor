@@ -4,7 +4,7 @@
  */
 
 import { normalizeRow, validateColumns } from "../lib/csv-parser";
-import { analyze } from "../lib/fee-analyzer";
+import { analyze, redactAnalysisResultForStorage } from "../lib/fee-analyzer";
 
 // ─── Test runner ──────────────────────────────────────────────────────────────
 
@@ -53,6 +53,19 @@ test("case-insensitive column matching", () => {
   assert(missing.length === 0, `should accept uppercase: ${missing}`);
 });
 
+test("accepts official Stripe Balance itemized headers", () => {
+  const missing = validateColumns([
+    "balance_transaction_id",
+    "reporting_category",
+    "gross",
+    "fee",
+    "net",
+    "currency",
+    "created_utc",
+  ]);
+  assert(missing.length === 0, `should accept Balance headers: ${missing}`);
+});
+
 console.log("\n📋 csv-parser / normalizeRow");
 
 const VALID_ROW = {
@@ -70,6 +83,26 @@ test("normalizes amounts from cents to dollars", () => {
   assertClose(r.amount, 10.00, 0.001, "amount");
   assertClose(r.fee, 0.59, 0.001, "fee");
   assertClose(r.net, 9.41, 0.001, "net");
+});
+
+test("normalizes official Balance CSV amounts as major currency units", () => {
+  const r = normalizeRow({
+    balance_transaction_id: "txn_balance_1",
+    reporting_category: "charge",
+    gross: "49.00",
+    fee: "1.72",
+    net: "47.28",
+    currency: "usd",
+    created_utc: "2024-03-15T10:00:00Z",
+    description: "Customer invoice 123",
+    card_country: "GB",
+  });
+  assert(r.id === "txn_balance_1", `expected txn_balance_1, got ${r.id}`);
+  assert(r.type === "charge", `expected charge, got ${r.type}`);
+  assertClose(r.amount, 49.00, 0.001, "amount");
+  assertClose(r.fee, 1.72, 0.001, "fee");
+  assertClose(r.net, 47.28, 0.001, "net");
+  assert(r.cardCountry === "GB", `expected GB, got ${r.cardCountry}`);
 });
 
 test("normalizes required fields case-insensitively", () => {
@@ -263,6 +296,48 @@ test("non-charge rows go to otherFees", () => {
   }));
   const r = analyze([...charges, ...refunds]);
   assertClose(r.otherFees, 7.5, 0.01, "otherFees");
+});
+
+test("all-in rate includes non-charge fee rows separately from charge processing rate", () => {
+  const charges = makeCharges(60, "2024-01", 3.0);
+  const stripeFeeRows = [
+    {
+      id: "txn_fee_1",
+      type: "stripe_fee",
+      reportingCategory: "stripe_fee",
+      amount: -25,
+      fee: 0,
+      net: -25,
+      currency: "USD",
+      date: "2024-01-20",
+      month: "2024-01",
+    },
+  ];
+  const r = analyze([...charges, ...stripeFeeRows]);
+  assertClose(r.chargeRate, 3.0, 0.01, "processing chargeRate");
+  assertClose(r.otherFees, 25.0, 0.01, "fee row counted as otherFees");
+  assertClose(r.allInFees, 205.0, 0.01, "allInFees");
+  assertClose(r.allInRate, 3.4167, 0.01, "allInRate");
+});
+
+test("redacts free-text descriptions before storage", () => {
+  const rows = [
+    {
+      id: "ch_sensitive",
+      type: "charge",
+      amount: 100,
+      fee: 3,
+      net: 97,
+      currency: "USD",
+      date: "2024-01-15",
+      month: "2024-01",
+      description: "john@example.com private order",
+    },
+  ];
+  const result = analyze(rows);
+  const stored = redactAnalysisResultForStorage(result);
+  assert(stored.topDrivers[0]?.description === undefined, "topDrivers description should be removed");
+  assert(rows[0].description !== undefined, "redaction must not mutate input rows");
 });
 
 test("anomaly detection flags high-rate charges", () => {

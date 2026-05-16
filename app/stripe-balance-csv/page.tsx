@@ -103,14 +103,14 @@ const steps = [
 ];
 
 const columns = [
-  { name: "id", description: "Unique transaction identifier" },
-  { name: "type", description: "charge, refund, payout, fee, adjustment" },
-  { name: "amount", description: "Gross amount (in cents)" },
-  { name: "fee", description: "Stripe fee charged (in cents)" },
-  { name: "net", description: "Amount minus fee (in cents)" },
+  { name: "balance_transaction_id", description: "Unique balance transaction identifier" },
+  { name: "reporting_category", description: "charge, refund, dispute, payout, fee, adjustment" },
+  { name: "gross", description: "Gross transaction amount in normal currency units" },
+  { name: "fee", description: "Stripe fee amount in normal currency units" },
+  { name: "net", description: "Gross amount minus fees in normal currency units" },
   { name: "currency", description: "ISO 4217 currency code (usd, eur, gbp)" },
-  { name: "created", description: "Transaction timestamp (ISO 8601)" },
-  { name: "description", description: "Payment description or customer info" },
+  { name: "created", description: "Transaction timestamp (created or created_utc)" },
+  { name: "description", description: "Optional payment description or customer info" },
 ];
 
 const faqItems = [
@@ -284,8 +284,9 @@ export default function StripeBalanceCsvPage() {
             </table>
           </div>
           <p className="text-xs text-gray-400 mt-3">
-            Amounts are in the smallest currency unit (cents for USD). The
-            analyzer converts them automatically.
+            Stripe Dashboard Balance exports usually show amounts in normal
+            currency units (for example, 49.00 USD). API-style cent columns are
+            also accepted when you provide amount / fee / net.
           </p>
         </div>
 

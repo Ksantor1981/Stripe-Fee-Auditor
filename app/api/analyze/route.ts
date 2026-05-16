@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Papa from "papaparse";
 import { validateColumns, normalizeRow, type RawRow } from "@/lib/csv-parser";
-import { analyze } from "@/lib/fee-analyzer";
+import { analyze, redactAnalysisResultForStorage } from "@/lib/fee-analyzer";
 import { logFunnelServer } from "@/lib/funnel-log";
 import {
   consumeIpRequest,
@@ -12,6 +12,7 @@ import {
 import { getTrustedClientIp } from "@/lib/request-ip";
 import { SAMPLE_CSV } from "@/lib/sampleData";
 import { MAX_CSV_ROWS, sanitizeColumnMapping } from "@/lib/analyze-input";
+import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 
 export const maxDuration = 30;
 
@@ -20,7 +21,21 @@ const DEMO_LIMIT = 20;
 const VERCEL_MAX_BODY_BYTES = Math.floor(4.5 * 1024 * 1024);
 const MAX_CSV_BYTES = 4 * 1024 * 1024;
 
-const ALLOWED_CANONICAL = new Set(["id", "type", "amount", "fee", "net", "currency", "created", "description", "source", "status"]);
+const ALLOWED_CANONICAL = new Set([
+  "id",
+  "balance_transaction_id",
+  "type",
+  "reporting_category",
+  "amount",
+  "gross",
+  "fee",
+  "net",
+  "currency",
+  "created",
+  "description",
+  "source",
+  "status",
+]);
 
 /** Normalise whitespace so comparison is robust */
 const SAMPLE_CSV_TRIMMED = SAMPLE_CSV.trim();
@@ -91,6 +106,15 @@ export async function POST(req: NextRequest) {
 
     if (!parsed.data.length) {
       return NextResponse.json({ error: "CSV is empty or could not be parsed" }, { status: 422 });
+    }
+
+    if (parsed.errors.length > 0) {
+      return NextResponse.json(
+        {
+          error: `CSV parse error near row ${parsed.errors[0]?.row ?? "unknown"}: ${parsed.errors[0]?.message ?? "invalid CSV"}`,
+        },
+        { status: 422 }
+      );
     }
 
     if (parsed.data.length > MAX_CSV_ROWS) {
@@ -167,13 +191,15 @@ export async function POST(req: NextRequest) {
 
     // ── Analyze ────────────────────────────────────────────────────────────────
     const result = analyze(normalized);
+    const storedResult = redactAnalysisResultForStorage(result);
     const accessToken = createReportAccessToken();
 
     const reportId = await createReport({
       sessionId: isDemo ? "demo-sample" : crypto.randomUUID(),
       blobUrl: null,
-      result,
+      result: storedResult,
       accessTokenHash: hashReportAccessToken(accessToken),
+      retention: FULL_REPORTS_FREE_DURING_BETA && !isDemo ? "beta_full_access" : "free_preview",
     });
 
     logFunnelServer("funnel_analyze_saved", {
@@ -191,6 +217,8 @@ export async function POST(req: NextRequest) {
         chargeFees: result.chargeFees,
         chargeRate: result.chargeRate,
         otherFees: result.otherFees,
+        allInFees: result.allInFees,
+        allInRate: result.allInRate,
         periodDelta: result.periodDelta,
         monthCount: result.monthly.length,
         anomalyCount: result.anomalies.length,

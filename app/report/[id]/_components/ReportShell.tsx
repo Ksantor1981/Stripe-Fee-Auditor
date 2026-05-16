@@ -125,7 +125,7 @@ export function ReportShell({
         )}
         {betaFullAccess && !isPaid && (
           <div className="mb-6 rounded-xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
-            Full report is free during beta. Save this private link if you want to come back later.
+            Full report is free during beta. Save this private link — it stays available for up to 30 days.
           </div>
         )}
         {/* Multi-currency warning */}

@@ -23,13 +23,26 @@ interface ParsedFile {
 
 type ColumnMapping = Partial<Record<RequiredCol, string>>;
 
+const COLUMN_ALIASES: Record<RequiredCol, string[]> = {
+  id: ["id", "balance_transaction_id", "balance transaction id", "balance_transaction", "transaction_id"],
+  type: ["type", "reporting_category", "reporting category"],
+  amount: ["amount", "gross", "gross_amount", "gross amount"],
+  fee: ["fee", "fees", "stripe_fee", "stripe fee"],
+  net: ["net", "net_amount", "net amount"],
+  currency: ["currency"],
+  created: ["created", "created_utc", "created utc", "effective_at_utc", "available_on_utc"],
+};
+
+function normalizeHeaderName(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]/g, "");
+}
+
 function autoDetect(headers: string[]): ColumnMapping {
   const mapping: ColumnMapping = {};
   for (const col of REQUIRED_COLUMNS) {
-    const match = headers.find(
-      (h) => h.toLowerCase().replace(/[^a-z]/g, "") === col.toLowerCase()
-    );
-    if (match) mapping[col] = match;
+    const aliases = COLUMN_ALIASES[col].map(normalizeHeaderName);
+    const match = headers.find((h) => aliases.includes(normalizeHeaderName(h)));
+    if (match && match !== col) mapping[col] = match;
   }
   return mapping;
 }
@@ -375,7 +388,7 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
           <p className="mt-3 text-xs text-gray-400">
             {parsed.isSample
               ? "This is sample data for demonstration purposes."
-              : "Your file is processed in memory only. Free previews expire in 1 hour."}
+              : "Your file is processed in memory only. Report links expire automatically."}
           </p>
         </div>
       )}

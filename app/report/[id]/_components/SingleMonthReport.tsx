@@ -25,7 +25,8 @@ interface Props {
 export function SingleMonthReport({ reportId, accessToken, result, isPaid }: Props) {
   const { chargeFees, chargeRate, chargeVolume, otherFees, monthly, topDrivers } = result;
   const month = monthly[0];
-  const periodFees = periodTotalFees(chargeFees, otherFees);
+  const periodFees = result.allInFees ?? periodTotalFees(chargeFees, otherFees);
+  const allInRate = result.allInRate ?? (chargeVolume > 0 ? (periodFees / chargeVolume) * 100 : 0);
   const yearlyAtThisRate = annualRunRate(periodFees, 1);
   const advertisedRate = 2.9;
   const rateGap = chargeRate - advertisedRate;
@@ -61,10 +62,10 @@ export function SingleMonthReport({ reportId, accessToken, result, isPaid }: Pro
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
-            { label: "Effective Rate", value: fmtPct(chargeRate), highlight: true },
+            { label: "Processing Rate", value: fmtPct(chargeRate), highlight: true },
+            { label: "All-in Cost Rate", value: fmtPct(allInRate) },
             { label: "Charge Fees", value: fmt$(chargeFees) },
             { label: "Charge Volume", value: fmt$(chargeVolume) },
-            { label: "Other Fees", value: fmt$(otherFees) },
           ].map(({ label, value, highlight }) => (
             <div key={label} className={`rounded-xl px-4 py-3 ${highlight ? "bg-blue-50 border border-blue-100" : "bg-gray-50"}`}>
               <p className={`text-xs mb-0.5 ${highlight ? "text-blue-500 font-semibold" : "text-gray-400"}`}>{label}</p>
@@ -78,9 +79,10 @@ export function SingleMonthReport({ reportId, accessToken, result, isPaid }: Pro
             Your rate vs advertised card pricing
           </p>
           <p className="text-sm text-blue-900">
-            Your blended charge fee rate is <span className="font-semibold">{fmtPct(chargeRate)}</span>{" "}
+            Your card/charge processing rate is <span className="font-semibold">{fmtPct(chargeRate)}</span>{" "}
             (<span className="font-semibold">{rateGapText}</span>). Stripe&apos;s advertised card rate starts at
             2.9% + $0.30, but the real rate often moves higher because of fixed fees, international cards, and card mix.
+            Your all-in Stripe cost rate for this export is <span className="font-semibold">{fmtPct(allInRate)}</span>.
           </p>
         </div>
       </div>
@@ -100,10 +102,10 @@ export function SingleMonthReport({ reportId, accessToken, result, isPaid }: Pro
           )}
         </div>
         <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-5">
-          <h2 className="text-sm font-semibold text-gray-700 mb-3">Other Fees</h2>
-          <p className="text-3xl font-bold text-gray-900">{fmt$(otherFees)}</p>
+          <h2 className="text-sm font-semibold text-gray-700 mb-3">All-in Stripe Fees</h2>
+          <p className="text-3xl font-bold text-gray-900">{fmt$(periodFees)}</p>
           <p className="text-sm text-gray-400 mt-1">
-            Refunds, disputes, payouts &amp; other
+            Charge fees plus refunds, disputes, payouts &amp; other Stripe fee lines
           </p>
         </div>
       </div>

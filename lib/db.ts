@@ -19,6 +19,16 @@ export interface ReportRow {
   expires_at: string;
 }
 
+export type ReportRetention = "free_preview" | "beta_full_access";
+
+export interface CheckoutSessionRow {
+  checkoutId: string;
+  reportId: string;
+  accessToken: string;
+  accessTokenHash: string;
+  plan: string;
+}
+
 // ─── Queries ──────────────────────────────────────────────────────────────────
 
 export function createReportAccessToken(): string {
@@ -34,11 +44,42 @@ export function hashReportAccessToken(token: string): string {
   return h.digest("hex");
 }
 
+let checkoutSessionsTableReady = false;
+
+async function ensureCheckoutSessionsTable(): Promise<void> {
+  if (checkoutSessionsTableReady) return;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS checkout_sessions (
+      checkout_id TEXT PRIMARY KEY,
+      report_id UUID NOT NULL REFERENCES reports(id) ON DELETE CASCADE,
+      access_token TEXT NOT NULL,
+      access_token_hash TEXT NOT NULL,
+      plan TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      expires_at TIMESTAMPTZ NOT NULL DEFAULT NOW() + INTERVAL '24 hours'
+    )
+  `;
+
+  await sql`
+    CREATE INDEX IF NOT EXISTS checkout_sessions_report_id_idx
+    ON checkout_sessions(report_id)
+  `;
+
+  await sql`
+    CREATE INDEX IF NOT EXISTS checkout_sessions_expires_at_idx
+    ON checkout_sessions(expires_at)
+  `;
+
+  checkoutSessionsTableReady = true;
+}
+
 export async function createReport(params: {
   sessionId: string;
   blobUrl: string | null;
   result: AnalysisResult;
   accessTokenHash: string;
+  retention?: ReportRetention;
 }): Promise<string> {
   const rows = await sql`
     INSERT INTO reports (session_id, blob_url, result, access_token_hash, expires_at)
@@ -47,11 +88,86 @@ export async function createReport(params: {
       ${params.blobUrl},
       ${JSON.stringify(params.result)},
       ${params.accessTokenHash},
-      NOW() + INTERVAL '1 hour'
+      NOW() + CASE
+        WHEN ${params.retention === "beta_full_access"} THEN INTERVAL '30 days'
+        ELSE INTERVAL '1 hour'
+      END
     )
     RETURNING id
   `;
   return rows[0].id as string;
+}
+
+export async function createCheckoutSession(params: {
+  checkoutId: string;
+  reportId: string;
+  accessToken: string;
+  plan: string;
+}): Promise<void> {
+  await ensureCheckoutSessionsTable();
+  const accessTokenHash = hashReportAccessToken(params.accessToken);
+
+  await sql`
+    INSERT INTO checkout_sessions (
+      checkout_id,
+      report_id,
+      access_token,
+      access_token_hash,
+      plan,
+      expires_at
+    )
+    VALUES (
+      ${params.checkoutId},
+      ${params.reportId},
+      ${params.accessToken},
+      ${accessTokenHash},
+      ${params.plan},
+      NOW() + INTERVAL '24 hours'
+    )
+    ON CONFLICT (checkout_id) DO UPDATE SET
+      report_id = EXCLUDED.report_id,
+      access_token = EXCLUDED.access_token,
+      access_token_hash = EXCLUDED.access_token_hash,
+      plan = EXCLUDED.plan,
+      expires_at = EXCLUDED.expires_at
+  `;
+}
+
+export async function getCheckoutSession(checkoutId: string): Promise<CheckoutSessionRow | null> {
+  await ensureCheckoutSessionsTable();
+
+  const rows = await sql`
+    SELECT
+      checkout_id,
+      report_id::text AS report_id,
+      access_token,
+      access_token_hash,
+      plan
+    FROM checkout_sessions
+    WHERE checkout_id = ${checkoutId}
+      AND expires_at > NOW()
+    LIMIT 1
+  `;
+
+  const row = rows[0] as
+    | {
+        checkout_id: string;
+        report_id: string;
+        access_token: string;
+        access_token_hash: string;
+        plan: string;
+      }
+    | undefined;
+
+  if (!row) return null;
+
+  return {
+    checkoutId: row.checkout_id,
+    reportId: row.report_id,
+    accessToken: row.access_token,
+    accessTokenHash: row.access_token_hash,
+    plan: row.plan,
+  };
 }
 
 export async function getReportWithAccess(id: string, accessToken: string): Promise<ReportRow | null> {
@@ -69,7 +185,7 @@ export async function extendReportForCheckout(id: string, accessToken: string): 
   if (!accessToken) return false;
   const rows = await sql`
     UPDATE reports
-    SET expires_at = GREATEST(expires_at, NOW() + INTERVAL '2 hours')
+    SET expires_at = GREATEST(expires_at, NOW() + INTERVAL '24 hours')
     WHERE id = ${id}
       AND access_token_hash = ${hashReportAccessToken(accessToken)}
       AND expires_at > NOW()

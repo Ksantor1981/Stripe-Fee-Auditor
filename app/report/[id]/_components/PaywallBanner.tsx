@@ -24,25 +24,25 @@ export function PaywallBanner({ reportId, accessToken, email }: Props) {
   return (
     <>
       {/* Inline banner */}
-      <div className="rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-white p-6 text-center">
-        <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700 mb-3">
-          🎉 Free during beta
+      <div className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-6 text-center">
+        <div className="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 mb-3">
+          Full report
         </div>
         <h3 className="text-lg font-bold text-gray-900 mb-1">Unlock the full report</h3>
         <p className="text-sm text-gray-500 mb-4 max-w-sm mx-auto">
           Full anomaly breakdown with explanations, savings opportunities, monthly details, CSV export, and print-ready report.
         </p>
         <Button
-          className="bg-emerald-600 hover:bg-emerald-700 text-white px-6"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6"
           onClick={() => {
             trackEvent("funnel_paywall_modal_open");
             setOpen(true);
           }}
         >
-          Get Full Report — Free →
+          Unlock Full Report — $12 →
         </Button>
         <p className="mt-3 text-xs text-gray-400">
-          No payment required during beta · Instant access
+          One-time payment · Instant access · Refund available
         </p>
       </div>
 
@@ -52,14 +52,14 @@ export function PaywallBanner({ reportId, accessToken, email }: Props) {
           <div className="bg-gray-900 px-6 py-5">
             <h2 className="text-lg font-bold text-white">Get Full Report</h2>
             <p className="text-sm text-gray-400 mt-1">
-              Free during beta — no payment required
+              One-time access to the complete analysis
             </p>
           </div>
           <div className="p-5">
-            <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-4 mb-4">
+            <div className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-4 mb-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="font-semibold text-emerald-700">Full Report</span>
-                <span className="text-sm font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">Free β</span>
+                <span className="font-semibold text-blue-700">Full Report</span>
+                <span className="text-sm font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">$12</span>
               </div>
               <ul className="space-y-1">
                 {[
@@ -70,19 +70,19 @@ export function PaywallBanner({ reportId, accessToken, email }: Props) {
                   "Print-ready report",
                 ].map((f) => (
                   <li key={f} className="text-xs text-gray-600 flex items-center gap-1.5">
-                    <span className="text-emerald-500">✓</span> {f}
+                    <span className="text-blue-500">✓</span> {f}
                   </li>
                 ))}
               </ul>
             </div>
             <button
-              className="w-full rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 transition-colors"
+              className="w-full rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 transition-colors"
               onClick={unlock}
             >
-              Unlock Now — It&apos;s Free →
+              Continue to Secure Checkout →
             </button>
             <p className="text-xs text-center text-gray-400 mt-3">
-              Beta pricing · Will move to paid after launch
+              Processed by Polar · Refund available — see policy
             </p>
           </div>
         </DialogContent>

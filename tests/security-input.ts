@@ -4,6 +4,7 @@
  */
 
 import { sanitizeColumnMapping, MAX_CSV_ROWS } from "../lib/analyze-input";
+import { isBetaFlagEnabled } from "../lib/beta-access";
 import { verifyCronBearer } from "../lib/cron-bearer";
 
 let passed = 0;
@@ -82,6 +83,20 @@ console.log("\n📋 analyze-input / MAX_CSV_ROWS export");
 
 test("MAX_CSV_ROWS is positive", () => {
   assert(Number.isFinite(MAX_CSV_ROWS) && MAX_CSV_ROWS > 0, "bound");
+});
+
+console.log("\n📋 beta-access / isBetaFlagEnabled");
+
+test("beta full report flag defaults to false", () => {
+  assert(isBetaFlagEnabled(undefined) === false, "undefined");
+  assert(isBetaFlagEnabled("") === false, "empty");
+  assert(isBetaFlagEnabled("false") === false, "false string");
+});
+
+test("beta full report flag accepts explicit truthy values", () => {
+  assert(isBetaFlagEnabled("true") === true, "true");
+  assert(isBetaFlagEnabled("1") === true, "1");
+  assert(isBetaFlagEnabled("YES") === true, "YES");
 });
 
 console.log("\n" + (failed === 0 ? `✅ All ${passed} tests passed` : `❌ ${failed} failed, ${passed} passed`));
