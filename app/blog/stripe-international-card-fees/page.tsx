@@ -61,22 +61,35 @@ export default function Page() {
               top of the standard processing rate.
             </p>
             <p className="mt-3">
-              This means a transaction that would normally cost 2.9% + $0.30 instead costs
-              4.4% + $0.30 — a 52% increase in percentage fees. The $0.30 fixed fee stays the same.
+              For a US account, a domestic card is typically 2.9% + $0.30. An international card adds
+              1.5% cross-border on top — before any currency conversion. The $0.30 fixed fee stays the
+              same.
             </p>
             <div className="mt-4 rounded-lg bg-gray-50 border border-gray-100 px-5 py-4">
               <p className="text-sm font-semibold text-gray-700 mb-3">Example: $100 payment</p>
               <div className="space-y-2 text-sm">
                 {[
-                  { label: "Domestic US card", fee: "$3.20", rate: "3.2%" },
-                  { label: "International card", fee: "$4.70", rate: "4.7%" },
-                  { label: "Difference", fee: "+$1.50", rate: "+1.5%" },
-                ].map((r, i) => (
-                  <div key={i} className={`flex justify-between ${i === 2 ? "pt-2 border-t border-gray-200 font-medium text-red-700" : "text-gray-600"}`}>
+                  { label: "Domestic US card", fee: "$3.20", rate: "3.2%", emphasis: false },
+                  { label: "International card + same currency", fee: "$4.70", rate: "4.7%", emphasis: false },
+                  { label: "International card + currency conversion", fee: "$5.70", rate: "5.7%", emphasis: false },
+                  { label: "Extra vs domestic (intl + FX)", fee: "+$2.50", rate: "+2.5 pp", emphasis: true },
+                ].map((r) => (
+                  <div
+                    key={r.label}
+                    className={`flex justify-between ${r.emphasis ? "pt-2 border-t border-gray-200 font-medium text-red-700" : "text-gray-600"}`}
+                  >
                     <span>{r.label}</span>
-                    <span>{r.fee} ({r.rate})</span>
+                    <span>
+                      {r.fee} ({r.rate})
+                    </span>
                   </div>
                 ))}
+              </div>
+              <div className="mt-3 rounded-lg bg-red-50 border border-red-100 px-4 py-3 text-sm text-red-800">
+                <strong>2026 update:</strong> International card + currency conversion can reach about
+                $5.70 on a $100 charge (1.5% cross-border + ~1% conversion + 2.9% base + $0.30 fixed).
+                This is often the most expensive common card-present scenario — confirm numbers in your
+                Stripe Dashboard for your pricing.
               </div>
             </div>
           </section>
@@ -175,7 +188,7 @@ export default function Page() {
                 },
                 {
                   title: "Use iDEAL for Netherlands customers",
-                  desc: "iDEAL is the dominant payment method in the Netherlands and costs a flat €0.29 per transaction regardless of size. For a €100 payment, that's 0.29% vs 4.4% with an international card.",
+                  desc: "iDEAL is the dominant payment method in the Netherlands and costs a flat €0.29 per transaction regardless of size. For a €100 payment, that's 0.29% vs roughly 4.7%+ with an international card in Euro.",
                 },
                 {
                   title: "Enable BECS Direct Debit for Australia",

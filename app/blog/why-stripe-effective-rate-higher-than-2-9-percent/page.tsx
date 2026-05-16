@@ -79,9 +79,20 @@ export default function Page() {
               with global customers, this is often the single biggest driver of elevated fees.
             </p>
             <p className="mt-3">
-              A payment that should cost 2.9% ends up costing 4.4% — a 52% increase over the
-              advertised rate. If 30% of your customers are international, your blended rate
-              could easily be 3.3–3.5% even with everything else being normal.
+              A payment that should cost 2.9% + $0.30 on paper often lands near 4.4% + $0.30 for an
+              international card in the same currency as settlement — about $4.70 in fees on a $100
+              charge vs $3.20 domestic.
+            </p>
+            <p className="mt-3">
+              Plus roughly 1% currency conversion when the card currency differs from your settlement
+              currency — stacked with cross-border, that is about 2.5 percentage points of surcharge on
+              the charged amount before the fixed fee. On a $100 charge, international + conversion
+              commonly reaches about $5.70 in fees (2.9% base + $0.30 + 1.5% cross-border + ~1%
+              conversion — verify your live Stripe pricing).
+            </p>
+            <p className="mt-3">
+              If 30% of your customers are international, your blended rate could easily be 3.3–3.5%
+              even when everything else looks normal.
             </p>
             <div className="mt-3 rounded-lg bg-gray-50 border border-gray-100 px-4 py-3 text-sm text-gray-600">
               <strong>How to check:</strong> In your Stripe Balance CSV export, rows with
@@ -113,16 +124,17 @@ export default function Page() {
 
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-3">
-              Reason 3: Currency conversion adds 1–2%
+              Reason 3: Currency conversion (often ~1%)
             </h2>
             <p>
-              If a customer pays in a currency other than your settlement currency, Stripe applies
-              a currency conversion fee of 1–2% on top of standard fees. This happens automatically
-              when you accept payments in multiple currencies.
+              If a customer pays in a currency other than your settlement currency, Stripe applies a
+              currency conversion fee — commonly around <strong>1%</strong> on many USD-settlement
+              flows (confirm your live pricing). This stacks with card and cross-border fees.
             </p>
             <p className="mt-3">
-              Many businesses don't realize this is happening until they look at the data. Stripe
-              shows the conversion in the transaction details, but it's easy to miss in aggregate.
+              Combined with international cards, conversion is how effective rates reach roughly{" "}
+              <strong>5.7%</strong> on a $100 charge in a typical worst-case mix — see Reason 1 above.
+              Stripe shows conversion in transaction details, but it is easy to miss in aggregate.
             </p>
           </section>
 
@@ -152,6 +164,7 @@ export default function Page() {
               {[
                 { label: "US-only, domestic cards, B2C", rate: "2.9–3.1%" },
                 { label: "Mixed US/international, SaaS", rate: "3.2–3.8%" },
+                { label: "SaaS with Stripe Billing add-on", rate: "3.6–4.5%+" },
                 { label: "Majority international customers", rate: "4.0–5.0%+" },
                 { label: "Low average transaction value (<$20)", rate: "4.0–6.0%+" },
               ].map((r) => (

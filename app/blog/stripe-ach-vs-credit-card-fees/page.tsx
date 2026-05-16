@@ -84,6 +84,12 @@ export default function Page() {
               ACH is US-only. Stripe also supports SEPA Direct Debit for Europe (0.8%, capped at €5)
               and BECS for Australia (1.75%, capped at A$3.50).
             </p>
+            <p className="mt-4 rounded-lg border border-amber-100 bg-amber-50/80 px-4 py-3 text-sm text-amber-950">
+              <strong>Stripe Billing:</strong> If you use Stripe&apos;s subscription billing product for
+              invoicing and recurring logic, plan for about <strong>0.7%</strong> of billing volume on
+              top of card or ACH processing — it moves blended rates up for SaaS stacks using that
+              engine (verify current Stripe Billing pricing on stripe.com/pricing).
+            </p>
           </section>
 
           <section>

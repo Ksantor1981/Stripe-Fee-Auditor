@@ -26,8 +26,13 @@ export default function BlogPost1() {
           <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">1. More International Cards</h2>
           <p>
             Stripe charges an additional 1.5% for international cards (cards issued outside your country).
-            If your customer mix has shifted toward international buyers — through SEO, new markets, or
-            paid ads — your effective rate rises automatically.
+            If the charge currency differs from your settlement currency, conversion fees (often around 1%)
+            stack on top — a common worst-case mix can approach ~5.7% of the charge before fixed fees on a
+            $100 example (see our{" "}
+            <Link href="/blog/stripe-international-card-fees" className="text-blue-600 underline">
+              international fees guide
+            </Link>
+            ). If your customer mix has shifted toward international buyers, your effective rate rises.
           </p>
 
           <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">2. More American Express Transactions</h2>
@@ -52,8 +57,15 @@ export default function BlogPost1() {
 
           <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">5. Currency Conversion</h2>
           <p>
-            Stripe adds a 1% conversion fee when charging in a currency other than your settlement currency.
-            If you recently started selling globally, this is likely contributing.
+            Stripe adds roughly a 1% conversion fee when charging in a currency other than your settlement currency.
+            If you recently started selling globally, this is likely contributing — especially alongside international cards.
+          </p>
+
+          <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">6. Stripe Billing Usage</h2>
+          <p>
+            If you use Stripe&apos;s Billing product for subscriptions and invoicing, pricing commonly includes about{" "}
+            <strong>0.7%</strong> of billing volume on top of card or ACH processing. Growing recurring revenue can
+            raise total Stripe costs even when card rates look unchanged — check your Dashboard pricing page.
           </p>
 
           <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">How to Diagnose Your Fees</h2>

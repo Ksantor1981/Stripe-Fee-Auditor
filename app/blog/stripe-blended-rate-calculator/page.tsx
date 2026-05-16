@@ -34,6 +34,12 @@ const FACTORS = [
     severity: "medium",
   },
   {
+    factor: "Stripe Billing fee",
+    desc: "If you use Stripe's subscription billing engine, it adds about 0.7% of billing volume on top of card processing fees.",
+    impact: "+0.7% of volume",
+    severity: "medium",
+  },
+  {
     factor: "Refunds (fee not returned)",
     desc: "Stripe keeps the processing fee when you issue a refund, increasing your net cost.",
     impact: "+0.1–0.5% blended",
@@ -203,6 +209,7 @@ export default function Page() {
             <ul className="mt-3 space-y-2 list-none">
               {[
                 { profile: "US-only SaaS, domestic cards, avg transaction $50+", range: "2.9–3.1%" },
+                { profile: "US-only SaaS with Stripe Billing", range: "3.6–4.5%" },
                 { profile: "Mixed US/international, SaaS or subscriptions", range: "3.2–3.8%" },
                 { profile: "Majority international customers", range: "4.0–5.0%+" },
                 { profile: "Low average transaction value (under $20)", range: "4.0–6.0%+" },
