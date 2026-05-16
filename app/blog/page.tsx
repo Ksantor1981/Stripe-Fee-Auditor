@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PRIVACY_ARTICLE_INDEX } from "./_data/privacyPosts";
 
 export const metadata: Metadata = {
   title: "Blog — Stripe Fee Auditor",
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
 };
 
 const POSTS = [
+  ...PRIVACY_ARTICLE_INDEX,
   {
     slug: "why-stripe-effective-rate-higher-than-2-9-percent",
     title: "Why Is My Stripe Effective Rate Higher Than 2.9%?",
