@@ -174,6 +174,11 @@ export default function Page() {
                 </li>
               ))}
             </ul>
+            <p className="mt-3 text-sm text-gray-500">
+              <strong>Stripe Billing:</strong> pay-as-you-go adds{" "}
+              <strong>0.7%</strong> of billing volume on top of card/ACH processing; fixed annual plans start around{" "}
+              <strong>$620/month</strong> instead — check which model you are on in Stripe pricing.
+            </p>
             <p className="mt-4">
               If your rate is above the range for your profile, there's likely a specific driver
               worth investigating — usually international cards or small transactions.

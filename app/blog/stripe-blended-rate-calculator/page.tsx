@@ -29,15 +29,21 @@ const FACTORS = [
   },
   {
     factor: "Currency conversion",
-    desc: "When Stripe converts between currencies, it adds 1–2% to the transaction.",
-    impact: "+1–2% per conversion",
+    desc: "When Stripe converts between currencies, it typically adds about 1% on top of processing (confirm your pricing tier).",
+    impact: "~+1% per conversion",
     severity: "medium",
   },
   {
     factor: "Stripe Billing fee",
-    desc: "If you use Stripe's subscription billing engine, it adds about 0.7% of billing volume on top of card processing fees.",
-    impact: "+0.7% of volume",
+    desc: "Stripe Billing adds 0.7% of billing volume on the pay-as-you-go plan on top of card processing — or you can use fixed annual plans starting around $620/month instead of the percentage.",
+    impact: "+0.7% or flat fee",
     severity: "medium",
+  },
+  {
+    factor: "Manually entered cards",
+    desc: "Cards typed in by staff (manual / MOTO entry) cost an extra 0.5% on top of standard card rates — easy to miss for B2B phone orders.",
+    impact: "+0.5%",
+    severity: "low",
   },
   {
     factor: "Refunds (fee not returned)",

@@ -88,6 +88,10 @@ export default function Page() {
               For a $5 transaction, the $0.30 fixed fee alone represents 6% of the transaction
               value — before the 2.9% percentage fee even applies.
             </p>
+            <p className="mt-4 rounded-lg border border-gray-100 bg-gray-50 px-4 py-3 text-sm text-gray-700">
+              <strong>Manual card entry:</strong> If your team keys in card numbers (phone orders, invoices paid over the phone),
+              Stripe adds <strong>+0.5%</strong> on top of standard card pricing — another lift on top of the fixed $0.30, separate from transaction size.
+            </p>
           </section>
 
           <section>

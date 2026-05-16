@@ -63,9 +63,9 @@ export default function BlogPost1() {
 
           <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">6. Stripe Billing Usage</h2>
           <p>
-            If you use Stripe&apos;s Billing product for subscriptions and invoicing, pricing commonly includes about{" "}
-            <strong>0.7%</strong> of billing volume on top of card or ACH processing. Growing recurring revenue can
-            raise total Stripe costs even when card rates look unchanged — check your Dashboard pricing page.
+            If you use Stripe&apos;s Billing product for subscriptions and invoicing, pay-as-you-go pricing commonly adds about{" "}
+            <strong>0.7%</strong> of billing volume on top of card or ACH processing. Fixed annual Billing plans start around{" "}
+            <strong>$620/month</strong> instead of that percentage — growing recurring revenue raises costs differently depending on which model you chose.
           </p>
 
           <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">How to Diagnose Your Fees</h2>

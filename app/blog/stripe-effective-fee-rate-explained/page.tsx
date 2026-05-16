@@ -48,7 +48,7 @@ export default function BlogPost3() {
             <li>The $0.30 fixed fee adds ~0.3% on a $100 average order</li>
             <li>International cards add 1.5% cross-border on top of base pricing</li>
             <li>Currency conversion often adds ~1% when settlement currency differs — stacks with international surcharges</li>
-            <li>Stripe Billing adds about 0.7% of billing volume when you use that product for subscriptions/invoicing</li>
+            <li>Stripe Billing: ~0.7% of billing volume on pay-as-you-go, or fixed annual plans from ~$620/month — check your plan</li>
             <li>Disputes cost $15 each</li>
             <li>Refunds don&apos;t return the original processing fee</li>
           </ul>
