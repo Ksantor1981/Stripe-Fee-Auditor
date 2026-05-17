@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
 
 export const metadata: Metadata = {
   title: "Why Did My Stripe Fees Increase? — Stripe Fee Auditor",
@@ -96,6 +97,7 @@ export default function BlogPost1() {
           <Link href="/analyze" className="inline-block bg-blue-600 text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
             Analyze My Fees →
           </Link>
+          <BlogBetaRetentionNote tone="gray" />
         </div>
       </div>
     </main>

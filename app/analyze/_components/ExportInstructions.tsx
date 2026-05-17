@@ -14,26 +14,26 @@ import { trackEvent } from "@/lib/analytics";
 const STEPS = [
   {
     num: "1",
-    title: "Open Stripe Dashboard → Reports",
-    body: 'In the left sidebar click Reporting → Reports. You\'ll see Balance transactions (Itemized), All fees, and Payout reconciliation.',
-    hint: "Make sure you have access to Reporting — Owners and Admins can see this.",
+    title: "Stripe Dashboard → Reports → Balance summary",
+    body: "In the sidebar, open Reports, then open Balance summary (under balance / money movement — not Payments or Payouts). Some accounts show the section label as “Reporting”; you still want Reports → Balance summary.",
+    hint: "Owners and Administrators can export. On Stripe Connect, you may need the platform account.",
     screenshot: "/screenshots/stripe-step1-reports.png",
-    screenshotAlt: "Stripe Dashboard Reports page showing Balance transactions (Itemized), All fees, and Payout reconciliation",
+    screenshotAlt: "Stripe Dashboard Reports area leading to Balance summary",
     screenshotH: 420,
   },
   {
     num: "2",
-    title: 'Click "Balance transactions (Itemized)" → set date range → Export',
-    body: 'Under Track money movement click Balance transactions (Itemized). Set your date range (last 3–12 months recommended), then click Export in the top right.',
-    hint: '⚠️ In the Export dropdown choose "Itemized" (not Summary). The itemized CSV contains individual transactions with the correct format. File downloads as balance_YYYY-MM-DD.csv.',
+    title: "Export → Itemized → set date range",
+    body: 'Click Export (top right). Choose Itemized — not Summary — so each row is one balance transaction with fees. Set your date range (we recommend 3–12 months).',
+    hint: "Itemized matches Fee Auditor’s expected columns (id, type, amount, fee, …).",
     screenshot: "/screenshots/stripe-step2-balance.png",
-    screenshotAlt: "Stripe Balance transactions (Itemized) report with Export button in top right corner",
+    screenshotAlt: "Balance summary export flow with Itemized selected",
     screenshotH: 380,
   },
   {
     num: "3",
-    title: 'Click "Download to system" → Save CSV',
-    body: 'In the Export dropdown select Download to system. The file downloads as a CSV named something like balance_YYYY-MM-DD.csv.',
+    title: 'Download to system → Save CSV',
+    body: 'Finish the export and choose Download to system. The file saves as a CSV (often named like balance_YYYY-MM-DD.csv).',
     hint: "Choose 'Download to system' — not 'Export to warehouse'.",
     screenshot: "/screenshots/stripe-step3-export.png",
     screenshotAlt: "Stripe Export dropdown showing Download to system option highlighted",
@@ -122,7 +122,7 @@ export function ExportInstructions({ onReady }: Props) {
             What if I downloaded the wrong file?
           </AccordionTrigger>
           <AccordionContent className="text-sm text-gray-500 pb-4">
-            Make sure you downloaded from <strong>Reports → Balance transactions (Itemized)</strong>, not Payments or Payouts.
+            Make sure you used <strong>Reports → Balance summary → Export → Itemized → Download to system</strong>, not Payments or Payouts-only exports.
             The correct file has columns like <code className="bg-gray-100 px-1 rounded">id</code>,{" "}
             <code className="bg-gray-100 px-1 rounded">type</code>,{" "}
             <code className="bg-gray-100 px-1 rounded">amount</code>,{" "}

@@ -9,6 +9,7 @@ import { FeedbackForm } from "./FeedbackForm";
 import { MultiMonthReport } from "./MultiMonthReport";
 import { SingleMonthReport } from "./SingleMonthReport";
 import { LowVolumeReport } from "./LowVolumeReport";
+import { ShareEmbedBenchmark } from "./ShareEmbedBenchmark";
 
 interface Props {
   reportId: string;
@@ -145,7 +146,8 @@ export function ReportShell({
         {result.mode === "single-month" && <SingleMonthReport {...baseReportProps} />}
         {result.mode === "low-volume" && <LowVolumeReport reportId={reportId} result={result} isPaid={hasFullAccess} />}
 
-        <div className="mt-8">
+        <div className="mt-8 space-y-8">
+          <ShareEmbedBenchmark reportId={reportId} accessToken={accessToken} result={result} />
           <FeedbackForm reportId={reportId} />
         </div>
       </div>

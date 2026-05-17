@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
 
 export const metadata: Metadata = {
   title: "What Is Your Stripe Effective Fee Rate? — Stripe Fee Auditor",
@@ -64,8 +65,9 @@ export default function BlogPost3() {
         <div className="mt-12 rounded-xl bg-blue-50 border border-blue-100 p-6 text-center">
           <p className="font-semibold text-gray-900 mb-2">Calculate your effective rate instantly</p>
           <Link href="/analyze" className="inline-block bg-blue-600 text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
-            Analyze My Fees — Free →
+            Analyze My Fees →
           </Link>
+          <BlogBetaRetentionNote tone="gray" />
         </div>
       </div>
     </main>

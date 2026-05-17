@@ -31,8 +31,14 @@ export default function RefundPage() {
             <h2 className="text-lg font-semibold text-gray-900 mb-3">1. What you&apos;re buying</h2>
             <p className="text-gray-600 leading-relaxed">
               Stripe Fee Auditor sells <strong>one-time digital access</strong> to an automated fee analysis
-              based on the Stripe Balance CSV you upload. Delivery is complete when your paid report is
-              unlocked in the product (including CSV export / print view where applicable).
+              based on the Stripe Balance CSV you upload, when you purchase a full-report unlock after beta
+              or whenever checkout is offered. During our promotional beta, the same analysis may be provided
+              without payment on the terms in our{" "}
+              <Link href="/privacy" className="text-blue-600 hover:underline">
+                Privacy Policy
+              </Link>
+              . For paid unlocks, delivery is complete when your report is unlocked in the product (including
+              CSV export / print view where applicable).
             </p>
           </section>
 

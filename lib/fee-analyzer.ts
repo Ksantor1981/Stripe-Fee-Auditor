@@ -86,6 +86,14 @@ export interface TransactionBucket {
   avgFee: number; // avg fee per transaction
 }
 
+/** Share of all-in Stripe fees for donut / breakdown charts (derived from CSV rows). */
+export interface FeeMixSlice {
+  label: string;
+  amount: number;
+  /** Percent of total all-in fees (sums ~100 across slices). */
+  sharePct: number;
+}
+
 export interface AnalysisResult {
   mode: AnalysisMode;
   chargeVolume: number;
@@ -110,6 +118,8 @@ export interface AnalysisResult {
   transactionBuckets?: TransactionBucket[];
   /** Domestic vs international aggregates derived from all charge rows. */
   geographySummary?: GeographySummary;
+  /** Coarse fee buckets: card processing vs disputes, refunds, etc. */
+  feeMix?: FeeMixSlice[];
   periodDelta: number | null;
   /** Unique currencies found in charge rows — used for multi-currency warning. */
   currencies: string[];
@@ -130,6 +140,8 @@ const SMALL_TRANSACTION_USD = 20;
 const LARGE_CARD_CHARGE_USD = 500;
 const ACH_RATE = 0.008;
 const ACH_CAP_USD = 5;
+/** Conservative share of eligible $500+ invoices expected to move off cards to ACH. */
+const ACH_SWITCHING_SHARE_ASSUMPTION = 0.2;
 
 function searchableText(row: NormalizedRow): string {
   return `${row.id} ${row.description ?? ""}`.toLowerCase();
@@ -158,6 +170,65 @@ function nonChargeFeeAmount(row: NormalizedRow): number {
   }
 
   return 0;
+}
+
+function nonChargeFeeCategory(row: NormalizedRow): string {
+  const t = `${row.type} ${row.reportingCategory ?? ""}`.toLowerCase();
+  if (t.includes("refund")) return "Refund-related fees";
+  if (t.includes("dispute") || t.includes("chargeback")) return "Disputes & chargebacks";
+  if (t.includes("radar") || t.includes("fraud")) return "Radar & fraud tools";
+  if (t.includes("billing") || t.includes("invoice") || t.includes("subscription"))
+    return "Billing & subscriptions";
+  if (t.includes("payout") || t.includes("transfer")) return "Payouts & transfers";
+  if (t.includes("tax") || t.includes("stripe_tax")) return "Tax & compliance";
+  if (t.includes("connect") || t.includes("application_fee")) return "Connect & platform";
+  if (t.includes("terminal")) return "Terminal";
+  if (t.includes("climate")) return "Climate & contributions";
+  const raw = (row.reportingCategory || row.type).replace(/_/g, " ").trim();
+  if (!raw) return "Other Stripe fees";
+  return raw.charAt(0).toUpperCase() + raw.slice(1);
+}
+
+/** Buckets for donut chart: charge processing + grouped non-charge fee lines. */
+function buildFeeMix(rows: NormalizedRow[], chargeFees: number, allInFees: number): FeeMixSlice[] | undefined {
+  if (allInFees <= 0) return undefined;
+
+  const buckets = new Map<string, number>();
+  for (const row of rows) {
+    if (row.type === "charge") continue;
+    const amt = nonChargeFeeAmount(row);
+    if (amt <= 0) continue;
+    const label = nonChargeFeeCategory(row);
+    buckets.set(label, (buckets.get(label) ?? 0) + amt);
+  }
+
+  const slices: FeeMixSlice[] = [];
+  if (chargeFees > 0.005) {
+    slices.push({
+      label: "Card & charge processing",
+      amount: roundMoney(chargeFees),
+      sharePct: 0,
+    });
+  }
+
+  for (const [label, amount] of [...buckets.entries()].sort((a, b) => b[1] - a[1])) {
+    if (amount < 0.005) continue;
+    slices.push({
+      label,
+      amount: roundMoney(amount),
+      sharePct: 0,
+    });
+  }
+
+  if (slices.length === 0) return undefined;
+
+  const total = slices.reduce((acc, s) => acc + s.amount, 0);
+  if (total <= 0) return undefined;
+
+  return slices.map((s) => ({
+    ...s,
+    sharePct: roundMoney((s.amount / total) * 100),
+  }));
 }
 
 function roundMoney(value: number): number {
@@ -223,10 +294,11 @@ function classifyAnomaly(row: NormalizedRow, baselineRate: number): AnomalyExpla
 function buildSavingsOpportunities(
   charges: NormalizedRow[],
   anomalies: NormalizedRow[],
-  baselineRate: number
+  baselineRate: number,
+  monthsInData: number
 ): SavingsOpportunity[] {
   const opportunities: SavingsOpportunity[] = [];
-  const monthsInData = new Set(charges.map((r) => r.month)).size || 1;
+  const months = Math.max(1, monthsInData);
 
   // International card savings
   const intlCharges = charges.filter(isInternationalLike);
@@ -235,7 +307,7 @@ function buildSavingsOpportunities(
     const expectedFees = intlCharges.reduce((acc, r) => acc + r.amount * (baselineRate / 100), 0);
     const excessFees = intlFees - expectedFees;
     if (excessFees > 0) {
-      const annualSavings = Math.round(((excessFees * 12) / monthsInData) / 10) * 10;
+      const annualSavings = Math.round(((excessFees * 12) / months) / 10) * 10;
       opportunities.push({
         title: `${intlCharges.length} international card charges driving up your rate`,
         annualSavings,
@@ -255,7 +327,7 @@ function buildSavingsOpportunities(
   if (smallCharges.length > 5) {
     const avgSmallAmount = sum(smallCharges, "amount") / smallCharges.length;
     const fixedFeeWaste = smallCharges.length * FIXED_CARD_FEE_USD;
-    const annualSavings = Math.round(((fixedFeeWaste * 12) / monthsInData) / 10) * 10;
+    const annualSavings = Math.round(((fixedFeeWaste * 12) / months) / 10) * 10;
     if (annualSavings > 0) {
       opportunities.push({
         title: `${smallCharges.length} small transactions under $20 with high per-dollar cost`,
@@ -284,10 +356,12 @@ function buildSavingsOpportunities(
     );
     const savings = cardFees - achFees;
     if (savings > 0) {
+      const rawAnnualIfFullSwitch = ((savings * 12) / months) * ACH_SWITCHING_SHARE_ASSUMPTION;
+      const annualSavings = Math.round(rawAnnualIfFullSwitch / 10) * 10;
       opportunities.push({
         title: `${largeCardCharges.length} large card charges over $500 that could use ACH`,
-        annualSavings: Math.round(((savings * 12) / monthsInData) / 10) * 10,
-        tip: "Offer ACH/bank transfer for invoices over $500. ACH costs 0.8% (max $5) vs 2.9%+ for cards.",
+        annualSavings,
+        tip: `Offer ACH/bank transfer for invoices over $500. ACH costs 0.8% (max $5) vs 2.9%+ for cards. Annual estimate assumes ~${Math.round(ACH_SWITCHING_SHARE_ASSUMPTION * 100)}% of these invoices switch to ACH.`,
         confidence: "high",
         steps: [
           "Stripe Dashboard → Settings → Payment methods → enable ACH Direct Debit",
@@ -454,7 +528,7 @@ function buildTransactionBuckets(charges: NormalizedRow[]): TransactionBucket[] 
       rate: volume > 0 ? roundMoney((fees / volume) * 100) : 0,
       avgFee: rows.length > 0 ? roundMoney(fees / rows.length) : 0,
     };
-  }).filter((b) => b.count > 0);
+  });
 }
 
 function redactStoredRow<T extends NormalizedRow>(row: T): T {
@@ -533,7 +607,7 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
   }));
 
   // Build savings opportunities (used for Pro tier)
-  const savingsOpportunities = buildSavingsOpportunities(charges, anomalies, chargeRate);
+  const savingsOpportunities = buildSavingsOpportunities(charges, anomalies, chargeRate, monthsInData);
   const refundSummary = buildRefundSummary(rows, chargeVolume, chargeRate, monthsInData);
   const benchmark = buildFeeBenchmark(charges, chargeRate, refundSummary);
 
@@ -549,6 +623,7 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
 
   const transactionBuckets = buildTransactionBuckets(charges);
   const geographySummary = buildGeographySummary(charges);
+  const feeMix = buildFeeMix(rows, chargeFees, allInFees);
 
   return {
     mode,
@@ -567,6 +642,7 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
     refundSummary,
     transactionBuckets,
     geographySummary,
+    feeMix,
     periodDelta,
     currencies,
   };

@@ -1,26 +1,39 @@
 "use client";
 
-import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-} from "recharts";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import type { AnalysisResult, AnnotatedRow } from "@/lib/fee-analyzer";
-import type { NormalizedRow } from "@/lib/csv-parser";
-import { fmt$, fmtPct, fmtMonth, fmtDate } from "@/lib/format";
+import { fmt$, fmtPct, fmtMonth } from "@/lib/format";
+import { transactionPrimaryLabel, transactionSecondaryLine } from "@/lib/transaction-display";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { PaywallBanner } from "./PaywallBanner";
 import { FeeInsightCards } from "./FeeInsightCards";
 import { TransactionBuckets } from "./TransactionBuckets";
 import { SavingsOpportunities } from "./SavingsOpportunities";
 import { GeographyBreakdown } from "./GeographyBreakdown";
+import { ReportDashboardCharts } from "./ReportDashboardCharts";
 
-function transactionLabel(row: Pick<NormalizedRow, "id" | "description">): string {
-  return row.description || row.id;
-}
-
-function transactionMeta(row: Pick<NormalizedRow, "id" | "description">): string | null {
-  return row.description ? row.id : null;
+function anomalyExplainerText(
+  count: number,
+  baselineRate: number,
+  paidRows: AnnotatedRow[],
+  isPaid: boolean
+): string | null {
+  if (count <= 0) return null;
+  if (!isPaid) {
+    return `${count} charges cleared above your statistical threshold vs your baseline — unlock for categories and line-by-line tips.`;
+  }
+  const labels = paidRows.map((r) => r.explanation?.label ?? "Elevated rate");
+  const tally = new Map<string, number>();
+  for (const l of labels) tally.set(l, (tally.get(l) ?? 0) + 1);
+  const sorted = [...tally.entries()].sort((a, b) => b[1] - a[1]);
+  const top = sorted[0];
+  if (!top || paidRows.length === 0) {
+    return `${count} charges paid above your ~${baselineRate.toFixed(2)}% baseline — common when card mix includes international or premium interchange; not necessarily errors.`;
+  }
+  const [topLabel, topN] = top;
+  const pct = Math.round((topN / count) * 100);
+  return `${count} charges paid above your ~${baselineRate.toFixed(2)}% baseline — about ${pct}% tagged “${topLabel}”. Typical when international or premium cards are a large share; not necessarily errors.`;
 }
 
 interface Props {
@@ -62,22 +75,17 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
       ? result.annotatedAnomalies
       : anomalies.map((row) => ({ ...row }));
 
-  const chartData = monthly.map((m) => ({
-    name: fmtMonth(m.month),
-    fees: parseFloat(m.fees.toFixed(2)),
-    rate: parseFloat(m.rate.toFixed(3)),
-  }));
-
   const deltaPositive = periodDelta !== null && periodDelta > 0;
   const monthCount = monthly.length;
   const periodFees = allInFees ?? periodTotalFees(chargeFees, otherFees);
   const displayAllInRate = allInRate ?? (chargeVolume > 0 ? (periodFees / chargeVolume) * 100 : 0);
   const yearlyAtThisRate = annualRunRate(periodFees, monthCount);
+  const anomalyExplainer = anomalyExplainerText(anomalyUiCount, chargeRate, paidAnomalyRows, isPaid);
 
   return (
     <div className="space-y-8">
       {/* Hero */}
-      <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
+      <div id="report-share-snapshot" className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">
@@ -124,6 +132,10 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
           ))}
         </div>
 
+        {anomalyExplainer && (
+          <p className="mt-3 text-xs text-gray-500 leading-relaxed max-w-3xl">{anomalyExplainer}</p>
+        )}
+
         <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
           <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-1">
             Your rate vs advertised card pricing
@@ -140,30 +152,9 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
 
       <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
 
-      {isPaid && savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
+      <ReportDashboardCharts result={result} />
 
-      {/* Chart */}
-      <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
-        <h2 className="text-sm font-semibold text-gray-700 mb-4">Monthly Fees ($)</h2>
-        <ResponsiveContainer width="100%" height={220}>
-          <BarChart data={chartData} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-            <XAxis dataKey="name" tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
-            <YAxis
-              tickFormatter={(v) => `$${v}`}
-              tick={{ fontSize: 11 }}
-              tickLine={false}
-              axisLine={false}
-              width={55}
-            />
-            <Tooltip
-              formatter={(v) => [fmt$(Number(v ?? 0)), "Fees"]}
-              contentStyle={{ borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 12 }}
-            />
-            <Bar dataKey="fees" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
+      {isPaid && savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
 
       {result.transactionBuckets && result.transactionBuckets.length > 0 && (
         <TransactionBuckets buckets={result.transactionBuckets} baselineRate={chargeRate} />
@@ -198,10 +189,8 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
                 <div className="flex items-center gap-3 min-w-0">
                   <span className="text-xs font-bold text-gray-300 w-4">{i + 1}</span>
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-gray-800 truncate">{transactionLabel(row)}</p>
-                    <p className="text-xs text-gray-400 truncate">
-                      {transactionMeta(row) ? `${fmtDate(row.date)} · ${transactionMeta(row)}` : fmtDate(row.date)}
-                    </p>
+                    <p className="text-sm font-medium text-gray-800 truncate">{transactionPrimaryLabel(row)}</p>
+                    <p className="text-xs text-gray-400 truncate">{transactionSecondaryLine(row)}</p>
                   </div>
                 </div>
                 <div className="text-right flex-shrink-0">
@@ -218,7 +207,7 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
               <div className="relative">
                 {topDrivers.slice(3, 6).map((row) => (
                   <div key={row.id} className="flex items-center justify-between px-5 py-3.5 gap-4 select-none pointer-events-none blur-sm opacity-60">
-                    <p className="text-sm text-gray-800 truncate">{transactionLabel(row)}</p>
+                    <p className="text-sm text-gray-800 truncate">{transactionPrimaryLabel(row)}</p>
                     <p className="text-sm font-semibold">{fmt$(row.fee)}</p>
                   </div>
                 ))}
@@ -239,6 +228,9 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
               <p className="text-xs text-gray-400 mt-0.5">
                 Charges with unusually high fee rate versus your baseline
               </p>
+              {anomalyExplainer && (
+                <p className="text-xs text-gray-500 mt-2 leading-relaxed max-w-3xl">{anomalyExplainer}</p>
+              )}
             </div>
 
             {isPaid ? (
@@ -254,10 +246,8 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
                       className="flex flex-col gap-2 px-5 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-4"
                     >
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium text-gray-800 truncate">{transactionLabel(row)}</p>
-                        <p className="text-xs text-gray-400 truncate">
-                          {transactionMeta(row) ? `${fmtDate(row.date)} · ${transactionMeta(row)}` : fmtDate(row.date)}
-                        </p>
+                        <p className="text-sm font-medium text-gray-800 truncate">{transactionPrimaryLabel(row)}</p>
+                        <p className="text-xs text-gray-400 truncate">{transactionSecondaryLine(row)}</p>
                         {row.explanation && (
                           <div className="mt-3 rounded-lg border border-gray-100 bg-gray-50/80 px-3 py-2.5 space-y-1.5">
                             <Badge variant="outline" className="text-[10px] font-medium text-gray-700 border-gray-200">

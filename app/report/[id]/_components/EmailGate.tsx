@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -87,15 +88,21 @@ export function EmailGate({ reportId, accessToken, onUnlock }: Props) {
             </Button>
           </form>
 
-          <p className="mt-4 text-xs text-gray-400 text-center">
-            No spam. Unsubscribe anytime. Free previews expire in 1 hour.
+          <p className="mt-4 text-xs text-gray-400 text-center leading-relaxed">
+            No spam. Unsubscribe anytime. This preview expires in about{" "}
+            <strong>1 hour</strong> — see{" "}
+            <Link href="/privacy" className="underline hover:text-gray-500">
+              Privacy
+            </Link>{" "}
+            for retention. During site beta, real uploads may receive full-report access without payment
+            (you would not normally see this gate).
           </p>
         </div>
 
         {/* Trust */}
         <div className="mt-4 flex justify-center gap-6 text-xs text-gray-400">
           <span>🔒 No credit card</span>
-          <span>⚡ Free preview</span>
+          <span>⚡ Preview (~1h)</span>
           <span>🗑️ Auto-deleted</span>
         </div>
       </div>

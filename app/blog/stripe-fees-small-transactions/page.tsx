@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities -- long-form editorial copy */
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
 
 export const metadata: Metadata = {
   title: "Stripe Fees for Small Transactions: Why Your Rate Is Higher | Fee Auditor",
@@ -47,6 +48,7 @@ export default function Page() {
           <Link href="/analyze" className="underline font-medium">Upload your Stripe CSV</Link>{" "}
           to see your effective rate broken down by transaction size. Or{" "}
           <Link href="/analyze?sample=1" className="underline font-medium">try the sample report</Link>.
+          <BlogBetaRetentionNote />
         </div>
 
         <div className="mt-10 space-y-10 text-gray-700 leading-relaxed">
@@ -203,6 +205,7 @@ export default function Page() {
               Try sample report →
             </Link>
           </div>
+          <BlogBetaRetentionNote tone="gray" />
         </div>
 
         <div className="mt-10 border-t border-gray-100 pt-8">

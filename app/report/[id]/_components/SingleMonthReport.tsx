@@ -1,19 +1,12 @@
 "use client";
 
 import type { AnalysisResult } from "@/lib/fee-analyzer";
-import type { NormalizedRow } from "@/lib/csv-parser";
-import { fmt$, fmtPct, fmtMonth, fmtDate } from "@/lib/format";
+import { fmt$, fmtPct, fmtMonth } from "@/lib/format";
+import { transactionPrimaryLabel, transactionSecondaryLine } from "@/lib/transaction-display";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { PaywallBanner } from "./PaywallBanner";
 import { FeeInsightCards } from "./FeeInsightCards";
-
-function transactionLabel(row: Pick<NormalizedRow, "id" | "description">): string {
-  return row.description || row.id;
-}
-
-function transactionMeta(row: Pick<NormalizedRow, "id" | "description">): string | null {
-  return row.description ? row.id : null;
-}
+import { ReportDashboardCharts } from "./ReportDashboardCharts";
 
 interface Props {
   reportId: string;
@@ -39,7 +32,7 @@ export function SingleMonthReport({ reportId, accessToken, result, isPaid }: Pro
   return (
     <div className="space-y-6">
       {/* Hero */}
-      <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
+      <div id="report-share-snapshot" className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
         <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">
           Single-month analysis
         </p>
@@ -89,6 +82,8 @@ export function SingleMonthReport({ reportId, accessToken, result, isPaid }: Pro
 
       <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
 
+      <ReportDashboardCharts result={result} />
+
       {/* Fee blocks */}
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-5">
@@ -122,10 +117,8 @@ export function SingleMonthReport({ reportId, accessToken, result, isPaid }: Pro
               <div className="flex items-center gap-3 min-w-0">
                 <span className="text-xs font-bold text-gray-300 w-4">{i + 1}</span>
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-gray-800 truncate">{transactionLabel(row)}</p>
-                  <p className="text-xs text-gray-400 truncate">
-                    {transactionMeta(row) ? `${fmtDate(row.date)} · ${transactionMeta(row)}` : fmtDate(row.date)}
-                  </p>
+                  <p className="text-sm font-medium text-gray-800 truncate">{transactionPrimaryLabel(row)}</p>
+                  <p className="text-xs text-gray-400 truncate">{transactionSecondaryLine(row)}</p>
                 </div>
               </div>
               <div className="text-right">

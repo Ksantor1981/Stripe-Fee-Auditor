@@ -89,7 +89,7 @@ export const PRIVACY_ARTICLES: PrivacyArticle[] = [
         heading: "The CSV-first alternative",
         paragraphs: [
           "For a fee audit, real-time access is usually unnecessary. You do not need a permanent connection to answer questions like: What is my effective fee rate? Which transactions are expensive? Are refunds leaking margin? Is my 4.5% rate normal for my mix?",
-          "Fee Auditor uses this approach. You export an itemized Stripe Balance Transactions CSV, upload it for analysis, and get a report without connecting your Stripe account. The raw CSV is not stored as a raw file; the app keeps a temporary derived report so you can reopen the results.",
+          "Fee Auditor uses this approach. You export an itemized Stripe Balance Transactions CSV, upload it for analysis, and get a report without connecting your Stripe account. The raw CSV is not stored as a raw file; the app keeps a derived analysis result so you can reopen the link. During the promotional beta, full-report access may be free for up to 30 days; after beta, unpaid previews are shorter unless you purchase a full-report unlock — see the Privacy Policy.",
         ],
       },
     ],
@@ -291,7 +291,7 @@ export const PRIVACY_ARTICLES: PrivacyArticle[] = [
         heading: "How Fee Auditor automates the audit",
         paragraphs: [
           "Fee Auditor follows the CSV approach. You export the itemized Balance Transactions CSV, upload it, and get a report showing real effective fee rate, benchmark verdict, top fee drivers, refund leakage, anomalies, monthly trends, and savings opportunities.",
-          "It does not connect to your Stripe account or request OAuth access. The raw CSV is parsed for analysis and not stored as a raw file; a temporary derived report is retained so you can reopen your result.",
+          "It does not connect to your Stripe account or request OAuth access. The raw CSV is parsed for analysis and not stored as a raw file; a derived result is retained so you can reopen your link. During the promotional beta, full-report access may be free for up to 30 days; after beta, access follows the Privacy Policy (short unpaid preview vs paid unlock).",
         ],
       },
     ],
@@ -303,7 +303,7 @@ export const PRIVACY_ARTICLES: PrivacyArticle[] = [
       },
       {
         question: "Do I need to connect my Stripe account to use Fee Auditor?",
-        answer: "No. Fee Auditor uses an exported Stripe Balance Transactions CSV. It does not request Stripe OAuth or API access.",
+        answer: "No. Fee Auditor uses an exported Stripe Balance Transactions CSV. It does not request Stripe OAuth or API access. How long your report link stays available depends on beta vs standard mode — see our Privacy Policy.",
       },
     ],
     related: [
@@ -466,7 +466,7 @@ export const PRIVACY_ARTICLES: PrivacyArticle[] = [
         heading: "Why Fee Auditor uses CSV first",
         paragraphs: [
           "Fee Auditor is built for one job: help founders understand their actual Stripe fees without granting account access. For that job, CSV is the right starting point. It is explicit, limited to the exported period, and easy to revoke because there is no connection to revoke.",
-          "The result is not a live revenue analytics suite. It is a focused fee audit: real effective rate, benchmark verdict, refund leakage, top fee drivers, anomalies, monthly trends, and savings opportunities from your exported Balance data.",
+          "The result is not a live revenue analytics suite. It is a focused fee audit: real effective rate, benchmark verdict, refund leakage, top fee drivers, anomalies, monthly trends, and savings opportunities from your exported Balance data. During the promotional beta, uploads may receive full-report access without payment for up to 30 days; after beta, access follows the Privacy Policy (short unpaid preview vs one-time paid unlock).",
         ],
       },
     ],

@@ -62,13 +62,18 @@ export function GeographyBreakdown({ summary }: Props) {
       </div>
 
       <div className="rounded-xl bg-gray-50 border border-gray-100 px-4 py-3 text-sm text-gray-600 leading-relaxed">
-        International volume is{" "}
-        <strong className="text-gray-900">{Math.round(intlShare)}% of your total</strong>{" "}
-        but drives{" "}
-        <strong className="text-red-600">
-          ~{Math.round(Math.max(0, intlExcessShare))}% of your excess fees
+        International charges average{" "}
+        <strong className="text-gray-900">{fmtPct(intlRate)}</strong> vs{" "}
+        <strong className="text-gray-900">{fmtPct(domRate)}</strong> domestic — about{" "}
+        <strong className="text-red-600">{Math.round(pctDiff)}% more per dollar processed</strong>.
+        They make up{" "}
+        <strong className="text-gray-900">{Math.round(intlShare)}% of charge volume</strong>.
+        The slice we attribute to international uplift (international fees minus what the same volume would cost at your domestic effective rate) is about{" "}
+        <strong className="text-gray-900">
+          {Math.round(Math.max(0, intlExcessShare))}% of charge fees
         </strong>
-        .{" "}
+        — so most absolute fee dollars still come from domestic volume, even though each international dollar is pricier.
+        {" "}
         {intlShare > 20
           ? "Switching EU customers to SEPA Direct Debit or iDEAL eliminates the 1.5% cross-border surcharge entirely."
           : "Enable local payment methods (SEPA, iDEAL) for international customers to reduce cross-border costs."}

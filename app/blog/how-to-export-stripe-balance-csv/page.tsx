@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities -- long-form editorial copy */
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
 
 export const metadata: Metadata = {
   title: "How to Export Your Stripe Balance CSV: Step-by-Step | Fee Auditor",
@@ -50,6 +51,7 @@ export default function Page() {
           <Link href="/analyze" className="underline font-medium">upload it to feeauditor.com</Link>{" "}
           and get your real effective rate in 30 seconds. Or{" "}
           <Link href="/analyze?sample=1" className="underline font-medium">try the sample report first</Link>.
+          <BlogBetaRetentionNote />
         </div>
 
         <div className="mt-10 space-y-10 text-gray-700 leading-relaxed">
@@ -245,6 +247,7 @@ export default function Page() {
               Try sample report →
             </Link>
           </div>
+          <BlogBetaRetentionNote tone="gray" />
         </div>
 
         <div className="mt-10 border-t border-gray-100 pt-8">

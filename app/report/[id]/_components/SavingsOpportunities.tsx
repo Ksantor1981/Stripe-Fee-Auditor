@@ -51,7 +51,8 @@ export function SavingsOpportunities({ opportunities }: Props) {
       </div>
 
       <p className="text-xs text-gray-400 mb-5">
-        Directional estimates based on your transaction patterns. Verify before changing billing rules.
+        Directional estimates based on your transaction patterns. Verify before changing billing rules. The headline total
+        adds separate scenarios (they overlap in practice — not one combined guarantee).
       </p>
 
       <div className="space-y-3">

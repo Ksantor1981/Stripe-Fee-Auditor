@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
 import { absoluteUrl } from "@/lib/site-url";
 import { getPrivacyArticle, PRIVACY_ARTICLES } from "../_data/privacyPosts";
 
@@ -121,8 +122,10 @@ export default async function PrivacyArticlePage({ params }: Props) {
         <div className="mt-8 rounded-xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm text-blue-800">
           <strong>Want the answer from your own Stripe data?</strong>{" "}
           <Link href="/analyze" className="font-medium underline">Upload your Balance CSV</Link>{" "}
-          or <Link href="/analyze?sample=1" className="font-medium underline">open a sample report</Link>.
+          or{" "}
+          <Link href="/analyze?sample=1" className="font-medium underline">open a sample report</Link>.
           No Stripe OAuth or API connection required.
+          <BlogBetaRetentionNote />
         </div>
 
         <div className="mt-10 space-y-10 text-gray-700 leading-relaxed">
@@ -188,6 +191,7 @@ export default async function PrivacyArticlePage({ params }: Props) {
               View sample report →
             </Link>
           </div>
+          <BlogBetaRetentionNote tone="gray" />
         </section>
 
         <section className="mt-12 border-t border-gray-100 pt-8">

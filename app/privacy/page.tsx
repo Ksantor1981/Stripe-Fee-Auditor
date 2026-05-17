@@ -57,13 +57,15 @@ export default function PrivacyPage() {
                 <p>
                   The computed analysis (fee totals, rates, anomalies, etc.) is stored in our
                   database and linked to a random report ID plus a private access token you
-                  receive in the URL. <strong>Free preview reports expire about 1 hour</strong>{" "}
-                  after creation. During beta, full report links may remain available for{" "}
-                  <strong>up to 30 days</strong>. If you complete a purchase, we also extend
-                  access so your report remains available for <strong>up to 30 days</strong>{" "}
-                  from the time of payment. Stored results are derived from your CSV — not a
-                  full copy of the file — and we remove free-text transaction descriptions from
-                  stored report rows where they are not needed after analysis.
+                  receive in the URL. <strong>Outside our promotional beta</strong>, unpaid{" "}
+                  <strong>free preview</strong> reports expire about <strong>1 hour</strong>{" "}
+                  after creation. <strong>During beta</strong>, full-report links for real uploads
+                  may remain available for <strong>up to 30 days</strong> at no charge. If you
+                  complete a purchase, we extend access so your report remains available for{" "}
+                  <strong>up to 30 days</strong> from the time of payment. Stored results are
+                  derived from your CSV — not a full copy of the file — and we remove free-text
+                  transaction descriptions from stored report rows where they are not needed
+                  after analysis.
                 </p>
               </div>
               <div>
@@ -78,8 +80,7 @@ export default function PrivacyPage() {
               <div>
                 <p className="font-medium text-gray-800 mb-1">IP address</p>
                 <p>
-                  We log your IP address for rate limiting (to prevent abuse of the free tier).
-                  Rate limit records are deleted after approximately 2 days.
+                  We log your IP address for rate limiting (to prevent abuse). Rate limit records are deleted after approximately 2 days.
                 </p>
               </div>
               <div>
@@ -168,7 +169,7 @@ export default function PrivacyPage() {
                     <td className="px-4 py-3">Not stored as a file; processed in memory for the request</td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-3">Analysis result (free / unpaid access)</td>
+                    <td className="px-4 py-3">Analysis result (unpaid, outside beta)</td>
                     <td className="px-4 py-3">Expires about 1 hour after the report is created (may be briefly extended during checkout)</td>
                   </tr>
                   <tr>

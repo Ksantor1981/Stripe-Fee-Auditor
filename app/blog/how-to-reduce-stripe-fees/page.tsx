@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
 
 export const metadata: Metadata = {
   title: "How to Reduce Your Stripe Fees — Stripe Fee Auditor",
@@ -59,7 +60,10 @@ export default function BlogPost2() {
             Before optimizing, you need to know your current effective rate and which transactions
             are costing the most. Upload your Stripe Balance CSV to{" "}
             <Link href="/" className="text-blue-600 underline">Stripe Fee Auditor</Link> for a
-            free breakdown.
+            breakdown. During our promotional beta, real uploads get the full report free for up to 30 days;
+            after beta, access follows our{" "}
+            <Link href="/privacy" className="text-blue-600 underline">Privacy Policy</Link>
+            {" "}(short preview vs paid unlock).
           </p>
         </div>
 
@@ -68,6 +72,7 @@ export default function BlogPost2() {
           <Link href="/analyze" className="inline-block bg-blue-600 text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
             Analyze My Fees →
           </Link>
+          <BlogBetaRetentionNote tone="gray" />
         </div>
       </div>
     </main>

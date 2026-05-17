@@ -22,7 +22,7 @@ export function TransactionBuckets({ buckets, baselineRate }: Props) {
         </span>
       </div>
       <p className="text-xs text-gray-400 mb-5">
-        Smaller transactions pay more due to the fixed $0.30 fee.
+        Smaller transactions pay more due to the fixed $0.30 fee. All size tiers are listed; empty tiers show 0 charges.
       </p>
 
       <div className="space-y-3">
@@ -36,16 +36,20 @@ export function TransactionBuckets({ buckets, baselineRate }: Props) {
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-medium text-gray-700 w-20">{b.label}</span>
-                  <span className="text-xs text-gray-400">{b.count} charges</span>
+                  <span className="text-xs text-gray-400">
+                    {b.count === 0 ? "0 charges" : `${b.count} charges`}
+                  </span>
                 </div>
                 <div className="flex items-center gap-3 text-xs">
-                  <span className="text-gray-500">{fmt$(b.fees)} fees</span>
+                  <span className="text-gray-500">
+                    {b.count === 0 ? "—" : `${fmt$(b.fees)} fees`}
+                  </span>
                   <span
                     className={`font-bold w-14 text-right ${
-                      isHigh ? "text-red-600" : "text-gray-900"
+                      b.count === 0 ? "text-gray-400" : isHigh ? "text-red-600" : "text-gray-900"
                     }`}
                   >
-                    {fmtPct(b.rate)}
+                    {b.count === 0 ? "—" : fmtPct(b.rate)}
                   </span>
                 </div>
               </div>

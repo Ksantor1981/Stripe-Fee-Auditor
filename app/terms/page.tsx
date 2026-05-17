@@ -116,11 +116,16 @@ export default function TermsPage() {
             <p className="text-gray-600 leading-relaxed">
               Paid reports are processed through Polar, which may act as payment provider, reseller,
               or merchant of record depending on the checkout configuration and your location.
-              Digital delivery is considered complete when your report is unlocked. If the Service fails to deliver unlock or
-              access due to an error on our side, contact us within 7 days; we will work with you
-              in good faith (including refunds where appropriate). Other refund requests are
-              evaluated case by case and may be subject to Polar&apos;s policies. Nothing in these
-              Terms limits mandatory consumer rights that apply to you.
+              During a promotional beta, we may provide full report access without charge on terms
+              described in our{" "}
+              <Link href="/privacy" className="text-blue-600 hover:underline">
+                Privacy Policy
+              </Link>
+              . Digital delivery for a purchased unlock is considered complete when your report is
+              unlocked. If the Service fails to deliver unlock or access due to an error on our side,
+              contact us within 7 days; we will work with you in good faith (including refunds where
+              appropriate). Other refund requests are evaluated case by case and may be subject to
+              Polar&apos;s policies. Nothing in these Terms limits mandatory consumer rights that apply to you.
             </p>
           </section>
 

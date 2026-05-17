@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { LandingFaq } from "@/components/LandingFaq";
 import { TrackedLink } from "@/components/TrackedLink";
 
 export const metadata: Metadata = {
@@ -19,17 +20,17 @@ const HOW_IT_WORKS = [
   {
     step: "1",
     title: "Export your CSV",
-    body: "Go to Stripe Dashboard → Reporting → Balance → Download. Takes 30 seconds. No API access needed.",
+    body: "Stripe Dashboard → Reports → Balance summary → Export → Itemized → Download to system. Takes about a minute. No API access needed.",
   },
   {
     step: "2",
     title: "Drop it here",
-    body: "Raw CSV is never stored. During beta, your private report link stays available for up to 30 days.",
+    body: "Raw CSV is never stored. Your report link stays active for 30 days during beta.",
   },
   {
     step: "3",
     title: "See your real rate",
-    body: "Get processing rate, all-in cost rate, benchmark verdict, anomalies, refund leakage, and savings opportunities.",
+    body: "Processing rate, all-in cost, fee mix chart, monthly timeline, benchmark, anomalies when your volume allows, and savings ideas.",
   },
 ];
 
@@ -98,8 +99,11 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="flex flex-col items-center justify-center px-4 py-20 text-center">
+      {/* Hero — Problem */}
+      <section id="problem" className="flex flex-col items-center justify-center px-4 py-20 text-center scroll-mt-14">
+        <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">
+          The problem
+        </p>
 
         {/* No OAuth badge */}
         <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-1.5 text-xs font-medium text-gray-600 shadow-sm">
@@ -159,11 +163,44 @@ export default function HomePage() {
             Other Stripe fee tools require OAuth access to your Stripe account — read access to your full transaction history, customer data, and payout details, permanently until you revoke it.
             Stripe Fee Auditor never connects to your Stripe account. You export a CSV, upload it, get your analysis, and that&apos;s it. The raw file is processed in memory and never stored as a file.
           </p>
+          <div className="mt-4 rounded-lg border border-amber-100 overflow-hidden text-sm">
+            <table className="w-full">
+              <thead className="bg-amber-100/50">
+                <tr>
+                  <th className="px-3 py-2 text-left text-xs font-semibold text-amber-800" aria-hidden />
+                  <th className="px-3 py-2 text-center text-xs font-semibold text-amber-800">feeauditor.com</th>
+                  <th className="px-3 py-2 text-center text-xs font-semibold text-amber-800">OAuth tools</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-amber-50">
+                {[
+                  ["Stripe credentials stored", "❌ Never", "✅ On their servers"],
+                  ["Access after you're done", "❌ None", "✅ Permanent until revoked"],
+                  ["Data scope", "Only what you export", "Full account access"],
+                  ["Price", "Free (beta)", "$39–149/mo"],
+                ].map(([label, ours, theirs]) => (
+                  <tr key={label} className="bg-white/60">
+                    <td className="px-3 py-2 text-amber-700 font-medium">{label}</td>
+                    <td className="px-3 py-2 text-center text-green-700 font-semibold">{ours}</td>
+                    <td className="px-3 py-2 text-center text-gray-500">{theirs}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
-      {/* Example result */}
-      <section className="px-4 pb-16">
+      {/* Solution preview */}
+      <section id="solution" className="px-4 pb-16 scroll-mt-14">
+        <div className="mx-auto max-w-3xl text-center mb-4">
+          <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+            The solution
+          </p>
+          <p className="mt-1 text-sm text-gray-500">
+            One upload turns your Balance CSV into plain-English metrics — no OAuth, no permanent Stripe access.
+          </p>
+        </div>
         <div className="mx-auto max-w-3xl rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-6 shadow-sm">
           <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-2">
             Example output
@@ -261,9 +298,12 @@ export default function HomePage() {
       </section>
 
       {/* How it works */}
-      <section className="bg-gray-50 px-4 py-20">
+      <section id="how-it-works" className="bg-gray-50 px-4 py-20 scroll-mt-14">
         <div className="mx-auto max-w-3xl">
-          <h2 className="mb-12 text-center text-2xl font-bold text-gray-900">How It Works</h2>
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
+            How it works
+          </p>
+          <h2 className="mb-12 text-center text-2xl font-bold text-gray-900">Three steps to clarity</h2>
           <div className="grid gap-6 sm:grid-cols-3">
             {HOW_IT_WORKS.map(({ step, title, body }) => (
               <div key={step} className="relative rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
@@ -285,6 +325,54 @@ export default function HomePage() {
               Get Started — It&apos;s Free
             </TrackedLink>
           </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="pricing" className="px-4 py-16 bg-white scroll-mt-14">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
+            Pricing
+          </p>
+          <h2 className="text-center text-2xl font-bold text-gray-900 mb-8">
+            Simple access to your report
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="rounded-2xl border-2 border-emerald-200 bg-emerald-50/80 p-6 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 mb-1">During beta</p>
+              <p className="text-2xl font-bold text-gray-900 mb-2">Full report — free</p>
+              <p className="text-sm text-emerald-900/90 leading-relaxed">
+                Anomalies, savings ideas, exports, and dashboard charts while beta lasts. Private link with automatic expiry — see Terms.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">After beta</p>
+              <p className="text-2xl font-bold text-gray-900 mb-2">One-time unlock</p>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Pay once to open the full analysis for your upload (CSV still not stored). Exact price is shown at checkout when beta ends.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="bg-gray-50 px-4 py-16 scroll-mt-14">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
+            FAQ
+          </p>
+          <h2 className="text-center text-2xl font-bold text-gray-900 mb-8">
+            Security &amp; trust
+          </h2>
+          <LandingFaq />
+          <p className="mt-6 text-center text-sm text-gray-500">
+            More detail in our{" "}
+            <Link href="/privacy" className="text-blue-600 hover:underline">
+              Privacy Policy
+            </Link>
+            .
+          </p>
         </div>
       </section>
 

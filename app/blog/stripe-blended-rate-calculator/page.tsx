@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities -- long-form editorial copy */
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
 
 export const metadata: Metadata = {
   title: "Stripe Blended Rate Calculator: Find Your True Fee Rate | Fee Auditor",
@@ -85,6 +86,7 @@ export default function Page() {
           and feeauditor.com calculates your real blended rate automatically — broken down by
           month and transaction type. Or{" "}
           <Link href="/analyze?sample=1" className="underline font-medium">try the sample report</Link>.
+          <BlogBetaRetentionNote />
         </div>
 
         <div className="mt-10 space-y-10 text-gray-700 leading-relaxed">
@@ -265,6 +267,7 @@ export default function Page() {
               Try sample report →
             </Link>
           </div>
+          <BlogBetaRetentionNote tone="gray" />
         </div>
 
         <div className="mt-10 border-t border-gray-100 pt-8">

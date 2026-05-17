@@ -1,19 +1,12 @@
 "use client";
 
 import type { AnalysisResult } from "@/lib/fee-analyzer";
-import type { NormalizedRow } from "@/lib/csv-parser";
 import { fmt$, fmtPct, fmtDate } from "@/lib/format";
+import { transactionPrimaryLabel } from "@/lib/transaction-display";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { Badge } from "@/components/ui/badge";
 import { FeeInsightCards } from "./FeeInsightCards";
-
-function transactionLabel(row: Pick<NormalizedRow, "id" | "description">): string {
-  return row.description || row.id;
-}
-
-function transactionMeta(row: Pick<NormalizedRow, "id" | "description">): string | null {
-  return row.description ? row.id : null;
-}
+import { ReportDashboardCharts } from "./ReportDashboardCharts";
 
 interface Props {
   reportId: string;
@@ -39,7 +32,7 @@ export function LowVolumeReport({ result }: Props) {
   return (
     <div className="space-y-6">
       {/* Hero */}
-      <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
+      <div id="report-share-snapshot" className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
         <div className="flex items-start gap-3 mb-4">
           <Badge variant="outline" className="text-xs text-gray-500">Low volume (&lt;50 transactions)</Badge>
         </div>
@@ -91,6 +84,8 @@ export function LowVolumeReport({ result }: Props) {
 
       <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
 
+      <ReportDashboardCharts result={result} />
+
       {/* Top 5 highest-fee transactions */}
       <div className="rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden">
         <div className="px-5 py-4 border-b border-gray-50">
@@ -113,10 +108,13 @@ export function LowVolumeReport({ result }: Props) {
               <tr key={row.id} className="hover:bg-gray-50/50">
                 <td className="px-5 py-3 text-xs font-bold text-gray-300">{i + 1}</td>
                 <td className="px-5 py-3 text-xs text-gray-600 max-w-[180px]">
-                  <div className="truncate font-medium text-gray-800">{transactionLabel(row)}</div>
-                  {transactionMeta(row) && (
-                    <div className="truncate font-mono text-[11px] text-gray-400">{transactionMeta(row)}</div>
-                  )}
+                  <div className="truncate font-medium text-gray-800">{transactionPrimaryLabel(row)}</div>
+                  <div className="truncate text-[11px] text-gray-400">
+                    {row.description?.trim()
+                      ? row.id
+                      : [row.reportingCategory, row.paymentMethodType].filter(Boolean).join(" · ") ||
+                        `Ref ${row.id.slice(0, 18)}…`}
+                  </div>
                 </td>
                 <td className="px-5 py-3 text-xs text-gray-500">{fmtDate(row.date)}</td>
                 <td className="px-5 py-3 text-right text-gray-700">{fmt$(row.amount)}</td>

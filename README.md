@@ -13,7 +13,7 @@ Stripe advertises **2.9% + $0.30**, but blended rates are usually higher (intern
 This app:
 
 - Parses Balance CSV **in memory**, analyzes charges vs other row types, and saves **computed JSON** to Postgres (Neon).
-- Shows **free preview** (summary + top fee drivers); **one-time paid unlock** (Polar) adds full anomalies, savings hints, monthly detail, CSV export, and print view.
+- During the **beta**, real uploads get the **full report free** for up to **30 days**. The **Polar** paid-unlock path stays in code for **post-beta** checkout testing.
 - Supports three report modes: **multi-month**, **single-month**, **low-volume** (fewer than 50 charges).
 
 ---
@@ -22,13 +22,13 @@ This app:
 
 1. **Upload** — User pastes/uploads CSV on `/analyze`; browser sends JSON to `POST /api/analyze`.
 2. **Parse & normalize** — Papa Parse + `lib/csv-parser.ts` (USD-only for non-demo in beta); malformed rows → **422** (no silent drops).
-3. **Analyze** — `lib/fee-analyzer.ts` computes volumes, blended rate, monthly breakdown, anomalies (when sample size allows).
+3. **Analyze** — `lib/fee-analyzer.ts` computes volumes, blended rate, **all-in** fee lines, benchmark context, refund fee leakage, monthly breakdown, top fee drivers, and unusual charges when sample size allows.
 4. **Persist** — One row in `reports` with UUID + **hashed** access token; raw CSV is **not** written to blob/disk.
 5. **View** — Client opens `/report/[id]?token=…` (secret link).
-6. **Pay** — `GET /api/checkout` builds Polar checkout with metadata; webhook verifies signature and unlocks report + extends TTL.
+6. **Beta / Pay** — Beta reports are **full-access** for up to **30 days**; outside beta, `GET /api/checkout` builds Polar checkout and the signed webhook **unlocks + extends TTL**.
 7. **Cleanup** — Vercel cron hits `GET /api/cron/cleanup` daily (expired reports + old rate-limit rows).
 
-**Analytics:** Plausible on public pages (`app/layout.tsx`); first-party funnel events → `POST /api/event` → server logs only (see Privacy Policy).
+**Analytics:** Plausible on public pages plus first-party funnel events → `POST /api/event` → **server logs only** (see Privacy Policy). **No** raw CSV/report payloads are sent to analytics.
 
 ---
 
@@ -172,7 +172,7 @@ curl -sS "http://localhost:3000/api/cron/cleanup" \
 │   │   ├── checkout/route.ts       Polar redirect (validated report + token)
 │   │   ├── cron/cleanup/route.ts   Expired rows + rate_limits cleanup
 │   │   ├── event/route.ts          First-party funnel → logs
-│   │   ├── export/csv/route.ts     Paid CSV export
+│   │   ├── export/csv/route.ts     Paid or beta CSV export
 │   │   ├── reports/[id]/email/     Email gate + Resend
 │   │   └── webhooks/polar/route.ts Polar signature verify → unlock + email
 │   ├── blog/                       SEO articles
@@ -219,7 +219,7 @@ Full column list and behaviors: see **`scripts/init-db.mjs`** and **`README`** h
 - **Checkout token isolation** — dynamic Polar checkout sessions store report access on our side for a short time and no longer send the report bearer token in Polar metadata.
 - **Rate limits** — enforced in Neon with advisory locks per IP key (`lib/db.ts`); analyze **10**/IP/day (real CSV), sample **20**/IP/day.
 - **USD-only (beta)** — non-sample CSV with non-USD currencies → **422**.
-- **CSP** — `connect-src` includes `'self'` and `https://plausible.io` for analytics.
+- **CSP** — `script-src` / `connect-src` allow Plausible plus first-party app/API traffic and required payment/email flows.
 
 ---
 
