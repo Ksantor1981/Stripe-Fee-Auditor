@@ -34,6 +34,24 @@ export interface SavingsOpportunity {
   title: string;
   annualSavings: number;
   tip: string;
+  /** Present on newly generated reports; older stored JSON may omit. */
+  confidence?: "high" | "medium" | "low";
+  steps?: string[];
+}
+
+/** Pre-aggregated domestic vs international charge mix for report UI (no raw rows). */
+export interface GeographySummary {
+  domesticCount: number;
+  internationalCount: number;
+  domVolume: number;
+  intlVolume: number;
+  domRate: number;
+  intlRate: number;
+  intlShare: number;
+  /** Percent more expensive: international effective rate vs domestic. */
+  pctDiff: number;
+  intlExcessShare: number;
+  excessIntlFees: number;
 }
 
 export type BenchmarkStatus = "normal" | "watch" | "high";
@@ -90,6 +108,8 @@ export interface AnalysisResult {
   /** Estimated cost of refunds where the original processing fee is not returned. */
   refundSummary?: RefundSummary;
   transactionBuckets?: TransactionBucket[];
+  /** Domestic vs international aggregates derived from all charge rows. */
+  geographySummary?: GeographySummary;
   periodDelta: number | null;
   /** Unique currencies found in charge rows — used for multi-currency warning. */
   currencies: string[];
@@ -217,9 +237,15 @@ function buildSavingsOpportunities(
     if (excessFees > 0) {
       const annualSavings = Math.round(((excessFees * 12) / monthsInData) / 10) * 10;
       opportunities.push({
-        title: `Up to ~${intlCharges.length} international card charges (est. savings)`,
+        title: `${intlCharges.length} international card charges driving up your rate`,
         annualSavings,
         tip: "Enable local payment methods (SEPA, iDEAL, Bancontact) to avoid the 1.5% cross-border surcharge.",
+        confidence: "high",
+        steps: [
+          "Stripe Dashboard → Settings → Payment methods",
+          "Enable SEPA Direct Debit (EU) or iDEAL (Netherlands)",
+          "Update your checkout to offer local methods for EU/UK customers",
+        ],
       });
     }
   }
@@ -232,9 +258,14 @@ function buildSavingsOpportunities(
     const annualSavings = Math.round(((fixedFeeWaste * 12) / monthsInData) / 10) * 10;
     if (annualSavings > 0) {
       opportunities.push({
-        title: `Up to ~${smallCharges.length} small transactions under $20`,
+        title: `${smallCharges.length} small transactions under $20 with high per-dollar cost`,
         annualSavings,
         tip: `Bundling charges or switching to monthly billing for avg $${avgSmallAmount.toFixed(2)} transactions reduces the fixed $0.30 fee impact.`,
+        confidence: "medium",
+        steps: [
+          "Set a $10 minimum charge amount in your checkout",
+          "Or switch sub-$10 customers to monthly billing (one charge instead of many)",
+        ],
       });
     }
   }
@@ -254,9 +285,15 @@ function buildSavingsOpportunities(
     const savings = cardFees - achFees;
     if (savings > 0) {
       opportunities.push({
-        title: `Up to ~${largeCardCharges.length} large card charges over $500`,
+        title: `${largeCardCharges.length} large card charges over $500 that could use ACH`,
         annualSavings: Math.round(((savings * 12) / monthsInData) / 10) * 10,
         tip: "Offer ACH/bank transfer for invoices over $500. ACH costs 0.8% (max $5) vs 2.9%+ for cards.",
+        confidence: "high",
+        steps: [
+          "Stripe Dashboard → Settings → Payment methods → enable ACH Direct Debit",
+          "Email customers with $500+ invoices offering 1% discount for paying via ACH",
+          "Stripe Dashboard → Billing → Invoice settings → set ACH as default for large invoices",
+        ],
       });
     }
   }
@@ -356,6 +393,41 @@ function buildFeeBenchmark(
     expectedRate: roundMoney(expectedRate),
     summary,
     drivers,
+  };
+}
+
+function buildGeographySummary(charges: NormalizedRow[]): GeographySummary | undefined {
+  const domestic = charges.filter((r) => !isInternationalLike(r));
+  const international = charges.filter(isInternationalLike);
+  if (international.length === 0) return undefined;
+
+  const domVolume = sum(domestic, "amount");
+  const domFees = sum(domestic, "fee");
+  const domRate = domVolume > 0 ? (domFees / domVolume) * 100 : 0;
+
+  const intlVolume = sum(international, "amount");
+  const intlFees = sum(international, "fee");
+  const intlRate = intlVolume > 0 ? (intlFees / intlVolume) * 100 : 0;
+
+  const totalVolume = domVolume + intlVolume;
+  const intlShare = totalVolume > 0 ? (intlVolume / totalVolume) * 100 : 0;
+
+  const totalFees = domFees + intlFees;
+  const excessIntlFees = intlFees - intlVolume * (domRate / 100);
+  const intlExcessShare = totalFees > 0 ? (Math.max(0, excessIntlFees) / totalFees) * 100 : 0;
+  const pctDiff = domRate > 0 ? ((intlRate - domRate) / domRate) * 100 : 0;
+
+  return {
+    domesticCount: domestic.length,
+    internationalCount: international.length,
+    domVolume: roundMoney(domVolume),
+    intlVolume: roundMoney(intlVolume),
+    domRate: roundMoney(domRate),
+    intlRate: roundMoney(intlRate),
+    intlShare: roundMoney(intlShare),
+    pctDiff: roundMoney(pctDiff),
+    intlExcessShare: roundMoney(Math.max(0, intlExcessShare)),
+    excessIntlFees: roundMoney(Math.max(0, excessIntlFees)),
   };
 }
 
@@ -476,6 +548,7 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
   const currencies = [...new Set(charges.map((r) => r.currency).filter(Boolean))];
 
   const transactionBuckets = buildTransactionBuckets(charges);
+  const geographySummary = buildGeographySummary(charges);
 
   return {
     mode,
@@ -493,6 +566,7 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
     benchmark,
     refundSummary,
     transactionBuckets,
+    geographySummary,
     periodDelta,
     currencies,
   };

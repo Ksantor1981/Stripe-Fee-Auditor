@@ -12,6 +12,8 @@ import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-
 import { PaywallBanner } from "./PaywallBanner";
 import { FeeInsightCards } from "./FeeInsightCards";
 import { TransactionBuckets } from "./TransactionBuckets";
+import { SavingsOpportunities } from "./SavingsOpportunities";
+import { GeographyBreakdown } from "./GeographyBreakdown";
 
 function transactionLabel(row: Pick<NormalizedRow, "id" | "description">): string {
   return row.description || row.id;
@@ -138,31 +140,7 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
 
       <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
 
-      {/* What to fix first — paid/demo full access */}
-      {isPaid && savings.length > 0 && (
-        <div className="rounded-2xl bg-white border border-emerald-100 shadow-sm p-6">
-          <p className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-1">
-            What to fix first
-          </p>
-          <h2 className="text-lg font-bold text-gray-900 mb-1">Estimated savings opportunities</h2>
-          <p className="text-xs text-gray-500 mb-4">
-            Based on your transaction patterns. Treat these as directional estimates before changing billing rules.
-          </p>
-          <div className="space-y-3">
-            {savings.map((opp, i) => (
-              <div key={i} className="rounded-xl border border-emerald-100 bg-emerald-50/60 px-4 py-3">
-                <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-sm font-semibold text-gray-800">{opp.title}</p>
-                  <span className="text-sm font-bold text-emerald-700">
-                    up to ~{fmt$(opp.annualSavings)}/yr
-                  </span>
-                </div>
-                <p className="mt-1 text-xs text-gray-600 leading-relaxed">{opp.tip}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      {isPaid && savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
 
       {/* Chart */}
       <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
@@ -189,6 +167,10 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
 
       {result.transactionBuckets && result.transactionBuckets.length > 0 && (
         <TransactionBuckets buckets={result.transactionBuckets} baselineRate={chargeRate} />
+      )}
+
+      {isPaid && result.geographySummary && (
+        <GeographyBreakdown summary={result.geographySummary} />
       )}
 
       {/* Tabs */}

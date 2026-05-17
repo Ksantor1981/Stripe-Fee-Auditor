@@ -30,7 +30,17 @@ const COLUMN_ALIASES: Record<RequiredCol, string[]> = {
   fee: ["fee", "fees", "stripe_fee", "stripe fee"],
   net: ["net", "net_amount", "net amount"],
   currency: ["currency"],
-  created: ["created", "created_utc", "created utc", "effective_at_utc", "available_on_utc"],
+  created: [
+    "created",
+    "created_utc",
+    "created utc",
+    "effective_at",
+    "effective_at_utc",
+    "effective at utc",
+    "available_on",
+    "available_on_utc",
+    "available on utc",
+  ],
 };
 
 function normalizeHeaderName(value: string): string {
@@ -42,7 +52,8 @@ function autoDetect(headers: string[]): ColumnMapping {
   for (const col of REQUIRED_COLUMNS) {
     const aliases = COLUMN_ALIASES[col].map(normalizeHeaderName);
     const match = headers.find((h) => aliases.includes(normalizeHeaderName(h)));
-    if (match && match !== col) mapping[col] = match;
+    // Identity mapping must count as mapped (CSV header "id" → required field id).
+    if (match) mapping[col] = match;
   }
   return mapping;
 }
