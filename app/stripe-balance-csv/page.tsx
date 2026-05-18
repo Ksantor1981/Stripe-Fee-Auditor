@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "How to Export Stripe Balance CSV - Step by Step";
+const pageTitle = "Stripe Balance CSV: Export the Right Itemized File";
 const pageDescription =
-  "Step-by-step guide to export your Stripe Balance Transactions CSV from the Dashboard. Includes what columns to expect and how to use the file.";
+  "Need the Stripe Balance CSV? Follow the exact Itemized export path, required columns, and mistakes to avoid before checking your real Stripe fee rate.";
 const pagePath = "/stripe-balance-csv";
 
 export const metadata: Metadata = {

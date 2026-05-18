@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "Why Is My Stripe Fee Rate Higher Than 2.9%?";
+const pageTitle = "Why Are My Stripe Fees So High? 2.9% vs Real Rate";
 const pageDescription =
   "Stripe advertises 2.9% + $0.30, but most businesses pay 3.2-3.8%. Learn the 5 reasons your effective Stripe fee rate is higher than expected.";
 const pagePath = "/why-stripe-fee-rate-higher-than-2-9";
@@ -191,7 +191,7 @@ export default function WhyStripeFeesIncreasePage() {
         <div className="mb-14">
           <p className="text-blue-600 text-sm font-medium mb-3">Fee Education</p>
           <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
-            Why Is My Stripe Fee Rate Higher Than 2.9%?
+            Why Are My Stripe Fees So High? 2.9% vs Real Rate
           </h1>
           <p className="text-lg text-gray-500 leading-relaxed">
             Stripe advertises 2.9% + $0.30 per transaction. But most businesses

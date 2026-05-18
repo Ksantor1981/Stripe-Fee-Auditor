@@ -117,7 +117,7 @@ export const PRIVACY_ARTICLES: PrivacyArticle[] = [
   },
   {
     slug: "what-does-stripe-oauth-read-only-access-actually-see",
-    title: "What Does Stripe OAuth Read-Only Access Actually See?",
+    title: "Stripe Read-Only OAuth: What Data Can It Actually See?",
     shortTitle: "What Stripe Read-Only Access Can See",
     description:
       "A technical but practical breakdown of Stripe read-only access, Stripe Apps permissions, API keys, customer data, payments, payouts, refunds, and disputes.",

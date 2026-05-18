@@ -4,13 +4,13 @@ import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
 
 export const metadata: Metadata = {
-  title: "ACH vs Credit Card Fees on Stripe: When ACH Wins | Fee Auditor",
+  title: "Stripe ACH vs Credit Card Fees: When ACH Saves Money | Fee Auditor",
   description:
-    "ACH costs 0.8% capped at $5. Credit cards cost 2.9%+. Here's exactly when to offer ACH on Stripe and how much you can save.",
+    "Compare Stripe ACH and credit card fees. See when ACH saves money, where the $5 cap matters, and how B2B SaaS can lower payment costs.",
   alternates: { canonical: "/blog/stripe-ach-vs-credit-card-fees" },
   openGraph: {
-    title: "ACH vs Credit Card Fees on Stripe: When ACH Wins",
-    description: "ACH costs 0.8% capped at $5. Credit cards cost 2.9%+. Here's when to switch.",
+    title: "Stripe ACH vs Credit Card Fees: When ACH Saves Money",
+    description: "ACH can beat cards on larger invoices. See the break-even math and when to switch.",
     url: "https://feeauditor.com/blog/stripe-ach-vs-credit-card-fees",
   },
 };
@@ -28,7 +28,7 @@ export default function Page() {
         </div>
 
         <h1 className="mt-3 text-3xl font-bold leading-tight text-gray-900">
-          ACH vs Credit Card Fees on Stripe: When ACH Wins
+          Stripe ACH vs Credit Card Fees: When ACH Saves Money
         </h1>
 
         <p className="mt-4 text-lg text-gray-600 leading-relaxed">

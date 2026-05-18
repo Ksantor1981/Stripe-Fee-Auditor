@@ -11,6 +11,12 @@ export const metadata: Metadata = {
 const POSTS = [
   ...PRIVACY_ARTICLE_INDEX,
   {
+    slug: "stripe-fee-leakage-report-may-2026",
+    title: "Stripe Fee Leakage Report: Who Is Safe?",
+    desc: "A May 2026 diagnostic model for SaaS founders: which Stripe profiles stay near baseline and which quietly bleed margin.",
+    time: "9 min",
+  },
+  {
     slug: "why-stripe-effective-rate-higher-than-2-9-percent",
     title: "Why Is My Stripe Effective Rate Higher Than 2.9%?",
     desc: "4 real reasons your blended Stripe fee rate is higher than advertised — and what to do about each.",
@@ -24,8 +30,8 @@ const POSTS = [
   },
   {
     slug: "stripe-ach-vs-credit-card-fees",
-    title: "ACH vs Credit Card Fees on Stripe: When ACH Wins",
-    desc: "ACH costs 0.8% capped at $5. For B2B invoices over $200, the savings can be significant.",
+    title: "Stripe ACH vs Credit Card Fees: When ACH Saves Money",
+    desc: "ACH can beat cards on larger invoices. See the break-even math, $5 cap, and when B2B SaaS should switch.",
     time: "7 min",
   },
   {
@@ -42,8 +48,8 @@ const POSTS = [
   },
   {
     slug: "how-to-export-stripe-balance-csv",
-    title: "How to Export Your Stripe Balance CSV",
-    desc: "Itemized export, required columns, and mistakes that break fee analysis.",
+    title: "Export Stripe Balance CSV: Itemized vs Summary",
+    desc: "Use the right Stripe Balance CSV for fee analysis: Itemized export path, required columns, and mistakes to avoid.",
     time: "4 min",
   },
   {

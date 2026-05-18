@@ -4,13 +4,13 @@ import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
 
 export const metadata: Metadata = {
-  title: "How to Export Your Stripe Balance CSV: Step-by-Step | Fee Auditor",
+  title: "Export Stripe Balance CSV: Itemized vs Summary Guide | Fee Auditor",
   description:
-    "Step-by-step guide to exporting your Stripe Balance CSV (Itemized) for fee analysis. Includes screenshots guide and common mistakes to avoid.",
+    "Export the right Stripe Balance CSV for fee analysis. Learn where Itemized lives, why Summary breaks reports, and what columns you need.",
   alternates: { canonical: "/blog/how-to-export-stripe-balance-csv" },
   openGraph: {
-    title: "How to Export Your Stripe Balance CSV: Step-by-Step",
-    description: "Step-by-step guide to exporting the right Stripe CSV for fee analysis.",
+    title: "Export Stripe Balance CSV: Itemized vs Summary Guide",
+    description: "Use Itemized, not Summary: export the Stripe Balance CSV needed for fee analysis.",
     url: "https://feeauditor.com/blog/how-to-export-stripe-balance-csv",
   },
 };
@@ -37,11 +37,11 @@ export default function Page() {
         </div>
 
         <h1 className="mt-3 text-3xl font-bold leading-tight text-gray-900">
-          How to Export Your Stripe Balance CSV: A Step-by-Step Guide
+          Export Stripe Balance CSV: Itemized vs Summary
         </h1>
 
         <p className="mt-4 text-lg text-gray-600 leading-relaxed">
-          Understanding your real Stripe fees starts with one step: exporting your Balance CSV.
+          Understanding your real Stripe fees starts with one step: exporting the right Balance CSV.
           This file contains line-item data for every transaction, fee, and payout. Here's how
           to get the right export — and what to do with it.
         </p>

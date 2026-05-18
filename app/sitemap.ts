@@ -41,6 +41,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.74,
     })),
     {
+      url: `${base}/blog/stripe-fee-leakage-report-may-2026`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.76,
+    },
+    {
       url: `${base}/blog/why-stripe-effective-rate-higher-than-2-9-percent`,
       lastModified: now,
       changeFrequency: "monthly",

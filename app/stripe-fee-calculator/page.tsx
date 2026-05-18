@@ -4,7 +4,7 @@ import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { StripeFeeMiniEstimate } from "@/components/stripe-fee-mini-estimate";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "Stripe Effective Fee Rate Calculator - From Real Data";
+const pageTitle = "Stripe Fee Calculator: Real Effective Rate from CSV";
 const pageDescription =
   "Calculate your real Stripe effective fee rate from your Balance CSV. Not an estimator - actual numbers from your transactions.";
 const pagePath = "/stripe-fee-calculator";
