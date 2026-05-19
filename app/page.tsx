@@ -38,7 +38,7 @@ const HOW_IT_WORKS = [
   },
 ];
 
-const COMMON_SURPRISES = [
+const WHAT_WE_OFTEN_FIND = [
   "International cards quietly adding cross-border fees",
   "Small $5-$20 charges where the fixed $0.30 fee dominates",
   "Months where your fee rate jumped without an obvious reason",
@@ -155,12 +155,6 @@ export default function HomePage() {
           The problem
         </p>
 
-        {/* No OAuth badge */}
-        <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-1.5 text-xs font-medium text-gray-600 shadow-sm">
-          <span className="text-green-500">✓</span>
-          No Stripe API access · No OAuth · Just a CSV
-        </div>
-
         <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">
           Stripe says 2.9%. Your real fee rate is{" "}
           <span className="text-blue-600">probably higher.</span>
@@ -193,11 +187,11 @@ export default function HomePage() {
         </div>
 
         {/* Trust signals */}
-        <div className="mt-4 w-full max-w-3xl rounded-2xl border border-gray-100 bg-white px-4 py-3 shadow-sm">
+        <div className="mt-6 w-full max-w-3xl rounded-2xl border border-slate-100 bg-slate-50/60 px-4 py-3.5">
           <div className="grid gap-2 text-left sm:grid-cols-4 sm:text-center">
             {TRUST_SIGNALS.map(({ icon, label }) => (
-              <div key={label} className="flex items-center justify-center gap-1.5 text-sm font-semibold text-gray-700">
-                <span className="text-green-600">{icon}</span>
+              <div key={label} className="flex items-center justify-center gap-1.5 text-sm font-medium text-gray-700">
+                <span className="text-blue-600">{icon}</span>
                 <span>{label}</span>
               </div>
             ))}
@@ -242,10 +236,10 @@ export default function HomePage() {
           <div className="mt-6 overflow-hidden rounded-xl border border-slate-200 bg-white text-sm shadow-sm">
             <div className="hidden sm:grid sm:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_minmax(0,1fr)] border-b border-slate-200 bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
               <div className="px-4 py-3" />
-              <div className="border-l border-slate-200 bg-blue-600 px-4 py-3 text-center text-white">
+              <div className="border-l border-slate-200 bg-blue-700 px-4 py-2.5 text-center text-[11px] font-semibold tracking-wide text-white sm:text-xs sm:uppercase">
                 Stripe Fee Auditor
               </div>
-              <div className="border-l border-slate-200 px-4 py-3 text-center">OAuth-based tools</div>
+              <div className="border-l border-slate-200 px-4 py-2.5 text-center text-[11px] font-medium text-slate-500 sm:text-xs sm:uppercase">OAuth-based tools</div>
             </div>
 
             {OAUTH_COMPARISON.map(({ aspect, ours, theirs }, index) => (
@@ -261,7 +255,7 @@ export default function HomePage() {
                   </span>
                   <span className="block sm:inline">{aspect}</span>
                 </div>
-                <div className="border-t border-slate-100 bg-blue-50/70 px-4 py-3 sm:border-t-0 sm:border-l sm:border-slate-200">
+                <div className="border-t border-slate-100 bg-blue-50/50 px-4 py-3 sm:border-t-0 sm:border-l sm:border-slate-200">
                   <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-blue-700 sm:sr-only">
                     Stripe Fee Auditor
                   </p>
@@ -353,19 +347,31 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Common surprises */}
-      <section className="px-4 py-16">
+      {/* What we often find */}
+      <section className="bg-slate-50/50 px-4 py-16">
         <div className="mx-auto max-w-3xl">
           <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
-            Common surprises we catch
+            In real Stripe exports
           </p>
-          <h2 className="text-center text-2xl font-bold text-gray-900 mb-8">
-            Where the extra fees usually hide
+          <h2 className="text-center text-2xl font-bold text-gray-900 mb-2">
+            What we often find
           </h2>
+          <p className="mx-auto mb-8 max-w-xl text-center text-sm text-gray-500 leading-relaxed">
+            Not always a problem — often mix, refunds, or small-ticket math worth a second look.
+          </p>
           <div className="grid gap-3 sm:grid-cols-2">
-            {COMMON_SURPRISES.map((item) => (
-              <div key={item} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
-                <p className="text-sm text-gray-700">{item}</p>
+            {WHAT_WE_OFTEN_FIND.map((item) => (
+              <div
+                key={item}
+                className="rounded-xl border border-slate-100 bg-white/80 p-4"
+              >
+                <p className="flex gap-2.5 text-sm leading-relaxed text-gray-600">
+                  <span
+                    className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-400"
+                    aria-hidden
+                  />
+                  <span>{item}</span>
+                </p>
               </div>
             ))}
           </div>
