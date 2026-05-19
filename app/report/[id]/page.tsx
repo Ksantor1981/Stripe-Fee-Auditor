@@ -19,20 +19,22 @@ export async function generateMetadata() {
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 function toPreviewResult(result: AnalysisResult): AnalysisResult {
+  const teaserSavings = result.savingsOpportunities?.slice(0, 1).map((opp) => ({
+    ...opp,
+    // Free preview shows one value teaser, but keeps the step-by-step plan gated.
+    steps: undefined,
+  }));
+  const teaserAnomalies = result.annotatedAnomalies?.slice(0, 1);
+
   return {
     ...result,
     // Free preview deliberately contains only the rows the UI is allowed to show.
     topDrivers: result.topDrivers.slice(0, 3),
     anomalies: [],
-    annotatedAnomalies: [],
-    savingsOpportunities: [],
-    monthly: result.monthly.map((month) => ({
-      month: month.month,
-      fees: month.fees,
-      rate: month.rate,
-      volume: 0,
-      count: 0,
-    })),
+    annotatedAnomalies: teaserAnomalies ?? [],
+    savingsOpportunities: teaserSavings ?? [],
+    // Keep monthly totals visible so users can reconcile the preview against Stripe before paying.
+    monthly: result.monthly,
   };
 }
 

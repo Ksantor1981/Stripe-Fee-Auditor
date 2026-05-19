@@ -2,7 +2,7 @@
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import type { AnalysisResult, AnnotatedRow } from "@/lib/fee-analyzer";
+import type { AnalysisResult, AnnotatedRow, SavingsOpportunity } from "@/lib/fee-analyzer";
 import { fmt$, fmtPct, fmtMonth } from "@/lib/format";
 import { transactionPrimaryLabel, transactionSecondaryLine } from "@/lib/transaction-display";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
@@ -12,6 +12,7 @@ import { TransactionBuckets } from "./TransactionBuckets";
 import { SavingsOpportunities } from "./SavingsOpportunities";
 import { GeographyBreakdown } from "./GeographyBreakdown";
 import { ReportDashboardCharts } from "./ReportDashboardCharts";
+import { ReportTrustChecklist } from "./ReportTrustChecklist";
 
 function anomalyExplainerText(
   count: number,
@@ -34,6 +35,64 @@ function anomalyExplainerText(
   const [topLabel, topN] = top;
   const pct = Math.round((topN / count) * 100);
   return `${count} charges paid above your ~${baselineRate.toFixed(2)}% baseline — about ${pct}% tagged “${topLabel}”. Typical when international or premium cards are a large share; not necessarily errors.`;
+}
+
+function PreviewValueTeaser({
+  anomalyCount,
+  anomalyLabel,
+  savings,
+}: {
+  anomalyCount: number;
+  anomalyLabel?: string;
+  savings?: SavingsOpportunity;
+}) {
+  if (anomalyCount <= 0 && !savings) return null;
+
+  return (
+    <div className="rounded-2xl border border-blue-100 bg-blue-50 p-5">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">
+            Preview value found
+          </p>
+          <h2 className="mt-1 text-base font-bold text-blue-950">
+            The full report is not just more rows
+          </h2>
+        </div>
+        <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-blue-700">
+          Your data
+        </span>
+      </div>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        {anomalyCount > 0 && (
+          <div className="rounded-xl bg-white px-4 py-3">
+            <p className="text-xs font-medium text-gray-400">Unusual charges</p>
+            <p className="mt-0.5 text-lg font-bold text-gray-900">{anomalyCount} found</p>
+            <p className="mt-1 text-xs leading-relaxed text-gray-500">
+              Top visible reason: {anomalyLabel ?? "elevated fee rate"}. Unlock to see the affected rows and tips.
+            </p>
+          </div>
+        )}
+
+        {savings && (
+          <div className="rounded-xl bg-white px-4 py-3">
+            <p className="text-xs font-medium text-gray-400">Savings teaser</p>
+            <p className="mt-0.5 text-lg font-bold text-emerald-700">
+              up to ~{fmt$(savings.annualSavings)}/yr
+            </p>
+            <p className="mt-1 text-xs leading-relaxed text-gray-500">
+              First opportunity: {savings.title}. Full report shows the steps and caveats.
+            </p>
+          </div>
+        )}
+      </div>
+
+      <p className="mt-3 text-xs leading-relaxed text-blue-900/75">
+        Estimates are directional, but they are calculated from this upload, not from a generic demo.
+      </p>
+    </div>
+  );
 }
 
 interface Props {
@@ -81,6 +140,8 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
   const displayAllInRate = allInRate ?? (chargeVolume > 0 ? (periodFees / chargeVolume) * 100 : 0);
   const yearlyAtThisRate = annualRunRate(periodFees, monthCount);
   const anomalyExplainer = anomalyExplainerText(anomalyUiCount, chargeRate, paidAnomalyRows, isPaid);
+  const teaserAnomalyLabel = result.annotatedAnomalies?.[0]?.explanation?.label;
+  const teaserSavings = savings[0];
 
   return (
     <div className="space-y-8">
@@ -149,6 +210,16 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
           </p>
         </div>
       </div>
+
+      {!isPaid && (
+        <PreviewValueTeaser
+          anomalyCount={anomalyUiCount}
+          anomalyLabel={teaserAnomalyLabel}
+          savings={teaserSavings}
+        />
+      )}
+
+      <ReportTrustChecklist result={result} />
 
       <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
 

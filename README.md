@@ -113,6 +113,7 @@ Copy `.env.example` to `.env.local` and fill values (see repo root — ignored p
 | `EMAIL_FROM` | From header (domain verified in Resend for prod) |
 | `EMAIL_REPLY_TO` | Reply-To |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Legal/support footer |
+| `NEXT_PUBLIC_REPORTS_ANALYZED_COUNT` | Optional landing-page social proof count; leave empty if you do not have a real number yet |
 | `REPORT_TOKEN_SALT` | Pepper for access-token hashing (recommended in prod) |
 
 ### 6. Initialize database

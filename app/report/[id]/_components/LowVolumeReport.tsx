@@ -7,6 +7,7 @@ import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-
 import { Badge } from "@/components/ui/badge";
 import { FeeInsightCards } from "./FeeInsightCards";
 import { ReportDashboardCharts } from "./ReportDashboardCharts";
+import { ReportTrustChecklist } from "./ReportTrustChecklist";
 
 interface Props {
   reportId: string;
@@ -81,6 +82,8 @@ export function LowVolumeReport({ result }: Props) {
           </p>
         </div>
       </div>
+
+      <ReportTrustChecklist result={result} />
 
       <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
 

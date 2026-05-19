@@ -26,8 +26,9 @@ Raw CSV не пишется в Blob/bucket и не сохраняется как
    - `single-month`
    - `low-volume` (<50 charge-транзакций)
 5. **Beta:** отчёт сразу открывается **полностью**: benchmark, refund leakage, top fee drivers, unusual charges, savings opportunities, monthly detail, CSV export и print-ready report (до истечения TTL, см. 4.4).
-6. **Вне beta — free preview:** summary + top fee drivers + paywall; **Full Report** через Polar разблокирует полный отчёт.
+6. **Вне beta — free preview:** сводка + **до 3** top fee drivers + **месячные volume/count** (для сверки со Stripe) + **1 teaser** savings (без step-by-step) + **1 teaser** unusual charge (без полного списка) + блок **Verify the math** (charge volume, fees, row count) + paywall mini-landing; **Full Report** через Polar ($12 one-time, 30 дней) разблокирует полный отчёт.
 7. После оплаты Polar webhook помечает отчет как paid, продлевает TTL до 30 дней и отправляет email-ссылку при наличии Resend.
+8. Лендинг `/`: trust strip под hero CTA, beta banner, pricing **$12 one-time unlock after beta**, decision guide «when useful / when skip», FAQ про ROI и Excel; опционально `NEXT_PUBLIC_REPORTS_ANALYZED_COUNT` — только реальное число (пусто = нейтральная строка без выдуманной цифры).
 
 ## 4. Функциональные требования
 
@@ -53,10 +54,23 @@ Raw CSV не пишется в Blob/bucket и не сохраняется как
 ### 4.3 Beta / Freemium / Paid
 
 - **Beta:** full report access **без оплаты** до **30 дней** (флаг окружения `FULL_REPORTS_FREE_DURING_BETA`)
-- **Вне beta — free preview:** summary + top fee drivers + paywall
-- **Paid Full Report вне beta:** полный список unusual charges, объяснения, savings opportunities, monthly detail, CSV export, print-ready report
+- **Вне beta — free preview** (`toPreviewResult` в `app/report/[id]/page.tsx`):
+  - Сохраняет `monthly` (volume/count по месяцам) для сверки с Stripe Dashboard
+  - `topDrivers`: первые 3; `anomalies`: пусто; `annotatedAnomalies`: 1 teaser; `savingsOpportunities`: 1 opp без `steps`
+  - UI: `ReportTrustChecklist` («Verify the math») во всех режимах отчёта; `PreviewValueTeaser` — только **multi-month** (count + label unusual charges + savings headline)
+  - `PaywallBanner`: mini-landing — $12 one-time, 30 дней доступа, что входит / не входит, refund one-liner, CTA checkout
+- **Paid Full Report вне beta:** полный список unusual charges, объяснения, savings opportunities (с steps), monthly detail, CSV export, print-ready report
 - Public paid UI currently exposes one product: `pro` / Full Report ($12)
 - Basic/Team tiers should not be shown until the backend stores plan-level entitlements
+
+### 4.5 Landing & conversion (post-beta positioning)
+
+- Trust strip сразу под hero CTA: No Stripe API access · Raw CSV never stored · No account required · Results in ~30 seconds
+- Beta banner: full reports free now; paid unlock after launch
+- Nav CTA — outline/quiet, не конкурирует с primary «Analyze my fees»
+- Pricing: явно **$12 one-time unlock after beta** (не «exact price at checkout»)
+- Decision guide + FAQ: «Is $12 worth it?», «Can I calculate this myself in Excel?»
+- `NEXT_PUBLIC_REPORTS_ANALYZED_COUNT` (optional): если задано валидное число > 0 — «N reports analyzed in beta»; иначе нейтральная строка без фейковой метрики
 
 ### 4.4 Retention & Privacy
 
@@ -88,6 +102,8 @@ Raw CSV не пишется в Blob/bucket и не сохраняется как
   /page.tsx
   /analyze/page.tsx
   /report/[id]/page.tsx
+  /report/[id]/_components/ReportTrustChecklist.tsx
+  /report/[id]/_components/PaywallBanner.tsx
   /report/[id]/print/page.tsx
   /api/analyze/route.ts
   /api/checkout/route.ts
@@ -115,7 +131,8 @@ Raw CSV не пишется в Blob/bucket и не сохраняется как
 ## 8. Definition of Done
 
 - Все 3 режима отчета работают на sample и реальных Stripe CSV
-- Free preview не отправляет full paid result в client payload
+- Free preview не отправляет full paid result в client payload (teasers + monthly totals only; gated lists/steps/export)
+- Paywall mini-landing и Verify the math отображаются вне beta; в beta paywall скрыт (`betaFullAccess`)
 - Beta: full-access retention и условия явно отражены в UI и Privacy copy
 - Polar paid flow разблокирует отчет даже если redirect пришел раньше webhook
 - Webhook идемпотентен и возвращает 500 на retryable DB/report failures

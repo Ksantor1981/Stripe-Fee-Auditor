@@ -10,11 +10,15 @@ export const metadata: Metadata = {
 };
 
 const TRUST_SIGNALS = [
-  { icon: "🔐", label: "No Stripe API access or OAuth required" },
-  { icon: "🗑️", label: "Raw CSV is never stored" },
-  { icon: "🔒", label: "No account required" },
-  { icon: "⚡", label: "Results in 30 seconds" },
+  { icon: "✓", label: "No Stripe API access" },
+  { icon: "✓", label: "Raw CSV never stored" },
+  { icon: "✓", label: "No account required" },
+  { icon: "✓", label: "Results in 30 seconds" },
 ];
+
+const reportsAnalyzedCount = Number(process.env.NEXT_PUBLIC_REPORTS_ANALYZED_COUNT ?? 0);
+const hasReportsAnalyzedCount = Number.isFinite(reportsAnalyzedCount) && reportsAnalyzedCount > 0;
+const reportsAnalyzedLabel = new Intl.NumberFormat("en-US").format(reportsAnalyzedCount);
 
 const HOW_IT_WORKS = [
   {
@@ -57,13 +61,36 @@ const METRICS = [
   { label: "Refund leakage", example: "~$91", desc: "Estimated retained fees" },
 ];
 
+const DECISION_GUIDE = [
+  {
+    title: "Worth checking",
+    tone: "blue",
+    items: [
+      "You process more than a few thousand dollars per month",
+      "Your customers are international or pay in multiple currencies",
+      "You have many $5-$20 monthly charges",
+      "You refund customers often and want to see retained fee impact",
+    ],
+  },
+  {
+    title: "Probably okay to skip",
+    tone: "gray",
+    items: [
+      "You only have a handful of Stripe transactions",
+      "All customers are domestic and high-ticket",
+      "You only need a rough blended rate you can calculate in Excel",
+      "You need accounting or tax advice instead of a fee audit",
+    ],
+  },
+];
+
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-white">
 
       {/* Beta banner */}
       <div className="bg-emerald-600 px-4 py-2.5 text-center text-sm font-medium text-white">
-        🎉 Free during beta — full report access, no payment required.{" "}
+        Free right now — full reports lock to paid after launch.{" "}
         <TrackedLink
           href="/analyze"
           funnelEvent="funnel_landing_cta"
@@ -92,7 +119,7 @@ export default function HomePage() {
             href="/analyze"
             funnelEvent="funnel_landing_cta"
             funnelProps={{ placement: "nav" }}
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
+            className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 transition-colors"
           >
             Analyze My Fees
           </TrackedLink>
@@ -143,14 +170,21 @@ export default function HomePage() {
         </div>
 
         {/* Trust signals */}
-        <div className="mt-8 flex flex-wrap justify-center gap-5 text-sm text-gray-400">
-          {TRUST_SIGNALS.map(({ icon, label }) => (
-            <div key={label} className="flex items-center gap-1.5">
-              <span>{icon}</span>
-              <span>{label}</span>
-            </div>
-          ))}
+        <div className="mt-4 w-full max-w-3xl rounded-2xl border border-gray-100 bg-white px-4 py-3 shadow-sm">
+          <div className="grid gap-2 text-left sm:grid-cols-4 sm:text-center">
+            {TRUST_SIGNALS.map(({ icon, label }) => (
+              <div key={label} className="flex items-center justify-center gap-1.5 text-sm font-semibold text-gray-700">
+                <span className="text-green-600">{icon}</span>
+                <span>{label}</span>
+              </div>
+            ))}
+          </div>
         </div>
+        <p className="mt-3 text-xs font-medium text-gray-500">
+          {hasReportsAnalyzedCount
+            ? `${reportsAnalyzedLabel} reports analyzed in beta`
+            : "Early beta: real founder reports are already coming in"}
+        </p>
       </section>
 
       {/* vs OAuth tools callout */}
@@ -177,7 +211,7 @@ export default function HomePage() {
                   ["Stripe credentials stored", "❌ Never", "✅ On their servers"],
                   ["Access after you're done", "❌ None", "✅ Permanent until revoked"],
                   ["Data scope", "Only what you export", "Full account access"],
-                  ["Price", "Free (beta)", "$39–149/mo"],
+                  ["Price", "Free beta / $12 post-beta", "$39–149/mo"],
                 ].map(([label, ours, theirs]) => (
                   <tr key={label} className="bg-white/60">
                     <td className="px-3 py-2 text-amber-700 font-medium">{label}</td>
@@ -279,6 +313,47 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Decision guide */}
+      <section className="bg-white px-4 py-16">
+        <div className="mx-auto max-w-4xl">
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
+            Is it worth it?
+          </p>
+          <h2 className="text-center text-2xl font-bold text-gray-900 mb-3">
+            When a fee audit is useful — and when to skip it
+          </h2>
+          <p className="mx-auto mb-8 max-w-2xl text-center text-sm leading-relaxed text-gray-500">
+            During beta, the full report is free. After beta, the paid unlock is meant for founders
+            who want more than a blended-rate formula: line-level drivers, refund leakage, monthly
+            detail, exports, and specific savings ideas.
+          </p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {DECISION_GUIDE.map((group) => (
+              <div
+                key={group.title}
+                className={`rounded-2xl border p-6 shadow-sm ${
+                  group.tone === "blue"
+                    ? "border-blue-100 bg-blue-50/60"
+                    : "border-gray-100 bg-gray-50"
+                }`}
+              >
+                <h3 className="font-bold text-gray-900">{group.title}</h3>
+                <ul className="mt-4 space-y-3">
+                  {group.items.map((item) => (
+                    <li key={item} className="flex gap-2 text-sm leading-relaxed text-gray-600">
+                      <span className={group.tone === "blue" ? "text-blue-600" : "text-gray-400"}>
+                        {group.tone === "blue" ? "✓" : "•"}
+                      </span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Metrics preview */}
       <section className="px-4 py-16">
         <div className="mx-auto max-w-4xl">
@@ -347,9 +422,13 @@ export default function HomePage() {
             </div>
             <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">After beta</p>
-              <p className="text-2xl font-bold text-gray-900 mb-2">One-time unlock</p>
+              <p className="text-2xl font-bold text-gray-900 mb-2">$12 one-time unlock</p>
               <p className="text-sm text-gray-600 leading-relaxed">
-                Pay once to open the full analysis for your upload (CSV still not stored). Exact price is shown at checkout when beta ends.
+                Pay once to open the full analysis for one upload for 30 days: all unusual charges,
+                savings opportunities, monthly detail, CSV export, and print-ready report.
+              </p>
+              <p className="mt-3 text-xs text-gray-400">
+                Refund available if payment succeeds but the report does not unlock.
               </p>
             </div>
           </div>

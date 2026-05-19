@@ -50,6 +50,25 @@ const FAQ_ITEMS = [
       </p>
     ),
   },
+  {
+    id: "worth-12",
+    q: "Is the $12 full report worth it after beta?",
+    a: (
+      <p>
+        It depends on your volume. If you process only a few small payments, the preview or a spreadsheet may be enough.
+        If you process meaningful monthly volume, have international customers, refunds, or many low-ticket charges, the full report is designed to show the specific rows and actions behind the headline rate.
+      </p>
+    ),
+  },
+  {
+    id: "excel",
+    q: "Can I calculate this myself in Excel?",
+    a: (
+      <p>
+        Yes. The basic blended rate is just total charge fees divided by total charge volume. Fee Auditor is useful when you want the next layer: monthly changes, unusual charges, refund fee leakage, benchmark context, exports, and specific savings opportunities without rebuilding the spreadsheet every time.
+      </p>
+    ),
+  },
 ];
 
 export function LandingFaq() {

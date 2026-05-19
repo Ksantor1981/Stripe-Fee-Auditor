@@ -21,17 +21,42 @@ export function PaywallBanner({ reportId, accessToken, email }: Props) {
     window.location.href = `/api/checkout?${params}`;
   }
 
+  const included = [
+    "Full unusual-charge list with explanations",
+    "Savings opportunities with step-by-step actions",
+    "Monthly volume, fees, charge count, and trends",
+    "CSV export and print-ready report",
+    "Private report link for 30 days",
+  ];
+
+  const notIncluded = [
+    "No Stripe OAuth or API connection",
+    "No tax, accounting, or contractual fee advice",
+  ];
+
   return (
     <>
       {/* Inline banner */}
       <div className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-6 text-center">
         <div className="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 mb-3">
-          Full report
+          Full report · $12 one-time
         </div>
-        <h3 className="text-lg font-bold text-gray-900 mb-1">Unlock the full report</h3>
+        <h3 className="text-lg font-bold text-gray-900 mb-1">Unlock the decision-making details</h3>
         <p className="text-sm text-gray-500 mb-4 max-w-sm mx-auto">
-          Full anomaly breakdown with explanations, savings opportunities, monthly details, CSV export, and print-ready report.
+          See every high-fee row, why it was flagged, what to check in Stripe, and which action is most likely to reduce fees.
         </p>
+        <div className="mb-4 grid gap-2 text-left text-xs text-gray-600 sm:grid-cols-2">
+          {[
+            "All unusual charges",
+            "Savings plan",
+            "Monthly detail",
+            "CSV + print export",
+          ].map((item) => (
+            <div key={item} className="rounded-lg bg-white/80 px-3 py-2">
+              <span className="font-semibold text-blue-600">✓</span> {item}
+            </div>
+          ))}
+        </div>
         <Button
           className="bg-blue-600 hover:bg-blue-700 text-white px-6"
           onClick={() => {
@@ -42,7 +67,7 @@ export function PaywallBanner({ reportId, accessToken, email }: Props) {
           Unlock Full Report — $12 →
         </Button>
         <p className="mt-3 text-xs text-gray-400">
-          One-time payment · Instant access · Refund available
+          One-time payment · 30-day private link · Refund available if access fails
         </p>
       </div>
 
@@ -52,7 +77,7 @@ export function PaywallBanner({ reportId, accessToken, email }: Props) {
           <div className="bg-gray-900 px-6 py-5">
             <h2 className="text-lg font-bold text-white">Get Full Report</h2>
             <p className="text-sm text-gray-400 mt-1">
-              One-time access to the complete analysis
+              $12 once. Open this report for 30 days.
             </p>
           </div>
           <div className="p-5">
@@ -61,16 +86,27 @@ export function PaywallBanner({ reportId, accessToken, email }: Props) {
                 <span className="font-semibold text-blue-700">Full Report</span>
                 <span className="text-sm font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">$12</span>
               </div>
+              <p className="mb-3 text-xs leading-relaxed text-blue-900/80">
+                The preview already showed your headline rate and top drivers. Unlock adds the rows,
+                explanations, savings actions, exports, and monthly detail.
+              </p>
+              <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-blue-700">
+                Included
+              </p>
               <ul className="space-y-1">
-                {[
-                  "Full anomaly list with explanations",
-                  "Savings opportunities (est. annual)",
-                  "Monthly fee breakdown",
-                  "CSV export",
-                  "Print-ready report",
-                ].map((f) => (
+                {included.map((f) => (
                   <li key={f} className="text-xs text-gray-600 flex items-center gap-1.5">
                     <span className="text-blue-500">✓</span> {f}
+                  </li>
+                ))}
+              </ul>
+              <p className="mb-1 mt-3 text-xs font-semibold uppercase tracking-widest text-gray-400">
+                Not included
+              </p>
+              <ul className="space-y-1">
+                {notIncluded.map((f) => (
+                  <li key={f} className="text-xs text-gray-500 flex items-center gap-1.5">
+                    <span className="text-gray-300">•</span> {f}
                   </li>
                 ))}
               </ul>
@@ -82,7 +118,7 @@ export function PaywallBanner({ reportId, accessToken, email }: Props) {
               Continue to Secure Checkout →
             </button>
             <p className="text-xs text-center text-gray-400 mt-3">
-              Processed by Polar · Refund available — see policy
+              Processed by Polar · If payment succeeds but the report does not unlock, request a refund.
             </p>
           </div>
         </DialogContent>

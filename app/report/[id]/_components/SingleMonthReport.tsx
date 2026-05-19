@@ -7,6 +7,7 @@ import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-
 import { PaywallBanner } from "./PaywallBanner";
 import { FeeInsightCards } from "./FeeInsightCards";
 import { ReportDashboardCharts } from "./ReportDashboardCharts";
+import { ReportTrustChecklist } from "./ReportTrustChecklist";
 
 interface Props {
   reportId: string;
@@ -79,6 +80,8 @@ export function SingleMonthReport({ reportId, accessToken, result, isPaid }: Pro
           </p>
         </div>
       </div>
+
+      <ReportTrustChecklist result={result} />
 
       <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
 
