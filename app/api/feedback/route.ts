@@ -23,7 +23,11 @@ function asTrimmedString(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
-const FEEDBACK_EMAIL = process.env.FEEDBACK_TO ?? "ksantor19811606@gmail.com";
+const FEEDBACK_EMAIL =
+  process.env.FEEDBACK_TO?.trim() ||
+  process.env.EMAIL_REPLY_TO?.trim() ||
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() ||
+  "support@feeauditor.com";
 
 export async function POST(req: NextRequest) {
   const ip = getTrustedClientIp(req);

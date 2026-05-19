@@ -112,6 +112,7 @@ Copy `.env.example` to `.env.local` and fill values (see repo root — ignored p
 | `RESEND_API_KEY` | Send report link after payment |
 | `EMAIL_FROM` | From header (domain verified in Resend for prod) |
 | `EMAIL_REPLY_TO` | Reply-To |
+| `FEEDBACK_TO` | Where report feedback form submissions are delivered; defaults to support contact email |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Legal/support footer |
 | `NEXT_PUBLIC_REPORTS_ANALYZED_COUNT` | Optional landing-page social proof count; leave empty if you do not have a real number yet |
 | `REPORT_TOKEN_SALT` | Pepper for access-token hashing (recommended in prod) |
@@ -153,6 +154,7 @@ curl -sS "http://localhost:3000/api/cron/cleanup" \
 4. Cron is declared in `vercel.json`: **`/api/cron/cleanup`** at **`0 0 * * *`** (daily midnight UTC). Set `CRON_SECRET`; Vercel sends `Authorization: Bearer …` automatically for cron invocations.
 5. **`www` → apex:** `vercel.json` redirects `www.feeauditor.com` → `feeauditor.com`.
 6. After deploy: verify `NEXT_PUBLIC_BASE_URL`, `/sitemap.xml`, `/robots.txt`. Checkout compliance links: `/privacy`, `/terms`, `/refund`.
+7. Run `npm run check:prod` to confirm production is serving the current landing copy, sitemap, and robots file.
 
 **Production email (short checklist)**
 
