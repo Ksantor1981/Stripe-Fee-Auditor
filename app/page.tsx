@@ -61,6 +61,29 @@ const METRICS = [
   { label: "Refund leakage", example: "~$91", desc: "Estimated retained fees" },
 ];
 
+const OAUTH_COMPARISON = [
+  {
+    aspect: "Stripe credentials",
+    ours: "Never stored — no API keys",
+    theirs: "Stored on vendor servers",
+  },
+  {
+    aspect: "Access after analysis",
+    ours: "No ongoing connection",
+    theirs: "Permanent until you revoke OAuth",
+  },
+  {
+    aspect: "Data you share",
+    ours: "Only what you export in CSV",
+    theirs: "Full account via API",
+  },
+  {
+    aspect: "Typical cost",
+    ours: "Free in beta · $12 one-time per report after",
+    theirs: "$39–149/mo subscriptions",
+  },
+] as const;
+
 const DECISION_GUIDE = [
   {
     title: "Worth checking",
@@ -187,40 +210,76 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/* vs OAuth tools callout */}
-      <section className="px-4 pb-12">
-        <div className="mx-auto max-w-3xl rounded-2xl border border-amber-100 bg-amber-50 p-5">
-          <p className="text-sm font-semibold text-amber-800 mb-2">
-            🔒 Why some founders prefer CSV over OAuth
-          </p>
-          <p className="text-sm text-amber-700 leading-relaxed">
-            Other Stripe fee tools require OAuth access to your Stripe account — read access to your full transaction history, customer data, and payout details, permanently until you revoke it.
-            Stripe Fee Auditor never connects to your Stripe account. You export a CSV, upload it, get your analysis, and that&apos;s it. The raw file is processed in memory and never stored as a file.
-          </p>
-          <div className="mt-4 rounded-lg border border-amber-100 overflow-hidden text-sm">
-            <table className="w-full">
-              <thead className="bg-amber-100/50">
-                <tr>
-                  <th className="px-3 py-2 text-left text-xs font-semibold text-amber-800" aria-hidden />
-                  <th className="px-3 py-2 text-center text-xs font-semibold text-amber-800">feeauditor.com</th>
-                  <th className="px-3 py-2 text-center text-xs font-semibold text-amber-800">OAuth tools</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-amber-50">
-                {[
-                  ["Stripe credentials stored", "❌ Never", "✅ On their servers"],
-                  ["Access after you're done", "❌ None", "✅ Permanent until revoked"],
-                  ["Data scope", "Only what you export", "Full account access"],
-                  ["Price", "Free beta / $12 post-beta", "$39–149/mo"],
-                ].map(([label, ours, theirs]) => (
-                  <tr key={label} className="bg-white/60">
-                    <td className="px-3 py-2 text-amber-700 font-medium">{label}</td>
-                    <td className="px-3 py-2 text-center text-green-700 font-semibold">{ours}</td>
-                    <td className="px-3 py-2 text-center text-gray-500">{theirs}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      {/* vs OAuth — trust comparison */}
+      <section className="px-4 pb-12" aria-labelledby="privacy-compare-heading">
+        <div className="mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50/80 to-white p-6 shadow-sm">
+          <div className="flex gap-4">
+            <div
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-700"
+              aria-hidden
+            >
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
+                />
+              </svg>
+            </div>
+            <div>
+              <h2 id="privacy-compare-heading" className="text-lg font-bold text-gray-900">
+                CSV upload, not OAuth
+              </h2>
+              <p className="mt-1.5 text-sm leading-relaxed text-gray-600">
+                Many fee tools ask for permanent read access to your Stripe account — transactions,
+                customers, payouts. We never connect to Stripe: you export a Balance CSV, upload it,
+                get the report. Raw CSV is processed in memory and not stored as a file.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-6 overflow-hidden rounded-xl border border-slate-200 bg-white text-sm shadow-sm">
+            <div className="hidden sm:grid sm:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_minmax(0,1fr)] border-b border-slate-200 bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <div className="px-4 py-3" />
+              <div className="border-l border-slate-200 bg-blue-600 px-4 py-3 text-center text-white">
+                Stripe Fee Auditor
+              </div>
+              <div className="border-l border-slate-200 px-4 py-3 text-center">OAuth-based tools</div>
+            </div>
+
+            {OAUTH_COMPARISON.map(({ aspect, ours, theirs }, index) => (
+              <div
+                key={aspect}
+                className={`border-t border-slate-100 sm:grid sm:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_minmax(0,1fr)] ${
+                  index === 0 ? "border-t-0 sm:border-t" : ""
+                }`}
+              >
+                <div className="bg-slate-50/80 px-4 py-3 font-medium text-gray-800 sm:bg-transparent">
+                  <span className="sm:hidden text-xs font-semibold uppercase tracking-wide text-slate-400">
+                    {aspect}
+                  </span>
+                  <span className="block sm:inline">{aspect}</span>
+                </div>
+                <div className="border-t border-slate-100 bg-blue-50/70 px-4 py-3 sm:border-t-0 sm:border-l sm:border-slate-200">
+                  <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-blue-700 sm:sr-only">
+                    Stripe Fee Auditor
+                  </p>
+                  <p className="flex gap-2 font-medium text-blue-950">
+                    <span className="mt-0.5 shrink-0 text-blue-600" aria-hidden>
+                      ✓
+                    </span>
+                    <span>{ours}</span>
+                  </p>
+                </div>
+                <div className="border-t border-slate-100 px-4 py-3 text-gray-500 sm:border-t-0 sm:border-l sm:border-slate-200">
+                  <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-400 sm:sr-only">
+                    OAuth-based tools
+                  </p>
+                  <p>{theirs}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
