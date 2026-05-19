@@ -35,6 +35,12 @@ function toPreviewResult(result: AnalysisResult): AnalysisResult {
     savingsOpportunities: teaserSavings ?? [],
     // Keep monthly totals visible so users can reconcile the preview against Stripe before paying.
     monthly: result.monthly,
+    // Paid-only aggregates can otherwise leak the value of the full report through client props.
+    benchmark: undefined,
+    refundSummary: undefined,
+    transactionBuckets: undefined,
+    geographySummary: undefined,
+    feeMix: undefined,
   };
 }
 

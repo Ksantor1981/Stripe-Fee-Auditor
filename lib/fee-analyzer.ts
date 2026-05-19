@@ -560,7 +560,6 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
   const otherFees = others.reduce((acc, row) => acc + nonChargeFeeAmount(row), 0);
   const allInFees = chargeFees + otherFees;
   const allInRate = chargeVolume > 0 ? (allInFees / chargeVolume) * 100 : 0;
-  const monthsInData = new Set(rows.map((r) => r.month).filter(Boolean)).size || 1;
 
   // Monthly breakdown
   const monthMap = new Map<string, NormalizedRow[]>();
@@ -576,6 +575,7 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
       const fees = sum(rows, "fee");
       return { month, volume, fees, rate: volume > 0 ? (fees / volume) * 100 : 0, count: rows.length };
     });
+  const monthsInData = monthly.length || 1;
 
   // Mode determination
   let mode: AnalysisMode;

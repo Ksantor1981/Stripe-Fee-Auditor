@@ -16,7 +16,6 @@ export const PLANS: Record<PlanId, { label: string; price: string; desc: string;
 
 export type ReportCheckoutMetadata = {
   reportId?: string;
-  accessToken?: string;
   plan?: PlanId;
 };
 
@@ -54,7 +53,6 @@ export function readReportMetadata(metadata: Record<string, unknown> | null | un
 
   return {
     reportId: readStringMetadata(metadata, "report_id"),
-    accessToken: readStringMetadata(metadata, "access_token"),
     plan: isPlanId(plan) ? plan : undefined,
   };
 }
@@ -65,6 +63,22 @@ export async function getCheckoutReportMetadata(checkoutId: string | null | unde
   if (!polar) return {};
   const checkout = await polar.checkouts.get({ id: checkoutId });
   return readReportMetadata(checkout.metadata);
+}
+
+export async function getSucceededCheckout(checkoutId: string): Promise<{
+  productId: string | null;
+  email: string;
+} | null> {
+  const polar = getPolarClient();
+  if (!polar) return null;
+
+  const checkout = await polar.checkouts.get({ id: checkoutId });
+  if (checkout.status !== "succeeded") return null;
+
+  return {
+    productId: checkout.productId,
+    email: checkout.customerEmail ?? "",
+  };
 }
 
 export async function buildCheckoutUrl(
@@ -106,27 +120,7 @@ export async function buildCheckoutUrl(
     return checkout.url;
   }
 
-  // Fallback for environments that still use static Polar checkout links.
-  // Dynamic per-report success redirects require POLAR_ACCESS_TOKEN.
-  if (process.env.ALLOW_POLAR_STATIC_CHECKOUT_FALLBACK !== "true") {
-    throw new Error("Polar dynamic checkout is required: set POLAR_ACCESS_TOKEN");
-  }
-
-  const checkoutLinkEnvKey = {
-    pro: "POLAR_CHECKOUT_PRO",
-  }[planId];
-
-  const checkoutLink = process.env[checkoutLinkEnvKey];
-  if (!checkoutLink) {
-    throw new Error(`Polar not configured: missing ${checkoutLinkEnvKey}`);
-  }
-
-  const url = new URL(`https://buy.polar.sh/${checkoutLink}`);
-  url.searchParams.set("metadata[report_id]", reportId);
-  url.searchParams.set("metadata[access_token]", accessToken);
-  if (email) url.searchParams.set("customer_email", email);
-
-  return url.toString();
+  throw new Error("Polar dynamic checkout is required: set POLAR_ACCESS_TOKEN");
 }
 
 export function verifyPolarWebhook(

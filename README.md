@@ -99,6 +99,7 @@ Copy `.env.example` to `.env.local` and fill values (see repo root — ignored p
 | `POLAR_WEBHOOK_SECRET` | Webhook signature verification |
 | `POLAR_PRODUCT_PRO` | Allowed product UUID at checkout/webhook |
 | `POLAR_ACCESS_TOKEN` | Dynamic checkout URLs + checkout metadata recovery |
+| `CHECKOUT_TOKEN_ENCRYPTION_KEY` | Secret used to encrypt report access tokens stored for checkout/webhook recovery; use at least 32 random characters |
 | `CRON_SECRET` | Bearer secret for `/api/cron/cleanup` |
 | `NEXT_PUBLIC_BASE_URL` | Canonical URL (sitemap, metadata, email links) — e.g. `http://localhost:3000` locally |
 
@@ -106,9 +107,7 @@ Copy `.env.example` to `.env.local` and fill values (see repo root — ignored p
 
 | Variable | Purpose |
 |----------|---------|
-| `POLAR_CHECKOUT_PRO` | Static Polar checkout path fallback |
 | `FULL_REPORTS_FREE_DURING_BETA` | Set `true` only during beta to show full reports and exports without payment; beta reports are retained up to 30 days |
-| `ALLOW_POLAR_STATIC_CHECKOUT_FALLBACK` | Set `true` only if you intentionally accept the older static Polar checkout flow |
 | `RESEND_API_KEY` | Send report link after payment |
 | `EMAIL_FROM` | From header (domain verified in Resend for prod) |
 | `EMAIL_REPLY_TO` | Reply-To |

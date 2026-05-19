@@ -13,11 +13,13 @@ const MAX_BODY_BYTES = 8192;
 
 export async function POST(req: NextRequest) {
   const ip = getTrustedClientIp(req);
-  if (ip) {
-    const allowed = await consumeIpRequest(`event:${ip}`, 120); // 120 events/day per IP
-    if (!allowed) {
-      return new NextResponse(null, { status: 429 });
-    }
+  if (!ip) {
+    return NextResponse.json({ error: "Unable to process request" }, { status: 400 });
+  }
+
+  const allowed = await consumeIpRequest(`event:${ip}`, 120); // 120 events/day per IP
+  if (!allowed) {
+    return new NextResponse(null, { status: 429 });
   }
 
   const contentLength = Number(req.headers.get("content-length") ?? 0);

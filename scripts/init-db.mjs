@@ -53,7 +53,7 @@ await sql`
   CREATE TABLE IF NOT EXISTS checkout_sessions (
     checkout_id TEXT PRIMARY KEY,
     report_id UUID NOT NULL REFERENCES reports(id) ON DELETE CASCADE,
-    access_token TEXT NOT NULL,
+    access_token_ciphertext TEXT NOT NULL,
     access_token_hash TEXT NOT NULL,
     plan TEXT NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -61,6 +61,8 @@ await sql`
   )
 `;
 
+await sql`ALTER TABLE checkout_sessions ADD COLUMN IF NOT EXISTS access_token_ciphertext TEXT`;
+await sql`ALTER TABLE checkout_sessions DROP COLUMN IF EXISTS access_token`;
 await sql`CREATE INDEX IF NOT EXISTS idx_rate_limits_ip_created ON rate_limits(ip, created_at)`;
 await sql`CREATE INDEX IF NOT EXISTS idx_reports_session ON reports(session_id)`;
 await sql`CREATE INDEX IF NOT EXISTS idx_reports_expires ON reports(expires_at)`;

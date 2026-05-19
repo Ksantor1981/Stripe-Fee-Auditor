@@ -46,6 +46,47 @@ export function hashReportAccessToken(token: string): string {
 
 let checkoutSessionsTableReady = false;
 
+function getCheckoutTokenEncryptionKey(): Buffer {
+  const secret =
+    process.env.CHECKOUT_TOKEN_ENCRYPTION_KEY?.trim() ||
+    process.env.REPORT_TOKEN_SALT?.trim();
+
+  if (!secret || secret.length < 32) {
+    throw new Error(
+      "CHECKOUT_TOKEN_ENCRYPTION_KEY or REPORT_TOKEN_SALT must be set to at least 32 characters for checkout token encryption"
+    );
+  }
+
+  return crypto.createHash("sha256").update(secret, "utf8").digest();
+}
+
+function encryptCheckoutAccessToken(token: string): string {
+  const iv = crypto.randomBytes(12);
+  const cipher = crypto.createCipheriv("aes-256-gcm", getCheckoutTokenEncryptionKey(), iv);
+  const encrypted = Buffer.concat([cipher.update(token, "utf8"), cipher.final()]);
+  const tag = cipher.getAuthTag();
+  return `v1:${iv.toString("base64url")}:${tag.toString("base64url")}:${encrypted.toString("base64url")}`;
+}
+
+function decryptCheckoutAccessToken(payload: string): string {
+  const [version, ivRaw, tagRaw, encryptedRaw] = payload.split(":");
+  if (version !== "v1" || !ivRaw || !tagRaw || !encryptedRaw) {
+    throw new Error("Invalid checkout token payload");
+  }
+
+  const decipher = crypto.createDecipheriv(
+    "aes-256-gcm",
+    getCheckoutTokenEncryptionKey(),
+    Buffer.from(ivRaw, "base64url")
+  );
+  decipher.setAuthTag(Buffer.from(tagRaw, "base64url"));
+
+  return Buffer.concat([
+    decipher.update(Buffer.from(encryptedRaw, "base64url")),
+    decipher.final(),
+  ]).toString("utf8");
+}
+
 async function ensureCheckoutSessionsTable(): Promise<void> {
   if (checkoutSessionsTableReady) return;
 
@@ -53,13 +94,16 @@ async function ensureCheckoutSessionsTable(): Promise<void> {
     CREATE TABLE IF NOT EXISTS checkout_sessions (
       checkout_id TEXT PRIMARY KEY,
       report_id UUID NOT NULL REFERENCES reports(id) ON DELETE CASCADE,
-      access_token TEXT NOT NULL,
+      access_token_ciphertext TEXT NOT NULL,
       access_token_hash TEXT NOT NULL,
       plan TEXT NOT NULL,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       expires_at TIMESTAMPTZ NOT NULL DEFAULT NOW() + INTERVAL '24 hours'
     )
   `;
+
+  await sql`ALTER TABLE checkout_sessions ADD COLUMN IF NOT EXISTS access_token_ciphertext TEXT`;
+  await sql`ALTER TABLE checkout_sessions DROP COLUMN IF EXISTS access_token`;
 
   await sql`
     CREATE INDEX IF NOT EXISTS checkout_sessions_report_id_idx
@@ -106,12 +150,13 @@ export async function createCheckoutSession(params: {
 }): Promise<void> {
   await ensureCheckoutSessionsTable();
   const accessTokenHash = hashReportAccessToken(params.accessToken);
+  const accessTokenCiphertext = encryptCheckoutAccessToken(params.accessToken);
 
   await sql`
     INSERT INTO checkout_sessions (
       checkout_id,
       report_id,
-      access_token,
+      access_token_ciphertext,
       access_token_hash,
       plan,
       expires_at
@@ -119,14 +164,14 @@ export async function createCheckoutSession(params: {
     VALUES (
       ${params.checkoutId},
       ${params.reportId},
-      ${params.accessToken},
+      ${accessTokenCiphertext},
       ${accessTokenHash},
       ${params.plan},
       NOW() + INTERVAL '24 hours'
     )
     ON CONFLICT (checkout_id) DO UPDATE SET
       report_id = EXCLUDED.report_id,
-      access_token = EXCLUDED.access_token,
+      access_token_ciphertext = EXCLUDED.access_token_ciphertext,
       access_token_hash = EXCLUDED.access_token_hash,
       plan = EXCLUDED.plan,
       expires_at = EXCLUDED.expires_at
@@ -140,7 +185,7 @@ export async function getCheckoutSession(checkoutId: string): Promise<CheckoutSe
     SELECT
       checkout_id,
       report_id::text AS report_id,
-      access_token,
+      access_token_ciphertext,
       access_token_hash,
       plan
     FROM checkout_sessions
@@ -153,7 +198,7 @@ export async function getCheckoutSession(checkoutId: string): Promise<CheckoutSe
     | {
         checkout_id: string;
         report_id: string;
-        access_token: string;
+        access_token_ciphertext: string;
         access_token_hash: string;
         plan: string;
       }
@@ -164,7 +209,7 @@ export async function getCheckoutSession(checkoutId: string): Promise<CheckoutSe
   return {
     checkoutId: row.checkout_id,
     reportId: row.report_id,
-    accessToken: row.access_token,
+    accessToken: decryptCheckoutAccessToken(row.access_token_ciphertext),
     accessTokenHash: row.access_token_hash,
     plan: row.plan,
   };

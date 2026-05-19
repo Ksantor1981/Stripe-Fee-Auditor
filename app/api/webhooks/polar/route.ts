@@ -41,7 +41,7 @@ async function buildUnlockPayload(event: ReturnType<typeof verifyPolarWebhook>):
 
     const orderMetadata = readReportMetadata(order.metadata);
     let reportId = orderMetadata.reportId;
-    let accessToken = orderMetadata.accessToken;
+    let accessToken: string | undefined;
     let metadataLookupFailed = false;
 
     if ((!reportId || !accessToken) && order.checkoutId) {
@@ -59,7 +59,6 @@ async function buildUnlockPayload(event: ReturnType<typeof verifyPolarWebhook>):
       try {
         const checkoutMetadata = await getCheckoutReportMetadata(order.checkoutId);
         reportId ??= checkoutMetadata.reportId;
-        accessToken ??= checkoutMetadata.accessToken;
       } catch (err) {
         metadataLookupFailed = true;
         console.error("[polar-webhook] Checkout metadata lookup failed:", err);
@@ -92,7 +91,7 @@ async function buildUnlockPayload(event: ReturnType<typeof verifyPolarWebhook>):
       productId: checkout.productId,
       email: checkout.customerEmail ?? "",
       reportId: checkoutSession?.reportId ?? metadata.reportId,
-      accessToken: checkoutSession?.accessToken ?? metadata.accessToken,
+      accessToken: checkoutSession?.accessToken,
     };
   }
 
@@ -135,7 +134,7 @@ export async function POST(req: NextRequest) {
   }
 
   if (!reportId || !UUID_V4.test(reportId) || !accessToken) {
-    console.warn(`[polar-webhook] ${eventName} without valid report_id/access_token in metadata`, {
+    console.warn(`[polar-webhook] ${eventName} without valid report_id or checkout session token`, {
       eventId: shortId(eventId),
       hasReportId: Boolean(reportId),
       hasAccessToken: Boolean(accessToken),

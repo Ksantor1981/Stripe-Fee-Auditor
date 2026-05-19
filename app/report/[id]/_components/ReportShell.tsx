@@ -147,7 +147,9 @@ export function ReportShell({
         {result.mode === "low-volume" && <LowVolumeReport reportId={reportId} result={result} isPaid={hasFullAccess} />}
 
         <div className="mt-8 space-y-8">
-          <ShareEmbedBenchmark reportId={reportId} accessToken={accessToken} result={result} />
+          {hasFullAccess && (
+            <ShareEmbedBenchmark reportId={reportId} accessToken={accessToken} result={result} />
+          )}
           <FeedbackForm reportId={reportId} />
         </div>
       </div>
