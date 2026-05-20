@@ -38,7 +38,7 @@ export function SavingsOpportunities({ opportunities }: Props) {
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-1">
-            What to do about it
+            Opportunities to save
           </p>
           <h2 className="text-base font-bold text-gray-900">
             {opportunities.length} action{opportunities.length > 1 ? "s" : ""}, ranked by impact
@@ -51,8 +51,8 @@ export function SavingsOpportunities({ opportunities }: Props) {
       </div>
 
       <p className="text-xs text-gray-400 mb-5">
-        Directional estimates based on your transaction patterns. Verify before changing billing rules. The headline total
-        adds separate scenarios (they overlap in practice — not one combined guarantee).
+        Problem → estimated loss in this export → what to do in Stripe. Annual figures are directional;
+        scenarios overlap — not one combined guarantee.
       </p>
 
       <div className="space-y-3">
@@ -66,7 +66,7 @@ export function SavingsOpportunities({ opportunities }: Props) {
               className={`rounded-xl border px-4 py-4 ${style.border} ${style.bg}`}
             >
               <div className="flex items-start justify-between gap-3 mb-2">
-                <div className="flex items-start gap-2.5">
+                <div className="flex items-start gap-2.5 min-w-0">
                   <span className="flex items-center justify-center w-5 h-5 rounded-full bg-white border border-gray-200 text-xs font-semibold text-gray-500 shrink-0 mt-0.5">
                     {i + 1}
                   </span>
@@ -81,20 +81,31 @@ export function SavingsOpportunities({ opportunities }: Props) {
                 </div>
               </div>
 
+              {opp.periodLoss != null && opp.periodLoss > 0 && (
+                <p className="text-xs font-medium text-amber-800 ml-7 mb-2">
+                  ~{fmt$(opp.periodLoss)} extra cost in this export period (estimate)
+                </p>
+              )}
+
               <p className="text-xs text-gray-600 leading-relaxed ml-7 mb-3">{opp.tip}</p>
 
               {opp.steps && opp.steps.length > 0 && (
-                <div className="ml-7 flex flex-wrap gap-1.5">
+                <ol className="ml-7 mb-3 list-decimal list-inside space-y-1 text-xs text-gray-600">
                   {opp.steps.map((step, si) => (
-                    <span
-                      key={si}
-                      className="inline-flex items-center gap-1 text-xs text-gray-500 bg-white border border-gray-100 rounded-md px-2 py-1"
-                    >
-                      <span className="text-gray-300 font-medium">{si + 1}.</span>
-                      {step}
-                    </span>
+                    <li key={si}>{step}</li>
                   ))}
-                </div>
+                </ol>
+              )}
+
+              {opp.actionUrl && opp.actionLabel && (
+                <a
+                  href={opp.actionUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-7 inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-800 hover:underline"
+                >
+                  {opp.actionLabel} →
+                </a>
               )}
             </div>
           );

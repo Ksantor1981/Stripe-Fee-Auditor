@@ -37,6 +37,11 @@ export interface SavingsOpportunity {
   /** Present on newly generated reports; older stored JSON may omit. */
   confidence?: "high" | "medium" | "low";
   steps?: string[];
+  /** Primary CTA — Stripe Dashboard or docs. */
+  actionLabel?: string;
+  actionUrl?: string;
+  /** Estimated loss in the export period (for Problem → Loss copy). */
+  periodLoss?: number;
 }
 
 /** Pre-aggregated domestic vs international charge mix for report UI (no raw rows). */
@@ -312,14 +317,16 @@ function buildSavingsOpportunities(
     if (excessFees > 0) {
       const annualSavings = Math.round(((excessFees * 12) / months) / 10) * 10;
       opportunities.push({
-        title: `${intlCharges.length} international card charges driving up your rate`,
+        title: "High international card fees",
+        periodLoss: roundMoney(excessFees),
         annualSavings,
-        tip: "Enable local payment methods (SEPA, iDEAL, Bancontact) where appropriate. Estimate is capped at the visible 1.5% cross-border surcharge and may be lower depending on your Stripe pricing.",
+        tip: "Cross-border cards often add ~1.5% on top of domestic pricing. Local methods (SEPA, iDEAL) can reduce that for EU customers.",
         confidence: "medium",
+        actionLabel: "Open Stripe payment methods",
+        actionUrl: "https://dashboard.stripe.com/settings/payment_methods",
         steps: [
-          "Stripe Dashboard → Settings → Payment methods",
           "Enable SEPA Direct Debit (EU) or iDEAL (Netherlands)",
-          "Update your checkout to offer local methods for EU/UK customers",
+          "Offer local methods at checkout for EU/UK customers",
         ],
       });
     }
@@ -333,13 +340,16 @@ function buildSavingsOpportunities(
     const annualSavings = Math.round(((assumedAvoidableFixedFees * 12) / months) / 10) * 10;
     if (annualSavings > 0) {
       opportunities.push({
-        title: `${smallCharges.length} small transactions under $20 with high per-dollar cost`,
+        title: "Small transactions — fixed $0.30 dominates",
+        periodLoss: roundMoney(assumedAvoidableFixedFees),
         annualSavings,
-        tip: `Bundling charges or switching to monthly billing for avg $${avgSmallAmount.toFixed(2)} transactions reduces the fixed $0.30 fee impact. Estimate assumes roughly half of these fixed fees are avoidable, not all of them.`,
+        tip: `${smallCharges.length} charges under $20 (avg $${avgSmallAmount.toFixed(2)}). Bundling or monthly billing cuts repeated $0.30 fixed fees.`,
         confidence: "medium",
+        actionLabel: "Review Stripe Billing settings",
+        actionUrl: "https://dashboard.stripe.com/settings/billing",
         steps: [
-          "Set a $10 minimum charge amount in your checkout",
-          "Or switch sub-$10 customers to monthly billing (one charge instead of many)",
+          "Set a minimum charge in checkout where it fits your model",
+          "Move sub-$10 subs to one monthly invoice",
         ],
       });
     }
@@ -362,14 +372,16 @@ function buildSavingsOpportunities(
       const rawAnnualIfFullSwitch = ((savings * 12) / months) * ACH_SWITCHING_SHARE_ASSUMPTION;
       const annualSavings = Math.round(rawAnnualIfFullSwitch / 10) * 10;
       opportunities.push({
-        title: `${largeCardCharges.length} large card charges over $500 that could use ACH`,
+        title: "Large invoices still on cards — ACH is cheaper",
+        periodLoss: roundMoney(savings),
         annualSavings,
-        tip: `Offer ACH/bank transfer for invoices over $500. ACH costs 0.8% (max $5) vs 2.9%+ for cards. Annual estimate assumes ~${Math.round(ACH_SWITCHING_SHARE_ASSUMPTION * 100)}% of these invoices switch to ACH.`,
+        tip: `${largeCardCharges.length} charges over $500 on cards. ACH is ~0.8% (max $5) vs card pricing. Estimate assumes ~${Math.round(ACH_SWITCHING_SHARE_ASSUMPTION * 100)}% could switch.`,
         confidence: "high",
+        actionLabel: "Enable ACH in Stripe",
+        actionUrl: "https://dashboard.stripe.com/settings/payment_methods",
         steps: [
-          "Stripe Dashboard → Settings → Payment methods → enable ACH Direct Debit",
-          "Email customers with $500+ invoices offering 1% discount for paying via ACH",
-          "Stripe Dashboard → Billing → Invoice settings → set ACH as default for large invoices",
+          "Enable ACH Direct Debit under Payment methods",
+          "Offer bank transfer on $500+ invoices",
         ],
       });
     }

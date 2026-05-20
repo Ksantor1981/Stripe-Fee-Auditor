@@ -260,6 +260,12 @@ export default function HomePage() {
           >
             Try sample report →
           </TrackedLink>
+          <Link
+            href="/stripe-fee-calculator"
+            className="text-sm font-medium text-gray-500 hover:text-blue-600 underline underline-offset-2"
+          >
+            Quick fee estimate first →
+          </Link>
         </div>
 
         {/* Trust signals */}

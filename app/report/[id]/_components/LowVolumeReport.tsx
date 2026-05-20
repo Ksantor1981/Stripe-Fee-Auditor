@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { FeeInsightCards } from "./FeeInsightCards";
 import { ReportDashboardCharts } from "./ReportDashboardCharts";
 import { ReportTrustChecklist } from "./ReportTrustChecklist";
+import { SavingsOpportunities } from "./SavingsOpportunities";
 
 interface Props {
   reportId: string;
@@ -15,8 +16,10 @@ interface Props {
   isPaid: boolean;
 }
 
-export function LowVolumeReport({ result }: Props) {
-  const { chargeFees, chargeRate, chargeVolume, otherFees, topDrivers, monthly } = result;
+export function LowVolumeReport({ result, isPaid }: Props) {
+  const { chargeFees, chargeRate, chargeVolume, otherFees, topDrivers, monthly, savingsOpportunities } =
+    result;
+  const savings = savingsOpportunities ?? [];
   const totalCharges = monthly.reduce((a, m) => a + m.count, 0);
   const monthCount = monthly.length;
   const periodFees = result.allInFees ?? periodTotalFees(chargeFees, otherFees);
@@ -88,6 +91,8 @@ export function LowVolumeReport({ result }: Props) {
       <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
 
       <ReportDashboardCharts result={result} />
+
+      {isPaid && savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
 
       {/* Top 5 highest-fee transactions */}
       <div className="rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden">

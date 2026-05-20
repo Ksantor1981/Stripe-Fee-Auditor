@@ -14,7 +14,7 @@ import { SAMPLE_CSV } from "@/lib/sampleData";
 import { MAX_CSV_ROWS, sanitizeColumnMapping } from "@/lib/analyze-input";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { appendReportAccessCookie } from "@/lib/report-access-cookie";
-import { logOpsError } from "@/lib/ops-log";
+import { logOpsError, logOpsInfo } from "@/lib/ops-log";
 
 export const maxDuration = 30;
 
@@ -182,6 +182,9 @@ export async function POST(req: NextRequest) {
       const currencies = [...new Set(normalized.map((r) => r.currency?.toLowerCase()).filter(Boolean))];
       const nonUsd = currencies.filter((c) => c !== "usd");
       if (nonUsd.length > 0) {
+        logOpsInfo("usd_only_rejected", {
+          currencies: nonUsd.join(","),
+        });
         return NextResponse.json(
           {
             error: `USD accounts only in beta. Your CSV contains: ${nonUsd.map((c) => c.toUpperCase()).join(", ")}. Multi-currency support is coming soon.`,

@@ -8,6 +8,7 @@ import { PaywallBanner } from "./PaywallBanner";
 import { FeeInsightCards } from "./FeeInsightCards";
 import { ReportDashboardCharts } from "./ReportDashboardCharts";
 import { ReportTrustChecklist } from "./ReportTrustChecklist";
+import { SavingsOpportunities } from "./SavingsOpportunities";
 
 interface Props {
   reportId: string;
@@ -16,7 +17,9 @@ interface Props {
 }
 
 export function SingleMonthReport({ reportId, result, isPaid }: Props) {
-  const { chargeFees, chargeRate, chargeVolume, otherFees, monthly, topDrivers } = result;
+  const { chargeFees, chargeRate, chargeVolume, otherFees, monthly, topDrivers, savingsOpportunities } =
+    result;
+  const savings = savingsOpportunities ?? [];
   const month = monthly[0];
   const periodFees = result.allInFees ?? periodTotalFees(chargeFees, otherFees);
   const allInRate = result.allInRate ?? (chargeVolume > 0 ? (periodFees / chargeVolume) * 100 : 0);
@@ -85,6 +88,8 @@ export function SingleMonthReport({ reportId, result, isPaid }: Props) {
       <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
 
       <ReportDashboardCharts result={result} />
+
+      {isPaid && savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
 
       {/* Fee blocks */}
       <div className="grid gap-4 sm:grid-cols-2">

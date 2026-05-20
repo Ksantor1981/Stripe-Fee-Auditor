@@ -269,7 +269,9 @@ test("small-transaction savings use dollar units", () => {
     month: "2024-01",
   }));
   const r = analyze(rows);
-  const small = r.savingsOpportunities?.find((opp) => opp.title.includes("small transactions"));
+  const small = r.savingsOpportunities?.find((opp) =>
+    opp.title.toLowerCase().includes("small transaction")
+  );
   assert(Boolean(small), "should produce a small-transaction opportunity");
   assertClose(small?.annualSavings ?? 0, 110, 0.1, "annual savings should assume half fixed fees are avoidable");
 });
