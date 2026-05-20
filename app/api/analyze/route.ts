@@ -14,6 +14,7 @@ import { SAMPLE_CSV } from "@/lib/sampleData";
 import { MAX_CSV_ROWS, sanitizeColumnMapping } from "@/lib/analyze-input";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { appendReportAccessCookie } from "@/lib/report-access-cookie";
+import { logOpsError } from "@/lib/ops-log";
 
 export const maxDuration = 30;
 
@@ -227,7 +228,9 @@ export async function POST(req: NextRequest) {
     appendReportAccessCookie(res, reportId, accessToken);
     return res;
   } catch (err) {
-    console.error("[analyze]", err);
+    logOpsError("analyze_failed", {
+      message: err instanceof Error ? err.message.slice(0, 200) : "unknown",
+    });
     return NextResponse.json({ error: "Analysis failed" }, { status: 500 });
   }
 }

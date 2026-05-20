@@ -7,6 +7,7 @@ import {
 } from "@/lib/polar";
 import { getCheckoutSession, processPaidWebhook } from "@/lib/db";
 import { sendReportEmail } from "@/lib/email";
+import { logOpsError, logOpsWarn } from "@/lib/ops-log";
 
 export const maxDuration = 30;
 
@@ -51,7 +52,9 @@ async function buildUnlockPayload(event: ReturnType<typeof verifyPolarWebhook>):
         accessToken ??= checkoutSession?.accessToken;
       } catch (err) {
         metadataLookupFailed = true;
-        console.error("[polar-webhook] Checkout session lookup failed:", err);
+        logOpsError("polar_webhook_checkout_lookup_failed", {
+          message: err instanceof Error ? err.message.slice(0, 200) : "unknown",
+        });
       }
     }
 
@@ -111,7 +114,7 @@ export async function POST(req: NextRequest) {
   try {
     event = verifyPolarWebhook(rawBody, headers);
   } catch {
-    console.error("[polar-webhook] Invalid signature");
+    logOpsWarn("polar_webhook_invalid_signature", {});
     return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
   }
 
@@ -126,16 +129,17 @@ export async function POST(req: NextRequest) {
   const { eventId, eventName, productId, email, reportId, accessToken } = unlock;
 
   if (!productId || !isAllowedProductId(productId)) {
-    console.warn(`[polar-webhook] Unknown or missing product id: ${productId}`, {
+    logOpsWarn("polar_webhook_invalid_product", {
       eventName,
-      eventId: shortId(eventId),
+      eventId: shortId(eventId) ?? "unknown",
     });
     return NextResponse.json({ error: "Invalid product" }, { status: 400 });
   }
 
   if (!reportId || !UUID_V4.test(reportId) || !accessToken) {
-    console.warn(`[polar-webhook] ${eventName} without valid report_id or checkout session token`, {
-      eventId: shortId(eventId),
+    logOpsWarn("polar_webhook_missing_metadata", {
+      eventName,
+      eventId: shortId(eventId) ?? "unknown",
       hasReportId: Boolean(reportId),
       hasAccessToken: Boolean(accessToken),
     });
@@ -165,13 +169,16 @@ export async function POST(req: NextRequest) {
     }
 
     if (status === "report_not_found") {
-      console.warn("[polar-webhook] report_not_found for paid order", shortId(eventId));
-      // Return 500 so Polar retries. A successful payment must not get stranded.
+      logOpsError("polar_webhook_report_not_found", {
+        eventId: shortId(eventId) ?? "unknown",
+      });
       return NextResponse.json({ error: "Report not found, will retry" }, { status: 500 });
     }
   } catch (err) {
-    console.error("[polar-webhook] DB update failed:", err);
-    // Return 500 so Polar retries - user paid, must not lose the unlock
+    logOpsError("polar_webhook_db_failed", {
+      message: err instanceof Error ? err.message.slice(0, 200) : "unknown",
+      eventId: shortId(eventId) ?? "unknown",
+    });
     return NextResponse.json({ error: "DB error, will retry" }, { status: 500 });
   }
 
@@ -190,7 +197,10 @@ export async function POST(req: NextRequest) {
     }
 
     await sendReportEmail(email, reportId, accessToken, totalFeesCents).catch((err) =>
-      console.error("[polar-webhook] Email send failed:", err)
+      logOpsError("polar_webhook_email_failed", {
+        message: err instanceof Error ? err.message.slice(0, 200) : "unknown",
+        reportId: reportId.slice(0, 8),
+      })
     );
   }
 

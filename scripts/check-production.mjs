@@ -26,6 +26,10 @@ const checks = [
     path: "/robots.txt",
     contains: ["Sitemap: https://feeauditor.com/sitemap.xml"],
   },
+  {
+    path: "/api/health",
+    contains: ['"status":"ok"', '"database":"ok"'],
+  },
 ];
 
 async function fetchText(path) {

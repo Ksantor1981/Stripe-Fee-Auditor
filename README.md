@@ -179,8 +179,22 @@ curl -sS "http://localhost:3000/api/cron/cleanup" \
 4. Cron is declared in `vercel.json`: **`/api/cron/cleanup`** at **`0 0 * * *`** (daily midnight UTC). Set `CRON_SECRET`; Vercel sends `Authorization: Bearer …` automatically for cron invocations.
 5. **`www` → apex:** `vercel.json` redirects `www.feeauditor.com` → `feeauditor.com`.
 6. After deploy: verify `NEXT_PUBLIC_BASE_URL`, `/sitemap.xml`, `/robots.txt`. Checkout compliance links: `/privacy`, `/terms`, `/refund`.
-7. Run `npm run check:prod` to confirm production is serving the current landing copy, sitemap, and robots file.
+7. Run `npm run check:prod` (landing + sitemap + robots + **`/api/health`**) and optionally `npm run check:health`.
 8. Before turning off beta, run locally with `FULL_REPORTS_FREE_DURING_BETA=false` and `npm run check:post-beta` (see script for manual paywall checklist).
+
+### Ops & monitoring (no Sentry required)
+
+| What | How |
+|------|-----|
+| **Liveness** | `GET /api/health` — DB ping + env flags (`skip` = optional). Returns **503** if DB down (use for UptimeRobot / Better Stack). |
+| **Structured logs** | Server errors emit JSON lines with `"type":"ops_event"` — in Vercel → Logs, filter `ops_event` and `"level":"error"`. |
+| **Cron audit** | Daily cleanup logs `cron_cleanup_complete` with delete counts; failures → `cron_cleanup_failed`. |
+| **CI** | GitHub Actions `.github/workflows/ci.yml` runs lint + test + build on push to `master`/`main`. |
+| **Weekly** | `scripts/weekly-metrics.sql` + scan Vercel for `polar_webhook_db_failed`, `analyze_failed`, `health_database_fail`. |
+
+**Optional (5 min, free):** [UptimeRobot](https://uptimerobot.com) monitor `https://feeauditor.com/api/health` every 5 min — email if not 200.
+
+**Vercel log alert (optional):** Project → Settings → Alerts → log drain or integration; trigger when message contains `"level":"error"` and `ops_event`.
 
 **Vercel production secrets (do not skip)**
 

@@ -11,6 +11,7 @@ import {
   resolveReportAccessToken,
 } from "../lib/report-access-cookie";
 import { encryptSecretPayload, decryptSecretPayload } from "../lib/token-crypto";
+import { opsLogLine } from "../lib/ops-log";
 
 let passed = 0;
 let failed = 0;
@@ -30,6 +31,15 @@ function test(name: string, fn: () => void) {
 function assert(cond: boolean, msg: string) {
   if (!cond) throw new Error(msg);
 }
+
+console.log("\n📋 ops-log / opsLogLine");
+test("serializes ops_event JSON", () => {
+  const line = opsLogLine("test_event", "error", { code: 500 });
+  const parsed = JSON.parse(line) as { type: string; level: string; event: string };
+  assert(parsed.type === "ops_event", "type ops_event");
+  assert(parsed.level === "error", "level error");
+  assert(parsed.event === "test_event", "event name");
+});
 
 console.log("\n📋 cron-bearer / verifyCronBearer");
 

@@ -9,6 +9,7 @@
     "lint": "eslint app components lib scripts tests next.config.ts --max-warnings 0",
     "test": "tsx tests/test-algorithm.ts && tsx tests/test-integration.ts && tsx tests/security-input.ts",
     "check:prod": "node scripts/check-production.mjs",
+    "check:health": "node scripts/check-health.mjs",
     "check:post-beta": "node scripts/check-post-beta-smoke.mjs"
   },
   "dependencies": {
