@@ -2,17 +2,29 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { buildOgImageUrl } from "@/lib/seo-og";
+
+const pageTitle = "Why Is My Stripe Effective Rate Higher Than 2.9%?";
+const pageDescription =
+  "Stripe advertises 2.9% + $0.30. But most businesses pay more. Here are the 4 real reasons your blended Stripe fee rate is higher than advertised.";
+const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Effective fee rate" });
 
 export const metadata: Metadata = {
-  title: "Why Is My Stripe Effective Rate Higher Than 2.9%? | Fee Auditor",
-  description:
-    "Stripe advertises 2.9% + $0.30. But most businesses pay more. Here are the 4 real reasons your blended Stripe fee rate is higher than advertised.",
+  title: `${pageTitle} | Fee Auditor`,
+  description: pageDescription,
   alternates: { canonical: "/blog/why-stripe-effective-rate-higher-than-2-9-percent" },
   openGraph: {
-    title: "Why Is My Stripe Effective Rate Higher Than 2.9%?",
-    description:
-      "Stripe advertises 2.9% + $0.30. But most businesses pay more. Here are the 4 real reasons.",
+    title: pageTitle,
+    description: pageDescription,
     url: "https://feeauditor.com/blog/why-stripe-effective-rate-higher-than-2-9-percent",
+    type: "article",
+    images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: pageTitle,
+    description: pageDescription,
+    images: [ogImage],
   },
 };
 
@@ -43,7 +55,7 @@ export default function Page() {
           <Link href="/analyze" className="underline font-medium">
             Upload your Stripe Balance CSV
           </Link>{" "}
-          and get your blended rate in 30 seconds. Or{" "}
+          and usually get your blended rate in under 30 seconds. Or{" "}
           <Link href="/analyze?sample=1" className="underline font-medium">
             try the sample report
           </Link>{" "}
@@ -209,7 +221,7 @@ export default function Page() {
                 feeauditor.com
               </Link>{" "}
               — upload the CSV and get your real rate, broken down by month, card type, and
-              transaction anomalies, in about 30 seconds.
+              transaction anomalies, usually in under 30 seconds.
             </p>
           </section>
 

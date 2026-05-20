@@ -257,7 +257,7 @@ export default function WhyStripeFeesIncreasePage() {
             Analyze My Fees →
           </Link>
           <p className="text-xs text-gray-400 mt-3">
-            No account · CSV not stored · Results in 30 seconds
+            No account · CSV not stored · Usually under 30 seconds
           </p>
         </div>
 

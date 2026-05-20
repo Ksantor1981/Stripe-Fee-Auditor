@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { LandingFaq } from "@/components/LandingFaq";
+import { LANDING_FAQ_ITEMS, LandingFaq } from "@/components/LandingFaq";
 import { TrackedLink } from "@/components/TrackedLink";
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ const TRUST_SIGNALS = [
   { icon: "✓", label: "No Stripe API access" },
   { icon: "✓", label: "Raw CSV never stored" },
   { icon: "✓", label: "No account required" },
-  { icon: "✓", label: "Results in 30 seconds" },
+  { icon: "✓", label: "Usually under 30 seconds" },
 ];
 
 const reportsAnalyzedCount = Number(process.env.NEXT_PUBLIC_REPORTS_ANALYZED_COUNT ?? 0);
@@ -29,7 +29,7 @@ const HOW_IT_WORKS = [
   {
     step: "2",
     title: "Drop it here",
-    body: "Raw CSV is never stored. Your report link stays active for 30 days during beta.",
+    body: "Raw CSV is never stored. During beta, full report links from real uploads stay active for up to 30 days; after beta, unpaid previews expire sooner.",
   },
   {
     step: "3",
@@ -57,7 +57,7 @@ const WHAT_YOU_GET = [
 const METRICS = [
   { label: "Processing rate", example: "3.24%", desc: "Weighted avg across charges" },
   { label: "All-in cost rate", example: "3.49%", desc: "Includes other fee lines" },
-  { label: "Benchmark verdict", example: "High", desc: "Normal range for your mix" },
+  { label: "Benchmark verdict", example: "Normal", desc: "Normal range for your mix" },
   { label: "Refund leakage", example: "~$91", desc: "Estimated retained fees" },
 ];
 
@@ -107,9 +107,26 @@ const DECISION_GUIDE = [
   },
 ];
 
+const FAQ_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: LANDING_FAQ_ITEMS.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.text.join(" "),
+    },
+  })),
+};
+
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD).replace(/</g, "\\u003c") }}
+      />
 
       {/* Beta banner */}
       <div className="bg-emerald-600 px-4 py-2.5 text-center text-sm font-medium text-white">
@@ -197,11 +214,11 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-        <p className="mt-3 text-xs font-medium text-gray-500">
-          {hasReportsAnalyzedCount
-            ? `${reportsAnalyzedLabel} reports analyzed in beta`
-            : "Early beta: real founder reports are already coming in"}
-        </p>
+        {hasReportsAnalyzedCount && (
+          <p className="mt-3 text-xs font-medium text-gray-500">
+            {reportsAnalyzedLabel} reports analyzed in beta
+          </p>
+        )}
       </section>
 
       {/* vs OAuth — trust comparison */}
@@ -297,7 +314,7 @@ export default function HomePage() {
               { label: "Processed", value: "$18,420" },
               { label: "Stripe fees", value: "$642.18" },
               { label: "All-in cost rate", value: "3.49%" },
-              { label: "Benchmark", value: "High" },
+              { label: "Benchmark", value: "Normal" },
               { label: "Savings", value: "~$720/yr" },
             ].map(({ label, value }) => (
               <div key={label} className="rounded-xl bg-white px-4 py-3 border border-blue-50">

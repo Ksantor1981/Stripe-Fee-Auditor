@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
 import { getPrivacyArticle, PRIVACY_ARTICLES } from "../_data/privacyPosts";
 
@@ -21,6 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const path = "/blog/" + post.slug;
   const url = absoluteUrl(path);
+  const ogImage = buildOgImageUrl({ title: post.title, eyebrow: "Stripe privacy guide" });
 
   return {
     title: post.title + " | Fee Auditor",
@@ -35,11 +37,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: "Fee Auditor",
       publishedTime: post.datePublished,
       modifiedTime: post.dateModified,
+      images: [{ url: ogImage, width: 1200, height: 630, alt: post.title }],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.description,
+      images: [ogImage],
     },
   };
 }

@@ -314,7 +314,7 @@ export default function StripeBalanceCsvPage() {
           </h2>
           <p className="text-gray-500 mb-6 max-w-md mx-auto">
             Drop your Balance CSV and get your real effective rate, monthly
-            breakdown, and top fee drivers in 30 seconds.
+            breakdown, and top fee drivers, usually in under 30 seconds.
           </p>
           <Link
             href="/analyze"
@@ -323,7 +323,7 @@ export default function StripeBalanceCsvPage() {
             Analyze My Fees →
           </Link>
           <p className="text-xs text-gray-400 mt-3">
-            No account · CSV not stored · Results in 30 seconds
+            No account · CSV not stored · Usually under 30 seconds
           </p>
         </div>
 

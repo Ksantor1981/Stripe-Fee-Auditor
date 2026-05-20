@@ -79,7 +79,8 @@ npm install
 2. Copy **Product ID** → `POLAR_PRODUCT_PRO`.
 3. Create an **organization access token** with checkout read/write → `POLAR_ACCESS_TOKEN`.
 4. After app is reachable, add webhook `POST https://YOUR_DOMAIN/api/webhooks/polar` and copy signing secret → `POLAR_WEBHOOK_SECRET`.
-5. Optionally set `POLAR_CHECKOUT_PRO` static slug if you run **without** `POLAR_ACCESS_TOKEN` (fallback only).
+
+Old static checkout-link variables such as `POLAR_CHECKOUT_*` are not used by the current flow. Keep checkout creation server-side through `POLAR_ACCESS_TOKEN` so report access tokens never have to be embedded in Polar checkout URLs.
 
 ### 4. Resend (optional)
 
@@ -115,6 +116,13 @@ Copy `.env.example` to `.env.local` and fill values (see repo root — ignored p
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Legal/support footer |
 | `NEXT_PUBLIC_REPORTS_ANALYZED_COUNT` | Optional landing-page social proof count; leave empty if you do not have a real number yet |
 | `REPORT_TOKEN_SALT` | Pepper for access-token hashing (recommended in prod) |
+
+**Remove from Vercel if still present**
+
+| Variable | Why |
+|----------|-----|
+| `POLAR_CHECKOUT_BASIC`, `POLAR_CHECKOUT_PRO`, `POLAR_CHECKOUT_TEAM` | Old static checkout-link fallback; current checkout is dynamic via `POLAR_ACCESS_TOKEN` |
+| `LEMONSQUEEZY_*` | Legacy provider variables from the pre-Polar integration |
 
 ### 6. Initialize database
 

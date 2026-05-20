@@ -2,16 +2,29 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { buildOgImageUrl } from "@/lib/seo-og";
+
+const pageTitle = "Stripe ACH vs Credit Card Fees: When ACH Saves Money";
+const pageDescription =
+  "Compare Stripe ACH and credit card fees. See when ACH saves money, where the $5 cap matters, and how B2B SaaS can lower payment costs.";
+const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe ACH vs card fees" });
 
 export const metadata: Metadata = {
-  title: "Stripe ACH vs Credit Card Fees: When ACH Saves Money | Fee Auditor",
-  description:
-    "Compare Stripe ACH and credit card fees. See when ACH saves money, where the $5 cap matters, and how B2B SaaS can lower payment costs.",
+  title: `${pageTitle} | Fee Auditor`,
+  description: pageDescription,
   alternates: { canonical: "/blog/stripe-ach-vs-credit-card-fees" },
   openGraph: {
-    title: "Stripe ACH vs Credit Card Fees: When ACH Saves Money",
-    description: "ACH can beat cards on larger invoices. See the break-even math and when to switch.",
+    title: pageTitle,
+    description: pageDescription,
     url: "https://feeauditor.com/blog/stripe-ach-vs-credit-card-fees",
+    type: "article",
+    images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: pageTitle,
+    description: pageDescription,
+    images: [ogImage],
   },
 };
 
@@ -99,16 +112,17 @@ export default function Page() {
               When ACH is clearly better
             </h2>
             <p>
-              The break-even point where ACH and card cost the same is around $175:
+              Under the common US-listed rates below, there is no positive transaction amount where
+              a standard domestic card becomes cheaper than ACH. ACH has the lower percentage rate,
+              no $0.30 fixed fee, and then a $5 cap.
             </p>
             <div className="mt-3 rounded-lg bg-gray-900 text-green-400 px-5 py-3 font-mono text-sm">
               ACH fee = min(0.8% × amount, $5 cap). Domestic card = 2.9% × amount + $0.30.
             </div>
             <p className="mt-3">
-              Actually the math is simpler: ACH is capped at $5. Any card transaction over $625
-              will have fees higher than $5 on a card. Below $625, ACH is still often cheaper
-              because of the lower rate — the break-even where card becomes cheaper is at very
-              small amounts (below ~$12).
+              The useful threshold is the ACH cap: at $625, ACH reaches $5 and stays there, while
+              card fees keep rising. The trade-off is not price — it is settlement speed, failure
+              risk, customer friction, and whether ACH fits the buyer.
             </p>
             <div className="mt-4 rounded-lg bg-gray-50 border border-gray-100 px-5 py-4">
               <p className="text-sm font-semibold text-gray-700 mb-3">Fee comparison by transaction size</p>

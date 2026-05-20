@@ -2,16 +2,29 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { buildOgImageUrl } from "@/lib/seo-og";
+
+const pageTitle = "Export Stripe Balance CSV: Itemized vs Summary Guide";
+const pageDescription =
+  "Export the right Stripe Balance CSV for fee analysis. Learn where Itemized lives, why Summary breaks reports, and what columns you need.";
+const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe Balance CSV" });
 
 export const metadata: Metadata = {
-  title: "Export Stripe Balance CSV: Itemized vs Summary Guide | Fee Auditor",
-  description:
-    "Export the right Stripe Balance CSV for fee analysis. Learn where Itemized lives, why Summary breaks reports, and what columns you need.",
+  title: `${pageTitle} | Fee Auditor`,
+  description: pageDescription,
   alternates: { canonical: "/blog/how-to-export-stripe-balance-csv" },
   openGraph: {
-    title: "Export Stripe Balance CSV: Itemized vs Summary Guide",
-    description: "Use Itemized, not Summary: export the Stripe Balance CSV needed for fee analysis.",
+    title: pageTitle,
+    description: pageDescription,
     url: "https://feeauditor.com/blog/how-to-export-stripe-balance-csv",
+    type: "article",
+    images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: pageTitle,
+    description: pageDescription,
+    images: [ogImage],
   },
 };
 
@@ -49,7 +62,7 @@ export default function Page() {
         <div className="mt-8 rounded-xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm text-blue-800">
           <strong>Skip the manual work:</strong> Once you have your CSV,{" "}
           <Link href="/analyze" className="underline font-medium">upload it to feeauditor.com</Link>{" "}
-          and get your real effective rate in 30 seconds. Or{" "}
+          and usually get your real effective rate in under 30 seconds. Or{" "}
           <Link href="/analyze?sample=1" className="underline font-medium">try the sample report first</Link>.
           <BlogBetaRetentionNote />
         </div>
@@ -226,14 +239,14 @@ export default function Page() {
             <p className="mt-4">
               You can do all of this manually in a spreadsheet — or upload the CSV to{" "}
               <Link href="/analyze" className="text-blue-600 underline">feeauditor.com</Link>{" "}
-              and get the full analysis in about 30 seconds.
+              and usually get the full analysis in under 30 seconds.
             </p>
           </section>
 
         </div>
 
         <div className="mt-12 rounded-xl border border-gray-200 bg-gray-50 px-5 py-6">
-          <p className="font-semibold text-gray-900">Analyze your CSV in 30 seconds</p>
+          <p className="font-semibold text-gray-900">Analyze your CSV, usually in under 30 seconds</p>
           <p className="mt-1 text-sm text-gray-600">
             Upload your Stripe Balance CSV (Itemized) to feeauditor.com. You'll see your real
             effective rate, which transactions are driving it up, and your estimated savings.

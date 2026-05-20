@@ -1,11 +1,29 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PRIVACY_ARTICLE_INDEX } from "./_data/privacyPosts";
+import { buildOgImageUrl } from "@/lib/seo-og";
+
+const title = "Blog — Stripe Fee Auditor";
+const description = "Guides on understanding and reducing your Stripe fees.";
+const ogImage = buildOgImageUrl({ title: "Stripe fee guides", eyebrow: "Fee Auditor Blog" });
 
 export const metadata: Metadata = {
-  title: "Blog — Stripe Fee Auditor",
-  description: "Guides on understanding and reducing your Stripe fees.",
+  title,
+  description,
   alternates: { canonical: "/blog" },
+  openGraph: {
+    title,
+    description,
+    url: "https://feeauditor.com/blog",
+    type: "website",
+    images: [{ url: ogImage, width: 1200, height: 630, alt: "Stripe fee guides by Fee Auditor" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [ogImage],
+  },
 };
 
 const POSTS = [
@@ -31,7 +49,7 @@ const POSTS = [
   {
     slug: "stripe-ach-vs-credit-card-fees",
     title: "Stripe ACH vs Credit Card Fees: When ACH Saves Money",
-    desc: "ACH can beat cards on larger invoices. See the break-even math, $5 cap, and when B2B SaaS should switch.",
+    desc: "ACH usually beats standard domestic card pricing on cost. See the $5 cap math and when B2B SaaS should switch.",
     time: "7 min",
   },
   {

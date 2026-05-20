@@ -2,17 +2,29 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { buildOgImageUrl } from "@/lib/seo-og";
+
+const pageTitle = "Stripe International Card Fees Explained";
+const pageDescription =
+  "Stripe adds a 1.5% cross-border fee on international cards. Here's exactly how it works, how to find it in your data, and how to reduce it.";
+const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "International card fees" });
 
 export const metadata: Metadata = {
-  title: "Stripe International Card Fees Explained | Fee Auditor",
-  description:
-    "Stripe adds a 1.5% cross-border fee on international cards. Here's exactly how it works, how to find it in your data, and how to reduce it.",
+  title: `${pageTitle} | Fee Auditor`,
+  description: pageDescription,
   alternates: { canonical: "/blog/stripe-international-card-fees" },
   openGraph: {
-    title: "Stripe International Card Fees Explained",
-    description:
-      "Stripe adds 1.5% on international cards. Here's how it works and how to reduce it.",
+    title: pageTitle,
+    description: pageDescription,
     url: "https://feeauditor.com/blog/stripe-international-card-fees",
+    type: "article",
+    images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: pageTitle,
+    description: pageDescription,
+    images: [ogImage],
   },
 };
 

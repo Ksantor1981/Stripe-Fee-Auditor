@@ -1,11 +1,30 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { buildOgImageUrl } from "@/lib/seo-og";
+
+const pageTitle = "What Is Your Stripe Effective Fee Rate?";
+const pageDescription =
+  "Your effective Stripe fee rate is the true percentage of revenue you pay to Stripe. Learn how to calculate it and what a good rate looks like.";
+const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe effective rate" });
 
 export const metadata: Metadata = {
-  title: "What Is Your Stripe Effective Fee Rate? — Stripe Fee Auditor",
-  description:
-    "Your effective Stripe fee rate is the true percentage of revenue you pay to Stripe. Learn how to calculate it and what a good rate looks like.",
+  title: `${pageTitle} | Fee Auditor`,
+  description: pageDescription,
+  alternates: { canonical: "/blog/stripe-effective-fee-rate-explained" },
+  openGraph: {
+    title: pageTitle,
+    description: pageDescription,
+    url: "https://feeauditor.com/blog/stripe-effective-fee-rate-explained",
+    type: "article",
+    images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: pageTitle,
+    description: pageDescription,
+    images: [ogImage],
+  },
 };
 
 export default function BlogPost3() {

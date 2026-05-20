@@ -2,16 +2,29 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { buildOgImageUrl } from "@/lib/seo-og";
+
+const pageTitle = "Stripe Blended Rate Calculator: Find Your True Fee Rate";
+const pageDescription =
+  "What is your real Stripe blended rate? Learn the formula, use our calculator, and find out what's pushing your effective rate above 2.9%.";
+const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Blended fee rate" });
 
 export const metadata: Metadata = {
-  title: "Stripe Blended Rate Calculator: Find Your True Fee Rate | Fee Auditor",
-  description:
-    "What is your real Stripe blended rate? Learn the formula, use our calculator, and find out what's pushing your effective rate above 2.9%.",
+  title: `${pageTitle} | Fee Auditor`,
+  description: pageDescription,
   alternates: { canonical: "/blog/stripe-blended-rate-calculator" },
   openGraph: {
-    title: "Stripe Blended Rate Calculator: Find Your True Fee Rate",
-    description: "Learn the formula for your real Stripe blended rate and what's pushing it above 2.9%.",
+    title: pageTitle,
+    description: pageDescription,
     url: "https://feeauditor.com/blog/stripe-blended-rate-calculator",
+    type: "article",
+    images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: pageTitle,
+    description: pageDescription,
+    images: [ogImage],
   },
 };
 
@@ -257,7 +270,7 @@ export default function Page() {
           <p className="font-semibold text-gray-900">Calculate your real blended rate</p>
           <p className="mt-1 text-sm text-gray-600">
             Upload your Stripe Balance CSV and get your blended rate, month-by-month breakdown,
-            and per-transaction anomaly analysis in about 30 seconds. No account needed.
+            and per-transaction anomaly analysis, usually in under 30 seconds. No account needed.
           </p>
           <div className="mt-4 flex flex-col sm:flex-row gap-3">
             <Link href="/analyze" className="inline-block rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition-colors text-center">

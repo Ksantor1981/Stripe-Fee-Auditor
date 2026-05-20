@@ -1,11 +1,30 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { buildOgImageUrl } from "@/lib/seo-og";
+
+const pageTitle = "How to Reduce Your Stripe Fees";
+const pageDescription =
+  "Practical tactics to lower your Stripe effective fee rate: negotiate custom pricing, reduce disputes, optimize currency settings, and more.";
+const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe fee optimization" });
 
 export const metadata: Metadata = {
-  title: "How to Reduce Your Stripe Fees — Stripe Fee Auditor",
-  description:
-    "Practical tactics to lower your Stripe effective fee rate: negotiate custom pricing, reduce disputes, optimize currency settings, and more.",
+  title: `${pageTitle} | Fee Auditor`,
+  description: pageDescription,
+  alternates: { canonical: "/blog/how-to-reduce-stripe-fees" },
+  openGraph: {
+    title: pageTitle,
+    description: pageDescription,
+    url: "https://feeauditor.com/blog/how-to-reduce-stripe-fees",
+    type: "article",
+    images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: pageTitle,
+    description: pageDescription,
+    images: [ogImage],
+  },
 };
 
 export default function BlogPost2() {
@@ -68,7 +87,7 @@ export default function BlogPost2() {
         </div>
 
         <div className="mt-12 rounded-xl bg-blue-50 border border-blue-100 p-6 text-center">
-          <p className="font-semibold text-gray-900 mb-2">See your current effective fee rate in 30 seconds</p>
+          <p className="font-semibold text-gray-900 mb-2">See your current effective fee rate, usually in under 30 seconds</p>
           <Link href="/analyze" className="inline-block bg-blue-600 text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
             Analyze My Fees →
           </Link>

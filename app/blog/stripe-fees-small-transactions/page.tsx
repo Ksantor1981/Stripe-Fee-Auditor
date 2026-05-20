@@ -2,16 +2,29 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { buildOgImageUrl } from "@/lib/seo-og";
+
+const pageTitle = "Stripe Fees for Small Transactions: Why Your Rate Is Higher";
+const pageDescription =
+  "Stripe's $0.30 fixed fee hits small transactions hard. A $5 charge has an effective rate of 9%. Here's the math and what to do about it.";
+const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Small transaction fees" });
 
 export const metadata: Metadata = {
-  title: "Stripe Fees for Small Transactions: Why Your Rate Is Higher | Fee Auditor",
-  description:
-    "Stripe's $0.30 fixed fee hits small transactions hard. A $5 charge has an effective rate of 9%. Here's the math and what to do about it.",
+  title: `${pageTitle} | Fee Auditor`,
+  description: pageDescription,
   alternates: { canonical: "/blog/stripe-fees-small-transactions" },
   openGraph: {
-    title: "Stripe Fees for Small Transactions: Why Your Rate Is Higher",
-    description: "Stripe's $0.30 fixed fee hits small transactions hard. A $5 charge costs 9% in fees.",
+    title: pageTitle,
+    description: pageDescription,
     url: "https://feeauditor.com/blog/stripe-fees-small-transactions",
+    type: "article",
+    images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: pageTitle,
+    description: pageDescription,
+    images: [ogImage],
   },
 };
 

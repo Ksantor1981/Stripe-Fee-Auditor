@@ -1,11 +1,30 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { buildOgImageUrl } from "@/lib/seo-og";
+
+const pageTitle = "Why Did My Stripe Fees Increase?";
+const pageDescription =
+  "Stripe fees can creep up for many reasons: more international cards, higher dispute rates, or plan changes. Learn how to diagnose and reduce your effective fee rate.";
+const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe fee diagnosis" });
 
 export const metadata: Metadata = {
-  title: "Why Did My Stripe Fees Increase? — Stripe Fee Auditor",
-  description:
-    "Stripe fees can creep up for many reasons: more international cards, higher dispute rates, or plan changes. Learn how to diagnose and reduce your effective fee rate.",
+  title: `${pageTitle} | Fee Auditor`,
+  description: pageDescription,
+  alternates: { canonical: "/blog/why-stripe-fees-increase" },
+  openGraph: {
+    title: pageTitle,
+    description: pageDescription,
+    url: "https://feeauditor.com/blog/why-stripe-fees-increase",
+    type: "article",
+    images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: pageTitle,
+    description: pageDescription,
+    images: [ogImage],
+  },
 };
 
 export default function BlogPost1() {
