@@ -174,6 +174,7 @@ export default function HomePage() {
           Free right now — full reports lock to paid after launch.{" "}
           <TrackedLink
             href="/analyze"
+            utm={{ source: "landing", medium: "banner", campaign: "beta_banner" }}
             funnelEvent="funnel_landing_cta"
             funnelProps={{ placement: "beta_banner" }}
             className="underline underline-offset-2 hover:text-emerald-100 transition-colors"
@@ -186,6 +187,7 @@ export default function HomePage() {
           $12 one-time unlock for the full report · Free preview first.{" "}
           <TrackedLink
             href="/analyze"
+            utm={{ source: "landing", medium: "banner", campaign: "launch_banner" }}
             funnelEvent="funnel_landing_cta"
             funnelProps={{ placement: "launch_banner" }}
             className="underline underline-offset-2 hover:text-blue-100 transition-colors"
@@ -211,6 +213,7 @@ export default function HomePage() {
           </TrackedLink>
           <TrackedLink
             href="/analyze"
+            utm={{ source: "landing", medium: "nav", campaign: "header_cta" }}
             funnelEvent="funnel_landing_cta"
             funnelProps={{ placement: "nav" }}
             className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 transition-colors"
@@ -238,6 +241,7 @@ export default function HomePage() {
         <div className="mt-8 flex flex-col sm:flex-row items-center gap-3">
           <TrackedLink
             href="/analyze"
+            utm={{ source: "landing", medium: "cta", campaign: "hero_primary" }}
             funnelEvent="funnel_landing_cta"
             funnelProps={{ placement: "hero_primary" }}
             className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow-md hover:bg-blue-700 active:scale-95 transition-all"
@@ -249,6 +253,7 @@ export default function HomePage() {
           </TrackedLink>
           <TrackedLink
             href="/analyze?sample=1"
+            utm={{ source: "landing", medium: "cta", campaign: "hero_sample" }}
             funnelEvent="funnel_landing_cta"
             funnelProps={{ placement: "hero_sample" }}
             className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-6 py-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:text-gray-900 transition-all"
@@ -408,6 +413,7 @@ export default function HomePage() {
           <div className="mt-8 text-center">
             <TrackedLink
               href="/analyze?sample=1"
+              utm={{ source: "landing", medium: "cta", campaign: "mid_sample" }}
               funnelEvent="funnel_landing_cta"
               funnelProps={{ placement: "mid_sample" }}
               className="text-sm text-blue-600 hover:underline"
@@ -529,6 +535,7 @@ export default function HomePage() {
           <div className="mt-10 text-center">
             <TrackedLink
               href="/analyze"
+              utm={{ source: "landing", medium: "cta", campaign: "footer" }}
               funnelEvent="funnel_landing_cta"
               funnelProps={{ placement: "footer" }}
               className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow hover:bg-blue-700 transition-colors"

@@ -95,6 +95,7 @@ export default function BlogPost2() {
         <BlogArticleCta
           title="Find your biggest fee drivers first"
           body="Optimization without a baseline is guesswork. Run a Balance CSV audit to see processing vs all-in rate, unusual charges, and ACH/international opportunities."
+          utmCampaign="how-to-reduce-stripe-fees"
         />
 
         <section className="mt-10 border-t border-gray-100 pt-8">

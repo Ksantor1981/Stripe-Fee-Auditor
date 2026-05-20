@@ -10,8 +10,9 @@ declare global {
 }
 
 /** Plausible custom events (configure matching goals in Plausible dashboard). */
-const PLAUSIBLE_GOALS: Record<string, string> = {
-  funnel_landing_cta: "Landing CTA",
+const PLAUSIBLE_GOALS: Record<string, string | string[]> = {
+  // Accepts "Landing CT" typo goal until renamed in Plausible UI
+  funnel_landing_cta: ["Landing CTA", "Landing CT"],
   funnel_nav_blog: "Nav Blog",
   funnel_analyze_page_view: "Analyze Page View",
   funnel_csv_loaded: "CSV Loaded",
@@ -56,11 +57,14 @@ export function trackEvent(name: string, props?: Record<string, FunnelPropValue>
     /* ignore */
   }
 
-  const goal = PLAUSIBLE_GOALS[name];
-  if (!goal) return;
+  const goals = PLAUSIBLE_GOALS[name];
+  if (!goals) return;
 
+  const goalList = Array.isArray(goals) ? goals : [goals];
   try {
-    window.plausible?.(goal, { props: plausibleProps(safeProps) });
+    for (const goal of goalList) {
+      window.plausible?.(goal, { props: plausibleProps(safeProps) });
+    }
   } catch {
     /* ignore */
   }
