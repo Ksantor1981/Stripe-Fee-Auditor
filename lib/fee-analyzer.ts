@@ -99,6 +99,23 @@ export interface FeeMixSlice {
   sharePct: number;
 }
 
+export type FeeLeakBreakdownKind = "direct" | "estimated";
+export type FeeLeakBreakdownSeverity = "low" | "medium" | "high";
+
+export interface FeeLeakBreakdownItem {
+  key: string;
+  label: string;
+  amount: number;
+  /** Share of direct all-in Stripe fees. Estimated items can overlap and are not additive. */
+  sharePct: number;
+  kind: FeeLeakBreakdownKind;
+  severity: FeeLeakBreakdownSeverity;
+  detail: string;
+  action: string;
+  actionLabel?: string;
+  actionUrl?: string;
+}
+
 export interface AnalysisResult {
   mode: AnalysisMode;
   chargeVolume: number;
@@ -125,6 +142,8 @@ export interface AnalysisResult {
   geographySummary?: GeographySummary;
   /** Coarse fee buckets: card processing vs disputes, refunds, etc. */
   feeMix?: FeeMixSlice[];
+  /** Action-oriented breakdown for the report UI: fixed fees, international uplift, refunds, and other fee lines. */
+  feeLeakBreakdown?: FeeLeakBreakdownItem[];
   periodDelta: number | null;
   /** Unique currencies found in charge rows — used for multi-currency warning. */
   currencies: string[];
@@ -171,6 +190,11 @@ function nonChargeFeeAmount(row: NormalizedRow): number {
 
   const category = `${row.type} ${row.reportingCategory ?? ""}`.toLowerCase();
   if (category.includes("fee")) {
+    return Math.abs(row.amount || row.net);
+  }
+
+  // Dispute/chargeback rows often carry the $15 cost as amount with fee=0 in Balance CSV.
+  if (category.includes("dispute") || category.includes("chargeback")) {
     return Math.abs(row.amount || row.net);
   }
 
@@ -234,6 +258,128 @@ function buildFeeMix(rows: NormalizedRow[], chargeFees: number, allInFees: numbe
     ...s,
     sharePct: roundMoney((s.amount / total) * 100),
   }));
+}
+
+function feeShare(amount: number, allInFees: number): number {
+  return allInFees > 0 ? roundMoney((amount / allInFees) * 100) : 0;
+}
+
+function buildFeeLeakBreakdown(
+  rows: NormalizedRow[],
+  charges: NormalizedRow[],
+  chargeFees: number,
+  otherFees: number,
+  allInFees: number,
+  geographySummary: GeographySummary | undefined,
+  refundSummary: RefundSummary
+): FeeLeakBreakdownItem[] | undefined {
+  if (allInFees <= 0 || charges.length === 0) return undefined;
+
+  const items: FeeLeakBreakdownItem[] = [];
+  const addItem = (item: Omit<FeeLeakBreakdownItem, "sharePct">) => {
+    if (item.amount <= 0.005) return;
+    items.push({
+      ...item,
+      amount: roundMoney(item.amount),
+      sharePct: feeShare(item.amount, allInFees),
+    });
+  };
+
+  const fixedFeeDrag = Math.min(chargeFees, charges.length * FIXED_CARD_FEE_USD);
+  addItem({
+    key: "fixed-card-fees",
+    label: "Fixed per-charge fees",
+    amount: fixedFeeDrag,
+    kind: "estimated",
+    severity: fixedFeeDrag / allInFees >= 0.25 ? "high" : "medium",
+    detail: `$${FIXED_CARD_FEE_USD.toFixed(2)} x ${charges.length} charge rows. This is why low-ticket subscriptions can look much more expensive than 2.9%.`,
+    action: "Bundle tiny charges, move very small plans to monthly billing, or set a minimum invoice size where it fits your model.",
+    actionLabel: "Review Stripe Billing settings",
+    actionUrl: "https://dashboard.stripe.com/settings/billing",
+  });
+
+  const internationalExcess = geographySummary?.excessIntlFees ?? 0;
+  if (internationalExcess > 0) {
+    addItem({
+      key: "international-uplift",
+      label: "International card uplift",
+      amount: internationalExcess,
+      kind: "estimated",
+      severity: internationalExcess / allInFees >= 0.15 ? "high" : "medium",
+      detail: `${geographySummary?.internationalCount ?? 0} international-looking charges paid above your domestic mix. This is a directional cross-border/card-mix estimate.`,
+      action: "Offer local payment methods in high-volume regions and consider local currency pricing where you have meaningful customer concentration.",
+      actionLabel: "Open Stripe payment methods",
+      actionUrl: "https://dashboard.stripe.com/settings/payment_methods",
+    });
+  }
+
+  const nonUsdCharges = charges.filter((r) => r.currency && r.currency.toLowerCase() !== "usd");
+  const nonUsdVolume = sum(nonUsdCharges, "amount");
+  const estimatedFxSpread = nonUsdVolume * 0.01;
+  if (estimatedFxSpread > 0) {
+    addItem({
+      key: "currency-conversion",
+      label: "Currency conversion estimate",
+      amount: estimatedFxSpread,
+      kind: "estimated",
+      severity: estimatedFxSpread / allInFees >= 0.1 ? "high" : "medium",
+      detail: `${nonUsdCharges.length} non-USD charges found. Stripe conversion spread is usually not shown as a clean fee row, so this is an estimate.`,
+      action: "If you repeatedly sell in the same currency, compare local settlement / multi-currency payout options before scaling that market.",
+      actionLabel: "Open Stripe payout settings",
+      actionUrl: "https://dashboard.stripe.com/settings/payouts",
+    });
+  }
+
+  if (refundSummary.count > 0 && refundSummary.estimatedRetainedFees > 0) {
+    addItem({
+      key: "refund-fee-impact",
+      label: "Refund fee impact",
+      amount: refundSummary.estimatedRetainedFees,
+      kind: "estimated",
+      severity: refundSummary.estimatedRetainedFees / allInFees >= 0.1 ? "high" : "medium",
+      detail: `${refundSummary.count} refunds totaling $${refundSummary.volume.toFixed(2)}. Stripe commonly keeps the original processing fee when a charge is refunded.`,
+      action: "Track refund reasons and consider trial gates, clearer billing copy, or annual plans if refunds cluster around renewals.",
+    });
+  }
+
+  if (otherFees > 0) {
+    addItem({
+      key: "other-stripe-fees",
+      label: "Other Stripe fee lines",
+      amount: otherFees,
+      kind: "direct",
+      severity: otherFees / allInFees >= 0.15 ? "high" : "medium",
+      detail: "Direct non-charge fee rows in the Balance CSV: refunds, disputes, payouts, Radar, Billing, Tax, Connect, or other Stripe services.",
+      action: "Open the CSV export and filter non-charge rows by reporting category to identify which add-ons or events are driving this bucket.",
+    });
+  }
+
+  const explainableEstimates = fixedFeeDrag + Math.max(0, internationalExcess);
+  const baseCardFees = Math.max(0, chargeFees - Math.min(chargeFees, explainableEstimates));
+  addItem({
+    key: "base-card-processing",
+    label: "Base card processing",
+    amount: baseCardFees,
+    kind: "direct",
+    severity: "low",
+    detail: "The remaining direct card-processing fees after separating fixed-fee drag and visible international uplift estimates.",
+    action: "Usually not the first optimization target. Focus on fixed-fee drag, international mix, refunds, and other fee lines first.",
+  });
+
+  const hasNonChargeFeeRows = rows.some((row) => row.type !== "charge" && nonChargeFeeAmount(row) > 0);
+  if (!hasNonChargeFeeRows && otherFees <= 0 && items.length <= 2) {
+    addItem({
+      key: "clean-export",
+      label: "No separate fee rows found",
+      amount: 0.01,
+      kind: "direct",
+      severity: "low",
+      detail: "This export is mostly charge processing. For a fuller all-in view, include refunds, disputes, payouts, and Stripe service fees in the Balance export.",
+      action: "Export an itemized Balance report for the full period if you expected disputes, refunds, or payout fees.",
+    });
+  }
+
+  return items.sort((a, b) => b.amount - a.amount).slice(0, 6);
 }
 
 function roundMoney(value: number): number {
@@ -643,6 +789,7 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
   const transactionBuckets = buildTransactionBuckets(charges);
   const geographySummary = buildGeographySummary(charges);
   const feeMix = buildFeeMix(rows, chargeFees, allInFees);
+  const feeLeakBreakdown = buildFeeLeakBreakdown(rows, charges, chargeFees, otherFees, allInFees, geographySummary, refundSummary);
 
   return {
     mode,
@@ -662,6 +809,7 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
     transactionBuckets,
     geographySummary,
     feeMix,
+    feeLeakBreakdown,
     periodDelta,
     currencies,
   };
