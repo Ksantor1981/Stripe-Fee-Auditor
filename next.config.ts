@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { LEGACY_BLOG_REDIRECTS } from "./app/blog/_data/blogIndex";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -31,6 +32,13 @@ const CSP_EMBED = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return LEGACY_BLOG_REDIRECTS.map((r) => ({
+      source: r.source,
+      destination: r.destination,
+      permanent: true,
+    }));
+  },
   async headers() {
     return [
       {

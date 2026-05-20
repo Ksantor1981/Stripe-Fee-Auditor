@@ -11,6 +11,11 @@
       "has": [{ "type": "host", "value": "www.feeauditor.com" }],
       "destination": "https://feeauditor.com/:path*",
       "permanent": true
+    },
+    {
+      "source": "/blog/why-stripe-effective-rate-higher-than-2-9-percent",
+      "destination": "/why-stripe-fee-rate-higher-than-2-9",
+      "permanent": true
     }
   ]
 }

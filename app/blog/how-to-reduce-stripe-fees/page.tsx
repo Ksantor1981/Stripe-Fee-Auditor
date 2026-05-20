@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { BlogArticleCta } from "@/components/BlogArticleCta";
+import { PILLAR_EFFECTIVE_RATE_PATH } from "../_data/blogIndex";
 import { buildOgImageUrl } from "@/lib/seo-og";
 
 const pageTitle = "How to Reduce Your Stripe Fees";
@@ -27,11 +28,20 @@ export const metadata: Metadata = {
   },
 };
 
+const RELATED = [
+  { href: PILLAR_EFFECTIVE_RATE_PATH, title: "Why Are My Stripe Fees Higher Than 2.9%?" },
+  { href: "/blog/stripe-ach-vs-credit-card-fees", title: "Stripe ACH vs Credit Card Fees" },
+  { href: "/blog/stripe-international-card-fees", title: "Stripe International Card Fees Explained" },
+  { href: "/blog/how-to-export-stripe-balance-csv", title: "Export Stripe Balance CSV" },
+];
+
 export default function BlogPost2() {
   return (
     <main className="min-h-screen bg-white">
       <div className="mx-auto max-w-2xl px-4 py-16">
-        <Link href="/blog" className="text-sm text-blue-600 hover:underline">← Blog</Link>
+        <Link href="/blog" className="text-sm text-blue-600 hover:underline">
+          ← Blog
+        </Link>
         <h1 className="mt-4 text-3xl font-bold text-gray-900 leading-tight">
           How to Reduce Your Stripe Fees
         </h1>
@@ -77,22 +87,28 @@ export default function BlogPost2() {
           <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">First: Know Your Baseline</h2>
           <p>
             Before optimizing, you need to know your current effective rate and which transactions
-            are costing the most. Upload your Stripe Balance CSV to{" "}
-            <Link href="/" className="text-blue-600 underline">Stripe Fee Auditor</Link> for a
-            breakdown. During our promotional beta, real uploads get the full report free for up to 30 days;
-            after beta, access follows our{" "}
-            <Link href="/privacy" className="text-blue-600 underline">Privacy Policy</Link>
-            {" "}(short preview vs paid unlock).
+            are costing the most. Upload your Stripe Balance CSV to Fee Auditor for a breakdown with
+            benchmark context, refund leakage, and savings ideas tied to your export.
           </p>
         </div>
 
-        <div className="mt-12 rounded-xl bg-blue-50 border border-blue-100 p-6 text-center">
-          <p className="font-semibold text-gray-900 mb-2">See your current effective fee rate, usually in under 30 seconds</p>
-          <Link href="/analyze" className="inline-block bg-blue-600 text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
-            Analyze My Fees →
-          </Link>
-          <BlogBetaRetentionNote tone="gray" />
-        </div>
+        <BlogArticleCta
+          title="Find your biggest fee drivers first"
+          body="Optimization without a baseline is guesswork. Run a Balance CSV audit to see processing vs all-in rate, unusual charges, and ACH/international opportunities."
+        />
+
+        <section className="mt-10 border-t border-gray-100 pt-8">
+          <h2 className="text-sm font-semibold text-gray-700">Related guides</h2>
+          <ul className="mt-4 space-y-3 list-none p-0">
+            {RELATED.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="block text-sm text-blue-600 hover:underline">
+                  {link.title} →
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
       </div>
     </main>
   );

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { LandingFaq } from "@/components/LandingFaq";
 import { TrackedLink } from "@/components/TrackedLink";
+import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 
 export const metadata: Metadata = {
   alternates: {
@@ -168,18 +169,31 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD).replace(/</g, "\\u003c") }}
       />
 
-      {/* Beta banner */}
-      <div className="bg-emerald-600 px-4 py-2.5 text-center text-sm font-medium text-white">
-        Free right now — full reports lock to paid after launch.{" "}
-        <TrackedLink
-          href="/analyze"
-          funnelEvent="funnel_landing_cta"
-          funnelProps={{ placement: "beta_banner" }}
-          className="underline underline-offset-2 hover:text-emerald-100 transition-colors"
-        >
-          Try it now →
-        </TrackedLink>
-      </div>
+      {FULL_REPORTS_FREE_DURING_BETA ? (
+        <div className="bg-emerald-600 px-4 py-2.5 text-center text-sm font-medium text-white">
+          Free right now — full reports lock to paid after launch.{" "}
+          <TrackedLink
+            href="/analyze"
+            funnelEvent="funnel_landing_cta"
+            funnelProps={{ placement: "beta_banner" }}
+            className="underline underline-offset-2 hover:text-emerald-100 transition-colors"
+          >
+            Try it now →
+          </TrackedLink>
+        </div>
+      ) : (
+        <div className="bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white">
+          $12 one-time unlock for the full report · Free preview first.{" "}
+          <TrackedLink
+            href="/analyze"
+            funnelEvent="funnel_landing_cta"
+            funnelProps={{ placement: "launch_banner" }}
+            className="underline underline-offset-2 hover:text-blue-100 transition-colors"
+          >
+            Analyze my CSV →
+          </TrackedLink>
+        </div>
+      )}
 
       {/* Nav */}
       <nav className="flex items-center justify-between gap-4 px-6 py-4 max-w-5xl mx-auto">

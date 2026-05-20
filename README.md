@@ -28,7 +28,9 @@ This app:
 6. **Beta / Pay** — Beta reports are **full-access** for up to **30 days**; outside beta, `GET /api/checkout` builds Polar checkout and the signed webhook **unlocks + extends TTL**.
 7. **Cleanup** — Vercel cron hits `GET /api/cron/cleanup` daily (expired reports + old rate-limit rows).
 
-**Analytics:** Plausible on public pages plus first-party funnel events → `POST /api/event` → **server logs only** (see Privacy Policy). **No** raw CSV/report payloads are sent to analytics.
+**Analytics:** Plausible (traffic + **custom goals** mirrored from funnel events) plus first-party funnel events → `POST /api/event` → **server logs** (see Privacy Policy). **No** raw CSV/report payloads are sent to analytics.
+
+**Funnel goals (Plausible dashboard):** create custom events matching: `Landing CTA`, `Analyze Submit`, `Analyze Success`, `Email Unlock`, `Checkout Start`, `Payment Success`, `Report View`. Client `trackEvent("funnel_*")` sends both Vercel logs and Plausible when mapped in `lib/analytics.ts`. Weekly: Plausible conversion + `grep funnel_event` in Vercel logs; paid count via SQL on `reports.is_paid`.
 
 ---
 
@@ -182,6 +184,7 @@ curl -sS "http://localhost:3000/api/cron/cleanup" \
 ```text
 ├── app/
 │   ├── page.tsx                    Landing
+│   ├── blog/_data/blogIndex.ts     Single source for blog hub + sitemap URLs
 │   ├── analyze/                    CSV upload + instructions
 │   ├── report/[id]/                Report UI (+ print subroute)
 │   ├── api/

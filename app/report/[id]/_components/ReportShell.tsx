@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { trackEvent } from "@/lib/analytics";
@@ -46,6 +46,18 @@ export function ReportShell({
   const hasFullAccess = isPaid || demoFullAccess || betaFullAccess;
   const exportsEnabled = isPaid || betaFullAccess;
   const [unlocked, setUnlocked] = useState(hasFullAccess || demoSkipEmailGate || paymentPending);
+  const paymentSuccessTracked = useRef(false);
+
+  useEffect(() => {
+    if (paymentSuccessTracked.current || !isPaid) return;
+    const fromCheckout =
+      paymentPending ||
+      (typeof window !== "undefined" &&
+        new URLSearchParams(window.location.search).get("payment") === "success");
+    if (!fromCheckout) return;
+    paymentSuccessTracked.current = true;
+    trackEvent("funnel_payment_success", { source: paymentPending ? "webhook_poll" : "immediate" });
+  }, [isPaid, paymentPending]);
 
   useEffect(() => {
     if (!paymentPending || hasFullAccess) return;
