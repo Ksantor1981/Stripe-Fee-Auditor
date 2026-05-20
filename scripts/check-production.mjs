@@ -17,6 +17,7 @@ const checks = [
       "https://feeauditor.com/why-stripe-fee-rate-higher-than-2-9",
       "https://feeauditor.com/blog/stripe-fee-leakage-report-may-2026",
       "https://feeauditor.com/blog/how-to-export-stripe-balance-csv",
+      "https://feeauditor.com/blog/why-stripe-effective-rate-jumped-this-month",
     ],
     excludes: [
       "https://feeauditor.com/blog/why-stripe-effective-rate-higher-than-2-9-percent",

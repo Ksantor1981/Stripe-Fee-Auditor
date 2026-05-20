@@ -63,6 +63,14 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     sitemapPriority: 0.73,
   },
   {
+    slug: "why-stripe-effective-rate-jumped-this-month",
+    path: "/blog/why-stripe-effective-rate-jumped-this-month",
+    title: "Why Did My Stripe Effective Rate Jump This Month?",
+    desc: "6 specific causes — international cards, new low-priced products, refunds, FX stacking — and how to diagnose each from your CSV.",
+    time: "8 min",
+    sitemapPriority: 0.78,
+  },
+  {
     slug: "why-stripe-fees-increase",
     path: "/blog/why-stripe-fees-increase",
     title: "Why Did My Stripe Fees Increase?",
