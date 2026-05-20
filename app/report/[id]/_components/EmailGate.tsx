@@ -8,11 +8,10 @@ import { trackEvent } from "@/lib/analytics";
 
 interface Props {
   reportId: string;
-  accessToken: string;
   onUnlock: () => void;
 }
 
-export function EmailGate({ reportId, accessToken, onUnlock }: Props) {
+export function EmailGate({ reportId, onUnlock }: Props) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -36,7 +35,8 @@ export function EmailGate({ reportId, accessToken, onUnlock }: Props) {
       const res = await fetch(`/api/reports/${reportId}/email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, token: accessToken }),
+        credentials: "same-origin",
+        body: JSON.stringify({ email }),
       });
       if (!res.ok) {
         const body = await res.json().catch(() => null);

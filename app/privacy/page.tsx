@@ -9,6 +9,10 @@ export const metadata: Metadata = {
 /** Set in Vercel / .env.local — env overrides this public support address. */
 const CONTACT_EMAIL =
   process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "support@feeauditor.com";
+const OPERATOR_NAME =
+  process.env.NEXT_PUBLIC_OPERATOR_NAME?.trim() || "the operator of Stripe Fee Auditor";
+const OPERATOR_JURISDICTION = process.env.NEXT_PUBLIC_OPERATOR_JURISDICTION?.trim();
+const OPERATOR_ADDRESS = process.env.NEXT_PUBLIC_OPERATOR_ADDRESS?.trim();
 
 export default function PrivacyPage() {
   return (
@@ -31,9 +35,10 @@ export default function PrivacyPage() {
             <p className="text-gray-600 leading-relaxed">
               Stripe Fee Auditor (&quot;we&quot;, &quot;our&quot;, &quot;the Service&quot;) is a tool that analyzes
               Stripe Balance CSV exports to help you understand your fee structure.
-              We are committed to handling your data with care and transparency. The operator
-              of Stripe Fee Auditor is the controller for the personal data described in this
-              policy. You can contact the operator at{" "}
+              We are committed to handling your data with care and transparency. The data controller
+              for the personal data described in this policy is <strong>{OPERATOR_NAME}</strong>
+              {OPERATOR_JURISDICTION ? <> ({OPERATOR_JURISDICTION})</> : null}
+              {OPERATOR_ADDRESS ? <> at {OPERATOR_ADDRESS}</> : null}. You can contact the operator at{" "}
               <a href={`mailto:${CONTACT_EMAIL}`} className="text-blue-600 hover:underline">
                 {CONTACT_EMAIL}
               </a>.

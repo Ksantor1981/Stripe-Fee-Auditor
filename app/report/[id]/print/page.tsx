@@ -1,5 +1,7 @@
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { getReportWithAccess } from "@/lib/db";
+import { resolveReportAccessToken } from "@/lib/report-access-cookie";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { fmt$, fmtPct, fmtMonth, fmtDate } from "@/lib/format";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
@@ -14,9 +16,14 @@ const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f
 
 export default async function ReportPrintPage({ params, searchParams }: Props) {
   const { id } = await params;
-  const { token = "" } = await searchParams;
+  const { token: queryToken } = await searchParams;
 
   if (!UUID_V4.test(id)) notFound();
+
+  const token = resolveReportAccessToken(id, {
+    cookieStore: await cookies(),
+    queryToken,
+  });
 
   const report = await getReportWithAccess(id, token);
   if (!report?.result || (!report.is_paid && !FULL_REPORTS_FREE_DURING_BETA)) notFound();

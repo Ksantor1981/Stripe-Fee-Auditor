@@ -102,10 +102,13 @@ export function validateColumns(headers: string[]): string[] {
 }
 
 export function normalizeRow(r: RawRow): NormalizedRow {
+  const balanceTransactionId = readValue(r, ["balance_transaction_id"]);
+  const reportingCategoryValue = readValue(r, ["reporting_category"]);
+  const grossValue = readValue(r, ["gross"]);
+  const legacyAmountValue = readValue(r, ["amount"]);
   const isOfficialBalanceRow = Boolean(
-    readValue(r, ["balance_transaction_id"]) ||
-    readValue(r, ["reporting_category"]) ||
-    readValue(r, ["gross"])
+    balanceTransactionId ||
+    (reportingCategoryValue && grossValue && !legacyAmountValue)
   );
 
   const id = requiredValue(r, ["balance_transaction_id", "id"], "id");

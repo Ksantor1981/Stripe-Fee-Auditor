@@ -3,6 +3,7 @@ import { buildCheckoutUrl, isPlanId } from "@/lib/polar";
 import { consumeIpRequest, extendReportForCheckout, getReportWithAccess } from "@/lib/db";
 import { getTrustedClientIp } from "@/lib/request-ip";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
+import { resolveReportAccessFromRequest } from "@/lib/report-access-cookie";
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -12,11 +13,14 @@ export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
   const planId = searchParams.get("plan");
   const reportId = searchParams.get("reportId");
-  const token = searchParams.get("token") ?? "";
+  const token = resolveReportAccessFromRequest(req, reportId ?? "");
   const email = searchParams.get("email") ?? undefined;
 
   if (!planId || !reportId || !token) {
-    return NextResponse.json({ error: "plan, reportId, and token are required" }, { status: 400 });
+    return NextResponse.json(
+      { error: "plan, reportId, and report access (cookie or token) are required" },
+      { status: 400 }
+    );
   }
 
   if (!isPlanId(planId)) {
@@ -55,9 +59,7 @@ export async function GET(req: NextRequest) {
   }
 
   if (report.is_paid) {
-    return NextResponse.redirect(
-      new URL(`/report/${reportId}?token=${encodeURIComponent(token)}`, req.url)
-    );
+    return NextResponse.redirect(new URL(`/report/${reportId}`, req.url));
   }
 
   try {

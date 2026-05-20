@@ -25,8 +25,13 @@ export async function sendReportEmail(
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? DEFAULT_BASE_URL;
   const from = process.env.EMAIL_FROM ?? DEFAULT_EMAIL_FROM;
-  const reportUrl = new URL(`/report/${reportId}`, baseUrl);
-  if (accessToken) reportUrl.searchParams.set("token", accessToken);
+  const reportUrl = accessToken
+    ? new URL("/api/report/access", baseUrl)
+    : new URL(`/report/${reportId}`, baseUrl);
+  if (accessToken) {
+    reportUrl.searchParams.set("reportId", reportId);
+    reportUrl.searchParams.set("token", accessToken);
+  }
 
   const feeSummary =
     totalFeesCents != null

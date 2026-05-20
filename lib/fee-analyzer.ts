@@ -304,15 +304,18 @@ function buildSavingsOpportunities(
   const intlCharges = charges.filter(isInternationalLike);
   if (intlCharges.length > 0) {
     const intlFees = sum(intlCharges, "fee");
+    const intlVolume = sum(intlCharges, "amount");
     const expectedFees = intlCharges.reduce((acc, r) => acc + r.amount * (baselineRate / 100), 0);
-    const excessFees = intlFees - expectedFees;
+    const observedExcessFees = Math.max(0, intlFees - expectedFees);
+    const avoidableCrossBorderFees = intlVolume * 0.015;
+    const excessFees = Math.min(observedExcessFees, avoidableCrossBorderFees);
     if (excessFees > 0) {
       const annualSavings = Math.round(((excessFees * 12) / months) / 10) * 10;
       opportunities.push({
         title: `${intlCharges.length} international card charges driving up your rate`,
         annualSavings,
-        tip: "Enable local payment methods (SEPA, iDEAL, Bancontact) to avoid the 1.5% cross-border surcharge.",
-        confidence: "high",
+        tip: "Enable local payment methods (SEPA, iDEAL, Bancontact) where appropriate. Estimate is capped at the visible 1.5% cross-border surcharge and may be lower depending on your Stripe pricing.",
+        confidence: "medium",
         steps: [
           "Stripe Dashboard → Settings → Payment methods",
           "Enable SEPA Direct Debit (EU) or iDEAL (Netherlands)",
@@ -326,13 +329,13 @@ function buildSavingsOpportunities(
   const smallCharges = charges.filter((r) => r.amount > 0 && r.amount < SMALL_TRANSACTION_USD);
   if (smallCharges.length > 5) {
     const avgSmallAmount = sum(smallCharges, "amount") / smallCharges.length;
-    const fixedFeeWaste = smallCharges.length * FIXED_CARD_FEE_USD;
-    const annualSavings = Math.round(((fixedFeeWaste * 12) / months) / 10) * 10;
+    const assumedAvoidableFixedFees = Math.floor(smallCharges.length / 2) * FIXED_CARD_FEE_USD;
+    const annualSavings = Math.round(((assumedAvoidableFixedFees * 12) / months) / 10) * 10;
     if (annualSavings > 0) {
       opportunities.push({
         title: `${smallCharges.length} small transactions under $20 with high per-dollar cost`,
         annualSavings,
-        tip: `Bundling charges or switching to monthly billing for avg $${avgSmallAmount.toFixed(2)} transactions reduces the fixed $0.30 fee impact.`,
+        tip: `Bundling charges or switching to monthly billing for avg $${avgSmallAmount.toFixed(2)} transactions reduces the fixed $0.30 fee impact. Estimate assumes roughly half of these fixed fees are avoidable, not all of them.`,
         confidence: "medium",
         steps: [
           "Set a $10 minimum charge amount in your checkout",
@@ -594,8 +597,12 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
   if (mode === "low-volume") {
     topDrivers = [...charges].sort((a, b) => b.fee / b.amount - a.fee / a.amount).slice(0, 5);
   } else {
-    const rates = monthly.map((m) => m.rate);
-    const threshold = chargeRate + 2.5 * stdDev(rates);
+    const rates =
+      mode === "single-month"
+        ? charges.filter((c) => c.amount > 0).map((c) => (c.fee / c.amount) * 100)
+        : monthly.map((m) => m.rate);
+    const minimumSingleMonthDelta = mode === "single-month" ? 0.5 : 0;
+    const threshold = chargeRate + Math.max(minimumSingleMonthDelta, 2.5 * stdDev(rates));
     anomalies = charges.filter((c) => c.amount > 0 && (c.fee / c.amount) * 100 > threshold);
     topDrivers = [...charges].sort((a, b) => b.fee - a.fee).slice(0, 10);
   }

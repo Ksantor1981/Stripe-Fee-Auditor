@@ -13,7 +13,8 @@ import { ShareEmbedBenchmark } from "./ShareEmbedBenchmark";
 
 interface Props {
   reportId: string;
-  accessToken: string;
+  /** Public embed iframe URL (includes token by design for third-party embeds). */
+  embedShareUrl?: string;
   result: AnalysisResult;
   isPaid: boolean;
   /** Sample/demo flow: URL ?demo=1 skips email capture. */
@@ -30,7 +31,7 @@ interface Props {
 
 export function ReportShell({
   reportId,
-  accessToken,
+  embedShareUrl,
   result,
   isPaid,
   demoSkipEmailGate = false,
@@ -45,7 +46,6 @@ export function ReportShell({
   const hasFullAccess = isPaid || demoFullAccess || betaFullAccess;
   const exportsEnabled = isPaid || betaFullAccess;
   const [unlocked, setUnlocked] = useState(hasFullAccess || demoSkipEmailGate || paymentPending);
-  const tokenQuery = `token=${encodeURIComponent(accessToken)}`;
 
   useEffect(() => {
     if (!paymentPending || hasFullAccess) return;
@@ -68,10 +68,10 @@ export function ReportShell({
   }, []);
 
   if (!unlocked) {
-    return <EmailGate reportId={reportId} accessToken={accessToken} onUnlock={() => setUnlocked(true)} />;
+    return <EmailGate reportId={reportId} onUnlock={() => setUnlocked(true)} />;
   }
 
-  const baseReportProps = { reportId, accessToken, result, isPaid: hasFullAccess };
+  const baseReportProps = { reportId, result, isPaid: hasFullAccess };
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -83,13 +83,13 @@ export function ReportShell({
             {exportsEnabled && (
               <>
                 <a
-                  href={`/api/export/csv?reportId=${reportId}&${tokenQuery}`}
+                  href={`/api/export/csv?reportId=${reportId}`}
                   className="text-xs font-medium text-gray-500 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5 hover:border-gray-300 transition-colors"
                 >
                   ↓ CSV
                 </a>
                 <a
-                  href={`/report/${reportId}/print?${tokenQuery}`}
+                  href={`/report/${reportId}/print`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs font-medium text-gray-500 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5 hover:border-gray-300 transition-colors"
@@ -148,7 +148,7 @@ export function ReportShell({
 
         <div className="mt-8 space-y-8">
           {hasFullAccess && (
-            <ShareEmbedBenchmark reportId={reportId} accessToken={accessToken} result={result} />
+            <ShareEmbedBenchmark embedShareUrl={embedShareUrl!} result={result} />
           )}
           <FeedbackForm reportId={reportId} />
         </div>

@@ -17,15 +17,15 @@ import { buildTwitterIntentUrl } from "@/lib/share-copy";
 const REGION_STORAGE_KEY = "fee_auditor_region_benchmark";
 
 interface Props {
-  reportId: string;
-  accessToken: string;
+  /** Includes token for third-party iframe embeds (intentionally shareable). */
+  embedShareUrl: string;
   result: Pick<
     AnalysisResult,
     "chargeRate" | "allInRate" | "chargeVolume" | "chargeFees" | "otherFees" | "allInFees"
   >;
 }
 
-export function ShareEmbedBenchmark({ reportId, accessToken, result }: Props) {
+export function ShareEmbedBenchmark({ embedShareUrl, result }: Props) {
   const [regionId, setRegionId] = useState<RegionBenchmarkId>("us");
   const [copiedEmbed, setCopiedEmbed] = useState(false);
   const [pngBusy, setPngBusy] = useState(false);
@@ -56,13 +56,7 @@ export function ShareEmbedBenchmark({ reportId, accessToken, result }: Props) {
   const region = useMemo(() => getRegionBenchmark(regionId), [regionId]);
   const deltaVsTypical = displayAllInRate - region.typicalMidPct;
 
-  const embedSrc = useMemo(() => {
-    const base = getSiteBaseUrl();
-    const q = new URLSearchParams({ token: accessToken });
-    return `${base}/embed/${reportId}?${q.toString()}`;
-  }, [reportId, accessToken]);
-
-  const iframeSnippet = `<iframe src="${embedSrc}" width="100%" height="300" style="border:0;border-radius:12px;max-width:440px;background:#fff" loading="lazy" title="Stripe Fee Auditor snapshot"></iframe>`;
+  const iframeSnippet = `<iframe src="${embedShareUrl}" width="100%" height="300" style="border:0;border-radius:12px;max-width:440px;background:#fff" loading="lazy" title="Stripe Fee Auditor snapshot"></iframe>`;
 
   const shareUrl = useMemo(() => {
     const base = getSiteBaseUrl();
@@ -113,13 +107,14 @@ export function ShareEmbedBenchmark({ reportId, accessToken, result }: Props) {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `stripe-fee-auditor-${reportId.slice(0, 8)}.png`;
+      const reportIdMatch = embedShareUrl.match(/\/embed\/([^/?]+)/);
+      a.download = `stripe-fee-auditor-${(reportIdMatch?.[1] ?? "chart").slice(0, 8)}.png`;
       a.click();
       URL.revokeObjectURL(url);
     } finally {
       setPngBusy(false);
     }
-  }, [reportId]);
+  }, [embedShareUrl]);
 
   return (
     <div className="rounded-2xl border border-violet-100 bg-gradient-to-br from-violet-50/80 to-white p-6 shadow-sm space-y-6">
@@ -135,7 +130,6 @@ export function ShareEmbedBenchmark({ reportId, accessToken, result }: Props) {
         </p>
       </div>
 
-      {/* Benchmark */}
       <div className="rounded-xl border border-white bg-white/90 px-4 py-4 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
           <p className="text-sm font-semibold text-gray-800">Regional benchmark</p>
@@ -179,7 +173,6 @@ export function ShareEmbedBenchmark({ reportId, accessToken, result }: Props) {
         </p>
       </div>
 
-      {/* Share X + PNG */}
       <div className="flex flex-wrap gap-2">
         <Button
           type="button"
@@ -196,7 +189,6 @@ export function ShareEmbedBenchmark({ reportId, accessToken, result }: Props) {
         X opens with text ready to post. Attach the PNG for extra reach — graphs outperform text-only posts.
       </p>
 
-      {/* Embed */}
       <div className="rounded-xl border border-gray-100 bg-gray-50/80 px-4 py-4">
         <p className="text-sm font-semibold text-gray-800 mb-1">Embed on Notion / your dashboard</p>
         <p className="text-xs text-gray-500 mb-3">

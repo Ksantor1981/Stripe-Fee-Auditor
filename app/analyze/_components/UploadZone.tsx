@@ -189,22 +189,22 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
       const analyzeRes = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
         body: JSON.stringify({ csvText, columnMapping: mapping }),
       });
       if (!analyzeRes.ok) {
         const j = await analyzeRes.json();
         throw new Error(j.error ?? "Analysis failed");
       }
-      const { reportId, accessToken, mode } = await analyzeRes.json();
+      const { reportId, mode } = await analyzeRes.json();
 
       trackEvent("funnel_analyze_client_ok", {
         sample: Boolean(parsed.isSample),
         mode: typeof mode === "string" ? mode : "unknown",
       });
 
-      const qs = new URLSearchParams({ token: accessToken });
-      if (parsed.isSample) qs.set("demo", "1");
-      router.push(`/report/${reportId}?${qs}`);
+      const qs = parsed.isSample ? "?demo=1" : "";
+      router.push(`/report/${reportId}${qs}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
       setStage("idle");

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Papa from "papaparse";
 import { getReportWithAccess } from "@/lib/db";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
+import { resolveReportAccessFromRequest } from "@/lib/report-access-cookie";
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -14,9 +15,13 @@ function sanitize(value: string): string {
 
 export async function GET(req: NextRequest) {
   const reportId = req.nextUrl.searchParams.get("reportId");
-  const token = req.nextUrl.searchParams.get("token") ?? "";
-  if (!reportId || !token) {
-    return NextResponse.json({ error: "reportId and token required" }, { status: 400 });
+  if (!reportId) {
+    return NextResponse.json({ error: "reportId required" }, { status: 400 });
+  }
+
+  const token = resolveReportAccessFromRequest(req, reportId);
+  if (!token) {
+    return NextResponse.json({ error: "Report access required" }, { status: 401 });
   }
 
   if (!UUID_V4.test(reportId)) {

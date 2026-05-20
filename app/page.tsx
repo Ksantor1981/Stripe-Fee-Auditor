@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { LANDING_FAQ_ITEMS, LandingFaq } from "@/components/LandingFaq";
+import { LandingFaq } from "@/components/LandingFaq";
 import { TrackedLink } from "@/components/TrackedLink";
 
 export const metadata: Metadata = {
@@ -107,10 +107,50 @@ const DECISION_GUIDE = [
   },
 ];
 
+const FAQ_JSON_LD_ITEMS = [
+  {
+    q: "Do you store my Stripe CSV file?",
+    text: [
+      "No. The file is parsed in your browser session and sent once to our servers for analysis. We store computed numbers and aggregates (rates, totals, grouped categories) — not the raw CSV as a file.",
+      "Transaction IDs may appear in your private report so you can match rows to Stripe; free-text descriptions from the export are stripped before long-term storage where possible.",
+    ],
+  },
+  {
+    q: "Does Stripe Fee Auditor connect to my Stripe account?",
+    text: [
+      "No API connection and no OAuth. You export a CSV from the Stripe Dashboard and upload it here — same data you could open in a spreadsheet, without granting third-party access to your live account.",
+    ],
+  },
+  {
+    q: "Who can see my report?",
+    text: [
+      "Only someone with your private link (including the access token in the URL). Treat it like a password: don't share it in public channels. Reports expire automatically based on our retention policy.",
+    ],
+  },
+  {
+    q: "Are the benchmarks and savings numbers guaranteed?",
+    text: [
+      "No. They are directional estimates built from your export using simplified rules, not Stripe's internal ledger. Use them to spot patterns and questions for your finance team — not as contractual fee quotes.",
+    ],
+  },
+  {
+    q: "Is the $12 full report worth it after beta?",
+    text: [
+      "It depends on your volume. If you process only a few small payments, the preview or a spreadsheet may be enough. If you process meaningful monthly volume, have international customers, refunds, or many low-ticket charges, the full report is designed to show the rows and actions behind the headline rate.",
+    ],
+  },
+  {
+    q: "Can I calculate this myself in Excel?",
+    text: [
+      "Yes. The basic blended rate is total charge fees divided by total charge volume. Fee Auditor is useful when you want monthly changes, unusual charges, refund fee leakage, benchmark context, exports, and specific savings opportunities without rebuilding the spreadsheet every time.",
+    ],
+  },
+];
+
 const FAQ_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: LANDING_FAQ_ITEMS.map((item) => ({
+  mainEntity: FAQ_JSON_LD_ITEMS.map((item) => ({
     "@type": "Question",
     name: item.q,
     acceptedAnswer: {

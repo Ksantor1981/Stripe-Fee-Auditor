@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import { neon } from "@neondatabase/serverless";
+import { encryptSecretPayload, decryptSecretPayload } from "@/lib/token-crypto";
 import type { AnalysisResult } from "./fee-analyzer";
 
 const sql = neon(process.env.DATABASE_URL!);
@@ -45,47 +46,6 @@ export function hashReportAccessToken(token: string): string {
 }
 
 let checkoutSessionsTableReady = false;
-
-function getCheckoutTokenEncryptionKey(): Buffer {
-  const secret =
-    process.env.CHECKOUT_TOKEN_ENCRYPTION_KEY?.trim() ||
-    process.env.REPORT_TOKEN_SALT?.trim();
-
-  if (!secret || secret.length < 32) {
-    throw new Error(
-      "CHECKOUT_TOKEN_ENCRYPTION_KEY or REPORT_TOKEN_SALT must be set to at least 32 characters for checkout token encryption"
-    );
-  }
-
-  return crypto.createHash("sha256").update(secret, "utf8").digest();
-}
-
-function encryptCheckoutAccessToken(token: string): string {
-  const iv = crypto.randomBytes(12);
-  const cipher = crypto.createCipheriv("aes-256-gcm", getCheckoutTokenEncryptionKey(), iv);
-  const encrypted = Buffer.concat([cipher.update(token, "utf8"), cipher.final()]);
-  const tag = cipher.getAuthTag();
-  return `v1:${iv.toString("base64url")}:${tag.toString("base64url")}:${encrypted.toString("base64url")}`;
-}
-
-function decryptCheckoutAccessToken(payload: string): string {
-  const [version, ivRaw, tagRaw, encryptedRaw] = payload.split(":");
-  if (version !== "v1" || !ivRaw || !tagRaw || !encryptedRaw) {
-    throw new Error("Invalid checkout token payload");
-  }
-
-  const decipher = crypto.createDecipheriv(
-    "aes-256-gcm",
-    getCheckoutTokenEncryptionKey(),
-    Buffer.from(ivRaw, "base64url")
-  );
-  decipher.setAuthTag(Buffer.from(tagRaw, "base64url"));
-
-  return Buffer.concat([
-    decipher.update(Buffer.from(encryptedRaw, "base64url")),
-    decipher.final(),
-  ]).toString("utf8");
-}
 
 async function ensureCheckoutSessionsTable(): Promise<void> {
   if (checkoutSessionsTableReady) return;
@@ -150,7 +110,7 @@ export async function createCheckoutSession(params: {
 }): Promise<void> {
   await ensureCheckoutSessionsTable();
   const accessTokenHash = hashReportAccessToken(params.accessToken);
-  const accessTokenCiphertext = encryptCheckoutAccessToken(params.accessToken);
+  const accessTokenCiphertext = encryptSecretPayload(params.accessToken);
 
   await sql`
     INSERT INTO checkout_sessions (
@@ -209,7 +169,7 @@ export async function getCheckoutSession(checkoutId: string): Promise<CheckoutSe
   return {
     checkoutId: row.checkout_id,
     reportId: row.report_id,
-    accessToken: decryptCheckoutAccessToken(row.access_token_ciphertext),
+    accessToken: decryptSecretPayload(row.access_token_ciphertext),
     accessTokenHash: row.access_token_hash,
     plan: row.plan,
   };

@@ -97,14 +97,13 @@ function PreviewValueTeaser({
 
 interface Props {
   reportId: string;
-  accessToken: string;
   result: AnalysisResult;
   isPaid: boolean;
   /** Free preview strips anomaly rows; keep real count for badges and copy. */
   previewAnomalyCount?: number;
 }
 
-export function MultiMonthReport({ reportId, accessToken, result, isPaid, previewAnomalyCount }: Props) {
+export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount }: Props) {
   const {
     chargeFees,
     chargeRate,
@@ -286,7 +285,7 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
               </div>
             )}
           </div>
-          {!isPaid && <div className="mt-4"><PaywallBanner reportId={reportId} accessToken={accessToken} /></div>}
+          {!isPaid && <div className="mt-4"><PaywallBanner reportId={reportId} /></div>}
         </TabsContent>
 
         {/* Anomalies tab */}
@@ -348,7 +347,7 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
                   {anomalyUiCount} anomalies found
                 </p>
                 <p className="text-xs text-gray-400 mb-4">Unlock to see which charges are costing you the most</p>
-                <PaywallBanner reportId={reportId} accessToken={accessToken} />
+                <PaywallBanner reportId={reportId} />
               </div>
             )}
           </div>
@@ -398,7 +397,7 @@ export function MultiMonthReport({ reportId, accessToken, result, isPaid, previe
               <p className="text-sm font-semibold text-gray-700 mb-4">
                 Detailed monthly breakdown is in the paid report
               </p>
-              <PaywallBanner reportId={reportId} accessToken={accessToken} />
+              <PaywallBanner reportId={reportId} />
             </div>
           )}
         </TabsContent>

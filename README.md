@@ -2,7 +2,7 @@
 
 Upload your Stripe Balance Transactions CSV and see your **real effective fee rate**, month-over-month fee changes, and which transactions drive the rate up — without storing raw CSV on disk.
 
-**Live:** https://feeauditor.com
+**Live:** <https://feeauditor.com>
 
 ---
 
@@ -24,7 +24,7 @@ This app:
 2. **Parse & normalize** — Papa Parse + `lib/csv-parser.ts` (USD-only for non-demo in beta); malformed rows → **422** (no silent drops).
 3. **Analyze** — `lib/fee-analyzer.ts` computes volumes, blended rate, **all-in** fee lines, benchmark context, refund fee leakage, monthly breakdown, top fee drivers, and unusual charges when sample size allows.
 4. **Persist** — One row in `reports` with UUID + **hashed** access token; raw CSV is **not** written to blob/disk.
-5. **View** — Client opens `/report/[id]?token=…` (secret link).
+5. **View** — Browser gets an **httpOnly cookie** after analyze (no token in the address bar). Email links hit `/api/report/access?reportId=&token=` once, which sets the cookie and redirects to `/report/[id]` without the token in the URL.
 6. **Beta / Pay** — Beta reports are **full-access** for up to **30 days**; outside beta, `GET /api/checkout` builds Polar checkout and the signed webhook **unlocks + extends TTL**.
 7. **Cleanup** — Vercel cron hits `GET /api/cron/cleanup` daily (expired reports + old rate-limit rows).
 
@@ -100,7 +100,7 @@ Copy `.env.example` to `.env.local` and fill values (see repo root — ignored p
 | `POLAR_WEBHOOK_SECRET` | Webhook signature verification |
 | `POLAR_PRODUCT_PRO` | Allowed product UUID at checkout/webhook |
 | `POLAR_ACCESS_TOKEN` | Dynamic checkout URLs + checkout metadata recovery |
-| `CHECKOUT_TOKEN_ENCRYPTION_KEY` | Secret used to encrypt report access tokens stored for checkout/webhook recovery; use at least 32 random characters |
+| `CHECKOUT_TOKEN_ENCRYPTION_KEY` | **Required in production.** Encrypts checkout-session tokens and httpOnly report-access cookies. At least 32 random characters. If unset, `REPORT_TOKEN_SALT` (also ≥32 chars) is used as fallback — set one of them on Vercel or checkout/cookies will fail at runtime. |
 | `CRON_SECRET` | Bearer secret for `/api/cron/cleanup` |
 | `NEXT_PUBLIC_BASE_URL` | Canonical URL (sitemap, metadata, email links) — e.g. `http://localhost:3000` locally |
 
@@ -115,7 +115,8 @@ Copy `.env.example` to `.env.local` and fill values (see repo root — ignored p
 | `FEEDBACK_TO` | Where report feedback form submissions are delivered; defaults to support contact email |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Legal/support footer |
 | `NEXT_PUBLIC_REPORTS_ANALYZED_COUNT` | Optional landing-page social proof count; leave empty if you do not have a real number yet |
-| `REPORT_TOKEN_SALT` | Pepper for access-token hashing (recommended in prod) |
+| `REPORT_TOKEN_SALT` | Pepper for access-token hashing (recommended in prod). May double as encryption secret if `CHECKOUT_TOKEN_ENCRYPTION_KEY` is unset (must still be ≥32 characters). |
+| `NEXT_PUBLIC_OPERATOR_NAME`, `JURISDICTION`, `ADDRESS` | Optional legal footer on Privacy/Terms |
 
 **Remove from Vercel if still present**
 
@@ -138,7 +139,7 @@ node scripts/init-db.mjs
 npm run dev
 ```
 
-Open http://localhost:3000.
+Open <http://localhost:3000>.
 
 ### 8. Polar webhook (local)
 
@@ -162,6 +163,12 @@ curl -sS "http://localhost:3000/api/cron/cleanup" \
 5. **`www` → apex:** `vercel.json` redirects `www.feeauditor.com` → `feeauditor.com`.
 6. After deploy: verify `NEXT_PUBLIC_BASE_URL`, `/sitemap.xml`, `/robots.txt`. Checkout compliance links: `/privacy`, `/terms`, `/refund`.
 7. Run `npm run check:prod` to confirm production is serving the current landing copy, sitemap, and robots file.
+8. Before turning off beta, run locally with `FULL_REPORTS_FREE_DURING_BETA=false` and `npm run check:post-beta` (see script for manual paywall checklist).
+
+**Vercel production secrets (do not skip)**
+
+- `CHECKOUT_TOKEN_ENCRYPTION_KEY` **or** `REPORT_TOKEN_SALT` — minimum **32 characters** (generate with `openssl rand -base64 32`).
+- Without this, encrypted checkout rows and report-access cookies throw at runtime.
 
 **Production email (short checklist)**
 

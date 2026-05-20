@@ -1,6 +1,8 @@
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getReportWithAccess } from "@/lib/db";
+import { resolveReportAccessToken } from "@/lib/report-access-cookie";
 import { fmt$, fmtPct } from "@/lib/format";
 import { periodTotalFees } from "@/lib/fee-period-copy";
 import { getSiteBaseUrl } from "@/lib/site-url";
@@ -21,9 +23,14 @@ export async function generateMetadata() {
 
 export default async function EmbedReportPage({ params, searchParams }: Props) {
   const { id } = await params;
-  const { token = "" } = await searchParams;
+  const { token: queryToken } = await searchParams;
 
   if (!UUID_V4.test(id)) notFound();
+
+  const token = resolveReportAccessToken(id, {
+    cookieStore: await cookies(),
+    queryToken,
+  });
 
   const report = await getReportWithAccess(id, token);
   if (!report?.result) notFound();

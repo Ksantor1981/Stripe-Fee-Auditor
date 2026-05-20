@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCheckoutSession, processPaidWebhook } from "@/lib/db";
 import { sendReportEmail } from "@/lib/email";
 import { getSucceededCheckout, isAllowedProductId } from "@/lib/polar";
+import { appendReportAccessCookie } from "@/lib/report-access-cookie";
 
 export const dynamic = "force-dynamic";
 
@@ -39,9 +40,10 @@ export async function GET(req: NextRequest) {
   }
 
   const url = new URL(`/report/${session.reportId}`, req.url);
-  url.searchParams.set("token", session.accessToken);
   url.searchParams.set("payment", "success");
   url.searchParams.set("checkout_id", checkoutId);
 
-  return NextResponse.redirect(url);
+  const response = NextResponse.redirect(url);
+  appendReportAccessCookie(response, session.reportId, session.accessToken);
+  return response;
 }

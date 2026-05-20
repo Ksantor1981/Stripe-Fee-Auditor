@@ -9,6 +9,9 @@ export const metadata: Metadata = {
 /** Same env as Privacy (`NEXT_PUBLIC_CONTACT_EMAIL`) — one inbox is fine. */
 const CONTACT_EMAIL =
   process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "support@feeauditor.com";
+const OPERATOR_NAME =
+  process.env.NEXT_PUBLIC_OPERATOR_NAME?.trim() || "the operator of Stripe Fee Auditor";
+const OPERATOR_JURISDICTION = process.env.NEXT_PUBLIC_OPERATOR_JURISDICTION?.trim();
 
 export default function TermsPage() {
   return (
@@ -151,10 +154,11 @@ export default function TermsPage() {
           <section>
             <h2 className="text-lg font-semibold text-gray-900 mb-3">10. Governing Law</h2>
             <p className="text-gray-600 leading-relaxed">
-              These Terms are governed by applicable law, excluding conflict-of-law rules. Disputes
-              shall be brought before the competent courts of the jurisdiction where the operator of
-              Stripe Fee Auditor is established or legally resident, unless mandatory consumer
-              protection laws in your country provide otherwise.
+              These Terms are governed by applicable law, excluding conflict-of-law rules. The operator
+              is <strong>{OPERATOR_NAME}</strong>
+              {OPERATOR_JURISDICTION ? <> ({OPERATOR_JURISDICTION})</> : null}. Disputes shall be
+              brought before the competent courts of the jurisdiction where the operator is established
+              or legally resident, unless mandatory consumer protection laws in your country provide otherwise.
             </p>
           </section>
 

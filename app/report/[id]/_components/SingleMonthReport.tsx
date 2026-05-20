@@ -11,12 +11,11 @@ import { ReportTrustChecklist } from "./ReportTrustChecklist";
 
 interface Props {
   reportId: string;
-  accessToken: string;
   result: AnalysisResult;
   isPaid: boolean;
 }
 
-export function SingleMonthReport({ reportId, accessToken, result, isPaid }: Props) {
+export function SingleMonthReport({ reportId, result, isPaid }: Props) {
   const { chargeFees, chargeRate, chargeVolume, otherFees, monthly, topDrivers } = result;
   const month = monthly[0];
   const periodFees = result.allInFees ?? periodTotalFees(chargeFees, otherFees);
@@ -133,7 +132,7 @@ export function SingleMonthReport({ reportId, accessToken, result, isPaid }: Pro
             </div>
           ))}
         </div>
-        {!isPaid && <div className="p-5"><PaywallBanner reportId={reportId} accessToken={accessToken} /></div>}
+        {!isPaid && <div className="p-5"><PaywallBanner reportId={reportId} /></div>}
       </div>
 
       {/* Upload more CTA */}

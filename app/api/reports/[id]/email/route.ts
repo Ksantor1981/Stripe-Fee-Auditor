@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { consumeIpRequest, saveReportEmail } from "@/lib/db";
 import { sendReportEmail } from "@/lib/email";
 import { getTrustedClientIp } from "@/lib/request-ip";
+import { resolveReportAccessFromRequest } from "@/lib/report-access-cookie";
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -20,14 +21,16 @@ export async function POST(
   }
 
   let email: string;
-  let token: string;
+  let bodyToken: string | undefined;
   try {
     const body = await req.json();
     email = typeof body?.email === "string" ? body.email.trim() : "";
-    token = typeof body?.token === "string" ? body.token.trim() : "";
+    bodyToken = typeof body?.token === "string" ? body.token.trim() : undefined;
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
+
+  const token = resolveReportAccessFromRequest(req, id, bodyToken);
 
   if (email.length > MAX_EMAIL_LEN) {
     return NextResponse.json({ error: "Email address too long" }, { status: 400 });

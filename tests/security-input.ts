@@ -6,6 +6,11 @@
 import { sanitizeColumnMapping, MAX_CSV_ROWS } from "../lib/analyze-input";
 import { isBetaFlagEnabled } from "../lib/beta-access";
 import { verifyCronBearer } from "../lib/cron-bearer";
+import {
+  reportAccessCookieName,
+  resolveReportAccessToken,
+} from "../lib/report-access-cookie";
+import { encryptSecretPayload, decryptSecretPayload } from "../lib/token-crypto";
 
 let passed = 0;
 let failed = 0;
@@ -83,6 +88,28 @@ console.log("\n📋 analyze-input / MAX_CSV_ROWS export");
 
 test("MAX_CSV_ROWS is positive", () => {
   assert(Number.isFinite(MAX_CSV_ROWS) && MAX_CSV_ROWS > 0, "bound");
+});
+
+console.log("\n📋 report-access-cookie / token crypto");
+
+test("report access cookie name is per-report", () => {
+  const id = "a1b2c3d4-e5f6-4789-a012-3456789abcde";
+  assert(reportAccessCookieName(id) === "sfa_ra_a1b2c3d4e5f64789a0123456789abcde", "stable name");
+});
+
+test("encrypt/decrypt roundtrip", () => {
+  process.env.CHECKOUT_TOKEN_ENCRYPTION_KEY =
+    process.env.CHECKOUT_TOKEN_ENCRYPTION_KEY ||
+    "test-encryption-key-at-least-32-chars!!";
+  const plain = "secret-payload";
+  const sealed = encryptSecretPayload(plain);
+  assert(decryptSecretPayload(sealed) === plain, "roundtrip");
+});
+
+test("resolveReportAccessToken prefers query when no cookie", () => {
+  const id = "a1b2c3d4-e5f6-4789-a012-3456789abcde";
+  const token = resolveReportAccessToken(id, { queryToken: "abc", bodyToken: "def" });
+  assert(token === "abc", "query over body");
 });
 
 console.log("\n📋 beta-access / isBetaFlagEnabled");

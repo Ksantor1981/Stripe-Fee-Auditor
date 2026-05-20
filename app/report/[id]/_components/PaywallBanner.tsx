@@ -7,16 +7,15 @@ import { trackEvent } from "@/lib/analytics";
 
 interface Props {
   reportId: string;
-  accessToken: string;
   email?: string;
 }
 
-export function PaywallBanner({ reportId, accessToken, email }: Props) {
+export function PaywallBanner({ reportId, email }: Props) {
   const [open, setOpen] = useState(false);
 
   function unlock() {
     trackEvent("funnel_checkout_redirect", { plan: "pro" });
-    const params = new URLSearchParams({ plan: "pro", reportId, token: accessToken });
+    const params = new URLSearchParams({ plan: "pro", reportId });
     if (email) params.set("email", email);
     window.location.href = `/api/checkout?${params}`;
   }

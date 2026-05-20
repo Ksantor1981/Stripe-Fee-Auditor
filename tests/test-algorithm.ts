@@ -105,6 +105,23 @@ test("normalizes official Balance CSV amounts as major currency units", () => {
   assert(r.cardCountry === "GB", `expected GB, got ${r.cardCountry}`);
 });
 
+test("legacy cents exports with extra gross/reporting_category stay in cents mode", () => {
+  const r = normalizeRow({
+    id: "ch_legacy_extra",
+    type: "charge",
+    amount: "1000",
+    fee: "59",
+    net: "941",
+    currency: "usd",
+    created: "1700000000",
+    gross: "1000",
+    reporting_category: "charge",
+  });
+  assertClose(r.amount, 10.00, 0.001, "amount");
+  assertClose(r.fee, 0.59, 0.001, "fee");
+  assertClose(r.net, 9.41, 0.001, "net");
+});
+
 test("normalizes required fields case-insensitively", () => {
   const r = normalizeRow({
     ID: "ch_upper",
@@ -210,6 +227,23 @@ test("single-month mode for ≥50 charges in one month", () => {
   assert(r.mode === "single-month", `expected single-month, got ${r.mode}`);
 });
 
+test("single-month anomaly detection uses charge-level spread", () => {
+  const normal = makeCharges(60, "2024-01", 3.0);
+  const spike = {
+    id: "ch_single_spike",
+    type: "charge" as const,
+    amount: 100,
+    fee: 12,
+    net: 88,
+    currency: "USD",
+    date: "2024-01-20",
+    month: "2024-01",
+  };
+  const r = analyze([...normal, spike]);
+  assert(r.mode === "single-month", `expected single-month, got ${r.mode}`);
+  assert(r.anomalies.some((a) => a.id === "ch_single_spike"), "single-month spike should be anomaly");
+});
+
 test("multi-month mode for ≥50 charges across ≥2 months", () => {
   const rows = [...makeCharges(60, "2024-01"), ...makeCharges(60, "2024-02")];
   const r = analyze(rows);
@@ -237,7 +271,7 @@ test("small-transaction savings use dollar units", () => {
   const r = analyze(rows);
   const small = r.savingsOpportunities?.find((opp) => opp.title.includes("small transactions"));
   assert(Boolean(small), "should produce a small-transaction opportunity");
-  assertClose(small?.annualSavings ?? 0, 220, 0.1, "annual savings should be 60 * $0.30 * 12, rounded");
+  assertClose(small?.annualSavings ?? 0, 110, 0.1, "annual savings should assume half fixed fees are avoidable");
 });
 
 test("benchmark marks a normal domestic card mix as normal", () => {
