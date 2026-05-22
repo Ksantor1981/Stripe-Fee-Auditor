@@ -64,7 +64,9 @@ async function buildUnlockPayload(event: ReturnType<typeof verifyPolarWebhook>):
         reportId ??= checkoutMetadata.reportId;
       } catch (err) {
         metadataLookupFailed = true;
-        console.error("[polar-webhook] Checkout metadata lookup failed:", err);
+        logOpsError("polar_webhook_checkout_metadata_failed", {
+          message: err instanceof Error ? err.message.slice(0, 200) : "unknown",
+        });
       }
     }
 

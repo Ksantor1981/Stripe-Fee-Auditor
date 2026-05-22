@@ -9,6 +9,8 @@ import { FeeInsightCards } from "./FeeInsightCards";
 import { ReportDashboardCharts } from "./ReportDashboardCharts";
 import { ReportTrustChecklist } from "./ReportTrustChecklist";
 import { SavingsOpportunities } from "./SavingsOpportunities";
+import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
+import { FirstActionCallout } from "./FirstActionCallout";
 
 interface Props {
   reportId: string;
@@ -86,11 +88,15 @@ export function LowVolumeReport({ result, isPaid }: Props) {
         </div>
       </div>
 
+      {isPaid && <FirstActionCallout opportunity={savings[0]} />}
+
       <ReportTrustChecklist result={result} />
 
       <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
 
       <ReportDashboardCharts result={result} />
+
+      {isPaid && <FeeLeakBreakdown items={result.feeLeakBreakdown} />}
 
       {isPaid && savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
 

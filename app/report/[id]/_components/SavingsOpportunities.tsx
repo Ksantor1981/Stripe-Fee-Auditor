@@ -46,13 +46,13 @@ export function SavingsOpportunities({ opportunities }: Props) {
         </div>
         <div className="text-right shrink-0">
           <p className="text-2xl font-bold text-emerald-700">~{fmt$(totalSavings)}</p>
-          <p className="text-xs text-gray-400">estimated / year</p>
+          <p className="text-xs text-gray-400">potential / year</p>
         </div>
       </div>
 
       <p className="text-xs text-gray-400 mb-5">
-        Problem → estimated loss in this export → what to do in Stripe. Annual figures are directional;
-        scenarios overlap — not one combined guarantee.
+        Problem → potential cost in this export → what to inspect in Stripe. Annual figures are directional;
+        scenarios can overlap — treat them as prioritization, not guaranteed savings.
       </p>
 
       <div className="space-y-3">
@@ -73,7 +73,7 @@ export function SavingsOpportunities({ opportunities }: Props) {
                   <p className="text-sm font-semibold text-gray-800 leading-snug">{opp.title}</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-sm font-bold text-emerald-700">up to ~{fmt$(opp.annualSavings)}/yr</p>
+                  <p className="text-sm font-bold text-emerald-700">potential ~{fmt$(opp.annualSavings)}/yr</p>
                   <span className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full mt-1 ${style.badge}`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${style.dot}`} />
                     {confidence} confidence
@@ -83,7 +83,7 @@ export function SavingsOpportunities({ opportunities }: Props) {
 
               {opp.periodLoss != null && opp.periodLoss > 0 && (
                 <p className="text-xs font-medium text-amber-800 ml-7 mb-2">
-                  ~{fmt$(opp.periodLoss)} extra cost in this export period (estimate)
+                  ~{fmt$(opp.periodLoss)} potential cost in this export period (estimate)
                 </p>
               )}
 

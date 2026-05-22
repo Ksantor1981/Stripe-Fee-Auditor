@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Stripe Fee Auditor",
-    description: "See your real effective Stripe fee rate from your Balance CSV. 100% local.",
+    description: "See your real effective Stripe fee rate from your Balance CSV. No OAuth. Raw CSV is not stored as a file.",
     type: "website",
     url: siteUrl,
     siteName: "Stripe Fee Auditor",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Stripe Fee Auditor",
-    description: "See your real effective Stripe fee rate from your Balance CSV. 100% local.",
+    description: "See your real effective Stripe fee rate from your Balance CSV. No OAuth. Raw CSV is not stored as a file.",
     images: [ogImageUrl],
   },
   other: {

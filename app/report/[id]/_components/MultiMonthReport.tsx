@@ -13,6 +13,8 @@ import { SavingsOpportunities } from "./SavingsOpportunities";
 import { GeographyBreakdown } from "./GeographyBreakdown";
 import { ReportDashboardCharts } from "./ReportDashboardCharts";
 import { ReportTrustChecklist } from "./ReportTrustChecklist";
+import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
+import { FirstActionCallout } from "./FirstActionCallout";
 
 function anomalyExplainerText(
   count: number,
@@ -218,11 +220,15 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
         />
       )}
 
+      {isPaid && <FirstActionCallout opportunity={teaserSavings} />}
+
       <ReportTrustChecklist result={result} />
 
       <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
 
       <ReportDashboardCharts result={result} />
+
+      {isPaid && <FeeLeakBreakdown items={result.feeLeakBreakdown} />}
 
       {isPaid && savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
 

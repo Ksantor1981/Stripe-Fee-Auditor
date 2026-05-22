@@ -49,6 +49,7 @@ export async function GET(req: NextRequest) {
     allInRate,
     benchmark,
     refundSummary,
+    feeLeakBreakdown,
   } = report.result;
 
   // Sheet 1 — summary row
@@ -69,6 +70,18 @@ export async function GET(req: NextRequest) {
       { section: "Summary", key: "Estimated Retained Refund Fees", value: refundSummary.estimatedRetainedFees.toFixed(2) },
     ] : []),
     { section: "", key: "", value: "" },
+    ...(feeLeakBreakdown && feeLeakBreakdown.length > 0 ? [
+      { section: "FeeLeakBreakdown", key: "Bucket", value: "Amount", share_pct: "Share %", kind: "Type", action: "Action" },
+      ...feeLeakBreakdown.map((item) => ({
+        section: "FeeLeakBreakdown",
+        key: item.label,
+        value: item.amount.toFixed(2),
+        share_pct: item.sharePct.toFixed(2),
+        kind: item.kind,
+        action: item.action,
+      })),
+      { section: "", key: "", value: "" },
+    ] : []),
   ];
 
   // Sheet 2 — monthly breakdown

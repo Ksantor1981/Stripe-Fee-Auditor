@@ -28,7 +28,7 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
   const report = await getReportWithAccess(id, token);
   if (!report?.result || (!report.is_paid && !FULL_REPORTS_FREE_DURING_BETA)) notFound();
 
-  const { chargeVolume, chargeFees, chargeRate, otherFees, monthly, anomalies, topDrivers, mode, periodDelta, benchmark, refundSummary } = report.result;
+  const { chargeVolume, chargeFees, chargeRate, otherFees, monthly, anomalies, topDrivers, mode, periodDelta, benchmark, refundSummary, feeLeakBreakdown } = report.result;
   const params_id = id;
   const periodFees = periodTotalFees(chargeFees, otherFees);
   const monthCount = monthly.length;
@@ -149,6 +149,36 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
               {periodDelta > 0 ? "▲" : "▼"} {fmt$(Math.abs(periodDelta))}
             </span>{" "}
             vs previous period ({fmtMonth(monthly[monthly.length - 2]?.month ?? "")})
+          </div>
+        )}
+
+        {/* Fee leak breakdown */}
+        {feeLeakBreakdown && feeLeakBreakdown.length > 0 && (
+          <div className="section">
+            <h2>Where Fees Leak</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Bucket</th>
+                  <th style={{ textAlign: "right" }}>Impact</th>
+                  <th style={{ textAlign: "right" }}>Share</th>
+                  <th>Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                {feeLeakBreakdown.map((item) => (
+                  <tr key={item.key}>
+                    <td>
+                      <strong>{item.label}</strong>
+                      <div style={{ color: "#6b7280", fontSize: 11, marginTop: 2 }}>{item.action}</div>
+                    </td>
+                    <td style={{ textAlign: "right", fontWeight: 700 }}>{fmt$(item.amount)}</td>
+                    <td style={{ textAlign: "right" }}>{item.sharePct.toFixed(1)}%</td>
+                    <td>{item.kind}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
 

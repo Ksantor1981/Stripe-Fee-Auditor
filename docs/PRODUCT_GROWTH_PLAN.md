@@ -5,7 +5,7 @@
 ## Уже есть в продукте
 
 - Блог + SEO, sitemap, pillar, `/stripe-fee-calculator` + mini-estimate
-- Отчёт: benchmark, refund leakage, fee mix charts, geography, `SavingsOpportunities` (только multi-month)
+- Отчёт: benchmark, refund leakage, fee mix charts, fee leak breakdown, geography, `SavingsOpportunities` во всех режимах
 - Beta: полный отчёт бесплатно; ops: `/api/health`, CI, structured `ops_event` logs
 - Plausible goals + funnel (ручная настройка)
 
@@ -19,7 +19,7 @@
 | 1.2 | Карточки: проблема → потери → **action + ссылка Stripe Dashboard** | done |
 | 1.3 | Лог `usd_only_rejected` + copy на `/analyze` (USD beta) | done |
 | 1.4 | Лендинг: CTA «Quick estimate» → `/stripe-fee-calculator` | done |
-| 1.5 | Таблица «Where fees leak» (fixed / intl / other из CSV) | planned |
+| 1.5 | Таблица «Where fees leak» (fixed / intl / refund / other из CSV) | ready |
 | 1.6 | Savings в single-month + low-volume (beta `hasFullAccess`) | done |
 
 ### Фаза 2 — Снижение барьера CSV (2–4 недели)

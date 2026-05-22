@@ -193,11 +193,6 @@ function nonChargeFeeAmount(row: NormalizedRow): number {
     return Math.abs(row.amount || row.net);
   }
 
-  // Dispute/chargeback rows often carry the $15 cost as amount with fee=0 in Balance CSV.
-  if (category.includes("dispute") || category.includes("chargeback")) {
-    return Math.abs(row.amount || row.net);
-  }
-
   return 0;
 }
 
@@ -349,8 +344,8 @@ function buildFeeLeakBreakdown(
       amount: otherFees,
       kind: "direct",
       severity: otherFees / allInFees >= 0.15 ? "high" : "medium",
-      detail: "Direct non-charge fee rows in the Balance CSV: refunds, disputes, payouts, Radar, Billing, Tax, Connect, or other Stripe services.",
-      action: "Open the CSV export and filter non-charge rows by reporting category to identify which add-ons or events are driving this bucket.",
+      detail: "Direct non-charge fee rows in the Balance CSV: refund fees, dispute fees, payouts, Radar, Billing, Tax, Connect, or other Stripe services.",
+      action: "Open the CSV export and filter non-charge rows by reporting category to identify which add-ons, fees, or events are driving this bucket.",
     });
   }
 
@@ -374,8 +369,8 @@ function buildFeeLeakBreakdown(
       amount: 0.01,
       kind: "direct",
       severity: "low",
-      detail: "This export is mostly charge processing. For a fuller all-in view, include refunds, disputes, payouts, and Stripe service fees in the Balance export.",
-      action: "Export an itemized Balance report for the full period if you expected disputes, refunds, or payout fees.",
+      detail: "This export is mostly charge processing. For a fuller all-in view, include refunds, dispute fee rows, payouts, and Stripe service fees in the Balance export.",
+      action: "Export an itemized Balance report for the full period if you expected disputes, refunds, or additional Stripe service fees.",
     });
   }
 

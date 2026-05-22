@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -46,27 +45,35 @@ interface Props {
 }
 
 export function ExportInstructions({ onReady }: Props) {
-  const [secondsLeft, setSecondsLeft] = useState(5);
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    if (secondsLeft <= 0) {
-      setReady(true);
-      return;
-    }
-    const t = setTimeout(() => setSecondsLeft((s) => s - 1), 1000);
-    return () => clearTimeout(t);
-  }, [secondsLeft]);
+  const continueToUpload = (placement: string) => {
+    trackEvent("funnel_export_instructions_done", { placement });
+    onReady();
+  };
 
   return (
     <div className="space-y-8">
       {/* Title */}
       <div>
         <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-2">Step 1 of 2</p>
-        <h1 className="text-2xl font-bold text-gray-900">Export your Balance CSV</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Export or upload your Balance CSV</h1>
         <p className="mt-2 text-gray-500 text-sm">
-          Stripe keeps a detailed record of every transaction fee. Follow the steps below to export it.
+          Already have the file? Skip straight to upload. Need it? Use the visual guide below.
         </p>
+        <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+          <Button
+            size="lg"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6"
+            onClick={() => continueToUpload("top_skip")}
+          >
+            I already have my CSV →
+          </Button>
+          <a
+            href="#export-steps"
+            className="inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-600 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+          >
+            Show export steps
+          </a>
+        </div>
         <div className="mb-6 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800">
           <strong>USD accounts:</strong> This tool works best with single-currency USD Stripe accounts.
           Multi-currency support is coming soon.
@@ -74,7 +81,7 @@ export function ExportInstructions({ onReady }: Props) {
       </div>
 
       {/* Steps */}
-      <div className="space-y-4">
+      <div id="export-steps" className="space-y-4 scroll-mt-6">
         {STEPS.map(({ num, title, body, hint, screenshot, screenshotAlt, screenshotH }) => (
           <div key={num} className="flex gap-4 rounded-xl bg-white p-5 shadow-sm border border-gray-100">
             <div className="flex-shrink-0 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white mt-0.5">
@@ -140,26 +147,15 @@ export function ExportInstructions({ onReady }: Props) {
         </AccordionItem>
       </Accordion>
 
-      {/* CTA — appears after 5 sec */}
+      {/* CTA */}
       <div className="text-center">
-        {ready ? (
-          <Button
-            size="lg"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8"
-            onClick={() => {
-              trackEvent("funnel_export_instructions_done");
-              onReady();
-            }}
-          >
-            I have my CSV →
-          </Button>
-        ) : (
-          <p className="text-sm text-gray-400">
-            Button appears in{" "}
-            <span className="font-semibold tabular-nums text-gray-600">{secondsLeft}s</span>
-            {" "}— read the steps above first
-          </p>
-        )}
+        <Button
+          size="lg"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-8"
+          onClick={() => continueToUpload("bottom_cta")}
+        >
+          Continue to upload →
+        </Button>
       </div>
     </div>
   );

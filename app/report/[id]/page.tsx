@@ -44,6 +44,7 @@ function toPreviewResult(result: AnalysisResult): AnalysisResult {
     transactionBuckets: undefined,
     geographySummary: undefined,
     feeMix: undefined,
+    feeLeakBreakdown: undefined,
   };
 }
 

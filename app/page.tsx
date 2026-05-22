@@ -52,7 +52,7 @@ const WHAT_YOU_GET = [
   { marker: "BENCH", title: "Is your rate normal?", desc: "A rough benchmark range for your transaction mix, so you can see whether your rate is expected or unusually high." },
   { marker: "WHY", title: "Why your rate is higher", desc: "International cards, small transactions, Amex, currency conversion — pinpointed by transaction." },
   { marker: "REFUND", title: "Refund fee leakage", desc: "Estimate how much retained processing fees on refunds are quietly eating into margin." },
-  { marker: "SAVE", title: "Savings opportunities", desc: "Estimated annual savings from switching specific charge types to ACH, local payments, or bundling." },
+  { marker: "SAVE", title: "Savings opportunities", desc: "Directional annual estimates for ACH, local payments, or bundling — prioritization, not guaranteed savings." },
 ];
 
 const METRICS = [

@@ -356,6 +356,75 @@ test("all-in rate includes non-charge fee rows separately from charge processing
   assertClose(r.allInRate, 3.4167, 0.01, "allInRate");
 });
 
+test("dispute principal rows do not inflate otherFees without an explicit fee", () => {
+  const charges = makeCharges(60, "2024-01", 3.0);
+  const disputePrincipal = {
+    id: "dp_principal",
+    type: "dispute" as const,
+    reportingCategory: "dispute",
+    amount: -100,
+    fee: 0,
+    net: -100,
+    currency: "USD",
+    date: "2024-01-20",
+    month: "2024-01",
+  };
+  const r = analyze([...charges, disputePrincipal]);
+  assertClose(r.otherFees, 0, 0.01, "dispute principal should not be counted as a fee");
+});
+
+test("dispute fee rows count when the fee is explicit", () => {
+  const charges = makeCharges(60, "2024-01", 3.0);
+  const disputeFee = {
+    id: "dp_fee",
+    type: "dispute" as const,
+    reportingCategory: "dispute",
+    amount: -100,
+    fee: -15,
+    net: -115,
+    currency: "USD",
+    date: "2024-01-20",
+    month: "2024-01",
+  };
+  const r = analyze([...charges, disputeFee]);
+  assertClose(r.otherFees, 15, 0.01, "explicit dispute fee should be counted");
+  const breakdown = r.feeLeakBreakdown ?? [];
+  assert(
+    breakdown.some((item) => item.key === "other-stripe-fees"),
+    "explicit dispute fee should appear in fee leak breakdown"
+  );
+});
+
+test("fee leak breakdown exposes fixed fees and non-charge fee lines", () => {
+  const charges = Array.from({ length: 60 }, (_, i) => ({
+    id: `ch_breakdown_${i}`,
+    type: "charge" as const,
+    amount: 10,
+    fee: 0.59,
+    net: 9.41,
+    currency: "USD",
+    date: "2024-01-15",
+    month: "2024-01",
+  }));
+  const other = {
+    id: "txn_stripe_fee",
+    type: "stripe_fee" as const,
+    reportingCategory: "stripe_fee",
+    amount: -15,
+    fee: 0,
+    net: -15,
+    currency: "USD",
+    date: "2024-01-20",
+    month: "2024-01",
+  };
+  const r = analyze([...charges, other]);
+  const breakdown = r.feeLeakBreakdown ?? [];
+  assert(breakdown.some((item) => item.key === "fixed-card-fees"), "fixed fees should be present");
+  assert(breakdown.some((item) => item.key === "other-stripe-fees"), "other fees should be present");
+  const fixed = breakdown.find((item) => item.key === "fixed-card-fees");
+  assertClose(fixed?.amount ?? 0, 18, 0.01, "fixed-fee estimate");
+});
+
 test("redacts free-text descriptions before storage", () => {
   const rows = [
     {
