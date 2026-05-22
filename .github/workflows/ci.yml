@@ -9,6 +9,11 @@ on:
 jobs:
   quality:
     runs-on: ubuntu-latest
+    env:
+      # Placeholders for `next build` page-data collection (no real DB connection at build time).
+      DATABASE_URL: postgresql://ci:ci@127.0.0.1:5432/ci
+      CHECKOUT_TOKEN_ENCRYPTION_KEY: ci-build-placeholder-key-32-chars-min
+      NEXT_PUBLIC_BASE_URL: https://feeauditor.com
     steps:
       - uses: actions/checkout@v4
 

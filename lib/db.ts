@@ -1,9 +1,25 @@
 import crypto from "crypto";
-import { neon } from "@neondatabase/serverless";
+import { neon, type NeonQueryFunction } from "@neondatabase/serverless";
 import { encryptSecretPayload, decryptSecretPayload } from "@/lib/token-crypto";
 import type { AnalysisResult } from "./fee-analyzer";
 
-const sql = neon(process.env.DATABASE_URL!);
+let sqlClient: NeonQueryFunction<false, false> | undefined;
+
+function getSqlClient(): NeonQueryFunction<false, false> {
+  if (!sqlClient) {
+    const url = process.env.DATABASE_URL?.trim();
+    if (!url) {
+      throw new Error("DATABASE_URL is not set");
+    }
+    sqlClient = neon(url);
+  }
+  return sqlClient;
+}
+
+/** Lazy Neon client — avoids requiring DATABASE_URL during `next build`. */
+const sql = ((strings: TemplateStringsArray, ...params: unknown[]) =>
+  getSqlClient()(strings, ...params)) as NeonQueryFunction<false, false>;
+
 export default sql;
 
 // ─── Types ────────────────────────────────────────────────────────────────────
