@@ -28,6 +28,9 @@ const PLAUSIBLE_GOALS: Record<string, string | string[]> = {
   funnel_share_x_click: "Share X",
   funnel_embed_copy: "Embed Copy",
   funnel_share_chart_png: "Share Chart PNG",
+  waitlist_view: "Waitlist View",
+  waitlist_submit: "Waitlist Submit",
+  waitlist_success: "Waitlist Success",
 };
 
 function plausibleProps(props: Record<string, FunnelPropValue>): Record<string, string | number | boolean> {

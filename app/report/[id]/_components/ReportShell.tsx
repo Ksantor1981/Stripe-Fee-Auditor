@@ -6,6 +6,7 @@ import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { trackEvent } from "@/lib/analytics";
 import { EmailGate } from "./EmailGate";
 import { FeedbackForm } from "./FeedbackForm";
+import { MonitorWaitlistForm } from "./MonitorWaitlistForm";
 import { MultiMonthReport } from "./MultiMonthReport";
 import { SingleMonthReport } from "./SingleMonthReport";
 import { LowVolumeReport } from "./LowVolumeReport";
@@ -162,6 +163,7 @@ export function ReportShell({
           {hasFullAccess && (
             <ShareEmbedBenchmark embedShareUrl={embedShareUrl!} result={result} />
           )}
+          <MonitorWaitlistForm reportId={reportId} />
           <FeedbackForm reportId={reportId} />
         </div>
       </div>

@@ -12,6 +12,8 @@ import {
 } from "../lib/report-access-cookie";
 import { encryptSecretPayload, decryptSecretPayload } from "../lib/token-crypto";
 import { opsLogLine } from "../lib/ops-log";
+import { isValidWaitlistEmail, normalizeWaitlistEmail } from "../lib/waitlist";
+import { isValidFunnelEventName } from "../lib/funnel-log";
 
 let passed = 0;
 let failed = 0;
@@ -134,6 +136,27 @@ test("beta full report flag accepts explicit truthy values", () => {
   assert(isBetaFlagEnabled("true") === true, "true");
   assert(isBetaFlagEnabled("1") === true, "1");
   assert(isBetaFlagEnabled("YES") === true, "YES");
+});
+
+console.log("\n📋 waitlist / email validation");
+
+test("normalizeWaitlistEmail trims and lowercases", () => {
+  assert(normalizeWaitlistEmail("  User@Example.COM ") === "user@example.com", "normalize");
+});
+
+test("isValidWaitlistEmail rejects invalid addresses", () => {
+  assert(isValidWaitlistEmail("not-an-email") === false, "invalid");
+  assert(isValidWaitlistEmail("a@b") === false, "too short domain");
+  assert(isValidWaitlistEmail("user@example.com") === true, "valid");
+});
+
+console.log("\n📋 funnel-log / waitlist events");
+
+test("isValidFunnelEventName accepts waitlist events", () => {
+  assert(isValidFunnelEventName("waitlist_view") === true, "view");
+  assert(isValidFunnelEventName("waitlist_submit") === true, "submit");
+  assert(isValidFunnelEventName("waitlist_success") === true, "success");
+  assert(isValidFunnelEventName("waitlist_hack") === false, "unknown waitlist");
 });
 
 console.log("\n" + (failed === 0 ? `✅ All ${passed} tests passed` : `❌ ${failed} failed, ${passed} passed`));

@@ -288,3 +288,49 @@ export async function consumeIpRequest(ip: string, limit: number): Promise<boole
 
   return rows[0]?.allowed === true;
 }
+
+let monitorWaitlistTableReady = false;
+
+async function ensureMonitorWaitlistTable(): Promise<void> {
+  if (monitorWaitlistTableReady) return;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS monitor_waitlist (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      email TEXT NOT NULL UNIQUE,
+      report_id UUID REFERENCES reports(id) ON DELETE SET NULL,
+      source TEXT NOT NULL DEFAULT 'report',
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `;
+
+  await sql`
+    CREATE INDEX IF NOT EXISTS monitor_waitlist_created_at_idx
+    ON monitor_waitlist (created_at DESC)
+  `;
+
+  monitorWaitlistTableReady = true;
+}
+
+export type WaitlistInsertResult = "inserted" | "duplicate";
+
+export async function insertMonitorWaitlistSignup(params: {
+  email: string;
+  reportId?: string | null;
+  source?: string;
+}): Promise<WaitlistInsertResult> {
+  await ensureMonitorWaitlistTable();
+
+  const rows = await sql`
+    INSERT INTO monitor_waitlist (email, report_id, source)
+    VALUES (
+      ${params.email},
+      ${params.reportId ?? null},
+      ${params.source ?? "report"}
+    )
+    ON CONFLICT (email) DO NOTHING
+    RETURNING id
+  `;
+
+  return rows.length > 0 ? "inserted" : "duplicate";
+}

@@ -71,3 +71,64 @@ export async function sendReportEmail(
     `,
   });
 }
+
+const DEFAULT_WAITLIST_NOTIFY =
+  process.env.FEEDBACK_TO?.trim() ||
+  process.env.EMAIL_REPLY_TO?.trim() ||
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() ||
+  "support@feeauditor.com";
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+export async function sendWaitlistNotifyEmail(params: {
+  email: string;
+  reportId?: string | null;
+  source?: string;
+}): Promise<void> {
+  if (!process.env.RESEND_API_KEY) {
+    console.log(`[email] RESEND_API_KEY not set, skipping waitlist notify for ${params.email}`);
+    return;
+  }
+
+  const to = process.env.WAITLIST_NOTIFY_TO?.trim() || DEFAULT_WAITLIST_NOTIFY;
+  const from = process.env.EMAIL_FROM ?? DEFAULT_EMAIL_FROM;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? DEFAULT_BASE_URL;
+  const emailSafe = escapeHtml(params.email);
+  const sourceSafe = escapeHtml(params.source ?? "report");
+  const reportLine = params.reportId
+    ? `<tr><td style="padding:8px 0;color:#666">Report ID</td><td style="padding:8px 0;color:#999;font-size:12px;font-family:monospace">${escapeHtml(params.reportId)}</td></tr>`
+    : "";
+  const reportLink = params.reportId
+    ? `<p style="margin:16px 0 0"><a href="${baseUrl}/report/${encodeURIComponent(params.reportId)}" style="color:#2563eb">View report</a></p>`
+    : "";
+
+  await getResend().emails.send({
+    from,
+    to,
+    replyTo: process.env.EMAIL_REPLY_TO,
+    subject: `[Waitlist] Fee Monitor beta — ${params.email}`,
+    html: `
+      <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px">
+        <h2 style="font-size:18px;color:#111;margin-bottom:16px">New Fee Monitor waitlist signup</h2>
+        <table style="width:100%;border-collapse:collapse;font-size:14px">
+          <tr>
+            <td style="padding:8px 0;color:#666;width:140px">Email</td>
+            <td style="padding:8px 0;font-weight:600;color:#111">${emailSafe}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0;color:#666">Source</td>
+            <td style="padding:8px 0;color:#111">${sourceSafe}</td>
+          </tr>
+          ${reportLine}
+        </table>
+        ${reportLink}
+      </div>
+    `,
+  });
+}

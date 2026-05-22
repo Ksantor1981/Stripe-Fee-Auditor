@@ -130,6 +130,7 @@ Copy `.env.example` to `.env.local` and fill values (see repo root — ignored p
 | `EMAIL_FROM` | From header (domain verified in Resend for prod) |
 | `EMAIL_REPLY_TO` | Reply-To |
 | `FEEDBACK_TO` | Where report feedback form submissions are delivered; defaults to support contact email |
+| `WAITLIST_NOTIFY_TO` | Where Fee Monitor waitlist signups are delivered; defaults to `FEEDBACK_TO` / support contact |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Legal/support footer |
 | `NEXT_PUBLIC_REPORTS_ANALYZED_COUNT` | Optional landing-page social proof count; leave empty if you do not have a real number yet |
 | `REPORT_TOKEN_SALT` | Pepper for access-token hashing (recommended in prod). May double as encryption secret if `CHECKOUT_TOKEN_ENCRYPTION_KEY` is unset (must still be ≥32 characters). |

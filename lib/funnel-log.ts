@@ -42,9 +42,10 @@ export function sanitizeFunnelProps(raw: unknown): Record<string, FunnelPropValu
 }
 
 const EVENT_RE = /^funnel_[a-z0-9_]{1,48}$/;
+const WAITLIST_EVENT_RE = /^waitlist_(view|submit|success)$/;
 
 export function isValidFunnelEventName(name: unknown): name is string {
-  return typeof name === "string" && EVENT_RE.test(name);
+  return typeof name === "string" && (EVENT_RE.test(name) || WAITLIST_EVENT_RE.test(name));
 }
 
 export function logFunnelClientApi(name: string, props: Record<string, FunnelPropValue>): void {

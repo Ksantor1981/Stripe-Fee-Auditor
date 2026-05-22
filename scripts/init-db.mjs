@@ -70,4 +70,19 @@ await sql`CREATE INDEX IF NOT EXISTS idx_reports_access ON reports(id, access_to
 await sql`CREATE INDEX IF NOT EXISTS idx_checkout_sessions_report_id ON checkout_sessions(report_id)`;
 await sql`CREATE INDEX IF NOT EXISTS idx_checkout_sessions_expires ON checkout_sessions(expires_at)`;
 
-console.log("Done. Tables ready: reports, rate_limits, webhook_events, checkout_sessions");
+await sql`
+  CREATE TABLE IF NOT EXISTS monitor_waitlist (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email TEXT NOT NULL UNIQUE,
+    report_id UUID REFERENCES reports(id) ON DELETE SET NULL,
+    source TEXT NOT NULL DEFAULT 'report',
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  )
+`;
+
+await sql`
+  CREATE INDEX IF NOT EXISTS monitor_waitlist_created_at_idx
+  ON monitor_waitlist (created_at DESC)
+`;
+
+console.log("Done. Tables ready: reports, rate_limits, webhook_events, checkout_sessions, monitor_waitlist");
