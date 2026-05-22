@@ -21,6 +21,13 @@ const reportsAnalyzedCount = Number(process.env.NEXT_PUBLIC_REPORTS_ANALYZED_COU
 const hasReportsAnalyzedCount = Number.isFinite(reportsAnalyzedCount) && reportsAnalyzedCount > 0;
 const reportsAnalyzedLabel = new Intl.NumberFormat("en-US").format(reportsAnalyzedCount);
 
+const INDEPENDENT_FEEDBACK = {
+  quote: "Focused single-purpose tool with a compelling privacy differentiator.",
+  name: "Assaf Sheinrok",
+  role: "Founder of PagePulse",
+  href: "https://pagepulse.page",
+};
+
 const HOW_IT_WORKS = [
   {
     step: "1",
@@ -284,6 +291,36 @@ export default function HomePage() {
             {reportsAnalyzedLabel} reports analyzed in beta
           </p>
         )}
+
+        <div className="mt-6 w-full max-w-2xl rounded-2xl border border-slate-200 bg-white px-5 py-4 text-left shadow-sm">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
+            <div
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-900 text-sm font-bold text-white"
+              aria-hidden
+            >
+              “
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+                Independent feedback
+              </p>
+              <p className="mt-1 text-sm leading-relaxed text-gray-700">
+                “{INDEPENDENT_FEEDBACK.quote}”
+              </p>
+              <p className="mt-2 text-xs text-gray-500">
+                {INDEPENDENT_FEEDBACK.name}, {INDEPENDENT_FEEDBACK.role} ·{" "}
+                <a
+                  href={INDEPENDENT_FEEDBACK.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                >
+                  PagePulse
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* vs OAuth — trust comparison */}
