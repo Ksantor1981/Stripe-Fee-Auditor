@@ -77,4 +77,33 @@ if (location?.includes("token=")) {
 }
 console.log("OK   /api/report/access exchanges token without leaking it in redirect URL");
 
-console.log(`\nPost-beta smoke checks passed for ${baseUrl}`);
+const cookie = exchangeRes.headers.get("set-cookie");
+if (!cookie?.includes("sfa_ra_")) {
+  fail("Access exchange should set report access cookie (sfa_ra_*)");
+}
+console.log("OK   access cookie issued");
+
+const reportRes = await fetch(`${baseUrl}/report/${reportId}`, {
+  headers: { Cookie: cookie.split(";")[0] },
+  redirect: "follow",
+});
+if (!reportRes.ok) {
+  fail(`Report page expected 200, got ${reportRes.status}`);
+}
+const html = await reportRes.text();
+if (!html.includes("Unlock Full Report")) {
+  fail("Preview report HTML should include paywall CTA");
+}
+if (html.includes("Fee leak breakdown") || html.includes("Where fees leak")) {
+  fail("Preview HTML should not include paid-only fee leak section");
+}
+console.log("OK   preview HTML shows paywall and hides paid-only sections");
+
+console.log("");
+console.log("Manual Polar + email (FULL_REPORTS_FREE_DURING_BETA=false):");
+console.log("  1. Checkout → Polar sandbox → apply 100% discount code QA100 (or product test mode).");
+console.log("  2. Return URL: /report/{id}?payment=success — no ?token= in address bar.");
+console.log("  3. Page auto-refreshes until paid; CSV export + full sections unlock.");
+console.log("  4. Resend: confirm report email to checkout address (RESEND_API_KEY + verified domain).");
+console.log("");
+console.log(`Post-beta smoke checks passed for ${baseUrl}`);

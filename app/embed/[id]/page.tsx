@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getReportWithAccess } from "@/lib/db";
+import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { resolveReportAccessToken } from "@/lib/report-access-cookie";
 import { fmt$, fmtPct } from "@/lib/format";
 import { periodTotalFees } from "@/lib/fee-period-copy";
@@ -34,6 +35,7 @@ export default async function EmbedReportPage({ params, searchParams }: Props) {
 
   const report = await getReportWithAccess(id, token);
   if (!report?.result) notFound();
+  if (!report.is_paid && !FULL_REPORTS_FREE_DURING_BETA) notFound();
 
   const r = report.result;
   const chargeFees = r.chargeFees;

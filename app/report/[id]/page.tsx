@@ -4,7 +4,7 @@ import { getReportWithAccess } from "@/lib/db";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { resolveReportAccessToken } from "@/lib/report-access-cookie";
 import { getSiteBaseUrl } from "@/lib/site-url";
-import type { AnalysisResult } from "@/lib/fee-analyzer";
+import { toPreviewResult } from "@/lib/report-preview";
 import { ReportShell } from "./_components/ReportShell";
 
 interface Props {
@@ -20,33 +20,6 @@ export async function generateMetadata() {
 }
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-
-function toPreviewResult(result: AnalysisResult): AnalysisResult {
-  const teaserSavings = result.savingsOpportunities?.slice(0, 1).map((opp) => ({
-    ...opp,
-    // Free preview shows one value teaser, but keeps the step-by-step plan gated.
-    steps: undefined,
-  }));
-  const teaserAnomalies = result.annotatedAnomalies?.slice(0, 1);
-
-  return {
-    ...result,
-    // Free preview deliberately contains only the rows the UI is allowed to show.
-    topDrivers: result.topDrivers.slice(0, 3),
-    anomalies: [],
-    annotatedAnomalies: teaserAnomalies ?? [],
-    savingsOpportunities: teaserSavings ?? [],
-    // Keep monthly totals visible so users can reconcile the preview against Stripe before paying.
-    monthly: result.monthly,
-    // Paid-only aggregates can otherwise leak the value of the full report through client props.
-    benchmark: undefined,
-    refundSummary: undefined,
-    transactionBuckets: undefined,
-    geographySummary: undefined,
-    feeMix: undefined,
-    feeLeakBreakdown: undefined,
-  };
-}
 
 export default async function ReportPage({ params, searchParams }: Props) {
   const { id } = await params;

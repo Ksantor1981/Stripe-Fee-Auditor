@@ -11,6 +11,7 @@ import { ReportTrustChecklist } from "./ReportTrustChecklist";
 import { SavingsOpportunities } from "./SavingsOpportunities";
 import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
+import { PaywallBanner } from "./PaywallBanner";
 
 interface Props {
   reportId: string;
@@ -18,7 +19,7 @@ interface Props {
   isPaid: boolean;
 }
 
-export function LowVolumeReport({ result, isPaid }: Props) {
+export function LowVolumeReport({ reportId, result, isPaid }: Props) {
   const { chargeFees, chargeRate, chargeVolume, otherFees, topDrivers, monthly, savingsOpportunities } =
     result;
   const savings = savingsOpportunities ?? [];
@@ -118,7 +119,7 @@ export function LowVolumeReport({ result, isPaid }: Props) {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
-            {topDrivers.slice(0, 5).map((row, i) => (
+            {topDrivers.slice(0, isPaid ? 5 : 3).map((row, i) => (
               <tr key={row.id} className="hover:bg-gray-50/50">
                 <td className="px-5 py-3 text-xs font-bold text-gray-300">{i + 1}</td>
                 <td className="px-5 py-3 text-xs text-gray-600 max-w-[180px]">
@@ -142,6 +143,11 @@ export function LowVolumeReport({ result, isPaid }: Props) {
             ))}
           </tbody>
         </table>
+        {!isPaid && (
+          <div className="p-5 border-t border-gray-50">
+            <PaywallBanner reportId={reportId} />
+          </div>
+        )}
       </div>
 
       {/* No stats disclaimer */}
