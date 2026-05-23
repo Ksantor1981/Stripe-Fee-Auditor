@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const TRUST_SIGNALS = [
   { icon: "✓", label: "No Stripe API access" },
   { icon: "✓", label: "Raw CSV never stored" },
-  { icon: "✓", label: "No account required" },
+  { icon: "✓", label: "No account signup" },
   { icon: "✓", label: "Usually under 30 seconds" },
 ];
 
@@ -87,7 +87,8 @@ const OAUTH_COMPARISON = [
   },
   {
     aspect: "Typical cost",
-    ours: "Free in beta · $12 one-time per report after",
+    oursBeta: "Free in beta · $12 one-time per report after",
+    oursLaunch: "$12 one-time per report · free preview first",
     theirs: "$39–149/mo subscriptions",
   },
 ] as const;
@@ -361,18 +362,25 @@ export default function HomePage() {
               <div className="border-l border-slate-200 px-4 py-2.5 text-center text-[11px] font-medium text-slate-500 sm:text-xs sm:uppercase">OAuth-based tools</div>
             </div>
 
-            {OAUTH_COMPARISON.map(({ aspect, ours, theirs }, index) => (
+            {OAUTH_COMPARISON.map((row, index) => {
+              const ours =
+                "oursBeta" in row
+                  ? FULL_REPORTS_FREE_DURING_BETA
+                    ? row.oursBeta
+                    : row.oursLaunch
+                  : row.ours;
+              return (
               <div
-                key={aspect}
+                key={row.aspect}
                 className={`border-t border-slate-100 sm:grid sm:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_minmax(0,1fr)] ${
                   index === 0 ? "border-t-0 sm:border-t" : ""
                 }`}
               >
                 <div className="bg-slate-50/80 px-4 py-3 font-medium text-gray-800 sm:bg-transparent">
                   <span className="sm:hidden text-xs font-semibold uppercase tracking-wide text-slate-400">
-                    {aspect}
+                    {row.aspect}
                   </span>
-                  <span className="block sm:inline">{aspect}</span>
+                  <span className="block sm:inline">{row.aspect}</span>
                 </div>
                 <div className="border-t border-slate-100 bg-blue-50/50 px-4 py-3 sm:border-t-0 sm:border-l sm:border-slate-200">
                   <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-blue-700 sm:sr-only">
@@ -389,10 +397,11 @@ export default function HomePage() {
                   <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-400 sm:sr-only">
                     OAuth-based tools
                   </p>
-                  <p>{theirs}</p>
+                  <p>{row.theirs}</p>
                 </div>
               </div>
-            ))}
+            );
+            })}
           </div>
         </div>
       </section>
@@ -508,9 +517,19 @@ export default function HomePage() {
             When a fee audit is useful — and when to skip it
           </h2>
           <p className="mx-auto mb-8 max-w-2xl text-center text-sm leading-relaxed text-gray-500">
-            During beta, the full report is free. After beta, the paid unlock is meant for founders
-            who want more than a blended-rate formula: line-level drivers, refund leakage, monthly
-            detail, exports, and specific savings ideas.
+            {FULL_REPORTS_FREE_DURING_BETA ? (
+              <>
+                During beta, the full report is free. After beta, the paid unlock is meant for founders
+                who want more than a blended-rate formula: line-level drivers, refund leakage, monthly
+                detail, exports, and specific savings ideas.
+              </>
+            ) : (
+              <>
+                Start with a free preview — headline rate, top drivers, and a teaser. The $12 unlock is
+                for founders who want line-level drivers, refund leakage, monthly detail, exports, and
+                specific savings ideas.
+              </>
+            )}
           </p>
           <div className="grid gap-4 sm:grid-cols-2">
             {DECISION_GUIDE.map((group) => (
@@ -565,15 +584,21 @@ export default function HomePage() {
           </p>
           <h2 className="mb-12 text-center text-2xl font-bold text-gray-900">Three steps to clarity</h2>
           <div className="grid gap-6 sm:grid-cols-3">
-            {HOW_IT_WORKS.map(({ step, title, body }) => (
+            {HOW_IT_WORKS.map(({ step, title, body }) => {
+              const stepBody =
+                step === "2" && !FULL_REPORTS_FREE_DURING_BETA
+                  ? "Raw CSV is never stored. Upload once for a free preview immediately — no card required. Unlock the full report for $12 when you want anomalies, exports, and savings actions."
+                  : body;
+              return (
               <div key={step} className="relative rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
                 <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">
                   {step}
                 </div>
                 <h3 className="mb-1.5 font-semibold text-gray-900">{title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{body}</p>
+                <p className="text-sm text-gray-500 leading-relaxed">{stepBody}</p>
               </div>
-            ))}
+            );
+            })}
           </div>
           <div className="mt-10 text-center">
             <TrackedLink
@@ -583,7 +608,7 @@ export default function HomePage() {
               funnelProps={{ placement: "footer" }}
               className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow hover:bg-blue-700 transition-colors"
             >
-              Get Started — It&apos;s Free
+              {FULL_REPORTS_FREE_DURING_BETA ? "Get Started — It&apos;s Free" : "Get Started — Free Preview"}
             </TrackedLink>
           </div>
         </div>
@@ -599,24 +624,44 @@ export default function HomePage() {
             Simple access to your report
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl border-2 border-emerald-200 bg-emerald-50/80 p-6 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 mb-1">During beta</p>
-              <p className="text-2xl font-bold text-gray-900 mb-2">Full report — free</p>
-              <p className="text-sm text-emerald-900/90 leading-relaxed">
-                Anomalies, savings ideas, exports, and dashboard charts while beta lasts. Private link with automatic expiry — see Terms.
-              </p>
-            </div>
-            <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">After beta</p>
-              <p className="text-2xl font-bold text-gray-900 mb-2">$12 one-time unlock</p>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                Pay once to open the full analysis for one upload for 30 days: all unusual charges,
-                savings opportunities, monthly detail, CSV export, and print-ready report.
-              </p>
-              <p className="mt-3 text-xs text-gray-400">
-                Refund available if payment succeeds but the report does not unlock.
-              </p>
-            </div>
+            {FULL_REPORTS_FREE_DURING_BETA ? (
+              <>
+                <div className="rounded-2xl border-2 border-emerald-200 bg-emerald-50/80 p-6 shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 mb-1">During beta</p>
+                  <p className="text-2xl font-bold text-gray-900 mb-2">Full report — free</p>
+                  <p className="text-sm text-emerald-900/90 leading-relaxed">
+                    Anomalies, savings ideas, exports, and dashboard charts while beta lasts. Private link with automatic expiry — see Terms.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">After launch</p>
+                  <p className="text-2xl font-bold text-gray-900 mb-2">Free preview + $12 unlock</p>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    Preview first, then pay once to open the full analysis for one upload for 30 days.
+                  </p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Free preview</p>
+                  <p className="text-2xl font-bold text-gray-900 mb-2">No card required</p>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    Headline processing and all-in rates, top fee drivers, monthly timeline, and a teaser — enough to reconcile against Stripe before you pay.
+                  </p>
+                </div>
+                <div className="rounded-2xl border-2 border-blue-200 bg-blue-50/80 p-6 shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-blue-700 mb-1">Full report</p>
+                  <p className="text-2xl font-bold text-gray-900 mb-2">$12 one-time</p>
+                  <p className="text-sm text-blue-900/90 leading-relaxed">
+                    All unusual charges with explanations, savings actions, monthly detail, CSV export, and print-ready report — private link for 30 days.
+                  </p>
+                  <p className="mt-3 text-xs text-gray-500">
+                    Refund available if payment succeeds but the report does not unlock.
+                  </p>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </section>

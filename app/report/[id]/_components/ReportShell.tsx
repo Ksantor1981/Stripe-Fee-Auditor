@@ -50,15 +50,24 @@ export function ReportShell({
   const paymentSuccessTracked = useRef(false);
 
   useEffect(() => {
-    if (paymentSuccessTracked.current || !isPaid) return;
+    if (typeof window === "undefined") return;
+
+    const params = new URLSearchParams(window.location.search);
     const fromCheckout =
-      paymentPending ||
-      (typeof window !== "undefined" &&
-        new URLSearchParams(window.location.search).get("payment") === "success");
+      params.get("payment") === "success" || params.has("checkout_id");
     if (!fromCheckout) return;
-    paymentSuccessTracked.current = true;
-    trackEvent("funnel_payment_success", { source: paymentPending ? "webhook_poll" : "immediate" });
-  }, [isPaid, paymentPending]);
+
+    if (isPaid && !paymentSuccessTracked.current) {
+      paymentSuccessTracked.current = true;
+      trackEvent("funnel_payment_success", {
+        source: paymentPending ? "webhook_poll" : "immediate",
+      });
+    }
+
+    if (isPaid) {
+      router.replace(`/report/${reportId}`, { scroll: false });
+    }
+  }, [isPaid, paymentPending, reportId, router]);
 
   useEffect(() => {
     if (!paymentPending || hasFullAccess) return;

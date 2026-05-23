@@ -72,7 +72,10 @@ export function PaywallBanner({ reportId, email }: Props) {
 
       {/* Confirmation modal */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-md p-0 overflow-hidden">
+        <DialogContent
+          className="max-w-md p-0 overflow-hidden"
+          closeButtonClassName="z-10 text-white hover:bg-white/15 hover:text-white"
+        >
           <div className="bg-gray-900 px-6 py-5">
             <h2 className="text-lg font-bold text-white">Get Full Report</h2>
             <p className="text-sm text-gray-400 mt-1">
