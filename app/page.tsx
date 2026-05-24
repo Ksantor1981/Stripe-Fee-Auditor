@@ -212,6 +212,13 @@ export default function HomePage() {
         </Link>
         <div className="flex items-center gap-4">
           <TrackedLink
+            href="/monitor"
+            funnelEvent="funnel_landing_cta"
+            funnelProps={{ placement: "nav_monitor" }}
+            className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            Fee Monitor
+          </TrackedLink>          <TrackedLink
             href="/blog"
             funnelEvent="funnel_nav_blog"
             funnelProps={{ placement: "nav" }}
@@ -614,6 +621,46 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Fee Monitor waitlist */}
+      <section id="monitor" className="bg-slate-950 px-4 py-16 text-white scroll-mt-14">
+        <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-center">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-blue-300">Next: Fee Monitor</p>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight">
+              Want to know when your fee rate gets worse next month?
+            </h2>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-slate-300">
+              We are validating monthly Stripe fee monitoring without OAuth: private report history,
+              month-over-month comparisons, and reminders from CSV exports you control.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <ul className="space-y-3 text-sm text-slate-200">
+              <li className="flex gap-2">
+                <span className="text-blue-300">✓</span>
+                <span>Compare this month vs your previous CSV audit</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-blue-300">✓</span>
+                <span>Get a reminder when it is time to check fees again</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-blue-300">✓</span>
+                <span>No permanent Stripe connection in the first version</span>
+              </li>
+            </ul>
+            <TrackedLink
+              href="/monitor"
+              utm={{ source: "landing", medium: "cta", campaign: "monitor_waitlist" }}
+              funnelEvent="funnel_landing_cta"
+              funnelProps={{ placement: "monitor_section" }}
+              className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-blue-50"
+            >
+              Join Fee Monitor waitlist →
+            </TrackedLink>
+          </div>
+        </div>
+      </section>
       {/* Pricing */}
       <section id="pricing" className="px-4 py-16 bg-white scroll-mt-14">
         <div className="mx-auto max-w-3xl">
@@ -697,6 +744,8 @@ export default function HomePage() {
           <Link href="/refund" className="underline hover:text-gray-600">Refund Policy</Link>
         </p>
         <p className="flex justify-center gap-3 flex-wrap">
+          <Link href="/monitor" className="hover:underline">Fee Monitor</Link>
+          <span>·</span>
           <Link href="/stripe-fee-calculator" className="hover:underline">Stripe fee calculator</Link>
           <span>·</span>
           <Link href="/stripe-balance-csv" className="hover:underline">Stripe Balance CSV</Link>

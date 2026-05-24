@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   },
   title: "Stripe Fee Auditor — See Your Real Stripe Fee Rate",
   description:
-    "Upload your Stripe Balance CSV and instantly see your effective fee rate, fee drivers, and savings opportunities. No account required. CSV files are not stored.",
+    "Upload your Stripe Balance CSV and instantly see your effective fee rate, fee drivers, and savings opportunities. No OAuth. No account signup. Raw CSV files are not stored.",
   alternates: {
     canonical: "/",
   },
