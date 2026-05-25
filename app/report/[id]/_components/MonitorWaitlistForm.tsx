@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { trackEvent } from "@/lib/analytics";
 
+const REPORT_WAITLIST_ANALYTICS = { source: "report" as const };
+
 export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -13,8 +15,8 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
   useEffect(() => {
     if (viewTracked.current) return;
     viewTracked.current = true;
-    trackEvent("waitlist_view", { report_id: reportId });
-  }, [reportId]);
+    trackEvent("waitlist_view", REPORT_WAITLIST_ANALYTICS);
+  }, []);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -22,7 +24,7 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
 
     setError(null);
     setLoading(true);
-    trackEvent("waitlist_submit", { report_id: reportId });
+    trackEvent("waitlist_submit", REPORT_WAITLIST_ANALYTICS);
 
     try {
       const res = await fetch("/api/waitlist", {
@@ -37,7 +39,7 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
         return;
       }
 
-      trackEvent("waitlist_success", { report_id: reportId });
+      trackEvent("waitlist_success", REPORT_WAITLIST_ANALYTICS);
       setSubmitted(true);
     } catch {
       setError("Something went wrong. Try again.");

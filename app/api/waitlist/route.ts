@@ -75,10 +75,7 @@ export async function POST(req: NextRequest) {
   });
 
   if (result === "inserted") {
-    logFunnelServer("waitlist_signup", {
-      report_id: reportId || "",
-      source,
-    });
+    logFunnelServer("waitlist_signup", { source });
 
     try {
       await sendWaitlistNotifyEmail({ email, reportId: reportId || null, source });

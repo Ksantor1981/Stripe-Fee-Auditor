@@ -3,7 +3,7 @@
  * Run: npx tsx tests/test-algorithm.ts
  */
 
-import { normalizeRow, validateColumns } from "../lib/csv-parser";
+import { normalizeRow, validateColumns, type NormalizedRow } from "../lib/csv-parser";
 import { analyze, redactAnalysisResultForStorage } from "../lib/fee-analyzer";
 
 // ─── Test runner ──────────────────────────────────────────────────────────────
@@ -200,7 +200,7 @@ test("throws on invalid date", () => {
 
 console.log("\n📋 fee-analyzer / analyze");
 
-function makeCharges(n: number, month = "2024-01", feeOverride?: number) {
+function makeCharges(n: number, month = "2024-01", feeOverride?: number): NormalizedRow[] {
   return Array.from({ length: n }, (_, i) => ({
     id: `ch_${month}_${i}`,
     type: "charge" as const,
