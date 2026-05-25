@@ -30,7 +30,9 @@ export function FirstActionCallout({ opportunity }: Props) {
             <p className="text-lg font-bold text-emerald-700">
               up to ~{fmt$(opportunity.annualSavings)}/yr
             </p>
-            <p className="text-xs text-gray-400">directional estimate</p>
+            <p className="text-xs text-gray-400">
+              {opportunity.annualSavingsNote ?? "directional estimate"}
+            </p>
           </div>
         )}
       </div>
@@ -39,6 +41,7 @@ export function FirstActionCallout({ opportunity }: Props) {
         {opportunity.periodLoss != null && opportunity.periodLoss > 0 && (
           <span className="rounded-full bg-white px-3 py-1 text-xs font-medium text-amber-800">
             ~{fmt$(opportunity.periodLoss)} potential cost in this export
+            {opportunity.periodLossNote ? ` (${opportunity.periodLossNote})` : ""}
           </span>
         )}
         <span className="rounded-full bg-white px-3 py-1 text-xs font-medium text-gray-500">

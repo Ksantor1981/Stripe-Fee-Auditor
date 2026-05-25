@@ -74,6 +74,11 @@ export function SavingsOpportunities({ opportunities }: Props) {
                 </div>
                 <div className="text-right shrink-0">
                   <p className="text-sm font-bold text-emerald-700">potential ~{fmt$(opp.annualSavings)}/yr</p>
+                  {opp.annualSavingsNote && (
+                    <p className="text-[11px] text-gray-500 mt-0.5 max-w-[11rem] ml-auto leading-snug">
+                      {opp.annualSavingsNote}
+                    </p>
+                  )}
                   <span className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full mt-1 ${style.badge}`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${style.dot}`} />
                     {confidence} confidence
@@ -83,7 +88,8 @@ export function SavingsOpportunities({ opportunities }: Props) {
 
               {opp.periodLoss != null && opp.periodLoss > 0 && (
                 <p className="text-xs font-medium text-amber-800 ml-7 mb-2">
-                  ~{fmt$(opp.periodLoss)} potential cost in this export period (estimate)
+                  ~{fmt$(opp.periodLoss)} potential cost in this export period
+                  {opp.periodLossNote ? ` (${opp.periodLossNote})` : " (estimate)"}
                 </p>
               )}
 

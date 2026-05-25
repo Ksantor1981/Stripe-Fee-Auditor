@@ -42,6 +42,10 @@ export interface SavingsOpportunity {
   actionUrl?: string;
   /** Estimated loss in the export period (for Problem → Loss copy). */
   periodLoss?: number;
+  /** Optional scope label for periodLoss (e.g. full-switch vs partial). */
+  periodLossNote?: string;
+  /** Optional scope label for annualSavings (e.g. switching share assumption). */
+  annualSavingsNote?: string;
 }
 
 /** Pre-aggregated domestic vs international charge mix for report UI (no raw rows). */
@@ -174,7 +178,12 @@ function searchableText(row: NormalizedRow): string {
 function isInternationalLike(row: NormalizedRow): boolean {
   if (row.cardCountry && row.cardCountry.toUpperCase() !== "US") return true;
   const text = searchableText(row);
-  return text.includes("[international]") || text.includes("international") || text.includes("cross-border");
+  return (
+    text.includes("[international]") ||
+    text.includes("cross-border") ||
+    text.includes("cross border") ||
+    /\binternational (card|fee|payment|charge)\b/.test(text)
+  );
 }
 
 function isAchLike(row: NormalizedRow): boolean {
@@ -515,8 +524,10 @@ function buildSavingsOpportunities(
       opportunities.push({
         title: "Large invoices still on cards — ACH is cheaper",
         periodLoss: roundMoney(savings),
+        periodLossNote: "if every eligible invoice moved from card to ACH this period",
         annualSavings,
-        tip: `${largeCardCharges.length} charges over $500 on cards. ACH is ~0.8% (max $5) vs card pricing. Estimate assumes ~${Math.round(ACH_SWITCHING_SHARE_ASSUMPTION * 100)}% could switch.`,
+        annualSavingsNote: `if ~${Math.round(ACH_SWITCHING_SHARE_ASSUMPTION * 100)}% of eligible large invoices switch`,
+        tip: `${largeCardCharges.length} charges over $500 on cards. ACH is ~0.8% (max $5) vs card pricing. Annual figure uses a conservative switching share, not a full migration.`,
         confidence: "high",
         actionLabel: "Enable ACH in Stripe",
         actionUrl: "https://dashboard.stripe.com/settings/payment_methods",
@@ -748,7 +759,10 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
   let anomalies: NormalizedRow[] = [];
 
   if (mode === "low-volume") {
-    topDrivers = [...charges].sort((a, b) => b.fee / b.amount - a.fee / a.amount).slice(0, 5);
+    topDrivers = [...charges]
+      .filter((c) => c.amount > 0)
+      .sort((a, b) => b.fee / b.amount - a.fee / a.amount)
+      .slice(0, 5);
   } else {
     const rates =
       mode === "single-month"

@@ -476,6 +476,79 @@ test("stdDev=0 case — threshold equals avg, all charges become anomalies", () 
   assert(typeof r.anomalies.length === "number", "anomalies should be array");
 });
 
+test("does not classify International shipping text as cross-border card", () => {
+  const charges = makeCharges(55, "2024-01", 3.0);
+  charges.push({
+    id: "ch_shipping_label",
+    type: "charge",
+    amount: 120,
+    fee: 3.78,
+    net: 116.22,
+    currency: "USD",
+    date: "2024-01-20",
+    month: "2024-01",
+    description: "International shipping upgrade",
+    cardCountry: "US",
+  });
+  const r = analyze(charges);
+  assert(
+    (r.geographySummary?.internationalCount ?? 0) === 0,
+    "domestic card with shipping copy should not count as international"
+  );
+});
+
+test("low-volume top drivers ignore zero-amount charges", () => {
+  const rows = [
+    ...makeCharges(10, "2024-01", 3.0),
+    {
+      id: "ch_zero",
+      type: "charge" as const,
+      amount: 0,
+      fee: 0.3,
+      net: -0.3,
+      currency: "USD",
+      date: "2024-01-15",
+      month: "2024-01",
+    },
+    {
+      id: "ch_high_rate",
+      type: "charge" as const,
+      amount: 5,
+      fee: 0.45,
+      net: 4.55,
+      currency: "USD",
+      date: "2024-01-16",
+      month: "2024-01",
+    },
+  ];
+  const r = analyze(rows);
+  assert(r.mode === "low-volume", "fixture should stay low-volume");
+  assert(!r.topDrivers.some((d) => d.id === "ch_zero"), "zero-amount row should be excluded");
+  assert(r.topDrivers[0]?.id === "ch_high_rate", "highest fee-rate charge should rank first");
+});
+
+test("ACH savings labels distinguish full-period vs partial annual estimate", () => {
+  const charges = [
+    ...makeCharges(40, "2024-01", 3.0),
+    {
+      id: "ch_large",
+      type: "charge" as const,
+      amount: 2000,
+      fee: 58.3,
+      net: 1941.7,
+      currency: "USD",
+      date: "2024-01-20",
+      month: "2024-01",
+      paymentMethodType: "card",
+    },
+  ];
+  const r = analyze(charges);
+  const ach = r.savingsOpportunities?.find((o) => o.title.includes("ACH"));
+  assert(Boolean(ach), "large card charge should surface ACH opportunity");
+  assert(Boolean(ach?.periodLossNote?.includes("every eligible")), "period loss note should explain full-switch scope");
+  assert(Boolean(ach?.annualSavingsNote?.includes("20%")), "annual note should explain switching share");
+});
+
 // ─── Summary ──────────────────────────────────────────────────────────────────
 
 console.log(`\n${"─".repeat(50)}`);
