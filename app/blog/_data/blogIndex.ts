@@ -15,6 +15,14 @@ export type BlogIndexEntry = {
 /** Fee / optimization articles under /blog/* (static page.tsx per slug). */
 export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
   {
+    slug: "stripe-fee-audit-checklist-for-saas-founders",
+    path: "/blog/stripe-fee-audit-checklist-for-saas-founders",
+    title: "Stripe Fee Audit Checklist for SaaS Founders",
+    desc: "A practical monthly Stripe fee audit checklist: effective rate, Balance CSV, international cards, refunds, small charges, and what to compare over time.",
+    time: "8 min",
+    sitemapPriority: 0.77,
+  },
+  {
     slug: "stripe-fee-leakage-report-may-2026",
     path: "/blog/stripe-fee-leakage-report-may-2026",
     title: "Stripe Fee Leakage Report: Who Is Safe?",
