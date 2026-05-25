@@ -98,10 +98,10 @@ export function ReportShell({
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Nav */}
-      <header className="bg-white border-b px-6 py-4">
-        <div className="mx-auto max-w-4xl flex items-center justify-between">
-          <a href="/" className="text-sm font-semibold text-gray-900">Stripe Fee Auditor</a>
-          <div className="flex items-center gap-3">
+      <header className="bg-white border-b px-4 py-4 sm:px-6">
+        <div className="mx-auto max-w-4xl flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <a href="/" className="text-sm font-semibold text-gray-900 shrink-0">Stripe Fee Auditor</a>
+          <div className="flex flex-wrap items-center gap-2 sm:justify-end sm:gap-3">
             {exportsEnabled && (
               <>
                 <a

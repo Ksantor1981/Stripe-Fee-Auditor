@@ -107,42 +107,44 @@ export function LowVolumeReport({ reportId, result, isPaid }: Props) {
           <h2 className="text-sm font-semibold text-gray-700">Top 5 Highest-Fee Transactions</h2>
           <p className="text-xs text-gray-400 mt-0.5">Ranked by fee rate (fee / amount)</p>
         </div>
-        <table className="min-w-full text-sm">
-          <thead>
-            <tr className="bg-gray-50 border-b border-gray-100">
-              <th className="px-5 py-3 text-left text-xs font-medium text-gray-500">#</th>
-              <th className="px-5 py-3 text-left text-xs font-medium text-gray-500">Transaction</th>
-              <th className="px-5 py-3 text-left text-xs font-medium text-gray-500">Date</th>
-              <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">Amount</th>
-              <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">Fee</th>
-              <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">Rate</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-50">
-            {topDrivers.slice(0, isPaid ? 5 : 3).map((row, i) => (
-              <tr key={row.id} className="hover:bg-gray-50/50">
-                <td className="px-5 py-3 text-xs font-bold text-gray-300">{i + 1}</td>
-                <td className="px-5 py-3 text-xs text-gray-600 max-w-[180px]">
-                  <div className="truncate font-medium text-gray-800">{transactionPrimaryLabel(row)}</div>
-                  <div className="truncate text-[11px] text-gray-400">
-                    {row.description?.trim()
-                      ? row.id
-                      : [row.reportingCategory, row.paymentMethodType].filter(Boolean).join(" · ") ||
-                        `Ref ${row.id.slice(0, 18)}…`}
-                  </div>
-                </td>
-                <td className="px-5 py-3 text-xs text-gray-500">{fmtDate(row.date)}</td>
-                <td className="px-5 py-3 text-right text-gray-700">{fmt$(row.amount)}</td>
-                <td className="px-5 py-3 text-right font-semibold text-gray-900">{fmt$(row.fee)}</td>
-                <td className="px-5 py-3 text-right">
-                  <Badge className="bg-orange-50 text-orange-700 text-xs">
-                    {row.amount > 0 ? fmtPct((row.fee / row.amount) * 100) : "—"}
-                  </Badge>
-                </td>
+        <div className="overflow-x-auto">
+          <table className="min-w-[640px] w-full text-sm">
+            <thead>
+              <tr className="bg-gray-50 border-b border-gray-100">
+                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500">#</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500">Transaction</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500">Date</th>
+                <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">Amount</th>
+                <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">Fee</th>
+                <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">Rate</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-gray-50">
+              {topDrivers.slice(0, isPaid ? 5 : 3).map((row, i) => (
+                <tr key={row.id} className="hover:bg-gray-50/50">
+                  <td className="px-5 py-3 text-xs font-bold text-gray-300">{i + 1}</td>
+                  <td className="px-5 py-3 text-xs text-gray-600 max-w-[180px]">
+                    <div className="truncate font-medium text-gray-800">{transactionPrimaryLabel(row)}</div>
+                    <div className="truncate text-[11px] text-gray-400">
+                      {row.description?.trim()
+                        ? row.id
+                        : [row.reportingCategory, row.paymentMethodType].filter(Boolean).join(" · ") ||
+                          `Ref ${row.id.slice(0, 18)}…`}
+                    </div>
+                  </td>
+                  <td className="px-5 py-3 text-xs text-gray-500 whitespace-nowrap">{fmtDate(row.date)}</td>
+                  <td className="px-5 py-3 text-right text-gray-700 whitespace-nowrap">{fmt$(row.amount)}</td>
+                  <td className="px-5 py-3 text-right font-semibold text-gray-900 whitespace-nowrap">{fmt$(row.fee)}</td>
+                  <td className="px-5 py-3 text-right whitespace-nowrap">
+                    <Badge className="bg-orange-50 text-orange-700 text-xs">
+                      {row.amount > 0 ? fmtPct((row.fee / row.amount) * 100) : "—"}
+                    </Badge>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         {!isPaid && (
           <div className="p-5 border-t border-gray-50">
             <PaywallBanner reportId={reportId} />

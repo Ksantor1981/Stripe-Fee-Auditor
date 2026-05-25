@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LandingFaq } from "@/components/LandingFaq";
+import { LandingNav } from "@/components/LandingNav";
 import { TrackedLink } from "@/components/TrackedLink";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 
@@ -205,38 +206,7 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Nav */}
-      <nav className="flex items-center justify-between gap-4 px-6 py-4 max-w-5xl mx-auto">
-        <Link href="/" className="font-bold text-gray-900 text-lg hover:text-gray-700 transition-colors">
-          Stripe Fee Auditor
-        </Link>
-        <div className="flex items-center gap-4">
-          <TrackedLink
-            href="/monitor"
-            funnelEvent="funnel_landing_cta"
-            funnelProps={{ placement: "nav_monitor" }}
-            className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
-          >
-            Fee Monitor
-          </TrackedLink>          <TrackedLink
-            href="/blog"
-            funnelEvent="funnel_nav_blog"
-            funnelProps={{ placement: "nav" }}
-            className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
-          >
-            Blog
-          </TrackedLink>
-          <TrackedLink
-            href="/analyze"
-            utm={{ source: "landing", medium: "nav", campaign: "header_cta" }}
-            funnelEvent="funnel_landing_cta"
-            funnelProps={{ placement: "nav" }}
-            className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 transition-colors"
-          >
-            Analyze My Fees
-          </TrackedLink>
-        </div>
-      </nav>
+      <LandingNav />
 
       {/* Hero — Problem */}
       <section id="problem" className="flex flex-col items-center justify-center px-4 py-20 text-center scroll-mt-14">
