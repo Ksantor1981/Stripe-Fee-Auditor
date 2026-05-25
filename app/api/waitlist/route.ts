@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { consumeIpRequest, insertMonitorWaitlistSignup } from "@/lib/db";
-import { sendWaitlistNotifyEmail } from "@/lib/email";
+import { sendWaitlistConfirmationEmail, sendWaitlistNotifyEmail } from "@/lib/email";
 import { logFunnelServer } from "@/lib/funnel-log";
 import { getTrustedClientIp } from "@/lib/request-ip";
 import { isValidWaitlistEmail, normalizeWaitlistEmail } from "@/lib/waitlist";
@@ -87,5 +87,11 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({ ok: true });
+  try {
+    await sendWaitlistConfirmationEmail({ email, source, status: result });
+  } catch (err) {
+    console.error("[waitlist] Confirmation email failed:", err);
+  }
+
+  return NextResponse.json({ ok: true, status: result });
 }

@@ -51,7 +51,7 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
       <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-6 text-center">
         <p className="font-semibold text-emerald-900">You&apos;re on the list.</p>
         <p className="text-sm text-emerald-700 mt-1">
-          We&apos;ll email you when Fee Monitor beta opens.
+          Check your inbox for a confirmation. We&apos;ll email you again when Fee Monitor beta opens.
         </p>
       </div>
     );
@@ -66,8 +66,7 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
         Want to know if this rate gets worse next month?
       </h3>
       <p className="text-sm text-gray-600 mb-4">
-        Join the beta list. We&apos;ll email you when report history and month-over-month
-        comparisons are ready.
+        Fee Monitor will keep a private history of your CSV-based audits and compare each new upload with the previous one. No OAuth; you stay in control of every export.
       </p>
 
       <form onSubmit={submit} className="flex flex-col sm:flex-row gap-3">
@@ -90,6 +89,9 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
       </form>
 
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+      <p className="mt-3 text-xs text-gray-500">
+        Curious first? <a href="/monitor" className="text-blue-600 hover:underline">See what we are validating</a>.
+      </p>
     </div>
   );
 }

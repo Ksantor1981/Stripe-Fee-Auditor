@@ -132,3 +132,53 @@ export async function sendWaitlistNotifyEmail(params: {
     `,
   });
 }
+
+export async function sendWaitlistConfirmationEmail(params: {
+  email: string;
+  source?: string;
+  status?: "inserted" | "duplicate";
+}): Promise<void> {
+  if (!process.env.RESEND_API_KEY) {
+    console.log(`[email] RESEND_API_KEY not set, skipping waitlist confirmation for ${params.email}`);
+    return;
+  }
+
+  const from = process.env.EMAIL_FROM ?? DEFAULT_EMAIL_FROM;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? DEFAULT_BASE_URL;
+  const monitorUrl = new URL("/monitor", baseUrl);
+  const analyzeUrl = new URL("/analyze", baseUrl);
+  const isDuplicate = params.status === "duplicate";
+
+  await getResend().emails.send({
+    from,
+    to: params.email,
+    replyTo: process.env.EMAIL_REPLY_TO,
+    subject: isDuplicate
+      ? "You're already on the Fee Monitor early list · feeauditor.com"
+      : "You're on the Fee Monitor early list · feeauditor.com",
+    html: `
+      <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px">
+        <h1 style="font-size:20px;color:#111;margin:0 0 12px">
+          ${isDuplicate ? "You're already on the Fee Monitor early list." : "You're on the Fee Monitor early list."}
+        </h1>
+        <p style="color:#555;font-size:14px;line-height:1.6;margin:0 0 16px">
+          Fee Monitor is the next step for Stripe Fee Auditor: private report history,
+          month-over-month comparisons, and monthly reminders without permanent Stripe OAuth access.
+        </p>
+        <p style="color:#555;font-size:14px;line-height:1.6;margin:0 0 16px">
+          We'll email you again when early access opens. Until then, you can still run a
+          one-time Stripe Balance CSV audit whenever you need it.
+        </p>
+        <a href="${analyzeUrl.toString()}"
+           style="display:inline-block;margin:8px 0 16px;padding:12px 20px;background:#2563eb;color:#fff;border-radius:8px;font-weight:600;text-decoration:none;font-size:14px">
+          Analyze a Stripe CSV
+        </a>
+        <p style="color:#888;font-size:12px;line-height:1.5;margin-top:16px">
+          You received this because this email was submitted on
+          <a href="${monitorUrl.toString()}" style="color:#2563eb">Fee Monitor</a>.
+          Questions? Reply to this email.
+        </p>
+      </div>
+    `,
+  });
+}

@@ -60,7 +60,7 @@ export function FeeMonitorWaitlistForm({
       <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-6 text-center">
         <p className="font-semibold text-emerald-950">You are on the early list.</p>
         <p className="mt-1 text-sm leading-relaxed text-emerald-700">
-          We will email you when private report history and monthly comparisons open.
+          Check your inbox for a confirmation. We will email you again when private report history and monthly comparisons open.
         </p>
       </div>
     );
