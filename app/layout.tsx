@@ -1,8 +1,19 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { buildOgImageUrl } from "@/lib/seo-og";
 
 const siteUrl = (process.env.NEXT_PUBLIC_BASE_URL ?? "https://feeauditor.com").replace(/\/$/, "");
-const ogImageUrl = `${siteUrl}/og-image.png`;
+
+// Dynamic OG via /api/og — avoids shipping the 1.4 MB static og-image.png as
+// the global fallback and keeps social previews consistent with blog OG images.
+const ogImageUrl = buildOgImageUrl({
+  title: "See your real Stripe fee rate",
+  eyebrow: "Stripe Fee Auditor",
+});
+
+// Add your Google Search Console verification code to
+// NEXT_PUBLIC_GSC_VERIFICATION in Vercel env variables.
+const gscVerification = process.env.NEXT_PUBLIC_GSC_VERIFICATION?.trim() || undefined;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -11,14 +22,20 @@ export const metadata: Metadata = {
       { url: "/favicon.ico" },
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
     ],
+    apple: "/favicon-32.png",
     shortcut: "/favicon.ico",
   },
+  manifest: "/manifest.json",
   title: "Stripe Fee Auditor — See Your Real Stripe Fee Rate",
   description:
     "Upload your Stripe Balance CSV and instantly see your effective fee rate, fee drivers, and savings opportunities. No OAuth. No account signup. Raw CSV files are not stored.",
   alternates: {
     canonical: "/",
+    types: {
+      "application/rss+xml": `${siteUrl}/feed.xml`,
+    },
   },
+  ...(gscVerification ? { verification: { google: gscVerification } } : {}),
   openGraph: {
     title: "Stripe Fee Auditor",
     description: "See your real effective Stripe fee rate from your Balance CSV. No OAuth. Raw CSV is not stored as a file.",

@@ -6,6 +6,7 @@ import {
   SEO_LANDING_ENTRIES,
 } from "./_data/blogIndex";
 import { buildOgImageUrl } from "@/lib/seo-og";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 const title = "Blog — Stripe Fee Auditor";
 const description = "Guides on understanding and reducing your Stripe fees.";
@@ -36,9 +37,7 @@ export default function BlogIndex() {
   return (
     <main className="min-h-screen bg-white">
       <div className="mx-auto max-w-2xl px-4 py-16">
-        <Link href="/" className="text-sm text-blue-600 hover:underline">
-          ← Home
-        </Link>
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog" }]} />
         <h1 className="mt-4 text-3xl font-bold text-gray-900">Blog</h1>
         <p className="mt-2 text-gray-500">Guides on Stripe fees, optimization, and privacy-first audits.</p>
 

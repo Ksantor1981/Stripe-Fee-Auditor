@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
 import { getPrivacyArticle, PRIVACY_ARTICLES } from "../_data/privacyPosts";
@@ -105,7 +106,13 @@ export default async function PrivacyArticlePage({ params }: Props) {
       <JsonLd data={breadcrumbJsonLd} />
 
       <article className="mx-auto max-w-2xl px-4 py-16">
-        <Link href="/blog" className="text-sm text-blue-600 hover:underline">← Blog</Link>
+        <Breadcrumbs
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Blog", href: "/blog" },
+            { label: post.shortTitle },
+          ]}
+        />
 
         <div className="mt-5 flex flex-wrap items-center gap-2 text-xs text-gray-400">
           <span>{post.time} read</span>

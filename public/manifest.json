@@ -1,0 +1,44 @@
+{
+  "name": "Stripe Fee Auditor",
+  "short_name": "Fee Auditor",
+  "description": "See your real effective Stripe fee rate from your Balance CSV. No OAuth. No account signup.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable any"
+    }
+  ],
+  "categories": ["finance", "productivity", "utilities"],
+  "screenshots": [
+    {
+      "src": "/screenshots/stripe-step1-reports.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "label": "Step 1 — Export Stripe Balance Report"
+    },
+    {
+      "src": "/screenshots/stripe-step2-balance.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "label": "Step 2 — Open Balance Transactions"
+    },
+    {
+      "src": "/screenshots/stripe-step3-export.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "label": "Step 3 — Export CSV and audit fees"
+    }
+  ]
+}
