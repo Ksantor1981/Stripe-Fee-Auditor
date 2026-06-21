@@ -38,9 +38,14 @@ function getRequiredProductId(planId: PlanId): string {
   return productId;
 }
 
+function getPolarServer(): "sandbox" | "production" {
+  const raw = process.env.POLAR_SERVER?.trim().toLowerCase();
+  return raw === "sandbox" ? "sandbox" : "production";
+}
+
 function getPolarClient(): Polar | null {
   const accessToken = process.env.POLAR_ACCESS_TOKEN;
-  return accessToken ? new Polar({ accessToken }) : null;
+  return accessToken ? new Polar({ accessToken, server: getPolarServer() }) : null;
 }
 
 function readStringMetadata(metadata: Record<string, unknown> | null | undefined, key: string): string | undefined {
@@ -93,18 +98,30 @@ export async function buildCheckoutUrl(
 
   const polar = getPolarClient();
   if (polar) {
-    const checkout = await polar.checkouts.create({
-      products: [productId],
-      metadata: {
-        report_id: reportId,
-        plan: planId,
-      },
-      customerEmail: email,
-      successUrl,
-      returnUrl,
-      allowDiscountCodes: true,
-      requireBillingAddress: false,
-    });
+    let checkout;
+    try {
+      checkout = await polar.checkouts.create({
+        products: [productId],
+        metadata: {
+          report_id: reportId,
+          plan: planId,
+        },
+        customerEmail: email,
+        successUrl,
+        returnUrl,
+        allowDiscountCodes: true,
+        requireBillingAddress: false,
+      });
+    } catch (err) {
+      const server = getPolarServer();
+      const base =
+        err instanceof Error && /fetch failed|ECONNREFUSED|ENOTFOUND|ETIMEDOUT/i.test(err.message)
+          ? `Polar API unreachable (server=${server}). Verify POLAR_ACCESS_TOKEN and POLAR_PRODUCT_PRO are from the same Polar environment; set POLAR_SERVER=sandbox if using sandbox credentials.`
+          : err instanceof Error
+            ? err.message
+            : "Polar checkout creation failed";
+      throw new Error(base);
+    }
 
     if (!checkout.id) {
       throw new Error("Polar checkout did not return an id");

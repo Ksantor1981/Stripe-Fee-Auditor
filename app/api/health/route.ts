@@ -19,6 +19,8 @@ export async function GET() {
     cron_secret: envConfigured("CRON_SECRET"),
     polar_webhook: envConfigured("POLAR_WEBHOOK_SECRET"),
     polar_checkout: envConfigured("POLAR_ACCESS_TOKEN"),
+    polar_product: envConfigured("POLAR_PRODUCT_PRO"),
+    polar_server: process.env.POLAR_SERVER?.trim() ? "ok" : "skip",
     database_url: envConfigured("DATABASE_URL"),
   };
 
