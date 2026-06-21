@@ -99,15 +99,22 @@ export async function createReport(params: {
   blobUrl: string | null;
   result: AnalysisResult;
   accessTokenHash: string;
+  accessTokenCiphertext?: string;
   retention?: ReportRetention;
 }): Promise<string> {
+  // Add columns lazily so the cron follow-up works without a manual migration.
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS access_token_ciphertext TEXT`.catch(() => null);
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS follow_up_sent_at TIMESTAMPTZ`.catch(() => null);
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS email_captured_at TIMESTAMPTZ`.catch(() => null);
+
   const rows = await sql`
-    INSERT INTO reports (session_id, blob_url, result, access_token_hash, expires_at)
+    INSERT INTO reports (session_id, blob_url, result, access_token_hash, access_token_ciphertext, expires_at)
     VALUES (
       ${params.sessionId},
       ${params.blobUrl},
       ${JSON.stringify(params.result)},
       ${params.accessTokenHash},
+      ${params.accessTokenCiphertext ?? null},
       NOW() + CASE
         WHEN ${params.retention === "beta_full_access"} THEN INTERVAL '30 days'
         ELSE INTERVAL '1 hour'
@@ -116,6 +123,55 @@ export async function createReport(params: {
     RETURNING id
   `;
   return rows[0].id as string;
+}
+
+export interface FollowUpRow {
+  id: string;
+  email: string;
+  access_token_ciphertext: string | null;
+  all_in_fees: number | null;
+  expires_at: string;
+}
+
+/**
+ * Atomically claims up to `limit` reports for follow-up and marks them
+ * as sent in the same statement. Uses FOR UPDATE SKIP LOCKED so parallel
+ * cron runs never double-send the same report.
+ *
+ * Eligibility window: email captured ≥48 h ago (not report created),
+ * report still lives ≥12 h, not yet paid, not already sent.
+ */
+export async function claimReportsForFollowUp(limit = 50): Promise<FollowUpRow[]> {
+  // Guard: ensure columns exist before querying them. Handles the case where
+  // the cron fires on a fresh deploy before any createReport or saveReportEmail
+  // has run (e.g., scheduled trigger fires minutes after deployment).
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS email_captured_at TIMESTAMPTZ`.catch(() => null);
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS follow_up_sent_at TIMESTAMPTZ`.catch(() => null);
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS access_token_ciphertext TEXT`.catch(() => null);
+
+  const rows = await sql`
+    UPDATE reports
+    SET follow_up_sent_at = NOW()
+    WHERE id IN (
+      SELECT id FROM reports
+      WHERE email IS NOT NULL
+        AND is_paid = false
+        AND follow_up_sent_at IS NULL
+        AND expires_at > NOW() + INTERVAL '12 hours'
+        AND email_captured_at IS NOT NULL
+        AND email_captured_at < NOW() - INTERVAL '48 hours'
+      ORDER BY email_captured_at
+      LIMIT ${limit}
+      FOR UPDATE SKIP LOCKED
+    )
+    RETURNING
+      id::text,
+      email,
+      access_token_ciphertext,
+      (result->>'allInFees')::numeric AS all_in_fees,
+      expires_at
+  `;
+  return rows as FollowUpRow[];
 }
 
 export async function createCheckoutSession(params: {
@@ -270,8 +326,18 @@ export async function processPaidWebhook(params: {
 
 export async function saveReportEmail(id: string, email: string, accessToken: string): Promise<boolean> {
   if (!accessToken) return false;
+
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS email_captured_at TIMESTAMPTZ`.catch(() => null);
+
+  // Extend to ≥72 h so users can return via the email link.
+  // Record email_captured_at so the follow-up cron counts from this moment,
+  // not from report creation.
   const rows = await sql`
-    UPDATE reports SET email = ${email}
+    UPDATE reports
+    SET
+      email = ${email},
+      email_captured_at = COALESCE(email_captured_at, NOW()),
+      expires_at = GREATEST(expires_at, NOW() + INTERVAL '72 hours')
     WHERE id = ${id}
       AND access_token_hash = ${hashReportAccessToken(accessToken)}
       AND expires_at > NOW()

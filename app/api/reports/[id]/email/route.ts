@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { consumeIpRequest, saveReportEmail } from "@/lib/db";
+import { consumeIpRequest, getReportWithAccess, saveReportEmail } from "@/lib/db";
 import { sendReportEmail } from "@/lib/email";
 import { getTrustedClientIp } from "@/lib/request-ip";
 import { resolveReportAccessFromRequest } from "@/lib/report-access-cookie";
@@ -63,7 +63,15 @@ export async function POST(
       return NextResponse.json({ error: "Report not found or expired" }, { status: 404 });
     }
 
-    await sendReportEmail(email, id, token).catch((err) =>
+    // Fetch total fees so the email subject shows the actual amount (e.g.
+    // "$847 in Stripe fees — Your report is ready") instead of the generic fallback.
+    const report = await getReportWithAccess(id, token).catch(() => null);
+    const totalFeesCents =
+      report?.result && typeof report.result.allInFees === "number"
+        ? Math.round(report.result.allInFees * 100)
+        : undefined;
+
+    await sendReportEmail(email, id, token, totalFeesCents).catch((err) =>
       console.error("[email-gate] Email send failed:", err)
     );
 

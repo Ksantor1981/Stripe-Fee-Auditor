@@ -14,7 +14,6 @@ export function PaywallBanner({ reportId, email }: Props) {
   const [open, setOpen] = useState(false);
 
   function unlock() {
-    trackEvent("funnel_checkout_redirect", { plan: "pro" });
     const params = new URLSearchParams({ plan: "pro", reportId });
     if (email) params.set("email", email);
     window.location.href = `/api/checkout?${params}`;
@@ -59,14 +58,24 @@ export function PaywallBanner({ reportId, email }: Props) {
         <Button
           className="bg-blue-600 hover:bg-blue-700 text-white px-6"
           onClick={() => {
-            trackEvent("funnel_paywall_modal_open");
-            setOpen(true);
+            trackEvent("funnel_checkout_redirect", { plan: "pro", placement: "inline_banner" });
+            unlock();
           }}
         >
           Unlock Full Report — $12 →
         </Button>
         <p className="mt-3 text-xs text-gray-400">
-          One-time payment · 30-day private link · Refund available if access fails
+          One-time · 30-day private link · Refund available if access fails ·{" "}
+          <button
+            type="button"
+            className="underline hover:text-gray-600"
+            onClick={() => {
+              trackEvent("funnel_paywall_modal_open");
+              setOpen(true);
+            }}
+          >
+            What&apos;s included?
+          </button>
         </p>
       </div>
 
@@ -115,7 +124,10 @@ export function PaywallBanner({ reportId, email }: Props) {
             </div>
             <button
               className="w-full rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 transition-colors"
-              onClick={unlock}
+              onClick={() => {
+                trackEvent("funnel_checkout_redirect", { plan: "pro", placement: "modal" });
+                unlock();
+              }}
             >
               Continue to Secure Checkout →
             </button>

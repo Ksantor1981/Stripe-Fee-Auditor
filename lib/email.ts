@@ -86,6 +86,86 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
+export async function sendFollowUpEmail(
+  to: string,
+  reportId: string,
+  accessToken: string | null,
+  totalFeesCents?: number,
+  expiresAt?: Date
+): Promise<void> {
+  if (!process.env.RESEND_API_KEY) {
+    console.log(`[email] RESEND_API_KEY not set, skipping follow-up to ${to}`);
+    return;
+  }
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? DEFAULT_BASE_URL;
+  const from = process.env.EMAIL_FROM ?? DEFAULT_EMAIL_FROM;
+
+  const reportUrl = accessToken
+    ? new URL("/api/report/access", baseUrl)
+    : new URL(`/report/${reportId}`, baseUrl);
+  if (accessToken) {
+    reportUrl.searchParams.set("reportId", reportId);
+    reportUrl.searchParams.set("token", accessToken);
+  }
+
+  const feeLine =
+    totalFeesCents != null
+      ? `<strong>${formatUsdFromCents(totalFeesCents)}</strong> in Stripe fees`
+      : "your Stripe fees";
+
+  const hoursLeft = expiresAt
+    ? Math.max(0, Math.round((expiresAt.getTime() - Date.now()) / 3_600_000))
+    : null;
+  const expiryLine =
+    hoursLeft != null
+      ? `<p style="color:#d97706;font-size:14px;margin:0 0 16px">⏳ Your report closes in roughly <strong>${hoursLeft} hours</strong>.</p>`
+      : "";
+
+  const deadlineLabel =
+    hoursLeft != null && hoursLeft <= 26
+      ? "expires today"
+      : "expires tomorrow";
+
+  const subject =
+    totalFeesCents != null
+      ? `Your ${formatUsdFromCents(totalFeesCents)} Stripe fee report ${deadlineLabel}`
+      : `Your Stripe fee report ${deadlineLabel}`;
+
+  await getResend().emails.send({
+    from,
+    to,
+    subject,
+    replyTo: process.env.EMAIL_REPLY_TO,
+    html: `
+      <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px">
+        <h1 style="font-size:20px;color:#111;margin:0 0 12px">
+          You analyzed ${feeLine} 2 days ago.
+        </h1>
+        <p style="color:#555;font-size:14px;margin:0 0 12px">
+          The free preview showed your headline rate. The full report adds:
+        </p>
+        <ul style="color:#555;font-size:14px;margin:0 0 20px;padding-left:20px;line-height:1.6">
+          <li>Every high-fee transaction with an explanation</li>
+          <li>Which charges could move to ACH or local payment</li>
+          <li>Estimated annual savings if you act on the top driver</li>
+          <li>CSV export and printable version</li>
+        </ul>
+        ${expiryLine}
+        <a href="${reportUrl.toString()}"
+           style="display:inline-block;padding:12px 24px;background:#2563eb;color:#fff;border-radius:8px;font-weight:600;text-decoration:none;font-size:14px">
+          View Full Report — $12 one-time →
+        </a>
+        <p style="color:#888;font-size:12px;margin-top:24px;line-height:1.5">
+          Stripe Fee Auditor · Not affiliated with Stripe, Inc.<br>
+          You received this because you analyzed a CSV on feeauditor.com.
+          Questions? Reply to this email.
+        </p>
+      </div>
+    `,
+  });
+}
+
 export async function sendWaitlistNotifyEmail(params: {
   email: string;
   reportId?: string | null;
