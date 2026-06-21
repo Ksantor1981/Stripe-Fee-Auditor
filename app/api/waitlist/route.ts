@@ -4,6 +4,7 @@ import { sendWaitlistConfirmationEmail, sendWaitlistNotifyEmail } from "@/lib/em
 import { logFunnelServer } from "@/lib/funnel-log";
 import { getTrustedClientIp } from "@/lib/request-ip";
 import { isValidWaitlistEmail, normalizeWaitlistEmail } from "@/lib/waitlist";
+import { readAttributionFromRequest } from "@/lib/attribution";
 
 export const maxDuration = 15;
 
@@ -72,6 +73,7 @@ export async function POST(req: NextRequest) {
     email,
     reportId: reportId || null,
     source,
+    attribution: readAttributionFromRequest(req),
   });
 
   if (result === "inserted") {

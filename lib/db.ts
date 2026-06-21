@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import { neon, type NeonQueryFunction } from "@neondatabase/serverless";
 import { encryptSecretPayload, decryptSecretPayload } from "@/lib/token-crypto";
+import type { Attribution } from "@/lib/attribution";
 import type { AnalysisResult } from "./fee-analyzer";
 
 let sqlClient: NeonQueryFunction<false, false> | undefined;
@@ -94,6 +95,27 @@ async function ensureCheckoutSessionsTable(): Promise<void> {
   checkoutSessionsTableReady = true;
 }
 
+let reportsColumnsReady = false;
+
+/**
+ * Lazily add columns added after the initial migration so deploys work without
+ * a manual migration step. Guarded by a module flag so the ALTERs run at most
+ * once per warm instance instead of on every query.
+ */
+async function ensureReportsColumns(): Promise<void> {
+  if (reportsColumnsReady) return;
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS access_token_ciphertext TEXT`.catch(() => null);
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS follow_up_sent_at TIMESTAMPTZ`.catch(() => null);
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS email_captured_at TIMESTAMPTZ`.catch(() => null);
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS utm_source TEXT`.catch(() => null);
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS utm_medium TEXT`.catch(() => null);
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS utm_campaign TEXT`.catch(() => null);
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS utm_content TEXT`.catch(() => null);
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS landing_path TEXT`.catch(() => null);
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS referrer TEXT`.catch(() => null);
+  reportsColumnsReady = true;
+}
+
 export async function createReport(params: {
   sessionId: string;
   blobUrl: string | null;
@@ -101,20 +123,29 @@ export async function createReport(params: {
   accessTokenHash: string;
   accessTokenCiphertext?: string;
   retention?: ReportRetention;
+  attribution?: Attribution;
 }): Promise<string> {
-  // Add columns lazily so the cron follow-up works without a manual migration.
-  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS access_token_ciphertext TEXT`.catch(() => null);
-  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS follow_up_sent_at TIMESTAMPTZ`.catch(() => null);
-  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS email_captured_at TIMESTAMPTZ`.catch(() => null);
+  await ensureReportsColumns();
 
+  const attr = params.attribution ?? {};
   const rows = await sql`
-    INSERT INTO reports (session_id, blob_url, result, access_token_hash, access_token_ciphertext, expires_at)
+    INSERT INTO reports (
+      session_id, blob_url, result, access_token_hash, access_token_ciphertext,
+      utm_source, utm_medium, utm_campaign, utm_content, landing_path, referrer,
+      expires_at
+    )
     VALUES (
       ${params.sessionId},
       ${params.blobUrl},
       ${JSON.stringify(params.result)},
       ${params.accessTokenHash},
       ${params.accessTokenCiphertext ?? null},
+      ${attr.utm_source ?? null},
+      ${attr.utm_medium ?? null},
+      ${attr.utm_campaign ?? null},
+      ${attr.utm_content ?? null},
+      ${attr.landing_path ?? null},
+      ${attr.referrer ?? null},
       NOW() + CASE
         WHEN ${params.retention === "beta_full_access"} THEN INTERVAL '30 days'
         ELSE INTERVAL '1 hour'
@@ -142,12 +173,9 @@ export interface FollowUpRow {
  * report still lives ≥12 h, not yet paid, not already sent.
  */
 export async function claimReportsForFollowUp(limit = 50): Promise<FollowUpRow[]> {
-  // Guard: ensure columns exist before querying them. Handles the case where
-  // the cron fires on a fresh deploy before any createReport or saveReportEmail
-  // has run (e.g., scheduled trigger fires minutes after deployment).
-  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS email_captured_at TIMESTAMPTZ`.catch(() => null);
-  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS follow_up_sent_at TIMESTAMPTZ`.catch(() => null);
-  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS access_token_ciphertext TEXT`.catch(() => null);
+  // Ensure columns exist before querying them — handles the case where the cron
+  // fires on a fresh deploy before any createReport/saveReportEmail has run.
+  await ensureReportsColumns();
 
   const rows = await sql`
     UPDATE reports
@@ -327,7 +355,7 @@ export async function processPaidWebhook(params: {
 export async function saveReportEmail(id: string, email: string, accessToken: string): Promise<boolean> {
   if (!accessToken) return false;
 
-  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS email_captured_at TIMESTAMPTZ`.catch(() => null);
+  await ensureReportsColumns();
 
   // Extend to ≥72 h so users can return via the email link.
   // Record email_captured_at so the follow-up cron counts from this moment,
@@ -382,9 +410,23 @@ async function ensureMonitorWaitlistTable(): Promise<void> {
       email TEXT NOT NULL UNIQUE,
       report_id UUID REFERENCES reports(id) ON DELETE SET NULL,
       source TEXT NOT NULL DEFAULT 'report',
+      utm_source TEXT,
+      utm_medium TEXT,
+      utm_campaign TEXT,
+      utm_content TEXT,
+      landing_path TEXT,
+      referrer TEXT,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
   `;
+
+  // Backfill columns on tables created before attribution was added.
+  await sql`ALTER TABLE monitor_waitlist ADD COLUMN IF NOT EXISTS utm_source TEXT`.catch(() => null);
+  await sql`ALTER TABLE monitor_waitlist ADD COLUMN IF NOT EXISTS utm_medium TEXT`.catch(() => null);
+  await sql`ALTER TABLE monitor_waitlist ADD COLUMN IF NOT EXISTS utm_campaign TEXT`.catch(() => null);
+  await sql`ALTER TABLE monitor_waitlist ADD COLUMN IF NOT EXISTS utm_content TEXT`.catch(() => null);
+  await sql`ALTER TABLE monitor_waitlist ADD COLUMN IF NOT EXISTS landing_path TEXT`.catch(() => null);
+  await sql`ALTER TABLE monitor_waitlist ADD COLUMN IF NOT EXISTS referrer TEXT`.catch(() => null);
 
   await sql`
     CREATE INDEX IF NOT EXISTS monitor_waitlist_created_at_idx
@@ -400,15 +442,26 @@ export async function insertMonitorWaitlistSignup(params: {
   email: string;
   reportId?: string | null;
   source?: string;
+  attribution?: Attribution;
 }): Promise<WaitlistInsertResult> {
   await ensureMonitorWaitlistTable();
 
+  const attr = params.attribution ?? {};
   const rows = await sql`
-    INSERT INTO monitor_waitlist (email, report_id, source)
+    INSERT INTO monitor_waitlist (
+      email, report_id, source,
+      utm_source, utm_medium, utm_campaign, utm_content, landing_path, referrer
+    )
     VALUES (
       ${params.email},
       ${params.reportId ?? null},
-      ${params.source ?? "report"}
+      ${params.source ?? "report"},
+      ${attr.utm_source ?? null},
+      ${attr.utm_medium ?? null},
+      ${attr.utm_campaign ?? null},
+      ${attr.utm_content ?? null},
+      ${attr.landing_path ?? null},
+      ${attr.referrer ?? null}
     )
     ON CONFLICT (email) DO NOTHING
     RETURNING id

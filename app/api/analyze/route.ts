@@ -10,6 +10,7 @@ import {
   hashReportAccessToken,
 } from "@/lib/db";
 import { encryptSecretPayload } from "@/lib/token-crypto";
+import { readAttributionFromRequest } from "@/lib/attribution";
 import { getTrustedClientIp } from "@/lib/request-ip";
 import { SAMPLE_CSV } from "@/lib/sampleData";
 import { MAX_CSV_ROWS, sanitizeColumnMapping } from "@/lib/analyze-input";
@@ -207,6 +208,7 @@ export async function POST(req: NextRequest) {
       accessTokenHash: hashReportAccessToken(accessToken),
       accessTokenCiphertext: encryptSecretPayload(accessToken),
       retention: FULL_REPORTS_FREE_DURING_BETA && !isDemo ? "beta_full_access" : "free_preview",
+      attribution: isDemo ? undefined : readAttributionFromRequest(req),
     });
 
     logFunnelServer("funnel_analyze_saved", {
