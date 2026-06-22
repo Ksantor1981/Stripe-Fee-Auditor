@@ -70,6 +70,31 @@ const METRICS = [
   { label: "Refund leakage", example: "~$91", desc: "Estimated retained fees" },
 ];
 
+const CALCULATOR_VS_AUDIT = [
+  {
+    label: "Fee calculator",
+    title: "Estimate the published cost",
+    rate: "2.9% + $0.30",
+    tone: "gray",
+    points: [
+      "Uses product price and rough assumptions",
+      "Good before you launch or change pricing",
+      "Misses refunds, card mix, add-ons, and real monthly drift",
+    ],
+  },
+  {
+    label: "CSV fee audit",
+    title: "Check what you actually paid",
+    rate: "3.82% / 4.02%",
+    tone: "blue",
+    points: [
+      "Uses your itemized Stripe Balance export",
+      "Separates processing rate from all-in Stripe cost",
+      "Shows fee drivers, unusual charges, and savings ideas",
+    ],
+  },
+] as const;
+
 const OAUTH_COMPARISON = [
   {
     aspect: "Stripe credentials",
@@ -153,6 +178,12 @@ const FAQ_JSON_LD_ITEMS = [
     q: "Can I calculate this myself in Excel?",
     text: [
       "Yes. The basic blended rate is total charge fees divided by total charge volume. Fee Auditor is useful when you want monthly changes, unusual charges, refund fee leakage, benchmark context, exports, and specific savings opportunities without rebuilding the spreadsheet every time.",
+    ],
+  },
+  {
+    q: "How is this different from a Stripe fee calculator?",
+    text: [
+      "A fee calculator estimates what Stripe might charge from public pricing and assumptions. Stripe Fee Auditor checks what you actually paid by analyzing an itemized Stripe Balance CSV, including refunds, other fee lines, card mix, monthly changes, and unusual transactions.",
     ],
   },
 ];
@@ -418,6 +449,84 @@ export default function HomePage() {
       </section>
 
       {/* What the report tells you */}
+      <section className="bg-white px-4 py-16" aria-labelledby="calculator-vs-audit-heading">
+        <div className="mx-auto max-w-4xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
+              Calculator vs reality
+            </p>
+            <h2 id="calculator-vs-audit-heading" className="text-2xl font-bold text-gray-900">
+              Fee calculators estimate. Your Stripe CSV tells the truth.
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-gray-500">
+              A calculator is useful before you sell. Once payments are live, your Balance export shows
+              the real mix: international cards, refunds, small charges, payout fees, and monthly drift.
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {CALCULATOR_VS_AUDIT.map((item) => (
+              <div
+                key={item.label}
+                className={`rounded-2xl border p-6 shadow-sm ${
+                  item.tone === "blue"
+                    ? "border-blue-200 bg-blue-50/70"
+                    : "border-gray-200 bg-gray-50"
+                }`}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p
+                      className={`text-xs font-semibold uppercase tracking-widest ${
+                        item.tone === "blue" ? "text-blue-700" : "text-gray-500"
+                      }`}
+                    >
+                      {item.label}
+                    </p>
+                    <h3 className="mt-1 text-lg font-bold text-gray-900">{item.title}</h3>
+                  </div>
+                  <span
+                    className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                      item.tone === "blue"
+                        ? "bg-white text-blue-700"
+                        : "bg-white text-gray-600"
+                    }`}
+                  >
+                    {item.rate}
+                  </span>
+                </div>
+                <ul className="mt-5 space-y-3">
+                  {item.points.map((point) => (
+                    <li key={point} className="flex gap-2 text-sm leading-relaxed text-gray-600">
+                      <span className={item.tone === "blue" ? "text-blue-600" : "text-gray-400"}>✓</span>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <TrackedLink
+              href="/analyze"
+              utm={{ source: "landing", medium: "cta", campaign: "calculator_vs_audit" }}
+              funnelEvent="funnel_landing_cta"
+              funnelProps={{ placement: "calculator_vs_audit" }}
+              className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-blue-700 transition-colors"
+            >
+              Audit my real Stripe CSV
+            </TrackedLink>
+            <Link
+              href="/stripe-fee-calculator"
+              className="text-sm font-medium text-gray-500 underline underline-offset-2 hover:text-blue-600"
+            >
+              Start with a quick estimate first
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-gray-50 px-4 py-16">
         <div className="mx-auto max-w-4xl">
           <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
