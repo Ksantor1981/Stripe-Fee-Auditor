@@ -51,6 +51,14 @@ export default function Page() {
         </p>
 
         <div className="mt-8 rounded-xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm text-blue-800">
+          <strong>June 2026:</strong>{" "}
+          <Link href="/blog/cross-border-stripe-fees-migration-2026" className="underline font-medium">
+            Cross-border fees & global migration briefing
+          </Link>{" "}
+          — why more customers paying from new countries can push your rate toward 5%+.
+        </div>
+
+        <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm text-blue-800">
           <strong>See your international card impact:</strong>{" "}
           <Link href="/analyze?sample=1" className="underline font-medium">
             Try the sample report

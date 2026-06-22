@@ -58,7 +58,14 @@ export default function BlogIndex() {
               href={p.path}
               className="block rounded-xl border border-gray-100 bg-white p-5 shadow-sm hover:border-blue-200 hover:shadow transition-all"
             >
-              <h2 className="font-semibold text-gray-900">{p.title}</h2>
+              <div className="flex flex-wrap items-center gap-2">
+                <h2 className="font-semibold text-gray-900">{p.title}</h2>
+                {p.slug === "cross-border-stripe-fees-migration-2026" && (
+                  <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-700">
+                    New
+                  </span>
+                )}
+              </div>
               <p className="mt-1 text-sm text-gray-500">{p.desc}</p>
               <p className="mt-2 text-xs text-gray-400">{p.time} read</p>
             </Link>

@@ -15,6 +15,14 @@ export type BlogIndexEntry = {
 /** Fee / optimization articles under /blog/* (static page.tsx per slug). */
 export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
   {
+    slug: "cross-border-stripe-fees-migration-2026",
+    path: "/blog/cross-border-stripe-fees-migration-2026",
+    title: "Cross-Border Stripe Fees & Global Migration (June 2026)",
+    desc: "Why record global mobility and remote-work visas can push Stripe effective rates from ~2.9% toward 5%+ — and what to monitor in your CSV.",
+    time: "10 min",
+    sitemapPriority: 0.83,
+  },
+  {
     slug: "stripe-fee-audit-checklist-for-saas-founders",
     path: "/blog/stripe-fee-audit-checklist-for-saas-founders",
     title: "Stripe Fee Audit Checklist for SaaS Founders",
@@ -113,8 +121,12 @@ const privacyEntries: BlogIndexEntry[] = PRIVACY_ARTICLE_INDEX.map((post) => ({
   sitemapPriority: 0.74,
 }));
 
-/** Blog hub list (privacy cluster + fee articles). Pillar page is listed separately on the hub. */
-export const BLOG_HUB_POSTS: BlogIndexEntry[] = [...privacyEntries, ...FEE_BLOG_ENTRIES];
+/** Blog hub list (privacy cluster + fee articles). Latest fee article pinned first. */
+export const BLOG_HUB_POSTS: BlogIndexEntry[] = [
+  FEE_BLOG_ENTRIES[0],
+  ...privacyEntries,
+  ...FEE_BLOG_ENTRIES.slice(1),
+];
 
 /** SEO landing pages outside /blog (included in sitemap). */
 export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
