@@ -11,9 +11,26 @@ const ogImageUrl = buildOgImageUrl({
   eyebrow: "Stripe Fee Auditor",
 });
 
-// Add your Google Search Console verification code to
-// NEXT_PUBLIC_GSC_VERIFICATION in Vercel env variables.
+// Search engine verification — set in Vercel env (redeploy after adding):
+// NEXT_PUBLIC_GSC_VERIFICATION, NEXT_PUBLIC_BING_VERIFICATION, NEXT_PUBLIC_YANDEX_VERIFICATION
 const gscVerification = process.env.NEXT_PUBLIC_GSC_VERIFICATION?.trim() || undefined;
+const bingVerification = process.env.NEXT_PUBLIC_BING_VERIFICATION?.trim() || undefined;
+const yandexVerification = process.env.NEXT_PUBLIC_YANDEX_VERIFICATION?.trim() || undefined;
+
+function buildSiteVerification(): Metadata["verification"] | undefined {
+  const other: Record<string, string> = {};
+  if (bingVerification) other["msvalidate.01"] = bingVerification;
+
+  const verification: NonNullable<Metadata["verification"]> = {};
+  if (gscVerification) verification.google = gscVerification;
+  if (yandexVerification) verification.yandex = yandexVerification;
+  if (Object.keys(other).length > 0) verification.other = other;
+
+  if (!verification.google && !verification.yandex && !verification.other) return undefined;
+  return verification;
+}
+
+const siteVerification = buildSiteVerification();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -35,7 +52,7 @@ export const metadata: Metadata = {
       "application/rss+xml": `${siteUrl}/feed.xml`,
     },
   },
-  ...(gscVerification ? { verification: { google: gscVerification } } : {}),
+  ...(siteVerification ? { verification: siteVerification } : {}),
   openGraph: {
     title: "Stripe Fee Auditor",
     description: "See your real effective Stripe fee rate from your Balance CSV. No OAuth. Raw CSV is not stored as a file.",
