@@ -14,7 +14,8 @@ const ogImageUrl = buildOgImageUrl({
 // Search engine verification — set in Vercel env (redeploy after adding):
 // NEXT_PUBLIC_GSC_VERIFICATION, NEXT_PUBLIC_BING_VERIFICATION, NEXT_PUBLIC_YANDEX_VERIFICATION
 const gscVerification = process.env.NEXT_PUBLIC_GSC_VERIFICATION?.trim() || undefined;
-const bingVerification = process.env.NEXT_PUBLIC_BING_VERIFICATION?.trim() || undefined;
+const bingVerification =
+  process.env.NEXT_PUBLIC_BING_VERIFICATION?.trim() || "457247AA9DD926BC6F4668EB88F91BFE";
 const yandexVerification = process.env.NEXT_PUBLIC_YANDEX_VERIFICATION?.trim() || undefined;
 
 function buildSiteVerification(): Metadata["verification"] | undefined {
