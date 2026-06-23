@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const ogImage = buildOgImageUrl({ title: post.title, eyebrow: "Stripe privacy guide" });
 
   return {
-    title: post.title + " | Fee Auditor",
+    title: post.shortTitle + " | Fee Auditor",
     description: post.description,
     keywords: post.keywords,
     alternates: { canonical: path },

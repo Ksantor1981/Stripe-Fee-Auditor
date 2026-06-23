@@ -5,12 +5,13 @@ import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
 import { buildOgImageUrl } from "@/lib/seo-og";
 
 const pageTitle = "Stripe Fees for Small Transactions: Why Your Rate Is Higher";
+const metaTitle = "Small Transaction Stripe Fees";
 const pageDescription =
   "Stripe's $0.30 fixed fee hits small transactions hard. A $5 charge has an effective rate of 9%. Here's the math and what to do about it.";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Small transaction fees" });
 
 export const metadata: Metadata = {
-  title: `${pageTitle} | Fee Auditor`,
+  title: `${metaTitle} | Fee Auditor`,
   description: pageDescription,
   alternates: { canonical: "/blog/stripe-fees-small-transactions" },
   openGraph: {
