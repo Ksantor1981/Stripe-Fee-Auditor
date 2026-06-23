@@ -252,7 +252,7 @@ export default function Page() {
           <p className="mt-1 text-sm text-gray-600">
             Upload your Stripe Balance CSV (Itemized) to feeauditor.com. You'll see your real
             effective rate, which transactions are driving it up, and your estimated savings.
-            No account needed. CSV is never stored.
+            No account needed. Raw CSV file is not stored.
           </p>
           <div className="mt-4 flex flex-col sm:flex-row gap-3">
             <Link href="/analyze" className="inline-block rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition-colors text-center">

@@ -263,7 +263,7 @@ export default function Page() {
           <p className="mt-1 text-sm text-gray-600">
             Upload your Stripe Balance CSV and see your effective rate for each month, the
             delta vs previous period, and which transactions are driving the change. No OAuth,
-            no account required. CSV is never stored.
+            no account required. Raw CSV file is not stored.
           </p>
           <div className="mt-4 flex flex-col sm:flex-row gap-3">
             <Link

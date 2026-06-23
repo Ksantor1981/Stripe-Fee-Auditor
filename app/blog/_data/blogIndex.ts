@@ -155,6 +155,14 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
     sitemapPriority: 0.79,
   },
   {
+    slug: "how-it-works",
+    path: "/how-it-works",
+    title: "How Stripe Fee Auditor Handles Your CSV",
+    desc: "See exactly what happens when you upload a Stripe Balance CSV: server analysis, stored report data, retention, and core logic links.",
+    time: "4 min",
+    sitemapPriority: 0.68,
+  },
+  {
     slug: "stripe-balance-csv",
     path: "/stripe-balance-csv",
     title: "Stripe Balance CSV: Check Your Real Fee Rate",

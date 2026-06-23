@@ -13,8 +13,10 @@ export const metadata: Metadata = {
 
 const TRUST_SIGNALS = [
   { icon: "✓", label: "No Stripe API access" },
-  { icon: "✓", label: "Raw CSV never stored" },
+  { icon: "✓", label: "Server analysis, no raw file storage" },
   { icon: "✓", label: "No account signup" },
+  { icon: "✓", label: "No ads or profiling" },
+  { icon: "✓", label: "Core logic on GitHub" },
   { icon: "✓", label: "Usually under 30 seconds" },
 ];
 
@@ -38,7 +40,7 @@ const HOW_IT_WORKS = [
   {
     step: "2",
     title: "Drop it here",
-    body: "Raw CSV is never stored. During beta, full report links from real uploads stay active for up to 30 days; after beta, unpaid previews expire sooner.",
+    body: "The CSV is sent to our server for analysis, but the raw file is not stored as a file. During beta, full report links from real uploads stay active for up to 30 days; after beta, unpaid previews expire sooner.",
   },
   {
     step: "3",
@@ -146,7 +148,7 @@ const FAQ_JSON_LD_ITEMS = [
   {
     q: "Do you store my Stripe CSV file?",
     text: [
-      "No. The file is parsed in your browser session and sent once to our servers for analysis. We store computed numbers and aggregates (rates, totals, grouped categories) — not the raw CSV as a file.",
+      "No. Your browser reads the file for upload preview, then sends it once to our servers for analysis. We store computed numbers and aggregates (rates, totals, grouped categories) — not the raw CSV as a file.",
       "Transaction IDs may appear in your private report so you can match rows to Stripe; free-text descriptions from the export are stripped before long-term storage where possible.",
     ],
   },
@@ -286,13 +288,26 @@ export default function HomePage() {
 
         {/* Trust signals */}
         <div className="mt-6 w-full max-w-3xl rounded-2xl border border-slate-100 bg-slate-50/60 px-4 py-3.5">
-          <div className="grid gap-2 text-left sm:grid-cols-4 sm:text-center">
+          <div className="grid gap-2 text-left sm:grid-cols-3 sm:text-center lg:grid-cols-6">
             {TRUST_SIGNALS.map(({ icon, label }) => (
               <div key={label} className="flex items-center justify-center gap-1.5 text-sm font-medium text-gray-700">
                 <span className="text-blue-600">{icon}</span>
                 <span>{label}</span>
               </div>
             ))}
+          </div>
+          <div className="mt-3 flex flex-wrap justify-center gap-x-4 gap-y-1 border-t border-slate-100 pt-3 text-xs text-gray-500">
+            <Link href="/how-it-works" className="font-medium text-blue-600 hover:underline">
+              See exactly how uploads are handled
+            </Link>
+            <a
+              href="https://github.com/Ksantor1981/Stripe-Fee-Auditor"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-blue-600 hover:underline"
+            >
+              View core logic on GitHub
+            </a>
           </div>
         </div>
         {hasReportsAnalyzedCount && (
@@ -356,7 +371,7 @@ export default function HomePage() {
               <p className="mt-1.5 text-sm leading-relaxed text-gray-600">
                 Many fee tools ask for permanent read access to your Stripe account — transactions,
                 customers, payouts. We never connect to Stripe: you export a Balance CSV, upload it,
-                get the report. Raw CSV is processed in memory and not stored as a file.
+                get the report. The CSV is sent to the server for analysis; the raw file is processed in memory and not stored as a file.
               </p>
             </div>
           </div>
@@ -673,7 +688,7 @@ export default function HomePage() {
             {HOW_IT_WORKS.map(({ step, title, body }) => {
               const stepBody =
                 step === "2" && !FULL_REPORTS_FREE_DURING_BETA
-                  ? "Raw CSV is never stored. Upload once for a free preview immediately — no card required. Unlock the full report for $12 when you want high-fee charge details, exports, and savings actions."
+                  ? "The CSV is sent to our server for analysis, but the raw file is not stored as a file. Upload once for a free preview immediately — no card required. Unlock the full report for $12 when you want high-fee charge details, exports, and savings actions."
                   : body;
               return (
               <div key={step} className="relative rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
@@ -803,7 +818,11 @@ export default function HomePage() {
           </h2>
           <LandingFaq />
           <p className="mt-6 text-center text-sm text-gray-500">
-            More detail in our{" "}
+            More detail in{" "}
+            <Link href="/how-it-works" className="text-blue-600 hover:underline">
+              How it works
+            </Link>
+            {" "}and our{" "}
             <Link href="/privacy" className="text-blue-600 hover:underline">
               Privacy Policy
             </Link>
@@ -816,6 +835,8 @@ export default function HomePage() {
       <footer className="border-t px-4 py-8 text-center text-xs text-gray-400 space-y-2">
         <p>
           Stripe Fee Auditor is not affiliated with Stripe, Inc.{" "}
+          <Link href="/how-it-works" className="underline hover:text-gray-600">How it works</Link>
+          {" · "}
           <Link href="/privacy" className="underline hover:text-gray-600">Privacy Policy</Link>
           {" · "}
           <Link href="/terms" className="underline hover:text-gray-600">Terms of Service</Link>
@@ -834,6 +855,15 @@ export default function HomePage() {
           <Link href="/why-stripe-fee-rate-higher-than-2-9" className="hover:underline">Why fees exceed 2.9%</Link>
         </p>
         <p className="flex justify-center gap-3 flex-wrap">
+          <a
+            href="https://github.com/Ksantor1981/Stripe-Fee-Auditor"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline"
+          >
+            GitHub
+          </a>
+          <span>·</span>
           <Link href="/blog/why-stripe-fees-increase" className="hover:underline">Why Stripe fees increase</Link>
           <span>·</span>
           <Link href="/blog/how-to-reduce-stripe-fees" className="hover:underline">How to reduce fees</Link>

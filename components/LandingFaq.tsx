@@ -12,13 +12,13 @@ export const LANDING_FAQ_ITEMS = [
     id: "store-csv",
     q: "Do you store my Stripe CSV file?",
     text: [
-      "No. The file is parsed in your browser session and sent once to our servers for analysis. We store computed numbers and aggregates (rates, totals, grouped categories) — not the raw CSV as a file.",
+      "No. Your browser reads the file for upload preview, then sends it once to our servers for analysis. We store computed numbers and aggregates (rates, totals, grouped categories) — not the raw CSV as a file.",
       "Transaction IDs may appear in your private report so you can match rows to Stripe; free-text descriptions from the export are stripped before long-term storage where possible.",
     ],
     a: (
       <>
         <p>
-          No. The file is parsed in your browser session and sent once to our servers for analysis. We store{" "}
+          No. Your browser reads the file for upload preview, then sends it once to our servers for analysis. We store{" "}
           <strong>computed numbers and aggregates</strong> (rates, totals, grouped categories) — not the raw CSV as a file.
         </p>
         <p className="mt-2">

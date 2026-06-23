@@ -55,6 +55,10 @@ export default function AboutPage() {
           </ul>
           <p className="text-sm text-gray-600">
             Details:{" "}
+            <Link href="/how-it-works" className="text-blue-600 hover:underline">
+              How it works
+            </Link>
+            {" · "}
             <Link href="/privacy" className="text-blue-600 hover:underline">
               Privacy Policy
             </Link>
