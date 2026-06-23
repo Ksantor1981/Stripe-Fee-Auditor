@@ -55,7 +55,7 @@ export function ExportInstructions({ onReady }: Props) {
       {/* Title */}
       <div>
         <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-2">Step 1 of 2</p>
-        <h1 className="text-2xl font-bold text-gray-900">Export or upload your Balance CSV</h1>
+        <h2 className="text-xl font-bold text-gray-900">Export or upload your Balance CSV</h2>
         <p className="mt-2 text-gray-500 text-sm">
           Already have the file? Skip straight to upload. Need it? Use the visual guide below.
         </p>

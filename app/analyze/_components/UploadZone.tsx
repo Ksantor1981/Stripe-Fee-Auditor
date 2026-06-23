@@ -222,7 +222,7 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
       {/* Title */}
       <div>
         <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-2">Step 2 of 2</p>
-        <h1 className="text-2xl font-bold text-gray-900">Upload your CSV</h1>
+        <h2 className="text-xl font-bold text-gray-900">Upload your CSV</h2>
         <p className="mt-2 text-gray-500 text-sm">
           Drop the file you exported from Stripe.{" "}
           <button className="text-blue-600 underline underline-offset-2 hover:text-blue-800" onClick={onBack}>
