@@ -95,6 +95,14 @@ export function SavingsOpportunities({ opportunities }: Props) {
 
               <p className="text-xs text-gray-600 leading-relaxed ml-7 mb-3">{opp.tip}</p>
 
+              {/ACH/i.test(opp.title) && (
+                <p className="text-xs text-amber-800 leading-relaxed ml-7 mb-3 rounded-lg border border-amber-100 bg-amber-50/80 px-3 py-2">
+                  ACH can reduce card fees on large invoices, but bank transfers add checkout friction,
+                  failure/retry risk, and longer settlement. Best for B2B invoices where customers already
+                  pay by bank transfer — not a blanket swap for every card charge.
+                </p>
+              )}
+
               {opp.steps && opp.steps.length > 0 && (
                 <ol className="ml-7 mb-3 list-decimal list-inside space-y-1 text-xs text-gray-600">
                   {opp.steps.map((step, si) => (

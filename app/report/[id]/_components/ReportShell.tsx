@@ -90,7 +90,22 @@ export function ReportShell({
   }, []);
 
   if (!unlocked) {
-    return <EmailGate reportId={reportId} onUnlock={() => setUnlocked(true)} />;
+    return (
+      <EmailGate
+        reportId={reportId}
+        headline={{
+          chargeVolume: result.chargeVolume,
+          chargeRate: result.chargeRate,
+          chargeFees: result.chargeFees,
+          otherFees: result.otherFees,
+          allInFees: result.allInFees,
+          allInRate: result.allInRate,
+          monthCount: Math.max(1, result.monthly.length),
+          topDrivers: result.topDrivers,
+        }}
+        onUnlock={() => setUnlocked(true)}
+      />
+    );
   }
 
   const baseReportProps = { reportId, result, isPaid: hasFullAccess };
@@ -180,6 +195,8 @@ export function ReportShell({
       <footer className="border-t px-4 py-6 text-center text-xs text-gray-400 space-y-1">
         <p>Stripe Fee Auditor · Not affiliated with Stripe, Inc.</p>
         <p className="flex justify-center gap-3 flex-wrap">
+          <a href="/about" className="hover:underline">About</a>
+          <span>·</span>
           <a href="/privacy" className="hover:underline">Privacy Policy</a>
           <span>·</span>
           <a href="/terms" className="hover:underline">Terms of Service</a>

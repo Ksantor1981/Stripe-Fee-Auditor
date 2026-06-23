@@ -9,7 +9,7 @@ export const PLANS: Record<PlanId, { label: string; price: string; desc: string;
   pro: {
     label: "Full Report",
     price: "$12",
-    desc: "Full anomaly list + savings opportunities + monthly breakdown + CSV export",
+    desc: "Full high-fee charge list + savings opportunities + monthly breakdown + CSV export",
     productEnvKey: "POLAR_PRODUCT_PRO",
   },
 };

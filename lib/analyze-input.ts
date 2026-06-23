@@ -1,5 +1,36 @@
+import Papa from "papaparse";
+import type { RawRow } from "./csv-parser";
+
 /** Hard cap on parsed CSV rows to limit CPU/memory DoS per request. */
 export const MAX_CSV_ROWS = 75_000;
+
+export type CsvParseOutcome =
+  | { ok: true; rows: RawRow[]; errors: Papa.ParseError[] }
+  | { ok: false; reason: "too_many_rows" };
+
+/** Parse CSV with early abort once row count exceeds MAX_CSV_ROWS. */
+export function parseCsvWithRowLimit(csvText: string): CsvParseOutcome {
+  const rows: RawRow[] = [];
+  const errors: Papa.ParseError[] = [];
+  let tooManyRows = false;
+
+  Papa.parse<RawRow>(csvText, {
+    header: true,
+    skipEmptyLines: true,
+    transformHeader: (h) => h.trim(),
+    step: (result, parser) => {
+      if (result.errors?.length) errors.push(...result.errors);
+      rows.push(result.data);
+      if (rows.length > MAX_CSV_ROWS) {
+        tooManyRows = true;
+        parser.abort();
+      }
+    },
+  });
+
+  if (tooManyRows) return { ok: false, reason: "too_many_rows" };
+  return { ok: true, rows, errors };
+}
 
 const DANGEROUS_KEYS = new Set(["__proto__", "constructor", "prototype"]);
 

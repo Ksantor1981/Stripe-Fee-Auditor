@@ -43,7 +43,7 @@ const HOW_IT_WORKS = [
   {
     step: "3",
     title: "See your real rate",
-    body: "Processing rate, all-in cost, fee mix chart, monthly timeline, benchmark, anomalies when your volume allows, and savings ideas.",
+    body: "Processing rate, all-in cost, fee mix chart, monthly timeline, benchmark, high-fee charges when your volume allows, and savings ideas.",
   },
 ];
 
@@ -52,7 +52,7 @@ const WHAT_WE_OFTEN_FIND = [
   "Small $5-$20 charges where the fixed $0.30 fee dominates",
   "Months where your fee rate jumped without an obvious reason",
   "Large B2B invoices that could be cheaper via ACH",
-  "A 4.5% blended rate that may be normal — or a sign something is leaking margin",
+  "A ~4% all-in Stripe cost rate that may be normal — or a sign something is leaking margin",
 ];
 
 const WHAT_YOU_GET = [
@@ -64,8 +64,8 @@ const WHAT_YOU_GET = [
 ];
 
 const METRICS = [
-  { label: "Processing rate", example: "3.24%", desc: "Weighted avg across charges" },
-  { label: "All-in cost rate", example: "3.49%", desc: "Includes other fee lines" },
+  { label: "Processing rate", example: "3.82%", desc: "Weighted avg across charges" },
+  { label: "All-in cost rate", example: "4.02%", desc: "Includes other fee lines" },
   { label: "Benchmark verdict", example: "Normal", desc: "Normal range for your mix" },
   { label: "Refund leakage", example: "~$91", desc: "Estimated retained fees" },
 ];
@@ -673,7 +673,7 @@ export default function HomePage() {
             {HOW_IT_WORKS.map(({ step, title, body }) => {
               const stepBody =
                 step === "2" && !FULL_REPORTS_FREE_DURING_BETA
-                  ? "Raw CSV is never stored. Upload once for a free preview immediately — no card required. Unlock the full report for $12 when you want anomalies, exports, and savings actions."
+                  ? "Raw CSV is never stored. Upload once for a free preview immediately — no card required. Unlock the full report for $12 when you want high-fee charge details, exports, and savings actions."
                   : body;
               return (
               <div key={step} className="relative rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
@@ -756,7 +756,7 @@ export default function HomePage() {
                   <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 mb-1">During beta</p>
                   <p className="text-2xl font-bold text-gray-900 mb-2">Full report — free</p>
                   <p className="text-sm text-emerald-900/90 leading-relaxed">
-                    Anomalies, savings ideas, exports, and dashboard charts while beta lasts. Private link with automatic expiry — see Terms.
+                    High-fee charge details, savings ideas, exports, and dashboard charts while beta lasts. Private link with automatic expiry — see Terms.
                   </p>
                 </div>
                 <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">

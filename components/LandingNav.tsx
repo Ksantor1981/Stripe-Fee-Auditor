@@ -7,6 +7,13 @@ import { TrackedLink } from "@/components/TrackedLink";
 
 const NAV_LINKS = [
   {
+    href: "/about",
+    label: "About",
+    funnelEvent: "funnel_nav_about" as const,
+    funnelProps: { placement: "nav" },
+    className: "text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors",
+  },
+  {
     href: "/monitor",
     label: "Fee Monitor",
     funnelEvent: "funnel_landing_cta" as const,

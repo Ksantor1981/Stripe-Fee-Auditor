@@ -56,7 +56,7 @@ export async function sendReportEmail(
         <ul style="color:#555;font-size:14px;margin:0 0 20px;padding-left:20px;line-height:1.5">
           <li>Your effective fee rate and how it compares to Stripe's advertised 2.9%</li>
           <li>Month-by-month fee trends</li>
-          <li>Your top fee drivers and anomalies</li>
+          <li>Your top fee drivers and high-fee charges</li>
         </ul>
         <p style="color:#555;font-size:14px;margin:0 0 16px">Keep this link — it's your private access to the report for 30 days.</p>
         <a href="${reportUrl.toString()}"

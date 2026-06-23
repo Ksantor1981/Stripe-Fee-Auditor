@@ -125,7 +125,7 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
   const rateGapText = `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp vs 2.9%`;
   const diagnosis =
     rateGap > 0.25
-      ? "Diagnosis: your blended rate is materially above advertised card pricing; start with savings opportunities and anomalous transactions."
+      ? "Diagnosis: your blended rate is materially above advertised card pricing; start with savings opportunities and high-fee charges."
       : anomalyUiCount > 0
         ? "Diagnosis: your blended rate is close to baseline, but several transactions are still worth reviewing."
         : "Diagnosis: your blended rate looks consistent; monitor monthly changes for future spikes.";
@@ -185,7 +185,7 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
             { label: "Charge Volume", value: fmt$(chargeVolume) },
             { label: "Charge Fees", value: fmt$(chargeFees) },
             { label: "All-in Fees", value: fmt$(periodFees) },
-            { label: "Anomalies", value: String(anomalyUiCount) },
+            { label: "High-fee charges", value: String(anomalyUiCount) },
           ].map(({ label, value }) => (
             <div key={label} className="rounded-xl bg-gray-50 px-4 py-3">
               <p className="text-xs text-gray-400 mb-0.5">{label}</p>
@@ -245,7 +245,7 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
         <TabsList className="w-full">
           <TabsTrigger value="overview" className="flex-1">Overview</TabsTrigger>
           <TabsTrigger value="anomalies" className="flex-1">
-            Anomalies
+            High-fee
             {anomalyUiCount > 0 && (
               <Badge className="ml-1.5 bg-red-100 text-red-700 text-xs">{anomalyUiCount}</Badge>
             )}
@@ -299,10 +299,10 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
           <div className="rounded-2xl bg-white border border-gray-100 shadow-sm mt-3">
             <div className="px-5 py-4 border-b border-gray-50">
               <h3 className="text-sm font-semibold text-gray-700">
-                Anomalous Transactions
+                Charges above baseline
               </h3>
               <p className="text-xs text-gray-400 mt-0.5">
-                Charges with unusually high fee rate versus your baseline
+                Charges with a higher fee rate than your typical mix — not necessarily errors
               </p>
               {anomalyExplainer && (
                 <p className="text-xs text-gray-500 mt-2 leading-relaxed max-w-3xl">{anomalyExplainer}</p>
@@ -312,7 +312,7 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
             {isPaid ? (
               anomalies.length === 0 ? (
                 <p className="px-5 py-8 text-sm text-center text-gray-400">
-                  No anomalies detected. Your fee rate looks consistent! 🎉
+                  No high-fee charges detected. Your fee rate looks consistent!
                 </p>
               ) : (
                 <div className="divide-y divide-gray-50">
@@ -350,9 +350,9 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
               <div className="px-5 py-10 text-center">
                 <p className="text-2xl mb-2">🔒</p>
                 <p className="text-sm font-semibold text-gray-700 mb-1">
-                  {anomalyUiCount} anomalies found
+                  {anomalyUiCount} high-fee charge{anomalyUiCount === 1 ? "" : "s"} found
                 </p>
-                <p className="text-xs text-gray-400 mb-4">Unlock to see which charges are costing you the most</p>
+                <p className="text-xs text-gray-400 mb-4">Unlock to see which charges are above your baseline and why</p>
                 <PaywallBanner reportId={reportId} />
               </div>
             )}

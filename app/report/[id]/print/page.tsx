@@ -225,7 +225,7 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
         {/* Anomalies */}
         {anomalies.length > 0 && (
           <div className="section">
-            <h2>Anomalies ({anomalies.length})</h2>
+            <h2>High-fee charges ({anomalies.length})</h2>
             <table>
               <thead>
                 <tr>

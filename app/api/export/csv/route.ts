@@ -99,7 +99,7 @@ export async function GET(req: NextRequest) {
 
   // Sheet 3 — anomalies
   const anomalyRows = anomalies.map((r) => ({
-    section: "Anomaly",
+    section: "HighFeeCharge",
     id: san(r.id),
     date: san(r.date),
     amount: r.amount.toFixed(2),

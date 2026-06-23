@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import Papa from "papaparse";
 import { validateColumns, normalizeRow, type RawRow } from "@/lib/csv-parser";
 import { analyze, redactAnalysisResultForStorage } from "@/lib/fee-analyzer";
 import { logFunnelServer } from "@/lib/funnel-log";
@@ -13,7 +12,7 @@ import { encryptSecretPayload } from "@/lib/token-crypto";
 import { readAttributionFromRequest } from "@/lib/attribution";
 import { getTrustedClientIp } from "@/lib/request-ip";
 import { SAMPLE_CSV } from "@/lib/sampleData";
-import { MAX_CSV_ROWS, sanitizeColumnMapping } from "@/lib/analyze-input";
+import { MAX_CSV_ROWS, sanitizeColumnMapping, parseCsvWithRowLimit } from "@/lib/analyze-input";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { appendReportAccessCookie } from "@/lib/report-access-cookie";
 import { logOpsError, logOpsInfo } from "@/lib/ops-log";
@@ -101,36 +100,33 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── Parse CSV ─────────────────────────────────────────────────────────────
-    const parsed = Papa.parse<RawRow>(csvText, {
-      header: true,
-      skipEmptyLines: true,
-      transformHeader: (h) => h.trim(),
-    });
-
-    if (!parsed.data.length) {
-      return NextResponse.json({ error: "CSV is empty or could not be parsed" }, { status: 422 });
-    }
-
-    if (parsed.errors.length > 0) {
-      return NextResponse.json(
-        {
-          error: `CSV parse error near row ${parsed.errors[0]?.row ?? "unknown"}: ${parsed.errors[0]?.message ?? "invalid CSV"}`,
-        },
-        { status: 422 }
-      );
-    }
-
-    if (parsed.data.length > MAX_CSV_ROWS) {
+    // ── Parse CSV (abort early if row count exceeds limit) ───────────────────
+    const parsed = parseCsvWithRowLimit(csvText);
+    if (!parsed.ok) {
       return NextResponse.json(
         { error: `CSV too many rows (max ${MAX_CSV_ROWS}). Narrow your Stripe date range and export again.` },
         { status: 413 }
       );
     }
 
+    const { rows: parsedRows, errors: parseErrors } = parsed;
+
+    if (!parsedRows.length) {
+      return NextResponse.json({ error: "CSV is empty or could not be parsed" }, { status: 422 });
+    }
+
+    if (parseErrors.length > 0) {
+      return NextResponse.json(
+        {
+          error: `CSV parse error near row ${parseErrors[0]?.row ?? "unknown"}: ${parseErrors[0]?.message ?? "invalid CSV"}`,
+        },
+        { status: 422 }
+      );
+    }
+
     const columnMapping = sanitizeColumnMapping(body.columnMapping, ALLOWED_CANONICAL);
 
-    let rows = parsed.data;
+    let rows = parsedRows;
     if (columnMapping && Object.keys(columnMapping).length > 0) {
       rows = rows.map((row) => {
         const remapped: RawRow = { ...row };

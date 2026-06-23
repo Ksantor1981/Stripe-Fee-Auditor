@@ -84,6 +84,34 @@ function parseAmount(raw: string): number {
   return Number(raw.replace(/,/g, ""));
 }
 
+/** Stripe Balance CSV exports sometimes use major units (49.00) and sometimes cents (4900). */
+function hasMajorUnitDecimals(raw: string): boolean {
+  const normalized = raw.trim().replace(/,/g, "");
+  return /^\d+\.\d{1,2}$/.test(normalized);
+}
+
+function balanceRowAmountsLookLikeCents(rawGross: string, rawFee: string, rawNet: string): boolean {
+  if (hasMajorUnitDecimals(rawGross) || hasMajorUnitDecimals(rawFee) || hasMajorUnitDecimals(rawNet)) {
+    return false;
+  }
+
+  const gross = parseAmount(rawGross);
+  const fee = parseAmount(rawFee);
+  const net = parseAmount(rawNet);
+  if (!Number.isFinite(gross) || !Number.isFinite(fee) || !Number.isFinite(net)) return false;
+
+  const absFee = Math.abs(fee);
+  const identityOk =
+    Math.abs(gross - absFee - net) < 0.01 || Math.abs(gross + fee - net) < 0.01;
+  if (!identityOk) return false;
+
+  const allWhole = [gross, fee, net].every((v) => Math.abs(v - Math.round(v)) < 1e-9);
+  if (!allWhole) return false;
+
+  // Typical charge rows in cents are at least $1.00 (100 cents).
+  return Math.abs(gross) >= 100;
+}
+
 function hasColumn(headers: string[], column: string): boolean {
   const wanted = normalizeKey(column);
   return headers.some((h) => normalizeKey(h) === wanted);
@@ -124,11 +152,15 @@ export function normalizeRow(r: RawRow): NormalizedRow {
   const rawFee = requiredValue(r, ["fee"], "fee");
   const rawNet = requiredValue(r, ["net"], "net");
 
-  // Stripe Balance reports use major currency units for gross/fee/net.
-  // Older API-style exports may use amount/fee/net in smallest units.
-  const amount = isOfficialBalanceRow ? parseAmount(rawAmount) : toDollars(parseAmount(rawAmount), currency);
-  const fee = isOfficialBalanceRow ? parseAmount(rawFee) : toDollars(parseAmount(rawFee), currency);
-  const net = isOfficialBalanceRow ? parseAmount(rawNet) : toDollars(parseAmount(rawNet), currency);
+  // Official Balance CSV is usually major units (49.00), but some exports use integer cents (4900).
+  const balanceUsesMajorUnits =
+    isOfficialBalanceRow && !balanceRowAmountsLookLikeCents(rawAmount, rawFee, rawNet);
+  const rawFeeAbs = Math.abs(parseAmount(rawFee));
+  const amount = balanceUsesMajorUnits
+    ? parseAmount(rawAmount)
+    : toDollars(parseAmount(rawAmount), currency);
+  const fee = balanceUsesMajorUnits ? rawFeeAbs : toDollars(rawFeeAbs, currency);
+  const net = balanceUsesMajorUnits ? parseAmount(rawNet) : toDollars(parseAmount(rawNet), currency);
 
   if (!Number.isFinite(amount) || !Number.isFinite(fee) || !Number.isFinite(net)) {
     throw new Error(`Invalid numeric values in row ${id}`);

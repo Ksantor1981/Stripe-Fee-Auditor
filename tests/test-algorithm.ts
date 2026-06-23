@@ -105,6 +105,41 @@ test("normalizes official Balance CSV amounts as major currency units", () => {
   assert(r.cardCountry === "GB", `expected GB, got ${r.cardCountry}`);
 });
 
+test("balance CSV with gross/fee/net in cents is normalized to dollars", () => {
+  const r = normalizeRow({
+    balance_transaction_id: "txn_cents_1",
+    reporting_category: "charge",
+    gross: "2185600",
+    fee: "79300",
+    net: "2106300",
+    currency: "usd",
+    created_utc: "2026-01-15T10:00:00Z",
+  });
+  assertClose(r.amount, 21856.0, 0.01, "amount");
+  assertClose(r.fee, 793.0, 0.01, "fee");
+  assertClose(r.net, 21063.0, 0.01, "net");
+});
+
+test("negative fee values normalize to positive fee amounts", () => {
+  const r = normalizeRow({ ...VALID_ROW, fee: "-59" });
+  assertClose(r.fee, 0.59, 0.001, "fee");
+  assert(r.fee >= 0, "fee should be non-negative");
+});
+
+test("negative fee on balance cents export normalizes correctly", () => {
+  const r = normalizeRow({
+    balance_transaction_id: "txn_cents_neg_fee",
+    reporting_category: "charge",
+    gross: "10000",
+    fee: "-300",
+    net: "9700",
+    currency: "usd",
+    created_utc: "2026-01-15T10:00:00Z",
+  });
+  assertClose(r.amount, 100.0, 0.001, "amount");
+  assertClose(r.fee, 3.0, 0.001, "fee");
+});
+
 test("legacy cents exports with extra gross/reporting_category stay in cents mode", () => {
   const r = normalizeRow({
     id: "ch_legacy_extra",
