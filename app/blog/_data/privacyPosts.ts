@@ -218,7 +218,7 @@ export const PRIVACY_ARTICLES: PrivacyArticle[] = [
     title: "How to Audit Your Stripe Fees Without Connecting Your Account",
     shortTitle: "Audit Stripe Fees Without Connecting Your Account",
     description:
-      "A practical guide to auditing Stripe fees from an itemized Balance Transactions CSV: blended rate formula, fee drivers, refunds, anomalies, and no-OAuth analysis.",
+      "A practical guide to auditing Stripe fees from an itemized Balance Transactions CSV: blended rate formula, fee drivers, refunds, high-fee charges, and no-OAuth analysis.",
     time: "9 min",
     datePublished: "2026-05-16",
     dateModified: "2026-05-16",
@@ -240,7 +240,7 @@ export const PRIVACY_ARTICLES: PrivacyArticle[] = [
         heading: "Step 1: export the right Stripe CSV",
         paragraphs: [
           "Use the itemized Balance Transactions export, not a payout summary. In Stripe Dashboard, go to Reports, open Balance transactions, choose the period you want to audit, and export the itemized CSV.",
-          "For a meaningful report, use at least three months of data if possible. For anomaly detection and trend analysis, six to twelve months is better.",
+          "For a meaningful report, use at least three months of data if possible. For high-fee charge detection and trend analysis, six to twelve months is better.",
         ],
       },
       {
@@ -290,7 +290,7 @@ export const PRIVACY_ARTICLES: PrivacyArticle[] = [
       {
         heading: "How Fee Auditor automates the audit",
         paragraphs: [
-          "Fee Auditor follows the CSV approach. You export the itemized Balance Transactions CSV, upload it, and get a report showing real effective fee rate, benchmark verdict, top fee drivers, refund leakage, anomalies, monthly trends, and savings opportunities.",
+          "Fee Auditor follows the CSV approach. You export the itemized Balance Transactions CSV, upload it, and get a report showing real effective fee rate, benchmark verdict, top fee drivers, refund leakage, high-fee charges, monthly trends, and savings opportunities.",
           "It does not connect to your Stripe account or request OAuth access. The raw CSV is parsed for analysis and not stored as a raw file; a derived result is retained so you can reopen your link. During the promotional beta, full-report access may be free for up to 30 days; after beta, access follows the Privacy Policy (short unpaid preview vs paid unlock).",
         ],
       },
@@ -459,14 +459,14 @@ export const PRIVACY_ARTICLES: PrivacyArticle[] = [
         heading: "Accuracy depends on the source data",
         paragraphs: [
           "For fee analysis, the itemized Balance Transactions CSV is a strong source because it contains transaction-level amounts, fees, net amounts, types, currencies, and timestamps. That is enough to calculate charge fee rate, other fees, monthly trends, top drivers, and refund fee impact.",
-          "An API integration can access similar or richer data, but it still has to make the same modeling decisions: which rows count as charge volume, which fees are separate, how refunds are treated, and how to classify anomalies.",
+          "An API integration can access similar or richer data, but it still has to make the same modeling decisions: which rows count as charge volume, which fees are separate, how refunds are treated, and how to classify high-fee charges.",
         ],
       },
       {
         heading: "Why Fee Auditor uses CSV first",
         paragraphs: [
           "Fee Auditor is built for one job: help founders understand their actual Stripe fees without granting account access. For that job, CSV is the right starting point. It is explicit, limited to the exported period, and easy to revoke because there is no connection to revoke.",
-          "The result is not a live revenue analytics suite. It is a focused fee audit: real effective rate, benchmark verdict, refund leakage, top fee drivers, anomalies, monthly trends, and savings opportunities from your exported Balance data. During the promotional beta, uploads may receive full-report access without payment for up to 30 days; after beta, access follows the Privacy Policy (short unpaid preview vs one-time paid unlock).",
+          "The result is not a live revenue analytics suite. It is a focused fee audit: real effective rate, benchmark verdict, refund leakage, top fee drivers, high-fee charges, monthly trends, and savings opportunities from your exported Balance data. During the promotional beta, uploads may receive full-report access without payment for up to 30 days; after beta, access follows the Privacy Policy (short unpaid preview vs one-time paid unlock).",
         ],
       },
     ],

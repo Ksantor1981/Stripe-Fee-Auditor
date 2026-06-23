@@ -90,7 +90,7 @@ const CALCULATOR_VS_AUDIT = [
     points: [
       "Uses your itemized Stripe Balance export",
       "Separates processing rate from all-in Stripe cost",
-      "Shows fee drivers, unusual charges, and savings ideas",
+      "Shows fee drivers, high-fee charges, and savings ideas",
     ],
   },
 ] as const;
@@ -177,7 +177,7 @@ const FAQ_JSON_LD_ITEMS = [
   {
     q: "Can I calculate this myself in Excel?",
     text: [
-      "Yes. The basic blended rate is total charge fees divided by total charge volume. Fee Auditor is useful when you want monthly changes, unusual charges, refund fee leakage, benchmark context, exports, and specific savings opportunities without rebuilding the spreadsheet every time.",
+      "Yes. The basic blended rate is total charge fees divided by total charge volume. Fee Auditor is useful when you want monthly changes, high-fee charges, refund fee leakage, benchmark context, exports, and specific savings opportunities without rebuilding the spreadsheet every time.",
     ],
   },
   {
@@ -780,7 +780,7 @@ export default function HomePage() {
                   <p className="text-xs font-semibold uppercase tracking-wide text-blue-700 mb-1">Full report</p>
                   <p className="text-2xl font-bold text-gray-900 mb-2">$12 one-time</p>
                   <p className="text-sm text-blue-900/90 leading-relaxed">
-                    All unusual charges with explanations, savings actions, monthly detail, CSV export, and print-ready report — private link for 30 days.
+                    All high-fee charges with explanations, savings actions, monthly detail, CSV export, and print-ready report — private link for 30 days.
                   </p>
                   <p className="mt-3 text-xs text-gray-500">
                     Refund available if payment succeeds but the report does not unlock.

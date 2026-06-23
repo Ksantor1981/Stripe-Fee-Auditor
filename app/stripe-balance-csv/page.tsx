@@ -90,7 +90,7 @@ const steps = [
     schemaText:
       "Choose at least one month of data. Three or more months is better for trend analysis and month-over-month comparison.",
     description:
-      "We recommend at least 3 months for meaningful trend analysis. Longer is better — the more data, the more accurate the anomaly detection.",
+      "We recommend at least 3 months for meaningful trend analysis. Longer is better — the more data, the more accurate the high-fee charge detection.",
   },
   {
     number: "5",

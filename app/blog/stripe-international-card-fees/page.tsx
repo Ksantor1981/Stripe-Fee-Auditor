@@ -162,7 +162,7 @@ export default function Page() {
               card surcharge cost.
             </p>
             <p className="mt-3">
-              feeauditor.com does this automatically — it identifies international card anomalies,
+              feeauditor.com does this automatically — it identifies high-fee international card charges,
               calculates the excess fee, and estimates your annual savings opportunity if you
               shifted those transactions to cheaper payment methods.
             </p>

@@ -141,7 +141,7 @@ export function ExportInstructions({ onReady }: Props) {
             How much data should I export?
           </AccordionTrigger>
           <AccordionContent className="text-sm text-gray-500 pb-4">
-            For trend analysis, export at least 2–3 months. For the best anomaly detection, 6–12 months
+            For trend analysis, export at least 2–3 months. For the best high-fee charge detection, 6–12 months
             gives more reliable statistics. Upload size is limited to about <strong>4 MB</strong> per file (hosting limit).
           </AccordionContent>
         </AccordionItem>

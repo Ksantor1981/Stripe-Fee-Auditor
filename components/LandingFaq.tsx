@@ -80,11 +80,11 @@ export const LANDING_FAQ_ITEMS = [
     id: "excel",
     q: "Can I calculate this myself in Excel?",
     text: [
-      "Yes. The basic blended rate is just total charge fees divided by total charge volume. Fee Auditor is useful when you want the next layer: monthly changes, unusual charges, refund fee leakage, benchmark context, exports, and specific savings opportunities without rebuilding the spreadsheet every time.",
+      "Yes. The basic blended rate is just total charge fees divided by total charge volume. Fee Auditor is useful when you want the next layer: monthly changes, high-fee charges, refund fee leakage, benchmark context, exports, and specific savings opportunities without rebuilding the spreadsheet every time.",
     ],
     a: (
       <p>
-        Yes. The basic blended rate is just total charge fees divided by total charge volume. Fee Auditor is useful when you want the next layer: monthly changes, unusual charges, refund fee leakage, benchmark context, exports, and specific savings opportunities without rebuilding the spreadsheet every time.
+        Yes. The basic blended rate is just total charge fees divided by total charge volume. Fee Auditor is useful when you want the next layer: monthly changes, high-fee charges, refund fee leakage, benchmark context, exports, and specific savings opportunities without rebuilding the spreadsheet every time.
       </p>
     ),
   },

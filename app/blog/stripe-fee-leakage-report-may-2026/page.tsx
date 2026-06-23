@@ -361,7 +361,7 @@ export default function Page() {
             <ol className="mt-4 space-y-3 list-none">
               {[
                 "Compare your blended rate to the expected range for your business model.",
-                "Check whether unusual charges are mostly small invoices, international cards, FX, refunds, or one-off outliers.",
+                "Check whether high-fee charges are mostly small invoices, international cards, FX, refunds, or one-off outliers.",
                 "Look month by month. A spike after a launch or campaign usually points to customer mix, not a mysterious Stripe change.",
                 "Test one action: annual pricing, ACH for B2B, local payment methods, or a pricing nudge on low-tier plans.",
               ].map((item, index) => (
@@ -399,7 +399,7 @@ export default function Page() {
           <p className="font-semibold text-gray-900">Audit your own Stripe fee leakage</p>
           <p className="mt-1 text-sm text-gray-600">
             Upload your Stripe Balance CSV and Fee Auditor will calculate your effective rate, fee
-            drivers, refund impact, month-by-month trend, and unusual charges. No OAuth connection is
+            drivers, refund impact, month-by-month trend, and high-fee charges. No OAuth connection is
             required, and raw CSV files are not stored.
           </p>
           <div className="mt-4 flex flex-col gap-3 sm:flex-row">

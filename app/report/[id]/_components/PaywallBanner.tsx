@@ -45,7 +45,7 @@ export function PaywallBanner({ reportId, email }: Props) {
         </p>
         <div className="mb-4 grid gap-2 text-left text-xs text-gray-600 sm:grid-cols-2">
           {[
-            "All unusual charges",
+            "All high-fee charges",
             "Savings plan",
             "Monthly detail",
             "CSV + print export",

@@ -34,7 +34,7 @@ export function LowVolumeReport({ reportId, result, isPaid }: Props) {
   const diagnosis =
     rateGap > 0.25
       ? "Diagnosis: your small sample is already above advertised card pricing; upload a longer range to confirm the pattern."
-      : "Diagnosis: this sample is too small for statistical anomalies; upload more months for a stronger read.";
+      : "Diagnosis: this sample is too small for statistical high-fee detection; upload more months for a stronger read.";
 
   return (
     <div className="space-y-6">
@@ -47,7 +47,7 @@ export function LowVolumeReport({ reportId, result, isPaid }: Props) {
           Your Stripe fee summary
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          {totalCharges} charges analyzed — statistical anomaly detection requires 50+ transactions.
+          {totalCharges} charges analyzed — statistical high-fee detection requires 50+ transactions.
         </p>
         <p className="mt-3 text-sm text-gray-700 leading-snug">
           You paid <span className="font-semibold text-gray-900">{fmt$(periodFees)}</span> in Stripe fees{" "}
@@ -83,7 +83,7 @@ export function LowVolumeReport({ reportId, result, isPaid }: Props) {
           <p className="text-sm text-blue-900">
             Your card/charge processing rate is <span className="font-semibold">{fmtPct(chargeRate)}</span>{" "}
             (<span className="font-semibold">{rateGapText}</span>). On low-volume exports, fixed $0.30 fees and a few
-            unusual charges can move the blended rate a lot. Your all-in Stripe cost rate for this export is{" "}
+            high-fee charges can move the blended rate a lot. Your all-in Stripe cost rate for this export is{" "}
             <span className="font-semibold">{fmtPct(allInRate)}</span>.
           </p>
         </div>
@@ -155,7 +155,7 @@ export function LowVolumeReport({ reportId, result, isPaid }: Props) {
       {/* No stats disclaimer */}
       <div className="rounded-xl bg-gray-50 border border-gray-100 px-5 py-4">
         <p className="text-xs text-gray-500">
-          <strong>Note:</strong> Anomaly detection and trend analysis require 50+ charge transactions.
+          <strong>Note:</strong> High-fee charge detection and trend analysis require 50+ charge transactions.
           Export a longer date range (3–12 months) and re-analyze for full statistical insights.
         </p>
       </div>
@@ -163,7 +163,7 @@ export function LowVolumeReport({ reportId, result, isPaid }: Props) {
       {/* Upload more */}
       <div className="rounded-2xl bg-blue-50 border border-blue-100 p-5 text-center">
         <p className="text-sm font-semibold text-blue-800 mb-1">Want deeper analysis?</p>
-        <p className="text-xs text-blue-600 mb-3">Export a longer date range from Stripe to unlock anomaly detection and trend charts.</p>
+        <p className="text-xs text-blue-600 mb-3">Export a longer date range from Stripe to unlock high-fee charge detection and trend charts.</p>
         <a
           href="/analyze"
           className="inline-block text-sm font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900"

@@ -25,7 +25,7 @@ export function BlogBetaRetentionNote({ tone = "blue" }: { tone?: "blue" | "gray
     <p className={cls}>
       <strong>Free preview:</strong> Upload your Balance CSV, check the headline rate and top drivers,
       then unlock the full report for a <strong>$12 one-time payment</strong> if you want line-level
-      anomalies, exports, and savings actions. Full-report private links stay available for{" "}
+      high-fee charge details, exports, and savings actions. Full-report private links stay available for{" "}
       <strong>30 days</strong>; see the{" "}
       <Link href="/privacy" className="underline font-medium">
         Privacy Policy

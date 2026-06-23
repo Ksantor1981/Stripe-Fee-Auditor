@@ -60,7 +60,7 @@ export default function PrivacyPage() {
               <div>
                 <p className="font-medium text-gray-800 mb-1">Analysis results</p>
                 <p>
-                  The computed analysis (fee totals, rates, anomalies, etc.) is stored in our
+                  The computed analysis (fee totals, rates, high-fee charge flags, etc.) is stored in our
                   database and linked to a random report ID plus a private access token you
                   receive in the URL. <strong>Outside our promotional beta</strong>, unpaid{" "}
                   <strong>free preview</strong> reports expire about <strong>1 hour</strong>{" "}

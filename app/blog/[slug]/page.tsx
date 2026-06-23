@@ -191,7 +191,7 @@ export default async function PrivacyArticlePage({ params }: Props) {
           <h2 className="text-lg font-bold text-gray-900">Try it without connecting Stripe</h2>
           <p className="mt-2 text-sm leading-relaxed text-gray-600">
             Fee Auditor analyzes an exported Stripe Balance Transactions CSV and turns it into a fee report:
-            effective rate, benchmark verdict, top fee drivers, refund leakage, anomalies, monthly trends,
+            effective rate, benchmark verdict, top fee drivers, refund leakage, high-fee charges, monthly trends,
             and savings opportunities.
           </p>
           <div className="mt-4 flex flex-col gap-3 sm:flex-row">

@@ -97,7 +97,7 @@ export async function GET(req: NextRequest) {
   // Alias used throughout — must be declared before first use
   const san = sanitize;
 
-  // Sheet 3 — anomalies
+  // Sheet 3 — high-fee charges
   const anomalyRows = anomalies.map((r) => ({
     section: "HighFeeCharge",
     id: san(r.id),

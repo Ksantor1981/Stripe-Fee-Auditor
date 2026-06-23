@@ -149,7 +149,7 @@ export function SingleMonthReport({ reportId, result, isPaid }: Props) {
       {/* Upload more CTA */}
       <div className="rounded-2xl bg-blue-50 border border-blue-100 p-5 text-center">
         <p className="text-sm font-semibold text-blue-800 mb-1">Want trend analysis?</p>
-        <p className="text-xs text-blue-600 mb-3">Upload 2+ months of data to see month-over-month trends and anomaly detection.</p>
+        <p className="text-xs text-blue-600 mb-3">Upload 2+ months of data to see month-over-month trends and high-fee charge detection.</p>
         <a
           href="/analyze"
           className="inline-block text-sm font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900"
