@@ -149,8 +149,8 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
   {
     slug: "stripe-balance-csv",
     path: "/stripe-balance-csv",
-    title: "Stripe Balance CSV for Fee Analysis",
-    desc: "Export and use Itemized Stripe Balance Transactions before checking your real Stripe fee rate.",
+    title: "Stripe Balance CSV: Check Your Real Fee Rate",
+    desc: "Export the Itemized Stripe Balance CSV before checking whether your real Stripe fee rate is 2.9%, 3.8%, or higher.",
     time: "4 min",
     sitemapPriority: 0.7,
   },

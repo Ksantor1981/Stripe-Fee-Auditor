@@ -92,8 +92,15 @@ export default function BlogPost1() {
           <p>
             The fastest way to find the cause is to analyze your Stripe Balance CSV.
             Export it from Stripe → Reports → Balance, and upload it to{" "}
-            <Link href="/" className="text-blue-600 underline">Stripe Fee Auditor</Link> for an instant
+            <Link href="/analyze" className="text-blue-600 underline">Stripe Fee Auditor</Link> for an instant
             breakdown of your effective rate and top cost drivers.
+          </p>
+          <p>
+            If you do not have the file yet, start with the{" "}
+            <Link href="/blog/how-to-export-stripe-balance-csv" className="text-blue-600 underline">
+              Stripe Balance CSV export guide
+            </Link>
+            , then come back and run the audit.
           </p>
           <p className="mt-4">
             <span className="font-semibold text-gray-900">Related guides:</span>{" "}
@@ -105,8 +112,8 @@ export default function BlogPost1() {
               Effective fee rate calculator walkthrough
             </Link>
             {" · "}
-            <Link href="/stripe-balance-csv" className="text-blue-600 underline">
-              How to export Balance CSV
+            <Link href="/blog/how-to-export-stripe-balance-csv" className="text-blue-600 underline">
+              How to export Balance CSV for a fee audit
             </Link>
           </p>
         </div>

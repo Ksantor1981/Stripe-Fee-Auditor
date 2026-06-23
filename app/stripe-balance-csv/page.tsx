@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "How to Export Stripe Balance CSV for Fee Analysis";
+const pageTitle = "Stripe Balance CSV: Export It to Check Your Real Fee Rate";
 const pageDescription =
-  "Need the Stripe Balance CSV for a fee audit? Follow the Itemized export path, required columns, and mistakes to avoid before checking your real Stripe fee rate.";
+  "Need the Stripe Balance CSV for a fee audit? Use the Itemized export to check whether your real Stripe fee rate is 2.9%, 3.8%, or higher.";
 const pagePath = "/stripe-balance-csv";
 
 export const metadata: Metadata = {
@@ -212,7 +212,7 @@ export default function StripeBalanceCsvPage() {
         <div className="mb-14">
           <p className="text-blue-600 text-sm font-medium mb-3">Export Guide</p>
           <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
-            How to Export Your Stripe Balance CSV for Fee Analysis
+            Export Your Stripe Balance CSV and Check Your Real Fee Rate
           </h1>
           <p className="text-lg text-gray-500 leading-relaxed">
             The Balance Transactions report is the Stripe export you need to audit your real
@@ -329,6 +329,21 @@ export default function StripeBalanceCsvPage() {
         </div>
 
         <SeoPageTrustFooter />
+
+        <div className="mt-10 border-t border-gray-100 pt-8">
+          <p className="text-sm font-semibold text-gray-700 mb-4">Related fee guides</p>
+          <div className="space-y-3">
+            {[
+              { href: "/blog/why-stripe-fees-increase", title: "Why did my Stripe fees increase?" },
+              { href: "/blog/stripe-international-card-fees", title: "Stripe international card fees explained" },
+              { href: "/blog/stripe-ach-vs-credit-card-fees", title: "Stripe ACH vs credit card fees" },
+            ].map((link) => (
+              <Link key={link.href} href={link.href} className="block text-sm text-blue-600 hover:underline">
+                {link.title} →
+              </Link>
+            ))}
+          </div>
+        </div>
       </main>
     </div>
   );

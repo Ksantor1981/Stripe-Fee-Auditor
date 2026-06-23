@@ -260,6 +260,7 @@ export default function Page() {
           <div className="space-y-3">
             {[
               { href: "/why-stripe-fee-rate-higher-than-2-9", title: "Why Are My Stripe Fees Higher Than 2.9%?" },
+              { href: "/blog/how-to-export-stripe-balance-csv", title: "How to Export Stripe Balance CSV for a Fee Audit" },
               { href: "/blog/stripe-ach-vs-credit-card-fees", title: "ACH vs Credit Card Fees on Stripe" },
               { href: "/blog/how-to-reduce-stripe-fees", title: "How to Reduce Your Stripe Fees" },
             ].map((l) => (
