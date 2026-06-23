@@ -13,10 +13,20 @@ const ogImageUrl = buildOgImageUrl({
 
 // Search engine verification — set in Vercel env (redeploy after adding):
 // NEXT_PUBLIC_GSC_VERIFICATION, NEXT_PUBLIC_BING_VERIFICATION, NEXT_PUBLIC_YANDEX_VERIFICATION
-const gscVerification = process.env.NEXT_PUBLIC_GSC_VERIFICATION?.trim() || undefined;
+/** Strip accidental full meta-tag paste; keep only the content value. */
+function normalizeVerificationCode(raw: string | undefined): string | undefined {
+  if (!raw) return undefined;
+  const trimmed = raw.trim();
+  const fromContent = trimmed.match(/content=["']([^"']+)["']/i);
+  if (fromContent) return fromContent[1];
+  return trimmed.replace(/<\/?meta[^>]*>/gi, "").trim() || trimmed;
+}
+
+const gscVerification = normalizeVerificationCode(process.env.NEXT_PUBLIC_GSC_VERIFICATION);
 const bingVerification =
-  process.env.NEXT_PUBLIC_BING_VERIFICATION?.trim() || "457247AA9DD926BC6F4668EB88F91BFE";
-const yandexVerification = process.env.NEXT_PUBLIC_YANDEX_VERIFICATION?.trim() || undefined;
+  normalizeVerificationCode(process.env.NEXT_PUBLIC_BING_VERIFICATION) ||
+  "457247AA9DD926BC6F4668EB88F91BFE";
+const yandexVerification = normalizeVerificationCode(process.env.NEXT_PUBLIC_YANDEX_VERIFICATION);
 
 function buildSiteVerification(): Metadata["verification"] | undefined {
   const other: Record<string, string> = {};
