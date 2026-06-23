@@ -41,7 +41,6 @@ export async function GET(req: NextRequest) {
 
   const url = new URL(`/report/${session.reportId}`, req.url);
   url.searchParams.set("payment", "success");
-  url.searchParams.set("checkout_id", checkoutId);
 
   const response = NextResponse.redirect(url);
   appendReportAccessCookie(response, session.reportId, session.accessToken);

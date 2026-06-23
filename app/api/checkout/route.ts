@@ -3,7 +3,7 @@ import { buildCheckoutUrl, isPlanId } from "@/lib/polar";
 import { consumeIpRequest, extendReportForCheckout, getReportWithAccess } from "@/lib/db";
 import { getTrustedClientIp } from "@/lib/request-ip";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
-import { resolveReportAccessFromRequest } from "@/lib/report-access-cookie";
+import { appendReportAccessCookie, resolveReportAccessFromRequest } from "@/lib/report-access-cookie";
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -40,9 +40,9 @@ export async function GET(req: NextRequest) {
   }
 
   if (FULL_REPORTS_FREE_DURING_BETA) {
-    return NextResponse.redirect(
-      new URL(`/report/${reportId}?token=${encodeURIComponent(token)}`, req.url)
-    );
+    const response = NextResponse.redirect(new URL(`/report/${reportId}`, req.url));
+    appendReportAccessCookie(response, reportId, token);
+    return response;
   }
 
   const ip = getTrustedClientIp(req);
