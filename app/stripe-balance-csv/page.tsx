@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "Stripe Balance CSV: Export the Right Itemized File";
+const pageTitle = "How to Export Stripe Balance CSV for Fee Analysis";
 const pageDescription =
-  "Need the Stripe Balance CSV? Follow the exact Itemized export path, required columns, and mistakes to avoid before checking your real Stripe fee rate.";
+  "Need the Stripe Balance CSV for a fee audit? Follow the Itemized export path, required columns, and mistakes to avoid before checking your real Stripe fee rate.";
 const pagePath = "/stripe-balance-csv";
 
 export const metadata: Metadata = {
@@ -212,11 +212,12 @@ export default function StripeBalanceCsvPage() {
         <div className="mb-14">
           <p className="text-blue-600 text-sm font-medium mb-3">Export Guide</p>
           <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
-            How to Export Your Stripe Balance CSV
+            How to Export Your Stripe Balance CSV for Fee Analysis
           </h1>
           <p className="text-lg text-gray-500 leading-relaxed">
-            The Balance Transactions report is the most detailed financial
-            export in Stripe. Here&apos;s how to get it in five steps.
+            The Balance Transactions report is the Stripe export you need to audit your real
+            processing fees. This guide focuses on the Itemized Balance CSV for fee analysis,
+            not data warehouse exports to JSON, Tableau, Power BI, or PostgreSQL.
           </p>
         </div>
 

@@ -4,9 +4,9 @@ import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
 import { buildOgImageUrl } from "@/lib/seo-og";
 
-const pageTitle = "Export Stripe Balance CSV: Itemized vs Summary Guide";
+const pageTitle = "How to Export Stripe Balance CSV to Analyze Your Real Fee Rate";
 const pageDescription =
-  "Export the right Stripe Balance CSV for fee analysis. Learn where Itemized lives, why Summary breaks reports, and what columns you need.";
+  "Export the right Stripe Balance CSV for a fee audit. Choose Itemized, avoid Summary, and use the file to calculate your real Stripe effective rate.";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe Balance CSV" });
 
 export const metadata: Metadata = {
@@ -50,19 +50,21 @@ export default function Page() {
         </div>
 
         <h1 className="mt-3 text-3xl font-bold leading-tight text-gray-900">
-          Export Stripe Balance CSV: Itemized vs Summary
+          How to Export Stripe Balance CSV for a Fee Audit
         </h1>
 
         <p className="mt-4 text-lg text-gray-600 leading-relaxed">
-          Understanding your real Stripe fees starts with one step: exporting the right Balance CSV.
-          This file contains line-item data for every transaction, fee, and payout. Here's how
-          to get the right export — and what to do with it.
+          Understanding your real Stripe fee rate starts with one step: exporting the right
+          Balance CSV. This guide is for Stripe users who want to audit processing fees from
+          their own transactions, not for developers building a Stripe-to-Postgres, JSON,
+          Tableau, or Power BI data pipeline.
         </p>
 
         <div className="mt-8 rounded-xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm text-blue-800">
-          <strong>Skip the manual work:</strong> Once you have your CSV,{" "}
+          <strong>Downloaded your CSV?</strong> Once you have the Itemized Balance export,{" "}
           <Link href="/analyze" className="underline font-medium">upload it to feeauditor.com</Link>{" "}
-          and usually get your real effective rate in under 30 seconds. Or{" "}
+          and usually get your real processing rate, all-in cost rate, and top fee drivers in under
+          30 seconds. Or{" "}
           <Link href="/analyze?sample=1" className="underline font-medium">try the sample report first</Link>.
           <BlogBetaRetentionNote />
         </div>
@@ -71,7 +73,7 @@ export default function Page() {
 
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-3">
-              Which export to use: Itemized, not Summary
+              For fee analysis, use Itemized, not Summary
             </h2>
             <p>
               Stripe offers two Balance export types. Make sure you choose the right one:

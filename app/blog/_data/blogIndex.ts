@@ -73,8 +73,8 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
   {
     slug: "how-to-export-stripe-balance-csv",
     path: "/blog/how-to-export-stripe-balance-csv",
-    title: "Export Stripe Balance CSV: Itemized vs Summary",
-    desc: "Use the right Stripe Balance CSV for fee analysis: Itemized export path, required columns, and mistakes to avoid.",
+    title: "How to Export Stripe Balance CSV for a Fee Audit",
+    desc: "Use the right Itemized Stripe Balance CSV to analyze your real fee rate: export path, required columns, and mistakes to avoid.",
     time: "4 min",
     sitemapPriority: 0.73,
   },
@@ -149,8 +149,8 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
   {
     slug: "stripe-balance-csv",
     path: "/stripe-balance-csv",
-    title: "Stripe Balance CSV Guide",
-    desc: "Export and use Stripe Balance Transactions for fee analysis.",
+    title: "Stripe Balance CSV for Fee Analysis",
+    desc: "Export and use Itemized Stripe Balance Transactions before checking your real Stripe fee rate.",
     time: "4 min",
     sitemapPriority: 0.7,
   },
