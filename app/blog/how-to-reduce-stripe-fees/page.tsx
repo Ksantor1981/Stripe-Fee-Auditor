@@ -30,6 +30,8 @@ export const metadata: Metadata = {
 
 const RELATED = [
   { href: PILLAR_EFFECTIVE_RATE_PATH, title: "Why Are My Stripe Fees Higher Than 2.9%?" },
+  { href: "/blog/stripe-alternatives-2026", title: "Stripe Alternatives in 2026" },
+  { href: "/blog/stripe-credit-card-processing-fees", title: "Stripe Credit Card Processing Fees Explained" },
   { href: "/blog/stripe-ach-vs-credit-card-fees", title: "Stripe ACH vs Credit Card Fees" },
   { href: "/blog/stripe-international-card-fees", title: "Stripe International Card Fees Explained" },
   { href: "/blog/how-to-export-stripe-balance-csv", title: "Export Stripe Balance CSV" },
