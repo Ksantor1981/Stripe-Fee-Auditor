@@ -8,8 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SAMPLE_CSV, SAMPLE_COLUMN_MAPPING } from "@/lib/sampleData";
 import { trackEvent } from "@/lib/analytics";
+import { MAX_CSV_ROWS } from "@/lib/analyze-input";
 
 const REQUIRED_COLUMNS = ["id", "type", "amount", "fee", "net", "currency", "created"] as const;
+const MAX_CSV_BYTES = 4 * 1024 * 1024;
+const PREVIEW_ROW_LIMIT = 200;
 type RequiredCol = (typeof REQUIRED_COLUMNS)[number];
 
 interface ParsedFile {
@@ -109,22 +112,66 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
       return;
     }
 
+    if (file.size > MAX_CSV_BYTES) {
+      setError("File too large (max 4 MB). Try a shorter date range in Stripe export.");
+      return;
+    }
+
+    const previewRows: Record<string, string>[] = [];
+    const parseErrors: Papa.ParseError[] = [];
+    let headers: string[] = [];
+    let totalRows = 0;
+    let tooManyRows = false;
+
     Papa.parse<Record<string, string>>(file, {
       header: true,
       skipEmptyLines: true,
+      step: (result, parser) => {
+        if (!headers.length) {
+          headers = result.meta.fields ?? Object.keys(result.data ?? {});
+        }
+
+        if (result.errors?.length) {
+          parseErrors.push(...result.errors);
+        }
+
+        totalRows += 1;
+        if (previewRows.length < PREVIEW_ROW_LIMIT) {
+          previewRows.push(result.data);
+        }
+
+        if (totalRows > MAX_CSV_ROWS) {
+          tooManyRows = true;
+          parser.abort();
+        }
+      },
       complete: (results) => {
-        const headers = results.meta.fields ?? [];
+        if (!headers.length) {
+          headers = results.meta.fields ?? [];
+        }
+
+        if (tooManyRows) {
+          setError(`CSV too many rows (max ${MAX_CSV_ROWS.toLocaleString()}). Narrow your Stripe date range and export again.`);
+          return;
+        }
+
+        if (parseErrors.length > 0) {
+          const firstError = parseErrors[0];
+          setError(`CSV parse error near row ${firstError.row ?? "unknown"}: ${firstError.message ?? "invalid CSV"}`);
+          return;
+        }
+
         if (!headers.length) {
           setError("Could not detect columns. Is this a valid CSV?");
           return;
         }
-        const rows = results.data as Record<string, string>[];
+
         setParsed({
           file,
           fileName: file.name,
           headers,
-          rows,
-          totalRows: rows.length,
+          rows: previewRows,
+          totalRows,
         });
         setMapping(autoDetect(headers));
         trackEvent("funnel_csv_loaded", { sample: false });
@@ -177,8 +224,7 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
         : await parsed.file!.text();
 
       if (!parsed.isSample) {
-        const maxCsvBytes = 4 * 1024 * 1024;
-        if (new TextEncoder().encode(csvText).length > maxCsvBytes) {
+        if (new TextEncoder().encode(csvText).length > MAX_CSV_BYTES) {
           setError("File too large (max 4 MB). Try a shorter date range in Stripe export.");
           setStage("idle");
           return;
@@ -262,7 +308,7 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
               <p className="font-semibold text-gray-800">{parsed.fileName}</p>
               <p className="text-xs text-gray-500">
                 {parsed.isSample ? "Sample data · " : ""}
-                {parsed.rows.length} rows · scroll preview below
+                {parsed.totalRows.toLocaleString()} rows · scroll preview below
               </p>
             </div>
             <button
@@ -300,10 +346,15 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
           <p className="text-sm font-medium text-gray-700 mb-2">
             Preview{" "}
             <span className="text-gray-400 font-normal">
-              ({parsed.rows.length} rows · scroll vertically to browse)
+              ({parsed.rows.length.toLocaleString()} of {parsed.totalRows.toLocaleString()} rows · scroll vertically to browse)
             </span>
             {parsed.isSample && (
               <span className="ml-2 text-xs text-blue-500 font-normal">· sample data</span>
+            )}
+            {!parsed.isSample && parsed.totalRows > parsed.rows.length && (
+              <span className="ml-2 text-xs text-gray-400 font-normal">
+                · first {parsed.rows.length.toLocaleString()} shown
+              </span>
             )}
           </p>
           <div className="max-h-52 overflow-auto rounded-xl border border-gray-100 shadow-sm">
