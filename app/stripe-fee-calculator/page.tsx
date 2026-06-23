@@ -4,9 +4,9 @@ import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { StripeFeeMiniEstimate } from "@/components/stripe-fee-mini-estimate";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "Stripe Fee Calculator: Real Effective Rate from CSV";
+const pageTitle = "Stripe Fee Calculator: Estimate Monthly Fees";
 const pageDescription =
-  "Calculate your real Stripe effective fee rate from your Balance CSV. Not an estimator - actual numbers from your transactions.";
+  "Estimate monthly Stripe fees from card volume and average charge size, then upload your Balance CSV to check your real effective rate.";
 const pagePath = "/stripe-fee-calculator";
 
 export const metadata: Metadata = {
@@ -96,7 +96,12 @@ const faqItems = [
   {
     question: "Is this a Stripe fee estimator or a real calculator?",
     answer:
-      "Stripe Fee Auditor calculates your real effective Stripe fee rate from your Balance Transactions CSV. It is not just a single-transaction estimator using the published 2.9% + $0.30 rate.",
+      "The on-page calculator estimates fees from public pricing. Stripe Fee Auditor calculates your real effective Stripe fee rate from your Balance Transactions CSV, so you can compare the estimate with actual numbers.",
+  },
+  {
+    question: "How do I estimate monthly Stripe fees?",
+    answer:
+      "Enter your monthly card volume and average charge amount. The calculator estimates how many transactions you processed, applies 2.9% plus $0.30 per charge, and shows the effective percentage for that mix.",
   },
   {
     question: "What file do I need to calculate my Stripe effective fee rate?",
@@ -192,16 +197,15 @@ export default function StripeFeeCalculatorPage() {
         {/* Header */}
         <div className="mb-14">
           <p className="text-blue-600 text-sm font-medium mb-3">
-            Real Data Calculator
+            Stripe fee calculator
           </p>
           <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
-            Your Real Stripe Fee Rate Isn&apos;t 2.9%
+            Estimate Your Monthly Stripe Fees
           </h1>
           <p className="text-lg text-gray-500 leading-relaxed">
-            Most fee calculators ask you to enter a transaction amount and
-            estimate the cost. That&apos;s useful for one transaction. Your actual
-            effective rate — across hundreds of real charges — is different, and
-            it depends on your specific customer mix.
+            Enter monthly card volume and average charge size to estimate Stripe&apos;s published
+            fee. Then compare that with your actual effective rate from a Balance CSV, where
+            international cards, refunds, small charges, and add-ons can push the real number higher.
           </p>
           <p className="text-sm text-gray-500 leading-relaxed mt-4">
             Stripe Fee Auditor is built for SaaS, ecommerce, subscription, and

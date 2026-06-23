@@ -141,8 +141,8 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
   {
     slug: "stripe-fee-calculator",
     path: "/stripe-fee-calculator",
-    title: "Stripe Fee Calculator",
-    desc: "Estimate your blended Stripe fee rate from volume and mix.",
+    title: "Stripe Fee Calculator: Estimate Monthly Fees",
+    desc: "Estimate monthly Stripe fees from card volume and average charge size, then compare with your real CSV-based rate.",
     time: "5 min",
     sitemapPriority: 0.8,
   },
