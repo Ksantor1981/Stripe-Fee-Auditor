@@ -14,6 +14,7 @@ import { encryptSecretPayload, decryptSecretPayload } from "../lib/token-crypto"
 import { opsLogLine } from "../lib/ops-log";
 import { isValidWaitlistEmail, normalizeWaitlistEmail } from "../lib/waitlist";
 import { isValidFunnelEventName } from "../lib/funnel-log";
+import { getTrustedClientIp } from "../lib/request-ip";
 
 let passed = 0;
 let failed = 0;
@@ -32,6 +33,24 @@ function test(name: string, fn: () => void) {
 
 function assert(cond: boolean, msg: string) {
   if (!cond) throw new Error(msg);
+}
+
+function mockRequest(headers: Record<string, string>) {
+  return {
+    headers: {
+      get(name: string) {
+        return headers[name.toLowerCase()] ?? null;
+      },
+    },
+  } as Parameters<typeof getTrustedClientIp>[0];
+}
+
+function restoreEnv(name: string, value: string | undefined): void {
+  if (value === undefined) {
+    delete process.env[name];
+  } else {
+    process.env[name] = value;
+  }
 }
 
 console.log("\n📋 ops-log / opsLogLine");
@@ -157,6 +176,64 @@ test("isValidFunnelEventName accepts waitlist events", () => {
   assert(isValidFunnelEventName("waitlist_submit") === true, "submit");
   assert(isValidFunnelEventName("waitlist_success") === true, "success");
   assert(isValidFunnelEventName("waitlist_hack") === false, "unknown waitlist");
+});
+
+console.log("\n📋 request-ip / trusted proxy headers");
+
+test("prefers Vercel-injected client IP header", () => {
+  const prevTrustProxy = process.env.TRUST_PROXY;
+  const prevVercel = process.env.VERCEL;
+  process.env.TRUST_PROXY = "0";
+  process.env.VERCEL = "0";
+  const ip = getTrustedClientIp(mockRequest({
+    "x-vercel-forwarded-for": "203.0.113.10, 10.0.0.1",
+    "x-forwarded-for": "198.51.100.99",
+  }));
+  restoreEnv("TRUST_PROXY", prevTrustProxy);
+  restoreEnv("VERCEL", prevVercel);
+  assert(ip === "203.0.113.10", `got ${ip}`);
+});
+
+test("ignores generic proxy headers unless TRUST_PROXY=1", () => {
+  const prevTrustProxy = process.env.TRUST_PROXY;
+  const prevVercel = process.env.VERCEL;
+  process.env.TRUST_PROXY = "0";
+  process.env.VERCEL = "0";
+  const ip = getTrustedClientIp(mockRequest({
+    "x-forwarded-for": "198.51.100.99",
+    "x-real-ip": "198.51.100.100",
+  }));
+  restoreEnv("TRUST_PROXY", prevTrustProxy);
+  restoreEnv("VERCEL", prevVercel);
+  assert(ip === null, `got ${ip}`);
+});
+
+test("trusts generic proxy headers on Vercel runtime", () => {
+  const prevTrustProxy = process.env.TRUST_PROXY;
+  const prevVercel = process.env.VERCEL;
+  process.env.TRUST_PROXY = "0";
+  process.env.VERCEL = "1";
+  const ip = getTrustedClientIp(mockRequest({
+    "x-forwarded-for": "198.51.100.99, 10.0.0.1",
+    "x-real-ip": "198.51.100.100",
+  }));
+  restoreEnv("TRUST_PROXY", prevTrustProxy);
+  restoreEnv("VERCEL", prevVercel);
+  assert(ip === "198.51.100.99", `got ${ip}`);
+});
+
+test("trusts generic proxy headers only when explicitly enabled", () => {
+  const prevTrustProxy = process.env.TRUST_PROXY;
+  const prevVercel = process.env.VERCEL;
+  process.env.TRUST_PROXY = "1";
+  process.env.VERCEL = "0";
+  const ip = getTrustedClientIp(mockRequest({
+    "x-forwarded-for": "198.51.100.99, 10.0.0.1",
+    "x-real-ip": "198.51.100.100",
+  }));
+  restoreEnv("TRUST_PROXY", prevTrustProxy);
+  restoreEnv("VERCEL", prevVercel);
+  assert(ip === "198.51.100.99", `got ${ip}`);
 });
 
 console.log("\n" + (failed === 0 ? `✅ All ${passed} tests passed` : `❌ ${failed} failed, ${passed} passed`));
