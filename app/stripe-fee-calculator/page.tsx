@@ -389,6 +389,15 @@ export default function StripeFeeCalculatorPage() {
             Why fees run higher →
           </Link>
         </div>
+        <div className="mt-4 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm text-gray-400">
+          <span>Need the short percentage answer?</span>
+          <Link
+            href="/what-percent-does-stripe-take"
+            className="text-blue-600 hover:text-blue-700 font-medium"
+          >
+            What percent Stripe takes →
+          </Link>
+        </div>
 
         <SeoPageTrustFooter />
       </main>

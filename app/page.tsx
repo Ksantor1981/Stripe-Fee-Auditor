@@ -827,6 +827,8 @@ export default function HomePage() {
           <span>·</span>
           <Link href="/stripe-fee-calculator" className="hover:underline">Stripe fee calculator</Link>
           <span>·</span>
+          <Link href="/what-percent-does-stripe-take" className="hover:underline">What percent Stripe takes</Link>
+          <span>·</span>
           <Link href="/stripe-balance-csv" className="hover:underline">Stripe Balance CSV</Link>
           <span>·</span>
           <Link href="/why-stripe-fee-rate-higher-than-2-9" className="hover:underline">Why fees exceed 2.9%</Link>

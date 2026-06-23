@@ -287,6 +287,7 @@ export default function Page() {
           <p className="text-sm font-semibold text-gray-700 mb-4">Related articles</p>
           <div className="space-y-3">
             {[
+              { href: "/what-percent-does-stripe-take", title: "What Percentage Does Stripe Take?" },
               { href: "/why-stripe-fee-rate-higher-than-2-9", title: "Why Are My Stripe Fees Higher Than 2.9%?" },
               { href: "/blog/how-to-export-stripe-balance-csv", title: "How to Export Your Stripe Balance CSV" },
               { href: "/blog/stripe-international-card-fees", title: "Stripe International Card Fees Explained" },

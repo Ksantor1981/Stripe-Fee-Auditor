@@ -147,6 +147,14 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
     sitemapPriority: 0.8,
   },
   {
+    slug: "what-percent-does-stripe-take",
+    path: "/what-percent-does-stripe-take",
+    title: "What Percentage Does Stripe Take?",
+    desc: "Calculate the published Stripe percentage and learn why your real effective rate can be higher.",
+    time: "4 min",
+    sitemapPriority: 0.79,
+  },
+  {
     slug: "stripe-balance-csv",
     path: "/stripe-balance-csv",
     title: "Stripe Balance CSV: Check Your Real Fee Rate",

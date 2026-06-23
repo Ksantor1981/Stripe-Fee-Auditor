@@ -262,14 +262,25 @@ export default function WhyStripeFeesIncreasePage() {
         </div>
 
         {/* Next step */}
-        <div className="mt-8 pt-8 border-t border-gray-100 flex items-center justify-between text-sm text-gray-400">
-          <span>Next: how to export the file</span>
-          <Link
-            href="/stripe-balance-csv"
-            className="text-blue-600 hover:text-blue-700 font-medium"
-          >
-            CSV Export Guide →
-          </Link>
+        <div className="mt-8 pt-8 border-t border-gray-100 space-y-4 text-sm text-gray-400">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <span>Next: how to export the file</span>
+            <Link
+              href="/stripe-balance-csv"
+              className="text-blue-600 hover:text-blue-700 font-medium"
+            >
+              CSV Export Guide →
+            </Link>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <span>Need the basic percentage first?</span>
+            <Link
+              href="/what-percent-does-stripe-take"
+              className="text-blue-600 hover:text-blue-700 font-medium"
+            >
+              What percent Stripe takes →
+            </Link>
+          </div>
         </div>
 
         <SeoPageTrustFooter />
