@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Stripe Fee Auditor",
+  "short_name": "Fee Auditor",
+  "version": "0.1.0",
+  "description": "Quick links and monthly reminders for checking your real Stripe fee rate from a Balance CSV.",
+  "action": {
+    "default_title": "Stripe Fee Auditor",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["alarms", "notifications", "storage"]
+}

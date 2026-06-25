@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stripe Fee Auditor</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <div class="brand">
+          <img src="icons/icon32.png" width="32" height="32" alt="" />
+          <div>
+            <p class="eyebrow">Stripe Fee Auditor</p>
+            <h1>Check your real Stripe fee rate</h1>
+          </div>
+        </div>
+        <p class="hero-copy">
+          Export a Balance CSV from Stripe, then audit the real processing rate and fee drivers.
+        </p>
+        <div class="trust-row">
+          <span>No OAuth</span>
+          <span>CSV-based</span>
+          <span>Free preview</span>
+        </div>
+      </header>
+
+      <section class="actions" aria-label="Primary actions">
+        <button class="action-card" type="button" data-open="stripe-export">
+          <span class="icon">1</span>
+          <span>
+            <strong>Open Stripe export</strong>
+            <small>Go to Balance report exports</small>
+          </span>
+        </button>
+        <button class="action-card primary" type="button" data-open="analyze">
+          <span class="icon">2</span>
+          <span>
+            <strong>Analyze CSV</strong>
+            <small>Upload the export to Fee Auditor</small>
+          </span>
+        </button>
+        <button class="action-card" type="button" data-open="monitor">
+          <span class="icon">3</span>
+          <span>
+            <strong>Fee Monitor - $9/mo</strong>
+            <small>Monthly reminders and rate drift checks</small>
+          </span>
+        </button>
+      </section>
+
+      <section class="reminder" aria-label="Monthly reminder">
+        <div>
+          <p class="label">Monthly reminder</p>
+          <p id="reminder-status">Off</p>
+        </div>
+        <button id="reminder-toggle" class="secondary-button" type="button">
+          Turn on
+        </button>
+      </section>
+
+      <footer>
+        <button type="button" class="text-button" data-open="instructions">
+          How to export the right CSV
+        </button>
+      </footer>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>
