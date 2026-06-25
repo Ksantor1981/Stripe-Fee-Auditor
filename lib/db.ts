@@ -651,10 +651,10 @@ export async function upsertMonitorSubscriberFromPayment(params: {
   email: string;
   productId?: string | null;
   source?: string;
-}): Promise<void> {
+}): Promise<{ isNewSubscriber: boolean }> {
   await ensureMonitorSubscribersTable();
 
-  await sql`
+  const rows = await sql`
     INSERT INTO monitor_subscribers (
       email, source, polar_product_id, status, last_paid_at, updated_at
     )
@@ -672,7 +672,10 @@ export async function upsertMonitorSubscriberFromPayment(params: {
       status = 'active',
       last_paid_at = NOW(),
       updated_at = NOW()
+    RETURNING (xmax = 0) AS is_new
   `;
+
+  return { isNewSubscriber: Boolean(rows[0]?.is_new) };
 }
 
 export async function claimMonitorSubscribersForMonthlyReminder(limit = 250): Promise<MonthlyReminderRecipient[]> {

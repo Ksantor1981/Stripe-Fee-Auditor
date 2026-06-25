@@ -265,6 +265,64 @@ export async function sendWaitlistConfirmationEmail(params: {
   });
 }
 
+export async function sendMonitorWelcomeEmail(to: string): Promise<void> {
+  if (!process.env.RESEND_API_KEY) {
+    console.log(`[email] RESEND_API_KEY not set, skipping monitor welcome to ${to}`);
+    return;
+  }
+
+  const from = process.env.EMAIL_FROM ?? DEFAULT_EMAIL_FROM;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? DEFAULT_BASE_URL;
+  const analyzeUrl = new URL("/analyze", baseUrl);
+  analyzeUrl.searchParams.set("utm_source", "email");
+  analyzeUrl.searchParams.set("utm_medium", "monitor_welcome");
+  analyzeUrl.searchParams.set("utm_campaign", "fee_monitor");
+
+  const monitorUrl = new URL("/monitor", baseUrl);
+  monitorUrl.searchParams.set("utm_source", "email");
+  monitorUrl.searchParams.set("utm_medium", "monitor_welcome");
+
+  await getResend().emails.send({
+    from,
+    to,
+    subject: "You're subscribed to Fee Monitor — here's your monthly workflow",
+    replyTo: process.env.EMAIL_REPLY_TO,
+    html: `
+      <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px">
+        <p style="color:#2563eb;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px">
+          Fee Monitor
+        </p>
+        <h1 style="font-size:20px;color:#111;margin:0 0 12px">
+          You're subscribed — $9/month
+        </h1>
+        <p style="color:#555;font-size:14px;line-height:1.6;margin:0 0 16px">
+          Thanks for joining Fee Monitor. No Stripe OAuth, no API keys — just a monthly CSV check
+          against your real processing and all-in Stripe cost rates.
+        </p>
+        <p style="color:#555;font-size:14px;font-weight:600;margin:0 0 8px">Your monthly workflow</p>
+        <ol style="color:#555;font-size:14px;margin:0 0 20px;padding-left:20px;line-height:1.6">
+          <li>Export an itemized Stripe Balance CSV for the last month</li>
+          <li>Upload it to Fee Auditor and review rate + month-over-month drift</li>
+          <li>Watch for high-fee charges, refunds, and small-charge drag</li>
+        </ol>
+        <a href="${analyzeUrl.toString()}"
+           style="display:inline-block;margin:0 0 12px;padding:12px 24px;background:#2563eb;color:#fff;border-radius:8px;font-weight:600;text-decoration:none;font-size:14px">
+          Upload this month's CSV →
+        </a>
+        <p style="color:#555;font-size:14px;line-height:1.6;margin:0 0 16px">
+          We'll email you about once a month when it's time for the next check. Full details live on
+          <a href="${monitorUrl.toString()}" style="color:#2563eb">the Fee Monitor page</a>.
+          Billing and cancellation are managed through Polar checkout receipts.
+        </p>
+        <p style="color:#888;font-size:12px;line-height:1.5;margin-top:24px">
+          Stripe Fee Auditor · Not affiliated with Stripe, Inc.<br>
+          Questions? Reply to this email.
+        </p>
+      </div>
+    `,
+  });
+}
+
 export async function sendMonthlyCsvReminderEmail(params: {
   to: string;
   audience: MonthlyReminderAudience;

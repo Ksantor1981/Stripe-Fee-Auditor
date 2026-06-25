@@ -7,7 +7,7 @@ import {
   verifyPolarWebhook,
 } from "@/lib/polar";
 import { getCheckoutSession, processPaidWebhook, upsertMonitorSubscriberFromPayment } from "@/lib/db";
-import { sendReportEmail } from "@/lib/email";
+import { sendMonitorWelcomeEmail, sendReportEmail } from "@/lib/email";
 import { logOpsError, logOpsWarn } from "@/lib/ops-log";
 
 export const maxDuration = 30;
@@ -142,11 +142,20 @@ export async function POST(req: NextRequest) {
   if (isMonitorProductId(productId)) {
     if (email) {
       try {
-        await upsertMonitorSubscriberFromPayment({
+        const { isNewSubscriber } = await upsertMonitorSubscriberFromPayment({
           email,
           productId,
           source: eventName,
         });
+
+        if (isNewSubscriber) {
+          await sendMonitorWelcomeEmail(email).catch((err) =>
+            logOpsError("polar_webhook_monitor_welcome_email_failed", {
+              message: err instanceof Error ? err.message.slice(0, 200) : "unknown",
+              eventId: shortId(eventId) ?? "unknown",
+            })
+          );
+        }
       } catch (err) {
         logOpsError("polar_webhook_monitor_subscriber_failed", {
           message: err instanceof Error ? err.message.slice(0, 200) : "unknown",
