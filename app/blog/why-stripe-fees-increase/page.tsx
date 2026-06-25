@@ -1,22 +1,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { BlogFaqSection, BlogJsonLd, BlogSourcesSection } from "@/components/BlogSeoBlocks";
 import { buildOgImageUrl } from "@/lib/seo-og";
 
 const pageTitle = "Why Did My Stripe Fees Increase?";
 const pageDescription =
   "Stripe fees can creep up for many reasons: more international cards, higher dispute rates, or plan changes. Learn how to diagnose and reduce your effective fee rate.";
+const pagePath = "/blog/why-stripe-fees-increase";
+const published = "2026-05-16";
+const updated = "2026-06-25";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe fee diagnosis" });
 
 export const metadata: Metadata = {
   title: `${pageTitle} | Fee Auditor`,
   description: pageDescription,
-  alternates: { canonical: "/blog/why-stripe-fees-increase" },
+  alternates: { canonical: pagePath },
   openGraph: {
     title: pageTitle,
     description: pageDescription,
     url: "https://feeauditor.com/blog/why-stripe-fees-increase",
     type: "article",
+    publishedTime: published,
+    modifiedTime: updated,
     images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
   },
   twitter: {
@@ -27,9 +33,43 @@ export const metadata: Metadata = {
   },
 };
 
+const FEE_INCREASE_TABLE = [
+  ["More international cards", "+1.5% on affected card charges", "Filter for international card rows"],
+  ["Currency conversion", "Often about +1% when conversion applies", "Compare charge and settlement currencies"],
+  ["Smaller transactions", "$0.30 fixed fee becomes a larger share", "Group charges by amount bucket"],
+  ["Disputes", "Flat dispute fees can spike all-in cost", "Filter dispute rows"],
+  ["Billing, Radar, Tax, add-ons", "Separate fee lines raise all-in Stripe cost", "Sum non-charge fee rows"],
+  ["Refunds", "Original processing fees are generally not returned", "Review refund rows and retained fees"],
+];
+
+const FAQ_ITEMS = [
+  {
+    question: "Why did my Stripe fees increase?",
+    answer:
+      "Stripe fees usually increase because your payment mix changed: more international cards, lower average charge size, currency conversion, disputes, refunds, or extra Stripe products such as Billing, Radar, or Tax.",
+  },
+  {
+    question: "How can I tell what caused the increase?",
+    answer:
+      "Export your itemized Stripe Balance CSV and compare this month to prior months. Check international card share, average transaction size, refund rows, dispute rows, and non-charge Stripe fee rows.",
+  },
+  {
+    question: "Can Stripe fees increase even if my pricing did not change?",
+    answer:
+      "Yes. Your Stripe pricing can stay the same while your effective rate rises because customer geography, transaction size, refunds, disputes, or add-on usage changed.",
+  },
+];
+
+const SOURCES = [
+  { href: "https://stripe.com/pricing", title: "Stripe pricing" },
+  { href: "https://docs.stripe.com/disputes", title: "Stripe disputes documentation" },
+  { href: "https://docs.stripe.com/reports/balance-transaction-types", title: "Stripe balance transaction types" },
+];
+
 export default function BlogPost1() {
   return (
     <main className="min-h-screen bg-white">
+      <BlogJsonLd title={pageTitle} description={pageDescription} path={pagePath} published={published} updated={updated} faqs={FAQ_ITEMS} />
       <div className="mx-auto max-w-2xl px-4 py-16">
         <Link href="/blog" className="text-sm text-blue-600 hover:underline">← Blog</Link>
         <h1 className="mt-4 text-3xl font-bold text-gray-900 leading-tight">
@@ -42,6 +82,30 @@ export default function BlogPost1() {
             If your Stripe effective fee rate has climbed over the past few months, you&apos;re not alone.
             Many businesses notice a gradual increase without a clear reason. Here are the most common causes.
           </p>
+
+          <div className="rounded-xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm text-blue-900">
+            <h2 className="text-base font-bold text-blue-950">Short answer</h2>
+            <p className="mt-2">
+              Your Stripe fees usually increase because your transaction mix changed, not because
+              one obvious setting changed. International cards, smaller charges, refunds, disputes,
+              currency conversion, and add-on products can all raise the effective rate.
+            </p>
+          </div>
+
+          <div className="overflow-hidden rounded-xl border border-gray-200 text-sm">
+            <div className="grid grid-cols-[1fr_1fr_1fr] border-b border-gray-200 bg-gray-50 font-semibold text-gray-700">
+              <div className="px-3 py-2.5">Cause</div>
+              <div className="border-l border-gray-200 px-3 py-2.5">Fee impact</div>
+              <div className="border-l border-gray-200 px-3 py-2.5">CSV signal</div>
+            </div>
+            {FEE_INCREASE_TABLE.map(([cause, impact, signal]) => (
+              <div key={cause} className="grid grid-cols-[1fr_1fr_1fr] border-b border-gray-100 last:border-b-0">
+                <div className="px-3 py-2.5 font-medium text-gray-800">{cause}</div>
+                <div className="border-l border-gray-100 px-3 py-2.5 text-gray-600">{impact}</div>
+                <div className="border-l border-gray-100 px-3 py-2.5 text-gray-600">{signal}</div>
+              </div>
+            ))}
+          </div>
 
           <h2 className="text-xl font-bold text-gray-900 mt-8 mb-3">1. More International Cards</h2>
           <p>
@@ -118,6 +182,8 @@ export default function BlogPost1() {
           </p>
         </div>
 
+        <BlogFaqSection items={FAQ_ITEMS} />
+
         <div className="mt-12 rounded-xl bg-blue-50 border border-blue-100 p-6 text-center">
           <p className="font-semibold text-gray-900 mb-2">Find out exactly what&apos;s driving your fees</p>
           <Link href="/analyze" className="inline-block bg-blue-600 text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
@@ -125,6 +191,8 @@ export default function BlogPost1() {
           </Link>
           <BlogBetaRetentionNote tone="gray" />
         </div>
+
+        <BlogSourcesSection items={SOURCES} />
       </div>
     </main>
   );

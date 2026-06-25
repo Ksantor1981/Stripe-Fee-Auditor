@@ -2,22 +2,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { BlogFaqSection, BlogJsonLd, BlogSourcesSection } from "@/components/BlogSeoBlocks";
 import { buildOgImageUrl } from "@/lib/seo-og";
 
 const pageTitle = "Stripe International Card Fees Explained";
 const pageDescription =
   "Stripe adds a 1.5% cross-border fee on international cards. Here's exactly how it works, how to find it in your data, and how to reduce it.";
+const pagePath = "/blog/stripe-international-card-fees";
+const published = "2026-05-16";
+const updated = "2026-06-25";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "International card fees" });
 
 export const metadata: Metadata = {
   title: `${pageTitle} | Fee Auditor`,
   description: pageDescription,
-  alternates: { canonical: "/blog/stripe-international-card-fees" },
+  alternates: { canonical: pagePath },
   openGraph: {
     title: pageTitle,
     description: pageDescription,
     url: "https://feeauditor.com/blog/stripe-international-card-fees",
     type: "article",
+    publishedTime: published,
+    modifiedTime: updated,
     images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
   },
   twitter: {
@@ -28,9 +34,34 @@ export const metadata: Metadata = {
   },
 };
 
+const FAQ_ITEMS = [
+  {
+    question: "What is Stripe's international card fee?",
+    answer:
+      "Stripe's international card fee is an extra cross-border fee charged when the card was issued outside your Stripe account country. For many US pricing scenarios, this is commonly 1.5 percentage points on top of standard card processing.",
+  },
+  {
+    question: "Does card currency or card country decide the international fee?",
+    answer:
+      "The international card fee is driven by the card issuer country relative to your Stripe account country. Currency conversion is separate and can stack on top when the charge and settlement currencies differ.",
+  },
+  {
+    question: "How do I find international card fees in Stripe data?",
+    answer:
+      "Export an itemized Stripe Balance CSV and look for international card indicators in charge rows, descriptions, or fee patterns. Then compare those rows against domestic card charges for the same period.",
+  },
+];
+
+const SOURCES = [
+  { href: "https://stripe.com/pricing", title: "Stripe pricing" },
+  { href: "https://docs.stripe.com/payments/payment-methods", title: "Stripe payment methods" },
+  { href: "https://docs.stripe.com/reports/balance-transaction-types", title: "Stripe balance transaction types" },
+];
+
 export default function Page() {
   return (
     <main className="min-h-screen bg-white">
+      <BlogJsonLd title={pageTitle} description={pageDescription} path={pagePath} published={published} updated={updated} faqs={FAQ_ITEMS} />
       <div className="mx-auto max-w-2xl px-4 py-16">
         <Link href="/blog" className="text-sm text-blue-600 hover:underline">
           ← Blog
@@ -82,6 +113,14 @@ export default function Page() {
               Stripe account's country), Stripe charges an additional 1.5% cross-border fee on
               top of the standard processing rate.
             </p>
+            <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm text-blue-900">
+              <h3 className="font-bold text-blue-950">Short answer</h3>
+              <p className="mt-2">
+                An international card fee is the extra Stripe cost applied when the customer&apos;s
+                card was issued outside your Stripe account country. Currency conversion is a
+                separate cost and can stack on top.
+              </p>
+            </div>
             <p className="mt-3">
               For a US account, a domestic card is typically 2.9% + $0.30. An international card adds
               1.5% cross-border on top — before any currency conversion. The $0.30 fixed fee stays the
@@ -231,6 +270,8 @@ export default function Page() {
 
         </div>
 
+        <BlogFaqSection items={FAQ_ITEMS} />
+
         <div className="mt-12 rounded-xl border border-gray-200 bg-gray-50 px-5 py-6">
           <p className="font-semibold text-gray-900">See how much international cards cost you</p>
           <p className="mt-1 text-sm text-gray-600">
@@ -254,6 +295,8 @@ export default function Page() {
           </div>
           <BlogBetaRetentionNote tone="gray" />
         </div>
+
+        <BlogSourcesSection items={SOURCES} />
 
         <div className="mt-10 border-t border-gray-100 pt-8">
           <p className="text-sm font-semibold text-gray-700 mb-4">Related articles</p>

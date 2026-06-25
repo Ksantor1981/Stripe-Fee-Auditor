@@ -2,22 +2,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { BlogFaqSection, BlogJsonLd, BlogSourcesSection } from "@/components/BlogSeoBlocks";
 import { buildOgImageUrl } from "@/lib/seo-og";
 
 const pageTitle = "How to Export Stripe Balance CSV to Analyze Your Real Fee Rate";
 const pageDescription =
   "Export the right Stripe Balance CSV for a fee audit. Choose Itemized, avoid Summary, and use the file to calculate your real Stripe effective rate.";
+const pagePath = "/blog/how-to-export-stripe-balance-csv";
+const published = "2026-05-16";
+const updated = "2026-06-25";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe Balance CSV" });
 
 export const metadata: Metadata = {
   title: `${pageTitle} | Fee Auditor`,
   description: pageDescription,
-  alternates: { canonical: "/blog/how-to-export-stripe-balance-csv" },
+  alternates: { canonical: pagePath },
   openGraph: {
     title: pageTitle,
     description: pageDescription,
     url: "https://feeauditor.com/blog/how-to-export-stripe-balance-csv",
     type: "article",
+    publishedTime: published,
+    modifiedTime: updated,
     images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
   },
   twitter: {
@@ -27,6 +33,30 @@ export const metadata: Metadata = {
     images: [ogImage],
   },
 };
+
+const FAQ_ITEMS = [
+  {
+    question: "Which Stripe CSV export should I use for fee analysis?",
+    answer:
+      "Use the Itemized Balance CSV or Balance Transactions export. Summary exports are useful for totals, but they do not contain enough transaction-level fee detail for a real fee audit.",
+  },
+  {
+    question: "Where do I export a Stripe Balance CSV?",
+    answer:
+      "In Stripe Dashboard, go to Reporting or Reports, open Balance summary or Balance transactions, set the date range, choose Export, then choose Itemized and download the CSV.",
+  },
+  {
+    question: "How much Stripe data should I export?",
+    answer:
+      "Export at least one full month. Three to six months is better for diagnosing fee trends, international card mix, refund leakage, and month-over-month rate changes.",
+  },
+];
+
+const SOURCES = [
+  { href: "https://docs.stripe.com/reports", title: "Stripe reports documentation" },
+  { href: "https://docs.stripe.com/reports/balance-transaction-types", title: "Stripe balance transaction types" },
+  { href: "https://dashboard.stripe.com/reports", title: "Stripe Dashboard reports" },
+];
 
 const COLUMNS = [
   { name: "id", desc: "Unique identifier for the balance transaction", example: "bt_123abc" },
@@ -42,6 +72,7 @@ const COLUMNS = [
 export default function Page() {
   return (
     <main className="min-h-screen bg-white">
+      <BlogJsonLd title={pageTitle} description={pageDescription} path={pagePath} published={published} updated={updated} faqs={FAQ_ITEMS} />
       <div className="mx-auto max-w-2xl px-4 py-16">
         <Link href="/blog" className="text-sm text-blue-600 hover:underline">← Blog</Link>
 
@@ -75,6 +106,13 @@ export default function Page() {
             <h2 className="text-xl font-bold text-gray-900 mb-3">
               For fee analysis, use Itemized, not Summary
             </h2>
+            <div className="mb-4 rounded-xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm text-blue-900">
+              <h3 className="font-bold text-blue-950">Short answer</h3>
+              <p className="mt-2">
+                Use Stripe&apos;s Itemized Balance CSV when you want to calculate real fees. It includes
+                transaction-level rows with amounts, fees, currencies, timestamps, and categories.
+              </p>
+            </div>
             <p>
               Stripe offers two Balance export types. Make sure you choose the right one:
             </p>
@@ -247,6 +285,8 @@ export default function Page() {
 
         </div>
 
+        <BlogFaqSection items={FAQ_ITEMS} />
+
         <div className="mt-12 rounded-xl border border-gray-200 bg-gray-50 px-5 py-6">
           <p className="font-semibold text-gray-900">Analyze your CSV, usually in under 30 seconds</p>
           <p className="mt-1 text-sm text-gray-600">
@@ -264,6 +304,8 @@ export default function Page() {
           </div>
           <BlogBetaRetentionNote tone="gray" />
         </div>
+
+        <BlogSourcesSection items={SOURCES} />
 
         <div className="mt-10 border-t border-gray-100 pt-8">
           <p className="text-sm font-semibold text-gray-700 mb-4">Related articles</p>

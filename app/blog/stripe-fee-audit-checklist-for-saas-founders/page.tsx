@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogArticleCta } from "@/components/BlogArticleCta";
+import { BlogFaqJsonLd, BlogFaqSection, BlogSourcesSection } from "@/components/BlogSeoBlocks";
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
 import { PILLAR_EFFECTIVE_RATE_PATH } from "../_data/blogIndex";
@@ -131,6 +132,30 @@ const RELATED = [
   { href: "/blog/stripe-international-card-fees", title: "Stripe International Card Fees Explained" },
 ];
 
+const FAQ_ITEMS = [
+  {
+    question: "How often should I audit Stripe fees?",
+    answer:
+      "For a SaaS business with meaningful Stripe volume, a monthly fee audit is enough. Compare processing rate, all-in Stripe cost, refund count, international share, and high-fee charge drivers against the previous month.",
+  },
+  {
+    question: "What is the most important Stripe fee metric to track?",
+    answer:
+      "Track both processing rate and all-in Stripe cost. Processing rate isolates charge fees, while all-in cost includes other Stripe fee rows such as disputes, Billing, Tax, Radar, and refund-related impact.",
+  },
+  {
+    question: "What Stripe export do I need for a fee audit?",
+    answer:
+      "Use an itemized Stripe Balance CSV or Balance Transactions export. Summary exports are too aggregated for charge-level fee analysis.",
+  },
+];
+
+const SOURCES = [
+  { href: "https://docs.stripe.com/reports", title: "Stripe reports documentation" },
+  { href: "https://docs.stripe.com/reports/balance-transaction-types", title: "Stripe balance transaction types" },
+  { href: "https://stripe.com/pricing", title: "Stripe pricing" },
+];
+
 const JSON_LD = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -162,6 +187,7 @@ export default function Page() {
   return (
     <main className="min-h-screen bg-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
+      <BlogFaqJsonLd items={FAQ_ITEMS} />
       <article className="mx-auto max-w-2xl px-4 py-16">
         <Link href="/blog" className="text-sm text-blue-600 hover:underline">
           ← Blog
@@ -310,6 +336,8 @@ export default function Page() {
           utmCampaign="stripe-fee-audit-checklist"
         />
 
+        <BlogFaqSection items={FAQ_ITEMS} />
+
         <section className="mt-8 rounded-xl border border-blue-100 bg-blue-50 px-5 py-5">
           <p className="text-sm font-semibold uppercase tracking-wide text-blue-700">
             Validating next
@@ -329,6 +357,8 @@ export default function Page() {
             Join the Fee Monitor waitlist →
           </Link>
         </section>
+
+        <BlogSourcesSection items={SOURCES} />
 
         <section className="mt-10 border-t border-gray-100 pt-8">
           <h2 className="text-sm font-semibold text-gray-700">Related guides</h2>

@@ -1,18 +1,27 @@
 /* eslint-disable react/no-unescaped-entities -- long-form editorial copy */
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BlogFaqSection, BlogJsonLd, BlogSourcesSection } from "@/components/BlogSeoBlocks";
 import { PILLAR_EFFECTIVE_RATE_PATH } from "@/app/blog/_data/blogIndex";
 
+const pageTitle = "Why Did My Stripe Effective Rate Jump This Month?";
+const pageDescription =
+  "Your Stripe blended rate changed month-over-month and you don't know why. Here are the 6 most common causes — and how to find which one hit you.";
+const pagePath = "/blog/why-stripe-effective-rate-jumped-this-month";
+const published = "2026-05-16";
+const updated = "2026-06-25";
+
 export const metadata: Metadata = {
-  title: "Why Did My Stripe Effective Rate Jump This Month? | Fee Auditor",
-  description:
-    "Your Stripe blended rate changed month-over-month and you don't know why. Here are the 6 most common causes — and how to find which one hit you.",
-  alternates: { canonical: "/blog/why-stripe-effective-rate-jumped-this-month" },
+  title: `${pageTitle} | Fee Auditor`,
+  description: pageDescription,
+  alternates: { canonical: pagePath },
   openGraph: {
-    title: "Why Did My Stripe Effective Rate Jump This Month?",
+    title: pageTitle,
     description:
       "6 reasons your Stripe blended rate changed — and how to diagnose which one hit you.",
     url: "https://feeauditor.com/blog/why-stripe-effective-rate-jumped-this-month",
+    publishedTime: published,
+    modifiedTime: updated,
   },
 };
 
@@ -103,9 +112,34 @@ const SEVERITY_STYLE: Record<string, { badge: string; border: string; bg: string
   },
 };
 
+const FAQ_ITEMS = [
+  {
+    question: "Why did my Stripe effective rate jump this month?",
+    answer:
+      "The most common causes are more international cards, a lower average transaction size, refunds from a prior month, new currency conversion, Stripe add-on fees, or dispute fees.",
+  },
+  {
+    question: "What month-over-month Stripe fee change is normal?",
+    answer:
+      "A movement of about 0.2 percentage points can be normal for a mixed SaaS business. A jump above 0.5 percentage points usually has a specific cause worth investigating in the Balance CSV.",
+  },
+  {
+    question: "Which Stripe CSV rows should I check first?",
+    answer:
+      "Start with charge rows by month, then check international card descriptions, low-dollar charge buckets, refund rows, dispute rows, and non-charge fee rows such as Billing, Radar, Tax, or other Stripe fees.",
+  },
+];
+
+const SOURCES = [
+  { href: "https://stripe.com/pricing", title: "Stripe pricing" },
+  { href: "https://docs.stripe.com/reports", title: "Stripe reports documentation" },
+  { href: "https://docs.stripe.com/disputes", title: "Stripe disputes documentation" },
+];
+
 export default function Page() {
   return (
     <main className="min-h-screen bg-white">
+      <BlogJsonLd title={pageTitle} description={pageDescription} path={pagePath} published={published} updated={updated} faqs={FAQ_ITEMS} />
       <div className="mx-auto max-w-2xl px-4 py-16">
         <Link href="/blog" className="text-sm text-blue-600 hover:underline">
           ← Blog
@@ -147,6 +181,15 @@ export default function Page() {
             that makes the cause obvious — you see total fees and total volume, but not what
             changed in the mix.
           </p>
+
+          <div className="rounded-xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm text-blue-900">
+            <h2 className="text-base font-bold text-blue-950">Short answer</h2>
+            <p className="mt-2">
+              A Stripe effective rate jump usually means the mix changed: more international cards,
+              more small charges, refund leakage, currency conversion, add-on fees, or disputes.
+              The Balance CSV shows which one changed month over month.
+            </p>
+          </div>
 
           <p className="leading-relaxed">
             The good news: each cause leaves a specific fingerprint in your Balance CSV export.
@@ -258,6 +301,8 @@ export default function Page() {
           </section>
         </div>
 
+        <BlogFaqSection items={FAQ_ITEMS} />
+
         <div className="mt-12 rounded-xl border border-gray-200 bg-gray-50 px-5 py-6">
           <p className="font-semibold text-gray-900">See your month-over-month rate changes</p>
           <p className="mt-1 text-sm text-gray-600">
@@ -280,6 +325,8 @@ export default function Page() {
             </Link>
           </div>
         </div>
+
+        <BlogSourcesSection items={SOURCES} />
 
         <div className="mt-10 border-t border-gray-100 pt-8">
           <p className="text-sm font-semibold text-gray-700 mb-4">Related articles</p>

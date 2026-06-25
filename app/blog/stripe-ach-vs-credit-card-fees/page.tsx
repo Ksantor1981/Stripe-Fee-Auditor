@@ -2,22 +2,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { BlogFaqSection, BlogJsonLd, BlogSourcesSection } from "@/components/BlogSeoBlocks";
 import { buildOgImageUrl } from "@/lib/seo-og";
 
 const pageTitle = "Stripe ACH vs Credit Card Fees: When ACH Saves Money";
 const pageDescription =
   "Compare Stripe ACH and credit card fees. See when ACH saves money, where the $5 cap matters, and how B2B SaaS can lower payment costs.";
+const pagePath = "/blog/stripe-ach-vs-credit-card-fees";
+const published = "2026-05-16";
+const updated = "2026-06-25";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe ACH vs card fees" });
 
 export const metadata: Metadata = {
   title: `${pageTitle} | Fee Auditor`,
   description: pageDescription,
-  alternates: { canonical: "/blog/stripe-ach-vs-credit-card-fees" },
+  alternates: { canonical: pagePath },
   openGraph: {
     title: pageTitle,
     description: pageDescription,
     url: "https://feeauditor.com/blog/stripe-ach-vs-credit-card-fees",
     type: "article",
+    publishedTime: published,
+    modifiedTime: updated,
     images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
   },
   twitter: {
@@ -28,9 +34,34 @@ export const metadata: Metadata = {
   },
 };
 
+const FAQ_ITEMS = [
+  {
+    question: "Is Stripe ACH cheaper than credit cards?",
+    answer:
+      "For many large US B2B payments, ACH is cheaper than cards because ACH has a lower percentage fee and a cap. Cards can still be better for speed, conversion, and consumer checkout expectations.",
+  },
+  {
+    question: "When should a SaaS business offer ACH?",
+    answer:
+      "ACH is most useful for large invoices, annual plans, and B2B customers who are comfortable with bank payments. It is less ideal for instant consumer purchases or high-friction checkout flows.",
+  },
+  {
+    question: "What is the tradeoff between ACH and card payments?",
+    answer:
+      "ACH usually costs less but can settle slower, fail differently, and create more onboarding friction. Card payments cost more but are faster and familiar for many buyers.",
+  },
+];
+
+const SOURCES = [
+  { href: "https://stripe.com/pricing", title: "Stripe pricing" },
+  { href: "https://docs.stripe.com/payments/ach-debit", title: "Stripe ACH Direct Debit documentation" },
+  { href: "https://docs.stripe.com/payments/payment-methods", title: "Stripe payment methods" },
+];
+
 export default function Page() {
   return (
     <main className="min-h-screen bg-white">
+      <BlogJsonLd title={pageTitle} description={pageDescription} path={pagePath} published={published} updated={updated} faqs={FAQ_ITEMS} />
       <div className="mx-auto max-w-2xl px-4 py-16">
         <Link href="/blog" className="text-sm text-blue-600 hover:underline">
           ← Blog
@@ -69,6 +100,13 @@ export default function Page() {
             <h2 className="text-xl font-bold text-gray-900 mb-3">
               The fee comparison
             </h2>
+            <div className="mb-4 rounded-xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm text-blue-900">
+              <h3 className="font-bold text-blue-950">Short answer</h3>
+              <p className="mt-2">
+                ACH is usually cheaper for large US bank payments, especially B2B invoices and
+                annual plans. Cards are usually faster and easier for checkout conversion.
+              </p>
+            </div>
             <div className="rounded-lg border border-gray-100 overflow-hidden">
               <table className="w-full text-sm">
                 <thead className="bg-gray-50 border-b border-gray-100">
@@ -235,6 +273,8 @@ export default function Page() {
 
         </div>
 
+        <BlogFaqSection items={FAQ_ITEMS} />
+
         <div className="mt-12 rounded-xl border border-gray-200 bg-gray-50 px-5 py-6">
           <p className="font-semibold text-gray-900">Find your ACH savings opportunity</p>
           <p className="mt-1 text-sm text-gray-600">
@@ -257,6 +297,8 @@ export default function Page() {
           </div>
           <BlogBetaRetentionNote tone="gray" />
         </div>
+
+        <BlogSourcesSection items={SOURCES} />
 
         <div className="mt-10 border-t border-gray-100 pt-8">
           <p className="text-sm font-semibold text-gray-700 mb-4">Related articles</p>

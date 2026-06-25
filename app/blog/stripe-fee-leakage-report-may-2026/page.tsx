@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { BlogFaqJsonLd, BlogFaqSection, BlogSourcesSection } from "@/components/BlogSeoBlocks";
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
 
@@ -108,6 +109,30 @@ const STACKED_FEES = [
   { scenario: "International + FX", fee: "$5.70", rate: "5.7%", bar: 100 },
 ];
 
+const FAQ_ITEMS = [
+  {
+    question: "What is Stripe fee leakage?",
+    answer:
+      "Stripe fee leakage is the gap between the headline payment rate you expect and the real all-in cost created by fixed fees, international cards, currency conversion, refunds, disputes, and add-on products.",
+  },
+  {
+    question: "Which businesses are most exposed to Stripe fee leakage?",
+    answer:
+      "Low-ticket subscriptions, global SaaS, refund-heavy products, and B2B invoices paid by card are the most exposed profiles. High-ticket domestic B2B SaaS is usually safer.",
+  },
+  {
+    question: "How do I measure fee leakage from Stripe data?",
+    answer:
+      "Export an itemized Stripe Balance CSV, calculate charge processing rate and all-in Stripe cost separately, then inspect small charges, international cards, refunds, disputes, and non-charge fee rows.",
+  },
+];
+
+const SOURCES = [
+  { href: "https://stripe.com/pricing", title: "Stripe pricing" },
+  { href: "https://docs.stripe.com/reports", title: "Stripe reports documentation" },
+  { href: "https://docs.stripe.com/disputes", title: "Stripe disputes documentation" },
+];
+
 const JSON_LD = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -159,6 +184,7 @@ export default function Page() {
   return (
     <main className="min-h-screen bg-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
+      <BlogFaqJsonLd items={FAQ_ITEMS} />
       <div className="mx-auto max-w-2xl px-4 py-16">
         <Link href="/blog" className="text-sm text-blue-600 hover:underline">
           ← Blog
@@ -395,6 +421,8 @@ export default function Page() {
           </section>
         </div>
 
+        <BlogFaqSection items={FAQ_ITEMS} />
+
         <div className="mt-12 rounded-xl border border-gray-200 bg-gray-50 px-5 py-6">
           <p className="font-semibold text-gray-900">Audit your own Stripe fee leakage</p>
           <p className="mt-1 text-sm text-gray-600">
@@ -418,6 +446,8 @@ export default function Page() {
           </div>
           <BlogBetaRetentionNote tone="gray" />
         </div>
+
+        <BlogSourcesSection items={SOURCES} />
 
         <div className="mt-10 border-t border-gray-100 pt-8">
           <p className="mb-4 text-sm font-semibold text-gray-700">Related articles</p>

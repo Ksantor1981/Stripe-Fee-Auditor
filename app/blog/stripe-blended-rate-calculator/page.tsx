@@ -2,22 +2,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { BlogFaqSection, BlogJsonLd, BlogSourcesSection } from "@/components/BlogSeoBlocks";
 import { buildOgImageUrl } from "@/lib/seo-og";
 
 const pageTitle = "Stripe Blended Rate Calculator: Find Your True Fee Rate";
 const pageDescription =
   "What is your real Stripe blended rate? Learn the formula, use our calculator, and find out what's pushing your effective rate above 2.9%.";
+const pagePath = "/blog/stripe-blended-rate-calculator";
+const published = "2026-05-16";
+const updated = "2026-06-25";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Blended fee rate" });
 
 export const metadata: Metadata = {
   title: `${pageTitle} | Fee Auditor`,
   description: pageDescription,
-  alternates: { canonical: "/blog/stripe-blended-rate-calculator" },
+  alternates: { canonical: pagePath },
   openGraph: {
     title: pageTitle,
     description: pageDescription,
     url: "https://feeauditor.com/blog/stripe-blended-rate-calculator",
     type: "article",
+    publishedTime: published,
+    modifiedTime: updated,
     images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
   },
   twitter: {
@@ -27,6 +33,30 @@ export const metadata: Metadata = {
     images: [ogImage],
   },
 };
+
+const FAQ_ITEMS = [
+  {
+    question: "What is a Stripe blended rate?",
+    answer:
+      "A Stripe blended rate is total Stripe fees divided by total charge volume across a period. It blends different payment types, fixed fees, international cards, refunds, and add-on fees into one real-world percentage.",
+  },
+  {
+    question: "Why is my blended rate higher than 2.9%?",
+    answer:
+      "Your blended rate can be higher than 2.9% because the fixed $0.30 fee is large on small charges, international cards add cross-border fees, currency conversion can add cost, and refunds or disputes can raise all-in fees.",
+  },
+  {
+    question: "Should I use charge fees or all Stripe fees?",
+    answer:
+      "Use charge fees to measure card processing rate. Use all Stripe fees to measure all-in Stripe cost. Both are useful, but they answer different questions.",
+  },
+];
+
+const SOURCES = [
+  { href: "https://stripe.com/pricing", title: "Stripe pricing" },
+  { href: "https://docs.stripe.com/reports", title: "Stripe reports documentation" },
+  { href: "https://docs.stripe.com/reports/balance-transaction-types", title: "Stripe balance transaction types" },
+];
 
 const FACTORS = [
   {
@@ -76,6 +106,7 @@ const FACTORS = [
 export default function Page() {
   return (
     <main className="min-h-screen bg-white">
+      <BlogJsonLd title={pageTitle} description={pageDescription} path={pagePath} published={published} updated={updated} faqs={FAQ_ITEMS} />
       <div className="mx-auto max-w-2xl px-4 py-16">
         <Link href="/blog" className="text-sm text-blue-600 hover:underline">← Blog</Link>
 
@@ -119,6 +150,14 @@ export default function Page() {
               blended rate reflects your actual mix of customers, card types, geographies, and
               transaction sizes.
             </p>
+            <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm text-blue-900">
+              <h3 className="font-bold text-blue-950">Snippet answer</h3>
+              <p className="mt-2">
+                Stripe blended rate is the real percentage of processed volume paid in Stripe fees:
+                total fees divided by total charge volume. It is usually more useful than the
+                advertised card rate when you want to understand an actual month of payments.
+              </p>
+            </div>
           </section>
 
           <section>
@@ -266,6 +305,8 @@ export default function Page() {
 
         </div>
 
+        <BlogFaqSection items={FAQ_ITEMS} />
+
         <div className="mt-12 rounded-xl border border-gray-200 bg-gray-50 px-5 py-6">
           <p className="font-semibold text-gray-900">Calculate your real blended rate</p>
           <p className="mt-1 text-sm text-gray-600">
@@ -296,6 +337,8 @@ export default function Page() {
             ))}
           </div>
         </div>
+
+        <BlogSourcesSection items={SOURCES} />
       </div>
     </main>
   );

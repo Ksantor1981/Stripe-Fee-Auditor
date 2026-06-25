@@ -2,23 +2,29 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { BlogFaqSection, BlogJsonLd, BlogSourcesSection } from "@/components/BlogSeoBlocks";
 import { buildOgImageUrl } from "@/lib/seo-og";
 
 const pageTitle = "Stripe Fees for Small Transactions: Why Your Rate Is Higher";
 const metaTitle = "Small Transaction Stripe Fees";
 const pageDescription =
   "Stripe's $0.30 fixed fee hits small transactions hard. A $5 charge has an effective rate of 9%. Here's the math and what to do about it.";
+const pagePath = "/blog/stripe-fees-small-transactions";
+const published = "2026-05-16";
+const updated = "2026-06-25";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Small transaction fees" });
 
 export const metadata: Metadata = {
   title: `${metaTitle} | Fee Auditor`,
   description: pageDescription,
-  alternates: { canonical: "/blog/stripe-fees-small-transactions" },
+  alternates: { canonical: pagePath },
   openGraph: {
     title: pageTitle,
     description: pageDescription,
     url: "https://feeauditor.com/blog/stripe-fees-small-transactions",
     type: "article",
+    publishedTime: published,
+    modifiedTime: updated,
     images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
   },
   twitter: {
@@ -28,6 +34,30 @@ export const metadata: Metadata = {
     images: [ogImage],
   },
 };
+
+const FAQ_ITEMS = [
+  {
+    question: "Why are Stripe fees so high on small transactions?",
+    answer:
+      "Stripe's fixed per-transaction fee is the same whether the charge is $5 or $100. On a $5 charge, a $0.30 fixed fee is already 6% before the percentage fee is added.",
+  },
+  {
+    question: "What is the Stripe fee on a $5 payment?",
+    answer:
+      "Using 2.9% + $0.30 as the example rate, a $5 payment costs about $0.45 in fees: $0.145 from the percentage fee plus $0.30 fixed. That is roughly a 9% effective rate.",
+  },
+  {
+    question: "How can I reduce Stripe fees for low-priced products?",
+    answer:
+      "Bundle small purchases, increase minimum charge size, move monthly micro-plans to annual billing, or batch usage-based charges into fewer invoices where the customer experience allows it.",
+  },
+];
+
+const SOURCES = [
+  { href: "https://stripe.com/pricing", title: "Stripe pricing" },
+  { href: "https://docs.stripe.com/billing", title: "Stripe Billing documentation" },
+  { href: "https://docs.stripe.com/reports", title: "Stripe reports documentation" },
+];
 
 const TABLE_DATA = [
   { amount: "$100.00", pct: "$2.90", fixed: "$0.30", total: "$3.20", rate: "3.20%" },
@@ -40,6 +70,7 @@ const TABLE_DATA = [
 export default function Page() {
   return (
     <main className="min-h-screen bg-white">
+      <BlogJsonLd title={pageTitle} description={pageDescription} path={pagePath} published={published} updated={updated} faqs={FAQ_ITEMS} />
       <div className="mx-auto max-w-2xl px-4 py-16">
         <Link href="/blog" className="text-sm text-blue-600 hover:underline">← Blog</Link>
 
@@ -76,6 +107,14 @@ export default function Page() {
               does not — it applies to every transaction regardless of size. On small transactions,
               the fixed fee becomes the dominant cost.
             </p>
+            <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm text-blue-900">
+              <h3 className="font-bold text-blue-950">Short answer</h3>
+              <p className="mt-2">
+                Stripe fees feel high on small payments because the fixed per-transaction fee does
+                not shrink with the charge amount. The smaller the charge, the larger that fixed fee
+                becomes as a percentage of revenue.
+              </p>
+            </div>
             <div className="mt-4 rounded-lg border border-gray-100 overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="bg-gray-50 border-b border-gray-100">
@@ -205,6 +244,8 @@ export default function Page() {
 
         </div>
 
+        <BlogFaqSection items={FAQ_ITEMS} />
+
         <div className="mt-12 rounded-xl border border-gray-200 bg-gray-50 px-5 py-6">
           <p className="font-semibold text-gray-900">See your effective rate by transaction size</p>
           <p className="mt-1 text-sm text-gray-600">
@@ -221,6 +262,8 @@ export default function Page() {
           </div>
           <BlogBetaRetentionNote tone="gray" />
         </div>
+
+        <BlogSourcesSection items={SOURCES} />
 
         <div className="mt-10 border-t border-gray-100 pt-8">
           <p className="text-sm font-semibold text-gray-700 mb-4">Related articles</p>
