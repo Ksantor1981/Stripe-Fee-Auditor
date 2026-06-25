@@ -51,9 +51,9 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
   if (submitted) {
     return (
       <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-6 text-center">
-        <p className="font-semibold text-emerald-900">You&apos;re on the list.</p>
+        <p className="font-semibold text-emerald-900">You&apos;re on the free list.</p>
         <p className="text-sm text-emerald-700 mt-1">
-          Check your inbox for a confirmation. We&apos;ll email you again when Fee Monitor beta opens.
+          Check your inbox for a confirmation. We&apos;ll send occasional fee notes and product updates.
         </p>
       </div>
     );
@@ -62,13 +62,31 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
   return (
     <div className="rounded-2xl border border-blue-100 bg-gradient-to-b from-blue-50/80 to-white shadow-sm p-6">
       <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-1">
-        Coming soon
+        Fee Monitor · $9/mo
       </p>
       <h3 className="text-base font-bold text-gray-900 mb-2">
         Want to know if this rate gets worse next month?
       </h3>
       <p className="text-sm text-gray-600 mb-4">
-        Fee Monitor will keep a private history of your CSV-based audits and compare each new upload with the previous one. No OAuth; you stay in control of every export.
+        Subscribe for monthly CSV reminders, rate drift checks, and first access to private report history as it ships. No Stripe OAuth; you stay in control of every export.
+      </p>
+
+      <a
+        href="/api/checkout/monitor?source=report_monitor"
+        onClick={() => trackEvent("monitor_checkout_click", REPORT_WAITLIST_ANALYTICS)}
+        className="inline-flex w-full justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
+      >
+        Start Fee Monitor - $9/mo
+      </a>
+
+      <div className="my-5 flex items-center gap-3">
+        <div className="h-px flex-1 bg-blue-100" />
+        <span className="text-xs font-semibold uppercase tracking-widest text-gray-400">or</span>
+        <div className="h-px flex-1 bg-blue-100" />
+      </div>
+
+      <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-gray-500">
+        Not ready yet?
       </p>
 
       <form onSubmit={submit} className="flex flex-col sm:flex-row gap-3">
@@ -86,13 +104,13 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
           disabled={loading || !email.trim()}
           className="rounded-xl bg-blue-600 hover:bg-blue-700 disabled:bg-gray-200 disabled:text-gray-400 text-white font-semibold px-5 py-2.5 text-sm transition-colors whitespace-nowrap"
         >
-          {loading ? "Joining..." : "Join early list"}
+          {loading ? "Joining..." : "Join free list"}
         </button>
       </form>
 
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
       <p className="mt-3 text-xs text-gray-500">
-        Curious first? <a href="/monitor" className="text-blue-600 hover:underline">See what we are validating</a>.
+        Curious first? <a href="/monitor" className="text-blue-600 hover:underline">See what is included</a>.
       </p>
     </div>
   );

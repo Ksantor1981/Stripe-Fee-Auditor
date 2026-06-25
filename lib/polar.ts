@@ -48,8 +48,13 @@ export function isMonitorProductId(productId: string | null | undefined): boolea
   return productId === process.env.POLAR_PRODUCT_MONITOR_MONTHLY;
 }
 
+function readEnvValue(key: string): string | undefined {
+  const value = process.env[key]?.trim();
+  return value || undefined;
+}
+
 function getRequiredProductId(planId: PlanId): string {
-  const productId = process.env[PLANS[planId].productEnvKey];
+  const productId = readEnvValue(PLANS[planId].productEnvKey);
   if (!productId) {
     throw new Error(`Polar not configured: missing ${PLANS[planId].productEnvKey}`);
   }
@@ -57,9 +62,15 @@ function getRequiredProductId(planId: PlanId): string {
 }
 
 function getRequiredMonitorProductId(planId: MonitorPlanId = "monitor_monthly"): string {
-  const productId = process.env[MONITOR_PLAN[planId].productEnvKey];
+  const productId = readEnvValue(MONITOR_PLAN[planId].productEnvKey);
   if (!productId) {
     throw new Error(`Polar not configured: missing ${MONITOR_PLAN[planId].productEnvKey}`);
+  }
+  const reportProductId = readEnvValue(PLANS.pro.productEnvKey);
+  if (reportProductId && productId === reportProductId) {
+    throw new Error(
+      "Polar misconfigured: POLAR_PRODUCT_MONITOR_MONTHLY points to the same product as POLAR_PRODUCT_PRO. Use the $9/month subscription product id."
+    );
   }
   return productId;
 }

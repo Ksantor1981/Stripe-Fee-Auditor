@@ -12,6 +12,13 @@ function envConfigured(name: string): CheckStatus {
   return v ? "ok" : "skip";
 }
 
+function polarProductsDistinct(): CheckStatus {
+  const reportProduct = process.env.POLAR_PRODUCT_PRO?.trim();
+  const monitorProduct = process.env.POLAR_PRODUCT_MONITOR_MONTHLY?.trim();
+  if (!reportProduct || !monitorProduct) return "skip";
+  return reportProduct === monitorProduct ? "fail" : "ok";
+}
+
 /** Public liveness/readiness for uptime monitors (UptimeRobot, Better Stack, etc.). */
 export async function GET() {
   const checks: Record<string, CheckStatus> = {
@@ -21,6 +28,7 @@ export async function GET() {
     polar_checkout: envConfigured("POLAR_ACCESS_TOKEN"),
     polar_product: envConfigured("POLAR_PRODUCT_PRO"),
     polar_monitor_product: envConfigured("POLAR_PRODUCT_MONITOR_MONTHLY"),
+    polar_products_distinct: polarProductsDistinct(),
     polar_server: process.env.POLAR_SERVER?.trim() ? "ok" : "skip",
     database_url: envConfigured("DATABASE_URL"),
   };
