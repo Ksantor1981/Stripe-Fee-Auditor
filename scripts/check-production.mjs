@@ -6,8 +6,8 @@ const checks = [
     containsAny: [
       ["Free right now", "$12 one-time unlock for the full report"],
       "No Stripe API access",
-      "Raw CSV never stored",
-      "When a fee audit is useful",
+      "Server analysis, no raw file storage",
+      "Quick fit check",
       "$12 one-time unlock",
     ],
   },
