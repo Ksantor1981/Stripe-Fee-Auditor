@@ -63,21 +63,21 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
   }
 
   return (
-    <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-6 shadow-sm">
+    <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-6 text-center shadow-sm">
       <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-1">
         Fee Monitor · $9/mo
       </p>
       <h3 className="text-base font-bold text-gray-900 mb-2">
         Want to know if this rate gets worse next month?
       </h3>
-      <p className="text-sm text-gray-600 mb-4">
+      <p className="mx-auto mb-4 max-w-2xl text-sm text-gray-600">
         Subscribe for monthly CSV reminders, rate drift checks, and first access to private report history as it ships. No Stripe OAuth; you stay in control of every export.
       </p>
 
       <a
         href={monitorCheckoutHref}
         onClick={() => trackEvent("monitor_checkout_click", REPORT_WAITLIST_ANALYTICS)}
-        className="mx-auto inline-flex h-11 w-full max-w-md items-center justify-center rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
+        className="mx-auto flex h-11 w-full max-w-md items-center justify-center rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
       >
         Start Fee Monitor - $9/mo
       </a>
@@ -92,7 +92,7 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
         Not ready yet?
       </p>
 
-      <form onSubmit={submit} className="flex flex-col sm:flex-row gap-3">
+      <form onSubmit={submit} className="mx-auto flex max-w-2xl flex-col gap-3 sm:flex-row">
         <input
           type="email"
           required

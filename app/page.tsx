@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { LandingFaq } from "@/components/LandingFaq";
 import { LandingNav } from "@/components/LandingNav";
@@ -338,8 +339,20 @@ export default function HomePage() {
           See how I found ~$1,400 in hidden fees →
         </Link>
 
+        <div className="mt-10 w-full max-w-5xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60">
+          <Image
+            src="/screenshots/report-preview.png"
+            alt="Stripe Fee Auditor report showing $3,597.77 in fees, 3.82% processing rate, 4.02% all-in cost rate, and savings teaser"
+            width={1076}
+            height={777}
+            priority
+            sizes="(min-width: 1024px) 960px, 100vw"
+            className="h-auto w-full"
+          />
+        </div>
+
         {/* Trust signals */}
-        <div className="mt-6 w-full max-w-3xl rounded-2xl border border-slate-100 bg-slate-50/60 px-4 py-3.5">
+        <div className="mt-8 w-full max-w-3xl rounded-2xl border border-slate-100 bg-slate-50/60 px-4 py-3.5">
           <div className="grid gap-2 text-left sm:grid-cols-3 sm:text-center lg:grid-cols-6">
             {TRUST_SIGNALS.map(({ icon, label }) => (
               <div key={label} className="flex items-center justify-center gap-1.5 text-sm font-medium text-gray-700">
@@ -486,40 +499,6 @@ export default function HomePage() {
             );
             })}
           </div>
-        </div>
-      </section>
-
-      {/* Solution preview */}
-      <section id="solution" className="px-4 pb-16 scroll-mt-14">
-        <div className="mx-auto max-w-3xl text-center mb-4">
-          <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
-            The solution
-          </p>
-          <p className="mt-1 text-sm text-gray-500">
-            One upload turns your Balance CSV into plain-English metrics — no OAuth, no permanent Stripe access.
-          </p>
-        </div>
-        <div className="mx-auto max-w-3xl rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-6 shadow-sm">
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-2">
-            Example output
-          </p>
-          <div className="grid gap-3 sm:grid-cols-5">
-            {[
-              { label: "Processed", value: "$18,420" },
-              { label: "Stripe fees", value: "$642.18" },
-              { label: "All-in cost rate", value: "3.49%" },
-              { label: "Benchmark", value: "Normal" },
-              { label: "Savings", value: "~$720/yr" },
-            ].map(({ label, value }) => (
-              <div key={label} className="rounded-xl bg-white px-4 py-3 border border-blue-50">
-                <p className="text-xs text-gray-400">{label}</p>
-                <p className="text-lg font-bold text-gray-900">{value}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-4 text-sm text-gray-600">
-            The report turns a raw Balance CSV into a plain-English answer to: is this rate normal, what is driving it up, and what should I look at first?
-          </p>
         </div>
       </section>
 
