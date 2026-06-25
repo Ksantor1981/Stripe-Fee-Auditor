@@ -253,12 +253,14 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
           <TabsTrigger value="monthly" className="flex-1">Monthly Detail</TabsTrigger>
         </TabsList>
 
-        {/* Overview tab — Top 3 FREE */}
+        {/* Overview tab — Top 3 summary */}
         <TabsContent value="overview">
           <div className="rounded-2xl bg-white border border-gray-100 shadow-sm mt-3 divide-y divide-gray-50">
             <div className="px-5 py-4 flex items-center justify-between">
               <h3 className="text-sm font-semibold text-gray-700">Top Fee Drivers</h3>
-              <Badge variant="outline" className="text-xs">Free preview · Top 3</Badge>
+              <Badge variant="outline" className="text-xs">
+                {isPaid ? "Full report · Top 3" : "Free preview · Top 3"}
+              </Badge>
             </div>
             {topDrivers.slice(0, 3).map((row, i) => (
               <div key={row.id} className="flex items-center justify-between px-5 py-3.5 gap-4">

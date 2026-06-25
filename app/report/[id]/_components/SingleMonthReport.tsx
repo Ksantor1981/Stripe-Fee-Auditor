@@ -122,7 +122,9 @@ export function SingleMonthReport({ reportId, result, isPaid }: Props) {
       <div className="rounded-2xl bg-white border border-gray-100 shadow-sm">
         <div className="px-5 py-4 border-b border-gray-50 flex items-center justify-between">
           <h2 className="text-sm font-semibold text-gray-700">Top Fee Drivers</h2>
-          <span className="text-xs text-gray-400">Free preview · Top 3</span>
+          <span className="text-xs text-gray-400">
+            {isPaid ? "Full report · Top 3" : "Free preview · Top 3"}
+          </span>
         </div>
         <div className="divide-y divide-gray-50">
           {topDrivers.slice(0, 3).map((row, i) => (
