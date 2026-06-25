@@ -11,6 +11,9 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const viewTracked = useRef(false);
+  const monitorCheckoutHref = `/api/checkout/monitor?source=report_monitor&return_to=${encodeURIComponent(
+    `/report/${reportId}`
+  )}`;
 
   useEffect(() => {
     if (viewTracked.current) return;
@@ -72,7 +75,7 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
       </p>
 
       <a
-        href="/api/checkout/monitor?source=report_monitor"
+        href={monitorCheckoutHref}
         onClick={() => trackEvent("monitor_checkout_click", REPORT_WAITLIST_ANALYTICS)}
         className="inline-flex w-full justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
       >

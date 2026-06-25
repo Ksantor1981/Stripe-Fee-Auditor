@@ -131,7 +131,7 @@ export async function buildCheckoutUrl(
 ): Promise<string> {
   const productId = getRequiredProductId(planId);
   const successUrl = absoluteUrl("/api/checkout/success?checkout_id={CHECKOUT_ID}");
-  const returnUrl = absoluteUrl("/analyze");
+  const returnUrl = absoluteUrl(`/report/${reportId}`);
 
   const polar = getPolarClient();
   if (polar) {
@@ -180,10 +180,11 @@ export async function buildCheckoutUrl(
 export async function buildMonitorCheckoutUrl(params: {
   email?: string;
   source?: string;
+  returnPath?: string;
 } = {}): Promise<string> {
   const productId = getRequiredMonitorProductId();
   const successUrl = absoluteUrl("/monitor?payment=success");
-  const returnUrl = absoluteUrl("/monitor");
+  const returnUrl = absoluteUrl(params.returnPath ?? "/monitor");
 
   const polar = getPolarClient();
   if (polar) {

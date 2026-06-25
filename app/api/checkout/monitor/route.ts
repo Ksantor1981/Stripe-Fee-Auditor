@@ -5,10 +5,22 @@ import { getTrustedClientIp } from "@/lib/request-ip";
 import { isValidWaitlistEmail, normalizeWaitlistEmail } from "@/lib/waitlist";
 
 const MONITOR_CHECKOUT_LIMIT_PER_IP_PER_DAY = 20;
+const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 function sanitizeSource(value: string | null): string {
   const source = (value ?? "monitor").trim();
   return /^[a-z0-9_-]{1,64}$/i.test(source) ? source : "monitor";
+}
+
+function sanitizeReturnPath(value: string | null): string {
+  const path = value?.trim();
+  if (!path) return "/monitor";
+  if (path === "/monitor" || path === "/analyze") return path;
+
+  const reportMatch = path.match(/^\/report\/([^/?#]+)$/);
+  if (reportMatch && UUID_V4.test(reportMatch[1])) return path;
+
+  return "/monitor";
 }
 
 export async function GET(req: NextRequest) {
@@ -35,6 +47,7 @@ export async function GET(req: NextRequest) {
     const url = await buildMonitorCheckoutUrl({
       email,
       source: sanitizeSource(req.nextUrl.searchParams.get("source")),
+      returnPath: sanitizeReturnPath(req.nextUrl.searchParams.get("return_to")),
     });
     return NextResponse.redirect(url);
   } catch (err) {

@@ -360,16 +360,17 @@ export async function saveReportEmail(id: string, email: string, accessToken: st
   // Extend to ≥72 h so users can return via the email link.
   // Record email_captured_at so the follow-up cron counts from this moment,
   // not from report creation.
+  // Idempotent by design: browser back/checkout cancel can show a cached
+  // EmailGate after email was already saved, and that should still unlock.
   const rows = await sql`
     UPDATE reports
     SET
-      email = ${email},
+      email = COALESCE(email, ${email}),
       email_captured_at = COALESCE(email_captured_at, NOW()),
       expires_at = GREATEST(expires_at, NOW() + INTERVAL '72 hours')
     WHERE id = ${id}
       AND access_token_hash = ${hashReportAccessToken(accessToken)}
       AND expires_at > NOW()
-      AND email IS NULL
     RETURNING id
   `;
   return rows.length > 0;
