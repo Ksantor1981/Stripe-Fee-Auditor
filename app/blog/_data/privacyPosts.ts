@@ -494,11 +494,13 @@ export const PRIVACY_ARTICLES: PrivacyArticle[] = [
   },
 ];
 
-export const PRIVACY_ARTICLE_INDEX = PRIVACY_ARTICLES.map(({ slug, shortTitle, description, time }) => ({
+export const PRIVACY_ARTICLE_INDEX = PRIVACY_ARTICLES.map(({ slug, shortTitle, description, time, datePublished, dateModified }) => ({
   slug,
   title: shortTitle,
   desc: description,
   time,
+  datePublished,
+  dateModified,
 }));
 
 export const PRIVACY_ARTICLE_SLUGS = PRIVACY_ARTICLES.map((post) => post.slug);

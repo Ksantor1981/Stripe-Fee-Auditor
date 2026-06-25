@@ -9,6 +9,8 @@ export type BlogIndexEntry = {
   title: string;
   desc: string;
   time: string;
+  publishedAt: string;
+  updatedAt: string;
   sitemapPriority: number;
 };
 
@@ -20,6 +22,8 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     title: "Cross-Border Stripe Fees & Global Migration (June 2026)",
     desc: "Why record global mobility and remote-work visas can push Stripe effective rates from ~2.9% toward 5%+ — and what to monitor in your CSV.",
     time: "10 min",
+    publishedAt: "2026-06-22",
+    updatedAt: "2026-06-22",
     sitemapPriority: 0.83,
   },
   {
@@ -28,6 +32,8 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     title: "Stripe Fee Audit Checklist for SaaS Founders",
     desc: "A practical monthly Stripe fee audit checklist: effective rate, Balance CSV, international cards, refunds, small charges, and what to compare over time.",
     time: "8 min",
+    publishedAt: "2026-05-25",
+    updatedAt: "2026-05-25",
     sitemapPriority: 0.77,
   },
   {
@@ -36,6 +42,8 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     title: "Stripe Fee Leakage Report: Who Is Safe?",
     desc: "A May 2026 diagnostic model for SaaS founders: which Stripe profiles stay near baseline and which quietly bleed margin.",
     time: "9 min",
+    publishedAt: "2026-05-18",
+    updatedAt: "2026-05-18",
     sitemapPriority: 0.76,
   },
   {
@@ -44,6 +52,8 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     title: "Stripe Alternatives in 2026: Check Fees Before Switching",
     desc: "Looking for Stripe alternatives? First audit your real effective rate and identify whether fees, payment mix, or checkout strategy is the real problem.",
     time: "8 min",
+    publishedAt: "2026-06-25",
+    updatedAt: "2026-06-25",
     sitemapPriority: 0.78,
   },
   {
@@ -52,6 +62,8 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     title: "Stripe Credit Card Processing Fees Explained",
     desc: "Stripe card fees start with the published rate, but your real rate depends on fixed fees, international cards, refunds, disputes, and add-ons.",
     time: "6 min",
+    publishedAt: "2026-06-25",
+    updatedAt: "2026-06-25",
     sitemapPriority: 0.76,
   },
   {
@@ -60,6 +72,8 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     title: "Stripe vs PayPal Fees: Real Comparison",
     desc: "Compare published Stripe and PayPal fees, then learn why your actual payment cost depends on checkout mix, refunds, international customers, and average charge size.",
     time: "7 min",
+    publishedAt: "2026-06-25",
+    updatedAt: "2026-06-25",
     sitemapPriority: 0.74,
   },
   {
@@ -68,6 +82,8 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     title: "Stripe International Card Fees Explained",
     desc: "Stripe adds 1.5% on international cards. Here's how it works, how to find it in your data, and how to reduce it.",
     time: "6 min",
+    publishedAt: "2026-05-16",
+    updatedAt: "2026-06-25",
     sitemapPriority: 0.72,
   },
   {
@@ -76,6 +92,8 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     title: "Stripe ACH vs Credit Card Fees: When ACH Saves Money",
     desc: "ACH usually beats standard domestic card pricing on cost. See the $5 cap math and when B2B SaaS should switch.",
     time: "7 min",
+    publishedAt: "2026-05-16",
+    updatedAt: "2026-06-25",
     sitemapPriority: 0.72,
   },
   {
@@ -84,6 +102,8 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     title: "Stripe Fees for Small Transactions: Why Your Rate Is Higher",
     desc: "The $0.30 fixed fee dominates micro-transactions — and how feeauditor.com surfaces it.",
     time: "5 min",
+    publishedAt: "2026-05-16",
+    updatedAt: "2026-06-25",
     sitemapPriority: 0.71,
   },
   {
@@ -92,6 +112,8 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     title: "Stripe Blended Rate Calculator: Your True Fee Rate",
     desc: "Formula for blended rate, what pushes it above 2.9%, and how to verify from your CSV.",
     time: "6 min",
+    publishedAt: "2026-05-16",
+    updatedAt: "2026-06-25",
     sitemapPriority: 0.71,
   },
   {
@@ -100,6 +122,8 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     title: "How to Export Stripe Balance CSV for a Fee Audit",
     desc: "Use the right Itemized Stripe Balance CSV to analyze your real fee rate: export path, required columns, and mistakes to avoid.",
     time: "4 min",
+    publishedAt: "2026-05-16",
+    updatedAt: "2026-06-25",
     sitemapPriority: 0.73,
   },
   {
@@ -108,6 +132,8 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     title: "Why Did My Stripe Effective Rate Jump This Month?",
     desc: "6 specific causes — international cards, new low-priced products, refunds, FX stacking — and how to diagnose each from your CSV.",
     time: "8 min",
+    publishedAt: "2026-05-16",
+    updatedAt: "2026-06-25",
     sitemapPriority: 0.78,
   },
   {
@@ -116,6 +142,8 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     title: "Why Did My Stripe Fees Increase?",
     desc: "5 common reasons your effective rate is climbing.",
     time: "5 min",
+    publishedAt: "2026-05-16",
+    updatedAt: "2026-06-25",
     sitemapPriority: 0.8,
   },
   {
@@ -124,6 +152,8 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     title: "How to Reduce Your Stripe Fees",
     desc: "Practical tactics: custom pricing, ACH, fewer disputes.",
     time: "7 min",
+    publishedAt: "2026-05-16",
+    updatedAt: "2026-06-25",
     sitemapPriority: 0.65,
   },
   {
@@ -132,6 +162,8 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     title: "What Is Your Stripe Effective Fee Rate?",
     desc: "How to calculate it and what a healthy rate looks like.",
     time: "4 min",
+    publishedAt: "2026-05-16",
+    updatedAt: "2026-06-25",
     sitemapPriority: 0.65,
   },
 ];
@@ -142,6 +174,8 @@ const privacyEntries: BlogIndexEntry[] = PRIVACY_ARTICLE_INDEX.map((post) => ({
   title: post.title,
   desc: post.desc,
   time: post.time,
+  publishedAt: post.datePublished,
+  updatedAt: post.dateModified,
   sitemapPriority: 0.74,
 }));
 
@@ -160,6 +194,8 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
     title: "Why Are My Stripe Fees So High? 2.9% vs Real Rate",
     desc: "Stripe advertises 2.9% + $0.30, but most businesses pay 3.2–3.8%. Five reasons your effective rate is higher.",
     time: "8 min",
+    publishedAt: "2026-05-16",
+    updatedAt: "2026-06-25",
     sitemapPriority: 0.85,
   },
   {
@@ -168,6 +204,8 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
     title: "Stripe Fee Calculator: Estimate Monthly Fees",
     desc: "Estimate monthly Stripe fees from card volume and average charge size, then compare with your real CSV-based rate.",
     time: "5 min",
+    publishedAt: "2026-06-25",
+    updatedAt: "2026-06-25",
     sitemapPriority: 0.8,
   },
   {
@@ -176,6 +214,8 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
     title: "What Percentage Does Stripe Take?",
     desc: "Calculate the published Stripe percentage and learn why your real effective rate can be higher.",
     time: "4 min",
+    publishedAt: "2026-06-25",
+    updatedAt: "2026-06-25",
     sitemapPriority: 0.79,
   },
   {
@@ -184,14 +224,18 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
     title: "How Stripe Fee Auditor Handles Your CSV",
     desc: "See exactly what happens when you upload a Stripe Balance CSV: server analysis, stored report data, retention, and core logic links.",
     time: "4 min",
+    publishedAt: "2026-06-25",
+    updatedAt: "2026-06-25",
     sitemapPriority: 0.68,
   },
   {
     slug: "stripe-balance-csv",
     path: "/stripe-balance-csv",
-    title: "Stripe Balance CSV: Check Your Real Fee Rate",
-    desc: "Export the Itemized Stripe Balance CSV before checking whether your real Stripe fee rate is 2.9%, 3.8%, or higher.",
+    title: "How to Export Stripe Balance CSV and Check Your Real Fee Rate",
+    desc: "Step-by-step guide to export the itemized Stripe Balance CSV, then use it to check whether your real Stripe fee rate is 2.9%, 3.8%, or higher.",
     time: "4 min",
+    publishedAt: "2026-06-25",
+    updatedAt: "2026-06-25",
     sitemapPriority: 0.7,
   },
 ];

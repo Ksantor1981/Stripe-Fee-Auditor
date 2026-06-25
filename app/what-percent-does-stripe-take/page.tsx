@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { StripeTakeCalculator } from "@/components/stripe-take-calculator";
 import { absoluteUrl } from "@/lib/site-url";
@@ -150,6 +151,7 @@ export default function WhatPercentDoesStripeTakePage() {
       </nav>
 
       <main className="mx-auto max-w-3xl px-6 py-16">
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: pageTitle }]} className="mb-6" />
         <header className="mb-12">
           <p className="mb-3 text-sm font-medium text-blue-600">Stripe fee percentage</p>
           <h1 className="text-4xl font-bold leading-tight text-gray-900">

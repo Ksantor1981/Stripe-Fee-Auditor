@@ -11,6 +11,10 @@ function escapeXml(str: string): string {
     .replace(/'/g, "&apos;");
 }
 
+function rssDate(date: string): string {
+  return new Date(`${date}T00:00:00.000Z`).toUTCString();
+}
+
 export async function GET() {
   const allPosts = [...BLOG_HUB_POSTS, ...SEO_LANDING_ENTRIES];
 
@@ -21,6 +25,7 @@ export async function GET() {
       <title>${escapeXml(post.title)}</title>
       <link>${SITE_URL}${post.path}</link>
       <guid isPermaLink="true">${SITE_URL}${post.path}</guid>
+      <pubDate>${rssDate(post.publishedAt)}</pubDate>
       <description>${escapeXml(post.desc)}</description>
     </item>`
     )
@@ -33,6 +38,7 @@ export async function GET() {
     <link>${SITE_URL}/blog</link>
     <description>Guides and analysis on Stripe fees, effective rate, and cost optimization for SaaS founders.</description>
     <language>en</language>
+    <lastBuildDate>${rssDate("2026-06-25")}</lastBuildDate>
     <atom:link href="${SITE_URL}/feed.xml" rel="self" type="application/rss+xml"/>
     ${items}
   </channel>

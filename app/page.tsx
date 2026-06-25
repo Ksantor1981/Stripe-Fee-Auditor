@@ -4,10 +4,35 @@ import { LandingFaq } from "@/components/LandingFaq";
 import { LandingNav } from "@/components/LandingNav";
 import { TrackedLink } from "@/components/TrackedLink";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
+import { buildOgImageUrl } from "@/lib/seo-og";
+import { absoluteUrl } from "@/lib/site-url";
+
+const HOME_TITLE = "See Your Real Stripe Fee Rate | Stripe Fee Auditor";
+const HOME_DESCRIPTION =
+  "Most Stripe users pay more than the headline 2.9%. Upload your Balance CSV to see your real rate, fee drivers, and savings opportunities. Free preview. No OAuth.";
+const HOME_OG_IMAGE = buildOgImageUrl({
+  title: "See your real Stripe fee rate",
+  eyebrow: "Stripe Fee Auditor",
+});
 
 export const metadata: Metadata = {
+  title: HOME_TITLE,
+  description: HOME_DESCRIPTION,
   alternates: {
     canonical: "/",
+  },
+  openGraph: {
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
+    url: "https://feeauditor.com",
+    type: "website",
+    images: [{ url: HOME_OG_IMAGE, width: 1200, height: 630, alt: "Stripe Fee Auditor real fee rate report" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
+    images: [HOME_OG_IMAGE],
   },
 };
 
@@ -203,12 +228,32 @@ const FAQ_JSON_LD = {
   })),
 };
 
+const SOFTWARE_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Stripe Fee Auditor",
+  applicationCategory: "FinanceApplication",
+  operatingSystem: "Web",
+  url: absoluteUrl("/"),
+  description: HOME_DESCRIPTION,
+  offers: {
+    "@type": "Offer",
+    price: "12",
+    priceCurrency: "USD",
+    availability: "https://schema.org/InStock",
+  },
+};
+
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD).replace(/</g, "\\u003c") }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(SOFTWARE_JSON_LD).replace(/</g, "\\u003c") }}
       />
 
       {FULL_REPORTS_FREE_DURING_BETA ? (
@@ -247,9 +292,9 @@ export default function HomePage() {
           The problem
         </p>
 
-        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">
-          Stripe says 2.9%. Your real fee rate is{" "}
-          <span className="text-blue-600">probably higher.</span>
+        <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">
+          Your real Stripe fee rate is{" "}
+          <span className="text-blue-600">probably higher than 2.9%.</span>
         </h1>
         <p className="mt-5 max-w-xl text-lg text-gray-500 leading-relaxed">
           Upload your Stripe Balance CSV and see whether your fee rate is normal, what is driving it up, and how much refunds may be leaking from margin.

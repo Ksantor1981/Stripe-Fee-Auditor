@@ -1,11 +1,12 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "Stripe Balance CSV: Export It to Check Your Real Fee Rate";
+const pageTitle = "How to Export Stripe Balance CSV and Check Your Real Fee Rate";
 const pageDescription =
-  "Need the Stripe Balance CSV for a fee audit? Use the Itemized export to check whether your real Stripe fee rate is 2.9%, 3.8%, or higher.";
+  "Step-by-step guide to export the itemized Stripe Balance CSV, then use it to check whether your real Stripe fee rate is 2.9%, 3.8%, or higher.";
 const pagePath = "/stripe-balance-csv";
 
 export const metadata: Metadata = {
@@ -208,6 +209,7 @@ export default function StripeBalanceCsvPage() {
       </nav>
 
       <main className="max-w-3xl mx-auto px-6 py-16">
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: pageTitle }]} className="mb-6" />
         {/* Header */}
         <div className="mb-14">
           <p className="text-blue-600 text-sm font-medium mb-3">Export Guide</p>

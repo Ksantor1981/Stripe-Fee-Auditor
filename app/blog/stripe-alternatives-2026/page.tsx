@@ -3,21 +3,26 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogArticleCta } from "@/components/BlogArticleCta";
 import { buildOgImageUrl } from "@/lib/seo-og";
+import { absoluteUrl } from "@/lib/site-url";
 
 const pageTitle = "Stripe Alternatives in 2026: Check Fees Before Switching";
 const pageDescription =
   "Looking for Stripe alternatives in 2026? Before switching processors, audit your real Stripe effective rate and identify whether fees, payment mix, or checkout strategy is the real problem.";
+const pagePath = "/blog/stripe-alternatives-2026";
+const published = "2026-06-25";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe alternatives" });
 
 export const metadata: Metadata = {
   title: `${pageTitle} | Fee Auditor`,
   description: pageDescription,
-  alternates: { canonical: "/blog/stripe-alternatives-2026" },
+  alternates: { canonical: pagePath },
   openGraph: {
     title: pageTitle,
     description: pageDescription,
-    url: "https://feeauditor.com/blog/stripe-alternatives-2026",
+    url: absoluteUrl(pagePath),
     type: "article",
+    publishedTime: published,
+    modifiedTime: published,
     images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
   },
   twitter: {
@@ -71,9 +76,44 @@ const RELATED = [
   { href: "/blog/how-to-reduce-stripe-fees", title: "How to reduce Stripe fees" },
 ];
 
+const SOURCES = [
+  { href: "https://stripe.com/pricing", title: "Stripe pricing" },
+  { href: "https://www.paypal.com/us/business/paypal-business-fees", title: "PayPal merchant fees" },
+  { href: "https://squareup.com/us/en/payments/our-fees", title: "Square payment processing fees" },
+  { href: "https://gocardless.com/pricing/", title: "GoCardless pricing" },
+  { href: "https://www.adyen.com/pricing", title: "Adyen pricing" },
+];
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: pageTitle,
+    description: pageDescription,
+    datePublished: published,
+    dateModified: published,
+    author: { "@type": "Person", name: "Konstantin Starkov" },
+    publisher: { "@type": "Organization", name: "Stripe Fee Auditor", url: absoluteUrl("/") },
+    mainEntityOfPage: absoluteUrl(pagePath),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+      { "@type": "ListItem", position: 2, name: "Blog", item: absoluteUrl("/blog") },
+      { "@type": "ListItem", position: 3, name: pageTitle, item: absoluteUrl(pagePath) },
+    ],
+  },
+];
+
 export default function Page() {
   return (
     <main className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
+      />
       <div className="mx-auto max-w-2xl px-4 py-16">
         <Link href="/blog" className="text-sm text-blue-600 hover:underline">
           &larr; Blog
@@ -181,6 +221,27 @@ export default function Page() {
           body="Upload your Balance CSV to see whether your fees are driven by card mix, international customers, refunds, small charges, or other Stripe fee lines."
           utmCampaign="stripe-alternatives-2026"
         />
+
+        <section className="mt-10 border-t border-gray-100 pt-8">
+          <h2 className="text-sm font-semibold text-gray-700">Official pricing sources</h2>
+          <p className="mt-2 text-sm leading-relaxed text-gray-500">
+            Pricing changes by country, product, and plan. Use these official pages as the current
+            reference before changing processors.
+          </p>
+          <div className="mt-4 space-y-2">
+            {SOURCES.map((source) => (
+              <a
+                key={source.href}
+                href={source.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-sm text-blue-600 hover:underline"
+              >
+                {source.title} -&gt;
+              </a>
+            ))}
+          </div>
+        </section>
 
         <section className="mt-10 border-t border-gray-100 pt-8">
           <h2 className="text-sm font-semibold text-gray-700">Related guides</h2>

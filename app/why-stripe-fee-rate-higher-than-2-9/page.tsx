@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { absoluteUrl } from "@/lib/site-url";
 
@@ -7,6 +8,8 @@ const pageTitle = "Why Are My Stripe Fees So High? 2.9% vs Real Rate";
 const pageDescription =
   "Stripe advertises 2.9% + $0.30, but most businesses pay 3.2-3.8%. Learn the 5 reasons your effective Stripe fee rate is higher than expected.";
 const pagePath = "/why-stripe-fee-rate-higher-than-2-9";
+const published = "2026-05-16";
+const updated = "2026-06-25";
 
 export const metadata: Metadata = {
   title: pageTitle,
@@ -28,6 +31,8 @@ export const metadata: Metadata = {
     url: pagePath,
     siteName: "Stripe Fee Auditor",
     type: "article",
+    publishedTime: published,
+    modifiedTime: updated,
   },
   twitter: {
     card: "summary_large_image",
@@ -113,6 +118,8 @@ const structuredData = [
     "@id": `${ABS_PAGE}#article`,
     headline: pageTitle,
     description: pageDescription,
+    datePublished: published,
+    dateModified: updated,
     inLanguage: "en-US",
     mainEntityOfPage: {
       "@type": "WebPage",
@@ -187,6 +194,7 @@ export default function WhyStripeFeesIncreasePage() {
       </nav>
 
       <main className="max-w-3xl mx-auto px-6 py-16">
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: pageTitle }]} className="mb-6" />
         {/* Header */}
         <div className="mb-14">
           <p className="text-blue-600 text-sm font-medium mb-3">Fee Education</p>

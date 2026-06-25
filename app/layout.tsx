@@ -54,9 +54,9 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico",
   },
   manifest: "/manifest.json",
-  title: "Stripe Fee Auditor — See Your Real Stripe Fee Rate",
+  title: "See Your Real Stripe Fee Rate | Stripe Fee Auditor",
   description:
-    "Upload your Stripe Balance CSV and instantly see your effective fee rate, fee drivers, and savings opportunities. No OAuth. No account signup. Raw CSV files are not stored.",
+    "Most Stripe users pay more than the headline 2.9%. Upload your Balance CSV to see your real rate, fee drivers, and savings opportunities. Free preview. No OAuth.",
   alternates: {
     canonical: "/",
     types: {
@@ -65,8 +65,8 @@ export const metadata: Metadata = {
   },
   ...(siteVerification ? { verification: siteVerification } : {}),
   openGraph: {
-    title: "Stripe Fee Auditor",
-    description: "See your real effective Stripe fee rate from your Balance CSV. No OAuth. Raw CSV is not stored as a file.",
+    title: "See Your Real Stripe Fee Rate | Stripe Fee Auditor",
+    description: "Upload your Stripe Balance CSV to see your real effective fee rate, fee drivers, and savings opportunities. No OAuth.",
     type: "website",
     url: siteUrl,
     siteName: "Stripe Fee Auditor",
@@ -81,8 +81,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Stripe Fee Auditor",
-    description: "See your real effective Stripe fee rate from your Balance CSV. No OAuth. Raw CSV is not stored as a file.",
+    title: "See Your Real Stripe Fee Rate | Stripe Fee Auditor",
+    description: "Upload your Stripe Balance CSV to see your real effective fee rate, fee drivers, and savings opportunities. No OAuth.",
     images: [ogImageUrl],
   },
   other: {
@@ -99,6 +99,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="dns-prefetch" href="https://plausible.io" />
+        <link rel="preconnect" href="https://plausible.io" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://polar.sh" />
+        <link rel="dns-prefetch" href="https://checkout.polar.sh" />
         <script async src="https://plausible.io/js/pa-NtZAVMy_DG97Ek3wmMn6V.js" />
         <script
           dangerouslySetInnerHTML={{

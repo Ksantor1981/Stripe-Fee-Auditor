@@ -3,21 +3,26 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogArticleCta } from "@/components/BlogArticleCta";
 import { buildOgImageUrl } from "@/lib/seo-og";
+import { absoluteUrl } from "@/lib/site-url";
 
 const pageTitle = "Stripe vs PayPal Fees: Real Comparison";
 const pageDescription =
   "Stripe vs PayPal fees are close on paper, but your real cost depends on checkout mix, average charge size, international customers, refunds, disputes, and payment methods.";
+const pagePath = "/blog/stripe-vs-paypal-fees";
+const published = "2026-06-25";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe vs PayPal" });
 
 export const metadata: Metadata = {
   title: `${pageTitle} | Fee Auditor`,
   description: pageDescription,
-  alternates: { canonical: "/blog/stripe-vs-paypal-fees" },
+  alternates: { canonical: pagePath },
   openGraph: {
     title: pageTitle,
     description: pageDescription,
-    url: "https://feeauditor.com/blog/stripe-vs-paypal-fees",
+    url: absoluteUrl(pagePath),
     type: "article",
+    publishedTime: published,
+    modifiedTime: published,
     images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
   },
   twitter: {
@@ -63,9 +68,42 @@ const RELATED = [
   { href: "/why-stripe-fee-rate-higher-than-2-9", title: "Why Stripe fees are higher than 2.9%" },
 ];
 
+const SOURCES = [
+  { href: "https://stripe.com/pricing", title: "Stripe pricing" },
+  { href: "https://www.paypal.com/us/business/paypal-business-fees", title: "PayPal merchant fees" },
+  { href: "https://developer.paypal.com/braintree/articles/guides/payment-methods/paypal", title: "Braintree PayPal docs" },
+];
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: pageTitle,
+    description: pageDescription,
+    datePublished: published,
+    dateModified: published,
+    author: { "@type": "Person", name: "Konstantin Starkov" },
+    publisher: { "@type": "Organization", name: "Stripe Fee Auditor", url: absoluteUrl("/") },
+    mainEntityOfPage: absoluteUrl(pagePath),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+      { "@type": "ListItem", position: 2, name: "Blog", item: absoluteUrl("/blog") },
+      { "@type": "ListItem", position: 3, name: pageTitle, item: absoluteUrl(pagePath) },
+    ],
+  },
+];
+
 export default function Page() {
   return (
     <main className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
+      />
       <div className="mx-auto max-w-2xl px-4 py-16">
         <Link href="/blog" className="text-sm text-blue-600 hover:underline">
           &larr; Blog
@@ -168,6 +206,27 @@ export default function Page() {
           body="Before moving checkout volume, upload your Balance CSV and see your real processing rate, all-in cost, and the rows driving fees up."
           utmCampaign="stripe-vs-paypal-fees"
         />
+
+        <section className="mt-10 border-t border-gray-100 pt-8">
+          <h2 className="text-sm font-semibold text-gray-700">Official pricing sources</h2>
+          <p className="mt-2 text-sm leading-relaxed text-gray-500">
+            Published rates vary by country, payment method, and product. Confirm current pricing
+            on the official pages before changing checkout strategy.
+          </p>
+          <div className="mt-4 space-y-2">
+            {SOURCES.map((source) => (
+              <a
+                key={source.href}
+                href={source.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-sm text-blue-600 hover:underline"
+              >
+                {source.title} -&gt;
+              </a>
+            ))}
+          </div>
+        </section>
 
         <section className="mt-10 border-t border-gray-100 pt-8">
           <h2 className="text-sm font-semibold text-gray-700">Related guides</h2>

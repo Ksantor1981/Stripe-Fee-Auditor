@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { StripeFeeMiniEstimate } from "@/components/stripe-fee-mini-estimate";
 import { absoluteUrl } from "@/lib/site-url";
@@ -194,6 +195,7 @@ export default function StripeFeeCalculatorPage() {
       </nav>
 
       <main className="max-w-3xl mx-auto px-6 py-16">
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: pageTitle }]} className="mb-6" />
         {/* Header */}
         <div className="mb-14">
           <p className="text-blue-600 text-sm font-medium mb-3">

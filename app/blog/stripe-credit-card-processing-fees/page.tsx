@@ -4,21 +4,26 @@ import Link from "next/link";
 import { BlogArticleCta } from "@/components/BlogArticleCta";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
 import { buildOgImageUrl } from "@/lib/seo-og";
+import { absoluteUrl } from "@/lib/site-url";
 
 const pageTitle = "Stripe Credit Card Processing Fees Explained";
 const pageDescription =
   "Stripe credit card processing fees start with the published card rate, but your real effective rate depends on fixed fees, international cards, refunds, disputes, and add-ons.";
+const pagePath = "/blog/stripe-credit-card-processing-fees";
+const published = "2026-06-25";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe card fees" });
 
 export const metadata: Metadata = {
   title: `${pageTitle} | Fee Auditor`,
   description: pageDescription,
-  alternates: { canonical: "/blog/stripe-credit-card-processing-fees" },
+  alternates: { canonical: pagePath },
   openGraph: {
     title: pageTitle,
     description: pageDescription,
-    url: "https://feeauditor.com/blog/stripe-credit-card-processing-fees",
+    url: absoluteUrl(pagePath),
     type: "article",
+    publishedTime: published,
+    modifiedTime: published,
     images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
   },
   twitter: {
@@ -59,9 +64,42 @@ const RELATED = [
   { href: "/blog/how-to-export-stripe-balance-csv", title: "Export Stripe Balance CSV for a fee audit" },
 ];
 
+const SOURCES = [
+  { href: "https://stripe.com/pricing", title: "Stripe pricing" },
+  { href: "https://docs.stripe.com/reports/balance-transaction-types", title: "Stripe balance transaction types" },
+  { href: "https://docs.stripe.com/reports", title: "Stripe reports documentation" },
+];
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: pageTitle,
+    description: pageDescription,
+    datePublished: published,
+    dateModified: published,
+    author: { "@type": "Person", name: "Konstantin Starkov" },
+    publisher: { "@type": "Organization", name: "Stripe Fee Auditor", url: absoluteUrl("/") },
+    mainEntityOfPage: absoluteUrl(pagePath),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+      { "@type": "ListItem", position: 2, name: "Blog", item: absoluteUrl("/blog") },
+      { "@type": "ListItem", position: 3, name: pageTitle, item: absoluteUrl(pagePath) },
+    ],
+  },
+];
+
 export default function Page() {
   return (
     <main className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
+      />
       <div className="mx-auto max-w-2xl px-4 py-16">
         <Link href="/blog" className="text-sm text-blue-600 hover:underline">
           &larr; Blog
@@ -167,6 +205,27 @@ export default function Page() {
           Pricing changes. Always verify current rates on the official Stripe pricing page and in your
           own Stripe Dashboard before making pricing or migration decisions.
         </p>
+
+        <section className="mt-10 border-t border-gray-100 pt-8">
+          <h2 className="text-sm font-semibold text-gray-700">Official Stripe sources</h2>
+          <p className="mt-2 text-sm leading-relaxed text-gray-500">
+            Use Stripe's current pricing and report documentation as the source of truth, then compare
+            those public rates with your own Balance CSV.
+          </p>
+          <div className="mt-4 space-y-2">
+            {SOURCES.map((source) => (
+              <a
+                key={source.href}
+                href={source.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-sm text-blue-600 hover:underline"
+              >
+                {source.title} -&gt;
+              </a>
+            ))}
+          </div>
+        </section>
 
         <section className="mt-10 border-t border-gray-100 pt-8">
           <h2 className="text-sm font-semibold text-gray-700">Related guides</h2>
