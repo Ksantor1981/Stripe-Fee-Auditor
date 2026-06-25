@@ -183,8 +183,10 @@ export async function buildMonitorCheckoutUrl(params: {
   returnPath?: string;
 } = {}): Promise<string> {
   const productId = getRequiredMonitorProductId();
-  const successUrl = absoluteUrl("/monitor?payment=success");
-  const returnUrl = absoluteUrl(params.returnPath ?? "/monitor");
+  const returnPath = params.returnPath ?? "/monitor";
+  const confirmationPath = `/api/checkout/monitor/success?checkout_id={CHECKOUT_ID}&return_to=${encodeURIComponent(returnPath)}`;
+  const successUrl = absoluteUrl(confirmationPath);
+  const returnUrl = absoluteUrl(confirmationPath);
 
   const polar = getPolarClient();
   if (polar) {
