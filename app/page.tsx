@@ -331,6 +331,12 @@ export default function HomePage() {
             Quick fee estimate first →
           </Link>
         </div>
+        <Link
+          href="/blog/how-i-found-1400-in-hidden-stripe-fees"
+          className="mt-4 text-sm font-medium text-blue-600 underline underline-offset-2 hover:text-blue-800"
+        >
+          See how I found ~$1,400 in hidden fees →
+        </Link>
 
         {/* Trust signals */}
         <div className="mt-6 w-full max-w-3xl rounded-2xl border border-slate-100 bg-slate-50/60 px-4 py-3.5">

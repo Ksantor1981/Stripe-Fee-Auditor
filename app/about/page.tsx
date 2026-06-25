@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { LandingNav } from "@/components/LandingNav";
 
 export const metadata: Metadata = {
@@ -33,6 +34,7 @@ export default function AboutPage() {
       <LandingNav />
 
       <main className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About" }]} className="mb-4" />
         <h1 className="text-3xl font-bold text-gray-900">About Stripe Fee Auditor</h1>
         <p className="mt-3 text-gray-600 leading-relaxed">
           Stripe Fee Auditor is an independent tool that helps founders and finance teams understand
