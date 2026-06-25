@@ -109,6 +109,27 @@ const CALCULATOR_VS_AUDIT = [
   },
 ] as const;
 
+const PRICING_COMPARISON = [
+  {
+    label: "Spreadsheet",
+    price: "$0",
+    fit: "Good if you only need one blended-rate formula.",
+    tradeoff: "You rebuild monthly trends, high-fee rows, refund leakage, and exports yourself.",
+  },
+  {
+    label: "Broad SaaS analytics",
+    price: "$100+/mo at scale",
+    fit: "Good when you need MRR, churn, cohort, and subscription analytics.",
+    tradeoff: "Often needs OAuth or deeper account access when your only question is payment fees.",
+  },
+  {
+    label: "Fee Auditor",
+    price: "$12 once or $9/mo",
+    fit: "Good when you want a narrow Stripe fee audit from a CSV in minutes.",
+    tradeoff: "Focused on fee clarity, not a full subscription analytics suite.",
+  },
+];
+
 const FAQ_JSON_LD_ITEMS = [
   {
     q: "Do you store my Stripe CSV file?",
@@ -660,6 +681,35 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
+          <div className="mt-10">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+                  Narrow audit vs heavy tools
+                </p>
+                <h3 className="mt-1 text-lg font-bold text-gray-900">
+                  If the question is &quot;why are Stripe fees high?&quot;, start smaller.
+                </h3>
+              </div>
+              <Link href="/stripe-fee-calculator" className="text-sm font-semibold text-blue-600 hover:underline">
+                Estimate first →
+              </Link>
+            </div>
+            <div className="mt-5 grid gap-3 md:grid-cols-3">
+              {PRICING_COMPARISON.map((item) => (
+                <div key={item.label} className="rounded-xl border border-gray-200 bg-white p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="text-sm font-semibold text-gray-900">{item.label}</p>
+                    <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-600">
+                      {item.price}
+                    </span>
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-gray-600">{item.fit}</p>
+                  <p className="mt-2 text-xs leading-relaxed text-gray-400">{item.tradeoff}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -704,6 +754,8 @@ export default function HomePage() {
           <Link href="/monitor" className="hover:underline">Fee Monitor</Link>
           <span>·</span>
           <Link href="/stripe-fee-calculator" className="hover:underline">Stripe fee calculator</Link>
+          <span>·</span>
+          <Link href="/compare-stripe-paypal-wise" className="hover:underline">Stripe vs PayPal vs Wise</Link>
           <span>·</span>
           <Link href="/what-percent-does-stripe-take" className="hover:underline">What percent Stripe takes</Link>
           <span>·</span>

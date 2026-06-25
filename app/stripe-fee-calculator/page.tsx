@@ -404,6 +404,15 @@ export default function StripeFeeCalculatorPage() {
             What percent Stripe takes →
           </Link>
         </div>
+        <div className="mt-4 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm text-gray-400">
+          <span>Comparing payment options?</span>
+          <Link
+            href="/compare-stripe-paypal-wise"
+            className="text-blue-600 hover:text-blue-700 font-medium"
+          >
+            Stripe vs PayPal vs Wise →
+          </Link>
+        </div>
 
         <SeoPageTrustFooter />
       </main>

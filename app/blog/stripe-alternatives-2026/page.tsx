@@ -70,6 +70,7 @@ const SWITCH_REASONS = [
 ];
 
 const RELATED = [
+  { href: "/compare-stripe-paypal-wise", title: "Stripe vs PayPal vs Wise fees" },
   { href: "/blog/stripe-vs-paypal-fees", title: "Stripe vs PayPal fees" },
   { href: "/blog/stripe-credit-card-processing-fees", title: "Stripe credit card processing fees" },
   { href: "/blog/stripe-ach-vs-credit-card-fees", title: "Stripe ACH vs credit card fees" },

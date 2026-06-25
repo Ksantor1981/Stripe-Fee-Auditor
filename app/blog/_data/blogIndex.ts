@@ -229,6 +229,16 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
     sitemapPriority: 0.79,
   },
   {
+    slug: "compare-stripe-paypal-wise",
+    path: "/compare-stripe-paypal-wise",
+    title: "Stripe vs PayPal vs Wise Fees: Compare Before Switching",
+    desc: "Compare Stripe, PayPal, and Wise by payment use case, then audit your real Stripe baseline before moving checkout volume.",
+    time: "6 min",
+    publishedAt: "2026-06-26",
+    updatedAt: "2026-06-26",
+    sitemapPriority: 0.78,
+  },
+  {
     slug: "how-it-works",
     path: "/how-it-works",
     title: "How Stripe Fee Auditor Handles Your CSV",

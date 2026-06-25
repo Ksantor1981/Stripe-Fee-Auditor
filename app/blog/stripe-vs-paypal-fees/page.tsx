@@ -62,6 +62,7 @@ const COMPARISON = [
 ];
 
 const RELATED = [
+  { href: "/compare-stripe-paypal-wise", title: "Stripe vs PayPal vs Wise fees" },
   { href: "/blog/stripe-alternatives-2026", title: "Stripe alternatives in 2026" },
   { href: "/blog/stripe-credit-card-processing-fees", title: "Stripe credit card processing fees" },
   { href: "/stripe-fee-calculator", title: "Stripe fee calculator" },
