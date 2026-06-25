@@ -469,3 +469,75 @@ export async function insertMonitorWaitlistSignup(params: {
 
   return rows.length > 0 ? "inserted" : "duplicate";
 }
+
+let newsletterSubscribersTableReady = false;
+
+async function ensureNewsletterSubscribersTable(): Promise<void> {
+  if (newsletterSubscribersTableReady) return;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      email TEXT NOT NULL UNIQUE,
+      source TEXT NOT NULL DEFAULT 'landing',
+      utm_source TEXT,
+      utm_medium TEXT,
+      utm_campaign TEXT,
+      utm_content TEXT,
+      landing_path TEXT,
+      referrer TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      unsubscribed_at TIMESTAMPTZ
+    )
+  `;
+
+  await sql`ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS source TEXT NOT NULL DEFAULT 'landing'`.catch(
+    () => null
+  );
+  await sql`ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS utm_source TEXT`.catch(() => null);
+  await sql`ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS utm_medium TEXT`.catch(() => null);
+  await sql`ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS utm_campaign TEXT`.catch(() => null);
+  await sql`ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS utm_content TEXT`.catch(() => null);
+  await sql`ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS landing_path TEXT`.catch(() => null);
+  await sql`ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS referrer TEXT`.catch(() => null);
+  await sql`ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS unsubscribed_at TIMESTAMPTZ`.catch(() => null);
+
+  await sql`
+    CREATE INDEX IF NOT EXISTS newsletter_subscribers_created_at_idx
+    ON newsletter_subscribers (created_at DESC)
+  `;
+
+  newsletterSubscribersTableReady = true;
+}
+
+export type NewsletterInsertResult = "inserted" | "duplicate";
+
+export async function insertNewsletterSubscriber(params: {
+  email: string;
+  source?: string;
+  attribution?: Attribution;
+}): Promise<NewsletterInsertResult> {
+  await ensureNewsletterSubscribersTable();
+
+  const attr = params.attribution ?? {};
+  const rows = await sql`
+    INSERT INTO newsletter_subscribers (
+      email, source,
+      utm_source, utm_medium, utm_campaign, utm_content, landing_path, referrer
+    )
+    VALUES (
+      ${params.email},
+      ${params.source ?? "landing"},
+      ${attr.utm_source ?? null},
+      ${attr.utm_medium ?? null},
+      ${attr.utm_campaign ?? null},
+      ${attr.utm_content ?? null},
+      ${attr.landing_path ?? null},
+      ${attr.referrer ?? null}
+    )
+    ON CONFLICT (email) DO NOTHING
+    RETURNING id
+  `;
+
+  return rows.length > 0 ? "inserted" : "duplicate";
+}

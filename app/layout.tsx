@@ -27,6 +27,7 @@ const bingVerification =
   normalizeVerificationCode(process.env.NEXT_PUBLIC_BING_VERIFICATION) ||
   "457247AA9DD926BC6F4668EB88F91BFE";
 const yandexVerification = normalizeVerificationCode(process.env.NEXT_PUBLIC_YANDEX_VERIFICATION);
+const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
 
 function buildSiteVerification(): Metadata["verification"] | undefined {
   const other: Record<string, string> = {};
@@ -103,6 +104,22 @@ export default function RootLayout({
         <link rel="preconnect" href="https://plausible.io" crossOrigin="" />
         <link rel="dns-prefetch" href="https://polar.sh" />
         <link rel="dns-prefetch" href="https://checkout.polar.sh" />
+        {gaMeasurementId ? (
+          <>
+            <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`} />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${gaMeasurementId}');
+`.trim(),
+              }}
+            />
+          </>
+        ) : null}
         <script async src="https://plausible.io/js/pa-NtZAVMy_DG97Ek3wmMn6V.js" />
         <script
           dangerouslySetInnerHTML={{

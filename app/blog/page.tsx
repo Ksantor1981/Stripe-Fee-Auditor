@@ -53,6 +53,7 @@ const GUIDE_SECTIONS = [
     description: "Use these pages when you want the shortest path from confusion to a useful number.",
     entries: entriesFor([
       PILLAR_EFFECTIVE_RATE_PATH,
+      "/blog/how-i-found-1400-in-hidden-stripe-fees",
       "/what-percent-does-stripe-take",
       "/stripe-fee-calculator",
       "/stripe-balance-csv",

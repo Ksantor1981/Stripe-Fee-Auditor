@@ -76,10 +76,10 @@ export default function PrivacyPage() {
               <div>
                 <p className="font-medium text-gray-800 mb-1">Email address</p>
                 <p>
-                  If you provide your email (for example at the report gate or checkout), we use
-                  it to reach you about your report (for example a link after payment). We do
-                  not send marketing email. We do not sell or share your email with third parties
-                  for their own marketing.
+                  If you provide your email (for example at the report gate, checkout, Fee Monitor
+                  waitlist, or monthly tips signup), we use it only for the message you requested:
+                  report access, payment follow-up, waitlist updates, or the newsletter. We do not
+                  sell or share your email with third parties for their own marketing.
                 </p>
               </div>
               <div>
@@ -104,7 +104,9 @@ export default function PrivacyPage() {
                     Plausible Analytics
                   </a>{" "}
                   (EU-hosted, privacy-focused, no cookies by default) to measure aggregate traffic.
-                  We do not use third-party cookie-based behavioural advertising.
+                  If Google Analytics 4 is configured, it is used for product analytics, not
+                  advertising retargeting. We do not use third-party cookie-based behavioural
+                  advertising.
                 </p>
               </div>
             </div>
@@ -115,6 +117,7 @@ export default function PrivacyPage() {
             <ul className="list-disc list-inside text-gray-600 space-y-2 leading-relaxed">
               <li>To generate your fee analysis report</li>
               <li>To send transactional messages about your report (when email is provided and a mail provider is configured)</li>
+              <li>To send monthly Stripe fee tips only when you explicitly subscribe</li>
               <li>To enforce rate limits and prevent abuse</li>
               <li>To operate payments and unlock paid features</li>
               <li>To understand aggregate traffic and improve the Service (via Plausible Analytics — see section 2)</li>
@@ -132,7 +135,7 @@ export default function PrivacyPage() {
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 leading-relaxed">
               <li><strong>Contract</strong> — to process your CSV, generate reports, unlock paid access, and send transactional report messages.</li>
-              <li><strong>Legitimate interests</strong> — to prevent abuse, secure the Service, debug errors, keep minimal operational logs, and measure aggregate website usage (Plausible).</li>
+              <li><strong>Legitimate interests</strong> — to prevent abuse, secure the Service, debug errors, keep minimal operational logs, and measure aggregate website usage.</li>
               <li><strong>Legal obligations</strong> — where payment, tax, accounting, dispute, or consumer-protection records must be retained.</li>
               <li><strong>Consent</strong> — where we specifically ask for it (for example optional marketing).</li>
             </ul>
@@ -149,6 +152,7 @@ export default function PrivacyPage() {
               <li><strong>Polar</strong> — checkout, payment processing, receipts, and order-related records as our payment provider / merchant of record where applicable (polar.sh/legal/privacy)</li>
               <li><strong>Resend</strong> — transactional email delivery when enabled (resend.com/legal/privacy-policy)</li>
               <li><strong>Plausible Analytics</strong> — privacy-oriented, aggregate traffic metrics (plausible.io/privacy)</li>
+              <li><strong>Google Analytics 4</strong> — product analytics only when configured (policies.google.com/privacy)</li>
             </ul>
             <p className="text-gray-600 mt-3">
               We only share with them what is needed to run the Service (for example payment
@@ -195,7 +199,7 @@ export default function PrivacyPage() {
                   </tr>
                   <tr>
                     <td className="px-4 py-3">Email address</td>
-                    <td className="px-4 py-3">Kept only while the corresponding report row exists; deleted when the report expires</td>
+                    <td className="px-4 py-3">Report emails are kept while the corresponding report row exists; newsletter and waitlist emails are kept until unsubscribe, deletion request, or list cleanup</td>
                   </tr>
                   <tr>
                     <td className="px-4 py-3">IP address (rate limit)</td>

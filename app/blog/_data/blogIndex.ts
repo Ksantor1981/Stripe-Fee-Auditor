@@ -17,6 +17,16 @@ export type BlogIndexEntry = {
 /** Fee / optimization articles under /blog/* (static page.tsx per slug). */
 export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
   {
+    slug: "how-i-found-1400-in-hidden-stripe-fees",
+    path: "/blog/how-i-found-1400-in-hidden-stripe-fees",
+    title: "How I Found ~$1,400/Year in Hidden Stripe Fee Opportunities",
+    desc: "A real Balance CSV case study: $3,597.77 in fees, 3.82% processing rate, 4.02% all-in cost, and the drivers worth checking.",
+    time: "6 min",
+    publishedAt: "2026-06-25",
+    updatedAt: "2026-06-25",
+    sitemapPriority: 0.8,
+  },
+  {
     slug: "cross-border-stripe-fees-migration-2026",
     path: "/blog/cross-border-stripe-fees-migration-2026",
     title: "Cross-Border Stripe Fees & Global Migration (June 2026)",

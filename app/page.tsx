@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { LandingFaq } from "@/components/LandingFaq";
 import { LandingNav } from "@/components/LandingNav";
+import { NewsletterSignupForm } from "@/components/NewsletterSignupForm";
 import { TrackedLink } from "@/components/TrackedLink";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { buildOgImageUrl } from "@/lib/seo-og";
@@ -390,6 +391,14 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+
+        <div className="mt-6 w-full max-w-2xl rounded-2xl border border-blue-100 bg-blue-50/70 px-5 py-5 text-center">
+          <p className="font-semibold text-gray-900">Get monthly Stripe fee tips</p>
+          <p className="mt-1 text-sm leading-relaxed text-gray-600">
+            One practical email per month: fee drivers, CSV checks, and payment-cost fixes. No spam.
+          </p>
+          <NewsletterSignupForm source="landing_hero" />
+        </div>
       </section>
 
       {/* vs OAuth — trust comparison */}
@@ -649,6 +658,39 @@ export default function HomePage() {
                 </p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white px-4 py-16">
+        <div className="mx-auto max-w-3xl rounded-2xl border border-blue-100 bg-blue-50/60 p-6 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-widest text-blue-700">
+            Case study
+          </p>
+          <h2 className="mt-2 text-2xl font-bold text-gray-900">
+            One sample export showed a 4.02% all-in Stripe cost
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed text-gray-600">
+            The four-month CSV showed $3,597.77 in Stripe fees, a 3.82% card processing rate,
+            a 4.02% all-in cost, 447 high-fee charges, and up to ~$1,400/year in directional
+            savings opportunities.
+          </p>
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+            <Link
+              href="/blog/how-i-found-1400-in-hidden-stripe-fees"
+              className="inline-flex justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+            >
+              Read the case study
+            </Link>
+            <TrackedLink
+              href="/analyze"
+              utm={{ source: "landing", medium: "cta", campaign: "case_study" }}
+              funnelEvent="funnel_landing_cta"
+              funnelProps={{ placement: "case_study" }}
+              className="inline-flex justify-center rounded-xl border border-blue-100 bg-white px-5 py-3 text-sm font-semibold text-blue-700 transition-colors hover:border-blue-200 hover:bg-blue-50"
+            >
+              Check my CSV
+            </TrackedLink>
           </div>
         </div>
       </section>
