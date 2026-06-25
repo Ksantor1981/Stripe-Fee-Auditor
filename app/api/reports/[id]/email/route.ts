@@ -8,7 +8,8 @@ const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 /** RFC-aligned practical upper bound (avoid oversized payloads / DB abuse). */
 const MAX_EMAIL_LEN = 254;
-const EMAIL_LIMIT_PER_IP_PER_DAY = 10;
+const EMAIL_NETWORK_LIMIT_PER_DAY = 50;
+const EMAIL_RECIPIENT_LIMIT_PER_DAY = 6;
 
 export async function POST(
   req: NextRequest,
@@ -44,20 +45,42 @@ export async function POST(
     return NextResponse.json({ error: "Report access token required" }, { status: 401 });
   }
 
-  const ip = getTrustedClientIp(req);
-  if (!ip) {
-    return NextResponse.json({ error: "Unable to process request" }, { status: 400 });
+  const normalizedEmail = email.toLowerCase();
+
+  const report = await getReportWithAccess(id, token).catch(() => null);
+  if (!report) {
+    return NextResponse.json({ error: "Report not found or expired" }, { status: 404 });
   }
 
-  const emailAllowed = await consumeIpRequest(`email:${ip}`, EMAIL_LIMIT_PER_IP_PER_DAY);
-  if (!emailAllowed) {
-    return NextResponse.json(
-      { error: "Too many email requests from this network. Try again tomorrow." },
-      { status: 429 }
-    );
+  if (report.email?.toLowerCase() === normalizedEmail) {
+    return NextResponse.json({ ok: true, alreadySaved: true });
   }
 
   try {
+    const ip = getTrustedClientIp(req);
+    if (!ip) {
+      return NextResponse.json({ error: "Unable to process request" }, { status: 400 });
+    }
+
+    const networkAllowed = await consumeIpRequest(`email_network:${ip}`, EMAIL_NETWORK_LIMIT_PER_DAY);
+    if (!networkAllowed) {
+      return NextResponse.json(
+        { error: "Too many report email unlocks from this network. Try again tomorrow." },
+        { status: 429 }
+      );
+    }
+
+    const recipientAllowed = await consumeIpRequest(
+      `email_recipient:${normalizedEmail}`,
+      EMAIL_RECIPIENT_LIMIT_PER_DAY
+    );
+    if (!recipientAllowed) {
+      return NextResponse.json(
+        { error: "This email has requested several report links today. Try again tomorrow." },
+        { status: 429 }
+      );
+    }
+
     const saved = await saveReportEmail(id, email, token);
     if (!saved) {
       return NextResponse.json({ error: "Report not found or expired" }, { status: 404 });
@@ -65,7 +88,6 @@ export async function POST(
 
     // Fetch total fees so the email subject shows the actual amount (e.g.
     // "$847 in Stripe fees — Your report is ready") instead of the generic fallback.
-    const report = await getReportWithAccess(id, token).catch(() => null);
     const totalFeesCents =
       report?.result && typeof report.result.allInFees === "number"
         ? Math.round(report.result.allInFees * 100)
