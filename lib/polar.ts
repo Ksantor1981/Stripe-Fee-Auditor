@@ -181,6 +181,8 @@ export async function buildMonitorCheckoutUrl(params: {
   email?: string;
   source?: string;
   returnPath?: string;
+  reportId?: string;
+  accessToken?: string;
 } = {}): Promise<string> {
   const productId = getRequiredMonitorProductId();
   const returnPath = params.returnPath ?? "/monitor";
@@ -217,6 +219,15 @@ export async function buildMonitorCheckoutUrl(params: {
 
     if (!checkout.url) {
       throw new Error("Polar checkout did not return a url");
+    }
+
+    if (checkout.id && params.reportId && params.accessToken) {
+      await createCheckoutSession({
+        checkoutId: checkout.id,
+        reportId: params.reportId,
+        accessToken: params.accessToken,
+        plan: "monitor_monthly",
+      });
     }
 
     return checkout.url;

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { trackEvent } from "@/lib/analytics";
@@ -27,6 +28,7 @@ interface Props {
 }
 
 export function EmailGate({ reportId, headline, onUnlock }: Props) {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -66,6 +68,10 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
       if (!res.ok) {
         const body = await res.json().catch(() => null);
         throw new Error(body?.error ?? "Could not open this report.");
+      }
+      const body = await res.json().catch(() => null);
+      if (body?.monitorFullAccess) {
+        router.refresh();
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not open this report.");

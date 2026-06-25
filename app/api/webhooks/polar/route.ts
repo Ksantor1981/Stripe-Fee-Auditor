@@ -165,6 +165,31 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    if (reportId && UUID_V4.test(reportId) && accessToken) {
+      try {
+        const status = await processPaidWebhook({
+          eventId: `monitor:${eventId}`,
+          eventName: `monitor.${eventName}`,
+          reportId,
+          email,
+          accessToken,
+        });
+
+        if (status === "report_not_found") {
+          logOpsError("polar_webhook_monitor_report_unlock_failed", {
+            eventName,
+            eventId: shortId(eventId) ?? "unknown",
+            reportId: reportId.slice(0, 8),
+          });
+        }
+      } catch (err) {
+        logOpsError("polar_webhook_monitor_report_unlock_error", {
+          message: err instanceof Error ? err.message.slice(0, 200) : "unknown",
+          eventId: shortId(eventId) ?? "unknown",
+        });
+      }
+    }
+
     return NextResponse.json({ received: true, monitor: true });
   }
 

@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
-import { getReportWithAccess } from "@/lib/db";
+import { getReportWithAccess, isActiveMonitorSubscriber } from "@/lib/db";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { resolveReportAccessToken } from "@/lib/report-access-cookie";
 import { getSiteBaseUrl } from "@/lib/site-url";
@@ -49,8 +49,10 @@ export default async function ReportPage({ params, searchParams }: Props) {
   const rawResult = report.result;
   const demoFullAccess = demoSkipGate && report.session_id === "demo-sample";
   const betaFullAccess = FULL_REPORTS_FREE_DURING_BETA && !demoFullAccess;
-  const hasFullAccess = Boolean(report.is_paid || demoFullAccess || betaFullAccess);
-  const paymentPending = payment === "success" && !report.is_paid && !betaFullAccess;
+  const monitorFullAccess = await isActiveMonitorSubscriber(report.email);
+  const paidAccess = Boolean(report.is_paid || monitorFullAccess);
+  const hasFullAccess = Boolean(paidAccess || demoFullAccess || betaFullAccess);
+  const paymentPending = payment === "success" && !paidAccess && !betaFullAccess;
   const embedShareUrl =
     hasFullAccess && token
       ? `${getSiteBaseUrl()}/embed/${id}?token=${encodeURIComponent(token)}`
@@ -61,7 +63,8 @@ export default async function ReportPage({ params, searchParams }: Props) {
       reportId={id}
       embedShareUrl={embedShareUrl}
       result={hasFullAccess ? rawResult : toPreviewResult(rawResult)}
-      isPaid={report.is_paid ?? false}
+      isPaid={paidAccess}
+      monitorFullAccess={monitorFullAccess}
       demoSkipEmailGate={demoSkipGate}
       demoFullAccess={demoFullAccess}
       betaFullAccess={betaFullAccess}

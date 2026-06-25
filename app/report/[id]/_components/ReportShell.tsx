@@ -24,6 +24,8 @@ interface Props {
   demoFullAccess?: boolean;
   /** Temporary beta flow: real uploaded reports show full insights without checkout. */
   betaFullAccess?: boolean;
+  /** Active Fee Monitor subscription unlocks full reports for the saved email. */
+  monitorFullAccess?: boolean;
   /** Polar redirected back before the payment webhook finished processing. */
   paymentPending?: boolean;
   /** Full anomaly count before preview strips rows (free tier UI). */
@@ -38,6 +40,7 @@ export function ReportShell({
   demoSkipEmailGate = false,
   demoFullAccess = false,
   betaFullAccess = false,
+  monitorFullAccess = false,
   paymentPending = false,
   previewAnomalyCount,
 }: Props) {
@@ -85,6 +88,7 @@ export function ReportShell({
       paid: isPaid,
       demo_access: demoFullAccess,
       beta_full_access: betaFullAccess,
+      monitor_full_access: monitorFullAccess,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps -- once per mount; token/report identity must not leak to analytics
   }, []);
@@ -152,13 +156,19 @@ export function ReportShell({
           </div>
         )}
         {/* Save link reminder */}
-        {isPaid && (
+        {isPaid && !monitorFullAccess && (
           <div className="mb-6 rounded-xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm text-amber-800 flex items-start gap-2">
             <span className="flex-shrink-0">🔗</span>
             <span>
               <strong>Save this page link</strong> — your private report is available for 30 days.{" "}
               We also sent it to your email if delivery is configured.
             </span>
+          </div>
+        )}
+        {monitorFullAccess && (
+          <div className="mb-6 rounded-xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+            <strong>Fee Monitor is active.</strong> This report is unlocked by your subscription. Upload a fresh
+            Stripe Balance CSV next month to compare rate drift and fee drivers.
           </div>
         )}
         {betaFullAccess && !isPaid && (
@@ -187,7 +197,28 @@ export function ReportShell({
           {hasFullAccess && (
             <ShareEmbedBenchmark embedShareUrl={embedShareUrl!} result={result} />
           )}
-          <MonitorWaitlistForm reportId={reportId} />
+          {monitorFullAccess ? (
+            <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-6 text-center shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-widest text-emerald-700">
+                Fee Monitor active
+              </p>
+              <h3 className="mt-2 text-base font-bold text-emerald-950">
+                Monthly tracking is connected to this email
+              </h3>
+              <p className="mx-auto mt-2 max-w-2xl text-sm text-emerald-800/80">
+                Your current report is unlocked. Upload the next Stripe Balance CSV when the month closes to compare
+                rate drift and fee drivers.
+              </p>
+              <a
+                href="/monitor"
+                className="mt-4 inline-flex h-11 items-center justify-center rounded-xl bg-emerald-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700"
+              >
+                View Monitor workflow →
+              </a>
+            </div>
+          ) : (
+            <MonitorWaitlistForm reportId={reportId} />
+          )}
           <FeedbackForm reportId={reportId} />
         </div>
       </div>

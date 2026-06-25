@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { consumeIpRequest, getReportWithAccess, saveReportEmail } from "@/lib/db";
+import { consumeIpRequest, getReportWithAccess, isActiveMonitorSubscriber, saveReportEmail } from "@/lib/db";
 import { sendReportEmail } from "@/lib/email";
 import { getTrustedClientIp } from "@/lib/request-ip";
 import { resolveReportAccessFromRequest } from "@/lib/report-access-cookie";
@@ -8,8 +8,8 @@ const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 /** RFC-aligned practical upper bound (avoid oversized payloads / DB abuse). */
 const MAX_EMAIL_LEN = 254;
-const EMAIL_NETWORK_LIMIT_PER_DAY = 50;
-const EMAIL_RECIPIENT_LIMIT_PER_DAY = 6;
+const EMAIL_NETWORK_LIMIT_PER_DAY = 100;
+const EMAIL_RECIPIENT_LIMIT_PER_DAY = 10;
 
 export async function POST(
   req: NextRequest,
@@ -52,8 +52,10 @@ export async function POST(
     return NextResponse.json({ error: "Report not found or expired" }, { status: 404 });
   }
 
+  const monitorFullAccess = await isActiveMonitorSubscriber(normalizedEmail);
+
   if (report.email?.toLowerCase() === normalizedEmail) {
-    return NextResponse.json({ ok: true, alreadySaved: true });
+    return NextResponse.json({ ok: true, alreadySaved: true, monitorFullAccess });
   }
 
   try {
@@ -62,23 +64,25 @@ export async function POST(
       return NextResponse.json({ error: "Unable to process request" }, { status: 400 });
     }
 
-    const networkAllowed = await consumeIpRequest(`email_network:${ip}`, EMAIL_NETWORK_LIMIT_PER_DAY);
-    if (!networkAllowed) {
-      return NextResponse.json(
-        { error: "Too many report email unlocks from this network. Try again tomorrow." },
-        { status: 429 }
-      );
-    }
+    if (!monitorFullAccess) {
+      const networkAllowed = await consumeIpRequest(`email_network:${ip}`, EMAIL_NETWORK_LIMIT_PER_DAY);
+      if (!networkAllowed) {
+        return NextResponse.json(
+          { error: "Too many report email unlocks from this network. Try again tomorrow." },
+          { status: 429 }
+        );
+      }
 
-    const recipientAllowed = await consumeIpRequest(
-      `email_recipient:${normalizedEmail}`,
-      EMAIL_RECIPIENT_LIMIT_PER_DAY
-    );
-    if (!recipientAllowed) {
-      return NextResponse.json(
-        { error: "This email has requested several report links today. Try again tomorrow." },
-        { status: 429 }
+      const recipientAllowed = await consumeIpRequest(
+        `email_recipient:${normalizedEmail}`,
+        EMAIL_RECIPIENT_LIMIT_PER_DAY
       );
+      if (!recipientAllowed) {
+        return NextResponse.json(
+          { error: "This email has requested several report links today. Try again tomorrow." },
+          { status: 429 }
+        );
+      }
     }
 
     const saved = await saveReportEmail(id, email, token);
@@ -97,7 +101,7 @@ export async function POST(
       console.error("[email-gate] Email send failed:", err)
     );
 
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, monitorFullAccess });
   } catch (err) {
     console.error("[email-gate]", err);
     return NextResponse.json({ error: "Failed to save email" }, { status: 500 });

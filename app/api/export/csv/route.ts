@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Papa from "papaparse";
-import { getReportWithAccess } from "@/lib/db";
+import { getReportWithAccess, isActiveMonitorSubscriber } from "@/lib/db";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { resolveReportAccessFromRequest } from "@/lib/report-access-cookie";
 
@@ -33,7 +33,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Report not found or expired" }, { status: 404 });
   }
 
-  if (!report.is_paid && !FULL_REPORTS_FREE_DURING_BETA) {
+  const monitorFullAccess = await isActiveMonitorSubscriber(report.email);
+  if (!report.is_paid && !monitorFullAccess && !FULL_REPORTS_FREE_DURING_BETA) {
     return NextResponse.json({ error: "Report not found or expired" }, { status: 404 });
   }
 

@@ -678,6 +678,23 @@ export async function upsertMonitorSubscriberFromPayment(params: {
   return { isNewSubscriber: Boolean(rows[0]?.is_new) };
 }
 
+export async function isActiveMonitorSubscriber(email?: string | null): Promise<boolean> {
+  const normalizedEmail = email?.trim().toLowerCase();
+  if (!normalizedEmail) return false;
+
+  await ensureMonitorSubscribersTable();
+
+  const rows = await sql`
+    SELECT 1
+    FROM monitor_subscribers
+    WHERE lower(email) = ${normalizedEmail}
+      AND status = 'active'
+    LIMIT 1
+  `;
+
+  return rows.length > 0;
+}
+
 export async function claimMonitorSubscribersForMonthlyReminder(limit = 250): Promise<MonthlyReminderRecipient[]> {
   await ensureMonitorSubscribersTable();
 

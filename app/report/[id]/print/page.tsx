@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-import { getReportWithAccess } from "@/lib/db";
+import { getReportWithAccess, isActiveMonitorSubscriber } from "@/lib/db";
 import { resolveReportAccessToken } from "@/lib/report-access-cookie";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { fmt$, fmtPct, fmtMonth, fmtDate } from "@/lib/format";
@@ -26,7 +26,8 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
   });
 
   const report = await getReportWithAccess(id, token);
-  if (!report?.result || (!report.is_paid && !FULL_REPORTS_FREE_DURING_BETA)) notFound();
+  const monitorFullAccess = await isActiveMonitorSubscriber(report?.email);
+  if (!report?.result || (!report.is_paid && !monitorFullAccess && !FULL_REPORTS_FREE_DURING_BETA)) notFound();
 
   const { chargeVolume, chargeFees, chargeRate, otherFees, monthly, anomalies, topDrivers, mode, periodDelta, benchmark, refundSummary, feeLeakBreakdown } = report.result;
   const params_id = id;
