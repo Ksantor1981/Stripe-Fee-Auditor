@@ -808,43 +808,46 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Fee Monitor waitlist */}
+      {/* Fee Monitor */}
       <section id="monitor" className="bg-slate-950 px-4 py-16 text-white scroll-mt-14">
         <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-center">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-blue-300">Next: Fee Monitor</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-blue-300">Fee Monitor · $9/mo</p>
             <h2 className="mt-2 text-3xl font-bold tracking-tight">
               Want to know when your fee rate gets worse next month?
             </h2>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-slate-300">
-              We are validating monthly Stripe fee monitoring without OAuth: private report history,
-              month-over-month comparisons, and reminders from CSV exports you control.
+              Add the recurring habit: a monthly reminder to upload your fresh Stripe Balance CSV,
+              check rate drift, and inspect new fee drivers before they become invisible.
             </p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
             <ul className="space-y-3 text-sm text-slate-200">
               <li className="flex gap-2">
                 <span className="text-blue-300">✓</span>
-                <span>Compare this month vs your previous CSV audit</span>
+                <span>Monthly CSV reminder without permanent Stripe OAuth</span>
               </li>
               <li className="flex gap-2">
                 <span className="text-blue-300">✓</span>
-                <span>Get a reminder when it is time to check fees again</span>
+                <span>Processing rate vs all-in Stripe cost every month</span>
               </li>
               <li className="flex gap-2">
                 <span className="text-blue-300">✓</span>
-                <span>No permanent Stripe connection in the first version</span>
+                <span>First access to private report history as it ships</span>
               </li>
             </ul>
             <TrackedLink
-              href="/monitor"
+              href="/api/checkout/monitor?source=landing_monitor"
               utm={{ source: "landing", medium: "cta", campaign: "monitor_waitlist" }}
               funnelEvent="funnel_landing_cta"
               funnelProps={{ placement: "monitor_section" }}
               className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-blue-50"
             >
-              Join Fee Monitor waitlist →
+              Start Fee Monitor — $9/mo →
             </TrackedLink>
+            <Link href="/monitor" className="mt-3 block text-center text-xs text-slate-400 hover:text-white hover:underline">
+              Learn what is included
+            </Link>
           </div>
         </div>
       </section>

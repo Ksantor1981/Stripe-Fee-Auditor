@@ -77,9 +77,10 @@ export default function PrivacyPage() {
                 <p className="font-medium text-gray-800 mb-1">Email address</p>
                 <p>
                   If you provide your email (for example at the report gate, checkout, Fee Monitor
-                  waitlist, or monthly tips signup), we use it only for the message you requested:
-                  report access, payment follow-up, waitlist updates, or the newsletter. We do not
-                  sell or share your email with third parties for their own marketing.
+                  subscription, Fee Monitor waitlist, or monthly tips signup), we use it only for
+                  the message or service you requested: report access, payment follow-up, monthly CSV
+                  reminders, waitlist updates, or the newsletter. We do not sell or share your email
+                  with third parties for their own marketing.
                 </p>
               </div>
               <div>
@@ -117,6 +118,7 @@ export default function PrivacyPage() {
             <ul className="list-disc list-inside text-gray-600 space-y-2 leading-relaxed">
               <li>To generate your fee analysis report</li>
               <li>To send transactional messages about your report (when email is provided and a mail provider is configured)</li>
+              <li>To provide Fee Monitor reminders and subscription-related messages when you subscribe</li>
               <li>To send monthly Stripe fee tips only when you explicitly subscribe</li>
               <li>To enforce rate limits and prevent abuse</li>
               <li>To operate payments and unlock paid features</li>
@@ -196,6 +198,10 @@ export default function PrivacyPage() {
                   <tr>
                     <td className="px-4 py-3">Payment webhook event IDs</td>
                     <td className="px-4 py-3">Kept for up to 90 days to prevent duplicate payment processing</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3">Fee Monitor subscription email</td>
+                    <td className="px-4 py-3">Kept while the subscription is active or until deletion request where legally possible; payment records are retained by Polar under their policy</td>
                   </tr>
                   <tr>
                     <td className="px-4 py-3">Email address</td>

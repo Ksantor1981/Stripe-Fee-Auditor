@@ -487,7 +487,9 @@ async function ensureNewsletterSubscribersTable(): Promise<void> {
       landing_path TEXT,
       referrer TEXT,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-      unsubscribed_at TIMESTAMPTZ
+      unsubscribed_at TIMESTAMPTZ,
+      last_reminded_at TIMESTAMPTZ,
+      reminder_count INT NOT NULL DEFAULT 0
     )
   `;
 
@@ -501,6 +503,10 @@ async function ensureNewsletterSubscribersTable(): Promise<void> {
   await sql`ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS landing_path TEXT`.catch(() => null);
   await sql`ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS referrer TEXT`.catch(() => null);
   await sql`ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS unsubscribed_at TIMESTAMPTZ`.catch(() => null);
+  await sql`ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS last_reminded_at TIMESTAMPTZ`.catch(() => null);
+  await sql`ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS reminder_count INT NOT NULL DEFAULT 0`.catch(
+    () => null
+  );
 
   await sql`
     CREATE INDEX IF NOT EXISTS newsletter_subscribers_created_at_idx
@@ -540,4 +546,163 @@ export async function insertNewsletterSubscriber(params: {
   `;
 
   return rows.length > 0 ? "inserted" : "duplicate";
+}
+
+export type MonthlyReminderAudience = "monitor" | "newsletter";
+
+export interface MonthlyReminderRecipient {
+  email: string;
+  audience: MonthlyReminderAudience;
+  reminder_count: number;
+}
+
+export async function claimNewsletterSubscribersForMonthlyReminder(limit = 250): Promise<MonthlyReminderRecipient[]> {
+  await ensureNewsletterSubscribersTable();
+
+  const rows = await sql`
+    WITH claimed AS (
+      SELECT email
+      FROM newsletter_subscribers
+      WHERE unsubscribed_at IS NULL
+        AND (
+          last_reminded_at IS NULL
+          OR last_reminded_at < NOW() - INTERVAL '25 days'
+        )
+      ORDER BY COALESCE(last_reminded_at, created_at), created_at
+      LIMIT ${limit}
+      FOR UPDATE SKIP LOCKED
+    )
+    UPDATE newsletter_subscribers n
+    SET
+      last_reminded_at = NOW(),
+      reminder_count = COALESCE(n.reminder_count, 0) + 1
+    FROM claimed
+    WHERE n.email = claimed.email
+    RETURNING n.email, n.reminder_count
+  `;
+
+  return rows.map((row) => ({
+    email: row.email as string,
+    audience: "newsletter",
+    reminder_count: Number(row.reminder_count ?? 0),
+  }));
+}
+
+export async function unsubscribeNewsletterSubscriber(email: string): Promise<boolean> {
+  await ensureNewsletterSubscribersTable();
+
+  const rows = await sql`
+    UPDATE newsletter_subscribers
+    SET unsubscribed_at = NOW()
+    WHERE email = ${email}
+      AND unsubscribed_at IS NULL
+    RETURNING id
+  `;
+
+  return rows.length > 0;
+}
+
+let monitorSubscribersTableReady = false;
+
+async function ensureMonitorSubscribersTable(): Promise<void> {
+  if (monitorSubscribersTableReady) return;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS monitor_subscribers (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      email TEXT NOT NULL UNIQUE,
+      source TEXT NOT NULL DEFAULT 'polar',
+      polar_product_id TEXT,
+      status TEXT NOT NULL DEFAULT 'active',
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      last_paid_at TIMESTAMPTZ,
+      last_reminded_at TIMESTAMPTZ,
+      reminder_count INT NOT NULL DEFAULT 0
+    )
+  `;
+
+  await sql`ALTER TABLE monitor_subscribers ADD COLUMN IF NOT EXISTS source TEXT NOT NULL DEFAULT 'polar'`.catch(
+    () => null
+  );
+  await sql`ALTER TABLE monitor_subscribers ADD COLUMN IF NOT EXISTS polar_product_id TEXT`.catch(() => null);
+  await sql`ALTER TABLE monitor_subscribers ADD COLUMN IF NOT EXISTS status TEXT NOT NULL DEFAULT 'active'`.catch(
+    () => null
+  );
+  await sql`ALTER TABLE monitor_subscribers ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()`.catch(
+    () => null
+  );
+  await sql`ALTER TABLE monitor_subscribers ADD COLUMN IF NOT EXISTS last_paid_at TIMESTAMPTZ`.catch(() => null);
+  await sql`ALTER TABLE monitor_subscribers ADD COLUMN IF NOT EXISTS last_reminded_at TIMESTAMPTZ`.catch(() => null);
+  await sql`ALTER TABLE monitor_subscribers ADD COLUMN IF NOT EXISTS reminder_count INT NOT NULL DEFAULT 0`.catch(
+    () => null
+  );
+
+  await sql`
+    CREATE INDEX IF NOT EXISTS monitor_subscribers_updated_at_idx
+    ON monitor_subscribers (updated_at DESC)
+  `;
+
+  monitorSubscribersTableReady = true;
+}
+
+export async function upsertMonitorSubscriberFromPayment(params: {
+  email: string;
+  productId?: string | null;
+  source?: string;
+}): Promise<void> {
+  await ensureMonitorSubscribersTable();
+
+  await sql`
+    INSERT INTO monitor_subscribers (
+      email, source, polar_product_id, status, last_paid_at, updated_at
+    )
+    VALUES (
+      ${params.email},
+      ${params.source ?? "polar"},
+      ${params.productId ?? null},
+      'active',
+      NOW(),
+      NOW()
+    )
+    ON CONFLICT (email) DO UPDATE SET
+      source = EXCLUDED.source,
+      polar_product_id = COALESCE(EXCLUDED.polar_product_id, monitor_subscribers.polar_product_id),
+      status = 'active',
+      last_paid_at = NOW(),
+      updated_at = NOW()
+  `;
+}
+
+export async function claimMonitorSubscribersForMonthlyReminder(limit = 250): Promise<MonthlyReminderRecipient[]> {
+  await ensureMonitorSubscribersTable();
+
+  const rows = await sql`
+    WITH claimed AS (
+      SELECT email
+      FROM monitor_subscribers
+      WHERE status = 'active'
+        AND (
+          last_reminded_at IS NULL
+          OR last_reminded_at < NOW() - INTERVAL '25 days'
+        )
+      ORDER BY COALESCE(last_reminded_at, last_paid_at, created_at), created_at
+      LIMIT ${limit}
+      FOR UPDATE SKIP LOCKED
+    )
+    UPDATE monitor_subscribers m
+    SET
+      last_reminded_at = NOW(),
+      reminder_count = COALESCE(m.reminder_count, 0) + 1,
+      updated_at = NOW()
+    FROM claimed
+    WHERE m.email = claimed.email
+    RETURNING m.email, m.reminder_count
+  `;
+
+  return rows.map((row) => ({
+    email: row.email as string,
+    audience: "monitor",
+    reminder_count: Number(row.reminder_count ?? 0),
+  }));
 }

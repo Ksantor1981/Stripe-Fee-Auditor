@@ -1,4 +1,6 @@
 import { Resend } from "resend";
+import { buildNewsletterUnsubscribeUrl } from "@/lib/newsletter-token";
+import type { MonthlyReminderAudience } from "@/lib/db";
 
 const DEFAULT_BASE_URL = "https://feeauditor.com";
 const DEFAULT_EMAIL_FROM = "Fee Auditor <noreply@feeauditor.com>";
@@ -257,6 +259,72 @@ export async function sendWaitlistConfirmationEmail(params: {
           You received this because this email was submitted on
           <a href="${monitorUrl.toString()}" style="color:#2563eb">Fee Monitor</a>.
           Questions? Reply to this email.
+        </p>
+      </div>
+    `,
+  });
+}
+
+export async function sendMonthlyCsvReminderEmail(params: {
+  to: string;
+  audience: MonthlyReminderAudience;
+  reminderCount?: number;
+}): Promise<void> {
+  if (!process.env.RESEND_API_KEY) {
+    console.log(`[email] RESEND_API_KEY not set, skipping monthly reminder to ${params.to}`);
+    return;
+  }
+
+  const from = process.env.EMAIL_FROM ?? DEFAULT_EMAIL_FROM;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? DEFAULT_BASE_URL;
+  const analyzeUrl = new URL("/analyze", baseUrl);
+  analyzeUrl.searchParams.set("utm_source", "email");
+  analyzeUrl.searchParams.set("utm_medium", "monthly_reminder");
+  analyzeUrl.searchParams.set("utm_campaign", params.audience === "monitor" ? "fee_monitor" : "newsletter");
+
+  const isMonitor = params.audience === "monitor";
+  const subject = isMonitor
+    ? "Fee Monitor: time to check this month's Stripe CSV"
+    : "Monthly Stripe fee check: did your rate drift?";
+
+  const intro = isMonitor
+    ? "Your monthly Fee Monitor check is due. Upload a fresh Stripe Balance CSV and compare this month against your previous audit."
+    : "Stripe fees can drift quietly month to month. Upload a fresh Balance CSV when you have a minute and check whether your real rate moved.";
+
+  const footer = isMonitor
+    ? `You received this because you joined Fee Monitor. Questions? Reply to this email.`
+    : `You received this because you subscribed to monthly Stripe fee tips. <a href="${buildNewsletterUnsubscribeUrl(
+        params.to
+      )}" style="color:#888">Unsubscribe</a>.`;
+
+  await getResend().emails.send({
+    from,
+    to: params.to,
+    subject,
+    replyTo: process.env.EMAIL_REPLY_TO,
+    html: `
+      <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px">
+        <p style="color:#2563eb;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px">
+          ${isMonitor ? "Fee Monitor" : "Monthly fee tips"}
+        </p>
+        <h1 style="font-size:20px;color:#111;margin:0 0 12px">
+          Time for your monthly Stripe fee check
+        </h1>
+        <p style="color:#555;font-size:14px;line-height:1.6;margin:0 0 16px">
+          ${intro}
+        </p>
+        <ul style="color:#555;font-size:14px;margin:0 0 20px;padding-left:20px;line-height:1.6">
+          <li>See your processing rate vs all-in Stripe cost</li>
+          <li>Spot month-over-month rate changes</li>
+          <li>Find new high-fee charges, refunds, and small-charge drag</li>
+        </ul>
+        <a href="${analyzeUrl.toString()}"
+           style="display:inline-block;padding:12px 24px;background:#2563eb;color:#fff;border-radius:8px;font-weight:600;text-decoration:none;font-size:14px">
+          Upload this month's CSV →
+        </a>
+        <p style="color:#888;font-size:12px;line-height:1.5;margin-top:24px">
+          Stripe Fee Auditor · Not affiliated with Stripe, Inc.<br>
+          ${footer}
         </p>
       </div>
     `,

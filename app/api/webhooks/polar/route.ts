@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   getCheckoutReportMetadata,
   isAllowedProductId,
+  isMonitorProductId,
   readReportMetadata,
   verifyPolarWebhook,
 } from "@/lib/polar";
-import { getCheckoutSession, processPaidWebhook } from "@/lib/db";
+import { getCheckoutSession, processPaidWebhook, upsertMonitorSubscriberFromPayment } from "@/lib/db";
 import { sendReportEmail } from "@/lib/email";
 import { logOpsError, logOpsWarn } from "@/lib/ops-log";
 
@@ -136,6 +137,26 @@ export async function POST(req: NextRequest) {
       eventId: shortId(eventId) ?? "unknown",
     });
     return NextResponse.json({ error: "Invalid product" }, { status: 400 });
+  }
+
+  if (isMonitorProductId(productId)) {
+    if (email) {
+      try {
+        await upsertMonitorSubscriberFromPayment({
+          email,
+          productId,
+          source: eventName,
+        });
+      } catch (err) {
+        logOpsError("polar_webhook_monitor_subscriber_failed", {
+          message: err instanceof Error ? err.message.slice(0, 200) : "unknown",
+          eventId: shortId(eventId) ?? "unknown",
+        });
+        return NextResponse.json({ error: "Monitor subscriber save failed" }, { status: 500 });
+      }
+    }
+
+    return NextResponse.json({ received: true, monitor: true });
   }
 
   if (!reportId || !UUID_V4.test(reportId) || !accessToken) {

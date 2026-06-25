@@ -20,6 +20,7 @@ export async function GET() {
     polar_webhook: envConfigured("POLAR_WEBHOOK_SECRET"),
     polar_checkout: envConfigured("POLAR_ACCESS_TOKEN"),
     polar_product: envConfigured("POLAR_PRODUCT_PRO"),
+    polar_monitor_product: envConfigured("POLAR_PRODUCT_MONITOR_MONTHLY"),
     polar_server: process.env.POLAR_SERVER?.trim() ? "ok" : "skip",
     database_url: envConfigured("DATABASE_URL"),
   };

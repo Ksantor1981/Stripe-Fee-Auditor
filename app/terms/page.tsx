@@ -117,18 +117,22 @@ export default function TermsPage() {
           <section>
             <h2 className="text-lg font-semibold text-gray-900 mb-3">7. Payments and Refunds</h2>
             <p className="text-gray-600 leading-relaxed">
-              Paid reports are processed through Polar, which may act as payment provider, reseller,
-              or merchant of record depending on the checkout configuration and your location.
+              Paid reports and Fee Monitor subscriptions are processed through Polar, which may act
+              as payment provider, reseller, or merchant of record depending on the checkout
+              configuration and your location.
               During a promotional beta, we may provide full report access without charge on terms
               described in our{" "}
               <Link href="/privacy" className="text-blue-600 hover:underline">
                 Privacy Policy
               </Link>
-              . Digital delivery for a purchased unlock is considered complete when your report is
-              unlocked. If the Service fails to deliver unlock or access due to an error on our side,
-              contact us within 7 days; we will work with you in good faith (including refunds where
-              appropriate). Other refund requests are evaluated case by case and may be subject to
-              Polar&apos;s policies. Nothing in these Terms limits mandatory consumer rights that apply to you.
+              . Digital delivery for a purchased report unlock is considered complete when your
+              report is unlocked. Fee Monitor is a monthly subscription for reminders, product access,
+              and monitoring workflow updates; cancellation and billing management are handled through
+              Polar where available. If the Service fails to deliver unlock or access due to an error
+              on our side, contact us within 7 days; we will work with you in good faith (including
+              refunds where appropriate). Other refund requests are evaluated case by case and may be
+              subject to Polar&apos;s policies. Nothing in these Terms limits mandatory consumer rights
+              that apply to you.
             </p>
           </section>
 

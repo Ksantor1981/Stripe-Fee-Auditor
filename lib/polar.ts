@@ -4,6 +4,7 @@ import { absoluteUrl } from "@/lib/site-url";
 import { createCheckoutSession } from "@/lib/db";
 
 export type PlanId = "pro";
+export type MonitorPlanId = "monitor_monthly";
 
 export const PLANS: Record<PlanId, { label: string; price: string; desc: string; productEnvKey: string }> = {
   pro: {
@@ -11,6 +12,18 @@ export const PLANS: Record<PlanId, { label: string; price: string; desc: string;
     price: "$12",
     desc: "Full high-fee charge list + savings opportunities + monthly breakdown + CSV export",
     productEnvKey: "POLAR_PRODUCT_PRO",
+  },
+};
+
+export const MONITOR_PLAN: Record<
+  MonitorPlanId,
+  { label: string; price: string; desc: string; productEnvKey: string }
+> = {
+  monitor_monthly: {
+    label: "Fee Monitor",
+    price: "$9/mo",
+    desc: "Monthly CSV reminder + private fee-monitoring workflow without Stripe OAuth",
+    productEnvKey: "POLAR_PRODUCT_MONITOR_MONTHLY",
   },
 };
 
@@ -24,16 +37,29 @@ export function isPlanId(value: string | null): value is PlanId {
 }
 
 export function isAllowedProductId(productId: string): boolean {
-  const allowed = Object.values(PLANS)
+  const allowed = [...Object.values(PLANS), ...Object.values(MONITOR_PLAN)]
     .map((plan) => process.env[plan.productEnvKey])
     .filter(Boolean);
   return allowed.includes(productId);
+}
+
+export function isMonitorProductId(productId: string | null | undefined): boolean {
+  if (!productId) return false;
+  return productId === process.env.POLAR_PRODUCT_MONITOR_MONTHLY;
 }
 
 function getRequiredProductId(planId: PlanId): string {
   const productId = process.env[PLANS[planId].productEnvKey];
   if (!productId) {
     throw new Error(`Polar not configured: missing ${PLANS[planId].productEnvKey}`);
+  }
+  return productId;
+}
+
+function getRequiredMonitorProductId(planId: MonitorPlanId = "monitor_monthly"): string {
+  const productId = process.env[MONITOR_PLAN[planId].productEnvKey];
+  if (!productId) {
+    throw new Error(`Polar not configured: missing ${MONITOR_PLAN[planId].productEnvKey}`);
   }
   return productId;
 }
@@ -133,6 +159,51 @@ export async function buildCheckoutUrl(
       accessToken,
       plan: planId,
     });
+
+    return checkout.url;
+  }
+
+  throw new Error("Polar dynamic checkout is required: set POLAR_ACCESS_TOKEN");
+}
+
+export async function buildMonitorCheckoutUrl(params: {
+  email?: string;
+  source?: string;
+} = {}): Promise<string> {
+  const productId = getRequiredMonitorProductId();
+  const successUrl = absoluteUrl("/monitor?payment=success");
+  const returnUrl = absoluteUrl("/monitor");
+
+  const polar = getPolarClient();
+  if (polar) {
+    let checkout;
+    try {
+      checkout = await polar.checkouts.create({
+        products: [productId],
+        metadata: {
+          plan: "monitor_monthly",
+          source: params.source ?? "monitor",
+        },
+        customerEmail: params.email,
+        successUrl,
+        returnUrl,
+        allowDiscountCodes: true,
+        requireBillingAddress: false,
+      });
+    } catch (err) {
+      const server = getPolarServer();
+      const base =
+        err instanceof Error && /fetch failed|ECONNREFUSED|ENOTFOUND|ETIMEDOUT/i.test(err.message)
+          ? `Polar API unreachable (server=${server}). Verify POLAR_ACCESS_TOKEN and POLAR_PRODUCT_MONITOR_MONTHLY are from the same Polar environment; set POLAR_SERVER=sandbox if using sandbox credentials.`
+          : err instanceof Error
+            ? err.message
+            : "Polar monitor checkout creation failed";
+      throw new Error(base);
+    }
+
+    if (!checkout.url) {
+      throw new Error("Polar checkout did not return a url");
+    }
 
     return checkout.url;
   }
