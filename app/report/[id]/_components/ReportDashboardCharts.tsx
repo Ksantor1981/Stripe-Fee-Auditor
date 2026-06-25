@@ -57,6 +57,12 @@ export function ReportDashboardCharts({ result }: Props) {
   const peakFeeMonth = timelineData.reduce((best, item) => (item.fees > best.fees ? item : best), firstMonth);
   const peakRateMonth = timelineData.reduce((best, item) => (item.rate > best.rate ? item : best), firstMonth);
   const lowRateMonth = timelineData.reduce((best, item) => (item.rate < best.rate ? item : best), firstMonth);
+  const topFeeSlice = pieData.reduce(
+    (best, item) => (item.value > best.value ? item : best),
+    pieData[0] ?? { name: "-", value: 0, share: 0 },
+  );
+  const rateSpread = Math.max(0, peakRateMonth.rate - lowRateMonth.rate);
+  const timelineFeeTotal = timelineData.reduce((sum, item) => sum + item.fees, 0);
   const rateMin = Math.min(...timelineData.map((item) => item.rate), chargeRate);
   const rateMax = Math.max(...timelineData.map((item) => item.rate), chargeRate);
   const rateDomainMin = Math.max(0, Math.floor((rateMin - 0.15) * 10) / 10);
@@ -65,93 +71,75 @@ export function ReportDashboardCharts({ result }: Props) {
   if (!showDonut && !showTimeline) return null;
 
   return (
-    <div id="fee-dashboard-charts" className="rounded-2xl border border-gray-100 bg-white shadow-sm p-6">
-      <div className="mb-4 flex flex-wrap items-end justify-between gap-2">
+    <div
+      id="fee-dashboard-charts"
+      className="rounded-2xl border border-blue-100 bg-gradient-to-br from-white via-white to-blue-50/50 p-6 shadow-md shadow-slate-200/70"
+    >
+      <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+          <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">
             Fee dashboard
           </p>
-          <h2 className="text-base font-bold text-gray-900 mt-0.5">
-            Fee trend dashboard
+          <h2 className="mt-1 text-xl font-bold text-gray-950">
+            Your Stripe fees, month by month
           </h2>
-          <p className="text-xs text-gray-400 mt-1 max-w-xl">
-            See whether fee dollars and processing rate moved together. Categories are grouped from your CSV export, so treat this as directional rather than an official Stripe breakdown.
+          <p className="mt-1 max-w-2xl text-sm leading-relaxed text-gray-500">
+            Separate fee dollars from fee rate: volume can rise while your rate stays normal, or your mix can get worse even when revenue looks flat.
           </p>
+        </div>
+        <div className="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-right shadow-sm">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-gray-400">
+            Baseline rate
+          </p>
+          <p className="text-2xl font-bold text-gray-950">{fmtPct(chargeRate)}</p>
         </div>
       </div>
 
-      <div className={`grid gap-8 ${showDonut && showTimeline ? "lg:grid-cols-2 lg:items-start" : ""}`}>
-        {showDonut && (
-          <div className="min-h-[280px]">
-            <p className="text-xs font-medium text-gray-500 mb-2">Mix of fee dollars</p>
-            <ResponsiveContainer width="100%" height={260}>
-              <PieChart>
-                <Pie
-                  data={pieData}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={56}
-                  outerRadius={88}
-                  paddingAngle={1.5}
-                >
-                  {pieData.map((_, i) => (
-                    <Cell key={i} fill={DONUT_COLORS[i % DONUT_COLORS.length]} stroke="#fff" strokeWidth={1} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  formatter={(value, _name, item) => {
-                    const v = Number(value ?? 0);
-                    const share = Number(
-                      (item as { payload?: { share?: number } })?.payload?.share ?? 0,
-                    );
-                    return [`${fmt$(v)} (${share.toFixed(1)}%)`, "Fees"];
-                  }}
-                  contentStyle={{ borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 12 }}
-                />
-                <Legend
-                  verticalAlign="bottom"
-                  height={56}
-                  formatter={(value) => <span className="text-xs text-gray-600">{value}</span>}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+      {showTimeline && (
+        <div className="mb-5 grid gap-3 sm:grid-cols-3">
+          <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-gray-400">Largest fee month</p>
+            <p className="mt-1 text-lg font-bold text-gray-950">{peakFeeMonth.name}</p>
+            <p className="text-sm text-gray-500">{fmt$(peakFeeMonth.fees)} in charge fees</p>
           </div>
-        )}
+          <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-gray-400">Highest rate month</p>
+            <p className="mt-1 text-lg font-bold text-gray-950">{peakRateMonth.name}</p>
+            <p className="text-sm text-gray-500">{fmtPct(peakRateMonth.rate)} processing rate</p>
+          </div>
+          <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-gray-400">Monthly spread</p>
+            <p className="mt-1 text-lg font-bold text-gray-950">{fmtPct(rateSpread)}</p>
+            <p className="text-sm text-gray-500">between best and worst rate</p>
+          </div>
+        </div>
+      )}
 
+      <div className={`grid gap-5 ${showDonut && showTimeline ? "lg:grid-cols-[1.45fr_0.85fr] lg:items-start" : ""}`}>
         {showTimeline && (
-          <div className="min-h-[280px]">
-            <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
+          <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
+            <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
               <div>
-                <p className="text-xs font-medium text-gray-500">
-                  Monthly fees and processing rate
+                <p className="text-sm font-semibold text-gray-900">
+                  Fee dollars vs processing rate
                 </p>
                 <p className="mt-1 text-[11px] text-gray-400">
-                  Bars = charge fees. Line = processing rate. Dashed line = export baseline.
+                  Blue bars = charge fees. Dark line = processing rate. Dashed line = export baseline.
                 </p>
               </div>
-              <div className="grid grid-cols-1 gap-2 text-right text-[11px] sm:grid-cols-3">
-                <div className="rounded-lg bg-gray-50 px-2.5 py-2">
-                  <p className="text-gray-400">Most fees</p>
-                  <p className="font-semibold text-gray-800">{peakFeeMonth.name}</p>
-                  <p className="text-gray-500">{fmt$(peakFeeMonth.fees)}</p>
-                </div>
-                <div className="rounded-lg bg-gray-50 px-2.5 py-2">
-                  <p className="text-gray-400">Highest rate</p>
-                  <p className="font-semibold text-gray-800">{peakRateMonth.name}</p>
-                  <p className="text-gray-500">{fmtPct(peakRateMonth.rate)}</p>
-                </div>
-                <div className="rounded-lg bg-gray-50 px-2.5 py-2">
-                  <p className="text-gray-400">Rate range</p>
-                  <p className="font-semibold text-gray-800">{fmtPct(lowRateMonth.rate)}</p>
-                  <p className="text-gray-500">to {fmtPct(peakRateMonth.rate)}</p>
-                </div>
+              <div className="rounded-full bg-blue-50 px-3 py-1 text-[11px] font-semibold text-blue-700">
+                {fmt$(timelineFeeTotal)} tracked
               </div>
             </div>
-            <ResponsiveContainer width="100%" height={285}>
-              <ComposedChart data={timelineData} margin={{ top: 14, right: 12, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eef2f7" />
+            <ResponsiveContainer width="100%" height={310}>
+              <ComposedChart data={timelineData} margin={{ top: 18, right: 16, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="feeBarGradient" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stopColor="#2563eb" stopOpacity={0.95} />
+                    <stop offset="100%" stopColor="#93c5fd" stopOpacity={0.72} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="#e5edf8" />
                 <XAxis dataKey="name" tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
                 <YAxis
                   yAxisId="left"
@@ -181,20 +169,20 @@ export function ReportDashboardCharts({ result }: Props) {
                     return [fmtPct(n), "Processing rate"];
                   }}
                   labelFormatter={(label) => label}
-                  contentStyle={{ borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 12 }}
+                  contentStyle={{ borderRadius: 12, border: "1px solid #dbeafe", boxShadow: "0 10px 30px rgba(15, 23, 42, 0.08)", fontSize: 12 }}
                 />
                 <Bar
                   yAxisId="left"
                   dataKey="fees"
                   name="Charge fees"
-                  fill="#60a5fa"
-                  radius={[6, 6, 0, 0]}
-                  barSize={34}
+                  fill="url(#feeBarGradient)"
+                  radius={[8, 8, 2, 2]}
+                  barSize={38}
                 />
                 <ReferenceLine
                   yAxisId="right"
                   y={Number(chargeRate.toFixed(3))}
-                  stroke="#64748b"
+                  stroke="#94a3b8"
                   strokeDasharray="4 4"
                   ifOverflow="extendDomain"
                 />
@@ -203,15 +191,66 @@ export function ReportDashboardCharts({ result }: Props) {
                   type="linear"
                   dataKey="rate"
                   name="Processing rate"
-                  stroke="#111827"
-                  strokeWidth={2}
-                  dot={{ r: 4, fill: "#111827", stroke: "#fff", strokeWidth: 2 }}
-                  activeDot={{ r: 6 }}
+                  stroke="#0f172a"
+                  strokeWidth={3}
+                  dot={{ r: 4, fill: "#0f172a", stroke: "#fff", strokeWidth: 2 }}
+                  activeDot={{ r: 7, fill: "#2563eb", stroke: "#fff", strokeWidth: 2 }}
                 />
               </ComposedChart>
             </ResponsiveContainer>
-            <p className="mt-2 text-[11px] text-gray-400">
-              Baseline processing rate for the export: <span className="font-medium text-gray-500">{fmtPct(chargeRate)}</span>. A high fee month with a flat rate usually means volume grew; a high rate month means the mix got worse.
+            <p className="mt-3 rounded-xl bg-slate-50 px-3 py-2 text-[11px] leading-relaxed text-gray-500">
+              Read it this way: a high fee month with a flat rate usually means volume grew; a high rate month means the card mix, currency, or transaction size got worse.
+            </p>
+          </div>
+        )}
+
+        {showDonut && (
+          <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
+            <div className="mb-2 flex items-start justify-between gap-3">
+              <div>
+                <p className="text-sm font-semibold text-gray-900">Fee mix</p>
+                <p className="mt-1 text-[11px] text-gray-400">Grouped from Stripe Balance CSV reporting types.</p>
+              </div>
+              <div className="rounded-full bg-slate-50 px-3 py-1 text-right">
+                <p className="text-[10px] uppercase tracking-widest text-gray-400">Top driver</p>
+                <p className="text-[11px] font-semibold text-gray-700">{topFeeSlice.name}</p>
+              </div>
+            </div>
+            <ResponsiveContainer width="100%" height={290}>
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="44%"
+                  innerRadius={58}
+                  outerRadius={92}
+                  paddingAngle={2}
+                >
+                  {pieData.map((_, i) => (
+                    <Cell key={i} fill={DONUT_COLORS[i % DONUT_COLORS.length]} stroke="#fff" strokeWidth={1.5} />
+                  ))}
+                </Pie>
+                <Tooltip
+                  formatter={(value, _name, item) => {
+                    const v = Number(value ?? 0);
+                    const share = Number(
+                      (item as { payload?: { share?: number } })?.payload?.share ?? 0,
+                    );
+                    return [`${fmt$(v)} (${share.toFixed(1)}%)`, "Fees"];
+                  }}
+                  contentStyle={{ borderRadius: 12, border: "1px solid #dbeafe", boxShadow: "0 10px 30px rgba(15, 23, 42, 0.08)", fontSize: 12 }}
+                />
+                <Legend
+                  verticalAlign="bottom"
+                  height={66}
+                  formatter={(value) => <span className="text-xs text-gray-600">{value}</span>}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+            <p className="mt-2 text-[11px] leading-relaxed text-gray-400">
+              Directional grouping, not an official Stripe category report. Use it to decide where to inspect first.
             </p>
           </div>
         )}

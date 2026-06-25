@@ -148,29 +148,6 @@ const OAUTH_COMPARISON = [
   },
 ] as const;
 
-const DECISION_GUIDE = [
-  {
-    title: "Worth checking",
-    tone: "blue",
-    items: [
-      "You process more than a few thousand dollars per month",
-      "Your customers are international or pay in multiple currencies",
-      "You have many $5-$20 monthly charges",
-      "You refund customers often and want to see retained fee impact",
-    ],
-  },
-  {
-    title: "Probably okay to skip",
-    tone: "gray",
-    items: [
-      "You only have a handful of Stripe transactions",
-      "All customers are domestic and high-ticket",
-      "You only need a rough blended rate you can calculate in Excel",
-      "You need accounting or tax advice instead of a fee audit",
-    ],
-  },
-];
-
 const FAQ_JSON_LD_ITEMS = [
   {
     q: "Do you store my Stripe CSV file?",
@@ -680,53 +657,32 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Decision guide */}
-      <section className="bg-white px-4 py-16">
-        <div className="mx-auto max-w-4xl">
-          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
-            Is it worth it?
-          </p>
-          <h2 className="text-center text-2xl font-bold text-gray-900 mb-3">
-            When a fee audit is useful — and when to skip it
-          </h2>
-          <p className="mx-auto mb-8 max-w-2xl text-center text-sm leading-relaxed text-gray-500">
-            {FULL_REPORTS_FREE_DURING_BETA ? (
-              <>
-                During beta, the full report is free. After beta, the paid unlock is meant for founders
-                who want more than a blended-rate formula: line-level drivers, refund leakage, monthly
-                detail, exports, and specific savings ideas.
-              </>
-            ) : (
-              <>
-                Start with a free preview — headline rate, top drivers, and a teaser. The $12 unlock is
-                for founders who want line-level drivers, refund leakage, monthly detail, exports, and
-                specific savings ideas.
-              </>
-            )}
-          </p>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {DECISION_GUIDE.map((group) => (
-              <div
-                key={group.title}
-                className={`rounded-2xl border p-6 shadow-sm ${
-                  group.tone === "blue"
-                    ? "border-blue-100 bg-blue-50/60"
-                    : "border-gray-100 bg-gray-50"
-                }`}
-              >
-                <h3 className="font-bold text-gray-900">{group.title}</h3>
-                <ul className="mt-4 space-y-3">
-                  {group.items.map((item) => (
-                    <li key={item} className="flex gap-2 text-sm leading-relaxed text-gray-600">
-                      <span className={group.tone === "blue" ? "text-blue-600" : "text-gray-400"}>
-                        {group.tone === "blue" ? "✓" : "•"}
-                      </span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+      {/* Compact fit check */}
+      <section className="bg-white px-4 pb-10">
+        <div className="mx-auto grid max-w-4xl gap-3 rounded-2xl border border-gray-100 bg-gray-50/80 p-4 shadow-sm sm:grid-cols-[0.65fr_1fr_1fr] sm:items-center">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+              Quick fit check
+            </p>
+            <p className="mt-1 text-sm font-semibold text-gray-900">
+              Start with the free preview.
+            </p>
+          </div>
+          <div className="rounded-xl border border-blue-100 bg-white px-4 py-3">
+            <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">
+              Useful if
+            </p>
+            <p className="mt-1 text-sm leading-relaxed text-gray-600">
+              You have international cards, refunds, small subscriptions, or a Stripe rate that feels higher than expected.
+            </p>
+          </div>
+          <div className="rounded-xl border border-gray-100 bg-white px-4 py-3">
+            <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+              Skip if
+            </p>
+            <p className="mt-1 text-sm leading-relaxed text-gray-600">
+              You only have a few domestic high-ticket charges and just need a rough spreadsheet formula.
+            </p>
           </div>
         </div>
       </section>
