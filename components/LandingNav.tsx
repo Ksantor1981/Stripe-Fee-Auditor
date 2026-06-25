@@ -21,13 +21,6 @@ const NAV_LINKS = [
     className: "text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors",
   },
   {
-    href: "/monitor",
-    label: "Fee Monitor",
-    funnelEvent: "funnel_landing_cta" as const,
-    funnelProps: { placement: "nav_monitor" },
-    className: "text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors",
-  },
-  {
     href: "/blog",
     label: "Blog",
     funnelEvent: "funnel_nav_blog" as const,

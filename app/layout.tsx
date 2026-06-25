@@ -46,12 +46,19 @@ const siteVerification = buildSiteVerification();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  applicationName: "Stripe Fee Auditor",
+  themeColor: "#2563eb",
+  appleWebApp: {
+    capable: true,
+    title: "Fee Auditor",
+    statusBarStyle: "default",
+  },
   icons: {
     icon: [
       { url: "/favicon.ico" },
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
     ],
-    apple: "/favicon-32.png",
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
     shortcut: "/favicon.ico",
   },
   manifest: "/manifest.json",
@@ -104,6 +111,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://plausible.io" crossOrigin="" />
         <link rel="dns-prefetch" href="https://polar.sh" />
         <link rel="dns-prefetch" href="https://checkout.polar.sh" />
+        <link rel="preconnect" href="https://checkout.polar.sh" crossOrigin="" />
         {gaMeasurementId ? (
           <>
             <link rel="dns-prefetch" href="https://www.googletagmanager.com" />

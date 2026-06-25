@@ -30,7 +30,14 @@ const notYet = [
   "No accounting, tax, or bookkeeping advice",
 ];
 
-export default function MonitorPage() {
+interface Props {
+  searchParams?: Promise<{ payment?: string }>;
+}
+
+export default async function MonitorPage({ searchParams }: Props) {
+  const payment = (await searchParams)?.payment;
+  const paymentSuccess = payment === "success";
+
   return (
     <main className="min-h-screen bg-white text-gray-950">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
@@ -41,6 +48,45 @@ export default function MonitorPage() {
           Analyze a CSV →
         </Link>
       </nav>
+
+      {paymentSuccess && (
+        <section className="mx-auto max-w-5xl px-6 pt-4">
+          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-emerald-950 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-widest text-emerald-700">
+              Fee Monitor active
+            </p>
+            <h2 className="mt-2 text-2xl font-bold">You&apos;re subscribed. Here&apos;s what happens next.</h2>
+            <div className="mt-4 grid gap-3 text-sm md:grid-cols-3">
+              <div className="rounded-xl bg-white/70 p-4">
+                <p className="font-semibold">Monthly reminder</p>
+                <p className="mt-1 text-emerald-900/75">You&apos;ll get a CSV reminder on the first day of each month.</p>
+              </div>
+              <div className="rounded-xl bg-white/70 p-4">
+                <p className="font-semibold">Upload fresh CSV</p>
+                <p className="mt-1 text-emerald-900/75">Export a new Stripe Balance CSV and run a fresh audit.</p>
+              </div>
+              <div className="rounded-xl bg-white/70 p-4">
+                <p className="font-semibold">Watch rate drift</p>
+                <p className="mt-1 text-emerald-900/75">Compare processing rate, all-in cost, and fee drivers month to month.</p>
+              </div>
+            </div>
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/analyze"
+                className="inline-flex justify-center rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700"
+              >
+                Audit a CSV now
+              </Link>
+              <Link
+                href="/stripe-balance-csv"
+                className="inline-flex justify-center rounded-xl border border-emerald-200 bg-white px-5 py-3 text-sm font-semibold text-emerald-800 transition-colors hover:bg-emerald-100"
+              >
+                How to export the right CSV
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="mx-auto grid max-w-5xl gap-10 px-6 py-16 md:grid-cols-[1.05fr_0.95fr] md:items-center">
         <div>

@@ -71,7 +71,9 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
         Want to know if this rate gets worse next month?
       </h3>
       <p className="mx-auto mb-4 max-w-2xl text-sm text-gray-600">
-        Subscribe for monthly CSV reminders, rate drift checks, and first access to private report history as it ships. No Stripe OAuth; you stay in control of every export.
+        This report is a 30-day snapshot for one CSV. Monitor adds the monthly habit:
+        CSV reminders, rate drift checks, and first access to private report history as it ships.
+        No Stripe OAuth; you stay in control of every export.
       </p>
 
       <a
