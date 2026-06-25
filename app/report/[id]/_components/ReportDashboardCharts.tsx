@@ -8,11 +8,12 @@ import {
   Tooltip,
   Legend,
   ComposedChart,
-  Area,
+  Bar,
   Line,
   XAxis,
   YAxis,
   CartesianGrid,
+  ReferenceLine,
 } from "recharts";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { fmt$, fmtPct, fmtMonth } from "@/lib/format";
@@ -45,10 +46,21 @@ export function ReportDashboardCharts({ result }: Props) {
     name: fmtMonth(m.month),
     fees: Number(m.fees.toFixed(2)),
     rate: Number(m.rate.toFixed(3)),
+    volume: Number(m.volume.toFixed(2)),
+    count: m.count,
   }));
 
   const showDonut = pieData.length > 0;
   const showTimeline = timelineData.length >= 2;
+  const fallbackMonth = { name: "-", fees: 0, rate: chargeRate, volume: 0, count: 0 };
+  const firstMonth = timelineData[0] ?? fallbackMonth;
+  const peakFeeMonth = timelineData.reduce((best, item) => (item.fees > best.fees ? item : best), firstMonth);
+  const peakRateMonth = timelineData.reduce((best, item) => (item.rate > best.rate ? item : best), firstMonth);
+  const lowRateMonth = timelineData.reduce((best, item) => (item.rate < best.rate ? item : best), firstMonth);
+  const rateMin = Math.min(...timelineData.map((item) => item.rate), chargeRate);
+  const rateMax = Math.max(...timelineData.map((item) => item.rate), chargeRate);
+  const rateDomainMin = Math.max(0, Math.floor((rateMin - 0.15) * 10) / 10);
+  const rateDomainMax = Math.ceil((rateMax + 0.15) * 10) / 10;
 
   if (!showDonut && !showTimeline) return null;
 
@@ -60,10 +72,10 @@ export function ReportDashboardCharts({ result }: Props) {
             Fee dashboard
           </p>
           <h2 className="text-base font-bold text-gray-900 mt-0.5">
-            Where your Stripe fees go
+            Fee trend dashboard
           </h2>
           <p className="text-xs text-gray-400 mt-1 max-w-xl">
-            Categories are grouped from your CSV export (reporting types). Use as a directional view — not an official Stripe breakdown.
+            See whether fee dollars and processing rate moved together. Categories are grouped from your CSV export, so treat this as directional rather than an official Stripe breakdown.
           </p>
         </div>
       </div>
@@ -110,12 +122,36 @@ export function ReportDashboardCharts({ result }: Props) {
 
         {showTimeline && (
           <div className="min-h-[280px]">
-            <p className="text-xs font-medium text-gray-500 mb-2">
-              Timeline — fees vs processing rate by month
-            </p>
-            <ResponsiveContainer width="100%" height={260}>
-              <ComposedChart data={timelineData} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+            <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-medium text-gray-500">
+                  Monthly fees and processing rate
+                </p>
+                <p className="mt-1 text-[11px] text-gray-400">
+                  Bars = charge fees. Line = processing rate. Dashed line = export baseline.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 gap-2 text-right text-[11px] sm:grid-cols-3">
+                <div className="rounded-lg bg-gray-50 px-2.5 py-2">
+                  <p className="text-gray-400">Most fees</p>
+                  <p className="font-semibold text-gray-800">{peakFeeMonth.name}</p>
+                  <p className="text-gray-500">{fmt$(peakFeeMonth.fees)}</p>
+                </div>
+                <div className="rounded-lg bg-gray-50 px-2.5 py-2">
+                  <p className="text-gray-400">Highest rate</p>
+                  <p className="font-semibold text-gray-800">{peakRateMonth.name}</p>
+                  <p className="text-gray-500">{fmtPct(peakRateMonth.rate)}</p>
+                </div>
+                <div className="rounded-lg bg-gray-50 px-2.5 py-2">
+                  <p className="text-gray-400">Rate range</p>
+                  <p className="font-semibold text-gray-800">{fmtPct(lowRateMonth.rate)}</p>
+                  <p className="text-gray-500">to {fmtPct(peakRateMonth.rate)}</p>
+                </div>
+              </div>
+            </div>
+            <ResponsiveContainer width="100%" height={285}>
+              <ComposedChart data={timelineData} margin={{ top: 14, right: 12, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eef2f7" />
                 <XAxis dataKey="name" tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
                 <YAxis
                   yAxisId="left"
@@ -133,43 +169,49 @@ export function ReportDashboardCharts({ result }: Props) {
                   tickLine={false}
                   axisLine={false}
                   width={40}
-                  domain={["auto", "auto"]}
+                  domain={[rateDomainMin, rateDomainMax]}
                 />
                 <Tooltip
                   formatter={(val, key) => {
                     const n = Number(val ?? 0);
                     const k = String(key ?? "");
-                    return k === "fees"
-                      ? [fmt$(n), "Fees"]
-                      : [fmtPct(n), "Charge rate"];
+                    if (k === "fees") return [fmt$(n), "Charge fees"];
+                    if (k === "volume") return [fmt$(n), "Charge volume"];
+                    if (k === "count") return [String(Math.round(n)), "Charges"];
+                    return [fmtPct(n), "Processing rate"];
                   }}
                   labelFormatter={(label) => label}
                   contentStyle={{ borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 12 }}
                 />
-                <Area
+                <Bar
                   yAxisId="left"
-                  type="monotone"
                   dataKey="fees"
-                  name="Fees ($)"
-                  fill="#bfdbfe"
-                  stroke="#3b82f6"
-                  strokeWidth={2}
-                  fillOpacity={0.85}
+                  name="Charge fees"
+                  fill="#60a5fa"
+                  radius={[6, 6, 0, 0]}
+                  barSize={34}
+                />
+                <ReferenceLine
+                  yAxisId="right"
+                  y={Number(chargeRate.toFixed(3))}
+                  stroke="#64748b"
+                  strokeDasharray="4 4"
+                  ifOverflow="extendDomain"
                 />
                 <Line
                   yAxisId="right"
-                  type="monotone"
+                  type="linear"
                   dataKey="rate"
-                  name="Charge rate"
-                  stroke="#7c3aed"
+                  name="Processing rate"
+                  stroke="#111827"
                   strokeWidth={2}
-                  dot={{ r: 3, fill: "#7c3aed" }}
-                  activeDot={{ r: 5 }}
+                  dot={{ r: 4, fill: "#111827", stroke: "#fff", strokeWidth: 2 }}
+                  activeDot={{ r: 6 }}
                 />
               </ComposedChart>
             </ResponsiveContainer>
-            <p className="mt-1 text-[11px] text-gray-400">
-              Purple line = weighted charge processing rate per month; shaded area = total charge fees. Baseline blended rate for the export is {fmtPct(chargeRate)}.
+            <p className="mt-2 text-[11px] text-gray-400">
+              Baseline processing rate for the export: <span className="font-medium text-gray-500">{fmtPct(chargeRate)}</span>. A high fee month with a flat rate usually means volume grew; a high rate month means the mix got worse.
             </p>
           </div>
         )}

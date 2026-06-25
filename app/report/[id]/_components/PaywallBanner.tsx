@@ -35,7 +35,7 @@ export function PaywallBanner({ reportId, email }: Props) {
   return (
     <>
       {/* Inline banner */}
-      <div className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-6 text-center">
+      <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-6 text-center shadow-sm">
         <div className="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 mb-3">
           Full report · $12 one-time
         </div>
@@ -56,7 +56,7 @@ export function PaywallBanner({ reportId, email }: Props) {
           ))}
         </div>
         <Button
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6"
+          className="mx-auto h-11 w-full max-w-md rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
           onClick={() => {
             trackEvent("funnel_checkout_redirect", { plan: "pro", placement: "inline_banner" });
             unlock();
@@ -123,7 +123,7 @@ export function PaywallBanner({ reportId, email }: Props) {
               </ul>
             </div>
             <button
-              className="w-full rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 transition-colors"
+              className="h-11 w-full rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
               onClick={() => {
                 trackEvent("funnel_checkout_redirect", { plan: "pro", placement: "modal" });
                 unlock();

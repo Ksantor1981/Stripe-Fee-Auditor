@@ -63,7 +63,7 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
   }
 
   return (
-    <div className="rounded-2xl border border-blue-100 bg-gradient-to-b from-blue-50/80 to-white shadow-sm p-6">
+    <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-6 shadow-sm">
       <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-1">
         Fee Monitor · $9/mo
       </p>
@@ -77,7 +77,7 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
       <a
         href={monitorCheckoutHref}
         onClick={() => trackEvent("monitor_checkout_click", REPORT_WAITLIST_ANALYTICS)}
-        className="inline-flex w-full justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
+        className="mx-auto inline-flex h-11 w-full max-w-md items-center justify-center rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
       >
         Start Fee Monitor - $9/mo
       </a>
@@ -105,7 +105,7 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
         <button
           type="submit"
           disabled={loading || !email.trim()}
-          className="rounded-xl bg-blue-600 hover:bg-blue-700 disabled:bg-gray-200 disabled:text-gray-400 text-white font-semibold px-5 py-2.5 text-sm transition-colors whitespace-nowrap"
+          className="h-11 rounded-xl bg-white px-5 text-sm font-semibold text-blue-700 ring-1 ring-blue-100 transition-colors hover:bg-blue-50 disabled:bg-gray-100 disabled:text-gray-400 disabled:ring-gray-100 whitespace-nowrap"
         >
           {loading ? "Joining..." : "Join free list"}
         </button>
