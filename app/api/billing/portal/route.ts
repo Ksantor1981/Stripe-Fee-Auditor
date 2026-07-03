@@ -34,6 +34,35 @@ function htmlPage(title: string, body: string, status = 200): NextResponse {
   );
 }
 
+function polarBillingErrorPage(err: unknown): NextResponse {
+  const statusCode =
+    typeof err === "object" && err !== null && "statusCode" in err
+      ? Number((err as { statusCode?: unknown }).statusCode)
+      : null;
+
+  if (statusCode === 401 || statusCode === 403) {
+    return htmlPage(
+      "Billing portal not configured",
+      "<p>The Polar API token can send checkout users to payment, but it cannot create customer portal links yet. Recreate the Polar access token with <strong>customers:read</strong> and <strong>customer_sessions:write</strong>, then update <strong>POLAR_ACCESS_TOKEN</strong> in Vercel.</p>",
+      503
+    );
+  }
+
+  if (statusCode === 422) {
+    return htmlPage(
+      "Billing profile needs attention",
+      "<p>Polar found the customer, but could not create a customer portal session for this billing profile. Check the Polar customer/subscription record for this email.</p>",
+      422
+    );
+  }
+
+  return htmlPage(
+    "Billing portal unavailable",
+    "<p>Polar billing is temporarily unavailable. Try again in a minute.</p>",
+    503
+  );
+}
+
 export async function GET(req: NextRequest) {
   const email = normalizeWaitlistEmail(req.nextUrl.searchParams.get("email") ?? "");
   const expires = req.nextUrl.searchParams.get("expires") ?? "";
@@ -61,7 +90,11 @@ export async function GET(req: NextRequest) {
   } catch (err) {
     logOpsError("billing_portal_open_failed", {
       message: err instanceof Error ? err.message.slice(0, 200) : "unknown",
+      statusCode:
+        typeof err === "object" && err !== null && "statusCode" in err
+          ? Number((err as { statusCode?: unknown }).statusCode)
+          : undefined,
     });
-    return htmlPage("Billing portal unavailable", "<p>Polar billing is temporarily unavailable. Try again in a minute.</p>", 503);
+    return polarBillingErrorPage(err);
   }
 }
