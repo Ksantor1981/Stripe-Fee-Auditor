@@ -614,10 +614,14 @@ async function ensureMonitorSubscribersTable(): Promise<void> {
       email TEXT NOT NULL UNIQUE,
       source TEXT NOT NULL DEFAULT 'polar',
       polar_product_id TEXT,
+      polar_customer_id TEXT,
+      polar_subscription_id TEXT,
       status TEXT NOT NULL DEFAULT 'active',
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       last_paid_at TIMESTAMPTZ,
+      current_period_end TIMESTAMPTZ,
+      canceled_at TIMESTAMPTZ,
       last_reminded_at TIMESTAMPTZ,
       reminder_count INT NOT NULL DEFAULT 0
     )
@@ -627,6 +631,8 @@ async function ensureMonitorSubscribersTable(): Promise<void> {
     () => null
   );
   await sql`ALTER TABLE monitor_subscribers ADD COLUMN IF NOT EXISTS polar_product_id TEXT`.catch(() => null);
+  await sql`ALTER TABLE monitor_subscribers ADD COLUMN IF NOT EXISTS polar_customer_id TEXT`.catch(() => null);
+  await sql`ALTER TABLE monitor_subscribers ADD COLUMN IF NOT EXISTS polar_subscription_id TEXT`.catch(() => null);
   await sql`ALTER TABLE monitor_subscribers ADD COLUMN IF NOT EXISTS status TEXT NOT NULL DEFAULT 'active'`.catch(
     () => null
   );
@@ -634,6 +640,8 @@ async function ensureMonitorSubscribersTable(): Promise<void> {
     () => null
   );
   await sql`ALTER TABLE monitor_subscribers ADD COLUMN IF NOT EXISTS last_paid_at TIMESTAMPTZ`.catch(() => null);
+  await sql`ALTER TABLE monitor_subscribers ADD COLUMN IF NOT EXISTS current_period_end TIMESTAMPTZ`.catch(() => null);
+  await sql`ALTER TABLE monitor_subscribers ADD COLUMN IF NOT EXISTS canceled_at TIMESTAMPTZ`.catch(() => null);
   await sql`ALTER TABLE monitor_subscribers ADD COLUMN IF NOT EXISTS last_reminded_at TIMESTAMPTZ`.catch(() => null);
   await sql`ALTER TABLE monitor_subscribers ADD COLUMN IF NOT EXISTS reminder_count INT NOT NULL DEFAULT 0`.catch(
     () => null
@@ -644,38 +652,119 @@ async function ensureMonitorSubscribersTable(): Promise<void> {
     ON monitor_subscribers (updated_at DESC)
   `;
 
+  await sql`
+    CREATE INDEX IF NOT EXISTS monitor_subscribers_polar_customer_idx
+    ON monitor_subscribers (polar_customer_id)
+  `;
+
+  await sql`
+    CREATE INDEX IF NOT EXISTS monitor_subscribers_polar_subscription_idx
+    ON monitor_subscribers (polar_subscription_id)
+  `;
+
   monitorSubscribersTableReady = true;
 }
 
 export async function upsertMonitorSubscriberFromPayment(params: {
   email: string;
   productId?: string | null;
+  customerId?: string | null;
+  subscriptionId?: string | null;
   source?: string;
 }): Promise<{ isNewSubscriber: boolean }> {
   await ensureMonitorSubscribersTable();
 
   const rows = await sql`
     INSERT INTO monitor_subscribers (
-      email, source, polar_product_id, status, last_paid_at, updated_at
+      email, source, polar_product_id, polar_customer_id, polar_subscription_id,
+      status, last_paid_at, canceled_at, updated_at
     )
     VALUES (
       ${params.email},
       ${params.source ?? "polar"},
       ${params.productId ?? null},
+      ${params.customerId ?? null},
+      ${params.subscriptionId ?? null},
       'active',
       NOW(),
+      NULL,
       NOW()
     )
     ON CONFLICT (email) DO UPDATE SET
       source = EXCLUDED.source,
       polar_product_id = COALESCE(EXCLUDED.polar_product_id, monitor_subscribers.polar_product_id),
+      polar_customer_id = COALESCE(EXCLUDED.polar_customer_id, monitor_subscribers.polar_customer_id),
+      polar_subscription_id = COALESCE(EXCLUDED.polar_subscription_id, monitor_subscribers.polar_subscription_id),
       status = 'active',
       last_paid_at = NOW(),
+      canceled_at = NULL,
       updated_at = NOW()
     RETURNING (xmax = 0) AS is_new
   `;
 
   return { isNewSubscriber: Boolean(rows[0]?.is_new) };
+}
+
+export async function syncMonitorSubscriberFromSubscription(params: {
+  email?: string | null;
+  customerId: string;
+  subscriptionId: string;
+  productId?: string | null;
+  status: string;
+  currentPeriodEnd?: Date | null;
+  canceledAt?: Date | null;
+  source?: string;
+}): Promise<void> {
+  await ensureMonitorSubscribersTable();
+
+  const normalizedEmail = params.email?.trim().toLowerCase() || null;
+  const currentPeriodEnd = params.currentPeriodEnd?.toISOString() ?? null;
+  const canceledAt = params.canceledAt?.toISOString() ?? null;
+
+  if (normalizedEmail) {
+    await sql`
+      INSERT INTO monitor_subscribers (
+        email, source, polar_product_id, polar_customer_id, polar_subscription_id,
+        status, current_period_end, canceled_at, updated_at
+      )
+      VALUES (
+        ${normalizedEmail},
+        ${params.source ?? "polar.subscription"},
+        ${params.productId ?? null},
+        ${params.customerId},
+        ${params.subscriptionId},
+        ${params.status},
+        ${currentPeriodEnd},
+        ${canceledAt},
+        NOW()
+      )
+      ON CONFLICT (email) DO UPDATE SET
+        source = EXCLUDED.source,
+        polar_product_id = COALESCE(EXCLUDED.polar_product_id, monitor_subscribers.polar_product_id),
+        polar_customer_id = EXCLUDED.polar_customer_id,
+        polar_subscription_id = EXCLUDED.polar_subscription_id,
+        status = EXCLUDED.status,
+        current_period_end = EXCLUDED.current_period_end,
+        canceled_at = EXCLUDED.canceled_at,
+        updated_at = NOW()
+    `;
+    return;
+  }
+
+  await sql`
+    UPDATE monitor_subscribers
+    SET
+      source = ${params.source ?? "polar.subscription"},
+      polar_product_id = COALESCE(${params.productId ?? null}, polar_product_id),
+      polar_customer_id = ${params.customerId},
+      polar_subscription_id = ${params.subscriptionId},
+      status = ${params.status},
+      current_period_end = ${currentPeriodEnd},
+      canceled_at = ${canceledAt},
+      updated_at = NOW()
+    WHERE polar_subscription_id = ${params.subscriptionId}
+       OR polar_customer_id = ${params.customerId}
+  `;
 }
 
 export async function isActiveMonitorSubscriber(email?: string | null): Promise<boolean> {
@@ -688,7 +777,10 @@ export async function isActiveMonitorSubscriber(email?: string | null): Promise<
     SELECT 1
     FROM monitor_subscribers
     WHERE lower(email) = ${normalizedEmail}
-      AND status = 'active'
+      AND (
+        status IN ('active', 'trialing')
+        OR (status = 'canceled' AND current_period_end > NOW())
+      )
     LIMIT 1
   `;
 

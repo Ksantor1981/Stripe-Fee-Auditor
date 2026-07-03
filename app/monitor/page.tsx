@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { FeeMonitorWaitlistForm } from "@/components/FeeMonitorWaitlistForm";
+import { ManageBillingForm } from "@/components/ManageBillingForm";
 
 export const metadata: Metadata = {
   title: "Fee Monitor — Monthly Stripe Fee Checks for $9/mo",
@@ -156,6 +157,9 @@ export default async function MonitorPage({ searchParams }: Props) {
           <p className="mt-3 text-center text-xs leading-relaxed text-blue-900/60">
             You can still use one-time CSV audits without subscribing.
           </p>
+          <div className="mt-5">
+            <ManageBillingForm source="monitor_pricing_card" />
+          </div>
           <div className="mt-5 border-t border-blue-100 pt-5">
             <p className="text-xs font-semibold uppercase tracking-widest text-blue-700">
               Not ready?

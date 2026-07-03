@@ -55,6 +55,8 @@ export async function GET(req: NextRequest) {
       const { isNewSubscriber } = await upsertMonitorSubscriberFromPayment({
         email: checkout.email,
         productId: checkout.productId,
+        customerId: checkout.customerId,
+        subscriptionId: checkout.subscriptionId,
         source: "checkout.success",
       });
 

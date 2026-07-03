@@ -110,6 +110,8 @@ export async function getCheckoutReportMetadata(checkoutId: string | null | unde
 export async function getSucceededCheckout(checkoutId: string): Promise<{
   productId: string | null;
   email: string;
+  customerId: string | null;
+  subscriptionId: string | null;
 } | null> {
   const polar = getPolarClient();
   if (!polar) return null;
@@ -120,7 +122,33 @@ export async function getSucceededCheckout(checkoutId: string): Promise<{
   return {
     productId: checkout.productId,
     email: checkout.customerEmail ?? "",
+    customerId: checkout.customerId,
+    subscriptionId: checkout.subscriptionId,
   };
+}
+
+export async function buildCustomerPortalUrlForEmail(email: string): Promise<string | null> {
+  const polar = getPolarClient();
+  if (!polar) {
+    throw new Error("Polar dynamic customer portal is required: set POLAR_ACCESS_TOKEN");
+  }
+
+  const customers = await polar.customers.list({ email, limit: 1 });
+  let customerId: string | null = null;
+
+  for await (const page of customers) {
+    customerId = page.result.items[0]?.id ?? null;
+    break;
+  }
+
+  if (!customerId) return null;
+
+  const session = await polar.customerSessions.create({
+    customerId,
+    returnUrl: absoluteUrl("/monitor?billing=returned"),
+  });
+
+  return session.customerPortalUrl;
 }
 
 export async function buildCheckoutUrl(

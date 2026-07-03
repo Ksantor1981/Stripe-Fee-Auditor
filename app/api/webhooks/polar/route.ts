@@ -6,7 +6,12 @@ import {
   readReportMetadata,
   verifyPolarWebhook,
 } from "@/lib/polar";
-import { getCheckoutSession, processPaidWebhook, upsertMonitorSubscriberFromPayment } from "@/lib/db";
+import {
+  getCheckoutSession,
+  processPaidWebhook,
+  syncMonitorSubscriberFromSubscription,
+  upsertMonitorSubscriberFromPayment,
+} from "@/lib/db";
 import { sendMonitorWelcomeEmail, sendReportEmail } from "@/lib/email";
 import { logOpsError, logOpsWarn } from "@/lib/ops-log";
 
@@ -21,6 +26,8 @@ type UnlockPayload = {
   email: string;
   reportId?: string;
   accessToken?: string;
+  customerId?: string | null;
+  subscriptionId?: string | null;
   metadataLookupFailed?: boolean;
 };
 
@@ -78,6 +85,8 @@ async function buildUnlockPayload(event: ReturnType<typeof verifyPolarWebhook>):
       email: order.customer?.email ?? "",
       reportId,
       accessToken,
+      customerId: order.customerId,
+      subscriptionId: order.subscriptionId,
       metadataLookupFailed,
     };
   }
@@ -98,10 +107,59 @@ async function buildUnlockPayload(event: ReturnType<typeof verifyPolarWebhook>):
       email: checkout.customerEmail ?? "",
       reportId: checkoutSession?.reportId ?? metadata.reportId,
       accessToken: checkoutSession?.accessToken,
+      customerId: checkout.customerId,
+      subscriptionId: checkout.subscriptionId,
     };
   }
 
   return null;
+}
+
+function subscriptionStatusForAccess(eventType: string, status: string): string {
+  if (eventType === "subscription.canceled") return "canceled";
+  if (eventType === "subscription.revoked") return "revoked";
+  if (eventType === "subscription.past_due") return "past_due";
+  return status;
+}
+
+async function handleSubscriptionEvent(event: ReturnType<typeof verifyPolarWebhook>): Promise<NextResponse | null> {
+  if (
+    event.type !== "subscription.created" &&
+    event.type !== "subscription.updated" &&
+    event.type !== "subscription.active" &&
+    event.type !== "subscription.uncanceled" &&
+    event.type !== "subscription.canceled" &&
+    event.type !== "subscription.revoked" &&
+    event.type !== "subscription.past_due"
+  ) {
+    return null;
+  }
+
+  const subscription = event.data;
+  if (!isMonitorProductId(subscription.productId)) {
+    return NextResponse.json({ received: true, ignored: "non-monitor-subscription" });
+  }
+
+  try {
+    await syncMonitorSubscriberFromSubscription({
+      email: subscription.customer.email ?? null,
+      customerId: subscription.customerId,
+      subscriptionId: subscription.id,
+      productId: subscription.productId,
+      status: subscriptionStatusForAccess(event.type, subscription.status),
+      currentPeriodEnd: subscription.currentPeriodEnd,
+      canceledAt: subscription.canceledAt,
+      source: event.type,
+    });
+  } catch (err) {
+    logOpsError("polar_webhook_subscription_sync_failed", {
+      eventName: event.type,
+      message: err instanceof Error ? err.message.slice(0, 200) : "unknown",
+    });
+    return NextResponse.json({ error: "Subscription sync failed" }, { status: 500 });
+  }
+
+  return NextResponse.json({ received: true, subscription: true });
 }
 
 export async function POST(req: NextRequest) {
@@ -121,6 +179,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
   }
 
+  const subscriptionResponse = await handleSubscriptionEvent(event);
+  if (subscriptionResponse) return subscriptionResponse;
+
   // order.paid is the normal paid path. order.created can be already paid for
   // fully discounted/free orders. checkout.updated covers succeeded checkouts
   // where order metadata is delayed or unavailable.
@@ -129,7 +190,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ received: true });
   }
 
-  const { eventId, eventName, productId, email, reportId, accessToken } = unlock;
+  const { eventId, eventName, productId, email, reportId, accessToken, customerId, subscriptionId } = unlock;
 
   if (!productId || !isAllowedProductId(productId)) {
     logOpsWarn("polar_webhook_invalid_product", {
@@ -145,6 +206,8 @@ export async function POST(req: NextRequest) {
         const { isNewSubscriber } = await upsertMonitorSubscriberFromPayment({
           email,
           productId,
+          customerId,
+          subscriptionId,
           source: eventName,
         });
 

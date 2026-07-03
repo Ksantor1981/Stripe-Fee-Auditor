@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { buildBillingPortalUrl } from "@/lib/billing-token";
 import { buildNewsletterUnsubscribeUrl } from "@/lib/newsletter-token";
 import type { MonthlyReminderAudience } from "@/lib/db";
 
@@ -281,6 +282,7 @@ export async function sendMonitorWelcomeEmail(to: string): Promise<void> {
   const monitorUrl = new URL("/monitor", baseUrl);
   monitorUrl.searchParams.set("utm_source", "email");
   monitorUrl.searchParams.set("utm_medium", "monitor_welcome");
+  const billingUrl = buildBillingPortalUrl(to);
 
   await getResend().emails.send({
     from,
@@ -312,11 +314,52 @@ export async function sendMonitorWelcomeEmail(to: string): Promise<void> {
         <p style="color:#555;font-size:14px;line-height:1.6;margin:0 0 16px">
           We'll email you about once a month when it's time for the next check. Full details live on
           <a href="${monitorUrl.toString()}" style="color:#2563eb">the Fee Monitor page</a>.
-          Billing and cancellation are managed through Polar checkout receipts.
+          Billing and cancellation are managed through Polar.
+        </p>
+        <p style="color:#555;font-size:14px;line-height:1.6;margin:0 0 16px">
+          <a href="${billingUrl}" style="color:#2563eb">Manage or cancel your subscription</a>.
         </p>
         <p style="color:#888;font-size:12px;line-height:1.5;margin-top:24px">
           Stripe Fee Auditor · Not affiliated with Stripe, Inc.<br>
           Questions? Reply to this email.
+        </p>
+      </div>
+    `,
+  });
+}
+
+export async function sendBillingPortalEmail(to: string): Promise<void> {
+  if (!process.env.RESEND_API_KEY) {
+    console.log(`[email] RESEND_API_KEY not set, skipping billing portal email to ${to}`);
+    return;
+  }
+
+  const from = process.env.EMAIL_FROM ?? DEFAULT_EMAIL_FROM;
+  const billingUrl = buildBillingPortalUrl(to);
+
+  await getResend().emails.send({
+    from,
+    to,
+    subject: "Manage your Fee Monitor subscription",
+    replyTo: process.env.EMAIL_REPLY_TO,
+    html: `
+      <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px">
+        <p style="color:#2563eb;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px">
+          Fee Monitor billing
+        </p>
+        <h1 style="font-size:20px;color:#111;margin:0 0 12px">
+          Manage your subscription
+        </h1>
+        <p style="color:#555;font-size:14px;line-height:1.6;margin:0 0 16px">
+          Use this private link to open the Polar customer portal. You can update payment details,
+          view receipts, or cancel Fee Monitor.
+        </p>
+        <a href="${billingUrl}"
+           style="display:inline-block;margin:8px 0 16px;padding:12px 24px;background:#2563eb;color:#fff;border-radius:8px;font-weight:600;text-decoration:none;font-size:14px">
+          Manage billing →
+        </a>
+        <p style="color:#888;font-size:12px;line-height:1.5;margin-top:16px">
+          This link expires soon. If it expires, request a fresh one from the Fee Monitor page.
         </p>
       </div>
     `,
