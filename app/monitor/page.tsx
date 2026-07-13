@@ -93,12 +93,13 @@ export default async function MonitorPage({ searchParams }: Props) {
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">Fee Monitor · $9/mo</p>
           <h1 className="mt-3 text-4xl font-extrabold tracking-tight text-gray-950 sm:text-5xl">
-            Know when your Stripe fees start leaking margin.
+            Watch whether your Stripe fee rate gets worse each month.
           </h1>
           <p className="mt-5 text-lg leading-relaxed text-gray-600">
-            Fee Auditor is a one-time CSV audit. Fee Monitor adds the recurring habit:
-            a monthly nudge to upload the fresh export, check whether your rate drifted,
-            and inspect the fee drivers before they become normal.
+            <span className="font-semibold text-gray-900">$12</span> = one CSV audit (this export, 30 days).{" "}
+            <span className="font-semibold text-gray-900">$9/mo</span> = the habit: monthly reminder,
+            fresh upload, and rate-drift checks so leaks don&apos;t become normal.
+            No permanent Stripe OAuth — you stay in control of every export.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
@@ -137,8 +138,8 @@ export default async function MonitorPage({ searchParams }: Props) {
             <span className="pb-1 text-sm font-medium text-gray-500">/ month</span>
           </div>
           <p className="mt-3 text-sm leading-relaxed text-blue-900/80">
-            Best for founders who process Stripe volume every month and want the habit, not another
-            dashboard they forget to open.
+            Compared to a one-time $12 audit: Monitor is for founders who process every month and
+            want to catch drift early — not another dashboard they forget to open.
           </p>
           <ul className="mt-5 space-y-3 text-sm text-blue-950/80">
             {included.slice(0, 4).map((item) => (

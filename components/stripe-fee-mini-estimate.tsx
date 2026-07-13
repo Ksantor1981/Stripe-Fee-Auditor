@@ -6,11 +6,21 @@ import { useMemo, useState } from "react";
 /** Published US card rate — illustrative only; blended rate comes from your Balance CSV. */
 const PERCENT = 0.029;
 const FIXED = 0.3;
-const REALISTIC_RATE = 0.038;
+/** Typical cross-border uplift when cards are issued outside your Stripe country. */
+const INTL_UPLIFT = 0.015;
+/** Extra buffer for refunds, disputes, Radar/Billing add-ons (all-in vs processing). */
+const ALL_IN_BUFFER_LOW = 0.002;
+const ALL_IN_BUFFER_HIGH = 0.006;
 
 function parseUsd(raw: string) {
   const value = Number.parseFloat(raw.replace(/,/g, "").trim());
   return Number.isFinite(value) && value >= 0 ? value : 0;
+}
+
+function parsePct(raw: string) {
+  const value = Number.parseFloat(raw.replace(/%/g, "").trim());
+  if (!Number.isFinite(value)) return 0;
+  return Math.min(100, Math.max(0, value));
 }
 
 function formatMoney(value: number) {
@@ -20,39 +30,63 @@ function formatMoney(value: number) {
   })}`;
 }
 
-export function StripeFeeMiniEstimate() {
+function formatRate(rate: number) {
+  return `${(rate * 100).toFixed(1)}%`;
+}
+
+interface Props {
+  /** Compact variant for embedding on the homepage hero flow. */
+  compact?: boolean;
+}
+
+export function StripeFeeMiniEstimate({ compact = false }: Props) {
   const [volumeRaw, setVolumeRaw] = useState("50000");
   const [averageChargeRaw, setAverageChargeRaw] = useState("50");
+  const [intlShareRaw, setIntlShareRaw] = useState("15");
 
   const estimate = useMemo(() => {
     const monthlyVolume = parseUsd(volumeRaw);
     const averageCharge = Math.max(parseUsd(averageChargeRaw), 0.01);
+    const intlShare = parsePct(intlShareRaw) / 100;
     const chargeCount = monthlyVolume > 0 ? Math.max(1, Math.round(monthlyVolume / averageCharge)) : 0;
     const publishedFee = monthlyVolume > 0 ? monthlyVolume * PERCENT + chargeCount * FIXED : 0;
     const publishedRate = monthlyVolume > 0 ? publishedFee / monthlyVolume : 0;
-    const realisticFee = monthlyVolume * REALISTIC_RATE;
-    const gap = Math.max(0, realisticFee - publishedFee);
+    const intlExtra = monthlyVolume * intlShare * INTL_UPLIFT;
+    const withIntlFee = publishedFee + intlExtra;
+    const midRate = monthlyVolume > 0 ? withIntlFee / monthlyVolume : 0;
+    const lowRate = midRate + ALL_IN_BUFFER_LOW;
+    const highRate = midRate + ALL_IN_BUFFER_HIGH + intlShare * 0.002;
+    const midFee = monthlyVolume * midRate;
+    const highFee = monthlyVolume * highRate;
+    const gapVsPublished = Math.max(0, midFee - publishedFee);
 
     return {
       monthlyVolume,
       averageCharge,
       chargeCount,
+      intlShare,
       publishedFee,
       publishedRate,
-      realisticFee,
-      gap,
+      lowRate,
+      highRate,
+      midFee,
+      highFee,
+      gapVsPublished,
     };
-  }, [averageChargeRaw, volumeRaw]);
+  }, [averageChargeRaw, intlShareRaw, volumeRaw]);
+
+  const shellClass = compact
+    ? "rounded-2xl border border-blue-100 bg-blue-50/40 p-5 sm:p-6"
+    : "mb-14 rounded-2xl border border-blue-100 bg-blue-50/40 p-6";
 
   return (
-    <section className="mb-14 rounded-2xl border border-blue-100 bg-blue-50/40 p-6">
+    <section className={shellClass} id="instant-estimate">
       <h2 className="text-lg font-semibold text-gray-900 mb-1">
-        Monthly Stripe fee estimate
+        Estimate your real Stripe rate before uploading CSV
       </h2>
       <p className="text-sm text-gray-500 mb-5">
-        Start with Stripe&apos;s published 2.9% + $0.30 card pricing. Then compare it with the
-        real blended rate you may see once international cards, refunds, add-ons, and small
-        charges show up in your Balance CSV.
+        No file needed. Enter rough volume mix to see a likely all-in range — then upload a Balance
+        CSV to verify against real transactions.
       </p>
 
       <div className="grid gap-4 md:grid-cols-[1fr_1.2fr]">
@@ -79,57 +113,83 @@ export function StripeFeeMiniEstimate() {
               className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
             />
           </label>
+          <label className="block">
+            <span className="text-xs font-medium text-gray-600">International card share (%)</span>
+            <input
+              type="number"
+              min={0}
+              max={100}
+              step="1"
+              value={intlShareRaw}
+              onChange={(event) => setIntlShareRaw(event.target.value)}
+              className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
+            />
+          </label>
           <p className="text-xs leading-relaxed text-gray-500">
-            Estimated transactions: {estimate.chargeCount.toLocaleString("en-US")}. Smaller average
-            charges make the fixed $0.30 fee matter more.
+            ~{estimate.chargeCount.toLocaleString("en-US")} charges/month. Smaller averages make the
+            fixed $0.30 fee matter more; international share adds ~1.5% uplift on that volume.
           </p>
         </div>
 
         <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
-            Published-rate estimate
+          <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+            Your likely all-in rate
           </p>
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <p className="mt-2 text-3xl font-extrabold tracking-tight text-gray-900">
+            {estimate.monthlyVolume > 0
+              ? `${formatRate(estimate.lowRate)}–${formatRate(estimate.highRate)}`
+              : "—"}
+          </p>
+          <p className="mt-1 text-sm text-gray-500">
+            Directional range including published card pricing, international uplift, and a small
+            buffer for refunds / add-ons.
+          </p>
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <div>
-              <p className="text-xs text-gray-500">Estimated monthly fee</p>
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-xs text-gray-500">Published 2.9% + $0.30</p>
+              <p className="text-lg font-bold text-gray-900">
                 {estimate.monthlyVolume > 0 ? formatMoney(estimate.publishedFee) : "-"}
+                <span className="ml-1 text-xs font-medium text-gray-400">/mo</span>
               </p>
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-0.5 text-xs text-gray-500">
                 Effective: {(estimate.publishedRate * 100).toFixed(2)}%
               </p>
             </div>
             <div className="rounded-lg bg-blue-50 px-3 py-3">
-              <p className="text-xs text-blue-700">If real rate is 3.8%</p>
-              <p className="text-xl font-bold text-blue-950">
-                {estimate.monthlyVolume > 0 ? formatMoney(estimate.realisticFee) : "-"}
+              <p className="text-xs text-blue-700">At mid of your range</p>
+              <p className="text-lg font-bold text-blue-950">
+                {estimate.monthlyVolume > 0 ? formatMoney(estimate.midFee) : "-"}
+                <span className="ml-1 text-xs font-medium text-blue-700/70">/mo</span>
               </p>
-              <p className="mt-1 text-xs text-blue-700">
-                {estimate.gap > 0 ? `${formatMoney(estimate.gap)} higher` : "No gap at this mix"}
+              <p className="mt-0.5 text-xs text-blue-700">
+                {estimate.gapVsPublished > 0
+                  ? `${formatMoney(estimate.gapVsPublished)} above published`
+                  : "Close to published mix"}
               </p>
             </div>
           </div>
+
           <p className="mt-4 text-xs leading-relaxed text-gray-500">
-            3.8% is not a promise or benchmark; it is a common enough SaaS scenario when the mix
-            includes international cards, small charges, refunds, and other Stripe fee lines.
+            Not a benchmark or a promise — a quick estimate before you export CSV. Real rates come
+            from your Balance transactions.
           </p>
         </div>
       </div>
 
-      <p className="mt-4 text-xs text-gray-500 leading-relaxed">
-        This calculator estimates the expected fee from public pricing. To see what Stripe actually
-        took from your account, upload your{" "}
-        <Link href="/stripe-balance-csv" className="text-blue-600 underline hover:text-blue-800">
-          Balance CSV
-        </Link>{" "}
-        and calculate the rate from real transactions.
-      </p>
-      <div className="mt-4">
+      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-xs text-gray-500 leading-relaxed max-w-xl">
+          Ready to verify? Upload an itemized{" "}
+          <Link href="/stripe-balance-csv" className="text-blue-600 underline hover:text-blue-800">
+            Balance CSV
+          </Link>{" "}
+          and see processing vs all-in on your real data.
+        </p>
         <Link
           href="/analyze"
-          className="inline-flex text-sm font-semibold text-blue-600 hover:text-blue-800"
+          className="inline-flex shrink-0 items-center justify-center rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
         >
-          Analyze real fees from CSV -&gt;
+          Analyze real fees from CSV →
         </Link>
       </div>
     </section>

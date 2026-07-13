@@ -5,6 +5,7 @@ import { fmt$, fmtPct, fmtMonth } from "@/lib/format";
 import { transactionPrimaryLabel, transactionSecondaryLine } from "@/lib/transaction-display";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { PaywallBanner } from "./PaywallBanner";
+import { MoneyFirstImpact } from "./MoneyFirstImpact";
 import { FeeInsightCards } from "./FeeInsightCards";
 import { ReportDashboardCharts } from "./ReportDashboardCharts";
 import { ReportTrustChecklist } from "./ReportTrustChecklist";
@@ -85,6 +86,15 @@ export function SingleMonthReport({ reportId, result, isPaid }: Props) {
         </div>
       </div>
 
+      {!isPaid && (
+        <MoneyFirstImpact
+          reportId={reportId}
+          savings={savings[0]}
+          yearlyFeesAtThisRate={yearlyAtThisRate}
+          highFeeCount={result.anomalies?.length ?? 0}
+        />
+      )}
+
       {isPaid && <FirstActionCallout opportunity={savings[0]} />}
 
       <ReportTrustChecklist result={result} />
@@ -145,7 +155,15 @@ export function SingleMonthReport({ reportId, result, isPaid }: Props) {
             </div>
           ))}
         </div>
-        {!isPaid && <div className="p-5"><PaywallBanner reportId={reportId} /></div>}
+        {!isPaid && (
+          <div className="p-5">
+            <PaywallBanner
+              reportId={reportId}
+              annualImpact={savings[0]?.annualSavings}
+              firstOpportunity={savings[0]?.title}
+            />
+          </div>
+        )}
       </div>
 
       {/* Upload more CTA */}

@@ -2,11 +2,12 @@
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import type { AnalysisResult, AnnotatedRow, SavingsOpportunity } from "@/lib/fee-analyzer";
+import type { AnalysisResult, AnnotatedRow } from "@/lib/fee-analyzer";
 import { fmt$, fmtPct, fmtMonth } from "@/lib/format";
 import { transactionPrimaryLabel, transactionSecondaryLine } from "@/lib/transaction-display";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { PaywallBanner } from "./PaywallBanner";
+import { MoneyFirstImpact } from "./MoneyFirstImpact";
 import { FeeInsightCards } from "./FeeInsightCards";
 import { TransactionBuckets } from "./TransactionBuckets";
 import { SavingsOpportunities } from "./SavingsOpportunities";
@@ -37,64 +38,6 @@ function anomalyExplainerText(
   const [topLabel, topN] = top;
   const pct = Math.round((topN / count) * 100);
   return `${count} charges paid above your ~${baselineRate.toFixed(2)}% baseline — about ${pct}% tagged “${topLabel}”. Typical when international or premium cards are a large share; not necessarily errors.`;
-}
-
-function PreviewValueTeaser({
-  anomalyCount,
-  anomalyLabel,
-  savings,
-}: {
-  anomalyCount: number;
-  anomalyLabel?: string;
-  savings?: SavingsOpportunity;
-}) {
-  if (anomalyCount <= 0 && !savings) return null;
-
-  return (
-    <div className="rounded-2xl border border-blue-100 bg-blue-50 p-5">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">
-            Preview value found
-          </p>
-          <h2 className="mt-1 text-base font-bold text-blue-950">
-            The full report is not just more rows
-          </h2>
-        </div>
-        <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-blue-700">
-          Your data
-        </span>
-      </div>
-
-      <div className="mt-4 grid gap-3 sm:grid-cols-2">
-        {anomalyCount > 0 && (
-          <div className="rounded-xl bg-white px-4 py-3">
-            <p className="text-xs font-medium text-gray-400">Unusual charges</p>
-            <p className="mt-0.5 text-lg font-bold text-gray-900">{anomalyCount} found</p>
-            <p className="mt-1 text-xs leading-relaxed text-gray-500">
-              Top visible reason: {anomalyLabel ?? "elevated fee rate"}. Unlock to see the affected rows and tips.
-            </p>
-          </div>
-        )}
-
-        {savings && (
-          <div className="rounded-xl bg-white px-4 py-3">
-            <p className="text-xs font-medium text-gray-400">Savings teaser</p>
-            <p className="mt-0.5 text-lg font-bold text-emerald-700">
-              up to ~{fmt$(savings.annualSavings)}/yr
-            </p>
-            <p className="mt-1 text-xs leading-relaxed text-gray-500">
-              First opportunity: {savings.title}. Full report shows the steps and caveats.
-            </p>
-          </div>
-        )}
-      </div>
-
-      <p className="mt-3 text-xs leading-relaxed text-blue-900/75">
-        Estimates are directional, but they are calculated from this upload, not from a generic demo.
-      </p>
-    </div>
-  );
 }
 
 interface Props {
@@ -141,8 +84,12 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
   const displayAllInRate = allInRate ?? (chargeVolume > 0 ? (periodFees / chargeVolume) * 100 : 0);
   const yearlyAtThisRate = annualRunRate(periodFees, monthCount);
   const anomalyExplainer = anomalyExplainerText(anomalyUiCount, chargeRate, paidAnomalyRows, isPaid);
-  const teaserAnomalyLabel = result.annotatedAnomalies?.[0]?.explanation?.label;
   const teaserSavings = savings[0];
+  const paywallProps = {
+    reportId,
+    annualImpact: teaserSavings?.annualSavings,
+    firstOpportunity: teaserSavings?.title,
+  };
 
   return (
     <div className="space-y-8">
@@ -213,10 +160,11 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
       </div>
 
       {!isPaid && (
-        <PreviewValueTeaser
-          anomalyCount={anomalyUiCount}
-          anomalyLabel={teaserAnomalyLabel}
+        <MoneyFirstImpact
+          reportId={reportId}
           savings={teaserSavings}
+          yearlyFeesAtThisRate={yearlyAtThisRate}
+          highFeeCount={anomalyUiCount}
         />
       )}
 
@@ -293,7 +241,11 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
               </div>
             )}
           </div>
-          {!isPaid && <div className="mt-4"><PaywallBanner reportId={reportId} /></div>}
+          {!isPaid && (
+            <div className="mt-4">
+              <PaywallBanner {...paywallProps} />
+            </div>
+          )}
         </TabsContent>
 
         {/* Anomalies tab */}
@@ -355,7 +307,7 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
                   {anomalyUiCount} high-fee charge{anomalyUiCount === 1 ? "" : "s"} found
                 </p>
                 <p className="text-xs text-gray-400 mb-4">Unlock to see which charges are above your baseline and why</p>
-                <PaywallBanner reportId={reportId} />
+                <PaywallBanner {...paywallProps} />
               </div>
             )}
           </div>
@@ -405,7 +357,7 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
               <p className="text-sm font-semibold text-gray-700 mb-4">
                 Detailed monthly breakdown is in the paid report
               </p>
-              <PaywallBanner reportId={reportId} />
+              <PaywallBanner {...paywallProps} />
             </div>
           )}
         </TabsContent>

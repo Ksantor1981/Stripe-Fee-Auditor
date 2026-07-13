@@ -65,23 +65,28 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
   return (
     <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-6 text-center shadow-sm">
       <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-1">
-        Fee Monitor · $9/mo
+        Fee Monitor · $9/mo · monthly habit
       </p>
       <h3 className="text-base font-bold text-gray-900 mb-2">
-        Want to know if this rate gets worse next month?
+        Did this rate get worse next month?
       </h3>
-      <p className="mx-auto mb-4 max-w-2xl text-sm text-gray-600">
-        This report is a 30-day snapshot for one CSV. Monitor adds the monthly habit:
-        CSV reminders, rate drift checks, and first access to private report history as it ships.
-        No Stripe OAuth; you stay in control of every export.
+      <p className="mx-auto mb-3 max-w-2xl text-sm text-gray-600">
+        <span className="font-medium text-gray-800">$12</span> unlocked this CSV once (30-day link).{" "}
+        <span className="font-medium text-gray-800">$9/mo</span> adds the habit: monthly reminder,
+        fresh audit, and rate-drift checks so fee leaks don&apos;t become invisible.
       </p>
+      <ul className="mx-auto mb-4 flex max-w-xl flex-col gap-1.5 text-left text-xs text-gray-600 sm:flex-row sm:justify-center sm:gap-4">
+        <li>✓ CSV reminder each month</li>
+        <li>✓ Processing vs all-in drift</li>
+        <li>✓ No Stripe OAuth</li>
+      </ul>
 
       <a
         href={monitorCheckoutHref}
         onClick={() => trackEvent("monitor_checkout_click", REPORT_WAITLIST_ANALYTICS)}
         className="mx-auto flex h-11 w-full max-w-md items-center justify-center rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
       >
-        Start Fee Monitor - $9/mo
+        Start Fee Monitor — $9/mo
       </a>
 
       <div className="my-5 flex items-center gap-3">

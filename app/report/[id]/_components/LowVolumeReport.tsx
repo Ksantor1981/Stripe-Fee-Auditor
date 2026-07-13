@@ -11,6 +11,7 @@ import { ReportTrustChecklist } from "./ReportTrustChecklist";
 import { SavingsOpportunities } from "./SavingsOpportunities";
 import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
+import { MoneyFirstImpact } from "./MoneyFirstImpact";
 import { PaywallBanner } from "./PaywallBanner";
 
 interface Props {
@@ -89,6 +90,14 @@ export function LowVolumeReport({ reportId, result, isPaid }: Props) {
         </div>
       </div>
 
+      {!isPaid && (
+        <MoneyFirstImpact
+          reportId={reportId}
+          savings={savings[0]}
+          yearlyFeesAtThisRate={yearlyAtThisRate}
+        />
+      )}
+
       {isPaid && <FirstActionCallout opportunity={savings[0]} />}
 
       <ReportTrustChecklist result={result} />
@@ -147,7 +156,11 @@ export function LowVolumeReport({ reportId, result, isPaid }: Props) {
         </div>
         {!isPaid && (
           <div className="p-5 border-t border-gray-50">
-            <PaywallBanner reportId={reportId} />
+            <PaywallBanner
+              reportId={reportId}
+              annualImpact={savings[0]?.annualSavings}
+              firstOpportunity={savings[0]?.title}
+            />
           </div>
         )}
       </div>

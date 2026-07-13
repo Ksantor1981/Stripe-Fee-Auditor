@@ -4,6 +4,7 @@ import Link from "next/link";
 import { LandingFaq } from "@/components/LandingFaq";
 import { LandingNav } from "@/components/LandingNav";
 import { NewsletterSignupForm } from "@/components/NewsletterSignupForm";
+import { StripeFeeMiniEstimate } from "@/components/stripe-fee-mini-estimate";
 import { TrackedLink } from "@/components/TrackedLink";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { buildOgImageUrl } from "@/lib/seo-og";
@@ -311,7 +312,7 @@ export default function HomePage() {
             Try sample report →
           </Link>
           <Link
-            href="/stripe-fee-calculator"
+            href="#instant-estimate"
             className="font-medium text-gray-500 underline underline-offset-2 hover:text-blue-600"
           >
             Quick fee estimate first →
@@ -402,6 +403,16 @@ export default function HomePage() {
             One practical email per month: fee drivers, CSV checks, and payment-cost fixes. No spam.
           </p>
           <NewsletterSignupForm source="landing_hero" />
+        </div>
+      </section>
+
+      {/* Instant estimate — no CSV required */}
+      <section className="bg-slate-50 px-4 py-14 scroll-mt-14" aria-labelledby="instant-estimate-heading">
+        <div className="mx-auto max-w-4xl">
+          <p className="sr-only" id="instant-estimate-heading">
+            Estimate your real Stripe fee rate before uploading a CSV
+          </p>
+          <StripeFeeMiniEstimate compact />
         </div>
       </section>
 
@@ -627,7 +638,7 @@ export default function HomePage() {
             Pricing
           </p>
           <h2 className="text-center text-2xl font-bold text-gray-900 mb-8">
-            Free preview first. Pay only when the CSV is worth auditing.
+            $12 = one audit. $9/mo = watch it every month.
           </h2>
           <div className="grid gap-4 md:grid-cols-3">
             {FULL_REPORTS_FREE_DURING_BETA ? (
@@ -653,14 +664,18 @@ export default function HomePage() {
                   <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Free preview</p>
                   <p className="text-2xl font-bold text-gray-900 mb-2">No card required</p>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    Headline processing and all-in rates, top fee drivers, monthly timeline, and a teaser — enough to reconcile against Stripe before you pay.
+                    Headline rates, top fee drivers, and — when found — a directional annual impact teaser
+                    (e.g. potential ~$1,400/yr). Enough to decide if a full unlock is worth $12.
                   </p>
                 </div>
                 <div className="rounded-2xl border-2 border-blue-200 bg-blue-50/80 p-6 shadow-sm">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-blue-700 mb-1">Full report</p>
-                  <p className="text-2xl font-bold text-gray-900 mb-2">$12 one-time</p>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-blue-700 mb-1">
+                    One audit · $12
+                  </p>
+                  <p className="text-2xl font-bold text-gray-900 mb-2">This CSV, once</p>
                   <p className="text-sm text-blue-900/90 leading-relaxed">
-                    All high-fee charges with explanations, savings actions, monthly detail, CSV export, and print-ready report — private link for 30 days.
+                    Full high-fee rows, savings actions with caveats, monthly detail, CSV + print export —
+                    private link for 30 days. Pay once to inspect what the preview only teased.
                   </p>
                   <p className="mt-3 text-xs text-gray-500">
                     Refund available if payment succeeds but the report does not unlock.
@@ -670,14 +685,20 @@ export default function HomePage() {
             )}
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
               <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                After your first report
+                Monthly habit · $9/mo
               </p>
-              <p className="mb-2 text-2xl font-bold text-gray-900">Monitor — $9/mo</p>
+              <p className="mb-2 text-2xl font-bold text-gray-900">Did it get worse?</p>
               <p className="text-sm leading-relaxed text-gray-600">
-                Monthly CSV reminders, rate drift checks, and private report history for founders who want the habit after seeing their first audit.
+                Not another dashboard. A monthly reminder to upload a fresh Balance CSV, compare rate
+                drift vs last month, and catch fee leaks before they feel normal. No Stripe OAuth.
               </p>
+              <ul className="mt-3 space-y-1.5 text-xs text-gray-600">
+                <li>✓ Monthly CSV reminder</li>
+                <li>✓ Rate drift checks (processing + all-in)</li>
+                <li>✓ Private report history as it ships</li>
+              </ul>
               <Link href="/monitor" className="mt-4 inline-flex text-sm font-semibold text-blue-600 hover:underline">
-                See Monitor details →
+                Start Fee Monitor →
               </Link>
             </div>
           </div>
