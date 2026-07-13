@@ -97,6 +97,7 @@ const GUIDE_SECTIONS = [
     entries: [
       ...entriesFor([
         "/blog/how-to-export-stripe-balance-csv",
+        "/chrome-extension",
         "/how-it-works",
         "/blog/stripe-effective-fee-rate-explained",
       ]),

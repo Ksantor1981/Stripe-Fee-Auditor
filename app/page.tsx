@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { ChromeExtensionEarlyAccessForm } from "@/components/ChromeExtensionEarlyAccessForm";
 import { LandingFaq } from "@/components/LandingFaq";
 import { LandingNav } from "@/components/LandingNav";
 import { NewsletterSignupForm } from "@/components/NewsletterSignupForm";
@@ -416,6 +417,35 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="bg-white px-4 py-10" aria-labelledby="chrome-helper-heading">
+        <div className="mx-auto grid max-w-4xl gap-5 rounded-2xl border border-blue-100 bg-blue-50/60 p-5 shadow-sm md:grid-cols-[1fr_0.95fr] md:items-center">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-blue-700">
+              Chrome helper · early access
+            </p>
+            <h2 id="chrome-helper-heading" className="mt-1 text-xl font-bold text-gray-900">
+              Chrome helper is ready. Web Store listing is pending.
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-gray-600">
+              It opens the Stripe Balance export flow, sends you back to analyze the CSV, and can remind
+              you to repeat the fee check every month. No Stripe page reading, no OAuth, no API keys.
+            </p>
+            <div className="mt-3 flex flex-wrap gap-3 text-sm">
+              <Link href="/chrome-extension" className="font-semibold text-blue-600 hover:underline">
+                See the Chrome helper →
+              </Link>
+              <Link href="/stripe-balance-csv" className="font-medium text-gray-500 hover:text-blue-600 hover:underline">
+                Export guide
+              </Link>
+            </div>
+          </div>
+          <ChromeExtensionEarlyAccessForm
+            source="landing_chrome_helper"
+            ctaLabel="Get early access"
+          />
+        </div>
+      </section>
+
       {/* What the report tells you */}
       <section className="bg-white px-4 py-16" aria-labelledby="calculator-vs-audit-heading">
         <div className="mx-auto max-w-4xl">
@@ -773,6 +803,8 @@ export default function HomePage() {
         </p>
         <p className="flex justify-center gap-3 flex-wrap">
           <Link href="/monitor" className="hover:underline">Fee Monitor</Link>
+          <span>·</span>
+          <Link href="/chrome-extension" className="hover:underline">Chrome helper</Link>
           <span>·</span>
           <Link href="/stripe-fee-calculator" className="hover:underline">Stripe fee calculator</Link>
           <span>·</span>

@@ -239,6 +239,16 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
     sitemapPriority: 0.78,
   },
   {
+    slug: "chrome-extension",
+    path: "/chrome-extension",
+    title: "Stripe Fee Auditor Chrome Extension",
+    desc: "A lightweight Chrome helper for Stripe Balance CSV exports: open the right Stripe report, analyze the CSV, and set monthly fee-check reminders.",
+    time: "3 min",
+    publishedAt: "2026-07-14",
+    updatedAt: "2026-07-14",
+    sitemapPriority: 0.68,
+  },
+  {
     slug: "should-i-switch-from-stripe",
     path: "/should-i-switch-from-stripe",
     title: "Should I Switch From Stripe? Audit Fees First",

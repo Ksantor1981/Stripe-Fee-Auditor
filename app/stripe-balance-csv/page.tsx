@@ -336,6 +336,7 @@ export default function StripeBalanceCsvPage() {
           <p className="text-sm font-semibold text-gray-700 mb-4">Related fee guides</p>
           <div className="space-y-3">
             {[
+              { href: "/chrome-extension", title: "Stripe Fee Auditor Chrome Extension" },
               { href: "/blog/why-stripe-fees-increase", title: "Why did my Stripe fees increase?" },
               { href: "/blog/stripe-international-card-fees", title: "Stripe international card fees explained" },
               { href: "/blog/stripe-ach-vs-credit-card-fees", title: "Stripe ACH vs credit card fees" },
