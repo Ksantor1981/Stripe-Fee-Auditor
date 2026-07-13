@@ -62,7 +62,10 @@ const COMPARISON = [
 ];
 
 const RELATED = [
+  { href: "/should-i-switch-from-stripe", title: "Should I switch from Stripe?" },
   { href: "/compare-stripe-paypal-wise", title: "Stripe vs PayPal vs Wise fees" },
+  { href: "/stripe-vs-square-fees", title: "Stripe vs Square fees" },
+  { href: "/stripe-vs-gocardless", title: "Stripe vs GoCardless" },
   { href: "/blog/stripe-alternatives-2026", title: "Stripe alternatives in 2026" },
   { href: "/blog/stripe-credit-card-processing-fees", title: "Stripe credit card processing fees" },
   { href: "/stripe-fee-calculator", title: "Stripe fee calculator" },

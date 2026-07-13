@@ -776,7 +776,11 @@ export default function HomePage() {
           <span>·</span>
           <Link href="/stripe-fee-calculator" className="hover:underline">Stripe fee calculator</Link>
           <span>·</span>
+          <Link href="/should-i-switch-from-stripe" className="hover:underline">Should I switch from Stripe?</Link>
+          <span>·</span>
           <Link href="/compare-stripe-paypal-wise" className="hover:underline">Stripe vs PayPal vs Wise</Link>
+          <span>·</span>
+          <Link href="/stripe-vs-square-fees" className="hover:underline">Stripe vs Square</Link>
           <span>·</span>
           <Link href="/what-percent-does-stripe-take" className="hover:underline">What percent Stripe takes</Link>
           <span>·</span>

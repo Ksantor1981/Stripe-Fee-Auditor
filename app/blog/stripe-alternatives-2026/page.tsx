@@ -70,6 +70,10 @@ const SWITCH_REASONS = [
 ];
 
 const RELATED = [
+  { href: "/should-i-switch-from-stripe", title: "Should I switch from Stripe?" },
+  { href: "/stripe-vs-square-fees", title: "Stripe vs Square fees" },
+  { href: "/stripe-vs-gocardless", title: "Stripe vs GoCardless" },
+  { href: "/stripe-vs-paddle-fees", title: "Stripe vs Paddle fees" },
   { href: "/compare-stripe-paypal-wise", title: "Stripe vs PayPal vs Wise fees" },
   { href: "/blog/stripe-vs-paypal-fees", title: "Stripe vs PayPal fees" },
   { href: "/blog/stripe-credit-card-processing-fees", title: "Stripe credit card processing fees" },

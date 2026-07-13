@@ -78,8 +78,13 @@ const GUIDE_SECTIONS = [
     title: "Decide whether to switch, add ACH, or change checkout",
     description: "Comparison and optimization guides for founders who want lower payment costs.",
     entries: entriesFor([
+      "/should-i-switch-from-stripe",
       "/blog/stripe-alternatives-2026",
+      "/stripe-vs-square-fees",
+      "/stripe-vs-gocardless",
+      "/stripe-vs-paddle-fees",
       "/blog/stripe-vs-paypal-fees",
+      "/compare-stripe-paypal-wise",
       "/blog/stripe-ach-vs-credit-card-fees",
       "/blog/how-to-reduce-stripe-fees",
       "/blog/stripe-fee-audit-checklist-for-saas-founders",

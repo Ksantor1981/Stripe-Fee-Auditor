@@ -129,6 +129,9 @@ test("preview savings teaser hides action steps", () => {
   const opp = stripped.savingsOpportunities?.[0];
   assert(Boolean(opp), "one savings teaser");
   assert(opp?.steps === undefined, "steps gated");
+  assert(opp?.tip === "", "tip gated");
+  assert(opp?.actionUrl === undefined, "action URL gated");
+  assert(opp?.periodLoss === undefined, "period loss gated");
 });
 
 test("preview does not leak paid fields via JSON roundtrip", () => {
