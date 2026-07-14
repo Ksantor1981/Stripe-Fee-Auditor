@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import {
+  STRIPE_ACCOUNT_COUNTRIES,
+  estimateCountryStripeFee,
+  type StripeAccountCountry,
+} from "@/lib/stripe-country-fees";
 
-/** Published US card rate — illustrative only; blended rate comes from your Balance CSV. */
-const PERCENT = 0.029;
-const FIXED = 0.3;
-/** Typical cross-border uplift when cards are issued outside your Stripe country. */
-const INTL_UPLIFT = 0.015;
 /** Extra buffer for refunds, disputes, Radar/Billing add-ons (all-in vs processing). */
 const ALL_IN_BUFFER_LOW = 0.002;
 const ALL_IN_BUFFER_HIGH = 0.006;
@@ -23,11 +23,13 @@ function parsePct(raw: string) {
   return Math.min(100, Math.max(0, value));
 }
 
-function formatMoney(value: number) {
-  return `$${value.toLocaleString("en-US", {
+function formatMoney(value: number, currency = "USD") {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  })}`;
+  }).format(value);
 }
 
 function formatRate(rate: number) {
@@ -43,17 +45,25 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
   const [volumeRaw, setVolumeRaw] = useState("50000");
   const [averageChargeRaw, setAverageChargeRaw] = useState("50");
   const [intlShareRaw, setIntlShareRaw] = useState("15");
+  const [accountCountry, setAccountCountry] = useState<StripeAccountCountry>("US");
 
   const estimate = useMemo(() => {
     const monthlyVolume = parseUsd(volumeRaw);
     const averageCharge = Math.max(parseUsd(averageChargeRaw), 0.01);
     const intlShare = parsePct(intlShareRaw) / 100;
     const chargeCount = monthlyVolume > 0 ? Math.max(1, Math.round(monthlyVolume / averageCharge)) : 0;
-    const publishedFee = monthlyVolume > 0 ? monthlyVolume * PERCENT + chargeCount * FIXED : 0;
+    const countryEstimate = estimateCountryStripeFee({
+      amount: monthlyVolume,
+      accountCountry,
+      internationalShare: intlShare,
+    });
+    const profile = countryEstimate.profile;
+    const publishedFee =
+      monthlyVolume > 0
+        ? monthlyVolume * profile.domesticPercent + chargeCount * profile.domesticFixed
+        : 0;
     const publishedRate = monthlyVolume > 0 ? publishedFee / monthlyVolume : 0;
-    const intlExtra = monthlyVolume * intlShare * INTL_UPLIFT;
-    const withIntlFee = publishedFee + intlExtra;
-    const midRate = monthlyVolume > 0 ? withIntlFee / monthlyVolume : 0;
+    const midRate = countryEstimate.effectiveRate;
     const lowRate = midRate + ALL_IN_BUFFER_LOW;
     const highRate = midRate + ALL_IN_BUFFER_HIGH + intlShare * 0.002;
     const midFee = monthlyVolume * midRate;
@@ -65,6 +75,7 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
       averageCharge,
       chargeCount,
       intlShare,
+      profile,
       publishedFee,
       publishedRate,
       lowRate,
@@ -73,11 +84,14 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
       highFee,
       gapVsPublished,
     };
-  }, [averageChargeRaw, intlShareRaw, volumeRaw]);
+  }, [accountCountry, averageChargeRaw, intlShareRaw, volumeRaw]);
 
   const shellClass = compact
     ? "rounded-2xl border border-blue-100 bg-blue-50/40 p-5 sm:p-6"
     : "mb-14 rounded-2xl border border-blue-100 bg-blue-50/40 p-6";
+
+  const domesticPct = (estimate.profile.domesticPercent * 100).toFixed(2);
+  const fixedFee = formatMoney(estimate.profile.domesticFixed, estimate.profile.currency);
 
   return (
     <section className={shellClass} id="instant-estimate">
@@ -85,12 +99,26 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
         Estimate your real Stripe rate before uploading CSV
       </h2>
       <p className="text-sm text-gray-500 mb-5">
-        No file needed. Enter rough volume mix to see a likely all-in range — then upload a Balance
-        CSV to verify against real transactions.
+        No file needed. Pick your Stripe account country and rough volume mix to see a likely all-in
+        range — then upload a Balance CSV to verify against real transactions.
       </p>
 
       <div className="grid gap-4 md:grid-cols-[1fr_1.2fr]">
         <div className="space-y-4">
+          <label className="block">
+            <span className="text-xs font-medium text-gray-600">Stripe account country</span>
+            <select
+              value={accountCountry}
+              onChange={(event) => setAccountCountry(event.target.value as StripeAccountCountry)}
+              className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
+            >
+              {STRIPE_ACCOUNT_COUNTRIES.map((country) => (
+                <option key={country.id} value={country.id}>
+                  {country.label}
+                </option>
+              ))}
+            </select>
+          </label>
           <label className="block">
             <span className="text-xs font-medium text-gray-600">Monthly card volume (USD)</span>
             <input
@@ -127,7 +155,7 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
           </label>
           <p className="text-xs leading-relaxed text-gray-500">
             ~{estimate.chargeCount.toLocaleString("en-US")} charges/month. Smaller averages make the
-            fixed $0.30 fee matter more; international share adds ~1.5% uplift on that volume.
+            fixed fee matter more; international share adds ~{(estimate.profile.crossBorderPercent * 100).toFixed(1)}% uplift on that volume.
           </p>
         </div>
 
@@ -141,13 +169,15 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
               : "—"}
           </p>
           <p className="mt-1 text-sm text-gray-500">
-            Directional range including published card pricing, international uplift, and a small
-            buffer for refunds / add-ons.
+            Directional range for {estimate.profile.label}: domestic card pricing, international
+            uplift, and a small buffer for refunds / add-ons.
           </p>
 
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <div>
-              <p className="text-xs text-gray-500">Published 2.9% + $0.30</p>
+              <p className="text-xs text-gray-500">
+                Published {domesticPct}% + {fixedFee}
+              </p>
               <p className="text-lg font-bold text-gray-900">
                 {estimate.monthlyVolume > 0 ? formatMoney(estimate.publishedFee) : "-"}
                 <span className="ml-1 text-xs font-medium text-gray-400">/mo</span>

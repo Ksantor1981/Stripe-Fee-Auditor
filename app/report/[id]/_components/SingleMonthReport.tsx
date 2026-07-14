@@ -12,6 +12,7 @@ import { ReportTrustChecklist } from "./ReportTrustChecklist";
 import { SavingsOpportunities } from "./SavingsOpportunities";
 import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
+import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 
 interface Props {
   reportId: string;
@@ -39,6 +40,11 @@ export function SingleMonthReport({ reportId, result, isPaid }: Props) {
     <div className="space-y-6">
       {/* Hero */}
       <div id="report-share-snapshot" className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
+        {result.feeGrade && (
+          <div className="mb-4">
+            <FeeGradeBadge grade={result.feeGrade} size="lg" />
+          </div>
+        )}
         <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">
           Single-month analysis
         </p>

@@ -106,6 +106,7 @@ export function ReportShell({
           allInRate: result.allInRate,
           monthCount: Math.max(1, result.monthly.length),
           topDrivers: result.topDrivers,
+          feeGrade: result.feeGrade,
         }}
         onUnlock={() => setUnlocked(true)}
       />

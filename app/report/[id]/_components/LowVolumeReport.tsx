@@ -13,6 +13,7 @@ import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
 import { MoneyFirstImpact } from "./MoneyFirstImpact";
 import { PaywallBanner } from "./PaywallBanner";
+import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 
 interface Props {
   reportId: string;
@@ -41,6 +42,11 @@ export function LowVolumeReport({ reportId, result, isPaid }: Props) {
     <div className="space-y-6">
       {/* Hero */}
       <div id="report-share-snapshot" className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
+        {result.feeGrade && (
+          <div className="mb-4">
+            <FeeGradeBadge grade={result.feeGrade} size="sm" showSummary />
+          </div>
+        )}
         <div className="flex items-start gap-3 mb-4">
           <Badge variant="outline" className="text-xs text-gray-500">Low volume (&lt;50 transactions)</Badge>
         </div>

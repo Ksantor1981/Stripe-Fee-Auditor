@@ -2,8 +2,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { BlogBreadcrumbs } from "@/components/BlogBreadcrumbs";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { buildOgImageUrl } from "@/lib/seo-og";
+import { blogArticleBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
 const slug = "/blog/cross-border-stripe-fees-migration-2026";
@@ -173,15 +175,10 @@ export default function CrossBorderMigration2026Page() {
     <main className="min-h-screen bg-white">
       <JsonLd data={ARTICLE_JSON_LD} />
       <JsonLd data={FAQ_JSON_LD} />
+      <BreadcrumbJsonLd crumbs={blogArticleBreadcrumbs(shortTitle, slug)} />
 
       <article className="mx-auto max-w-2xl px-4 py-16">
-        <Breadcrumbs
-          items={[
-            { label: "Home", href: "/" },
-            { label: "Blog", href: "/blog" },
-            { label: shortTitle },
-          ]}
-        />
+        <BlogBreadcrumbs title={shortTitle} path={slug} />
 
         <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-blue-600">
           June 2026 · News briefing

@@ -9,6 +9,8 @@ import { trackEvent } from "@/lib/analytics";
 import { fmt$, fmtPct } from "@/lib/format";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import type { NormalizedRow } from "@/lib/csv-parser";
+import type { FeeGrade } from "@/lib/fee-grade";
+import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 
 export interface ReportHeadline {
   chargeVolume: number;
@@ -19,6 +21,7 @@ export interface ReportHeadline {
   allInRate?: number;
   monthCount: number;
   topDrivers: NormalizedRow[];
+  feeGrade?: FeeGrade;
 }
 
 interface Props {
@@ -99,6 +102,12 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
             <span className="font-semibold text-gray-900">{fmt$(yearlyAtThisRate)}</span>
             /year at this rate.
           </p>
+
+          {headline.feeGrade && (
+            <div className="mt-4">
+              <FeeGradeBadge grade={headline.feeGrade} size="sm" />
+            </div>
+          )}
 
           <div className="mt-5 grid grid-cols-2 gap-3">
             <div className="rounded-xl bg-gray-50 px-4 py-3">

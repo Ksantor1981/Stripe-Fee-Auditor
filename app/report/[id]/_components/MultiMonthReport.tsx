@@ -16,6 +16,7 @@ import { ReportDashboardCharts } from "./ReportDashboardCharts";
 import { ReportTrustChecklist } from "./ReportTrustChecklist";
 import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
+import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 
 function anomalyExplainerText(
   count: number,
@@ -97,6 +98,11 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
     <div className="space-y-8">
       {/* Hero */}
       <div id="report-share-snapshot" className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
+        {result.feeGrade && (
+          <div className="mb-4">
+            <FeeGradeBadge grade={result.feeGrade} size="lg" />
+          </div>
+        )}
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">

@@ -13,12 +13,16 @@ export function buildTwitterIntentUrl(params: {
   actualRatePct: number;
   siteUrl: string;
   twitterHandle?: string;
+  feeGradeLetter?: string;
 }): string {
   const handle = (params.twitterHandle ?? "feeauditor").replace(/^@/, "");
   const actual = formatRateForTweet(params.actualRatePct);
   const advertised = ADVERTISED_CARD_RATE_PCT.toFixed(1).replace(/\.0$/, "");
+  const gradePrefix = params.feeGradeLetter
+    ? `My Stripe setup scored ${params.feeGradeLetter}. `
+    : "";
   const text =
-    `I thought my Stripe fee was ${advertised}%. Turns out it's ${actual}. Audited with @${handle}`;
+    `${gradePrefix}I thought my Stripe fee was ${advertised}%. Turns out it's ${actual}. Audited with @${handle}`;
   const marketingUrl = buildMarketingSiteUrl(params.siteUrl, {
     source: "twitter",
     medium: "social",

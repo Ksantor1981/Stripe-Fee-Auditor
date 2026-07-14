@@ -1,5 +1,6 @@
 // Fee analysis algorithm
 import type { NormalizedRow } from "./csv-parser";
+import { computeFeeGrade, type FeeGrade } from "./fee-grade";
 
 export type AnalysisMode = "multi-month" | "single-month" | "low-volume";
 
@@ -153,6 +154,8 @@ export interface AnalysisResult {
   periodDelta: number | null;
   /** Unique currencies found in charge rows — used for multi-currency warning. */
   currencies: string[];
+  /** Letter grade (A–F) summarizing all-in fee efficiency for this export. */
+  feeGrade?: FeeGrade;
 }
 
 function sum(rows: NormalizedRow[], key: keyof NormalizedRow): number {
@@ -806,6 +809,24 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
   const feeMix = buildFeeMix(rows, chargeFees, allInFees);
   const feeLeakBreakdown = buildFeeLeakBreakdown(rows, charges, chargeFees, otherFees, allInFees, geographySummary, refundSummary);
 
+  const feeGrade = computeFeeGrade({
+    mode,
+    chargeVolume,
+    chargeFees,
+    chargeRate,
+    otherFees,
+    allInFees,
+    allInRate,
+    anomalyCount,
+    anomalies,
+    benchmark,
+    geographySummary,
+    refundSummary,
+    feeLeakBreakdown,
+    savingsOpportunities,
+    chargeCount: charges.length,
+  });
+
   return {
     mode,
     chargeVolume,
@@ -828,6 +849,7 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
     feeLeakBreakdown,
     periodDelta,
     currencies,
+    feeGrade,
   };
 }
 

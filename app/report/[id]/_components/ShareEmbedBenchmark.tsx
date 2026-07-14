@@ -21,7 +21,7 @@ interface Props {
   embedShareUrl: string;
   result: Pick<
     AnalysisResult,
-    "chargeRate" | "allInRate" | "chargeVolume" | "chargeFees" | "otherFees" | "allInFees"
+    "chargeRate" | "allInRate" | "chargeVolume" | "chargeFees" | "otherFees" | "allInFees" | "feeGrade"
   >;
 }
 
@@ -66,8 +66,9 @@ export function ShareEmbedBenchmark({ embedShareUrl, result }: Props) {
       actualRatePct: displayAllInRate,
       siteUrl: marketing,
       twitterHandle: handle,
+      feeGradeLetter: result.feeGrade?.letter,
     });
-  }, [displayAllInRate]);
+  }, [displayAllInRate, result.feeGrade?.letter]);
 
   const openTwitter = useCallback(() => {
     trackEvent("funnel_share_x_click", { region: regionId });
@@ -126,7 +127,14 @@ export function ShareEmbedBenchmark({ embedShareUrl, result }: Props) {
           Show others what Stripe really costs you
         </h2>
         <p className="text-xs text-gray-500 mt-1">
-          Post uses your <span className="font-medium text-gray-700">all-in cost rate</span> ({fmtPct(displayAllInRate)}) — the headline number most founders underestimate.
+          Post uses your <span className="font-medium text-gray-700">all-in cost rate</span> ({fmtPct(displayAllInRate)})
+          {result.feeGrade ? (
+            <>
+              {" "}
+              and fee grade <span className="font-medium text-gray-700">{result.feeGrade.letter}</span>
+            </>
+          ) : null}{" "}
+          — the headline numbers most founders underestimate.
         </p>
       </div>
 

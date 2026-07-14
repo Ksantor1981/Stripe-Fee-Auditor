@@ -5,6 +5,7 @@
 
 import { normalizeRow, validateColumns, type NormalizedRow } from "../lib/csv-parser";
 import { analyze, redactAnalysisResultForStorage } from "../lib/fee-analyzer";
+import { estimateCountryStripeFee, getCountryFeeProfile } from "../lib/stripe-country-fees";
 
 // ─── Test runner ──────────────────────────────────────────────────────────────
 
@@ -600,6 +601,50 @@ test("ACH savings labels distinguish full-period vs partial annual estimate", ()
   assert(Boolean(ach), "large card charge should surface ACH opportunity");
   assert(Boolean(ach?.periodLossNote?.includes("every eligible")), "period loss note should explain full-switch scope");
   assert(Boolean(ach?.annualSavingsNote?.includes("20%")), "annual note should explain switching share");
+});
+
+console.log("\n📋 fee-grade");
+
+test("computeFeeGrade returns letter for healthy mix", () => {
+  const rows = makeCharges(60, "2024-01", 3.0);
+  const r = analyze(rows);
+  assert(Boolean(r.feeGrade), "feeGrade should be set");
+  assert(["A", "B", "C"].includes(r.feeGrade!.letter), `expected A/B/C, got ${r.feeGrade!.letter}`);
+});
+
+test("computeFeeGrade penalizes high all-in rate", () => {
+  const rows = makeCharges(60, "2024-01", 5.5);
+  const r = analyze(rows);
+  assert(Boolean(r.feeGrade), "feeGrade should be set");
+  assert(["C", "D", "F"].includes(r.feeGrade!.letter), `expected C/D/F for high rate, got ${r.feeGrade!.letter}`);
+});
+
+test("analyze attaches feeGrade on result", () => {
+  const r = analyze(makeCharges(55, "2024-03", 3.1));
+  assert(r.feeGrade?.letter !== undefined, "analyze should include feeGrade.letter");
+  assert(r.feeGrade!.score >= 0 && r.feeGrade!.score <= 100, "score should be 0-100");
+});
+
+console.log("\n📋 stripe-country-fees");
+
+test("US country profile uses 2.9% + $0.30", () => {
+  const profile = getCountryFeeProfile("US");
+  assertClose(profile.domesticPercent, 0.029, 0.0001, "US percent");
+  assertClose(profile.domesticFixed, 0.3, 0.0001, "US fixed");
+});
+
+test("estimateCountryStripeFee adds international uplift", () => {
+  const domestic = estimateCountryStripeFee({
+    amount: 10000,
+    accountCountry: "US",
+    internationalShare: 0,
+  });
+  const intl = estimateCountryStripeFee({
+    amount: 10000,
+    accountCountry: "US",
+    internationalShare: 0.3,
+  });
+  assert(intl.estimatedFee > domestic.estimatedFee, "intl share should increase estimated fee");
 });
 
 // ─── Summary ──────────────────────────────────────────────────────────────────
