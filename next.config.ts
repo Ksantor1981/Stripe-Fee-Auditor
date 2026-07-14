@@ -2,15 +2,18 @@ import type { NextConfig } from "next";
 import { LEGACY_BLOG_REDIRECTS } from "./app/blog/_data/blogIndex";
 
 const isDev = process.env.NODE_ENV === "development";
+const hasGa4 = Boolean(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID);
+const gaScriptSrc = hasGa4 ? " https://www.googletagmanager.com" : "";
+const gaConnectSrc = hasGa4 ? " https://www.google-analytics.com https://region1.google-analytics.com" : "";
 
 // CSP: strict in production, relaxed only for Next/React dev overlay
 const CSP_DEFAULT = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' https://plausible.io${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' https://plausible.io${gaScriptSrc}${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
-  "connect-src 'self' https://plausible.io",
+  `connect-src 'self' https://plausible.io${gaConnectSrc}`,
   "frame-ancestors 'none'",
   "object-src 'none'",
   "base-uri 'self'",
@@ -20,11 +23,11 @@ const CSP_DEFAULT = [
 /** Allow Notion / dashboards to iframe the lightweight metrics card only. */
 const CSP_EMBED = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' https://plausible.io${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' https://plausible.io${gaScriptSrc}${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
-  "connect-src 'self' https://plausible.io",
+  `connect-src 'self' https://plausible.io${gaConnectSrc}`,
   "frame-ancestors *",
   "object-src 'none'",
   "base-uri 'self'",

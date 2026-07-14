@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogArticleCta } from "@/components/BlogArticleCta";
+import { BlogBreadcrumbs } from "@/components/BlogBreadcrumbs";
 import { BlogFaqSection, BlogJsonLd, BlogSourcesSection } from "@/components/BlogSeoBlocks";
 import { PILLAR_EFFECTIVE_RATE_PATH } from "../_data/blogIndex";
 import { buildOgImageUrl } from "@/lib/seo-og";
@@ -81,9 +82,7 @@ export default function BlogPost2() {
     <main className="min-h-screen bg-white">
       <BlogJsonLd title={pageTitle} description={pageDescription} path={pagePath} published={published} updated={updated} faqs={FAQ_ITEMS} />
       <div className="mx-auto max-w-2xl px-4 py-16">
-        <Link href="/blog" className="text-sm text-blue-600 hover:underline">
-          ← Blog
-        </Link>
+        <BlogBreadcrumbs title={pageTitle} path={pagePath} />
         <h1 className="mt-4 text-3xl font-bold text-gray-900 leading-tight">
           How to Reduce Your Stripe Fees
         </h1>

@@ -489,6 +489,24 @@ test("anomaly detection flags high-rate charges", () => {
   assert(r.anomalies.some(a => a.id === "ch_spike"), "spike charge should be anomaly");
 });
 
+test("stores only top high-fee rows but keeps full high-fee count", () => {
+  const normal = makeCharges(5000, "2024-01", 3.0);
+  const spikes = Array.from({ length: 150 }, (_, i): NormalizedRow => ({
+    id: `ch_spike_${i}`,
+    type: "charge",
+    amount: 100,
+    fee: 100 + i,
+    net: -i,
+    currency: "USD",
+    date: "2024-01-15",
+    month: "2024-01",
+  }));
+
+  const r = analyze([...normal, ...spikes]);
+  assert(r.anomalyCount === 150, `expected full anomalyCount 150, got ${r.anomalyCount}`);
+  assert(r.anomalies.length === 100, `expected stored anomalies capped at 100, got ${r.anomalies.length}`);
+  assert(r.anomalies[0]?.id === "ch_spike_149", "stored anomalies should keep the highest-fee rows first");
+});
 test("handles empty input gracefully — no crash", () => {
   const r = analyze([]);
   assert(r.mode === "low-volume", "empty input → low-volume");
@@ -595,4 +613,3 @@ if (failures.length) {
 } else {
   console.log("All tests passed ✅\n");
 }
-

@@ -91,7 +91,7 @@ export function SingleMonthReport({ reportId, result, isPaid }: Props) {
           reportId={reportId}
           savings={savings[0]}
           yearlyFeesAtThisRate={yearlyAtThisRate}
-          highFeeCount={result.anomalies?.length ?? 0}
+          highFeeCount={result.anomalyCount ?? result.anomalies?.length ?? 0}
         />
       )}
 

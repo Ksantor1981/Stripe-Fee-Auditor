@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogArticleCta } from "@/components/BlogArticleCta";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { BlogBreadcrumbs } from "@/components/BlogBreadcrumbs";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
+import { blogArticleBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
 
@@ -82,16 +85,9 @@ const structuredData = [
     publisher: { "@type": "Organization", name: "Stripe Fee Auditor", url: absoluteUrl("/") },
     mainEntityOfPage: absoluteUrl(pagePath),
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
-      { "@type": "ListItem", position: 2, name: "Blog", item: absoluteUrl("/blog") },
-      { "@type": "ListItem", position: 3, name: pageTitle, item: absoluteUrl(pagePath) },
-    ],
-  },
 ];
+
+const breadcrumbCrumbs = blogArticleBreadcrumbs(pageTitle, pagePath);
 
 export default function Page() {
   return (
@@ -100,10 +96,9 @@ export default function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
       />
+      <BreadcrumbJsonLd crumbs={breadcrumbCrumbs} />
       <div className="mx-auto max-w-2xl px-4 py-16">
-        <Link href="/blog" className="text-sm text-blue-600 hover:underline">
-          &larr; Blog
-        </Link>
+        <BlogBreadcrumbs title={pageTitle} path={pagePath} />
 
         <div className="mt-4">
           <span className="text-xs text-gray-400">6 min read</span>

@@ -133,6 +133,8 @@ export interface AnalysisResult {
   monthly: MonthlyBreakdown[];
   topDrivers: NormalizedRow[];
   anomalies: NormalizedRow[];
+  /** Full high-fee charge count before storage caps; older reports may omit. */
+  anomalyCount?: number;
   /** Pro: anomalies with explanations — may be absent on older stored reports. */
   annotatedAnomalies?: AnnotatedRow[];
   /** Pro: actionable savings — may be absent on older stored reports. */
@@ -170,6 +172,7 @@ const ACH_RATE = 0.008;
 const ACH_CAP_USD = 5;
 /** Conservative share of eligible $500+ invoices expected to move off cards to ACH. */
 const ACH_SWITCHING_SHARE_ASSUMPTION = 0.2;
+const MAX_STORED_ANOMALIES = 100;
 
 function searchableText(row: NormalizedRow): string {
   return `${row.id} ${row.description ?? ""}`.toLowerCase();
@@ -757,6 +760,7 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
   // Top drivers and anomalies
   let topDrivers: NormalizedRow[] = [];
   let anomalies: NormalizedRow[] = [];
+  let anomalyCount = 0;
 
   if (mode === "low-volume") {
     topDrivers = [...charges]
@@ -770,7 +774,9 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
         : monthly.map((m) => m.rate);
     const minimumSingleMonthDelta = mode === "single-month" ? 0.5 : 0;
     const threshold = chargeRate + Math.max(minimumSingleMonthDelta, 2.5 * stdDev(rates));
-    anomalies = charges.filter((c) => c.amount > 0 && (c.fee / c.amount) * 100 > threshold);
+    const allAnomalies = charges.filter((c) => c.amount > 0 && (c.fee / c.amount) * 100 > threshold);
+    anomalyCount = allAnomalies.length;
+    anomalies = [...allAnomalies].sort((a, b) => b.fee - a.fee).slice(0, MAX_STORED_ANOMALIES);
     topDrivers = [...charges].sort((a, b) => b.fee - a.fee).slice(0, 10);
   }
 
@@ -811,6 +817,7 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
     monthly,
     topDrivers,
     anomalies,
+    anomalyCount,
     annotatedAnomalies,
     savingsOpportunities,
     benchmark,

@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities -- long-form editorial copy */
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BlogBreadcrumbs } from "@/components/BlogBreadcrumbs";
 import { BlogFaqSection, BlogJsonLd, BlogSourcesSection } from "@/components/BlogSeoBlocks";
 import { PILLAR_EFFECTIVE_RATE_PATH } from "@/app/blog/_data/blogIndex";
 
@@ -141,9 +142,7 @@ export default function Page() {
     <main className="min-h-screen bg-white">
       <BlogJsonLd title={pageTitle} description={pageDescription} path={pagePath} published={published} updated={updated} faqs={FAQ_ITEMS} />
       <div className="mx-auto max-w-2xl px-4 py-16">
-        <Link href="/blog" className="text-sm text-blue-600 hover:underline">
-          ← Blog
-        </Link>
+        <BlogBreadcrumbs title={pageTitle} path={pagePath} />
 
         <div className="mt-4 flex items-center gap-3">
           <span className="text-xs text-gray-400">8 min read</span>

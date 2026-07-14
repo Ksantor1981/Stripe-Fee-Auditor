@@ -36,8 +36,10 @@ function anomalyExplainerText(
     return `${count} charges paid above your ~${baselineRate.toFixed(2)}% baseline — common when card mix includes international or premium interchange; not necessarily errors.`;
   }
   const [topLabel, topN] = top;
-  const pct = Math.round((topN / count) * 100);
-  return `${count} charges paid above your ~${baselineRate.toFixed(2)}% baseline — about ${pct}% tagged “${topLabel}”. Typical when international or premium cards are a large share; not necessarily errors.`;
+  const shownCount = paidRows.length;
+  const pct = Math.round((topN / Math.max(1, shownCount)) * 100);
+  const sampleCopy = shownCount < count ? ` Showing the top ${shownCount};` : "";
+  return `${count} charges paid above your ~${baselineRate.toFixed(2)}% baseline.${sampleCopy} About ${pct}% of ${shownCount < count ? "shown rows" : "them"} are tagged “${topLabel}”. Typical when international or premium cards are a large share; not necessarily errors.`;
 }
 
 interface Props {
@@ -61,7 +63,7 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
     anomalies,
     periodDelta,
   } = result;
-  const anomalyUiCount = previewAnomalyCount ?? anomalies.length;
+  const anomalyUiCount = previewAnomalyCount ?? result.anomalyCount ?? anomalies.length;
   const savings = result.savingsOpportunities ?? [];
   const advertisedRate = 2.9;
   const rateGap = chargeRate - advertisedRate;

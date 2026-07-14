@@ -29,7 +29,8 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
   const monitorFullAccess = await isActiveMonitorSubscriber(report?.email);
   if (!report?.result || (!report.is_paid && !monitorFullAccess && !FULL_REPORTS_FREE_DURING_BETA)) notFound();
 
-  const { chargeVolume, chargeFees, chargeRate, otherFees, monthly, anomalies, topDrivers, mode, periodDelta, benchmark, refundSummary, feeLeakBreakdown } = report.result;
+  const { chargeVolume, chargeFees, chargeRate, otherFees, monthly, anomalies, anomalyCount, topDrivers, mode, periodDelta, benchmark, refundSummary, feeLeakBreakdown } = report.result;
+  const highFeeCount = anomalyCount ?? anomalies.length;
   const params_id = id;
   const periodFees = periodTotalFees(chargeFees, otherFees);
   const monthCount = monthly.length;
@@ -226,7 +227,7 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
         {/* Anomalies */}
         {anomalies.length > 0 && (
           <div className="section">
-            <h2>High-fee charges ({anomalies.length})</h2>
+            <h2>High-fee charges ({highFeeCount})</h2>
             <table>
               <thead>
                 <tr>

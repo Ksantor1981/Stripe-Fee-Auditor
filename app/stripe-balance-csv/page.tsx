@@ -1,7 +1,9 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
+import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
 const pageTitle = "How to Export Stripe Balance CSV and Check Your Real Fee Rate";
@@ -132,7 +134,6 @@ const faqItems = [
   },
 ];
 
-const ABS_HOME = absoluteUrl("/");
 const ABS_PAGE = absoluteUrl(pagePath);
 
 const structuredData = [
@@ -164,34 +165,18 @@ const structuredData = [
       },
     })),
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "@id": `${ABS_PAGE}#breadcrumb`,
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: ABS_HOME,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: pageTitle,
-        item: ABS_PAGE,
-      },
-    ],
-  },
 ];
+
+const breadcrumbCrumbs = sitePageBreadcrumbs(pageTitle, pagePath);
 
 export default function StripeBalanceCsvPage() {
   return (
     <div className="min-h-screen bg-white">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
       />
+      <BreadcrumbJsonLd crumbs={breadcrumbCrumbs} />
 
       {/* Nav */}
       <nav className="border-b border-gray-100 px-6 py-4">
@@ -336,7 +321,6 @@ export default function StripeBalanceCsvPage() {
           <p className="text-sm font-semibold text-gray-700 mb-4">Related fee guides</p>
           <div className="space-y-3">
             {[
-              { href: "/chrome-extension", title: "Stripe Fee Auditor Chrome Extension" },
               { href: "/blog/why-stripe-fees-increase", title: "Why did my Stripe fees increase?" },
               { href: "/blog/stripe-international-card-fees", title: "Stripe international card fees explained" },
               { href: "/blog/stripe-ach-vs-credit-card-fees", title: "Stripe ACH vs credit card fees" },

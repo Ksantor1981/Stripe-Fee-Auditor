@@ -69,7 +69,7 @@ export default async function ReportPage({ params, searchParams }: Props) {
       demoFullAccess={demoFullAccess}
       betaFullAccess={betaFullAccess}
       paymentPending={paymentPending}
-      previewAnomalyCount={hasFullAccess ? undefined : rawResult.anomalies.length}
+      previewAnomalyCount={hasFullAccess ? undefined : rawResult.anomalyCount ?? rawResult.anomalies.length}
     />
   );
 }

@@ -1,3 +1,5 @@
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
+import { blogArticleBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
 export type BlogFaqItem = {
@@ -19,6 +21,15 @@ type BlogJsonLdProps = {
   faqs?: BlogFaqItem[];
 };
 
+function JsonLdScript({ data }: { data: Record<string, unknown> }) {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }}
+    />
+  );
+}
+
 export function BlogJsonLd({ title, description, path, published, updated = published, faqs = [] }: BlogJsonLdProps) {
   const article = {
     "@context": "https://schema.org",
@@ -30,16 +41,6 @@ export function BlogJsonLd({ title, description, path, published, updated = publ
     author: { "@type": "Person", name: "Konstantin Starkov" },
     publisher: { "@type": "Organization", name: "Stripe Fee Auditor", url: absoluteUrl("/") },
     mainEntityOfPage: absoluteUrl(path),
-  };
-
-  const breadcrumbs = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
-      { "@type": "ListItem", position: 2, name: "Blog", item: absoluteUrl("/blog") },
-      { "@type": "ListItem", position: 3, name: title, item: absoluteUrl(path) },
-    ],
   };
 
   const faq =
@@ -55,13 +56,14 @@ export function BlogJsonLd({ title, description, path, published, updated = publ
         }
       : null;
 
-  const structuredData = faq ? [article, breadcrumbs, faq] : [article, breadcrumbs];
+  const breadcrumbs = blogArticleBreadcrumbs(title, path);
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
-    />
+    <>
+      <JsonLdScript data={article} />
+      <BreadcrumbJsonLd crumbs={breadcrumbs} />
+      {faq ? <JsonLdScript data={faq} /> : null}
+    </>
   );
 }
 

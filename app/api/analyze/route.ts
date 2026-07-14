@@ -225,7 +225,7 @@ export async function POST(req: NextRequest) {
         allInRate: result.allInRate,
         periodDelta: result.periodDelta,
         monthCount: result.monthly.length,
-        anomalyCount: result.anomalies.length,
+        anomalyCount: result.anomalyCount ?? result.anomalies.length,
       },
     });
     appendReportAccessCookie(res, reportId, accessToken);

@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogArticleCta } from "@/components/BlogArticleCta";
+import { BlogBreadcrumbs } from "@/components/BlogBreadcrumbs";
 import { BlogFaqSection, BlogJsonLd, BlogSourcesSection } from "@/components/BlogSeoBlocks";
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
@@ -119,9 +120,7 @@ export default function Page() {
       <BlogJsonLd title={title} description={description} path={slug} published={published} faqs={FAQ_ITEMS} />
 
       <article className="mx-auto max-w-2xl px-4 py-16">
-        <Link href="/blog" className="text-sm text-blue-600 hover:underline">
-          &larr; Blog
-        </Link>
+        <BlogBreadcrumbs title={title} path={slug} />
 
         <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-gray-400">
           <span>6 min read</span>

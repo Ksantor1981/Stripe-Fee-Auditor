@@ -42,6 +42,7 @@ export async function GET(req: NextRequest) {
     monthly,
     topDrivers,
     anomalies,
+    anomalyCount,
     chargeVolume,
     chargeFees,
     chargeRate,
@@ -61,6 +62,8 @@ export async function GET(req: NextRequest) {
     { section: "Summary", key: "Other Fees", value: otherFees.toFixed(2) },
     { section: "Summary", key: "All-in Fees", value: allInFees.toFixed(2) },
     { section: "Summary", key: "All-in Cost Rate %", value: allInRate.toFixed(4) },
+    { section: "Summary", key: "High-fee Charge Count", value: String(anomalyCount ?? anomalies.length) },
+    { section: "Summary", key: "High-fee Rows Exported", value: String(anomalies.length) },
     ...(benchmark ? [
       { section: "Summary", key: "Benchmark Status", value: benchmark.label },
       { section: "Summary", key: "Benchmark Range %", value: `${benchmark.rangeLow.toFixed(2)}-${benchmark.rangeHigh.toFixed(2)}` },

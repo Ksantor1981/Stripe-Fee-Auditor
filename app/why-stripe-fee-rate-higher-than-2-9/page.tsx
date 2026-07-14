@@ -1,7 +1,9 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
+import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
 const pageTitle = "Why Are My Stripe Fees So High? 2.9% vs Real Rate";
@@ -108,7 +110,6 @@ const faqItems = [
   },
 ];
 
-const ABS_HOME = absoluteUrl("/");
 const ABS_PAGE = absoluteUrl(pagePath);
 
 const structuredData = [
@@ -149,34 +150,18 @@ const structuredData = [
       },
     })),
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "@id": `${ABS_PAGE}#breadcrumb`,
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: ABS_HOME,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: pageTitle,
-        item: ABS_PAGE,
-      },
-    ],
-  },
 ];
+
+const breadcrumbCrumbs = sitePageBreadcrumbs(pageTitle, pagePath);
 
 export default function WhyStripeFeesIncreasePage() {
   return (
     <div className="min-h-screen bg-white">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
       />
+      <BreadcrumbJsonLd crumbs={breadcrumbCrumbs} />
 
       {/* Nav */}
       <nav className="border-b border-gray-100 px-6 py-4">

@@ -2,7 +2,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
+import { BlogBreadcrumbs } from "@/components/BlogBreadcrumbs";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { BlogFaqJsonLd, BlogFaqSection, BlogSourcesSection } from "@/components/BlogSeoBlocks";
+import { blogArticleBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
 
@@ -160,6 +163,8 @@ const JSON_LD = {
   ],
 };
 
+const breadcrumbCrumbs = blogArticleBreadcrumbs(title, slug);
+
 function ZoneBadge({ zone }: { zone: Zone }) {
   const cls =
     zone === "Safe"
@@ -183,12 +188,11 @@ function Bar({ value, tone = "blue" }: { value: number; tone?: "blue" | "red" | 
 export default function Page() {
   return (
     <main className="min-h-screen bg-white">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD).replace(/</g, "\\u003c") }} />
+      <BreadcrumbJsonLd crumbs={breadcrumbCrumbs} />
       <BlogFaqJsonLd items={FAQ_ITEMS} />
       <div className="mx-auto max-w-2xl px-4 py-16">
-        <Link href="/blog" className="text-sm text-blue-600 hover:underline">
-          ← Blog
-        </Link>
+        <BlogBreadcrumbs title={title} path={slug} />
 
         <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-gray-400">
           <span>9 min read</span>

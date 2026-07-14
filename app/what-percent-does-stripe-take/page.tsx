@@ -1,8 +1,10 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { StripeTakeCalculator } from "@/components/stripe-take-calculator";
+import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
 const pageTitle = "What Percentage Does Stripe Take?";
@@ -67,7 +69,6 @@ const faqItems = [
   },
 ];
 
-const ABS_HOME = absoluteUrl("/");
 const ABS_PAGE = absoluteUrl(pagePath);
 
 const structuredData = [
@@ -84,26 +85,9 @@ const structuredData = [
       },
     })),
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "@id": `${ABS_PAGE}#breadcrumb`,
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: ABS_HOME,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: pageTitle,
-        item: ABS_PAGE,
-      },
-    ],
-  },
 ];
+
+const breadcrumbCrumbs = sitePageBreadcrumbs(pageTitle, pagePath);
 
 const commonRates = [
   {
@@ -135,6 +119,7 @@ export default function WhatPercentDoesStripeTakePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
       />
+      <BreadcrumbJsonLd crumbs={breadcrumbCrumbs} />
 
       <nav className="border-b border-gray-100 px-6 py-4">
         <div className="mx-auto flex max-w-3xl items-center justify-between">

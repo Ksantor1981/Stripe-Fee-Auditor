@@ -2,7 +2,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogArticleCta } from "@/components/BlogArticleCta";
+import { BlogBreadcrumbs } from "@/components/BlogBreadcrumbs";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { BlogFaqJsonLd, BlogFaqSection, BlogSourcesSection } from "@/components/BlogSeoBlocks";
+import { blogArticleBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
 import { PILLAR_EFFECTIVE_RATE_PATH } from "../_data/blogIndex";
@@ -183,15 +186,16 @@ const JSON_LD = {
   ],
 };
 
+const breadcrumbCrumbs = blogArticleBreadcrumbs(pageTitle, slug);
+
 export default function Page() {
   return (
     <main className="min-h-screen bg-white">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD).replace(/</g, "\\u003c") }} />
+      <BreadcrumbJsonLd crumbs={breadcrumbCrumbs} />
       <BlogFaqJsonLd items={FAQ_ITEMS} />
       <article className="mx-auto max-w-2xl px-4 py-16">
-        <Link href="/blog" className="text-sm text-blue-600 hover:underline">
-          ← Blog
-        </Link>
+        <BlogBreadcrumbs title={pageTitle} path={slug} />
 
         <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-gray-400">
           <span>8 min read</span>

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
+import { blogArticleBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
 import { getPrivacyArticle, PRIVACY_ARTICLES } from "../_data/privacyPosts";
@@ -89,21 +91,13 @@ export default async function PrivacyArticlePage({ params }: Props) {
     })),
   };
 
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
-      { "@type": "ListItem", position: 2, name: "Blog", item: absoluteUrl("/blog") },
-      { "@type": "ListItem", position: 3, name: post.shortTitle, item: url },
-    ],
-  };
+  const breadcrumbJsonLd = blogArticleBreadcrumbs(post.shortTitle, "/blog/" + post.slug);
 
   return (
     <main className="min-h-screen bg-white">
       <JsonLd data={articleJsonLd} />
       <JsonLd data={faqJsonLd} />
-      <JsonLd data={breadcrumbJsonLd} />
+      <BreadcrumbJsonLd crumbs={breadcrumbJsonLd} />
 
       <article className="mx-auto max-w-2xl px-4 py-16">
         <Breadcrumbs
