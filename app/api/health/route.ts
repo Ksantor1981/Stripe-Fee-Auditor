@@ -31,6 +31,7 @@ export async function GET() {
     polar_products_distinct: polarProductsDistinct(),
     polar_server: process.env.POLAR_SERVER?.trim() ? "ok" : "skip",
     database_url: envConfigured("DATABASE_URL"),
+    billing_portal_secret: envConfigured("BILLING_PORTAL_SECRET"),
   };
 
   try {

@@ -134,6 +134,7 @@ Copy `.env.example` to `.env.local` and fill values (see repo root — ignored p
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Legal/support footer |
 | `NEXT_PUBLIC_REPORTS_ANALYZED_COUNT` | Optional landing-page social proof count; leave empty if you do not have a real number yet |
 | `REPORT_TOKEN_SALT` | Pepper for access-token hashing (recommended in prod). May double as encryption secret if `CHECKOUT_TOKEN_ENCRYPTION_KEY` is unset (must still be ≥32 characters). |
+| `BILLING_PORTAL_SECRET` | Recommended 32+ character secret for signed billing-portal links. Set it separately in production so billing links do not reuse cron, newsletter, or report-token secrets. |
 | `NEXT_PUBLIC_OPERATOR_NAME`, `JURISDICTION`, `ADDRESS` | Optional legal footer on Privacy/Terms |
 
 **Remove from Vercel if still present**
