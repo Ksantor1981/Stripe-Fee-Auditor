@@ -398,6 +398,20 @@ export default function HomePage() {
           </div>
         </div>
 
+        <div className="mt-4 w-full max-w-2xl rounded-2xl border border-blue-100 bg-blue-50/60 px-5 py-4 text-left shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-widest text-blue-700">
+            Example founder takeaway
+          </p>
+          <p className="mt-2 text-sm leading-relaxed text-gray-700">
+            “I never thought to audit payment costs from a Stripe Balance CSV. The preview made the
+            fee drivers obvious; next month I would test the recommendations around international
+            cards and small-charge drag, then compare the new export.”
+          </p>
+          <p className="mt-2 text-xs text-gray-500">
+            Illustrative takeaway based on what the report is designed to surface.
+          </p>
+        </div>
+
         <div className="mt-6 w-full max-w-2xl rounded-2xl border border-blue-100 bg-blue-50/70 px-5 py-5 text-center">
           <p className="font-semibold text-gray-900">Get monthly Stripe fee tips</p>
           <p className="mt-1 text-sm leading-relaxed text-gray-600">
