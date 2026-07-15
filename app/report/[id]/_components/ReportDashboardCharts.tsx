@@ -13,6 +13,13 @@ import {
   ReferenceLine,
   PieChart,
   Pie,
+  Area,
+  ComposedChart,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
 } from "recharts";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { fmt$, fmtPct, fmtMonth } from "@/lib/format";
@@ -23,12 +30,19 @@ const GRID = "#e2e8f0";
 const BLUE = "#1d4ed8";
 const AMBER = "#b45309";
 const TEAL = "#0f766e";
+const VOLUME_FILL = "#cbd5e1";
 const MIX_COLORS = ["#1d4ed8", "#0f766e", "#b45309", "#475569", "#334155", "#94a3b8"];
 
 interface Props {
   result: Pick<
     AnalysisResult,
-    "feeMix" | "monthly" | "chargeRate" | "topDrivers" | "geographySummary" | "anomalies"
+    | "feeMix"
+    | "monthly"
+    | "chargeRate"
+    | "topDrivers"
+    | "geographySummary"
+    | "anomalies"
+    | "feeLeakBreakdown"
   >;
 }
 
@@ -77,7 +91,15 @@ function RateTooltip({
 }
 
 export function ReportDashboardCharts({ result }: Props) {
-  const { feeMix, monthly, chargeRate, topDrivers, geographySummary, anomalies } = result;
+  const {
+    feeMix,
+    monthly,
+    chargeRate,
+    topDrivers,
+    geographySummary,
+    anomalies,
+    feeLeakBreakdown,
+  } = result;
 
   const mixRows =
     feeMix
@@ -113,7 +135,20 @@ export function ReportDashboardCharts({ result }: Props) {
   const showExpensive = expensiveRows.length > 0;
   const showGeo = Boolean(geographySummary && geographySummary.internationalCount > 0);
 
-  if (!showTimeline && !showMix && !showExpensive && !showGeo) return null;
+  const radarRows = (feeLeakBreakdown ?? [])
+    .filter((item) => item.amount > 0)
+    .sort((a, b) => b.amount - a.amount)
+    .slice(0, 6)
+    .map((item) => ({
+      axis: shortLeakLabel(item.label),
+      fullLabel: item.label,
+      score: Number(Math.min(100, Math.max(item.sharePct, 0)).toFixed(1)),
+      amount: item.amount,
+      severity: item.severity,
+    }));
+  const showRadar = radarRows.length >= 3;
+
+  if (!showTimeline && !showMix && !showExpensive && !showGeo && !showRadar) return null;
 
   const first = timelineData[0];
   const peakRate = first
@@ -152,6 +187,10 @@ export function ReportDashboardCharts({ result }: Props) {
   }
   if (expensiveRows[0]) {
     insightParts.push(`top charge fee ${fmt$(expensiveRows[0].fee)}`);
+  }
+
+  if (showRadar && radarRows[0]) {
+    insightParts.push(`largest leak bucket: ${radarRows[0].fullLabel}`);
   }
 
   const geoPie = geographySummary
@@ -195,12 +234,13 @@ export function ReportDashboardCharts({ result }: Props) {
 
       <div className="grid gap-4 p-4 sm:p-5 lg:grid-cols-2">
         {showTimeline && peakRate && (
-          <Panel title="Processing rate by month" eyebrow="Trend" className="lg:col-span-1">
-            <ResponsiveContainer width="100%" height={220}>
-              <BarChart data={timelineData} margin={{ top: 6, right: 6, left: 0, bottom: 0 }}>
+          <Panel title="Rate vs volume" eyebrow="Trend" className="lg:col-span-1">
+            <ResponsiveContainer width="100%" height={228}>
+              <ComposedChart data={timelineData} margin={{ top: 6, right: 8, left: 0, bottom: 0 }}>
                 <CartesianGrid stroke={GRID} strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="name" tick={{ fontSize: 11, fill: SLATE }} tickLine={false} axisLine={false} />
                 <YAxis
+                  yAxisId="rate"
                   tickFormatter={(v) => `${v}%`}
                   tick={{ fontSize: 10, fill: SLATE }}
                   tickLine={false}
@@ -208,9 +248,35 @@ export function ReportDashboardCharts({ result }: Props) {
                   width={38}
                   domain={rateDomain}
                 />
+                <YAxis
+                  yAxisId="volume"
+                  orientation="right"
+                  tickFormatter={(v) => (v >= 1000 ? `$${Math.round(v / 1000)}k` : `$${v}`)}
+                  tick={{ fontSize: 10, fill: SLATE }}
+                  tickLine={false}
+                  axisLine={false}
+                  width={42}
+                />
                 <Tooltip content={<RateTooltip />} cursor={{ fill: "rgba(15,23,42,0.04)" }} />
-                <ReferenceLine y={Number(chargeRate.toFixed(3))} stroke={SLATE} strokeDasharray="4 4" />
-                <Bar dataKey="rate" radius={[5, 5, 0, 0]} maxBarSize={48}>
+                <ReferenceLine
+                  yAxisId="rate"
+                  y={Number(chargeRate.toFixed(3))}
+                  stroke={SLATE}
+                  strokeDasharray="4 4"
+                />
+                <Area
+                  yAxisId="volume"
+                  type="monotone"
+                  dataKey="volume"
+                  name="Volume"
+                  stroke="#94a3b8"
+                  strokeWidth={1.5}
+                  fill={VOLUME_FILL}
+                  fillOpacity={0.55}
+                  dot={false}
+                  activeDot={{ r: 4, fill: SLATE }}
+                />
+                <Bar yAxisId="rate" dataKey="rate" name="Rate" radius={[5, 5, 0, 0]} maxBarSize={40}>
                   {timelineData.map((row) => (
                     <Cell
                       key={row.key}
@@ -218,8 +284,17 @@ export function ReportDashboardCharts({ result }: Props) {
                     />
                   ))}
                 </Bar>
-              </BarChart>
+              </ComposedChart>
             </ResponsiveContainer>
+            <div className="mt-2 flex flex-wrap gap-3 text-[10px] text-slate-400">
+              <span className="inline-flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-sm bg-blue-700" /> Rate %
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="h-2 w-3 rounded-sm bg-slate-300" /> Volume (area)
+              </span>
+              <span>Dashed = baseline rate</span>
+            </div>
           </Panel>
         )}
 
@@ -391,6 +466,60 @@ export function ReportDashboardCharts({ result }: Props) {
           </Panel>
         )}
 
+        {showRadar && (
+          <Panel title="Fee leak profile" eyebrow="Radar" className="lg:col-span-1">
+            <div className="grid grid-cols-1 items-center gap-2 sm:grid-cols-[1.15fr_0.85fr]">
+              <ResponsiveContainer width="100%" height={220}>
+                <RadarChart data={radarRows} cx="50%" cy="50%" outerRadius="72%">
+                  <PolarGrid stroke={GRID} />
+                  <PolarAngleAxis dataKey="axis" tick={{ fontSize: 10, fill: SLATE }} />
+                  <PolarRadiusAxis
+                    angle={30}
+                    domain={[0, 100]}
+                    tick={{ fontSize: 9, fill: SLATE }}
+                    tickFormatter={(v) => `${v}%`}
+                  />
+                  <Radar
+                    name="Share of fees"
+                    dataKey="score"
+                    stroke={BLUE}
+                    fill={BLUE}
+                    fillOpacity={0.22}
+                    strokeWidth={2}
+                  />
+                  <Tooltip
+                    formatter={(value, _name, item) => {
+                      const amount = Number(
+                        (item as { payload?: { amount?: number } })?.payload?.amount ?? 0
+                      );
+                      return [`${Number(value ?? 0).toFixed(1)}% · ${fmt$(amount)}`, "Leak share"];
+                    }}
+                    labelFormatter={(_, payload) => {
+                      const full = (payload?.[0] as { payload?: { fullLabel?: string } } | undefined)
+                        ?.payload?.fullLabel;
+                      return full ?? "";
+                    }}
+                    contentStyle={{ borderRadius: 10, border: "1px solid #e2e8f0", fontSize: 12 }}
+                  />
+                </RadarChart>
+              </ResponsiveContainer>
+              <ul className="space-y-2">
+                {radarRows.map((row) => (
+                  <li key={row.fullLabel} className="flex items-baseline justify-between gap-2 text-xs">
+                    <span className="min-w-0 truncate text-slate-600">{row.fullLabel}</span>
+                    <span className="shrink-0 tabular-nums font-semibold text-slate-900">
+                      {fmt$(row.amount)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <p className="mt-2 text-[11px] text-slate-400">
+              Axes = share of all-in fees by leak bucket (directional; some estimates can overlap).
+            </p>
+          </Panel>
+        )}
+
         {showTimeline && peakFees && (
           <Panel title="Fee timeline" eyebrow="Month intensity" className="lg:col-span-2">
             <div className="space-y-2.5">
@@ -438,4 +567,23 @@ function truncate(value: string, max: number): string {
 function rateBarWidth(value: number, peer: number): number {
   const max = Math.max(value, peer, 0.01);
   return Math.max(8, (value / max) * 100);
+}
+
+function shortLeakLabel(label: string): string {
+  const map: Record<string, string> = {
+    "Fixed per-charge fees": "Fixed",
+    "International card uplift": "Intl",
+    "Currency conversion estimate": "FX",
+    "Refund fee impact": "Refunds",
+    "Other Stripe fee lines": "Other",
+    "Base card processing": "Card",
+  };
+  if (map[label]) return map[label];
+  if (label.toLowerCase().includes("fixed")) return "Fixed";
+  if (label.toLowerCase().includes("international")) return "Intl";
+  if (label.toLowerCase().includes("currency") || label.toLowerCase().includes("fx")) return "FX";
+  if (label.toLowerCase().includes("refund")) return "Refunds";
+  if (label.toLowerCase().includes("dispute")) return "Disputes";
+  if (label.toLowerCase().includes("card")) return "Card";
+  return truncate(label, 10);
 }
