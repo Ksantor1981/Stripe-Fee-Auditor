@@ -8,9 +8,9 @@ import { StripeFeeMiniEstimate } from "@/components/stripe-fee-mini-estimate";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "Stripe Fee Calculator: Estimate Monthly Fees";
+const pageTitle = "Stripe Fees Calculator: Estimate Monthly Fees";
 const pageDescription =
-  "Estimate monthly Stripe fees from card volume and average charge size, then upload your Balance CSV to check your real effective rate.";
+  "Free Stripe fees calculator for monthly volume and average charge size. See how much Stripe charges per transaction, then verify your real effective rate from a Balance CSV.";
 const pagePath = "/stripe-fee-calculator";
 
 export const metadata: Metadata = {
@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   description: pageDescription,
   keywords: [
     "Stripe fee calculator",
+    "Stripe fees calculator",
+    "how much does Stripe charge per transaction",
     "Stripe effective fee rate calculator",
     "Stripe fee audit",
     "Stripe Balance CSV analyzer",
@@ -98,9 +100,14 @@ const whatYouGet = [
 
 const faqItems = [
   {
+    question: "How much does Stripe charge per transaction?",
+    answer:
+      "For many US online card payments, Stripe's published rate is 2.9% + $0.30 per successful charge. On a $100 domestic card payment that is about $3.20 (3.2% effective). International cards, currency conversion, refunds, and small tickets can push the blended rate higher — use the calculator above for your mix, then upload a Balance CSV to see your real rate.",
+  },
+  {
     question: "Is this a Stripe fee estimator or a real calculator?",
     answer:
-      "The on-page calculator estimates fees from public pricing. Stripe Fee Auditor calculates your real effective Stripe fee rate from your Balance Transactions CSV, so you can compare the estimate with actual numbers.",
+      "The on-page Stripe fees calculator estimates fees from public pricing. Stripe Fee Auditor calculates your real effective Stripe fee rate from your Balance Transactions CSV, so you can compare the estimate with actual numbers.",
   },
   {
     question: "How do I estimate monthly Stripe fees?",
@@ -185,15 +192,16 @@ export default function StripeFeeCalculatorPage() {
         {/* Header */}
         <div className="mb-14">
           <p className="text-blue-600 text-sm font-medium mb-3">
-            Stripe fee calculator
+            Stripe fees calculator
           </p>
           <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
-            Estimate Your Monthly Stripe Fees
+            Stripe Fees Calculator: Estimate Monthly Fees
           </h1>
           <p className="text-lg text-gray-500 leading-relaxed">
-            Enter monthly card volume and average charge size to estimate Stripe&apos;s published
-            fee. Then compare that with your actual effective rate from a Balance CSV, where
-            international cards, refunds, small charges, and add-ons can push the real number higher.
+            Free Stripe fees calculator for monthly card volume and average charge size — including
+            how much Stripe charges per transaction on the published 2.9% + $0.30 rate. Then compare
+            that estimate with your actual effective rate from a Balance CSV, where international cards,
+            refunds, small charges, and add-ons can push the real number higher.
           </p>
           <p className="text-sm text-gray-500 leading-relaxed mt-4">
             Stripe Fee Auditor is built for SaaS, ecommerce, subscription, and
@@ -344,9 +352,9 @@ export default function StripeFeeCalculatorPage() {
 
         <SeoAnalyzeCta
           className="border border-blue-100"
-          title="Calculate from your real data"
-          description="Export your Stripe Balance CSV and upload it. See your actual effective rate — usually in under 30 seconds, no account needed."
-          primaryLabel="Analyze My Fees →"
+          title="Done estimating? Check the real rate"
+          description="The calculator uses published pricing. Upload your Stripe Balance CSV to see how much Stripe actually charged across your transactions — free preview, no OAuth."
+          primaryLabel="Analyze My CSV →"
         />
 
         {/* Need the CSV */}

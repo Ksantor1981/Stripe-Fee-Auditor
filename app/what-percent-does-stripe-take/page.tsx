@@ -7,19 +7,22 @@ import { StripeTakeCalculator } from "@/components/stripe-take-calculator";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "What Percentage Does Stripe Take?";
+const pageTitle = "How Much Does Stripe Charge Per Transaction?";
 const pageDescription =
-  "Stripe usually starts at 2.9% + $0.30 for US online card payments, but your real percentage can be higher. Calculate the published fee and learn how to check your actual rate.";
+  "How much does Stripe charge per transaction? For many US online cards it starts at 2.9% + $0.30. Calculate the published percentage, then check your real blended rate from a Balance CSV.";
 const pagePath = "/what-percent-does-stripe-take";
 
 export const metadata: Metadata = {
   title: pageTitle,
   description: pageDescription,
   keywords: [
+    "how much does Stripe charge per transaction",
+    "how much does Stripe charge",
     "what percent does Stripe take",
     "what percentage does Stripe take",
     "Stripe percentage fee",
     "Stripe fee percentage",
+    "Stripe transaction fees",
     "Stripe effective fee rate",
     "Stripe real fee rate",
   ],
@@ -53,6 +56,11 @@ export const metadata: Metadata = {
 
 const faqItems = [
   {
+    question: "How much does Stripe charge per transaction?",
+    answer:
+      "For many US online card payments, Stripe charges 2.9% + $0.30 per successful domestic card transaction. On $100 that is about $3.20. International cards often add about 1.5 percentage points, and currency conversion can add roughly another 1%. Your blended rate across a month is usually higher than any single published line — check it from your Balance CSV.",
+  },
+  {
     question: "What percentage does Stripe take from a payment?",
     answer:
       "For many US online card payments, Stripe's published rate starts at 2.9% plus $0.30 per successful charge. The effective percentage on a single charge depends on the charge amount because the fixed $0.30 fee is larger on small payments.",
@@ -65,7 +73,7 @@ const faqItems = [
   {
     question: "How do I check the actual percentage Stripe took?",
     answer:
-      "Export your itemized Stripe Balance CSV, sum charge volume, sum Stripe fees, and divide fees by volume. Stripe Fee Auditor does this from your Balance CSV and separates processing rate from all-in Stripe cost.",
+      "Export your itemized Stripe Balance CSV, sum charge volume, sum Stripe fees, and divide fees by volume. Stripe Fee Auditor does this from your Balance CSV and separates processing rate from all-in Stripe cost. You can also start with the free Stripe fees calculator for a published-rate estimate.",
   },
 ];
 
@@ -138,14 +146,15 @@ export default function WhatPercentDoesStripeTakePage() {
       <main className="mx-auto max-w-3xl px-6 py-16">
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: pageTitle }]} className="mb-6" />
         <header className="mb-12">
-          <p className="mb-3 text-sm font-medium text-blue-600">Stripe fee percentage</p>
+          <p className="mb-3 text-sm font-medium text-blue-600">How much does Stripe charge</p>
           <h1 className="text-4xl font-bold leading-tight text-gray-900">
-            What Percentage Does Stripe Actually Take?
+            How Much Does Stripe Charge Per Transaction?
           </h1>
           <p className="mt-4 text-lg leading-relaxed text-gray-500">
-            The short answer: Stripe often starts at <strong className="text-gray-900">2.9% + $0.30</strong>
-            {" "}for US online card payments. The real percentage you pay can be higher once small
-            charges, international cards, currency conversion, refunds, and other Stripe fee lines show up.
+            Short answer: for many US online cards Stripe starts at{" "}
+            <strong className="text-gray-900">2.9% + $0.30</strong> per successful charge
+            (about $3.20 on $100). The real percentage you pay can be higher once small charges,
+            international cards, currency conversion, refunds, and other Stripe fee lines show up.
           </p>
         </header>
 
@@ -195,13 +204,19 @@ export default function WhatPercentDoesStripeTakePage() {
               Analyze My Stripe CSV
             </Link>
             <Link
-              href="/stripe-balance-csv"
+              href="/stripe-fee-calculator"
               className="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-center text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
             >
-              How to export the CSV
+              Open Stripe fees calculator
             </Link>
           </div>
-          <p className="mt-3 text-xs text-gray-400">No OAuth. No API keys. Raw CSV files are not stored.</p>
+          <p className="mt-3 text-xs text-gray-400">
+            Prefer a published-rate estimate first? Use the{" "}
+            <Link href="/stripe-fee-calculator" className="text-blue-600 hover:underline">
+              Stripe fees calculator
+            </Link>
+            , then verify with CSV. No OAuth. Raw CSV files are not stored.
+          </p>
         </section>
 
         <section className="mt-14 space-y-4">
@@ -218,7 +233,8 @@ export default function WhatPercentDoesStripeTakePage() {
           <p className="mb-4 text-sm font-semibold text-gray-700">Related guides</p>
           <div className="space-y-3">
             {[
-              { href: "/stripe-fee-calculator", title: "Stripe fee calculator from real data" },
+              { href: "/stripe-fee-calculator", title: "Stripe fees calculator (published rate estimate)" },
+              { href: "/stripe-balance-csv", title: "How to export Stripe Balance CSV" },
               { href: "/why-stripe-fee-rate-higher-than-2-9", title: "Why Stripe fees are higher than 2.9%" },
               { href: "/blog/stripe-blended-rate-calculator", title: "Stripe blended rate formula" },
             ].map((link) => (
