@@ -27,6 +27,38 @@ export interface MonthlyBreakdown {
   count: number;
 }
 
+/** Compact charge row for excluding expected one-off outliers from rate views. */
+export interface ChargeLedgerEntry {
+  id: string;
+  amount: number;
+  fee: number;
+  month: string;
+}
+
+const MAX_FULL_CHARGE_LEDGER = 15_000;
+
+function buildChargeLedger(charges: NormalizedRow[], sampleRows: NormalizedRow[]): ChargeLedgerEntry[] {
+  const byId = new Map<string, ChargeLedgerEntry>();
+
+  const add = (row: NormalizedRow) => {
+    if (row.amount <= 0) return;
+    byId.set(row.id, {
+      id: row.id,
+      amount: row.amount,
+      fee: row.fee,
+      month: row.month,
+    });
+  };
+
+  if (charges.length <= MAX_FULL_CHARGE_LEDGER) {
+    for (const row of charges) add(row);
+  } else {
+    for (const row of sampleRows) add(row);
+  }
+
+  return [...byId.values()];
+}
+
 export interface AnnotatedRow extends NormalizedRow {
   explanation?: AnomalyExplanation;
 }
@@ -156,6 +188,14 @@ export interface AnalysisResult {
   currencies: string[];
   /** Letter grade (A–F) summarizing all-in fee efficiency for this export. */
   feeGrade?: FeeGrade;
+  /** Total charge rows in the export (before storage caps on anomaly lists). */
+  chargeCount?: number;
+  /** Compact charge index for marking expected outliers; may be partial on very large exports. */
+  chargeLedger?: ChargeLedgerEntry[];
+  /** True when chargeLedger includes every charge row (enables full rate re-analysis). */
+  chargeLedgerComplete?: boolean;
+  /** User-marked one-off charges excluded from adjusted headline rates. */
+  expectedOutlierIds?: string[];
 }
 
 function sum(rows: NormalizedRow[], key: keyof NormalizedRow): number {
@@ -809,6 +849,9 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
   const feeMix = buildFeeMix(rows, chargeFees, allInFees);
   const feeLeakBreakdown = buildFeeLeakBreakdown(rows, charges, chargeFees, otherFees, allInFees, geographySummary, refundSummary);
 
+  const chargeLedger = buildChargeLedger(charges, [...topDrivers, ...anomalies]);
+  const chargeLedgerComplete = charges.length <= MAX_FULL_CHARGE_LEDGER;
+
   const feeGrade = computeFeeGrade({
     mode,
     chargeVolume,
@@ -850,6 +893,9 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
     periodDelta,
     currencies,
     feeGrade,
+    chargeCount: charges.length,
+    chargeLedger,
+    chargeLedgerComplete,
   };
 }
 

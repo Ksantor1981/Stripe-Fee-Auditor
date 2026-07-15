@@ -376,6 +376,40 @@ export async function saveReportEmail(id: string, email: string, accessToken: st
   return rows.length > 0;
 }
 
+const MAX_EXPECTED_OUTLIERS = 200;
+const MAX_OUTLIER_ID_LEN = 256;
+
+export async function saveExpectedOutlierIds(
+  id: string,
+  accessToken: string,
+  excludedIds: string[]
+): Promise<boolean> {
+  if (!accessToken) return false;
+
+  const unique = [...new Set(excludedIds.filter(Boolean))].slice(0, MAX_EXPECTED_OUTLIERS);
+  if (unique.some((value) => value.length > MAX_OUTLIER_ID_LEN)) {
+    return false;
+  }
+
+  const report = await getReportWithAccess(id, accessToken);
+  if (!report?.result) return false;
+
+  const nextResult = {
+    ...report.result,
+    expectedOutlierIds: unique,
+  };
+
+  const rows = await sql`
+    UPDATE reports
+    SET result = ${JSON.stringify(nextResult)}::jsonb
+    WHERE id = ${id}
+      AND access_token_hash = ${hashReportAccessToken(accessToken)}
+      AND expires_at > NOW()
+    RETURNING id
+  `;
+  return rows.length > 0;
+}
+
 export async function consumeIpRequest(ip: string, limit: number): Promise<boolean> {
   const rows = await sql`
     WITH lock AS (

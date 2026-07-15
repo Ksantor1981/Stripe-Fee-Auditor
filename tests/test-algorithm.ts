@@ -5,6 +5,7 @@
 
 import { normalizeRow, validateColumns, type NormalizedRow } from "../lib/csv-parser";
 import { analyze, redactAnalysisResultForStorage } from "../lib/fee-analyzer";
+import { applyExpectedOutlierExclusions } from "../lib/expected-outliers";
 import { estimateCountryStripeFee, getCountryFeeProfile } from "../lib/stripe-country-fees";
 
 // ─── Test runner ──────────────────────────────────────────────────────────────
@@ -645,6 +646,58 @@ test("estimateCountryStripeFee adds international uplift", () => {
     internationalShare: 0.3,
   });
   assert(intl.estimatedFee > domestic.estimatedFee, "intl share should increase estimated fee");
+});
+
+console.log("\n📋 expected-outliers");
+
+test("applyExpectedOutlierExclusions lowers rate when high-fee charge excluded", () => {
+  const rows: NormalizedRow[] = [
+    ...makeCharges(50, "2024-01", 3.0),
+    {
+      id: "ch_outlier",
+      type: "charge",
+      amount: 50000,
+      fee: 4000,
+      net: 46000,
+      currency: "usd",
+      date: "2024-01-15",
+      month: "2024-01",
+    },
+  ];
+  const base = analyze(rows);
+  assert(Boolean(base.chargeLedger?.length), "chargeLedger should exist");
+  const outlierId = base.anomalies[0]?.id ?? "ch_outlier";
+  const adjusted = applyExpectedOutlierExclusions(base, [outlierId]);
+  assert(adjusted.chargeRate < base.chargeRate, "adjusted rate should be lower");
+  assert(adjusted.chargeVolume < base.chargeVolume, "adjusted volume should exclude outlier");
+  assert(adjusted.chargeFees < base.chargeFees, "adjusted charge fees should exclude outlier fee");
+  assert(Boolean(adjusted.expectedOutlierIds?.includes(outlierId)), "should persist excluded ids");
+});
+
+test("applyExpectedOutlierExclusions no-op on empty ids", () => {
+  const base = analyze(makeCharges(40, "2024-02", 3.2));
+  const adjusted = applyExpectedOutlierExclusions(base, []);
+  assert(adjusted.chargeRate === base.chargeRate, "empty exclusions should not change rate");
+  assert(adjusted.expectedOutlierIds === undefined, "should omit expectedOutlierIds when empty");
+});
+
+test("applyExpectedOutlierExclusions removes excluded from anomalies", () => {
+  const normal = makeCharges(60, "2024-01", 3.0);
+  const normal2 = makeCharges(60, "2024-02", 3.0);
+  const spike: NormalizedRow = {
+    id: "ch_spike",
+    type: "charge",
+    amount: 100,
+    fee: 50,
+    net: 50,
+    currency: "USD",
+    date: "2024-02-15",
+    month: "2024-02",
+  };
+  const base = analyze([...normal, ...normal2, spike]);
+  assert(base.anomalies.some((row) => row.id === "ch_spike"), "spike should be anomaly");
+  const adjusted = applyExpectedOutlierExclusions(base, ["ch_spike"]);
+  assert(!adjusted.anomalies.some((row) => row.id === "ch_spike"), "excluded anomaly should drop from list");
 });
 
 // ─── Summary ──────────────────────────────────────────────────────────────────

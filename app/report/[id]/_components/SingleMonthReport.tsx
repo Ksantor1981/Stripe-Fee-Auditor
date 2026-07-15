@@ -13,20 +13,34 @@ import { SavingsOpportunities } from "./SavingsOpportunities";
 import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
+import { ExpectedOutlierBanner } from "./ExpectedOutlierBanner";
 
 interface Props {
   reportId: string;
   result: AnalysisResult;
+  originalResult: AnalysisResult;
   isPaid: boolean;
+  expectedOutlierIds?: string[];
 }
 
-export function SingleMonthReport({ reportId, result, isPaid }: Props) {
-  const { chargeFees, chargeRate, chargeVolume, otherFees, monthly, topDrivers, savingsOpportunities } =
-    result;
+export function SingleMonthReport({
+  reportId,
+  result,
+  originalResult,
+  isPaid,
+  expectedOutlierIds = [],
+}: Props) {
+  const { chargeRate, chargeVolume, monthly, topDrivers, savingsOpportunities } = result;
+  const {
+    chargeFees: actualChargeFees,
+    allInFees: actualAllInFees,
+    otherFees: actualOtherFees,
+  } = originalResult;
   const savings = savingsOpportunities ?? [];
   const month = monthly[0];
-  const periodFees = result.allInFees ?? periodTotalFees(chargeFees, otherFees);
-  const allInRate = result.allInRate ?? (chargeVolume > 0 ? (periodFees / chargeVolume) * 100 : 0);
+  const periodFees = actualAllInFees ?? periodTotalFees(actualChargeFees, actualOtherFees);
+  const allInRate =
+    result.allInRate ?? (chargeVolume > 0 ? ((result.chargeFees + actualOtherFees) / chargeVolume) * 100 : 0);
   const yearlyAtThisRate = annualRunRate(periodFees, 1);
   const advertisedRate = 2.9;
   const rateGap = chargeRate - advertisedRate;
@@ -38,6 +52,14 @@ export function SingleMonthReport({ reportId, result, isPaid }: Props) {
 
   return (
     <div className="space-y-6">
+      {expectedOutlierIds.length > 0 && (
+        <ExpectedOutlierBanner
+          original={originalResult}
+          adjusted={result}
+          count={expectedOutlierIds.length}
+        />
+      )}
+
       {/* Hero */}
       <div id="report-share-snapshot" className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
         {result.feeGrade && (
@@ -69,7 +91,7 @@ export function SingleMonthReport({ reportId, result, isPaid }: Props) {
           {[
             { label: "Processing Rate", value: fmtPct(chargeRate), highlight: true },
             { label: "All-in Cost Rate", value: fmtPct(allInRate) },
-            { label: "Charge Fees", value: fmt$(chargeFees) },
+            { label: "Charge Fees", value: fmt$(actualChargeFees) },
             { label: "Charge Volume", value: fmt$(chargeVolume) },
           ].map(({ label, value, highlight }) => (
             <div key={label} className={`rounded-xl px-4 py-3 ${highlight ? "bg-blue-50 border border-blue-100" : "bg-gray-50"}`}>
@@ -117,7 +139,7 @@ export function SingleMonthReport({ reportId, result, isPaid }: Props) {
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-5">
           <h2 className="text-sm font-semibold text-gray-700 mb-3">Charge Fees</h2>
-          <p className="text-3xl font-bold text-gray-900">{fmt$(chargeFees)}</p>
+          <p className="text-3xl font-bold text-gray-900">{fmt$(actualChargeFees)}</p>
           <p className="text-sm text-gray-400 mt-1">
             {fmtPct(chargeRate)} on {fmt$(chargeVolume)} volume
           </p>

@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
+import { applyExpectedOutlierExclusions } from "@/lib/expected-outliers";
 import { trackEvent } from "@/lib/analytics";
 import { EmailGate } from "./EmailGate";
 import { FeedbackForm } from "./FeedbackForm";
@@ -51,6 +52,50 @@ export function ReportShell({
   const exportsEnabled = isPaid || betaFullAccess;
   const [unlocked, setUnlocked] = useState(hasFullAccess || demoSkipEmailGate || paymentPending);
   const paymentSuccessTracked = useRef(false);
+  const [expectedOutlierIds, setExpectedOutlierIds] = useState<string[]>(
+    result.expectedOutlierIds ?? []
+  );
+  const [outlierSaving, setOutlierSaving] = useState(false);
+
+  useEffect(() => {
+    setExpectedOutlierIds(result.expectedOutlierIds ?? []);
+  }, [result.expectedOutlierIds]);
+
+  const baseResult = result;
+  const adjustedResult = useMemo(
+    () => applyExpectedOutlierExclusions(baseResult, expectedOutlierIds),
+    [baseResult, expectedOutlierIds]
+  );
+  const canMarkExpectedOutliers = Boolean(baseResult.chargeLedger?.length) && hasFullAccess;
+
+  const toggleExpectedOutlier = useCallback(
+    async (chargeId: string) => {
+      const next = expectedOutlierIds.includes(chargeId)
+        ? expectedOutlierIds.filter((id) => id !== chargeId)
+        : [...expectedOutlierIds, chargeId];
+      const previous = expectedOutlierIds;
+      setExpectedOutlierIds(next);
+      setOutlierSaving(true);
+      try {
+        const res = await fetch(`/api/reports/${reportId}/expected-outliers`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
+          body: JSON.stringify({ excludedIds: next }),
+        });
+        if (!res.ok) {
+          setExpectedOutlierIds(previous);
+          return;
+        }
+        trackEvent("expected_outlier_toggle", { count: next.length });
+      } catch {
+        setExpectedOutlierIds(previous);
+      } finally {
+        setOutlierSaving(false);
+      }
+    },
+    [expectedOutlierIds, reportId]
+  );
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -113,7 +158,16 @@ export function ReportShell({
     );
   }
 
-  const baseReportProps = { reportId, result, isPaid: hasFullAccess };
+  const reportViewProps = {
+    reportId,
+    result: adjustedResult,
+    originalResult: baseResult,
+    isPaid: hasFullAccess,
+    expectedOutlierIds,
+    onToggleExpectedOutlier: canMarkExpectedOutliers ? toggleExpectedOutlier : undefined,
+    outlierSaving,
+    canMarkExpectedOutliers,
+  };
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -189,14 +243,14 @@ export function ReportShell({
           </div>
         )}
         {result.mode === "multi-month" && (
-          <MultiMonthReport {...baseReportProps} previewAnomalyCount={previewAnomalyCount} />
+          <MultiMonthReport {...reportViewProps} previewAnomalyCount={previewAnomalyCount} />
         )}
-        {result.mode === "single-month" && <SingleMonthReport {...baseReportProps} />}
-        {result.mode === "low-volume" && <LowVolumeReport reportId={reportId} result={result} isPaid={hasFullAccess} />}
+        {result.mode === "single-month" && <SingleMonthReport {...reportViewProps} />}
+        {result.mode === "low-volume" && <LowVolumeReport reportId={reportId} result={adjustedResult} isPaid={hasFullAccess} />}
 
         <div className="mt-8 space-y-8">
           {hasFullAccess && (
-            <ShareEmbedBenchmark embedShareUrl={embedShareUrl!} result={result} />
+            <ShareEmbedBenchmark embedShareUrl={embedShareUrl!} result={adjustedResult} />
           )}
           {monitorFullAccess ? (
             <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-6 text-center shadow-sm">

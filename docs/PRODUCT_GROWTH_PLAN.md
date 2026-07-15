@@ -21,6 +21,7 @@
 | 1.4 | Лендинг: CTA «Quick estimate» → `/stripe-fee-calculator` | done |
 | 1.5 | Таблица «Where fees leak» (fixed / intl / refund / other из CSV) | ready |
 | 1.6 | Savings в single-month + low-volume (beta `hasFullAccess`) | done |
+| 1.7 | **Expected outliers** — пометка one-off charges, пересчёт rate без искажения monthly avg (PH: Oktay, Jul 2026) | done |
 
 ### Фаза 2 — Снижение барьера CSV (2–4 недели)
 

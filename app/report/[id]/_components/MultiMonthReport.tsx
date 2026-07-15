@@ -17,6 +17,8 @@ import { ReportTrustChecklist } from "./ReportTrustChecklist";
 import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
+import { ExpectedOutlierBanner } from "./ExpectedOutlierBanner";
+import { ExpectedOutlierToggle } from "./ExpectedOutlierToggle";
 
 function anomalyExplainerText(
   count: number,
@@ -46,25 +48,41 @@ function anomalyExplainerText(
 interface Props {
   reportId: string;
   result: AnalysisResult;
+  originalResult: AnalysisResult;
   isPaid: boolean;
   /** Free preview strips anomaly rows; keep real count for badges and copy. */
   previewAnomalyCount?: number;
+  expectedOutlierIds?: string[];
+  onToggleExpectedOutlier?: (chargeId: string) => void;
+  outlierSaving?: boolean;
+  canMarkExpectedOutliers?: boolean;
 }
 
-export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount }: Props) {
+export function MultiMonthReport({
+  reportId,
+  result,
+  originalResult,
+  isPaid,
+  previewAnomalyCount,
+  expectedOutlierIds = [],
+  onToggleExpectedOutlier,
+  outlierSaving = false,
+  canMarkExpectedOutliers = false,
+}: Props) {
   const {
-    chargeFees,
     chargeRate,
     chargeVolume,
-    otherFees,
-    allInFees,
-    allInRate,
     monthly,
     topDrivers,
-    anomalies,
     periodDelta,
   } = result;
-  const anomalyUiCount = previewAnomalyCount ?? result.anomalyCount ?? anomalies.length;
+  const {
+    chargeFees: actualChargeFees,
+    otherFees: actualOtherFees,
+    allInFees: actualAllInFees,
+    allInRate: originalAllInRate,
+  } = originalResult;
+  const anomalyUiCount = previewAnomalyCount ?? result.anomalyCount ?? result.anomalies.length;
   const savings = result.savingsOpportunities ?? [];
   const advertisedRate = 2.9;
   const rateGap = chargeRate - advertisedRate;
@@ -77,16 +95,17 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
         : "Diagnosis: your blended rate looks consistent; monitor monthly changes for future spikes.";
 
   const paidAnomalyRows: AnnotatedRow[] =
-    result.annotatedAnomalies && result.annotatedAnomalies.length > 0
-      ? result.annotatedAnomalies
-      : anomalies.map((row) => ({ ...row }));
+    originalResult.annotatedAnomalies && originalResult.annotatedAnomalies.length > 0
+      ? originalResult.annotatedAnomalies
+      : originalResult.anomalies.map((row) => ({ ...row }));
 
   const deltaPositive = periodDelta !== null && periodDelta > 0;
   const monthCount = monthly.length;
-  const periodFees = allInFees ?? periodTotalFees(chargeFees, otherFees);
-  const displayAllInRate = allInRate ?? (chargeVolume > 0 ? (periodFees / chargeVolume) * 100 : 0);
+  const periodFees = actualAllInFees ?? periodTotalFees(actualChargeFees, actualOtherFees);
+  const adjustedAllInRate =
+    result.allInRate ?? (chargeVolume > 0 ? ((result.chargeFees + actualOtherFees) / chargeVolume) * 100 : 0);
   const yearlyAtThisRate = annualRunRate(periodFees, monthCount);
-  const anomalyExplainer = anomalyExplainerText(anomalyUiCount, chargeRate, paidAnomalyRows, isPaid);
+  const anomalyExplainer = anomalyExplainerText(anomalyUiCount, chargeRate, paidAnomalyRows.filter((row) => !expectedOutlierIds.includes(row.id)), isPaid);
   const teaserSavings = savings[0];
   const paywallProps = {
     reportId,
@@ -96,6 +115,14 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
 
   return (
     <div className="space-y-8">
+      {expectedOutlierIds.length > 0 && (
+        <ExpectedOutlierBanner
+          original={originalResult}
+          adjusted={result}
+          count={expectedOutlierIds.length}
+        />
+      )}
+
       {/* Hero */}
       <div id="report-share-snapshot" className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
         {result.feeGrade && (
@@ -129,7 +156,7 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
           <div className="text-right">
             <p className="text-3xl font-bold text-gray-900">{fmtPct(chargeRate)}</p>
             <p className="text-xs text-gray-400 mt-0.5">processing fee rate</p>
-            <p className="mt-2 text-xl font-bold text-gray-700">{fmtPct(displayAllInRate)}</p>
+            <p className="mt-2 text-xl font-bold text-gray-700">{fmtPct(adjustedAllInRate)}</p>
             <p className="text-xs text-gray-400 mt-0.5">all-in cost rate</p>
           </div>
         </div>
@@ -138,7 +165,7 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
             { label: "Charge Volume", value: fmt$(chargeVolume) },
-            { label: "Charge Fees", value: fmt$(chargeFees) },
+            { label: "Charge Fees", value: fmt$(actualChargeFees) },
             { label: "All-in Fees", value: fmt$(periodFees) },
             { label: "High-fee charges", value: String(anomalyUiCount) },
           ].map(({ label, value }) => (
@@ -161,8 +188,15 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
             Your card/charge processing rate is <span className="font-semibold">{fmtPct(chargeRate)}</span>{" "}
             (<span className="font-semibold">{rateGapText}</span>). Stripe&apos;s advertised card rate starts at
             2.9% + $0.30, but international cards, small charges, card mix, currency conversion, and add-ons can push
-            the real rate higher. Your all-in Stripe cost rate for this export is{" "}
-            <span className="font-semibold">{fmtPct(displayAllInRate)}</span>.
+            the real rate higher.             Your all-in Stripe cost rate for this export is{" "}
+            <span className="font-semibold">{fmtPct(adjustedAllInRate)}</span>
+            {expectedOutlierIds.length > 0 && originalAllInRate !== undefined && (
+              <>
+                {" "}
+                (adjusted; was {fmtPct(originalAllInRate)})
+              </>
+            )}
+            .
           </p>
         </div>
       </div>
@@ -272,40 +306,63 @@ export function MultiMonthReport({ reportId, result, isPaid, previewAnomalyCount
             </div>
 
             {isPaid ? (
-              anomalies.length === 0 ? (
+              paidAnomalyRows.length === 0 ? (
                 <p className="px-5 py-8 text-sm text-center text-gray-400">
                   No high-fee charges detected. Your fee rate looks consistent!
                 </p>
               ) : (
                 <div className="divide-y divide-gray-50">
-                  {paidAnomalyRows.map((row) => (
-                    <div
-                      key={row.id}
-                      className="flex flex-col gap-2 px-5 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-4"
-                    >
-                      <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium text-gray-800 truncate">{transactionPrimaryLabel(row)}</p>
-                        <p className="text-xs text-gray-400 truncate">{transactionSecondaryLine(row)}</p>
-                        {row.explanation && (
-                          <div className="mt-3 rounded-lg border border-gray-100 bg-gray-50/80 px-3 py-2.5 space-y-1.5">
-                            <Badge variant="outline" className="text-[10px] font-medium text-gray-700 border-gray-200">
-                              {row.explanation.label}
-                            </Badge>
-                            <p className="text-xs text-gray-600 leading-relaxed">{row.explanation.detail}</p>
-                            <p className="text-xs text-emerald-800 leading-relaxed">
-                              <span className="font-medium">Tip:</span> {row.explanation.savingsTip}
-                            </p>
-                          </div>
-                        )}
+                  {canMarkExpectedOutliers && (
+                    <p className="px-5 py-3 text-xs text-gray-500 border-b border-gray-50 bg-gray-50/50">
+                      Mark one-off charges (large refunds, international spikes) as expected so they do not skew your
+                      typical processing rate. Dollar totals stay unchanged.
+                    </p>
+                  )}
+                  {paidAnomalyRows.map((row) => {
+                    const marked = expectedOutlierIds.includes(row.id);
+                    return (
+                      <div
+                        key={row.id}
+                        className={`flex flex-col gap-2 px-5 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-4 ${marked ? "bg-emerald-50/40" : ""}`}
+                      >
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm font-medium text-gray-800 truncate">{transactionPrimaryLabel(row)}</p>
+                          <p className="text-xs text-gray-400 truncate">{transactionSecondaryLine(row)}</p>
+                          {row.explanation && (
+                            <div className="mt-3 rounded-lg border border-gray-100 bg-gray-50/80 px-3 py-2.5 space-y-1.5">
+                              <Badge variant="outline" className="text-[10px] font-medium text-gray-700 border-gray-200">
+                                {row.explanation.label}
+                              </Badge>
+                              <p className="text-xs text-gray-600 leading-relaxed">{row.explanation.detail}</p>
+                              <p className="text-xs text-emerald-800 leading-relaxed">
+                                <span className="font-medium">Tip:</span> {row.explanation.savingsTip}
+                              </p>
+                            </div>
+                          )}
+                          {canMarkExpectedOutliers && onToggleExpectedOutlier && (
+                            <div className="mt-3">
+                              <ExpectedOutlierToggle
+                                chargeId={row.id}
+                                marked={marked}
+                                disabled={outlierSaving}
+                                onToggle={onToggleExpectedOutlier}
+                              />
+                            </div>
+                          )}
+                        </div>
+                        <div className="text-left sm:text-right flex-shrink-0">
+                          <p className={`text-sm font-semibold ${marked ? "text-emerald-700" : "text-red-600"}`}>
+                            {fmt$(row.fee)}
+                          </p>
+                          <Badge
+                            className={`text-xs mt-1 ${marked ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-700"}`}
+                          >
+                            {fmtPct((row.fee / row.amount) * 100)} rate
+                          </Badge>
+                        </div>
                       </div>
-                      <div className="text-left sm:text-right flex-shrink-0">
-                        <p className="text-sm font-semibold text-red-600">{fmt$(row.fee)}</p>
-                        <Badge className="text-xs bg-red-50 text-red-700 mt-1">
-                          {fmtPct((row.fee / row.amount) * 100)} rate
-                        </Badge>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )
             ) : (
