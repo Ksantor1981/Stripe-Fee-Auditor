@@ -296,22 +296,16 @@ export default function HomePage() {
             </svg>
           </TrackedLink>
           <TrackedLink
-            href="/analyze"
-            utm={{ source: "landing", medium: "cta", campaign: "hero_full_report" }}
-            funnelEvent="funnel_landing_cta"
-            funnelProps={{ placement: "hero_full_report" }}
-            className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-6 py-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:text-gray-900 transition-all"
+            href="/analyze?sample=1"
+            utm={{ source: "landing", medium: "cta", campaign: "hero_sample" }}
+            funnelEvent="funnel_sample_cta"
+            funnelProps={{ placement: "hero_sample" }}
+            className="inline-flex items-center gap-2 rounded-xl border border-blue-200 bg-white px-6 py-4 text-base font-semibold text-blue-700 hover:border-blue-300 hover:bg-blue-50 transition-all"
           >
-            Full report — $12 after preview →
+            Try sample in 10s
           </TrackedLink>
         </div>
         <div className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm">
-          <Link
-            href="/analyze?sample=1"
-            className="font-medium text-blue-600 underline underline-offset-2 hover:text-blue-800"
-          >
-            Try sample report →
-          </Link>
           <Link
             href="#instant-estimate"
             className="font-medium text-gray-500 underline underline-offset-2 hover:text-blue-600"
@@ -322,7 +316,7 @@ export default function HomePage() {
             href="/blog/how-i-found-1400-in-hidden-stripe-fees"
             className="font-medium text-gray-500 underline underline-offset-2 hover:text-blue-600"
           >
-            See how I found ~$1,400 →
+            Case study (~$1,400) →
           </Link>
         </div>
 
@@ -588,21 +582,21 @@ export default function HomePage() {
             savings opportunities.
           </p>
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/blog/how-i-found-1400-in-hidden-stripe-fees"
-              className="inline-flex justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
-            >
-              Read the case study
-            </Link>
             <TrackedLink
               href="/analyze"
               utm={{ source: "landing", medium: "cta", campaign: "case_study" }}
               funnelEvent="funnel_landing_cta"
               funnelProps={{ placement: "case_study" }}
+              className="inline-flex justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+            >
+              Analyze My CSV →
+            </TrackedLink>
+            <Link
+              href="/blog/how-i-found-1400-in-hidden-stripe-fees"
               className="inline-flex justify-center rounded-xl border border-blue-100 bg-white px-5 py-3 text-sm font-semibold text-blue-700 transition-colors hover:border-blue-200 hover:bg-blue-50"
             >
-              Check my CSV
-            </TrackedLink>
+              Read the case study
+            </Link>
           </div>
         </div>
       </section>

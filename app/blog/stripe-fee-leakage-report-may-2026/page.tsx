@@ -443,9 +443,9 @@ export default function Page() {
             </Link>
             <Link
               href="/analyze?sample=1"
-              className="inline-block rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-center text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
+              className="inline-flex items-center justify-center px-2 py-2.5 text-sm font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900"
             >
-              Try sample report →
+              Or try sample in 10s
             </Link>
           </div>
           <BlogBetaRetentionNote tone="gray" />

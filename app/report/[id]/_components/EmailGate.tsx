@@ -171,8 +171,19 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
             </Button>
           </form>
 
+          <button
+            type="button"
+            className="mt-3 w-full text-sm font-medium text-gray-500 hover:text-gray-800 underline underline-offset-2"
+            onClick={() => {
+              trackEvent("funnel_email_gate_skip");
+              onUnlock();
+            }}
+          >
+            Continue without email →
+          </button>
+
           <p className="mt-4 text-xs text-gray-400 text-center leading-relaxed">
-            No spam. Unsubscribe anytime. Preview expires in about{" "}
+            Email is optional — it only saves a private link if delivery is configured. Preview expires in about{" "}
             <strong>1 hour</strong> — see{" "}
             <Link href="/privacy" className="underline hover:text-gray-500">
               Privacy

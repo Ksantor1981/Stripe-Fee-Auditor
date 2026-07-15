@@ -5,16 +5,24 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { trackEvent } from "@/lib/analytics";
 import { fmt$ } from "@/lib/format";
+import type { PaywallImpactSource } from "@/lib/paywall-impact";
 
 interface Props {
   reportId: string;
   email?: string;
-  /** Directional annual savings from preview teaser (when available). */
+  /** Directional annual $ figure (savings, rate gap, or fee run-rate). */
   annualImpact?: number;
+  impactSource?: PaywallImpactSource;
   firstOpportunity?: string;
 }
 
-export function PaywallBanner({ reportId, email, annualImpact, firstOpportunity }: Props) {
+export function PaywallBanner({
+  reportId,
+  email,
+  annualImpact,
+  impactSource,
+  firstOpportunity,
+}: Props) {
   const [open, setOpen] = useState(false);
   const hasImpact = annualImpact != null && annualImpact > 0;
 
@@ -37,36 +45,32 @@ export function PaywallBanner({ reportId, email, annualImpact, firstOpportunity 
     "No tax, accounting, or contractual fee advice",
   ];
 
+  const title = hasImpact
+    ? impactSource === "fee_runrate"
+      ? `Unlock the drivers behind ~${fmt$(annualImpact)}/yr in fees`
+      : `Unlock why this could be worth ~${fmt$(annualImpact)}/yr`
+    : "Unlock why your rate looks the way it does";
+
+  const body = hasImpact
+    ? impactSource === "fee_runrate"
+      ? `Pay $12 once to see high-fee rows, caveats, and actions behind ~${fmt$(annualImpact)}/yr at this rate.`
+      : `Pay $12 once to see the rows, caveats, and actions behind${
+          firstOpportunity ? ` “${firstOpportunity}”` : " this directional impact"
+        }.`
+    : "Pay $12 once for every high-fee row, why it was flagged, and which Stripe checks are most likely to reduce fees.";
+
+  const cta = hasImpact
+    ? `Unlock ~${fmt$(annualImpact)}/yr insight — $12 →`
+    : "Unlock Full Report — $12 →";
+
   return (
     <>
       <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-6 text-center shadow-sm">
         <div className="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 mb-3">
           Full report · $12 one-time
         </div>
-        <h3 className="text-lg font-bold text-gray-900 mb-1">
-          {hasImpact
-            ? `Unlock why this could be worth ~${fmt$(annualImpact)}/yr`
-            : "Unlock the decision-making details"}
-        </h3>
-        <p className="text-sm text-gray-500 mb-4 max-w-sm mx-auto">
-          {hasImpact
-            ? `Pay $12 once to see the rows, caveats, and actions behind${
-                firstOpportunity ? ` “${firstOpportunity}”` : " this directional impact"
-              }.`
-            : "See every high-fee row, why it was flagged, what to check in Stripe, and which action is most likely to reduce fees."}
-        </p>
-        <div className="mb-4 grid gap-2 text-left text-xs text-gray-600 sm:grid-cols-2">
-          {[
-            "All high-fee charges",
-            "Savings plan + caveats",
-            "Monthly detail",
-            "CSV + print export",
-          ].map((item) => (
-            <div key={item} className="rounded-lg bg-white/80 px-3 py-2">
-              <span className="font-semibold text-blue-600">✓</span> {item}
-            </div>
-          ))}
-        </div>
+        <h3 className="text-lg font-bold text-gray-900 mb-1">{title}</h3>
+        <p className="text-sm text-gray-500 mb-4 max-w-sm mx-auto">{body}</p>
         <Button
           className="mx-auto h-11 w-full max-w-md rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
           onClick={() => {
@@ -74,13 +78,12 @@ export function PaywallBanner({ reportId, email, annualImpact, firstOpportunity 
               plan: "pro",
               placement: "inline_banner",
               has_annual_impact: hasImpact,
+              impact_source: impactSource ?? "none",
             });
             unlock();
           }}
         >
-          {hasImpact
-            ? `Unlock Full Report — $12 (check ~${fmt$(annualImpact)}/yr) →`
-            : "Unlock Full Report — $12 →"}
+          {cta}
         </Button>
         <p className="mt-3 text-xs text-gray-400">
           One-time · 30-day private link · Refund available if access fails ·{" "}
@@ -123,7 +126,7 @@ export function PaywallBanner({ reportId, email, annualImpact, firstOpportunity 
               </div>
               {hasImpact && (
                 <p className="mb-3 text-xs leading-relaxed text-emerald-800 bg-emerald-50 border border-emerald-100 rounded-lg px-3 py-2">
-                  Preview found directional impact up to ~{fmt$(annualImpact)}/yr
+                  Preview points to ~{fmt$(annualImpact)}/yr
                   {firstOpportunity ? ` (${firstOpportunity})` : ""}. Unlock shows rows, caveats, and actions.
                 </p>
               )}
@@ -159,11 +162,12 @@ export function PaywallBanner({ reportId, email, annualImpact, firstOpportunity 
                   plan: "pro",
                   placement: "modal",
                   has_annual_impact: hasImpact,
+                  impact_source: impactSource ?? "none",
                 });
                 unlock();
               }}
             >
-              Continue to Secure Checkout →
+              {hasImpact ? `Continue — unlock ~${fmt$(annualImpact)}/yr insight →` : "Continue to Secure Checkout →"}
             </button>
             <p className="text-xs text-center text-gray-400 mt-3">
               Processed by Polar · If payment succeeds but the report does not unlock, request a refund.

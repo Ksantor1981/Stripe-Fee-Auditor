@@ -17,6 +17,7 @@ import { ReportTrustChecklist } from "./ReportTrustChecklist";
 import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
+import { resolvePaywallImpact } from "@/lib/paywall-impact";
 import { ExpectedOutlierBanner } from "./ExpectedOutlierBanner";
 import { ExpectedOutlierToggle } from "./ExpectedOutlierToggle";
 
@@ -107,10 +108,19 @@ export function MultiMonthReport({
   const yearlyAtThisRate = annualRunRate(periodFees, monthCount);
   const anomalyExplainer = anomalyExplainerText(anomalyUiCount, chargeRate, paidAnomalyRows.filter((row) => !expectedOutlierIds.includes(row.id)), isPaid);
   const teaserSavings = savings[0];
+  const paywallImpact = resolvePaywallImpact({
+    savingsAnnual: teaserSavings?.annualSavings,
+    savingsTitle: teaserSavings?.title,
+    chargeRate,
+    chargeVolume,
+    monthCount,
+    yearlyFeesAtThisRate: yearlyAtThisRate,
+  });
   const paywallProps = {
     reportId,
-    annualImpact: teaserSavings?.annualSavings,
-    firstOpportunity: teaserSavings?.title,
+    annualImpact: paywallImpact?.amount,
+    impactSource: paywallImpact?.source,
+    firstOpportunity: paywallImpact?.label,
   };
 
   return (
@@ -207,6 +217,9 @@ export function MultiMonthReport({
           savings={teaserSavings}
           yearlyFeesAtThisRate={yearlyAtThisRate}
           highFeeCount={anomalyUiCount}
+          chargeRate={chargeRate}
+          chargeVolume={chargeVolume}
+          monthCount={monthCount}
         />
       )}
 

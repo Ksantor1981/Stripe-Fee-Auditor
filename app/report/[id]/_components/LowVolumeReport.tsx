@@ -14,6 +14,7 @@ import { FirstActionCallout } from "./FirstActionCallout";
 import { MoneyFirstImpact } from "./MoneyFirstImpact";
 import { PaywallBanner } from "./PaywallBanner";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
+import { resolvePaywallImpact } from "@/lib/paywall-impact";
 
 interface Props {
   reportId: string;
@@ -30,6 +31,14 @@ export function LowVolumeReport({ reportId, result, isPaid }: Props) {
   const periodFees = result.allInFees ?? periodTotalFees(chargeFees, otherFees);
   const allInRate = result.allInRate ?? (chargeVolume > 0 ? (periodFees / chargeVolume) * 100 : 0);
   const yearlyAtThisRate = annualRunRate(periodFees, monthCount);
+  const paywallImpact = resolvePaywallImpact({
+    savingsAnnual: savings[0]?.annualSavings,
+    savingsTitle: savings[0]?.title,
+    chargeRate,
+    chargeVolume,
+    monthCount,
+    yearlyFeesAtThisRate: yearlyAtThisRate,
+  });
   const advertisedRate = 2.9;
   const rateGap = chargeRate - advertisedRate;
   const rateGapText = `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp vs 2.9%`;
@@ -101,6 +110,9 @@ export function LowVolumeReport({ reportId, result, isPaid }: Props) {
           reportId={reportId}
           savings={savings[0]}
           yearlyFeesAtThisRate={yearlyAtThisRate}
+          chargeRate={chargeRate}
+          chargeVolume={chargeVolume}
+          monthCount={monthCount}
         />
       )}
 
@@ -164,8 +176,9 @@ export function LowVolumeReport({ reportId, result, isPaid }: Props) {
           <div className="p-5 border-t border-gray-50">
             <PaywallBanner
               reportId={reportId}
-              annualImpact={savings[0]?.annualSavings}
-              firstOpportunity={savings[0]?.title}
+              annualImpact={paywallImpact?.amount}
+              impactSource={paywallImpact?.source}
+              firstOpportunity={paywallImpact?.label}
             />
           </div>
         )}

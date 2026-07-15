@@ -257,8 +257,8 @@ export default function Page() {
             <Link href="/analyze" className="inline-block rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition-colors text-center">
               Analyze My Fees
             </Link>
-            <Link href="/analyze?sample=1" className="inline-block rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors text-center">
-              Try sample report →
+            <Link href="/analyze?sample=1" className="inline-flex items-center justify-center px-2 py-2.5 text-sm font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900">
+              Or try sample in 10s
             </Link>
           </div>
           <BlogBetaRetentionNote tone="gray" />

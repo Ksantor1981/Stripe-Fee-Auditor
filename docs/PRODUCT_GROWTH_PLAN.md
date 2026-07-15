@@ -22,12 +22,13 @@
 | 1.5 | Таблица «Where fees leak» (fixed / intl / refund / other из CSV) | ready |
 | 1.6 | Savings в single-month + low-volume (beta `hasFullAccess`) | done |
 | 1.7 | **Expected outliers** — пометка one-off charges, пересчёт rate без искажения monthly avg (PH: Oktay, Jul 2026) | done |
+| 1.8 | Conversion sprint: sample CTA, money-first paywall, email skip, SEO → /analyze | done |
 
 ### Фаза 2 — Снижение барьера CSV (2–4 недели)
 
 | # | Задача | Зависимости |
 |---|--------|-------------|
-| 2.1 | GIF/видео на шаге Export (Stripe → Balance itemized) | ассет от владельца |
+| 2.1 | GIF/видео на шаге Export (Stripe → Balance itemized) | ассет от владельца — UI готов без видео |
 | 2.2 | Усилить FAQ: PII в CSV, что не сохраняем | copy |
 | 2.3 | **Client-side parse** (опционально): парсинг в браузере, на сервер только агрегаты | архитектура |
 | 2.4 | Social proof: 1 скрин/цитата без PII | контент от владельца |

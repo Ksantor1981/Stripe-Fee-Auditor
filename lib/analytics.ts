@@ -21,6 +21,8 @@ const PLAUSIBLE_GOALS: Record<string, string | string[]> = {
   funnel_analyze_client_ok: "Analyze Success",
   funnel_email_gate_view: "Email Gate View",
   funnel_email_unlock_ok: "Email Unlock",
+  funnel_email_gate_skip: "Email Gate Skip",
+  funnel_sample_cta: "Sample CTA",
   funnel_report_view: "Report View",
   funnel_paywall_modal_open: "Paywall Modal Open",
   funnel_checkout_redirect: "Checkout Start",

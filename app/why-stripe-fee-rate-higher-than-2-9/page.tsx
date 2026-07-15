@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
+import { SeoAnalyzeCta } from "@/components/SeoAnalyzeCta";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
@@ -234,25 +235,12 @@ export default function WhyStripeFeesIncreasePage() {
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="border border-gray-200 rounded-2xl p-8 text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-2">
-            See exactly which of these apply to you
-          </h2>
-          <p className="text-gray-500 mb-6 max-w-md mx-auto">
-            Upload your Stripe Balance CSV. Get your real effective rate,
-            monthly breakdown, and the specific transactions driving it up.
-          </p>
-          <Link
-            href="/analyze"
-            className="inline-flex items-center bg-blue-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors"
-          >
-            Analyze My Fees →
-          </Link>
-          <p className="text-xs text-gray-400 mt-3">
-            No account · Raw CSV file not stored · Usually under 30 seconds
-          </p>
-        </div>
+        <SeoAnalyzeCta
+          className="border border-blue-100"
+          title="See exactly which of these apply to you"
+          description="Upload your Stripe Balance CSV. Get your real effective rate, monthly breakdown, and the specific transactions driving it up."
+          primaryLabel="Analyze My Fees →"
+        />
 
         {/* Next step */}
         <div className="mt-8 pt-8 border-t border-gray-100 space-y-4 text-sm text-gray-400">

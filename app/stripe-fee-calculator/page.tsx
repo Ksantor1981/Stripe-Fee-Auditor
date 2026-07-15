@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
+import { SeoAnalyzeCta } from "@/components/SeoAnalyzeCta";
 import { StripeFeeMiniEstimate } from "@/components/stripe-fee-mini-estimate";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
@@ -341,25 +342,12 @@ export default function StripeFeeCalculatorPage() {
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="border border-gray-200 rounded-2xl p-8 text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-2">
-            Calculate from your real data
-          </h2>
-          <p className="text-gray-500 mb-6 max-w-md mx-auto">
-            Export your Stripe Balance CSV and upload it. See your actual
-            effective rate, usually in under 30 seconds — no account needed.
-          </p>
-          <Link
-            href="/analyze"
-            className="inline-flex items-center bg-blue-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors"
-          >
-            Analyze My Fees →
-          </Link>
-          <p className="text-xs text-gray-400 mt-3">
-            No account · Raw CSV file not stored · Usually under 30 seconds
-          </p>
-        </div>
+        <SeoAnalyzeCta
+          className="border border-blue-100"
+          title="Calculate from your real data"
+          description="Export your Stripe Balance CSV and upload it. See your actual effective rate — usually in under 30 seconds, no account needed."
+          primaryLabel="Analyze My Fees →"
+        />
 
         {/* Need the CSV */}
         <div className="mt-8 pt-8 border-t border-gray-100 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm text-gray-400">

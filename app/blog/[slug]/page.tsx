@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { BlogBetaRetentionNote } from "@/components/BlogBetaRetentionNote";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
+import { SeoAnalyzeCta } from "@/components/SeoAnalyzeCta";
 import { blogArticleBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
@@ -126,10 +127,15 @@ export default async function PrivacyArticlePage({ params }: Props) {
 
         <div className="mt-8 rounded-xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm text-blue-800">
           <strong>Want the answer from your own Stripe data?</strong>{" "}
-          <Link href="/analyze" className="font-medium underline">Upload your Balance CSV</Link>{" "}
-          or{" "}
-          <Link href="/analyze?sample=1" className="font-medium underline">open a sample report</Link>.
-          No Stripe OAuth or API connection required.
+          <Link href="/analyze" className="font-medium underline">
+            Analyze your Balance CSV
+          </Link>
+          {" — "}
+          free preview, no OAuth.{" "}
+          <Link href="/analyze?sample=1" className="font-medium text-blue-700 underline">
+            Or try sample in 10s
+          </Link>
+          .
           <BlogBetaRetentionNote />
         </div>
 
@@ -181,23 +187,15 @@ export default async function PrivacyArticlePage({ params }: Props) {
           ))}
         </div>
 
-        <section className="mt-12 rounded-xl border border-gray-200 bg-gray-50 px-5 py-6">
-          <h2 className="text-lg font-bold text-gray-900">Try it without connecting Stripe</h2>
-          <p className="mt-2 text-sm leading-relaxed text-gray-600">
-            Fee Auditor analyzes an exported Stripe Balance Transactions CSV and turns it into a fee report:
-            effective rate, benchmark verdict, top fee drivers, refund leakage, high-fee charges, monthly trends,
-            and savings opportunities.
-          </p>
-          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-            <Link href="/analyze" className="rounded-lg bg-blue-600 px-5 py-2.5 text-center text-sm font-semibold text-white hover:bg-blue-700 transition-colors">
-              Analyze My CSV
-            </Link>
-            <Link href="/analyze?sample=1" className="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-center text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors">
-              View sample report →
-            </Link>
-          </div>
+        <SeoAnalyzeCta
+          className="mt-12"
+          title="Try it without connecting Stripe"
+          description="Fee Auditor turns an exported Balance CSV into your effective rate, top fee drivers, refund leakage, and savings opportunities. Free preview first."
+          primaryLabel="Analyze My CSV →"
+        />
+        <div className="mt-3">
           <BlogBetaRetentionNote tone="gray" />
-        </section>
+        </div>
 
         <section className="mt-12 border-t border-gray-100 pt-8">
           <h2 className="text-lg font-bold text-gray-900">FAQ</h2>

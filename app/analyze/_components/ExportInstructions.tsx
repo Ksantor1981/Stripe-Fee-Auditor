@@ -59,7 +59,7 @@ export function ExportInstructions({ onReady }: Props) {
         <p className="mt-2 text-gray-500 text-sm">
           Already have the file? Skip straight to upload. Need it? Use the visual guide below.
         </p>
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Button
             size="lg"
             className="bg-blue-600 hover:bg-blue-700 text-white px-6"
@@ -68,12 +68,22 @@ export function ExportInstructions({ onReady }: Props) {
             I already have my CSV →
           </Button>
           <a
+            href="/analyze?sample=1"
+            className="inline-flex items-center justify-center rounded-lg border border-blue-200 bg-blue-50 px-5 py-3 text-sm font-semibold text-blue-700 hover:bg-blue-100"
+            onClick={() => trackEvent("funnel_sample_cta", { placement: "export_instructions" })}
+          >
+            Try sample in 10s
+          </a>
+          <a
             href="#export-steps"
             className="inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-600 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
           >
             Show export steps
           </a>
         </div>
+        <p className="mt-3 text-xs text-gray-500">
+          No screen recording yet — use the numbered screenshots below (Reports → Balance summary → Itemized → Download).
+        </p>
         <div className="mb-6 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800">
           <strong>USD accounts:</strong> This tool works best with single-currency USD Stripe accounts.
           Multi-currency support is coming soon.

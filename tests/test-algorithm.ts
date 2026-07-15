@@ -6,6 +6,7 @@
 import { normalizeRow, validateColumns, type NormalizedRow } from "../lib/csv-parser";
 import { analyze, redactAnalysisResultForStorage } from "../lib/fee-analyzer";
 import { applyExpectedOutlierExclusions } from "../lib/expected-outliers";
+import { resolvePaywallImpact } from "../lib/paywall-impact";
 import { estimateCountryStripeFee, getCountryFeeProfile } from "../lib/stripe-country-fees";
 
 // ─── Test runner ──────────────────────────────────────────────────────────────
@@ -648,7 +649,43 @@ test("estimateCountryStripeFee adds international uplift", () => {
   assert(intl.estimatedFee > domestic.estimatedFee, "intl share should increase estimated fee");
 });
 
-console.log("\n📋 expected-outliers");
+console.log("\n📋 paywall-impact");
+
+test("prefers savings opportunity over rate gap", () => {
+  const impact = resolvePaywallImpact({
+    savingsAnnual: 1400,
+    savingsTitle: "ACH for large charges",
+    chargeRate: 4.0,
+    chargeVolume: 100000,
+    monthCount: 4,
+    yearlyFeesAtThisRate: 12000,
+  });
+  assert(impact?.source === "savings", "should prefer savings");
+  assert(impact?.amount === 1400, "amount should match savings");
+});
+
+test("falls back to annualized rate gap vs 2.9%", () => {
+  const impact = resolvePaywallImpact({
+    chargeRate: 3.8,
+    chargeVolume: 100000,
+    monthCount: 4,
+  });
+  assert(impact?.source === "rate_gap", `expected rate_gap, got ${impact?.source}`);
+  assert((impact?.amount ?? 0) > 0, "gap amount should be positive");
+});
+
+test("falls back to fee run-rate when no gap", () => {
+  const impact = resolvePaywallImpact({
+    chargeRate: 2.9,
+    chargeVolume: 10000,
+    monthCount: 1,
+    yearlyFeesAtThisRate: 2500,
+  });
+  assert(impact?.source === "fee_runrate", `expected fee_runrate, got ${impact?.source}`);
+  assert(impact?.amount === 2500, "should use yearly fees");
+});
+
+// ─── Summary ──────────────────────────────────────────────────────────────────
 
 test("applyExpectedOutlierExclusions lowers rate when high-fee charge excluded", () => {
   const rows: NormalizedRow[] = [

@@ -14,6 +14,7 @@ import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 import { ExpectedOutlierBanner } from "./ExpectedOutlierBanner";
+import { resolvePaywallImpact } from "@/lib/paywall-impact";
 
 interface Props {
   reportId: string;
@@ -42,6 +43,14 @@ export function SingleMonthReport({
   const allInRate =
     result.allInRate ?? (chargeVolume > 0 ? ((result.chargeFees + actualOtherFees) / chargeVolume) * 100 : 0);
   const yearlyAtThisRate = annualRunRate(periodFees, 1);
+  const paywallImpact = resolvePaywallImpact({
+    savingsAnnual: savings[0]?.annualSavings,
+    savingsTitle: savings[0]?.title,
+    chargeRate,
+    chargeVolume,
+    monthCount: 1,
+    yearlyFeesAtThisRate: yearlyAtThisRate,
+  });
   const advertisedRate = 2.9;
   const rateGap = chargeRate - advertisedRate;
   const rateGapText = `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp vs 2.9%`;
@@ -120,6 +129,9 @@ export function SingleMonthReport({
           savings={savings[0]}
           yearlyFeesAtThisRate={yearlyAtThisRate}
           highFeeCount={result.anomalyCount ?? result.anomalies?.length ?? 0}
+          chargeRate={chargeRate}
+          chargeVolume={chargeVolume}
+          monthCount={1}
         />
       )}
 
@@ -187,8 +199,9 @@ export function SingleMonthReport({
           <div className="p-5">
             <PaywallBanner
               reportId={reportId}
-              annualImpact={savings[0]?.annualSavings}
-              firstOpportunity={savings[0]?.title}
+              annualImpact={paywallImpact?.amount}
+              impactSource={paywallImpact?.source}
+              firstOpportunity={paywallImpact?.label}
             />
           </div>
         )}
