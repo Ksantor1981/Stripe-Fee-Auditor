@@ -114,7 +114,7 @@ export default function Page() {
         </div>
 
         <h1 className="mt-3 text-3xl font-bold leading-tight text-gray-900">
-          Stripe Credit Card Processing Fees Explained
+          {pageTitle}
         </h1>
 
         <p className="mt-4 text-lg leading-relaxed text-gray-600">
