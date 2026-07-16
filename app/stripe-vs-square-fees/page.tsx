@@ -3,19 +3,20 @@ import { ProviderComparisonPage, type ProviderComparisonConfig } from "@/compone
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "Stripe vs Square Fees: Compare Before Switching";
+const pageTitle = "Square vs Stripe Fees: Which Is Cheaper?";
 const pageDescription =
-  "Compare Stripe and Square by use case: SaaS checkout, in-person payments, invoices, low-ticket charges, and what to audit before switching.";
+  "Square vs Stripe fees compared by use case (SaaS, POS, low-ticket). Headline rates mislead — audit your real Stripe rate before switching.";
 const pagePath = "/stripe-vs-square-fees";
-const updatedAt = "2026-07-13";
-const ogImage = buildOgImageUrl({ title: "Stripe vs Square fees", eyebrow: "Payment comparison" });
+const updatedAt = "2026-07-16";
+const ogImage = buildOgImageUrl({ title: "Square vs Stripe fees", eyebrow: "Payment comparison" });
 
 export const metadata: Metadata = {
   title: `${pageTitle} | Fee Auditor`,
   description: pageDescription,
   keywords: [
-    "Stripe vs Square fees",
     "Square vs Stripe fees",
+    "Stripe vs Square fees",
+    "Square vs Stripe",
     "Stripe alternatives",
     "payment processor comparison",
     "Stripe fee audit",
@@ -40,9 +41,9 @@ const config: ProviderComparisonConfig = {
   pageTitle,
   pagePath,
   eyebrow: "Stripe vs Square",
-  h1: "Stripe vs Square fees: compare the business model before switching.",
+  h1: "Square vs Stripe fees: compare the model before you switch.",
   intro:
-    "Stripe and Square can both process payments, but they often fit different jobs. Stripe is strong for online SaaS and custom checkout. Square is often strongest when in-person payments, POS, appointments, or local services matter.",
+    "Stripe and Square can both process payments, but they often fit different jobs. Stripe is strong for online SaaS and custom checkout. Square is often strongest when in-person payments, POS, appointments, or local services matter. Published rates alone rarely answer “which is cheaper?”",
   alternativeName: "Square",
   heroTitle: "Square is not just a cheaper Stripe.",
   heroBody:

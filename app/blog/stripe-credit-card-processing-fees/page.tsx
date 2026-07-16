@@ -9,16 +9,24 @@ import { blogArticleBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "Stripe Credit Card Processing Fees Explained";
+const pageTitle = "Stripe Processing Fees: Card Rates vs Real Cost";
 const pageDescription =
-  "Stripe credit card processing fees start with the published card rate, but your real effective rate depends on fixed fees, international cards, refunds, disputes, and add-ons.";
+  "Stripe processing fees start at the published card rate (often 2.9% + $0.30), but your real cost depends on fixed fees, international cards, refunds, disputes, and add-ons.";
 const pagePath = "/blog/stripe-credit-card-processing-fees";
 const published = "2026-06-25";
+const updated = "2026-07-16";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe card fees" });
 
 export const metadata: Metadata = {
   title: `${pageTitle} | Fee Auditor`,
   description: pageDescription,
+  keywords: [
+    "Stripe processing fees",
+    "Stripe credit card processing fees",
+    "Stripe card fees",
+    "Stripe payment processing fees",
+    "Stripe effective fee rate",
+  ],
   alternates: { canonical: pagePath },
   openGraph: {
     title: pageTitle,
@@ -26,7 +34,7 @@ export const metadata: Metadata = {
     url: absoluteUrl(pagePath),
     type: "article",
     publishedTime: published,
-    modifiedTime: published,
+    modifiedTime: updated,
     images: [{ url: ogImage, width: 1200, height: 630, alt: pageTitle }],
   },
   twitter: {
@@ -61,10 +69,11 @@ const FEE_DRIVERS = [
 ];
 
 const RELATED = [
-  { href: "/stripe-fee-calculator", title: "Estimate monthly Stripe fees" },
-  { href: "/blog/stripe-vs-paypal-fees", title: "Stripe vs PayPal fees" },
-  { href: "/blog/stripe-alternatives-2026", title: "Stripe alternatives in 2026" },
-  { href: "/blog/how-to-export-stripe-balance-csv", title: "Export Stripe Balance CSV for a fee audit" },
+  { href: "/stripe-fee-calculator", title: "Stripe fees calculator" },
+  { href: "/why-stripe-fee-rate-higher-than-2-9", title: "Why are my Stripe fees so high?" },
+  { href: "/what-percent-does-stripe-take", title: "How much does Stripe charge per transaction?" },
+  { href: "/stripe-balance-csv", title: "Export Stripe Balance CSV" },
+  { href: "/analyze", title: "Analyze your Stripe CSV" },
 ];
 
 const SOURCES = [

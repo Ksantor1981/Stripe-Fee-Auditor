@@ -69,11 +69,11 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
   {
     slug: "stripe-credit-card-processing-fees",
     path: "/blog/stripe-credit-card-processing-fees",
-    title: "Stripe Credit Card Processing Fees Explained",
-    desc: "Stripe card fees start with the published rate, but your real rate depends on fixed fees, international cards, refunds, disputes, and add-ons.",
+    title: "Stripe Processing Fees: Card Rates vs Real Cost",
+    desc: "Stripe processing fees start at the published card rate, but your real cost depends on fixed fees, international cards, refunds, disputes, and add-ons.",
     time: "6 min",
     publishedAt: "2026-06-25",
-    updatedAt: "2026-06-25",
+    updatedAt: "2026-07-16",
     sitemapPriority: 0.76,
   },
   {
@@ -201,11 +201,11 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
   {
     slug: "why-stripe-fee-rate-higher-than-2-9",
     path: PILLAR_EFFECTIVE_RATE_PATH,
-    title: "Why Are My Stripe Fees So High? 2.9% vs Real Rate",
-    desc: "Stripe advertises 2.9% + $0.30, but most businesses pay 3.2–3.8%. Five reasons your effective rate is higher.",
+    title: "Why Are My Stripe Fees So High? (Not Just 2.9%)",
+    desc: "Why are Stripe processing fees higher than 2.9% + $0.30? Most businesses land at 3.2–3.8%. Five fee drivers — then check your real rate.",
     time: "8 min",
     publishedAt: "2026-05-16",
-    updatedAt: "2026-06-25",
+    updatedAt: "2026-07-16",
     sitemapPriority: 0.85,
   },
   {
@@ -251,11 +251,11 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
   {
     slug: "stripe-vs-square-fees",
     path: "/stripe-vs-square-fees",
-    title: "Stripe vs Square Fees: Compare Before Switching",
-    desc: "Compare Stripe and Square by use case: SaaS checkout, in-person payments, invoices, low-ticket charges, and what to audit before switching.",
+    title: "Square vs Stripe Fees: Which Is Cheaper?",
+    desc: "Square vs Stripe fees by use case (SaaS, POS, low-ticket). Audit your real Stripe rate before switching processors.",
     time: "6 min",
     publishedAt: "2026-07-13",
-    updatedAt: "2026-07-13",
+    updatedAt: "2026-07-16",
     sitemapPriority: 0.72,
   },
   {
@@ -291,11 +291,11 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
   {
     slug: "stripe-balance-csv",
     path: "/stripe-balance-csv",
-    title: "How to Export Stripe Balance CSV and Check Your Real Fee Rate",
-    desc: "Step-by-step guide to export the itemized Stripe Balance CSV, then use it to check whether your real Stripe fee rate is 2.9%, 3.8%, or higher.",
+    title: "Export Stripe Balance CSV (Check Real Fee Rate)",
+    desc: "How to export Stripe Balance Transactions CSV (itemized) and check if your real fee rate is 2.9%, 3.8%, or higher.",
     time: "4 min",
     publishedAt: "2026-06-25",
-    updatedAt: "2026-06-25",
+    updatedAt: "2026-07-16",
     sitemapPriority: 0.7,
   },
 ];

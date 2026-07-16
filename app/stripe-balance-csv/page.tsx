@@ -6,9 +6,9 @@ import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "How to Export Stripe Balance CSV and Check Your Real Fee Rate";
+const pageTitle = "Export Stripe Balance CSV (Check Real Fee Rate)";
 const pageDescription =
-  "Step-by-step guide to export the itemized Stripe Balance CSV, then use it to check whether your real Stripe fee rate is 2.9%, 3.8%, or higher.";
+  "How to export Stripe Balance Transactions CSV (itemized) and check if your real fee rate is 2.9%, 3.8%, or higher — then upload to analyze.";
 const pagePath = "/stripe-balance-csv";
 
 export const metadata: Metadata = {
@@ -19,6 +19,7 @@ export const metadata: Metadata = {
     "Stripe Balance Transactions CSV",
     "Stripe balance export",
     "Stripe fee report CSV",
+    "how to export Stripe CSV",
     "Stripe Dashboard reports",
     "Stripe CSV columns",
   ],
@@ -321,9 +322,10 @@ export default function StripeBalanceCsvPage() {
           <p className="text-sm font-semibold text-gray-700 mb-4">Related fee guides</p>
           <div className="space-y-3">
             {[
+              { href: "/stripe-fee-calculator", title: "Stripe fees calculator (estimate first)" },
+              { href: "/why-stripe-fee-rate-higher-than-2-9", title: "Why are my Stripe fees so high?" },
+              { href: "/what-percent-does-stripe-take", title: "How much does Stripe charge per transaction?" },
               { href: "/blog/why-stripe-fees-increase", title: "Why did my Stripe fees increase?" },
-              { href: "/blog/stripe-international-card-fees", title: "Stripe international card fees explained" },
-              { href: "/blog/stripe-ach-vs-credit-card-fees", title: "Stripe ACH vs credit card fees" },
             ].map((link) => (
               <Link key={link.href} href={link.href} className="block text-sm text-blue-600 hover:underline">
                 {link.title} →

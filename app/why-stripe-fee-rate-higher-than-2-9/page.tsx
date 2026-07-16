@@ -7,17 +7,19 @@ import { SeoAnalyzeCta } from "@/components/SeoAnalyzeCta";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "Why Are My Stripe Fees So High? 2.9% vs Real Rate";
+const pageTitle = "Why Are My Stripe Fees So High? (Not Just 2.9%)";
 const pageDescription =
-  "Stripe advertises 2.9% + $0.30, but most businesses pay 3.2-3.8%. Learn the 5 reasons your effective Stripe fee rate is higher than expected.";
+  "Why are Stripe processing fees higher than 2.9% + $0.30? Most businesses land at 3.2–3.8%. Five fee drivers — then check your real rate from a Balance CSV.";
 const pagePath = "/why-stripe-fee-rate-higher-than-2-9";
 const published = "2026-05-16";
-const updated = "2026-06-25";
+const updated = "2026-07-16";
 
 export const metadata: Metadata = {
   title: pageTitle,
   description: pageDescription,
   keywords: [
+    "why are my Stripe fees so high",
+    "Stripe processing fees",
     "Stripe fee rate higher than 2.9%",
     "Stripe effective fee rate",
     "Stripe fees explained",
@@ -185,12 +187,12 @@ export default function WhyStripeFeesIncreasePage() {
         <div className="mb-14">
           <p className="text-blue-600 text-sm font-medium mb-3">Fee Education</p>
           <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
-            Why Are My Stripe Fees So High? 2.9% vs Real Rate
+            Why Are My Stripe Fees So High?
           </h1>
           <p className="text-lg text-gray-500 leading-relaxed">
             Stripe advertises 2.9% + $0.30 per transaction. But most businesses
-            pay 3.2–3.8% when averaged across all charges. Here are the five
-            reasons why — with real numbers.
+            pay 3.2–3.8% in real Stripe processing fees when averaged across all
+            charges. Here are the five reasons why — with real numbers.
           </p>
         </div>
 
@@ -245,6 +247,15 @@ export default function WhyStripeFeesIncreasePage() {
         {/* Next step */}
         <div className="mt-8 pt-8 border-t border-gray-100 space-y-4 text-sm text-gray-400">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <span>Estimate published fees first</span>
+            <Link
+              href="/stripe-fee-calculator"
+              className="text-blue-600 hover:text-blue-700 font-medium"
+            >
+              Stripe fees calculator →
+            </Link>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <span>Next: how to export the file</span>
             <Link
               href="/stripe-balance-csv"
@@ -259,7 +270,7 @@ export default function WhyStripeFeesIncreasePage() {
               href="/what-percent-does-stripe-take"
               className="text-blue-600 hover:text-blue-700 font-medium"
             >
-              What percent Stripe takes →
+              How much Stripe charges per transaction →
             </Link>
           </div>
         </div>
