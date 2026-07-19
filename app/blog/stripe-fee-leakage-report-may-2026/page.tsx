@@ -10,13 +10,13 @@ import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
 
 const slug = "/blog/stripe-fee-leakage-report-may-2026";
-const title = "Stripe Fee Leakage Report: Who Is Safe and Who Is Bleeding Margin?";
+const title = "Stripe Fee Leakage Report: Who Is Safe?";
 const description =
   "A May 2026 diagnostic model for Stripe fee leakage: compare safe SaaS payment profiles with the low-ticket, global, refund-heavy profiles that should audit fees now.";
 const ogImage = buildOgImageUrl({ title, eyebrow: "May 2026 fee leakage report" });
 
 export const metadata: Metadata = {
-  title: "Stripe Fee Leakage Report May 2026 | Fee Auditor",
+  title: `${title} | Fee Auditor`,
   description,
   alternates: { canonical: slug },
   keywords: [

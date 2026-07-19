@@ -15,7 +15,7 @@ const published = "2026-06-25";
 const ogImage = buildOgImageUrl({ title: "How I found ~$1,400/year in Stripe fee opportunities", eyebrow: "Stripe fee case study" });
 
 export const metadata: Metadata = {
-  title: "Stripe Fee Case Study: ~$1,400/Year Found | Fee Auditor",
+  title: `${title} | Fee Auditor`,
   description,
   alternates: { canonical: slug },
   keywords: [

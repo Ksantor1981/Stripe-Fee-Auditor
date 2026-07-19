@@ -8,19 +8,19 @@ import { absoluteUrl } from "@/lib/site-url";
 
 const pageTitle = "How to Export Stripe Balance CSV for Fee Reconciliation";
 const pageDescription =
-  "Export the right itemized Stripe Balance CSV for fee reconciliation. Use it to check effective rate, refund fees not returned, and international card costs.";
+  "Export the right Stripe Balance CSV, avoid payout-summary mistakes, and use it to reconcile real Stripe fees, refund leakage, and international card costs.";
 const pagePath = "/stripe-balance-csv";
 
 export const metadata: Metadata = {
   title: pageTitle,
   description: pageDescription,
   keywords: [
-    "Stripe fee reconciliation",
+    "how to export Stripe Balance CSV",
     "export Stripe Balance CSV",
     "Stripe Balance Transactions CSV",
     "Stripe balance export",
+    "Stripe fee reconciliation",
     "Stripe fee report CSV",
-    "how to export Stripe CSV",
     "Stripe Dashboard reports",
     "Stripe CSV columns",
   ],

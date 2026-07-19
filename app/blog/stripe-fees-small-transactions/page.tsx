@@ -7,16 +7,15 @@ import { BlogFaqSection, BlogJsonLd, BlogSourcesSection } from "@/components/Blo
 import { buildOgImageUrl } from "@/lib/seo-og";
 
 const pageTitle = "Stripe Fees for Small Transactions: Why Your Rate Is Higher";
-const metaTitle = "Small Transaction Stripe Fees";
 const pageDescription =
   "The fixed $0.30 Stripe fee hits small transactions hard: a $5 charge can cost about 9%. See the math, margin impact, and ways to reduce micro-payment drag.";
 const pagePath = "/blog/stripe-fees-small-transactions";
 const published = "2026-05-16";
-const updated = "2026-06-25";
+const updated = "2026-07-19";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Small transaction fees" });
 
 export const metadata: Metadata = {
-  title: `${metaTitle} | Fee Auditor`,
+  title: `${pageTitle} | Fee Auditor`,
   description: pageDescription,
   alternates: { canonical: pagePath },
   openGraph: {
@@ -80,7 +79,7 @@ export default function Page() {
         </div>
 
         <h1 className="mt-3 text-3xl font-bold leading-tight text-gray-900">
-          Stripe Fees for Small Transactions: Why Your Effective Rate Might Be Higher Than You Think
+          {pageTitle}
         </h1>
 
         <p className="mt-4 text-lg text-gray-600 leading-relaxed">

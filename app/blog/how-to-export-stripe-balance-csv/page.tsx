@@ -6,12 +6,12 @@ import { BlogBreadcrumbs } from "@/components/BlogBreadcrumbs";
 import { BlogFaqSection, BlogJsonLd, BlogSourcesSection } from "@/components/BlogSeoBlocks";
 import { buildOgImageUrl } from "@/lib/seo-og";
 
-const pageTitle = "How to Export Stripe Balance CSV to Analyze Your Real Fee Rate";
+const pageTitle = "How to Export Stripe Balance CSV: Step-by-Step Guide";
 const pageDescription =
-  "Export the right Stripe Balance CSV for a fee audit. Choose Itemized, avoid Summary, and use the file to calculate your real Stripe effective rate.";
+  "Step-by-step: export the Itemized Stripe Balance CSV (not Summary), get the right columns, and use it to check your real fee rate.";
 const pagePath = "/blog/how-to-export-stripe-balance-csv";
 const published = "2026-05-16";
-const updated = "2026-06-25";
+const updated = "2026-07-19";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe Balance CSV" });
 
 export const metadata: Metadata = {
@@ -82,7 +82,7 @@ export default function Page() {
         </div>
 
         <h1 className="mt-3 text-3xl font-bold leading-tight text-gray-900">
-          How to Export Stripe Balance CSV for a Fee Audit
+          {pageTitle}
         </h1>
 
         <p className="mt-4 text-lg text-gray-600 leading-relaxed">

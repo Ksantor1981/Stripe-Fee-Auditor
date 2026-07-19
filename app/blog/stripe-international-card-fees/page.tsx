@@ -6,7 +6,7 @@ import { BlogBreadcrumbs } from "@/components/BlogBreadcrumbs";
 import { BlogFaqSection, BlogJsonLd, BlogSourcesSection } from "@/components/BlogSeoBlocks";
 import { buildOgImageUrl } from "@/lib/seo-og";
 
-const pageTitle = "Stripe International Card Fees: Why Your Rate Jumps";
+const pageTitle = "Stripe International Card Fees: Why Your Rate Is Higher";
 const pageDescription =
   "Stripe international card fees add about 1.5% on cross-border cards — a common reason your effective rate and payout feel worse than 2.9%. How to find it in your Balance CSV.";
 const pagePath = "/blog/stripe-international-card-fees";

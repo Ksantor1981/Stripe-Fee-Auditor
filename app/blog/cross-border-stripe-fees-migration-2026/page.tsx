@@ -18,7 +18,7 @@ const published = "2026-06-22";
 const ogImage = buildOgImageUrl({ title: shortTitle, eyebrow: "June 2026 briefing" });
 
 export const metadata: Metadata = {
-  title: `${shortTitle} | Fee Auditor`,
+  title: `${title} | Fee Auditor`,
   description,
   alternates: { canonical: slug },
   keywords: [

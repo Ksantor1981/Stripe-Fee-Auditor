@@ -116,7 +116,7 @@ export default function Page() {
         </div>
 
         <h1 className="mt-3 text-3xl font-bold leading-tight text-gray-900">
-          Stripe Blended Rate Calculator: Finding Your True Payment Processing Cost
+          {pageTitle}
         </h1>
 
         <p className="mt-4 text-lg text-gray-600 leading-relaxed">

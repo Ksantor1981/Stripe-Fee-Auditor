@@ -62,7 +62,7 @@
 
 | # | Рычаг | Как | Приоритет |
 |---|--------|-----|-----------|
-| 4.1 | **GSC harvest** | **Не писать новые статьи.** Дожимать money-pages под high-intent: *stripe payout lower than expected*, *stripe refund fees not returned*, *stripe international card fees*, *stripe effective rate*, *stripe fee reconciliation*. **Pass Jul 19:** pillar, intl blog, fees-increase, balance-csv + landing/Monitor positioning | P0 |
+| 4.1 | **GSC harvest / CTR** | **Не писать новые статьи.** Правка title/H1/meta на URL с impressions. **Pass Jul 19 evening:** balance-csv, how-to-export, intl fees, OAuth privacy (+ sync title↔H1 на privacy cluster, small-tx, blended, leakage, case study, cross-border) | P0 |
 | 4.2 | **Дистрибуция** | PH/IH/X: pain-led скрин (intl / refund / anomaly) + честная privacy-строка из `DISTRIBUTION_COPY.md`. UTM на канал | P0 |
 | 4.3 | **Перелинковка** | Blog ↔ calculator ↔ why-higher ↔ `/analyze` — уже есть; усиливать вокруг pain URLs | P1 |
 | 4.4 | **1 comparison только по спросу** | Новая `/stripe-vs-*` **только** если GSC показывает query; иначе — нет | P1 |

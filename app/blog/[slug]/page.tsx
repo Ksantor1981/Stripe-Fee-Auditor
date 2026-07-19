@@ -29,7 +29,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const ogImage = buildOgImageUrl({ title: post.title, eyebrow: "Stripe privacy guide" });
 
   return {
-    title: post.shortTitle + " | Fee Auditor",
+    // Prefer full title for SERP/H1 alignment; shortTitle stays for breadcrumbs/hub cards.
+    title: post.title + " | Fee Auditor",
     description: post.description,
     keywords: post.keywords,
     alternates: { canonical: path },
