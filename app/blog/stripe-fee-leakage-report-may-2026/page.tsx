@@ -201,7 +201,7 @@ export default function Page() {
         </div>
 
         <h1 className="mt-3 text-3xl font-bold leading-tight text-gray-900">
-          Stripe Fee Leakage Report: Who Is Safe and Who Is Bleeding Margin?
+          {title}
         </h1>
 
         <p className="mt-4 text-lg leading-relaxed text-gray-600">
