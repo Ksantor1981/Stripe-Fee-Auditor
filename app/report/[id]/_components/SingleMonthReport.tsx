@@ -14,6 +14,7 @@ import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 import { OutlierRateComparison } from "./OutlierRateComparison";
+import { ExpectedOutlierToggle } from "./ExpectedOutlierToggle";
 import { resolvePaywallImpact } from "@/lib/paywall-impact";
 
 interface Props {
@@ -22,6 +23,9 @@ interface Props {
   originalResult: AnalysisResult;
   isPaid: boolean;
   expectedOutlierIds?: string[];
+  onToggleExpectedOutlier?: (chargeId: string) => void;
+  outlierSaving?: boolean;
+  canMarkExpectedOutliers?: boolean;
 }
 
 export function SingleMonthReport({
@@ -30,6 +34,9 @@ export function SingleMonthReport({
   originalResult,
   isPaid,
   expectedOutlierIds = [],
+  onToggleExpectedOutlier,
+  outlierSaving = false,
+  canMarkExpectedOutliers = false,
 }: Props) {
   const { chargeRate, chargeVolume, monthly, topDrivers, savingsOpportunities } = result;
   const {
@@ -177,23 +184,46 @@ export function SingleMonthReport({
           </span>
         </div>
         <div className="divide-y divide-gray-50">
-          {topDrivers.slice(0, 3).map((row, i) => (
-            <div key={row.id} className="flex items-center justify-between px-5 py-3.5 gap-4">
-              <div className="flex items-center gap-3 min-w-0">
-                <span className="text-xs font-bold text-gray-300 w-4">{i + 1}</span>
-                <div className="min-w-0">
-                  <p className="text-sm font-medium text-gray-800 truncate">{transactionPrimaryLabel(row)}</p>
-                  <p className="text-xs text-gray-400 truncate">{transactionSecondaryLine(row)}</p>
+          {canMarkExpectedOutliers && topDrivers.length > 0 && (
+            <p className="px-5 py-3 text-xs text-gray-500 border-b border-gray-50 bg-gray-50/50">
+              Mark expected one-off charges so they do not skew your typical processing rate. Dollar totals stay unchanged.
+            </p>
+          )}
+          {topDrivers.slice(0, 3).map((row, i) => {
+            const marked = expectedOutlierIds.includes(row.id);
+            return (
+              <div
+                key={row.id}
+                className={`flex flex-col gap-3 px-5 py-3.5 sm:flex-row sm:items-start sm:justify-between sm:gap-4 ${marked ? "bg-emerald-50/40" : ""}`}
+              >
+                <div className="flex min-w-0 gap-3">
+                  <span className="text-xs font-bold text-gray-300 w-4 pt-0.5">{i + 1}</span>
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-gray-800 truncate">{transactionPrimaryLabel(row)}</p>
+                    <p className="text-xs text-gray-400 truncate">{transactionSecondaryLine(row)}</p>
+                    {canMarkExpectedOutliers && onToggleExpectedOutlier && (
+                      <div className="mt-3">
+                        <ExpectedOutlierToggle
+                          chargeId={row.id}
+                          marked={marked}
+                          disabled={outlierSaving}
+                          onToggle={onToggleExpectedOutlier}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="text-left sm:text-right">
+                  <p className={`text-sm font-semibold ${marked ? "text-emerald-700" : "text-gray-900"}`}>
+                    {fmt$(row.fee)}
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    {row.amount > 0 ? fmtPct((row.fee / row.amount) * 100) : "—"} rate
+                  </p>
                 </div>
               </div>
-              <div className="text-right">
-                <p className="text-sm font-semibold text-gray-900">{fmt$(row.fee)}</p>
-                <p className="text-xs text-gray-400">
-                  {row.amount > 0 ? fmtPct((row.fee / row.amount) * 100) : "—"} rate
-                </p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         {!isPaid && (
           <div className="p-5">

@@ -110,7 +110,7 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     slug: "stripe-fees-small-transactions",
     path: "/blog/stripe-fees-small-transactions",
     title: "Stripe Fees for Small Transactions: Why Your Rate Is Higher",
-    desc: "The $0.30 fixed fee dominates micro-transactions — and how feeauditor.com surfaces it.",
+    desc: "The fixed $0.30 Stripe fee dominates micro-transactions. See why $5-$10 charges show inflated effective rates and how a Balance CSV surfaces the drag.",
     time: "5 min",
     publishedAt: "2026-05-16",
     updatedAt: "2026-06-25",

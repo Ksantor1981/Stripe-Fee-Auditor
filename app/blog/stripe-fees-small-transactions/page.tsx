@@ -9,7 +9,7 @@ import { buildOgImageUrl } from "@/lib/seo-og";
 const pageTitle = "Stripe Fees for Small Transactions: Why Your Rate Is Higher";
 const metaTitle = "Small Transaction Stripe Fees";
 const pageDescription =
-  "Stripe's $0.30 fixed fee hits small transactions hard. A $5 charge has an effective rate of 9%. Here's the math and what to do about it.";
+  "The fixed $0.30 Stripe fee hits small transactions hard: a $5 charge can cost about 9%. See the math, margin impact, and ways to reduce micro-payment drag.";
 const pagePath = "/blog/stripe-fees-small-transactions";
 const published = "2026-05-16";
 const updated = "2026-06-25";
