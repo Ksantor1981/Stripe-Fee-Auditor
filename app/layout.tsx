@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { buildOgImageUrl } from "@/lib/seo-og";
 
@@ -44,10 +44,13 @@ function buildSiteVerification(): Metadata["verification"] | undefined {
 
 const siteVerification = buildSiteVerification();
 
+export const viewport: Viewport = {
+  themeColor: "#2563eb",
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   applicationName: "Stripe Fee Auditor",
-  themeColor: "#2563eb",
   appleWebApp: {
     capable: true,
     title: "Fee Auditor",

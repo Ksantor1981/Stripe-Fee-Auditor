@@ -19,7 +19,7 @@ export function ExpectedOutlierToggle({ chargeId, marked, disabled, onToggle }: 
       className="h-8 text-xs shrink-0"
       onClick={() => onToggle(chargeId)}
     >
-      {marked ? "Included in adjusted rate ✓" : "Mark as expected one-off"}
+      {marked ? "Excluded from adjusted rate ✓" : "Mark as expected one-off"}
     </Button>
   );
 }

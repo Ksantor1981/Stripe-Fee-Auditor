@@ -5,7 +5,7 @@ import {
 } from "./blog/_data/blogIndex";
 
 const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://feeauditor.com";
-const CORE_UPDATED_AT = "2026-06-25";
+const CORE_UPDATED_AT = "2026-07-19";
 
 function date(value: string): Date {
   return new Date(`${value}T00:00:00.000Z`);
@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: base, lastModified: coreUpdatedAt, changeFrequency: "weekly", priority: 1 },
     { url: `${base}/analyze`, lastModified: coreUpdatedAt, changeFrequency: "weekly", priority: 0.9 },
     { url: `${base}/monitor`, lastModified: coreUpdatedAt, changeFrequency: "weekly", priority: 0.72 },
+    { url: `${base}/chrome-extension`, lastModified: coreUpdatedAt, changeFrequency: "monthly", priority: 0.58 },
     { url: `${base}/blog`, lastModified: coreUpdatedAt, changeFrequency: "weekly", priority: 0.72 },
     { url: `${base}/about`, lastModified: coreUpdatedAt, changeFrequency: "monthly", priority: 0.5 },
     { url: `${base}/privacy`, lastModified: coreUpdatedAt, changeFrequency: "yearly", priority: 0.3 },

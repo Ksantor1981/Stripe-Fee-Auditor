@@ -199,12 +199,28 @@ const SOFTWARE_JSON_LD = {
   operatingSystem: "Web",
   url: absoluteUrl("/"),
   description: HOME_DESCRIPTION,
-  offers: {
-    "@type": "Offer",
-    price: "12",
-    priceCurrency: "USD",
-    availability: "https://schema.org/InStock",
-  },
+  offers: [
+    {
+      "@type": "Offer",
+      name: "Full report",
+      price: "12",
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+    },
+    {
+      "@type": "Offer",
+      name: "Fee Monitor",
+      price: "9",
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: "9",
+        priceCurrency: "USD",
+        unitText: "MONTH",
+      },
+    },
+  ],
 };
 
 const ORGANIZATION_JSON_LD = {
