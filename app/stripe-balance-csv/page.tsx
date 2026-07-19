@@ -6,9 +6,9 @@ import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "Stripe Fee Reconciliation: Export Balance CSV";
+const pageTitle = "How to Export Stripe Balance CSV for Fee Reconciliation";
 const pageDescription =
-  "Stripe fee reconciliation starts with an itemized Balance CSV — not payout summaries. Export the right file, then check effective rate, refund fees, and international mix.";
+  "Export the right itemized Stripe Balance CSV for fee reconciliation. Use it to check effective rate, refund fees not returned, and international card costs.";
 const pagePath = "/stripe-balance-csv";
 
 export const metadata: Metadata = {
@@ -201,13 +201,10 @@ export default function StripeBalanceCsvPage() {
         <div className="mb-14">
           <p className="text-blue-600 text-sm font-medium mb-3">Export Guide</p>
           <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
-            Stripe Fee Reconciliation: Export the Right Balance CSV
+            How to Export a Stripe Balance CSV
           </h1>
           <p className="text-lg text-gray-500 leading-relaxed">
-            Fee reconciliation needs itemized Balance transactions — not payout summaries. Export
-            that CSV to check effective rate, refund fees that were not returned, and international
-            card mix. This guide is for fee analysis, not warehouse exports to JSON, Tableau, Power BI,
-            or PostgreSQL.
+            Fee reconciliation needs itemized Balance transactions — not payout summaries. Export that CSV to check effective rate, refund fees not returned, and international card costs. This guide is for fee analysis, not warehouse exports to JSON, Tableau, Power BI, or PostgreSQL.
           </p>
         </div>
 

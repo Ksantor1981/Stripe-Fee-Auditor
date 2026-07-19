@@ -291,8 +291,8 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
   {
     slug: "stripe-balance-csv",
     path: "/stripe-balance-csv",
-    title: "Stripe Fee Reconciliation: Export Balance CSV",
-    desc: "Fee reconciliation starts with an itemized Balance CSV — check effective rate, refund fees, and international mix.",
+    title: "How to Export Stripe Balance CSV for Fee Reconciliation",
+    desc: "Export the right itemized Stripe Balance CSV to check effective rate, refund fees not returned, and international card costs.",
     time: "4 min",
     publishedAt: "2026-06-25",
     updatedAt: "2026-07-19",
