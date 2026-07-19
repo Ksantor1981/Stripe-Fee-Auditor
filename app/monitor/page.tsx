@@ -5,23 +5,23 @@ import { FeeMonitorWaitlistForm } from "@/components/FeeMonitorWaitlistForm";
 import { ManageBillingForm } from "@/components/ManageBillingForm";
 
 export const metadata: Metadata = {
-  title: "Fee Monitor — Monthly Stripe Fee Checks for $9/mo",
+  title: "Fee Monitor — Catch Stripe Rate Drift Before It Becomes Normal",
   description:
-    "Monthly Stripe fee reminders, CSV-based checks, and rate drift monitoring without permanent OAuth access. $9/month.",
+    "Catch rate drift, refund leakage, and one-off anomalies before they become normal. Monthly CSV reminders — no permanent Stripe OAuth. $9/month.",
   alternates: { canonical: "/monitor" },
   openGraph: {
-    title: "Fee Monitor — Monthly Stripe Fee Checks for $9/mo",
+    title: "Fee Monitor — Catch Stripe Rate Drift Before It Becomes Normal",
     description:
-      "Monthly CSV reminders, rate drift checks, and fee monitoring without permanent Stripe OAuth access.",
+      "Catch rate drift, refund leakage, and one-off anomalies before they become normal. Monthly CSV reminders without permanent Stripe OAuth.",
     url: "/monitor",
   },
 };
 
 const included = [
   "Monthly reminder to upload the latest Stripe Balance CSV",
-  "CSV-based fee check without permanent Stripe OAuth",
+  "Catch rate drift before a bad month becomes your new baseline",
+  "Refund leakage and high-fee / one-off anomaly prompts",
   "Processing rate vs all-in Stripe cost every month",
-  "High-fee charge, refund, and small-charge prompts",
   "First access to private report history as it ships",
 ];
 
@@ -93,13 +93,13 @@ export default async function MonitorPage({ searchParams }: Props) {
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">Fee Monitor · $9/mo</p>
           <h1 className="mt-3 text-4xl font-extrabold tracking-tight text-gray-950 sm:text-5xl">
-            Watch whether your Stripe fee rate gets worse each month.
+            Catch rate drift, refund leakage, and one-off anomalies before they become normal.
           </h1>
           <p className="mt-5 text-lg leading-relaxed text-gray-600">
-            <span className="font-semibold text-gray-900">$12</span> = one CSV audit (this export, 30 days).{" "}
-            <span className="font-semibold text-gray-900">$9/mo</span> = the habit: monthly reminder,
-            fresh upload, and rate-drift checks so leaks don&apos;t become normal.
-            No permanent Stripe OAuth — you stay in control of every export.
+            <span className="font-semibold text-gray-900">$12</span> = one CSV check (this export, 30 days).{" "}
+            <span className="font-semibold text-gray-900">$9/mo</span> = the habit: monthly reminder +
+            fresh upload so international mix, refund fees, and weird spikes don&apos;t quietly reset
+            your baseline. No permanent Stripe OAuth — you stay in control of every export.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link

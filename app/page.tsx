@@ -11,11 +11,11 @@ import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
 
-const HOME_TITLE = "See Your Real Stripe Fee Rate | Stripe Fee Auditor";
+const HOME_TITLE = "Why Is Your Stripe Rate Higher Than Expected? | Fee Auditor";
 const HOME_DESCRIPTION =
-  "Most Stripe users pay more than the headline 2.9%. Upload your Balance CSV to see your real rate, fee drivers, and savings opportunities. Free preview. No OAuth.";
+  "Find why your Stripe effective rate or payout is higher than expected — international cards, refund fees not returned, monthly anomalies. Upload a Balance CSV. No OAuth. Raw CSV is not stored.";
 const HOME_OG_IMAGE = buildOgImageUrl({
-  title: "See your real Stripe fee rate",
+  title: "Why is your Stripe rate higher?",
   eyebrow: "Stripe Fee Auditor",
 });
 
@@ -273,13 +273,31 @@ export default function HomePage() {
         </p>
 
         <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">
-          Your real Stripe fee rate is{" "}
-          <span className="text-blue-600">probably higher than 2.9%.</span>
+          Find why your Stripe rate is{" "}
+          <span className="text-blue-600">higher than expected.</span>
         </h1>
-        <h2 className="sr-only">Stripe fee audit and effective rate calculator</h2>
+        <h2 className="sr-only">Stripe effective rate, refund leakage, and international card fees</h2>
         <p className="mt-5 max-w-xl text-lg text-gray-500 leading-relaxed">
-          Upload your Stripe Balance CSV and see whether your fee rate is normal, what is driving it up, and how much refunds may be leaking from margin.
+          Upload a Balance CSV and see the concrete drivers — not a vague &quot;audit&quot;. Separate
+          recurring leaks from one-off spikes. No OAuth. Raw CSV is not stored; we keep only redacted
+          calculated results.
         </p>
+
+        <div className="mt-6 flex flex-wrap justify-center gap-2">
+          {[
+            { href: "/blog/stripe-international-card-fees", label: "International card fees" },
+            { href: "/why-stripe-fee-rate-higher-than-2-9", label: "Refund fees not returned" },
+            { href: "/blog/why-stripe-fees-increase", label: "Rate / payout drift" },
+          ].map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-gray-700 shadow-sm hover:border-blue-200 hover:text-blue-700"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
 
         {/* CTAs */}
         <div className="mt-8 flex flex-col sm:flex-row items-center gap-3">
@@ -290,7 +308,7 @@ export default function HomePage() {
             funnelProps={{ placement: "hero_primary" }}
             className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow-md hover:bg-blue-700 active:scale-95 transition-all"
           >
-            Analyze My CSV — Free
+            Find my fee drivers — Free
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>

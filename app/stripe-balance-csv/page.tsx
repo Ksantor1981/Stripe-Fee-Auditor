@@ -6,15 +6,16 @@ import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "Export Stripe Balance CSV (Check Real Fee Rate)";
+const pageTitle = "Stripe Fee Reconciliation: Export Balance CSV";
 const pageDescription =
-  "How to export Stripe Balance Transactions CSV (itemized) and check if your real fee rate is 2.9%, 3.8%, or higher — then upload to analyze.";
+  "Stripe fee reconciliation starts with an itemized Balance CSV — not payout summaries. Export the right file, then check effective rate, refund fees, and international mix.";
 const pagePath = "/stripe-balance-csv";
 
 export const metadata: Metadata = {
   title: pageTitle,
   description: pageDescription,
   keywords: [
+    "Stripe fee reconciliation",
     "export Stripe Balance CSV",
     "Stripe Balance Transactions CSV",
     "Stripe balance export",
@@ -200,12 +201,13 @@ export default function StripeBalanceCsvPage() {
         <div className="mb-14">
           <p className="text-blue-600 text-sm font-medium mb-3">Export Guide</p>
           <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
-            Export Your Stripe Balance CSV and Check Your Real Fee Rate
+            Stripe Fee Reconciliation: Export the Right Balance CSV
           </h1>
           <p className="text-lg text-gray-500 leading-relaxed">
-            The Balance Transactions report is the Stripe export you need to audit your real
-            processing fees. This guide focuses on the Itemized Balance CSV for fee analysis,
-            not data warehouse exports to JSON, Tableau, Power BI, or PostgreSQL.
+            Fee reconciliation needs itemized Balance transactions — not payout summaries. Export
+            that CSV to check effective rate, refund fees that were not returned, and international
+            card mix. This guide is for fee analysis, not warehouse exports to JSON, Tableau, Power BI,
+            or PostgreSQL.
           </p>
         </div>
 

@@ -6,17 +6,23 @@ import { BlogBreadcrumbs } from "@/components/BlogBreadcrumbs";
 import { BlogFaqSection, BlogJsonLd, BlogSourcesSection } from "@/components/BlogSeoBlocks";
 import { buildOgImageUrl } from "@/lib/seo-og";
 
-const pageTitle = "Stripe International Card Fees Explained";
+const pageTitle = "Stripe International Card Fees: Why Your Rate Jumps";
 const pageDescription =
-  "Stripe adds a 1.5% cross-border fee on international cards. Here's exactly how it works, how to find it in your data, and how to reduce it.";
+  "Stripe international card fees add about 1.5% on cross-border cards — a common reason your effective rate and payout feel worse than 2.9%. How to find it in your Balance CSV.";
 const pagePath = "/blog/stripe-international-card-fees";
 const published = "2026-05-16";
-const updated = "2026-06-25";
+const updated = "2026-07-19";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "International card fees" });
 
 export const metadata: Metadata = {
   title: `${pageTitle} | Fee Auditor`,
   description: pageDescription,
+  keywords: [
+    "Stripe international card fees",
+    "Stripe cross-border fee",
+    "Stripe effective rate",
+    "why Stripe fees high international",
+  ],
   alternates: { canonical: pagePath },
   openGraph: {
     title: pageTitle,
@@ -71,7 +77,7 @@ export default function Page() {
         </div>
 
         <h1 className="mt-3 text-3xl font-bold leading-tight text-gray-900">
-          Stripe International Card Fees Explained
+          {pageTitle}
         </h1>
 
         <p className="mt-4 text-lg text-gray-600 leading-relaxed">

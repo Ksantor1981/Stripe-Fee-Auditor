@@ -62,9 +62,9 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico",
   },
   manifest: "/manifest.json",
-  title: "See Your Real Stripe Fee Rate | Stripe Fee Auditor",
+  title: "Why Is Your Stripe Rate Higher Than Expected? | Fee Auditor",
   description:
-    "Most Stripe users pay more than the headline 2.9%. Upload your Balance CSV to see your real rate, fee drivers, and savings opportunities. Free preview. No OAuth.",
+    "Find why your Stripe effective rate or payout is higher than expected — international cards, refund fees, monthly anomalies. No OAuth. Raw CSV is not stored.",
   alternates: {
     canonical: "/",
     types: {
@@ -73,8 +73,9 @@ export const metadata: Metadata = {
   },
   ...(siteVerification ? { verification: siteVerification } : {}),
   openGraph: {
-    title: "See Your Real Stripe Fee Rate | Stripe Fee Auditor",
-    description: "Upload your Stripe Balance CSV to see your real effective fee rate, fee drivers, and savings opportunities. No OAuth.",
+    title: "Why Is Your Stripe Rate Higher Than Expected? | Fee Auditor",
+    description:
+      "Find why your Stripe effective rate or payout is higher than expected. No OAuth. Raw CSV is not stored.",
     type: "website",
     url: siteUrl,
     siteName: "Stripe Fee Auditor",
@@ -89,8 +90,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "See Your Real Stripe Fee Rate | Stripe Fee Auditor",
-    description: "Upload your Stripe Balance CSV to see your real effective fee rate, fee drivers, and savings opportunities. No OAuth.",
+    title: "Why Is Your Stripe Rate Higher Than Expected? | Fee Auditor",
+    description:
+      "Find why your Stripe effective rate or payout is higher than expected. No OAuth. Raw CSV is not stored.",
     images: [ogImageUrl],
   },
   other: {

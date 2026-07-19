@@ -18,7 +18,7 @@ import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 import { resolvePaywallImpact } from "@/lib/paywall-impact";
-import { ExpectedOutlierBanner } from "./ExpectedOutlierBanner";
+import { OutlierRateComparison } from "./OutlierRateComparison";
 import { ExpectedOutlierToggle } from "./ExpectedOutlierToggle";
 
 function anomalyExplainerText(
@@ -125,14 +125,6 @@ export function MultiMonthReport({
 
   return (
     <div className="space-y-8">
-      {expectedOutlierIds.length > 0 && (
-        <ExpectedOutlierBanner
-          original={originalResult}
-          adjusted={result}
-          count={expectedOutlierIds.length}
-        />
-      )}
-
       {/* Hero */}
       <div id="report-share-snapshot" className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
         {result.feeGrade && (
@@ -189,6 +181,14 @@ export function MultiMonthReport({
         {anomalyExplainer && (
           <p className="mt-3 text-xs text-gray-500 leading-relaxed max-w-3xl">{anomalyExplainer}</p>
         )}
+
+        <div className="mt-4">
+          <OutlierRateComparison
+            original={originalResult}
+            adjusted={result}
+            count={expectedOutlierIds.length}
+          />
+        </div>
 
         <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
           <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-1">

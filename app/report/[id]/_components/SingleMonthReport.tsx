@@ -13,7 +13,7 @@ import { SavingsOpportunities } from "./SavingsOpportunities";
 import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
-import { ExpectedOutlierBanner } from "./ExpectedOutlierBanner";
+import { OutlierRateComparison } from "./OutlierRateComparison";
 import { resolvePaywallImpact } from "@/lib/paywall-impact";
 
 interface Props {
@@ -61,14 +61,6 @@ export function SingleMonthReport({
 
   return (
     <div className="space-y-6">
-      {expectedOutlierIds.length > 0 && (
-        <ExpectedOutlierBanner
-          original={originalResult}
-          adjusted={result}
-          count={expectedOutlierIds.length}
-        />
-      )}
-
       {/* Hero */}
       <div id="report-share-snapshot" className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
         {result.feeGrade && (
@@ -108,6 +100,14 @@ export function SingleMonthReport({
               <p className={`text-xl font-bold ${highlight ? "text-blue-700" : "text-gray-900"}`}>{value}</p>
             </div>
           ))}
+        </div>
+
+        <div className="mt-4">
+          <OutlierRateComparison
+            original={originalResult}
+            adjusted={result}
+            count={expectedOutlierIds.length}
+          />
         </div>
 
         <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">

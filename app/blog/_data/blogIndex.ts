@@ -89,11 +89,11 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
   {
     slug: "stripe-international-card-fees",
     path: "/blog/stripe-international-card-fees",
-    title: "Stripe International Card Fees Explained",
-    desc: "Stripe adds 1.5% on international cards. Here's how it works, how to find it in your data, and how to reduce it.",
+    title: "Stripe International Card Fees: Why Your Rate Jumps",
+    desc: "Stripe international card fees add ~1.5% on cross-border cards — a common reason effective rate and payout feel worse than 2.9%.",
     time: "6 min",
     publishedAt: "2026-05-16",
-    updatedAt: "2026-06-25",
+    updatedAt: "2026-07-19",
     sitemapPriority: 0.72,
   },
   {
@@ -149,11 +149,11 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
   {
     slug: "why-stripe-fees-increase",
     path: "/blog/why-stripe-fees-increase",
-    title: "Why Did My Stripe Fees Increase?",
-    desc: "5 common reasons your effective rate is climbing.",
+    title: "Why Did My Stripe Fees Increase This Month?",
+    desc: "Payout lower than expected or fees up vs last month? Diagnose international cards, refund fees, FX, and mix from your CSV.",
     time: "5 min",
     publishedAt: "2026-05-16",
-    updatedAt: "2026-06-25",
+    updatedAt: "2026-07-19",
     sitemapPriority: 0.8,
   },
   {
@@ -201,11 +201,11 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
   {
     slug: "why-stripe-fee-rate-higher-than-2-9",
     path: PILLAR_EFFECTIVE_RATE_PATH,
-    title: "Why Are My Stripe Fees So High? (Not Just 2.9%)",
-    desc: "Why are Stripe processing fees higher than 2.9% + $0.30? Most businesses land at 3.2–3.8%. Five fee drivers — then check your real rate.",
+    title: "Why Is My Stripe Effective Rate Higher Than Expected?",
+    desc: "Effective rate and payout often run above 2.9% from international cards, refund fees not returned, FX, and small tickets.",
     time: "8 min",
     publishedAt: "2026-05-16",
-    updatedAt: "2026-07-16",
+    updatedAt: "2026-07-19",
     sitemapPriority: 0.85,
   },
   {
@@ -291,11 +291,11 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
   {
     slug: "stripe-balance-csv",
     path: "/stripe-balance-csv",
-    title: "Export Stripe Balance CSV (Check Real Fee Rate)",
-    desc: "How to export Stripe Balance Transactions CSV (itemized) and check if your real fee rate is 2.9%, 3.8%, or higher.",
+    title: "Stripe Fee Reconciliation: Export Balance CSV",
+    desc: "Fee reconciliation starts with an itemized Balance CSV — check effective rate, refund fees, and international mix.",
     time: "4 min",
     publishedAt: "2026-06-25",
-    updatedAt: "2026-07-16",
+    updatedAt: "2026-07-19",
     sitemapPriority: 0.7,
   },
 ];

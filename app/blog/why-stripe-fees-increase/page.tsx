@@ -5,17 +5,24 @@ import { BlogBreadcrumbs } from "@/components/BlogBreadcrumbs";
 import { BlogFaqSection, BlogJsonLd, BlogSourcesSection } from "@/components/BlogSeoBlocks";
 import { buildOgImageUrl } from "@/lib/seo-og";
 
-const pageTitle = "Why Did My Stripe Fees Increase?";
+const pageTitle = "Why Did My Stripe Fees Increase This Month?";
 const pageDescription =
-  "Stripe fees can creep up for many reasons: more international cards, higher dispute rates, or plan changes. Learn how to diagnose and reduce your effective fee rate.";
+  "Stripe payout lower than expected or fees up vs last month? Diagnose international cards, refund fees not returned, FX, and mix changes from your Balance CSV.";
 const pagePath = "/blog/why-stripe-fees-increase";
 const published = "2026-05-16";
-const updated = "2026-06-25";
+const updated = "2026-07-19";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe fee diagnosis" });
 
 export const metadata: Metadata = {
   title: `${pageTitle} | Fee Auditor`,
   description: pageDescription,
+  keywords: [
+    "why did my Stripe fees increase",
+    "Stripe payout lower than expected",
+    "Stripe refund fees not returned",
+    "Stripe effective rate",
+    "Stripe fee reconciliation",
+  ],
   alternates: { canonical: pagePath },
   openGraph: {
     title: pageTitle,
@@ -74,7 +81,7 @@ export default function BlogPost1() {
       <div className="mx-auto max-w-2xl px-4 py-16">
         <BlogBreadcrumbs title={pageTitle} path={pagePath} />
         <h1 className="mt-4 text-3xl font-bold text-gray-900 leading-tight">
-          Why Did My Stripe Fees Increase?
+          {pageTitle}
         </h1>
         <p className="mt-3 text-gray-500 text-sm">5 min read · Stripe Fees</p>
 

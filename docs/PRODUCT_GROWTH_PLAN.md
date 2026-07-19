@@ -1,13 +1,24 @@
 # Fee Auditor — план роста (PMF + конверсия)
 
-Основа: аналитический отчёт (май 2026). **Проблема сейчас — охват и трение CSV**, не отсутствие боли.
+Основа: аналитический отчёт (май 2026) + GSC/PH сигнал (Jul 2026). **Проблема — охват и трение CSV**, не отсутствие боли. SEO avg position ~26 = канал ещё не «созрел» для оценки; не плодить статьи.
+
+## Позиционирование (Jul 2026)
+
+| Было | Стало |
+|------|--------|
+| «Audit your Stripe fees» | **Find why your Stripe effective rate / payout is higher than expected** |
+| Абстрактный audit | Конкретные проблемы: **international cards**, **refund fees not returned**, **monthly anomaly / rate drift** |
+| Monitor = «ещё один отчёт/мес» | **Catch rate drift, refund leakage, and one-off anomalies before they become normal** |
+
+Честная privacy (PH/IH/site): *No OAuth. Raw CSV is not stored; we keep only redacted calculated results.*  
+Шаблон: `docs/DISTRIBUTION_COPY.md`. **Запрещено:** «data never leaves your browser».
 
 ## Уже есть в продукте
 
 - Блог + SEO, sitemap, pillar, `/stripe-fee-calculator` + mini-estimate
-- SEO long-tails (Jul 2026): calculator + `/what-percent-does-stripe-take` под Trends-запросы
-- Отчёт: benchmark, refund leakage, fee mix charts, fee leak breakdown, geography, `SavingsOpportunities` во всех режимах
-- Expected outliers; conversion sprint (sample CTA, money-first paywall, email skip)
+- SEO long-tails (Jul 2026): calculator, what-percent, pillar effective rate, intl/refund/reconciliation harvest
+- Отчёт: benchmark, refund leakage, fee mix, geography, savings; **Normal vs outlier-adjusted rate** блок + mark one-offs
+- Conversion sprint (sample CTA, money-first paywall, email skip)
 - Beta flag: на проде обычно paid; ops: `/api/health`, CI, structured `ops_event` logs
 - Plausible goals + funnel (ручная настройка)
 
@@ -23,8 +34,9 @@
 | 1.4 | Лендинг: CTA «Quick estimate» → `/stripe-fee-calculator` | done |
 | 1.5 | Таблица «Where fees leak» (fixed / intl / refund / other из CSV) | ready |
 | 1.6 | Savings в single-month + low-volume (beta `hasFullAccess`) | done |
-| 1.7 | **Expected outliers** — пометка one-off charges, пересчёт rate без искажения monthly avg (PH: Oktay, Jul 2026) | done |
+| 1.7 | **Expected outliers** — пометка one-off charges, пересчёт rate (PH: Oktay) | done |
 | 1.8 | Conversion sprint: sample CTA, money-first paywall, email skip, SEO → /analyze | done |
+| 1.9 | **P1:** UI *Normal rate vs outlier-adjusted* всегда в отчёте + pain-led landing/Monitor + honest privacy copy | done (Jul 19) |
 
 ### Фаза 2 — Снижение барьера CSV (2–4 недели)
 
@@ -50,11 +62,11 @@
 
 | # | Рычаг | Как | Приоритет |
 |---|--------|-----|-----------|
-| 4.1 | **GSC harvest** | Раз в неделю: pages с impressions и CTR &lt; среднего → правка title/H1/meta (как Jul 2026: calculator + what-percent). Не писать новые страницы, пока топ-10 существующих недожаты. **Pass Jul 16:** без live GSC export — proxy по priority + Trends: pillar why-high, balance-csv, square vs stripe, processing-fees blog | P0 |
-| 4.2 | **Дистрибуция калькулятора / sample** | 2–3 value-first поста/нед (X, Reddit r/SaaS / r/stripe, IH): скрин «effective rate vs 2.9%» + ссылка на `/stripe-fee-calculator` или Try sample → `/analyze`. UTM на каждый канал | P0 |
-| 4.3 | **Перелинковка** | Каждая Stripe SEO/blog → primary CTA `/analyze` + secondary calculator; pillar ↔ comparison ↔ why-higher. *Не «сломанная» — уже есть CTA; цель — плотнее кластер tools↔guides* | P1 |
-| 4.4 | **1 comparison только по спросу** | Новая `/stripe-vs-*` **только** если в GSC есть query с impressions; иначе — нет. *Сейчас comparisons уже есть; не плодить новые без данных* | P1 |
-| 4.5 | **Editorial funnel** | 1 гайд / 2 недели под long-tail (*how much does Stripe charge*, *reduce Stripe fees*) → CTA tools, не thin listicles. *Ритм контента, не срочный фикс* | P1 |
+| 4.1 | **GSC harvest** | **Не писать новые статьи.** Дожимать money-pages под high-intent: *stripe payout lower than expected*, *stripe refund fees not returned*, *stripe international card fees*, *stripe effective rate*, *stripe fee reconciliation*. **Pass Jul 19:** pillar, intl blog, fees-increase, balance-csv + landing/Monitor positioning | P0 |
+| 4.2 | **Дистрибуция** | PH/IH/X: pain-led скрин (intl / refund / anomaly) + честная privacy-строка из `DISTRIBUTION_COPY.md`. UTM на канал | P0 |
+| 4.3 | **Перелинковка** | Blog ↔ calculator ↔ why-higher ↔ `/analyze` — уже есть; усиливать вокруг pain URLs | P1 |
+| 4.4 | **1 comparison только по спросу** | Новая `/stripe-vs-*` **только** если GSC показывает query; иначе — нет | P1 |
+| 4.5 | **Editorial** | Пауза thin listicles пока avg position не улучшится; только точечный harvest существующих URL | P1 |
 | 4.6 | **Shareable sample insight** | Один публичный «анонимный» leakage-сниппет (цифры без PII) для соцсетей / PH follow-up | P2 |
 | 4.7 | **Партнёрства / списки** | Бухгалтеры, «tools for indie founders», newsletter swaps — value-first, не spam directories | P2 |
 | 4.8 | Paid ads | Только после analyze → report ≳ 5% | later |

@@ -7,24 +7,25 @@ import { SeoAnalyzeCta } from "@/components/SeoAnalyzeCta";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "Why Are My Stripe Fees So High? (Not Just 2.9%)";
+const pageTitle = "Why Is My Stripe Effective Rate Higher Than Expected?";
 const pageDescription =
-  "Why are Stripe processing fees higher than 2.9% + $0.30? Most businesses land at 3.2–3.8%. Five fee drivers — then check your real rate from a Balance CSV.";
+  "Stripe effective rate and payout often run above 2.9% + $0.30 because of international cards, refund fees not returned, FX, and small tickets. Find the driver in your Balance CSV.";
 const pagePath = "/why-stripe-fee-rate-higher-than-2-9";
 const published = "2026-05-16";
-const updated = "2026-07-16";
+const updated = "2026-07-19";
 
 export const metadata: Metadata = {
   title: pageTitle,
   description: pageDescription,
   keywords: [
+    "Stripe effective rate",
+    "Stripe payout lower than expected",
     "why are my Stripe fees so high",
+    "Stripe refund fees not returned",
     "Stripe processing fees",
     "Stripe fee rate higher than 2.9%",
-    "Stripe effective fee rate",
-    "Stripe fees explained",
     "Stripe international card fees",
-    "Stripe refund fees",
+    "Stripe fee reconciliation",
     "Stripe Balance CSV analysis",
   ],
   alternates: {
@@ -187,12 +188,12 @@ export default function WhyStripeFeesIncreasePage() {
         <div className="mb-14">
           <p className="text-blue-600 text-sm font-medium mb-3">Fee Education</p>
           <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
-            Why Are My Stripe Fees So High?
+            Why Is My Stripe Effective Rate Higher Than Expected?
           </h1>
           <p className="text-lg text-gray-500 leading-relaxed">
-            Stripe advertises 2.9% + $0.30 per transaction. But most businesses
-            pay 3.2–3.8% in real Stripe processing fees when averaged across all
-            charges. Here are the five reasons why — with real numbers.
+            Stripe advertises 2.9% + $0.30. Your effective rate — and sometimes your payout vs
+            volume — often lands at 3.2–3.8% because of international cards, refund fees that are
+            not returned, FX, and small tickets. Here are the five drivers — with real numbers.
           </p>
         </div>
 
