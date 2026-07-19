@@ -183,12 +183,14 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
           </button>
 
           <p className="mt-4 text-xs text-gray-400 text-center leading-relaxed">
-            Email is optional — it only saves a private link if delivery is configured. Preview expires in about{" "}
-            <strong>1 hour</strong> — see{" "}
+            Email is optional. Submitting it asks us to store the address for a private report link
+            (and transactional delivery if configured) and extends unpaid retention to about{" "}
+            <strong>72 hours</strong>. Without email, preview expires in about <strong>1 hour</strong>.
+            See{" "}
             <Link href="/privacy" className="underline hover:text-gray-500">
               Privacy
-            </Link>{" "}
-            for retention.
+            </Link>
+            .
           </p>
         </div>
 

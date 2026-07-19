@@ -27,7 +27,7 @@ export default function PrivacyPage() {
 
       <main className="max-w-2xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Privacy Policy</h1>
-        <p className="text-sm text-gray-400 mb-10">Last updated: May 11, 2026</p>
+        <p className="text-sm text-gray-400 mb-10">Last updated: July 19, 2026</p>
 
         <div className="prose prose-sm prose-gray max-w-none space-y-8">
           <section>
@@ -43,44 +43,59 @@ export default function PrivacyPage() {
                 {CONTACT_EMAIL}
               </a>.
             </p>
+            <p className="text-gray-600 leading-relaxed mt-3">
+              Fee analysis is produced by a <strong>deterministic algorithm</strong> (not a generative
+              AI / LLM model). We do not send your CSV to third-party AI providers for analysis.
+            </p>
           </section>
 
           <section>
             <h2 className="text-lg font-semibold text-gray-900 mb-3">2. Data We Collect</h2>
             <div className="space-y-4 text-gray-600 leading-relaxed">
               <div>
-                <p className="font-medium text-gray-800 mb-1">CSV file content</p>
+                <p className="font-medium text-gray-800 mb-1">CSV file content (processed, not retained as a file)</p>
                 <p>
                   When you upload a Stripe Balance CSV, the file is transmitted to our server
-                  over an encrypted HTTPS connection, processed in memory to generate your
-                  analysis, and <strong>is not stored as a raw file on disk</strong>. Parsed
-                  values are used only to compute the report.
+                  over an encrypted HTTPS connection, <strong>processed in memory</strong> for that
+                  request to generate your analysis, and <strong>is not stored as a raw CSV file</strong>{" "}
+                  on disk, object storage, or a durable blob. We store only the{" "}
+                  <strong>computed analysis result</strong> (JSON aggregates such as totals, rates,
+                  fee mix, and selected charge-level fields needed for the report). A Stripe Balance
+                  export typically contains transaction amounts and fees — not full card numbers — and
+                  is not treated as cardholder data under PCI DSS card storage rules; still, we
+                  minimize what we keep after analysis (including stripping free-text descriptions
+                  where they are not needed).
                 </p>
               </div>
               <div>
-                <p className="font-medium text-gray-800 mb-1">Analysis results</p>
+                <p className="font-medium text-gray-800 mb-1">Computed analysis result</p>
                 <p>
-                  The computed analysis (fee totals, rates, high-fee charge flags, etc.) is stored in our
-                  database and linked to a random report ID plus a private access token you
-                  receive in the URL. <strong>Outside our promotional beta</strong>, unpaid{" "}
-                  <strong>free preview</strong> reports expire about <strong>1 hour</strong>{" "}
-                  after creation. <strong>During beta</strong>, full-report links for real uploads
-                  may remain available for <strong>up to 30 days</strong> at no charge. If you
-                  complete a purchase, we extend access so your report remains available for{" "}
-                  <strong>up to 30 days</strong> from the time of payment. Stored results are
-                  derived from your CSV — not a full copy of the file — and we remove free-text
-                  transaction descriptions from stored report rows where they are not needed
-                  after analysis.
+                  The computed analysis (fee totals, rates, high-fee charge flags, monthly breakdowns,
+                  etc.) is stored in our database and linked to a random report ID plus a private
+                  access token. Retention depends on whether the report is an unpaid preview, you
+                  save an email link, beta full access applies, or you pay — see section 6.
                 </p>
               </div>
               <div>
                 <p className="font-medium text-gray-800 mb-1">Email address</p>
                 <p>
-                  If you provide your email (for example at the report gate, checkout, Fee Monitor
-                  subscription, Fee Monitor waitlist, or monthly tips signup), we use it only for
-                  the message or service you requested: report access, payment follow-up, monthly CSV
-                  reminders, waitlist updates, or the newsletter. We do not sell or share your email
-                  with third parties for their own marketing.
+                  Email is <strong>optional</strong> for viewing a preview (you can continue without
+                  it). If you choose to submit your email (report gate, checkout, Fee Monitor,
+                  waitlist, or monthly tips), you are requesting that we store it for the purpose you
+                  selected: private report link / transactional messages, payment follow-up, monthly
+                  CSV reminders, waitlist updates, or the newsletter. Marketing or newsletter emails
+                  are sent only when you explicitly subscribe. We do not sell your email or personal
+                  information.
+                </p>
+              </div>
+              <div>
+                <p className="font-medium text-gray-800 mb-1">UTM and attribution parameters</p>
+                <p>
+                  When present, we may store campaign attribution with the report row — for example{" "}
+                  <code className="text-xs">utm_source</code>, <code className="text-xs">utm_medium</code>,{" "}
+                  <code className="text-xs">utm_campaign</code>, <code className="text-xs">utm_content</code>,
+                  landing path, and HTTP referrer — to understand which pages or campaigns led to an
+                  upload. These are marketing analytics fields, not the contents of your CSV.
                 </p>
               </div>
               <div>
@@ -105,9 +120,10 @@ export default function PrivacyPage() {
                     Plausible Analytics
                   </a>{" "}
                   (EU-hosted, privacy-focused, no cookies by default) to measure aggregate traffic.
-                  If Google Analytics 4 is configured, it is used for product analytics, not
-                  advertising retargeting. We do not use third-party cookie-based behavioural
-                  advertising.
+                  First-party funnel events may also be logged server-side without raw CSV or full
+                  report payloads. If Google Analytics 4 is configured, it is used for product
+                  analytics, not advertising retargeting. We do not use third-party cookie-based
+                  behavioural advertising.
                 </p>
               </div>
             </div>
@@ -177,19 +193,27 @@ export default function PrivacyPage() {
                 <tbody className="divide-y divide-gray-100 text-gray-600">
                   <tr>
                     <td className="px-4 py-3">Raw CSV file</td>
-                    <td className="px-4 py-3">Not stored as a file; processed in memory for the request</td>
+                    <td className="px-4 py-3">Not stored as a file; processed in memory for the request only</td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-3">Analysis result (unpaid, outside beta)</td>
-                    <td className="px-4 py-3">Expires about 1 hour after the report is created (may be briefly extended during checkout)</td>
+                    <td className="px-4 py-3">Computed result (unpaid preview, no email)</td>
+                    <td className="px-4 py-3">About <strong>1 hour</strong> after creation (may be briefly extended during checkout)</td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-3">Analysis result (after successful payment)</td>
-                    <td className="px-4 py-3">Up to 30 days from payment, then deleted automatically</td>
+                    <td className="px-4 py-3">Computed result (unpaid, after you save an email)</td>
+                    <td className="px-4 py-3">Extended to about <strong>72 hours</strong> from when the email is saved, so you can reopen the private link</td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-3">Analysis result (beta full access)</td>
-                    <td className="px-4 py-3">Up to 30 days from report creation while the beta flag is enabled</td>
+                    <td className="px-4 py-3">Computed result (after successful payment)</td>
+                    <td className="px-4 py-3">Up to <strong>30 days</strong> from payment, then deleted automatically</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3">Computed result (beta full access)</td>
+                    <td className="px-4 py-3">Up to <strong>30 days</strong> from report creation while the beta flag is enabled</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3">UTM / attribution fields</td>
+                    <td className="px-4 py-3">Deleted with the report row when it expires or on a verified deletion request</td>
                   </tr>
                   <tr>
                     <td className="px-4 py-3">Checkout session link state</td>
@@ -204,7 +228,7 @@ export default function PrivacyPage() {
                     <td className="px-4 py-3">Kept while the subscription is active or until deletion request where legally possible; payment records are retained by Polar under their policy</td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-3">Email address</td>
+                    <td className="px-4 py-3">Email address (report / lists)</td>
                     <td className="px-4 py-3">Report emails are kept while the corresponding report row exists; newsletter and waitlist emails are kept until unsubscribe, deletion request, or list cleanup</td>
                   </tr>
                   <tr>
@@ -213,7 +237,7 @@ export default function PrivacyPage() {
                   </tr>
                   <tr>
                     <td className="px-4 py-3">Site analytics (Plausible)</td>
-                    <td className="px-4 py-3">Processed by Plausible under their retention policy; we do not receive raw CSV or report contents there</td>
+                    <td className="px-4 py-3">Processed by Plausible under their retention policy; we do not send raw CSV or report contents there</td>
                   </tr>
                 </tbody>
               </table>
@@ -230,26 +254,44 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">8. Your Rights</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">8. Your Rights (GDPR / CCPA and similar laws)</h2>
             <p className="text-gray-600 leading-relaxed">
-              You may request deletion of the stored analysis associated with your report by
-              contacting us and providing your report ID (and any access details we need to verify
-              your request). Rows are also removed automatically when they expire. We do not operate
-              a user account system, so there is no separate &quot;profile&quot; beyond what is tied
-              to an active report row.
+              <strong>Deletion / erasure:</strong> email{" "}
+              <a
+                href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Data deletion request")}`}
+                className="text-blue-600 hover:underline"
+              >
+                {CONTACT_EMAIL}
+              </a>{" "}
+              with subject &quot;Data deletion request&quot; and your report ID (and any access
+              details we need to verify the request). We will delete the stored analysis and related
+              personal data we hold for that report where legally possible. Rows are also removed
+              automatically when they expire. We do not operate a user account system, so there is no
+              separate &quot;profile&quot; beyond what is tied to an active report or subscription row.
             </p>
             <p className="text-gray-600 leading-relaxed mt-3">
-              Depending on where you live, you may also have rights to access, correct, delete,
-              restrict, object to, or receive a copy of your personal data, and to complain to a
-              local data protection authority. We will not discriminate against you for exercising
-              privacy rights that apply to you.
+              <strong>Access / know:</strong> you may ask what personal data we hold about you in
+              connection with a report or email you provided (subject to verification).
+            </p>
+            <p className="text-gray-600 leading-relaxed mt-3">
+              <strong>Do not sell / share for ads:</strong> we do <strong>not sell</strong> personal
+              information and we do not share it for cross-context behavioural advertising. If you
+              are a California resident, you may still contact us to exercise CCPA rights that apply
+              to you.
+            </p>
+            <p className="text-gray-600 leading-relaxed mt-3">
+              Depending on where you live, you may also have rights to correct, restrict, object to,
+              or receive a copy of your personal data, and to complain to a local data protection
+              authority. We will not discriminate against you for exercising privacy rights that
+              apply to you.
             </p>
           </section>
 
           <section>
             <h2 className="text-lg font-semibold text-gray-900 mb-3">9. Automated Analysis</h2>
             <p className="text-gray-600 leading-relaxed">
-              Reports are generated automatically from the CSV data you provide. The report is
+              Reports are generated automatically from the CSV data you provide using deterministic
+              fee calculations — not a machine-learning model that profiles you. The report is
               informational only and does not make legal, financial, credit, employment, or other
               similarly significant decisions about you.
             </p>
