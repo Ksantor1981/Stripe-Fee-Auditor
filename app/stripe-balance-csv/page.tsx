@@ -206,6 +206,13 @@ export default function StripeBalanceCsvPage() {
           <p className="text-lg text-gray-500 leading-relaxed">
             Fee reconciliation needs itemized Balance transactions — not payout summaries. Export that CSV to check effective rate, refund fees not returned, and international card costs. This guide is for fee analysis, not warehouse exports to JSON, Tableau, Power BI, or PostgreSQL.
           </p>
+          <div className="mt-5 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-600">
+            Looking for a broader Stripe data export path instead? See{" "}
+            <Link href="/stripe-data-export" className="font-medium text-blue-600 hover:underline">
+              Stripe exports for JSON, Tableau, Power BI, and PostgreSQL
+            </Link>
+            .
+          </div>
         </div>
 
         {/* Steps */}
@@ -322,6 +329,7 @@ export default function StripeBalanceCsvPage() {
           <div className="space-y-3">
             {[
               { href: "/stripe-fee-calculator", title: "Stripe fees calculator (estimate first)" },
+              { href: "/stripe-data-export", title: "Stripe data export options (JSON, Tableau, PostgreSQL)" },
               { href: "/why-stripe-fee-rate-higher-than-2-9", title: "Why are my Stripe fees so high?" },
               { href: "/what-percent-does-stripe-take", title: "How much does Stripe charge per transaction?" },
               { href: "/blog/why-stripe-fees-increase", title: "Why did my Stripe fees increase?" },
