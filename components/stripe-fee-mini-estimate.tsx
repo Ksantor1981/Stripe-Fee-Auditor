@@ -45,12 +45,14 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
   const [volumeRaw, setVolumeRaw] = useState("50000");
   const [averageChargeRaw, setAverageChargeRaw] = useState("50");
   const [intlShareRaw, setIntlShareRaw] = useState("15");
+  const [targetNetRaw, setTargetNetRaw] = useState("100");
   const [accountCountry, setAccountCountry] = useState<StripeAccountCountry>("US");
 
   const estimate = useMemo(() => {
     const monthlyVolume = parseUsd(volumeRaw);
     const averageCharge = Math.max(parseUsd(averageChargeRaw), 0.01);
     const intlShare = parsePct(intlShareRaw) / 100;
+    const targetNet = Math.max(parseUsd(targetNetRaw), 0);
     const chargeCount = monthlyVolume > 0 ? Math.max(1, Math.round(monthlyVolume / averageCharge)) : 0;
     const countryEstimate = estimateCountryStripeFee({
       amount: monthlyVolume,
@@ -69,12 +71,19 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
     const midFee = monthlyVolume * midRate;
     const highFee = monthlyVolume * highRate;
     const gapVsPublished = Math.max(0, midFee - publishedFee);
+    const reverseGross =
+      targetNet > 0 && profile.domesticPercent < 1
+        ? (targetNet + profile.domesticFixed) / (1 - profile.domesticPercent)
+        : 0;
+    const reverseFee = Math.max(0, reverseGross - targetNet);
+    const reverseEffectiveRate = reverseGross > 0 ? reverseFee / reverseGross : 0;
 
     return {
       monthlyVolume,
       averageCharge,
       chargeCount,
       intlShare,
+      targetNet,
       profile,
       publishedFee,
       publishedRate,
@@ -83,8 +92,11 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
       midFee,
       highFee,
       gapVsPublished,
+      reverseGross,
+      reverseFee,
+      reverseEffectiveRate,
     };
-  }, [accountCountry, averageChargeRaw, intlShareRaw, volumeRaw]);
+  }, [accountCountry, averageChargeRaw, intlShareRaw, targetNetRaw, volumeRaw]);
 
   const shellClass = compact
     ? "rounded-2xl border border-blue-100 bg-blue-50/40 p-5 sm:p-6"
@@ -96,11 +108,11 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
   return (
     <section className={shellClass} id="instant-estimate">
       <h2 className="text-lg font-semibold text-gray-900 mb-1">
-        Estimate your real Stripe rate before uploading CSV
+        Monthly Stripe fee estimate + reverse fee calculator
       </h2>
       <p className="text-sm text-gray-500 mb-5">
-        No file needed. Pick your Stripe account country and rough volume mix to see a likely all-in
-        range — then upload a Balance CSV to verify against real transactions.
+        No file needed. Estimate monthly Stripe fees, see a likely all-in range, or calculate how much
+        to charge when you want to receive a specific net amount.
       </p>
 
       <div className="grid gap-4 md:grid-cols-[1fr_1.2fr]">
@@ -138,6 +150,17 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
               step="1"
               value={averageChargeRaw}
               onChange={(event) => setAverageChargeRaw(event.target.value)}
+              className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
+            />
+          </label>
+          <label className="block">
+            <span className="text-xs font-medium text-gray-600">I want to receive after fees</span>
+            <input
+              type="number"
+              min={0}
+              step="1"
+              value={targetNetRaw}
+              onChange={(event) => setTargetNetRaw(event.target.value)}
               className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
             />
           </label>
@@ -198,6 +221,19 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
                   : "Close to published mix"}
               </p>
             </div>
+          </div>
+
+          <div className="mt-3 rounded-lg border border-gray-100 bg-gray-50 px-3 py-3">
+            <p className="text-xs text-gray-500">
+              To receive {formatMoney(estimate.targetNet, estimate.profile.currency)} on one domestic charge
+            </p>
+            <p className="mt-0.5 text-lg font-bold text-gray-900">
+              Ask for {estimate.targetNet > 0 ? formatMoney(estimate.reverseGross, estimate.profile.currency) : "-"}
+            </p>
+            <p className="mt-0.5 text-xs text-gray-500">
+              Stripe fee about {estimate.targetNet > 0 ? formatMoney(estimate.reverseFee, estimate.profile.currency) : "-"}
+              {estimate.targetNet > 0 ? ` (${formatRate(estimate.reverseEffectiveRate)})` : ""}
+            </p>
           </div>
 
           <p className="mt-4 text-xs leading-relaxed text-gray-500">

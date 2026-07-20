@@ -8,7 +8,7 @@ import { buildOgImageUrl } from "@/lib/seo-og";
 
 const pageTitle = "How to Export Stripe Balance CSV: Step-by-Step Guide";
 const pageDescription =
-  "Step-by-step: export the Itemized Stripe Balance CSV (not Summary), get the right columns, and use it to check your real fee rate.";
+  "Step-by-step: export the Itemized Stripe Balance CSV, avoid Summary and payout mistakes, get the right columns, and check your real fee rate.";
 const pagePath = "/blog/how-to-export-stripe-balance-csv";
 const published = "2026-05-16";
 const updated = "2026-07-19";
@@ -51,6 +51,11 @@ const FAQ_ITEMS = [
     answer:
       "Export at least one full month. Three to six months is better for diagnosing fee trends, international card mix, refund leakage, and month-over-month rate changes.",
   },
+  {
+    question: "Is a Stripe payout report enough for fee reconciliation?",
+    answer:
+      "No. A payout report is useful for bank reconciliation, but it groups money movement. Use the Itemized Balance CSV or Balance Transactions export when you need transaction-level fee rows.",
+  },
 ];
 
 const SOURCES = [
@@ -91,6 +96,18 @@ export default function Page() {
           their own transactions, not for developers building a Stripe-to-Postgres, JSON,
           Tableau, or Power BI data pipeline.
         </p>
+
+        <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm text-emerald-900">
+          <h2 className="text-base font-bold text-emerald-950">Quick answer</h2>
+          <p className="mt-2">
+            To export a Stripe Balance CSV, open <strong>Dashboard → Reporting → Reports → Balance summary</strong>,
+            set the date range, click <strong>Export</strong>, choose <strong>Itemized</strong>, then download the CSV.
+          </p>
+          <p className="mt-2 text-emerald-800">
+            Use this Itemized Balance CSV for fee reconciliation. Payout summaries and Payment CSVs are useful,
+            but they can miss the transaction-level fee rows needed to calculate your real effective rate.
+          </p>
+        </div>
 
         <div className="mt-8 rounded-xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm text-blue-800">
           <strong>Downloaded your CSV?</strong> Once you have the Itemized Balance export,{" "}
@@ -148,6 +165,40 @@ export default function Page() {
 
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-3">
+              Balance CSV vs Payment CSV vs Payout report
+            </h2>
+            <p>
+              Stripe exports several CSVs. They sound similar, but they answer different questions.
+            </p>
+            <div className="mt-4 overflow-hidden rounded-lg border border-gray-100">
+              <table className="w-full text-sm">
+                <thead className="border-b border-gray-100 bg-gray-50">
+                  <tr>
+                    <th className="px-4 py-2.5 text-left font-semibold text-gray-700">Export</th>
+                    <th className="px-4 py-2.5 text-left font-semibold text-gray-700">Best for</th>
+                    <th className="px-4 py-2.5 text-left font-semibold text-gray-700">Fee audit?</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-50">
+                  {[
+                    ["Itemized Balance CSV", "Fee reconciliation, effective rate, refund rows, fee drivers", "Yes — use this"],
+                    ["Payment / charge CSV", "Sales list, customer payments, charge metadata", "Partial"],
+                    ["Payout report", "Matching Stripe transfers to bank deposits", "No — bank reconciliation only"],
+                    ["Summary export", "High-level totals by category", "No — not enough row detail"],
+                  ].map(([name, bestFor, verdict]) => (
+                    <tr key={name} className={name === "Itemized Balance CSV" ? "bg-emerald-50/40" : "bg-white"}>
+                      <td className="px-4 py-2.5 font-medium text-gray-900">{name}</td>
+                      <td className="px-4 py-2.5 text-gray-600">{bestFor}</td>
+                      <td className="px-4 py-2.5 font-medium text-gray-700">{verdict}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-bold text-gray-900 mb-3">
               Step-by-step: export from Balance History
             </h2>
             <ol className="space-y-4 list-none">
@@ -189,6 +240,11 @@ export default function Page() {
                 </li>
               ))}
             </ol>
+            <div className="mt-6 rounded-xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm text-blue-800">
+              <strong>Already have the Itemized CSV?</strong>{" "}
+              <Link href="/analyze" className="font-medium underline">Analyze your real Stripe fee rate</Link>{" "}
+              before opening another spreadsheet. Free preview, no Stripe OAuth.
+            </div>
           </section>
 
           <section>

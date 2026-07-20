@@ -8,9 +8,9 @@ import { StripeFeeMiniEstimate } from "@/components/stripe-fee-mini-estimate";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "Stripe Fees Calculator: Estimate Monthly Fees";
+const pageTitle = "Stripe Fee Calculator: Estimate Fees, Then Verify Your Real Rate";
 const pageDescription =
-  "Free Stripe fees calculator for monthly volume and average charge size. See how much Stripe charges per transaction, then verify your real effective rate from a Balance CSV.";
+  "Free Stripe fee calculator for monthly volume, average charge size, and reverse fee math. Estimate costs, then verify your real effective rate from a Balance CSV.";
 const pagePath = "/stripe-fee-calculator";
 
 export const metadata: Metadata = {
@@ -112,7 +112,7 @@ const faqItems = [
   {
     question: "How do I estimate monthly Stripe fees?",
     answer:
-      "Enter your monthly card volume and average charge amount. The calculator estimates how many transactions you processed, applies 2.9% plus $0.30 per charge, and shows the effective percentage for that mix.",
+      "Enter your monthly card volume and average charge amount to estimate monthly fees. Use the reverse calculator when you know the net amount you want to receive and need the gross amount to charge.",
   },
   {
     question: "What file do I need to calculate my Stripe effective fee rate?",
@@ -195,13 +195,13 @@ export default function StripeFeeCalculatorPage() {
             Stripe fees calculator
           </p>
           <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
-            Stripe Fees Calculator: Estimate Monthly Fees
+            Stripe Fee Calculator: Estimate Fees, Then Verify Your Real Rate
           </h1>
           <p className="text-lg text-gray-500 leading-relaxed">
-            Free Stripe fees calculator for monthly card volume and average charge size — including
-            how much Stripe charges per transaction on the published 2.9% + $0.30 rate. Then compare
-            that estimate with your actual effective rate from a Balance CSV, where international cards,
-            refunds, small charges, and add-ons can push the real number higher.
+            Estimate monthly Stripe fees, effective rate, and how much to charge if you want to receive
+            a target amount after fees. Then compare that estimate with your actual effective rate from
+            a Balance CSV, where international cards, refunds, small charges, and add-ons can push the
+            real number higher.
           </p>
           <p className="text-sm text-gray-500 leading-relaxed mt-4">
             Stripe Fee Auditor is built for SaaS, ecommerce, subscription, and
