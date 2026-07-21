@@ -301,11 +301,11 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
   {
     slug: "stripe-balance-csv",
     path: "/stripe-balance-csv",
-    title: "How to Export Stripe Balance CSV for Fee Reconciliation",
-    desc: "Export the right Stripe Balance CSV, avoid payout-summary mistakes, and reconcile real fees, refund leakage, and international card costs.",
+    title: "Stripe Balance CSV Export Guide for Fee Analysis and Rate Audit",
+    desc: "Export the itemized Stripe Balance CSV to audit effective rate, refund fee leakage, and international card costs. Not a BI export guide.",
     time: "4 min",
     publishedAt: "2026-06-25",
-    updatedAt: "2026-07-20",
+    updatedAt: "2026-07-21",
     sitemapPriority: 0.7,
   },
 ];

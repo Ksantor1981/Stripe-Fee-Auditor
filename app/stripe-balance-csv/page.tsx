@@ -6,9 +6,9 @@ import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "How to Export Stripe Balance CSV for Fee Reconciliation";
+const pageTitle = "Stripe Balance CSV Export Guide for Fee Analysis and Rate Audit";
 const pageDescription =
-  "Export the right Stripe Balance CSV, avoid payout-summary mistakes, and use it to reconcile real Stripe fees, refund leakage, and international card costs.";
+  "Export the itemized Stripe Balance CSV to audit real Stripe effective rate, refund fee leakage, and international card costs. Not a Tableau, Qlik, or PostgreSQL export guide.";
 const pagePath = "/stripe-balance-csv";
 
 export const metadata: Metadata = {
@@ -19,10 +19,15 @@ export const metadata: Metadata = {
     "export Stripe Balance CSV",
     "Stripe Balance Transactions CSV",
     "Stripe balance export",
+    "Stripe Balance CSV for fee analysis",
+    "Stripe effective rate audit",
     "Stripe fee reconciliation",
     "Stripe fee report CSV",
     "Stripe Dashboard reports",
     "Stripe CSV columns",
+    "not Stripe Tableau export",
+    "not Stripe PostgreSQL export",
+    "not Stripe Qlik export",
   ],
   alternates: {
     canonical: pagePath,
@@ -201,10 +206,11 @@ export default function StripeBalanceCsvPage() {
         <div className="mb-14">
           <p className="text-blue-600 text-sm font-medium mb-3">Export Guide</p>
           <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
-            How to Export a Stripe Balance CSV
+            How to Export Stripe Balance CSV for Fee Analysis
           </h1>
+          <p className="mb-3 inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-blue-700">Not for BI tools or data pipelines</p>
           <p className="text-lg text-gray-500 leading-relaxed">
-            Fee reconciliation needs itemized Balance transactions — not payout summaries. Export that CSV to check effective rate, refund fees not returned, and international card costs. This guide is for fee analysis, not warehouse exports to JSON, Tableau, Power BI, or PostgreSQL.
+            This guide is for Stripe users who want to understand their real processing costs: effective rate, payout differences, refund fee leakage, and international card mix. It is not for developers building data pipelines to Tableau, PostgreSQL, Qlik, Power BI, or JSON warehouses.
           </p>
           <div className="mt-5 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-600">
             Looking for a broader Stripe data export path instead? See{" "}
