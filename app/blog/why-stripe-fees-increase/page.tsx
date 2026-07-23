@@ -123,6 +123,10 @@ export default function BlogPost1() {
             $100 example (see our{" "}
             <Link href="/blog/stripe-international-card-fees" className="text-blue-600 underline">
               international fees guide
+            </Link>{" "}
+            and the{" "}
+            <Link href="/blog/cross-border-stripe-fees-migration-2026" className="text-blue-600 underline">
+              cross-border fee migration briefing
             </Link>
             ). If your customer mix has shifted toward international buyers, your effective rate rises.
           </p>

@@ -71,6 +71,7 @@ const FEE_DRIVERS = [
 const RELATED = [
   { href: "/stripe-fee-calculator", title: "Stripe fees calculator" },
   { href: "/why-stripe-fee-rate-higher-than-2-9", title: "Why are my Stripe fees so high?" },
+  { href: "/blog/cross-border-stripe-fees-migration-2026", title: "Cross-border Stripe fees and migration trends" },
   { href: "/what-percent-does-stripe-take", title: "How much does Stripe charge per transaction?" },
   { href: "/stripe-balance-csv", title: "Export Stripe Balance CSV" },
   { href: "/analyze", title: "Analyze your Stripe CSV" },

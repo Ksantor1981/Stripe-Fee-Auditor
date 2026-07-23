@@ -106,7 +106,7 @@ export const PRIVACY_ARTICLES: PrivacyArticle[] = [
       },
     ],
     related: [
-      { href: "/blog/what-does-stripe-oauth-read-only-access-actually-see", title: "What does Stripe OAuth read-only access actually see?" },
+      { href: "/blog/what-does-stripe-oauth-read-only-access-actually-see", title: "Stripe OAuth read-only access: what apps can see" },
       { href: "/blog/how-to-audit-stripe-fees-without-connecting-your-account", title: "How to audit Stripe fees without connecting your account" },
       { href: "/blog/csv-vs-api-stripe-fee-analysis", title: "CSV vs API for Stripe fee analysis" },
     ],
@@ -117,13 +117,13 @@ export const PRIVACY_ARTICLES: PrivacyArticle[] = [
   },
   {
     slug: "what-does-stripe-oauth-read-only-access-actually-see",
-    title: "What Does Stripe OAuth Read-Only Access Actually See?",
-    shortTitle: "What Stripe OAuth Read-Only Access Can See",
+    title: "Stripe OAuth Read-Only Access: What Third-Party Apps Can See",
+    shortTitle: "Stripe OAuth Read-Only Access: What Apps Can See",
     description:
-      "What Stripe OAuth read-only access can see: customers, payments, payouts, refunds, and disputes — plus when a Balance CSV is enough instead of OAuth.",
+      "Before connecting a Stripe analytics or fee tool, see what read-only OAuth access can expose, why a Balance CSV can be enough, and how to limit third-party Stripe data access.",
     time: "8 min",
     datePublished: "2026-05-16",
-    dateModified: "2026-07-19",
+    dateModified: "2026-07-23",
     semanticCluster: "Stripe OAuth read-only scope, Stripe Apps permissions, Stripe data access",
     keywords: [
       "Stripe OAuth read only access",
@@ -134,8 +134,8 @@ export const PRIVACY_ARTICLES: PrivacyArticle[] = [
       "Stripe data privacy",
     ],
     intro: [
-      "The phrase read-only sounds safe. It suggests a third-party app can look at your Stripe data but cannot change anything. That distinction matters, but it does not mean the data exposure is small.",
-      "Stripe integrations can work through Connect OAuth, Stripe Apps permissions, restricted API keys, or custom API integrations. The exact access depends on the integration model and the permissions granted. Still, broad read access can reveal much more than a few payment totals.",
+      "The phrase read-only sounds safe. For Stripe, it can still mean broad visibility into your business: customers, payments, payouts, refunds, subscriptions, disputes, and metadata depending on the app and permissions.",
+      "That matters when you only need a fee audit. A CSV-based workflow gives you a one-time snapshot instead of a persistent Stripe connection, so the tradeoff is access friction versus ongoing data exposure.",
     ],
     sections: [
       {
@@ -192,6 +192,11 @@ export const PRIVACY_ARTICLES: PrivacyArticle[] = [
       },
     ],
     faqs: [
+      {
+        question: "Is Stripe OAuth read-only access safe?",
+        answer:
+          "It is safer than write access because it should not let an app change your Stripe account, but it can still expose sensitive business data depending on the scopes and permissions requested. Check the exact permissions and whether a CSV export is enough for the job.",
+      },
       {
         question: "Does read-only access include card numbers?",
         answer:

@@ -10,10 +10,9 @@ import { absoluteUrl } from "@/lib/site-url";
 
 const slug = "/blog/cross-border-stripe-fees-migration-2026";
 const shortTitle = "Cross-Border Stripe Fees & Migration 2026";
-const title =
-  "Cross-Border Stripe Fees in 2026: Why Global Migration Is Quietly Raising Your Effective Rate";
+const title = "Cross-Border Stripe Fees: Why Your Rate Rises";
 const description =
-  "June 2026 briefing: UN migration trends, remote-work visas, and how more customers paying from new countries can push Stripe fees from ~2.9% toward 5%+ — plus how to monitor it in your CSV.";
+  "How international customers, migration trends, and currency mix can push Stripe fees above 2.9% in 2026, plus how to spot the change in your Balance CSV.";
 const published = "2026-06-22";
 const ogImage = buildOgImageUrl({ title: shortTitle, eyebrow: "June 2026 briefing" });
 

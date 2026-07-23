@@ -74,6 +74,7 @@ const RELATED = [
   { href: "/blog/stripe-credit-card-processing-fees", title: "Stripe Credit Card Processing Fees Explained" },
   { href: "/blog/stripe-ach-vs-credit-card-fees", title: "Stripe ACH vs Credit Card Fees" },
   { href: "/blog/stripe-international-card-fees", title: "Stripe International Card Fees Explained" },
+  { href: "/blog/cross-border-stripe-fees-migration-2026", title: "Cross-Border Stripe Fees and Migration Trends" },
   { href: "/blog/how-to-export-stripe-balance-csv", title: "Export Stripe Balance CSV" },
 ];
 
