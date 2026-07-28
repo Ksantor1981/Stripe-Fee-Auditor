@@ -6,12 +6,12 @@ import { BlogBreadcrumbs } from "@/components/BlogBreadcrumbs";
 import { BlogFaqSection, BlogJsonLd, BlogSourcesSection } from "@/components/BlogSeoBlocks";
 import { buildOgImageUrl } from "@/lib/seo-og";
 
-const pageTitle = "How to Export Stripe Balance CSV: Step-by-Step Guide";
+const pageTitle = "Export Stripe Balance CSV for Fee Analysis";
 const pageDescription =
   "Step-by-step: export the Itemized Stripe Balance CSV, avoid Summary and payout mistakes, get the right columns, and check your real fee rate.";
 const pagePath = "/blog/how-to-export-stripe-balance-csv";
 const published = "2026-05-16";
-const updated = "2026-07-19";
+const updated = "2026-07-28";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe Balance CSV" });
 
 export const metadata: Metadata = {
