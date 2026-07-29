@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { applyExpectedOutlierExclusions } from "@/lib/expected-outliers";
+import { selectFreeDiagnosis } from "@/lib/free-diagnosis";
 import { trackEvent } from "@/lib/analytics";
 import { EmailGate } from "./EmailGate";
 import { FeedbackForm } from "./FeedbackForm";
@@ -66,6 +67,7 @@ export function ReportShell({
     () => applyExpectedOutlierExclusions(baseResult, expectedOutlierIds),
     [baseResult, expectedOutlierIds]
   );
+  const freeDiagnosis = useMemo(() => selectFreeDiagnosis(baseResult), [baseResult]);
   const canMarkExpectedOutliers = Boolean(baseResult.chargeLedger?.length) && hasFullAccess;
 
   const toggleExpectedOutlier = useCallback(
@@ -152,6 +154,7 @@ export function ReportShell({
           monthCount: Math.max(1, result.monthly.length),
           topDrivers: result.topDrivers,
           feeGrade: result.feeGrade,
+          diagnosis: freeDiagnosis,
         }}
         onUnlock={() => setUnlocked(true)}
       />

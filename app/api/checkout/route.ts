@@ -7,7 +7,7 @@ import { appendReportAccessCookie, resolveReportAccessFromRequest } from "@/lib/
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-const CHECKOUT_LIMIT_PER_IP_PER_DAY = 30;
+const CHECKOUT_LIMIT_PER_IP_PER_DAY = 10;
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;

@@ -16,6 +16,7 @@ import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 import { OutlierRateComparison } from "./OutlierRateComparison";
 import { ExpectedOutlierToggle } from "./ExpectedOutlierToggle";
 import { resolvePaywallImpact } from "@/lib/paywall-impact";
+import { selectFreeDiagnosis } from "@/lib/free-diagnosis";
 
 interface Props {
   reportId: string;
@@ -45,6 +46,7 @@ export function SingleMonthReport({
     otherFees: actualOtherFees,
   } = originalResult;
   const savings = savingsOpportunities ?? [];
+  const freeDiagnosis = selectFreeDiagnosis(originalResult);
   const month = monthly[0];
   const periodFees = actualAllInFees ?? periodTotalFees(actualChargeFees, actualOtherFees);
   const allInRate =
@@ -139,6 +141,7 @@ export function SingleMonthReport({
           chargeRate={chargeRate}
           chargeVolume={chargeVolume}
           monthCount={1}
+          diagnosis={freeDiagnosis}
         />
       )}
 
@@ -232,6 +235,7 @@ export function SingleMonthReport({
               annualImpact={paywallImpact?.amount}
               impactSource={paywallImpact?.source}
               firstOpportunity={paywallImpact?.label}
+              diagnosis={freeDiagnosis}
             />
           </div>
         )}

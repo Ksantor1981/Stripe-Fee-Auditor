@@ -163,7 +163,16 @@ async function handleSubscriptionEvent(event: ReturnType<typeof verifyPolarWebho
 }
 
 export async function POST(req: NextRequest) {
+  const MAX_WEBHOOK_BODY_BYTES = 256 * 1024;
+  const contentLength = Number(req.headers.get("content-length") ?? 0);
+  if (contentLength > MAX_WEBHOOK_BODY_BYTES) {
+    return NextResponse.json({ error: "Webhook payload too large" }, { status: 413 });
+  }
+
   const rawBody = await req.text();
+  if (Buffer.byteLength(rawBody, "utf8") > MAX_WEBHOOK_BODY_BYTES) {
+    return NextResponse.json({ error: "Webhook payload too large" }, { status: 413 });
+  }
 
   // Build headers map for Polar webhook verification
   const headers: Record<string, string> = {};

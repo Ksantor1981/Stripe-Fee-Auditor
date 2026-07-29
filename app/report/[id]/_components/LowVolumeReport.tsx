@@ -15,6 +15,7 @@ import { MoneyFirstImpact } from "./MoneyFirstImpact";
 import { PaywallBanner } from "./PaywallBanner";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 import { resolvePaywallImpact } from "@/lib/paywall-impact";
+import { selectFreeDiagnosis } from "@/lib/free-diagnosis";
 
 interface Props {
   reportId: string;
@@ -26,6 +27,7 @@ export function LowVolumeReport({ reportId, result, isPaid }: Props) {
   const { chargeFees, chargeRate, chargeVolume, otherFees, topDrivers, monthly, savingsOpportunities } =
     result;
   const savings = savingsOpportunities ?? [];
+  const freeDiagnosis = selectFreeDiagnosis(result);
   const totalCharges = monthly.reduce((a, m) => a + m.count, 0);
   const monthCount = monthly.length;
   const periodFees = result.allInFees ?? periodTotalFees(chargeFees, otherFees);
@@ -113,6 +115,7 @@ export function LowVolumeReport({ reportId, result, isPaid }: Props) {
           chargeRate={chargeRate}
           chargeVolume={chargeVolume}
           monthCount={monthCount}
+          diagnosis={freeDiagnosis}
         />
       )}
 
@@ -179,6 +182,7 @@ export function LowVolumeReport({ reportId, result, isPaid }: Props) {
               annualImpact={paywallImpact?.amount}
               impactSource={paywallImpact?.source}
               firstOpportunity={paywallImpact?.label}
+              diagnosis={freeDiagnosis}
             />
           </div>
         )}

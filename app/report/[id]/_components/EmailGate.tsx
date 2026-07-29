@@ -10,6 +10,7 @@ import { fmt$, fmtPct } from "@/lib/format";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import type { NormalizedRow } from "@/lib/csv-parser";
 import type { FeeGrade } from "@/lib/fee-grade";
+import type { FreeDiagnosis } from "@/lib/free-diagnosis";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 
 export interface ReportHeadline {
@@ -22,6 +23,7 @@ export interface ReportHeadline {
   monthCount: number;
   topDrivers: NormalizedRow[];
   feeGrade?: FeeGrade;
+  diagnosis?: FreeDiagnosis;
 }
 
 interface Props {
@@ -48,7 +50,10 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
       all_in_rate: displayAllInRate.toFixed(2),
       month_count: headline.monthCount,
     });
-  }, [displayAllInRate, headline.monthCount]);
+    if (headline.diagnosis) {
+      trackEvent("free_diagnosis_view", { driver: headline.diagnosis.kind });
+    }
+  }, [displayAllInRate, headline.monthCount, headline.diagnosis]);
 
   function isValidEmail(e: string) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
@@ -59,6 +64,9 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
     if (!isValidEmail(email)) {
       setError("Please enter a valid email address.");
       return;
+    }
+    if (headline.diagnosis) {
+      trackEvent("free_diagnosis_cta_click", { driver: headline.diagnosis.kind });
     }
     setLoading(true);
     try {
@@ -137,6 +145,23 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
               </ul>
             </div>
           )}
+
+          {headline.diagnosis && (
+            <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50/80 px-4 py-3">
+              <p className="text-xs font-semibold uppercase tracking-widest text-emerald-700 mb-1">
+                Free diagnosis
+              </p>
+              <h2 className="text-sm font-bold text-emerald-950">{headline.diagnosis.title}</h2>
+              <p className="mt-1 text-sm leading-relaxed text-emerald-900/85">
+                {headline.diagnosis.body}
+              </p>
+              {headline.diagnosis.disclaimer && (
+                <p className="mt-2 text-xs leading-relaxed text-emerald-800/75">
+                  {headline.diagnosis.disclaimer}
+                </p>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Email — save link + unlock full preview */}
@@ -145,7 +170,7 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
             Save your report link
           </h2>
           <p className="text-sm text-gray-500 mb-5">
-            Your analysis is ready. Enter your email to unlock the full preview and get a private link
+            Your analysis is ready. Enter your email to see every affected row and get a private link
             you can return to — no credit card required.
           </p>
 
@@ -167,7 +192,7 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
               disabled={loading}
               className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-semibold"
             >
-              {loading ? "Opening report…" : "Unlock Full Preview →"}
+              {loading ? "Opening report…" : "See Every Affected Row →"}
             </Button>
           </form>
 

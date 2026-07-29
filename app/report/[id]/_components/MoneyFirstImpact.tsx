@@ -3,6 +3,7 @@
 import type { SavingsOpportunity } from "@/lib/fee-analyzer";
 import { fmt$ } from "@/lib/format";
 import { resolvePaywallImpact } from "@/lib/paywall-impact";
+import type { FreeDiagnosis } from "@/lib/free-diagnosis";
 import { PaywallBanner } from "./PaywallBanner";
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
   chargeRate?: number;
   chargeVolume?: number;
   monthCount?: number;
+  diagnosis?: FreeDiagnosis;
 }
 
 /**
@@ -28,6 +30,7 @@ export function MoneyFirstImpact({
   chargeRate,
   chargeVolume,
   monthCount,
+  diagnosis,
 }: Props) {
   const impact = resolvePaywallImpact({
     savingsAnnual: savings?.annualSavings,
@@ -39,7 +42,9 @@ export function MoneyFirstImpact({
   });
 
   const headline =
-    impact?.source === "savings"
+    diagnosis
+      ? "We found a concrete fee driver"
+      : impact?.source === "savings"
       ? "Potential annual impact found"
       : impact?.source === "rate_gap"
         ? "Rate gap vs advertised pricing"
@@ -52,7 +57,22 @@ export function MoneyFirstImpact({
       <div className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-white p-6 shadow-sm">
         <p className="text-xs font-semibold uppercase tracking-widest text-emerald-700">{headline}</p>
 
-        {impact ? (
+        {diagnosis ? (
+          <>
+            <p className="mt-2 text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">
+              {diagnosis.title}
+            </p>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-gray-700">
+              {diagnosis.body} Unlock the full report to see every affected row, the caveats, and
+              what to inspect first.
+            </p>
+            {diagnosis.disclaimer && (
+              <p className="mt-3 text-xs leading-relaxed text-emerald-900/70">
+                {diagnosis.disclaimer}
+              </p>
+            )}
+          </>
+        ) : impact ? (
           <>
             <p className="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
               {impact.source === "fee_runrate" ? "~" : "up to ~"}
@@ -105,6 +125,7 @@ export function MoneyFirstImpact({
         annualImpact={impact?.amount}
         impactSource={impact?.source}
         firstOpportunity={impact?.label}
+        diagnosis={diagnosis}
       />
     </div>
   );

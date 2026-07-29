@@ -6,6 +6,7 @@
 import { normalizeRow, validateColumns, type NormalizedRow } from "../lib/csv-parser";
 import { analyze, redactAnalysisResultForStorage } from "../lib/fee-analyzer";
 import { applyExpectedOutlierExclusions } from "../lib/expected-outliers";
+import { selectFreeDiagnosis } from "../lib/free-diagnosis";
 import { resolvePaywallImpact } from "../lib/paywall-impact";
 import { estimateCountryStripeFee, getCountryFeeProfile } from "../lib/stripe-country-fees";
 
@@ -683,6 +684,57 @@ test("falls back to fee run-rate when no gap", () => {
   });
   assert(impact?.source === "fee_runrate", `expected fee_runrate, got ${impact?.source}`);
   assert(impact?.amount === 2500, "should use yearly fees");
+});
+
+console.log("\n📋 free-diagnosis");
+
+test("free diagnosis prioritizes international card uplift", () => {
+  const domestic = makeCharges(60, "2024-01", 3.2);
+  const international = Array.from({ length: 10 }, (_, i) => ({
+    id: `ch_intl_${i}`,
+    type: "charge" as const,
+    amount: 100,
+    fee: 4.7,
+    net: 95.3,
+    currency: "USD",
+    date: "2024-01-16",
+    month: "2024-01",
+    description: "[international] card charge",
+  }));
+  const diagnosis = selectFreeDiagnosis(analyze([...domestic, ...international]));
+  assert(diagnosis?.kind === "international_card_uplift", `expected international diagnosis, got ${diagnosis?.kind}`);
+  assert((diagnosis?.amount ?? 0) > 0, "international diagnosis should include an amount");
+});
+
+test("free diagnosis selects refund leakage before fixed-fee drag", () => {
+  const refunds = [
+    { id: "re_diag_1", type: "refund" as const, amount: -200, fee: 0, net: -200, currency: "USD", date: "2024-01-15", month: "2024-01" },
+  ];
+  const diagnosis = selectFreeDiagnosis(analyze([...makeCharges(60, "2024-01", 3.0), ...refunds]));
+  assert(diagnosis?.kind === "refund_fee_leakage", `expected refund diagnosis, got ${diagnosis?.kind}`);
+  assertClose(diagnosis?.amount ?? 0, 6, 0.01, "refund diagnosis amount");
+});
+
+test("free diagnosis identifies small-ticket fixed-fee drag", () => {
+  const rows = Array.from({ length: 60 }, (_, i) => ({
+    id: `ch_small_diag_${i}`,
+    type: "charge" as const,
+    amount: 10,
+    fee: 0.59,
+    net: 9.41,
+    currency: "USD",
+    date: "2024-01-15",
+    month: "2024-01",
+  }));
+  const diagnosis = selectFreeDiagnosis(analyze(rows));
+  assert(diagnosis?.kind === "small_ticket_drag", `expected small-ticket diagnosis, got ${diagnosis?.kind}`);
+  assert((diagnosis?.amount ?? 0) > 0, "small-ticket diagnosis should include an amount");
+});
+
+test("free diagnosis falls back to a directional above-benchmark rate gap", () => {
+  const diagnosis = selectFreeDiagnosis(analyze(makeCharges(60, "2024-01", 5.25)));
+  assert(diagnosis?.kind === "above_benchmark_rate", `expected benchmark diagnosis, got ${diagnosis?.kind}`);
+  assert((diagnosis?.amount ?? 0) > 0, "benchmark diagnosis should include an amount");
 });
 
 // ─── Summary ──────────────────────────────────────────────────────────────────

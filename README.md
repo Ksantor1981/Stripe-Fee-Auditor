@@ -30,7 +30,7 @@ This app:
 
 **Analytics:** Plausible (traffic + **custom goals** mirrored from funnel events) plus first-party funnel events → `POST /api/event` → **server logs** (see Privacy Policy). **No** raw CSV/report payloads are sent to analytics.
 
-**Funnel goals (Plausible dashboard):** create custom events matching: `Landing CTA`, `Analyze Submit`, `Analyze Success`, `Email Unlock`, `Checkout Start`, `Payment Success`, `Report View`. Client `trackEvent("funnel_*")` sends both Vercel logs and Plausible when mapped in `lib/analytics.ts`. Code also fires **`Landing CT`** if that typo goal still exists in Plausible (rename to `Landing CTA` when convenient).
+**Funnel goals (Plausible dashboard):** create custom events matching: `Landing CTA`, `Analyze Submit`, `Analyze Success`, `Free Diagnosis View`, `Free Diagnosis CTA Click`, `Email Unlock`, `Checkout Start`, `Payment Success`, `Report View`. Client `trackEvent()` sends both Vercel logs and Plausible when mapped in `lib/analytics.ts`. Code also fires **`Landing CT`** if that typo goal still exists in Plausible (rename to `Landing CTA` when convenient).
 
 **UTM on outbound links:** landing/blog CTAs append `utm_source`, `utm_medium`, `utm_campaign` via `lib/utm.ts` (`TrackedLink`, `BlogArticleCta`, Twitter share in `lib/share-copy.ts`). Example campaigns: `hero_primary`, `how-to-reduce-stripe-fees`, `share_snippet`.
 
@@ -39,7 +39,7 @@ This app:
 | Step | Where | Action |
 |------|--------|--------|
 | Plausible goals | Settings → Goals | Keep custom events above; delete junk **Custom Event** if present; rename **Landing CT** → **Landing CTA** (optional — code fires both). |
-| Plausible funnel | Settings → Funnels | **Landing CTA** → **Analyze Success** → **Email Unlock** → **Checkout Start** → **Payment Success** (post-beta). |
+| Plausible funnel | Settings → Funnels | **Landing CTA** → **Analyze Success** → **Free Diagnosis View** → **Free Diagnosis CTA Click** → **Email Unlock** → **Checkout Start** → **Payment Success** (post-beta). Break diagnosis events down by the non-PII `driver` property. |
 | Realtime self-test | Plausible → Realtime | Disable ad blocker on `feeauditor.com` or use another browser; path: landing CTA → analyze → sample → goals in Realtime. |
 | GSC indexing | Search Console | **Not indexed** often expected: `/report/*`, `/api/*`, `/embed/*` (`robots.ts` disallows). Fix only public URLs that should rank. |
 | Weekly metrics | Neon + Plausible + Vercel | Run `scripts/weekly-metrics.sql`; Plausible funnel drop-offs; `grep funnel_event` in Vercel logs. |

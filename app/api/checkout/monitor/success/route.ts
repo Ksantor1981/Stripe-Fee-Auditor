@@ -1,13 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCheckoutSession, processPaidWebhook, upsertMonitorSubscriberFromPayment } from "@/lib/db";
+import {
+  consumeIpRequest,
+  getCheckoutSession,
+  processPaidWebhook,
+  upsertMonitorSubscriberFromPayment,
+} from "@/lib/db";
 import { sendMonitorWelcomeEmail } from "@/lib/email";
 import { getSucceededCheckout, isMonitorProductId } from "@/lib/polar";
 import { logOpsError, logOpsWarn } from "@/lib/ops-log";
 import { appendReportAccessCookie } from "@/lib/report-access-cookie";
+import { getTrustedClientIp } from "@/lib/request-ip";
 
 export const dynamic = "force-dynamic";
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const MONITOR_CHECKOUT_SUCCESS_LIMIT_PER_IP_PER_DAY = 10;
 
 function sanitizeReturnPath(value: string | null): string {
   const path = value?.trim();
@@ -33,6 +40,17 @@ function redirectTo(
 }
 
 export async function GET(req: NextRequest) {
+  const ip = getTrustedClientIp(req);
+  if (ip && !(await consumeIpRequest(
+    `monitor_checkout_success:${ip}`,
+    MONITOR_CHECKOUT_SUCCESS_LIMIT_PER_IP_PER_DAY
+  ))) {
+    return NextResponse.json(
+      { error: "Too many checkout confirmation requests from this network. Try again later." },
+      { status: 429 }
+    );
+  }
+
   const checkoutId = req.nextUrl.searchParams.get("checkout_id") ?? "";
   const returnPath = sanitizeReturnPath(req.nextUrl.searchParams.get("return_to"));
 

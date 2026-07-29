@@ -8,6 +8,7 @@ export const maxDuration = 15;
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const FEEDBACK_LIMIT_PER_IP_PER_DAY = 10;
 const MAX_BODY_BYTES = 8 * 1024;
+const MAX_DISCREPANCY_LEN = 600;
 const MAX_MISSING_LEN = 1200;
 const MAX_WILL_PAY_LEN = 200;
 
@@ -68,11 +69,13 @@ export async function POST(req: NextRequest) {
   const payload = body as {
     reportId?: string;
     useful?: string;
+    discrepancy?: string;
     missing?: string;
     willPay?: string;
   };
   const reportId = asTrimmedString(payload.reportId);
   const useful = asTrimmedString(payload.useful);
+  const discrepancy = asTrimmedString(payload.discrepancy);
   const missing = asTrimmedString(payload.missing);
   const willPay = asTrimmedString(payload.willPay);
 
@@ -80,7 +83,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
   }
 
-  if (missing.length > MAX_MISSING_LEN || willPay.length > MAX_WILL_PAY_LEN) {
+  if (
+    discrepancy.length > MAX_DISCREPANCY_LEN ||
+    missing.length > MAX_MISSING_LEN ||
+    willPay.length > MAX_WILL_PAY_LEN
+  ) {
     return NextResponse.json({ error: "Feedback is too long" }, { status: 413 });
   }
 
@@ -88,6 +95,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid report ID" }, { status: 400 });
   }
 
+  const discrepancySafe = discrepancy ? escapeHtml(discrepancy).replace(/\n/g, "<br>") : "";
   const missingSafe = missing ? escapeHtml(missing).replace(/\n/g, "<br>") : "";
   const willPaySafe = willPay ? escapeHtml(willPay) : "";
   const reportSafe = reportId ? escapeHtml(reportId) : "unknown";
@@ -112,6 +120,12 @@ export async function POST(req: NextRequest) {
                 <td style="padding:8px 0;color:#666;width:140px">Was it useful?</td>
                 <td style="padding:8px 0;font-weight:600;color:${useful === "yes" ? "#059669" : "#dc2626"}">
                   ${useful === "yes" ? "👍 Yes" : "👎 No"}
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:8px 0;color:#666;vertical-align:top">Why did they upload?</td>
+                <td style="padding:8px 0;color:#111">
+                  ${discrepancy ? discrepancySafe : "<span style='color:#999'>— not filled —</span>"}
                 </td>
               </tr>
               <tr>

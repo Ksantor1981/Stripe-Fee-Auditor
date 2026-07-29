@@ -86,10 +86,12 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  try {
-    await sendWaitlistConfirmationEmail({ email, source, status: result });
-  } catch (err) {
-    console.error("[waitlist] Confirmation email failed:", err);
+  if (result === "inserted") {
+    try {
+      await sendWaitlistConfirmationEmail({ email, source, status: result });
+    } catch (err) {
+      console.error("[waitlist] Confirmation email failed:", err);
+    }
   }
 
   return NextResponse.json({ ok: true, status: result });

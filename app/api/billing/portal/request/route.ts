@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendBillingPortalEmail } from "@/lib/email";
 import { getTrustedClientIp } from "@/lib/request-ip";
-import { consumeIpRequest } from "@/lib/db";
+import { consumeIpRequest, isActiveMonitorSubscriber } from "@/lib/db";
 import { isValidWaitlistEmail, normalizeWaitlistEmail } from "@/lib/waitlist";
 import { logOpsError } from "@/lib/ops-log";
 
 export const maxDuration = 15;
 
-const BILLING_PORTAL_LIMIT_PER_IP_PER_DAY = 10;
+const BILLING_PORTAL_LIMIT_PER_IP_PER_DAY = 5;
 const MAX_BODY_BYTES = 2 * 1024;
 
 function asTrimmedString(value: unknown): string {
@@ -53,6 +53,12 @@ export async function POST(req: NextRequest) {
   const email = normalizeWaitlistEmail(asTrimmedString((body as { email?: string }).email));
   if (!isValidWaitlistEmail(email)) {
     return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
+  }
+
+  // Avoid turning this public endpoint into an email sender for arbitrary
+  // addresses. The response stays generic so subscriber status is not exposed.
+  if (!(await isActiveMonitorSubscriber(email))) {
+    return NextResponse.json({ ok: true });
   }
 
   try {

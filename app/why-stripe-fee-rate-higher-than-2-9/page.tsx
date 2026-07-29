@@ -197,6 +197,14 @@ export default function WhyStripeFeesIncreasePage() {
           </p>
         </div>
 
+        <SeoAnalyzeCta
+          className="mb-14 border border-blue-100"
+          title="Find your specific fee driver — free"
+          description="Upload your Stripe Balance CSV to see the rate you actually paid and one concrete driver behind it. No OAuth. Your raw CSV is not stored."
+          primaryLabel="Analyze my Stripe fees →"
+          showSample={false}
+        />
+
         {/* Reasons */}
         <div className="space-y-10 mb-16">
           {reasons.map((r) => (
@@ -237,13 +245,6 @@ export default function WhyStripeFeesIncreasePage() {
             </div>
           ))}
         </div>
-
-        <SeoAnalyzeCta
-          className="border border-blue-100"
-          title="See exactly which of these apply to you"
-          description="Upload your Stripe Balance CSV. Get your real effective rate, monthly breakdown, and the specific transactions driving it up."
-          primaryLabel="Analyze My Fees →"
-        />
 
         {/* Next step */}
         <div className="mt-8 pt-8 border-t border-gray-100 space-y-4 text-sm text-gray-400">

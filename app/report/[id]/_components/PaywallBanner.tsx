@@ -6,6 +6,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { trackEvent } from "@/lib/analytics";
 import { fmt$ } from "@/lib/format";
 import type { PaywallImpactSource } from "@/lib/paywall-impact";
+import type { FreeDiagnosis } from "@/lib/free-diagnosis";
 
 interface Props {
   reportId: string;
@@ -14,6 +15,7 @@ interface Props {
   annualImpact?: number;
   impactSource?: PaywallImpactSource;
   firstOpportunity?: string;
+  diagnosis?: FreeDiagnosis;
 }
 
 export function PaywallBanner({
@@ -22,6 +24,7 @@ export function PaywallBanner({
   annualImpact,
   impactSource,
   firstOpportunity,
+  diagnosis,
 }: Props) {
   const [open, setOpen] = useState(false);
   const hasImpact = annualImpact != null && annualImpact > 0;
@@ -45,13 +48,17 @@ export function PaywallBanner({
     "No tax, accounting, or contractual fee advice",
   ];
 
-  const title = hasImpact
+  const title = diagnosis
+    ? "We found the problem. See every affected row."
+    : hasImpact
     ? impactSource === "fee_runrate"
       ? `Unlock the drivers behind ~${fmt$(annualImpact)}/yr in fees`
       : `Unlock why this could be worth ~${fmt$(annualImpact)}/yr`
     : "Unlock why your rate looks the way it does";
 
-  const body = hasImpact
+  const body = diagnosis
+    ? `Your free diagnosis points to ${diagnosis.title.toLowerCase()}. Pay $12 once for every affected row, the caveats, and the next checks in Stripe.`
+    : hasImpact
     ? impactSource === "fee_runrate"
       ? `Pay $12 once to see high-fee rows, caveats, and actions behind ~${fmt$(annualImpact)}/yr at this rate.`
       : `Pay $12 once to see the rows, caveats, and actions behind${
@@ -59,7 +66,9 @@ export function PaywallBanner({
         }.`
     : "Pay $12 once for every high-fee row, why it was flagged, and which Stripe checks are most likely to reduce fees.";
 
-  const cta = hasImpact
+  const cta = diagnosis
+    ? "Unlock the full investigation — $12 →"
+    : hasImpact
     ? `Unlock ~${fmt$(annualImpact)}/yr insight — $12 →`
     : "Unlock Full Report — $12 →";
 
@@ -79,6 +88,7 @@ export function PaywallBanner({
               placement: "inline_banner",
               has_annual_impact: hasImpact,
               impact_source: impactSource ?? "none",
+              diagnosis_driver: diagnosis?.kind ?? "none",
             });
             unlock();
           }}
@@ -163,6 +173,7 @@ export function PaywallBanner({
                   placement: "modal",
                   has_annual_impact: hasImpact,
                   impact_source: impactSource ?? "none",
+                  diagnosis_driver: diagnosis?.kind ?? "none",
                 });
                 unlock();
               }}

@@ -5,7 +5,7 @@ import { getTrustedClientIp } from "@/lib/request-ip";
 import { resolveReportAccessFromRequest } from "@/lib/report-access-cookie";
 import { isValidWaitlistEmail, normalizeWaitlistEmail } from "@/lib/waitlist";
 
-const MONITOR_CHECKOUT_LIMIT_PER_IP_PER_DAY = 200;
+const MONITOR_CHECKOUT_LIMIT_PER_IP_PER_DAY = 10;
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 function sanitizeSource(value: string | null): string {

@@ -27,6 +27,8 @@ const PLAUSIBLE_GOALS: Record<string, string | string[]> = {
   funnel_paywall_modal_open: "Paywall Modal Open",
   funnel_checkout_redirect: "Checkout Start",
   funnel_payment_success: "Payment Success",
+  free_diagnosis_view: "Free Diagnosis View",
+  free_diagnosis_cta_click: "Free Diagnosis CTA Click",
   funnel_share_x_click: "Share X",
   funnel_embed_copy: "Embed Copy",
   funnel_share_chart_png: "Share Chart PNG",

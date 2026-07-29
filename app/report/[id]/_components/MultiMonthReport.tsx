@@ -18,6 +18,7 @@ import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 import { resolvePaywallImpact } from "@/lib/paywall-impact";
+import { selectFreeDiagnosis } from "@/lib/free-diagnosis";
 import { OutlierRateComparison } from "./OutlierRateComparison";
 import { ExpectedOutlierToggle } from "./ExpectedOutlierToggle";
 
@@ -108,6 +109,7 @@ export function MultiMonthReport({
   const yearlyAtThisRate = annualRunRate(periodFees, monthCount);
   const anomalyExplainer = anomalyExplainerText(anomalyUiCount, chargeRate, paidAnomalyRows.filter((row) => !expectedOutlierIds.includes(row.id)), isPaid);
   const teaserSavings = savings[0];
+  const freeDiagnosis = selectFreeDiagnosis(originalResult);
   const paywallImpact = resolvePaywallImpact({
     savingsAnnual: teaserSavings?.annualSavings,
     savingsTitle: teaserSavings?.title,
@@ -121,6 +123,7 @@ export function MultiMonthReport({
     annualImpact: paywallImpact?.amount,
     impactSource: paywallImpact?.source,
     firstOpportunity: paywallImpact?.label,
+    diagnosis: freeDiagnosis,
   };
 
   return (
@@ -220,6 +223,7 @@ export function MultiMonthReport({
           chargeRate={chargeRate}
           chargeVolume={chargeVolume}
           monthCount={monthCount}
+          diagnosis={freeDiagnosis}
         />
       )}
 

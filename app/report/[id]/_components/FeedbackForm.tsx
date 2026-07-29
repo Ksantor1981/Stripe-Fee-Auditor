@@ -4,6 +4,7 @@ import { useState } from "react";
 
 export function FeedbackForm({ reportId }: { reportId: string }) {
   const [useful, setUseful] = useState<"yes" | "no" | null>(null);
+  const [discrepancy, setDiscrepancy] = useState("");
   const [missing, setMissing] = useState("");
   const [willPay, setWillPay] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -16,7 +17,7 @@ export function FeedbackForm({ reportId }: { reportId: string }) {
       await fetch("/api/feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reportId, useful, missing, willPay }),
+        body: JSON.stringify({ reportId, useful, discrepancy, missing, willPay }),
       });
       setSubmitted(true);
     } catch {
@@ -67,6 +68,19 @@ export function FeedbackForm({ reportId }: { reportId: string }) {
             {val === "yes" ? "👍 Yes, useful" : "👎 Not really"}
           </button>
         ))}
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+          What specific fee discrepancy made you upload the CSV?
+        </label>
+        <textarea
+          value={discrepancy}
+          onChange={(e) => setDiscrepancy(e.target.value)}
+          placeholder="E.g. payout looked low, international cards, refund fees, or general curiosity"
+          rows={2}
+          className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:border-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-200 resize-none"
+        />
       </div>
 
       {/* What's missing */}

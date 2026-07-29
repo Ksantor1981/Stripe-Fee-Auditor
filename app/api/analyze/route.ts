@@ -20,7 +20,7 @@ import { logOpsError, logOpsInfo } from "@/lib/ops-log";
 export const maxDuration = 30;
 
 const ANALYZE_LIMIT_PER_IP_PER_DAY = 10;
-const DEMO_LIMIT = 20;
+const ANALYZE_REQUEST_LIMIT_PER_IP_PER_DAY = 20;
 const VERCEL_MAX_BODY_BYTES = Math.floor(4.5 * 1024 * 1024);
 const MAX_CSV_BYTES = 4 * 1024 * 1024;
 
@@ -59,6 +59,27 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Request body too large (max ~4 MB CSV)" }, { status: 413 });
     }
 
+    // Limit before reading the body. Per-analysis limits below still distinguish
+    // real uploads from the sample, but this protects parsing/memory from repeats.
+    const ip = getTrustedClientIp(req);
+    if (!ip) {
+      return NextResponse.json(
+        { error: "Unable to process request" },
+        { status: 400 }
+      );
+    }
+
+    const requestAllowed = await consumeIpRequest(
+      `analyze_request:${ip}`,
+      ANALYZE_REQUEST_LIMIT_PER_IP_PER_DAY
+    );
+    if (!requestAllowed) {
+      return NextResponse.json(
+        { error: "Too many analysis requests from this network. Try again tomorrow." },
+        { status: 429 }
+      );
+    }
+
     let body: { csvText?: string; columnMapping?: Record<string, string> };
     try {
       body = await req.json();
@@ -78,23 +99,10 @@ export async function POST(req: NextRequest) {
     const isDemo = isSampleCsv(csvText);
 
     // ── Rate limiting ─────────────────────────────────────────────────────────
-    const ip = getTrustedClientIp(req);
-    if (!ip) {
-      return NextResponse.json(
-        { error: "Unable to process request" },
-        { status: 400 }
-      );
-    }
-
-    const limitKey = isDemo ? `sample:${ip}` : ip;
-    const limit = isDemo ? DEMO_LIMIT : ANALYZE_LIMIT_PER_IP_PER_DAY;
-    const allowed = await consumeIpRequest(limitKey, limit);
-    if (!allowed) {
+    if (!isDemo && !(await consumeIpRequest(`analyze:${ip}`, ANALYZE_LIMIT_PER_IP_PER_DAY))) {
       return NextResponse.json(
         {
-          error: isDemo
-            ? "Sample report limit reached. Please try again tomorrow."
-            : "Rate limit reached. Max 10 free reports per day per IP.",
+          error: "Rate limit reached. Max 10 free reports per day per IP.",
         },
         { status: 429 }
       );

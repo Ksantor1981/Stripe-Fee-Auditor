@@ -267,7 +267,7 @@ export default function HomePage() {
         </div>
       ) : (
         <div className="bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white">
-          $12 one-time unlock for the full report · Free preview first.{" "}
+          Free diagnosis first · $12 for the full investigation.{" "}
           <TrackedLink
             href="/analyze"
             utm={{ source: "landing", medium: "banner", campaign: "launch_banner" }}
@@ -295,8 +295,9 @@ export default function HomePage() {
         <h2 className="sr-only">Stripe effective rate, refund leakage, and international card fees</h2>
         <p className="mt-5 max-w-xl text-lg text-gray-500 leading-relaxed">
           Upload a Balance CSV and see the concrete drivers — not a vague &quot;audit&quot;. Separate
-          recurring leaks from one-off spikes. No OAuth. Raw CSV is not stored; we keep only redacted
-          calculated results.
+          recurring leaks from one-off spikes. See your rate and one concrete fee driver free; unlock
+          every affected row and actions for $12. No OAuth. Raw CSV is not stored; we keep only
+          redacted calculated results.
         </p>
 
         <div className="mt-6 flex flex-wrap justify-center gap-2">
@@ -324,7 +325,7 @@ export default function HomePage() {
             funnelProps={{ placement: "hero_primary" }}
             className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow-md hover:bg-blue-700 active:scale-95 transition-all"
           >
-            Find my fee drivers — Free
+            See my rate + one driver — Free
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>

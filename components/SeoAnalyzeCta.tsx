@@ -6,6 +6,8 @@ type Props = {
   description?: string;
   /** Primary button label */
   primaryLabel?: string;
+  /** Keep the sample link off paid-intent landing pages. */
+  showSample?: boolean;
   className?: string;
 };
 
@@ -16,6 +18,7 @@ export function SeoAnalyzeCta({
   title = "Audit your real Stripe fee rate",
   description = "Upload a Balance CSV — no OAuth. Free preview first.",
   primaryLabel = "Analyze My CSV →",
+  showSample = true,
   className = "",
 }: Props) {
   return (
@@ -29,12 +32,14 @@ export function SeoAnalyzeCta({
         >
           {primaryLabel}
         </Link>
-        <Link
-          href="/analyze?sample=1"
-          className="inline-flex justify-center text-center text-sm font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900"
-        >
-          Or try sample in 10s
-        </Link>
+        {showSample && (
+          <Link
+            href="/analyze?sample=1"
+            className="inline-flex justify-center text-center text-sm font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900"
+          >
+            Or try sample in 10s
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -19,15 +19,16 @@ export const metadata: Metadata = {
 
 const included = [
   "Monthly reminder to upload the latest Stripe Balance CSV",
-  "Catch rate drift before a bad month becomes your new baseline",
-  "Refund leakage and high-fee / one-off anomaly prompts",
-  "Processing rate vs all-in Stripe cost every month",
-  "First access to private report history as it ships",
+  "A fresh full report for each monthly CSV upload",
+  "A manual monthly check for refund leakage, high-fee charges, and one-off anomalies",
+  "Processing rate vs all-in Stripe cost for each report",
+  "Early access to report history and automatic drift alerts when they ship",
 ];
 
 const notYet = [
   "No live Stripe OAuth connection in the first version",
   "No automatic sync until users ask for it",
+  "No automatic cross-month comparison or drift alert yet",
   "No accounting, tax, or bookkeeping advice",
 ];
 
@@ -93,13 +94,13 @@ export default async function MonitorPage({ searchParams }: Props) {
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">Fee Monitor · $9/mo</p>
           <h1 className="mt-3 text-4xl font-extrabold tracking-tight text-gray-950 sm:text-5xl">
-            Catch rate drift, refund leakage, and one-off anomalies before they become normal.
+            Build a monthly Stripe fee-check habit before drift becomes invisible.
           </h1>
           <p className="mt-5 text-lg leading-relaxed text-gray-600">
             <span className="font-semibold text-gray-900">$12</span> = one CSV check (this export, 30 days).{" "}
-            <span className="font-semibold text-gray-900">$9/mo</span> = the habit: monthly reminder +
-            fresh upload so international mix, refund fees, and weird spikes don&apos;t quietly reset
-            your baseline. No permanent Stripe OAuth — you stay in control of every export.
+            <span className="font-semibold text-gray-900">$9/mo</span> = a monthly reminder + fresh
+            full report. It is a manual check today; report history and automatic drift alerts come
+            only after they ship. No permanent Stripe OAuth — you stay in control of every export.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
@@ -122,11 +123,11 @@ export default async function MonitorPage({ searchParams }: Props) {
             </div>
             <div className="rounded-xl border border-gray-100 bg-gray-50 p-4">
               <p className="font-semibold text-gray-950">History</p>
-              <p className="mt-1">See whether the rate is improving or getting worse.</p>
+              <p className="mt-1">Report history is planned; today, save each private report link.</p>
             </div>
             <div className="rounded-xl border border-gray-100 bg-gray-50 p-4">
               <p className="font-semibold text-gray-950">Alerts later</p>
-              <p className="mt-1">Monthly reminders first, deeper alerts if demand is real.</p>
+              <p className="mt-1">Monthly reminders now; automatic drift alerts later if demand is real.</p>
             </div>
           </div>
         </div>
@@ -138,8 +139,8 @@ export default async function MonitorPage({ searchParams }: Props) {
             <span className="pb-1 text-sm font-medium text-gray-500">/ month</span>
           </div>
           <p className="mt-3 text-sm leading-relaxed text-blue-900/80">
-            Compared to a one-time $12 audit: Monitor is for founders who process every month and
-            want to catch drift early — not another dashboard they forget to open.
+            Compared to a one-time $12 investigation: Monitor is for founders who want a reminder to
+            repeat the check. It is not yet automatic monitoring or a historical dashboard.
           </p>
           <ul className="mt-5 space-y-3 text-sm text-blue-950/80">
             {included.slice(0, 4).map((item) => (
@@ -179,13 +180,14 @@ export default async function MonitorPage({ searchParams }: Props) {
             The useful question is not just “what is my rate?”
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-gray-600">
-            It is “did my rate get worse, why, and what should I inspect first?” That is recurring
-            value without asking for permanent read access to a live Stripe account.
+            It is “did my rate get worse, why, and what should I inspect first?” Today Monitor
+            creates the recurring check-in habit; comparison history and automatic drift detection
+            are future functionality, not a promise already delivered.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
               ["1", "Upload each month", "Use the same Balance CSV export workflow you already trust."],
-              ["2", "Compare against history", "See rate, anomaly, refund, and savings deltas from your previous report."],
+              ["2", "Keep your report links", "Compare the new report with your prior export manually until in-product history ships."],
               ["3", "Get a monthly nudge", "A reminder brings you back before fee drift becomes invisible."],
             ].map(([step, title, copy]) => (
               <div key={step} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">

@@ -1,12 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCheckoutSession, processPaidWebhook } from "@/lib/db";
+import { consumeIpRequest, getCheckoutSession, processPaidWebhook } from "@/lib/db";
 import { sendReportEmail } from "@/lib/email";
 import { getSucceededCheckout, isAllowedProductId } from "@/lib/polar";
 import { appendReportAccessCookie } from "@/lib/report-access-cookie";
+import { getTrustedClientIp } from "@/lib/request-ip";
 
 export const dynamic = "force-dynamic";
 
+const CHECKOUT_SUCCESS_LIMIT_PER_IP_PER_DAY = 10;
+
 export async function GET(req: NextRequest) {
+  const ip = getTrustedClientIp(req);
+  if (ip && !(await consumeIpRequest(`checkout_success:${ip}`, CHECKOUT_SUCCESS_LIMIT_PER_IP_PER_DAY))) {
+    return NextResponse.json(
+      { error: "Too many checkout confirmation requests from this network. Try again later." },
+      { status: 429 }
+    );
+  }
+
   const checkoutId = req.nextUrl.searchParams.get("checkout_id") ?? "";
 
   if (!checkoutId) {
