@@ -95,7 +95,12 @@ export function PaywallBanner({
         >
           {cta}
         </Button>
-        <p className="mt-3 text-xs text-gray-400">
+        <p className="mt-3 text-xs text-gray-500 max-w-md mx-auto leading-relaxed">
+          You&apos;ll leave feeauditor.com briefly for{" "}
+          <strong className="font-semibold text-gray-700">secure checkout powered by Polar</strong>. We
+          never connect to your Stripe account (no OAuth).
+        </p>
+        <p className="mt-2 text-xs text-gray-400">
           One-time · 30-day private link · Refund available if access fails ·{" "}
           <button
             type="button"
@@ -180,8 +185,10 @@ export function PaywallBanner({
             >
               {hasImpact ? `Continue — unlock ~${fmt$(annualImpact)}/yr insight →` : "Continue to Secure Checkout →"}
             </button>
-            <p className="text-xs text-center text-gray-400 mt-3">
-              Processed by Polar · If payment succeeds but the report does not unlock, request a refund.
+            <p className="text-xs text-center text-gray-500 mt-3 leading-relaxed">
+              Next step: <strong className="font-semibold text-gray-700">secure checkout powered by Polar</strong>.
+              No Stripe OAuth to your account. If payment succeeds but the report does not unlock, request a
+              refund.
             </p>
           </div>
         </DialogContent>

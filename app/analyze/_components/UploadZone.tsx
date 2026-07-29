@@ -66,13 +66,12 @@ function missingCols(mapping: ColumnMapping): RequiredCol[] {
 }
 
 interface Props {
-  onBack: () => void;
   autoLoadSample?: boolean;
 }
 
 type Stage = "idle" | "uploading" | "analyzing";
 
-export function UploadZone({ onBack, autoLoadSample }: Props) {
+export function UploadZone({ autoLoadSample }: Props) {
   const router = useRouter();
   const [parsed, setParsed] = useState<ParsedFile | null>(null);
   const [mapping, setMapping] = useState<ColumnMapping>({});
@@ -264,16 +263,26 @@ export function UploadZone({ onBack, autoLoadSample }: Props) {
   };
 
   return (
-    <div className="space-y-8">
+    <div id="upload-csv" className="space-y-8 scroll-mt-6">
       {/* Title */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-2">Step 2 of 2</p>
+        <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-2">Upload</p>
         <h2 className="text-xl font-bold text-gray-900">Upload your CSV</h2>
         <p className="mt-2 text-gray-500 text-sm">
-          Drop the file you exported from Stripe.{" "}
-          <button className="text-blue-600 underline underline-offset-2 hover:text-blue-800" onClick={onBack}>
-            Back to instructions
-          </button>
+          Drop the Balance CSV from Stripe.
+          {!autoLoadSample && (
+            <>
+              {" "}
+              Need the file first?{" "}
+              <a
+                href="#export-steps"
+                className="text-blue-600 underline underline-offset-2 hover:text-blue-800"
+              >
+                Jump to export guide
+              </a>
+              .
+            </>
+          )}
         </p>
       </div>
 

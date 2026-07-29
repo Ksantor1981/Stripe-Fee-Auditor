@@ -6,7 +6,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { trackEvent } from "@/lib/analytics";
 
@@ -23,7 +22,7 @@ const STEPS = [
   {
     num: "2",
     title: "Export → Itemized → set date range",
-    body: 'Click Export (top right). Choose Itemized — not Summary — so each row is one balance transaction with fees. Set your date range (we recommend 3–12 months).',
+    body: "Click Export (top right). Choose Itemized — not Summary — so each row is one balance transaction with fees. Set your date range (we recommend 3–12 months).",
     hint: "Itemized matches Fee Auditor’s expected columns (id, type, amount, fee, …).",
     screenshot: "/screenshots/stripe-step2-balance.png",
     screenshotAlt: "Balance summary export flow with Itemized selected",
@@ -31,8 +30,8 @@ const STEPS = [
   },
   {
     num: "3",
-    title: 'Download to system → Save CSV',
-    body: 'Finish the export and choose Download to system. The file saves as a CSV (often named like balance_YYYY-MM-DD.csv).',
+    title: "Download to system → Save CSV",
+    body: "Finish the export and choose Download to system. The file saves as a CSV (often named like balance_YYYY-MM-DD.csv).",
     hint: "Choose 'Download to system' — not 'Export to warehouse'.",
     screenshot: "/screenshots/stripe-step3-export.png",
     screenshotAlt: "Stripe Export dropdown showing Download to system option highlighted",
@@ -40,58 +39,42 @@ const STEPS = [
   },
 ];
 
-interface Props {
-  onReady: () => void;
-}
-
-export function ExportInstructions({ onReady }: Props) {
-  const continueToUpload = (placement: string) => {
-    trackEvent("funnel_export_instructions_done", { placement });
-    onReady();
-  };
-
+/** Compact export guide shown above the upload zone (same page — no separate Continue step). */
+export function ExportInstructions() {
   return (
-    <div className="space-y-8">
-      {/* Title */}
+    <div id="export-steps" className="space-y-6 scroll-mt-6">
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-2">Step 1 of 2</p>
-        <h2 className="text-xl font-bold text-gray-900">Export or upload your Balance CSV</h2>
-        <p className="mt-2 text-gray-500 text-sm">
-          Already have the file? Skip straight to upload. Need it? Use the visual guide below.
+        <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-2">
+          Export guide
         </p>
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <Button
-            size="lg"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6"
-            onClick={() => continueToUpload("top_skip")}
+        <h2 className="text-xl font-bold text-gray-900">How to get your Balance CSV</h2>
+        <p className="mt-2 text-gray-500 text-sm">
+          Already have the file? Scroll to upload below. Need it? Follow the steps, then drop the CSV
+          on the same page.
+        </p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <a
+            href="#upload-csv"
+            className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
+            onClick={() => trackEvent("funnel_export_instructions_done", { placement: "scroll_to_upload" })}
           >
-            I already have my CSV →
-          </Button>
+            Jump to upload ↓
+          </a>
           <a
             href="/analyze?sample=1"
-            className="inline-flex items-center justify-center rounded-lg border border-blue-200 bg-blue-50 px-5 py-3 text-sm font-semibold text-blue-700 hover:bg-blue-100"
+            className="inline-flex items-center justify-center rounded-lg border border-blue-200 bg-blue-50 px-5 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-100"
             onClick={() => trackEvent("funnel_sample_cta", { placement: "export_instructions" })}
           >
             Try sample in 10s
           </a>
-          <a
-            href="#export-steps"
-            className="inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-600 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
-          >
-            Show export steps
-          </a>
         </div>
-        <p className="mt-3 text-xs text-gray-500">
-          No screen recording yet — use the numbered screenshots below (Reports → Balance summary → Itemized → Download).
-        </p>
-        <div className="mb-6 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800">
+        <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800">
           <strong>USD accounts:</strong> This tool works best with single-currency USD Stripe accounts.
           Multi-currency support is coming soon.
         </div>
       </div>
 
-      {/* Steps */}
-      <div id="export-steps" className="space-y-4 scroll-mt-6">
+      <div className="space-y-4">
         {STEPS.map(({ num, title, body, hint, screenshot, screenshotAlt, screenshotH }) => (
           <div key={num} className="flex gap-4 rounded-xl bg-white p-5 shadow-sm border border-gray-100">
             <div className="flex-shrink-0 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white mt-0.5">
@@ -100,7 +83,6 @@ export function ExportInstructions({ onReady }: Props) {
             <div className="flex-1">
               <h3 className="font-semibold text-gray-900 mb-1">{title}</h3>
               <p className="text-sm text-gray-500">{body}</p>
-              {/* Screenshot */}
               <div className="mt-3 rounded-lg overflow-hidden border border-gray-200">
                 <Image
                   src={screenshot}
@@ -117,7 +99,6 @@ export function ExportInstructions({ onReady }: Props) {
         ))}
       </div>
 
-      {/* Accordion FAQ */}
       <Accordion className="bg-white rounded-xl border border-gray-100 shadow-sm px-4">
         <AccordionItem value="no-balance">
           <AccordionTrigger className="text-sm font-medium text-gray-700">
@@ -156,17 +137,6 @@ export function ExportInstructions({ onReady }: Props) {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-
-      {/* CTA */}
-      <div className="text-center">
-        <Button
-          size="lg"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-8"
-          onClick={() => continueToUpload("bottom_cta")}
-        >
-          Continue to upload →
-        </Button>
-      </div>
     </div>
   );
 }
