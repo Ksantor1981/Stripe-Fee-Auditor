@@ -269,16 +269,16 @@ export function UploadZone({ autoLoadSample }: Props) {
         <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-2">Upload</p>
         <h2 className="text-xl font-bold text-gray-900">Upload your CSV</h2>
         <p className="mt-2 text-gray-500 text-sm">
-          Drop the Balance CSV from Stripe.
-          {!autoLoadSample && (
+          {autoLoadSample ? (
+            "Sample data loads below — or drop your own Balance CSV."
+          ) : (
             <>
-              {" "}
-              Need the file first?{" "}
+              Have your Stripe Balance CSV ready? Drop it here — or{" "}
               <a
                 href="#export-steps"
                 className="text-blue-600 underline underline-offset-2 hover:text-blue-800"
               >
-                Jump to export guide
+                see export steps below
               </a>
               .
             </>
@@ -304,9 +304,13 @@ export function UploadZone({ autoLoadSample }: Props) {
             </div>
             <div>
               <p className="font-semibold text-gray-700">
-                {isDragActive ? "Drop it here!" : "Drag & drop your CSV"}
+                {isDragActive ? "Drop it here!" : "Drag & drop your Stripe Balance CSV"}
               </p>
-              <p className="text-sm text-gray-400 mt-1">or click to browse</p>
+              <p className="text-sm text-gray-400 mt-1">
+                {autoLoadSample
+                  ? "or click to browse"
+                  : "Itemized Balance export · or see steps below if you still need the file"}
+              </p>
             </div>
             <Badge variant="outline" className="text-xs text-gray-400">.csv only · max 4 MB</Badge>
           </div>

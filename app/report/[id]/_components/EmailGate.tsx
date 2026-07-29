@@ -109,6 +109,11 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
       return;
     }
     trackEvent("funnel_email_unlock_ok");
+    try {
+      sessionStorage.setItem(`feeauditor_email_gate_${reportId}`, "email");
+    } catch {
+      /* ignore private mode */
+    }
     onUnlock();
   }
 
@@ -206,6 +211,11 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
             className="mt-3 w-full text-sm font-medium text-gray-500 hover:text-gray-800 underline underline-offset-2"
             onClick={() => {
               trackEvent("funnel_email_gate_skip");
+              try {
+                sessionStorage.setItem(`feeauditor_email_gate_${reportId}`, "skip");
+              } catch {
+                /* ignore private mode */
+              }
               onUnlock();
             }}
           >

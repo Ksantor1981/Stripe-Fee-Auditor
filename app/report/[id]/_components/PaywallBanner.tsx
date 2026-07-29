@@ -29,7 +29,26 @@ export function PaywallBanner({
   const [open, setOpen] = useState(false);
   const hasImpact = annualImpact != null && annualImpact > 0;
 
-  function unlock() {
+  function emailGatePath(): "email" | "skip" | "unknown" {
+    try {
+      const raw = sessionStorage.getItem(`feeauditor_email_gate_${reportId}`);
+      if (raw === "email" || raw === "skip") return raw;
+    } catch {
+      /* ignore */
+    }
+    return "unknown";
+  }
+
+  function unlock(placement: "inline_banner" | "modal") {
+    const gate = emailGatePath();
+    trackEvent("funnel_checkout_redirect", {
+      plan: "pro",
+      placement,
+      has_annual_impact: hasImpact,
+      impact_source: impactSource ?? "none",
+      diagnosis_driver: diagnosis?.kind ?? "none",
+      email_gate: gate,
+    });
     const params = new URLSearchParams({ plan: "pro", reportId });
     if (email) params.set("email", email);
     window.location.href = `/api/checkout?${params}`;
@@ -82,16 +101,7 @@ export function PaywallBanner({
         <p className="text-sm text-gray-500 mb-4 max-w-sm mx-auto">{body}</p>
         <Button
           className="mx-auto h-11 w-full max-w-md rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
-          onClick={() => {
-            trackEvent("funnel_checkout_redirect", {
-              plan: "pro",
-              placement: "inline_banner",
-              has_annual_impact: hasImpact,
-              impact_source: impactSource ?? "none",
-              diagnosis_driver: diagnosis?.kind ?? "none",
-            });
-            unlock();
-          }}
+          onClick={() => unlock("inline_banner")}
         >
           {cta}
         </Button>
@@ -172,16 +182,7 @@ export function PaywallBanner({
             </div>
             <button
               className="h-11 w-full rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
-              onClick={() => {
-                trackEvent("funnel_checkout_redirect", {
-                  plan: "pro",
-                  placement: "modal",
-                  has_annual_impact: hasImpact,
-                  impact_source: impactSource ?? "none",
-                  diagnosis_driver: diagnosis?.kind ?? "none",
-                });
-                unlock();
-              }}
+              onClick={() => unlock("modal")}
             >
               {hasImpact ? `Continue — unlock ~${fmt$(annualImpact)}/yr insight →` : "Continue to Secure Checkout →"}
             </button>
