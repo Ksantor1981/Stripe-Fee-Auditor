@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { getGaMeasurementId } from "@/lib/ga";
 import { buildOgImageUrl } from "@/lib/seo-og";
 
 const siteUrl = (process.env.NEXT_PUBLIC_BASE_URL ?? "https://feeauditor.com").replace(/\/$/, "");
@@ -27,7 +28,7 @@ const bingVerification =
   normalizeVerificationCode(process.env.NEXT_PUBLIC_BING_VERIFICATION) ||
   "457247AA9DD926BC6F4668EB88F91BFE";
 const yandexVerification = normalizeVerificationCode(process.env.NEXT_PUBLIC_YANDEX_VERIFICATION);
-const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
+const gaMeasurementId = getGaMeasurementId();
 
 function buildSiteVerification(): Metadata["verification"] | undefined {
   const other: Record<string, string> = {};

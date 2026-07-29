@@ -1,10 +1,13 @@
 import type { NextConfig } from "next";
 import { LEGACY_BLOG_REDIRECTS } from "./app/blog/_data/blogIndex";
+import { getGaMeasurementId } from "./lib/ga";
 
 const isDev = process.env.NODE_ENV === "development";
-const hasGa4 = Boolean(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID);
+const hasGa4 = Boolean(getGaMeasurementId());
 const gaScriptSrc = hasGa4 ? " https://www.googletagmanager.com" : "";
-const gaConnectSrc = hasGa4 ? " https://www.google-analytics.com https://region1.google-analytics.com" : "";
+const gaConnectSrc = hasGa4
+  ? " https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com"
+  : "";
 
 // CSP: strict in production, relaxed only for Next/React dev overlay
 const CSP_DEFAULT = [
