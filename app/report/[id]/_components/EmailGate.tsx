@@ -10,7 +10,7 @@ import { fmt$, fmtPct } from "@/lib/format";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import type { NormalizedRow } from "@/lib/csv-parser";
 import type { FeeGrade } from "@/lib/fee-grade";
-import type { FreeDiagnosis } from "@/lib/free-diagnosis";
+import type { FreeDiagnosis, FreeDiagnosisKind } from "@/lib/free-diagnosis";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 
 export interface ReportHeadline {
@@ -32,6 +32,23 @@ interface Props {
   onUnlock: () => void;
 }
 
+const DRIVER_CATEGORY_LABELS: Record<FreeDiagnosisKind, string> = {
+  international_card_uplift: "International cards",
+  refund_fee_leakage: "Refund fee retention",
+  small_ticket_drag: "Small-ticket fixed fees",
+  other_fee_lines: "Other Stripe fee lines",
+  above_benchmark_rate: "Rate above mix benchmark",
+  unusual_charge: "Unusual high-fee charge",
+};
+
+/** First sentence only; strip dollar amounts so stage A stays headline-level. */
+function diagnosisGateTeaser(body: string): string {
+  const first = (body.split(/(?<=[.!?])\s+/)[0] ?? body).trim();
+  const redacted = first.replace(/\$[\d,]+(?:\.\d{1,2})?/g, "…");
+  const needsEllipsis = redacted.length < body.trim().length || /\$[\d,]/.test(first);
+  return needsEllipsis && !redacted.endsWith("…") ? `${redacted}…` : redacted;
+}
+
 export function EmailGate({ reportId, headline, onUnlock }: Props) {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -43,6 +60,8 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
     headline.allInRate ??
     (headline.chargeVolume > 0 ? (periodFees / headline.chargeVolume) * 100 : 0);
   const yearlyAtThisRate = annualRunRate(periodFees, headline.monthCount);
+  const driverCategory =
+    headline.diagnosis != null ? DRIVER_CATEGORY_LABELS[headline.diagnosis.kind] : undefined;
 
   useEffect(() => {
     trackEvent("funnel_email_gate_view");
@@ -96,7 +115,7 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
   return (
     <main className="min-h-screen bg-gray-50 px-4 py-10">
       <div className="mx-auto w-full max-w-lg space-y-5">
-        {/* Headline — visible before email */}
+        {/* Headline — stage A: rates + hook, no $ driver breakdown */}
         <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
           <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">
             {headline.monthCount > 1 ? `${headline.monthCount}-month analysis` : "Your Stripe fees"}
@@ -128,50 +147,36 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
             </div>
           </div>
 
-          {headline.topDrivers.length > 0 && (
-            <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-2">
-                Top fee drivers (preview)
-              </p>
-              <ul className="space-y-1.5">
-                {headline.topDrivers.slice(0, 3).map((row, i) => (
-                  <li key={row.id} className="flex items-center justify-between gap-3 text-xs">
-                    <span className="text-gray-600 truncate">
-                      {i + 1}. {row.id}
-                    </span>
-                    <span className="font-semibold text-gray-900 shrink-0">{fmt$(row.fee)}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
           {headline.diagnosis && (
             <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50/80 px-4 py-3">
               <p className="text-xs font-semibold uppercase tracking-widest text-emerald-700 mb-1">
                 Free diagnosis
               </p>
               <h2 className="text-sm font-bold text-emerald-950">{headline.diagnosis.title}</h2>
-              <p className="mt-1 text-sm leading-relaxed text-emerald-900/85">
-                {headline.diagnosis.body}
-              </p>
-              {headline.diagnosis.disclaimer && (
-                <p className="mt-2 text-xs leading-relaxed text-emerald-800/75">
-                  {headline.diagnosis.disclaimer}
+              {driverCategory && (
+                <p className="mt-1 text-xs font-medium text-emerald-800/90">
+                  Likely driver category: {driverCategory}
                 </p>
               )}
+              <p className="mt-1 text-sm leading-relaxed text-emerald-900/85">
+                {diagnosisGateTeaser(headline.diagnosis.body)}
+              </p>
+              <p className="mt-2 text-xs leading-relaxed text-emerald-800/75">
+                Enter your email to see dollar amounts by driver and open the preview — still free, no
+                card.
+              </p>
             </div>
           )}
         </div>
 
-        {/* Email — save link + unlock full preview */}
+        {/* Email — unlock stage B preview (drivers with $, charts) */}
         <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
           <h2 className="text-base font-bold text-gray-900 mb-1">
-            Save your report link
+            See driver amounts &amp; save your link
           </h2>
           <p className="text-sm text-gray-500 mb-5">
-            Your analysis is ready. Enter your email to see every affected row and get a private link
-            you can return to — no credit card required.
+            Get dollar amounts for your top fee drivers, charts, and a private link you can return to —
+            no credit card. Full charge rows and actions unlock for $12.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-3">
@@ -192,7 +197,7 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
               disabled={loading}
               className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-semibold"
             >
-              {loading ? "Opening report…" : "See Every Affected Row →"}
+              {loading ? "Opening preview…" : "Open preview with driver amounts →"}
             </Button>
           </form>
 
