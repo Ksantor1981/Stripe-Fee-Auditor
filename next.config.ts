@@ -4,19 +4,25 @@ import { getGaMeasurementId } from "./lib/ga";
 
 const isDev = process.env.NODE_ENV === "development";
 const hasGa4 = Boolean(getGaMeasurementId());
-const gaScriptSrc = hasGa4 ? " https://www.googletagmanager.com" : "";
-const gaConnectSrc = hasGa4
-  ? " https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com"
+// Official GA4 (+ Ads) CSP hosts: https://developers.google.com/tag-platform/security/guides/csp
+const gaScriptSrc = hasGa4 ? " https://www.googletagmanager.com https://*.googletagmanager.com" : "";
+const gaImgSrc = hasGa4
+  ? " https://*.google-analytics.com https://www.googletagmanager.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com"
   : "";
+const gaConnectSrc = hasGa4
+  ? " https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com https://pagead2.googlesyndication.com"
+  : "";
+const gaFrameSrc = hasGa4 ? " https://www.googletagmanager.com" : "";
 
 // CSP: strict in production, relaxed only for Next/React dev overlay
 const CSP_DEFAULT = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline' https://plausible.io${gaScriptSrc}${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  `img-src 'self' data: blob:${gaImgSrc}`,
   "font-src 'self'",
   `connect-src 'self' https://plausible.io${gaConnectSrc}`,
+  `frame-src 'self'${gaFrameSrc}`,
   "frame-ancestors 'none'",
   "object-src 'none'",
   "base-uri 'self'",
@@ -28,9 +34,10 @@ const CSP_EMBED = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline' https://plausible.io${gaScriptSrc}${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  `img-src 'self' data: blob:${gaImgSrc}`,
   "font-src 'self'",
   `connect-src 'self' https://plausible.io${gaConnectSrc}`,
+  `frame-src 'self'${gaFrameSrc}`,
   "frame-ancestors *",
   "object-src 'none'",
   "base-uri 'self'",
