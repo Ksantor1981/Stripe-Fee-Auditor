@@ -228,7 +228,7 @@ const ORGANIZATION_JSON_LD = {
   "@type": "Organization",
   name: "Stripe Fee Auditor",
   url: absoluteUrl("/"),
-  logo: absoluteUrl("/favicon-32.png"),
+  logo: absoluteUrl("/icon-192.png"),
   sameAs: [
     "https://github.com/Ksantor1981/Stripe-Fee-Auditor",
     "https://www.producthunt.com/products/stripe-fee-auditor",
