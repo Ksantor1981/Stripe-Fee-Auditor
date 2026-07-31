@@ -4,6 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Privacy Policy | Stripe Fee Auditor",
   description: "Privacy Policy for Stripe Fee Auditor — how we handle your data.",
+  alternates: { canonical: "/privacy" },
 };
 
 /** Set in Vercel / .env.local — env overrides this public support address. */

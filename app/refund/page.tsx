@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Refund Policy | Stripe Fee Auditor",
   description:
     "Refund policy for Stripe Fee Auditor — one-time fee analysis reports and digital delivery.",
+  alternates: { canonical: "/refund" },
 };
 
 /** Fallback until NEXT_PUBLIC_CONTACT_EMAIL is set on Vercel. Env overrides when configured. */

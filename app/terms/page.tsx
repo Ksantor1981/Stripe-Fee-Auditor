@@ -4,6 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Terms of Service | Stripe Fee Auditor",
   description: "Terms of Service for Stripe Fee Auditor.",
+  alternates: { canonical: "/terms" },
 };
 
 /** Same env as Privacy (`NEXT_PUBLIC_CONTACT_EMAIL`) — one inbox is fine. */

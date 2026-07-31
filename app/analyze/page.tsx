@@ -1,9 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { AnalyzeClient } from "./_components/AnalyzeClient";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Analyze My Stripe Fees — Stripe Fee Auditor",
   description: "Upload your Stripe Balance CSV and usually see your real fee rate in under 30 seconds.",
+  alternates: { canonical: "/analyze" },
 };
 
 export default function AnalyzePage() {

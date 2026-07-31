@@ -71,8 +71,9 @@ export const metadata: Metadata = {
   title: "Why Is Your Stripe Rate Higher Than Expected? | Fee Auditor",
   description:
     "Find why your Stripe effective rate or payout is higher than expected — international cards, refund fees, monthly anomalies. No OAuth. Raw CSV is not stored.",
+  // Do not set canonical here — it inherits to every child page and would
+  // incorrectly point /analyze (and others) at the homepage.
   alternates: {
-    canonical: "/",
     types: {
       "application/rss+xml": `${siteUrl}/feed.xml`,
     },
