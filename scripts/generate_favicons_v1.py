@@ -18,31 +18,11 @@ SRC = Path(
     r"_feeauditor-icon-128x128-dae2ba87-aa9d-4087-861f-9dafbe1afd5c.png"
 )
 OUT = Path(__file__).resolve().parents[1] / "public"
-BG = (0, 0, 0, 255)
+# Light plate for tabs/bookmarks (source logo art was on black; that reads as a dark blotch on toolbars).
+BG = (255, 255, 255, 255)
 # Empirically measured FA glyph bounds in the 128 source (excludes corner brackets).
 FA_BOX = (28, 34, 104, 94)  # left, top, right, bottom
 FILL = 0.92  # how much of the canvas the FA mark should occupy
-
-
-def lift_dark_blues(im: Image.Image) -> Image.Image:
-    """Raise navy 'F' luminance so it doesn't vanish on black at 16–32px."""
-    out = im.copy()
-    px = out.load()
-    w, h = out.size
-    for y in range(h):
-        for x in range(w):
-            r, g, b, a = px[x, y]
-            if a < 128:
-                continue
-            # Dark navy glyph pixels (not the bright A / checkmark).
-            if b >= r and b >= g and b < 120 and max(r, g, b) > 20:
-                px[x, y] = (
-                    min(255, int(r * 2.4) + 24),
-                    min(255, int(g * 2.6) + 48),
-                    min(255, int(b * 2.1) + 72),
-                    a,
-                )
-    return out
 
 
 def make_mark(src: Image.Image, size: int, *, boost_tiny: bool = False) -> Image.Image:
@@ -57,7 +37,6 @@ def make_mark(src: Image.Image, size: int, *, boost_tiny: bool = False) -> Image
     mark = crop.resize((nw, nh), Image.Resampling.LANCZOS)
 
     if boost_tiny and size <= 48:
-        mark = lift_dark_blues(mark)
         mark = mark.filter(ImageFilter.SHARPEN)
 
     x = (size - nw) // 2
