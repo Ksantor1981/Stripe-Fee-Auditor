@@ -9,7 +9,7 @@ import base64
 import io
 from pathlib import Path
 
-from PIL import Image, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter
 
 SRC = Path(
     r"C:\Users\ksant\.cursor\projects\c-project\assets"
@@ -23,6 +23,19 @@ BG = (255, 255, 255, 255)
 # Empirically measured FA glyph bounds in the 128 source (excludes corner brackets).
 FA_BOX = (28, 34, 104, 94)  # left, top, right, bottom
 FILL = 0.92  # how much of the canvas the FA mark should occupy
+CORNER_RATIO = 0.18  # rounded square; ~18% of side length
+
+
+def round_corners(im: Image.Image, radius: int) -> Image.Image:
+    """Keep a square icon, soft-round the white plate corners."""
+    if radius <= 0:
+        return im
+    mask = Image.new("L", im.size, 0)
+    draw = ImageDraw.Draw(mask)
+    draw.rounded_rectangle((0, 0, im.size[0] - 1, im.size[1] - 1), radius=radius, fill=255)
+    out = im.copy()
+    out.putalpha(mask)
+    return out
 
 
 def make_mark(src: Image.Image, size: int, *, boost_tiny: bool = False) -> Image.Image:
@@ -42,7 +55,8 @@ def make_mark(src: Image.Image, size: int, *, boost_tiny: bool = False) -> Image
     x = (size - nw) // 2
     y = (size - nh) // 2
     canvas.alpha_composite(mark, (x, y))
-    return canvas
+    radius = max(2, int(round(size * CORNER_RATIO)))
+    return round_corners(canvas, radius)
 
 
 def main() -> None:
