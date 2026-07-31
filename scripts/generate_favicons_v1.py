@@ -23,7 +23,7 @@ BG = (255, 255, 255, 255)
 # Empirically measured FA glyph bounds in the 128 source (excludes corner brackets).
 FA_BOX = (28, 34, 104, 94)  # left, top, right, bottom
 FILL = 0.92  # how much of the canvas the FA mark should occupy
-CORNER_RATIO = 0.18  # rounded square; ~18% of side length
+CORNER_RATIO = 0.12  # square with lightly rounded corners (~12% of side)
 
 
 def round_corners(im: Image.Image, radius: int) -> Image.Image:
