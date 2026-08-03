@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
+import { AdvertiserIdentityBanner } from "@/components/AdvertiserIdentityBanner";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { SeoAnalyzeCta } from "@/components/SeoAnalyzeCta";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
@@ -9,10 +10,10 @@ import { absoluteUrl } from "@/lib/site-url";
 
 const pageTitle = "Why Is My Stripe Effective Rate Higher Than Expected?";
 const pageDescription =
-  "Stripe effective rate and payout often run above 2.9% + $0.30 because of international cards, refund fees not returned, FX, and small tickets. Find the driver in your Balance CSV.";
+  "Fee Auditor (feeauditor.com) — independent CSV tool, not affiliated with Stripe. See why effective rate and payout often run above 2.9% + $0.30: international cards, refund fees, FX, small tickets.";
 const pagePath = "/why-stripe-fee-rate-higher-than-2-9";
 const published = "2026-05-16";
-const updated = "2026-07-19";
+const updated = "2026-08-03";
 
 export const metadata: Metadata = {
   title: pageTitle,
@@ -110,7 +111,12 @@ const faqItems = [
   {
     question: "How can I calculate my real Stripe effective fee rate?",
     answer:
-      "Export your Stripe Balance Transactions CSV and divide total Stripe fees by total processed charge volume for the same period. Stripe Fee Auditor does this from your real CSV and shows the transactions driving the rate up.",
+      "Export your Stripe Balance Transactions CSV and divide total Stripe fees by total processed charge volume for the same period. Fee Auditor (feeauditor.com) does this from your real CSV and shows the transactions driving the rate up.",
+  },
+  {
+    question: "Is Fee Auditor part of Stripe?",
+    answer:
+      "No. Fee Auditor is an independent tool at feeauditor.com. It is not affiliated with, endorsed by, or part of Stripe, Inc. We do not provide Stripe customer support and do not connect to your Stripe account via OAuth.",
   },
 ];
 
@@ -171,7 +177,8 @@ export default function WhyStripeFeesIncreasePage() {
       <nav className="border-b border-gray-100 px-6 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <Link href="/" className="font-semibold text-gray-900 text-sm">
-            Stripe Fee Auditor
+            Fee Auditor
+            <span className="ml-1.5 font-normal text-gray-500">feeauditor.com</span>
           </Link>
           <Link
             href="/analyze"
@@ -184,9 +191,12 @@ export default function WhyStripeFeesIncreasePage() {
 
       <main className="max-w-3xl mx-auto px-6 py-16">
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: pageTitle }]} className="mb-6" />
+        <AdvertiserIdentityBanner className="mb-8" />
         {/* Header */}
         <div className="mb-14">
-          <p className="text-blue-600 text-sm font-medium mb-3">Fee Education</p>
+          <p className="text-blue-600 text-sm font-medium mb-3">
+            Fee Auditor · Independent fee education
+          </p>
           <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
             Why Is My Stripe Effective Rate Higher Than Expected?
           </h1>
@@ -194,14 +204,15 @@ export default function WhyStripeFeesIncreasePage() {
             Stripe advertises 2.9% + $0.30. Your effective rate — and sometimes your payout vs
             volume — often lands at 3.2–3.8% because of international cards, refund fees that are
             not returned, FX, and small tickets. Here are the five drivers — with real numbers.
+            Fee Auditor helps you check your own Balance CSV; we are not Stripe support.
           </p>
         </div>
 
         <SeoAnalyzeCta
           className="mb-14 border border-blue-100"
-          title="Find your specific fee driver — free"
-          description="Upload your Stripe Balance CSV to see the rate you actually paid and one concrete driver behind it. No OAuth. Your raw CSV is not stored."
-          primaryLabel="Analyze my Stripe fees →"
+          title="Find your specific fee driver with Fee Auditor — free"
+          description="Independent tool at feeauditor.com — not affiliated with Stripe. Upload your Balance CSV to see the rate you actually paid and one concrete driver. No OAuth. Raw CSV is not stored."
+          primaryLabel="Analyze my Balance CSV →"
           showSample={false}
         />
 

@@ -39,7 +39,8 @@ export function LandingNav() {
           href="/"
           className="font-bold text-gray-900 text-base sm:text-lg hover:text-gray-700 transition-colors min-w-0 truncate"
         >
-          Stripe Fee Auditor
+          Fee Auditor
+          <span className="ml-1.5 text-sm font-normal text-gray-500">feeauditor.com</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-4 shrink-0">

@@ -226,9 +226,12 @@ const SOFTWARE_JSON_LD = {
 const ORGANIZATION_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Stripe Fee Auditor",
+  name: "Fee Auditor",
+  alternateName: ["Stripe Fee Auditor", "feeauditor.com"],
   url: absoluteUrl("/"),
   logo: absoluteUrl("/icon-192.png"),
+  description:
+    "Independent SaaS at feeauditor.com that analyzes a merchant’s own Stripe Balance CSV. Not affiliated with, endorsed by, or part of Stripe, Inc.",
   sameAs: [
     "https://github.com/Ksantor1981/Stripe-Fee-Auditor",
     "https://www.producthunt.com/products/stripe-fee-auditor",
@@ -285,7 +288,7 @@ export default function HomePage() {
       {/* Hero — Problem */}
       <section id="problem" className="flex flex-col items-center justify-center px-4 py-20 text-center scroll-mt-14">
         <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">
-          The problem
+          Fee Auditor · feeauditor.com
         </p>
 
         <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">
@@ -297,7 +300,7 @@ export default function HomePage() {
           Upload a Balance CSV and see the concrete drivers — not a vague &quot;audit&quot;. Separate
           recurring leaks from one-off spikes. See your rate and one concrete fee driver free; unlock
           every affected row and actions for $12. No OAuth. Raw CSV is not stored; we keep only
-          redacted calculated results.
+          redacted calculated results. Independent tool — not affiliated with Stripe, Inc.
         </p>
 
         <div className="mt-6 flex flex-wrap justify-center gap-2">
@@ -340,6 +343,10 @@ export default function HomePage() {
             Try sample in 10s
           </TrackedLink>
         </div>
+        <p className="mt-4 max-w-lg text-xs leading-relaxed text-gray-500">
+          Fee Auditor (feeauditor.com) is an independent tool. Not affiliated with, endorsed by, or
+          part of Stripe, Inc.
+        </p>
         <div className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm">
           <Link
             href="#instant-estimate"
@@ -835,7 +842,8 @@ export default function HomePage() {
       <footer className="border-t px-4 py-8 text-center text-xs text-gray-400 space-y-2">
         <p>Updated June 2026</p>
         <p>
-          Stripe Fee Auditor is not affiliated with Stripe, Inc.{" "}
+          Fee Auditor (feeauditor.com) is an independent SaaS tool. Not affiliated with, endorsed by,
+          or part of Stripe, Inc. &quot;Stripe&quot; is a trademark of Stripe, Inc.{" "}
           <Link href="/how-it-works" className="underline hover:text-gray-600">How it works</Link>
           {" · "}
           <Link href="/privacy" className="underline hover:text-gray-600">Privacy Policy</Link>
