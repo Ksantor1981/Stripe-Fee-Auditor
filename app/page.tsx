@@ -11,12 +11,12 @@ import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
 
-const HOME_TITLE = "Why Is Your Stripe Rate Higher Than Expected? | Fee Auditor";
+const HOME_TITLE = "Free Stripe Fee Auditor — See Your Real Effective Rate";
 const HOME_DESCRIPTION =
-  "Find why your Stripe effective rate or payout is higher than expected — international cards, refund fees not returned, monthly anomalies. Upload a Balance CSV. No OAuth. Raw CSV is not stored.";
+  "Upload your Stripe Balance CSV. See effective rate, international-card uplift, refund fee drag, and other fee drivers. Free diagnosis, no signup, no OAuth. Raw CSV is not stored.";
 const HOME_OG_IMAGE = buildOgImageUrl({
-  title: "Why is your Stripe rate higher?",
-  eyebrow: "Stripe Fee Auditor",
+  title: "See your real Stripe effective rate",
+  eyebrow: "Fee Auditor · free diagnosis",
 });
 
 export const metadata: Metadata = {
@@ -270,15 +270,15 @@ export default function HomePage() {
         </div>
       ) : (
         <div className="bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white">
-          Free diagnosis first · $12 for the full investigation.{" "}
+          Free diagnosis from your Balance CSV — no signup, no OAuth.{" "}
           <TrackedLink
-            href="/analyze"
-            utm={{ source: "landing", medium: "banner", campaign: "launch_banner" }}
-            funnelEvent="funnel_landing_cta"
+            href="/analyze?sample=1"
+            utm={{ source: "landing", medium: "banner", campaign: "launch_banner_sample" }}
+            funnelEvent="funnel_sample_cta"
             funnelProps={{ placement: "launch_banner" }}
             className="underline underline-offset-2 hover:text-blue-100 transition-colors"
           >
-            Analyze my CSV →
+            Try sample in 10s →
           </TrackedLink>
         </div>
       )}
@@ -292,15 +292,14 @@ export default function HomePage() {
         </p>
 
         <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">
-          Find why your Stripe rate is{" "}
-          <span className="text-blue-600">higher than expected.</span>
+          Your Stripe dashboard says 2.9%.{" "}
+          <span className="text-blue-600">Your effective rate often isn&apos;t.</span>
         </h1>
         <h2 className="sr-only">Stripe effective rate, refund leakage, and international card fees</h2>
         <p className="mt-5 max-w-xl text-lg text-gray-500 leading-relaxed">
-          Upload a Balance CSV and see the concrete drivers — not a vague &quot;audit&quot;. Separate
-          recurring leaks from one-off spikes. See your rate and one concrete fee driver free; unlock
-          every affected row and actions for $12. No OAuth. Raw CSV is not stored; we keep only
-          redacted calculated results. Independent tool — not affiliated with Stripe, Inc.
+          Upload a Balance CSV and see the concrete drivers — international cards, refund fees that
+          aren&apos;t returned, small-ticket drag, and other fee lines. Free diagnosis first. No
+          OAuth. Raw CSV is not stored; we keep only redacted calculated results.
         </p>
 
         <div className="mt-6 flex flex-wrap justify-center gap-2">

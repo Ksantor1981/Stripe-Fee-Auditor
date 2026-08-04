@@ -237,26 +237,37 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
           </div>
 
           <p className="mt-4 text-xs leading-relaxed text-gray-500">
-            Not a benchmark or a promise — a quick estimate before you export CSV. Real rates come
-            from your Balance transactions.
+            This is only a published-pricing estimate. Your real effective rate depends on card mix,
+            refunds, FX, and add-ons in your Balance CSV — not this form.
           </p>
         </div>
       </div>
 
-      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs text-gray-500 leading-relaxed max-w-xl">
-          Ready to verify? Upload an itemized{" "}
+      <div className="mt-5 rounded-xl border border-blue-200 bg-white px-4 py-4 sm:px-5">
+        <p className="text-sm font-semibold text-gray-900">
+          Done estimating? Check the real number next.
+        </p>
+        <p className="mt-1 text-sm text-gray-500">
+          Sample report in ~10 seconds, or upload your itemized{" "}
           <Link href="/stripe-balance-csv" className="text-blue-600 underline hover:text-blue-800">
             Balance CSV
-          </Link>{" "}
-          and see processing vs all-in on your real data.
+          </Link>
+          .
         </p>
-        <Link
-          href="/analyze"
-          className="inline-flex shrink-0 items-center justify-center rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
-        >
-          Analyze real fees from CSV →
-        </Link>
+        <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+          <Link
+            href="/analyze?sample=1"
+            className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+          >
+            Try sample in 10s →
+          </Link>
+          <Link
+            href="/analyze"
+            className="inline-flex items-center justify-center rounded-xl border border-blue-200 bg-blue-50 px-5 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-100 transition-colors"
+          >
+            Upload my CSV →
+          </Link>
+        </div>
       </div>
     </section>
   );

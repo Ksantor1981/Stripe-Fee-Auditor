@@ -4,11 +4,12 @@ const checks = [
   {
     path: "/",
     containsAny: [
-      ["Free diagnosis first", "Free preview"],
+      ["Free diagnosis from your Balance CSV", "Free diagnosis first", "Free preview"],
       "No Stripe API access",
       "Server analysis, no raw file storage",
       "Quick fit check",
       ["One audit · $12", "$12 = one audit"],
+      ["Try sample in 10s", "effective rate often"],
     ],
   },
   {

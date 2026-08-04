@@ -352,9 +352,10 @@ export default function StripeFeeCalculatorPage() {
 
         <SeoAnalyzeCta
           className="border border-blue-100"
-          title="Done estimating? Check the real rate"
-          description="The calculator uses published pricing. Upload your Stripe Balance CSV to see how much Stripe actually charged across your transactions — free preview, no OAuth."
-          primaryLabel="Analyze My CSV →"
+          title="Done estimating? This was only published pricing"
+          description="Your real effective rate depends on card mix, refunds, and FX in your Balance CSV. Run the free sample first, or upload your own file — no OAuth."
+          primaryLabel="Upload my Balance CSV →"
+          showSample
         />
 
         {/* Need the CSV */}
