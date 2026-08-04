@@ -33,10 +33,10 @@ export const PRIVACY_ARTICLES: PrivacyArticle[] = [
     title: "Why I Wouldn't Connect My Stripe Account to Every Third-Party Tool",
     shortTitle: "Why I Wouldn't Connect My Stripe Account to Every Tool",
     description:
-      "A founder-friendly look at the privacy tradeoff behind Stripe OAuth, read-only access, persistent integrations, and CSV-based fee audits.",
+      "Stripe OAuth / read-only access is a trust decision, not a login button. When you only need a fee audit, an itemized Balance CSV is enough — no persistent connection.",
     time: "7 min",
     datePublished: "2026-05-16",
-    dateModified: "2026-05-16",
+    dateModified: "2026-08-04",
     semanticCluster: "Stripe OAuth risk, Stripe account privacy, no-OAuth Stripe fee audit",
     keywords: [
       "connect Stripe account to third party tools",
@@ -120,10 +120,10 @@ export const PRIVACY_ARTICLES: PrivacyArticle[] = [
     title: "Stripe OAuth Read-Only Access: What Third-Party Apps Can See",
     shortTitle: "Stripe OAuth Read-Only Access: What Apps Can See",
     description:
-      "Before connecting a Stripe analytics or fee tool, see what read-only OAuth access can expose, why a Balance CSV can be enough, and how to limit third-party Stripe data access.",
+      "What “read-only” Stripe OAuth can still expose — and when a Balance CSV fee check is enough without connecting your account.",
     time: "8 min",
     datePublished: "2026-05-16",
-    dateModified: "2026-07-23",
+    dateModified: "2026-08-04",
     semanticCluster: "Stripe OAuth read-only scope, Stripe Apps permissions, Stripe data access",
     keywords: [
       "Stripe OAuth read only access",

@@ -6,13 +6,13 @@ import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "Stripe Balance CSV Export Guide for Fee Analysis and Rate Audit";
+const pageTitle = "How to Export Stripe Balance CSV for Fee Analysis";
 const pageDescription =
-  "Export the itemized Stripe Balance CSV to audit real Stripe effective rate, refund fee leakage, and international card costs. Not a Tableau, Qlik, or PostgreSQL export guide.";
+  "Quick steps: Stripe Dashboard → Reports → Balance → Export → Itemized CSV. Use it to check effective rate, refund fee leakage, and international card mix — not for Tableau, Qlik, or PostgreSQL pipelines.";
 const pagePath = "/stripe-balance-csv";
 
 export const metadata: Metadata = {
-  title: pageTitle,
+  title: "Export Stripe Balance CSV (Quick Fee Audit) | Fee Auditor",
   description: pageDescription,
   keywords: [
     "how to export Stripe Balance CSV",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     canonical: pagePath,
   },
   openGraph: {
-    title: pageTitle,
+    title: "Export Stripe Balance CSV (Quick Fee Audit)",
     description: pageDescription,
     url: pagePath,
     siteName: "Stripe Fee Auditor",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: pageTitle,
+    title: "Export Stripe Balance CSV (Quick Fee Audit)",
     description: pageDescription,
   },
   robots: {
@@ -204,9 +204,9 @@ export default function StripeBalanceCsvPage() {
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: pageTitle }]} className="mb-6" />
         {/* Header */}
         <div className="mb-14">
-          <p className="text-blue-600 text-sm font-medium mb-3">Export Guide</p>
+          <p className="text-blue-600 text-sm font-medium mb-3">Quick export guide · ~5 minutes</p>
           <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
-            How to Export Stripe Balance CSV for Fee Analysis
+            {pageTitle}
           </h1>
           <p className="mb-3 inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-blue-700">Not for BI tools or data pipelines</p>
           <p className="text-lg text-gray-500 leading-relaxed">

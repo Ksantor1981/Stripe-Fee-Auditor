@@ -5,9 +5,17 @@ Lightweight acquisition-channel extension for Chrome Web Store presence.
 This version does not read Stripe pages and does not parse CSVs locally. It is intentionally small:
 
 - Opens Stripe Balance report export page
-- Opens Fee Auditor CSV upload page
-- Opens Fee Monitor (`$9/mo`) page
-- Lets the user enable a local monthly reminder with Chrome alarms/notifications
+- Opens Fee Auditor `/analyze` for a **free diagnosis** (CSV upload on the site)
+- Optional Fee Monitor (`$9/mo`) — secondary
+- Local monthly reminder via Chrome alarms/notifications
+
+## Post-test backlog (after upload funnel eval ~2026-08-12)
+
+1. **Copy align (cheap):** ✅ done 2026-08-04 — popup + Store listing free-first; Monitor secondary; UTMs `popup_free_diagnosis`
+2. **Optional friction cut (only if installs matter):** CSV drop in popup → open `/analyze` (pass file or deep-link; no full MV3 offline parser)
+3. **Out of scope until demand:** free diagnosis UI / fee math inside the extension popup
+
+Ops reminder: `docs/ops/WEDNESDAY_MANUAL_STEPS.md` §6.
 
 ## Local test
 

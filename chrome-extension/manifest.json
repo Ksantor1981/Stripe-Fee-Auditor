@@ -2,10 +2,10 @@
   "manifest_version": 3,
   "name": "Stripe Fee Auditor",
   "short_name": "Fee Auditor",
-  "version": "0.1.0",
-  "description": "Quick links and monthly reminders for checking your real Stripe fee rate from a Balance CSV.",
+  "version": "0.1.1",
+  "description": "Launcher for a free Stripe fee diagnosis from a Balance CSV on FeeAuditor.com. No OAuth. Optional monthly reminder.",
   "action": {
-    "default_title": "Stripe Fee Auditor",
+    "default_title": "Fee Auditor — free CSV diagnosis",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon16.png",

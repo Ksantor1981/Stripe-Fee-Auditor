@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Stripe Fee Auditor</title>
+    <title>Fee Auditor</title>
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
@@ -12,17 +12,18 @@
         <div class="brand">
           <img src="icons/icon32.png" width="32" height="32" alt="" />
           <div>
-            <p class="eyebrow">Stripe Fee Auditor</p>
-            <h1>Check your real Stripe fee rate</h1>
+            <p class="eyebrow">Fee Auditor · feeauditor.com</p>
+            <h1>Free Stripe fee diagnosis</h1>
           </div>
         </div>
         <p class="hero-copy">
-          Export a Balance CSV from Stripe, then audit the real processing rate and fee drivers.
+          Export an itemized Balance CSV, then upload it on Fee Auditor for your real rate and one
+          fee driver. No OAuth.
         </p>
         <div class="trust-row">
           <span>No OAuth</span>
-          <span>CSV-based</span>
-          <span>Free preview</span>
+          <span>CSV on the site</span>
+          <span>Free diagnosis</span>
         </div>
       </header>
 
@@ -31,21 +32,21 @@
           <span class="icon">1</span>
           <span>
             <strong>Open Stripe export</strong>
-            <small>Go to Balance report exports</small>
+            <small>Balance report → Itemized CSV</small>
           </span>
         </button>
         <button class="action-card primary" type="button" data-open="analyze">
           <span class="icon">2</span>
           <span>
-            <strong>Analyze CSV</strong>
-            <small>Upload the export to Fee Auditor</small>
+            <strong>Free diagnosis</strong>
+            <small>Upload CSV on Fee Auditor</small>
           </span>
         </button>
         <button class="action-card" type="button" data-open="monitor">
           <span class="icon">3</span>
           <span>
-            <strong>Fee Monitor - $9/mo</strong>
-            <small>Monthly reminders and rate drift checks</small>
+            <strong>Fee Monitor (optional)</strong>
+            <small>$9/mo reminders — secondary</small>
           </span>
         </button>
       </section>

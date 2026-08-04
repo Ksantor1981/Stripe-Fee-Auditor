@@ -1,8 +1,10 @@
 const URLS = {
-  analyze: "https://feeauditor.com/analyze?utm_source=chrome_extension&utm_medium=extension&utm_campaign=popup_analyze",
-  monitor: "https://feeauditor.com/monitor?utm_source=chrome_extension&utm_medium=extension&utm_campaign=popup_monitor",
+  analyze:
+    "https://feeauditor.com/analyze?utm_source=chrome_extension&utm_medium=extension&utm_campaign=popup_free_diagnosis",
+  monitor:
+    "https://feeauditor.com/monitor?utm_source=chrome_extension&utm_medium=extension&utm_campaign=popup_monitor",
   instructions:
-    "https://feeauditor.com/blog/how-to-export-stripe-balance-csv?utm_source=chrome_extension&utm_medium=extension&utm_campaign=popup_instructions",
+    "https://feeauditor.com/stripe-balance-csv?utm_source=chrome_extension&utm_medium=extension&utm_campaign=popup_instructions",
   stripeExport: "https://dashboard.stripe.com/reports/balance",
 };
 

@@ -8,14 +8,14 @@ import { buildOgImageUrl } from "@/lib/seo-og";
 
 const pageTitle = "Export Stripe Balance CSV for Fee Analysis";
 const pageDescription =
-  "Step-by-step: export the Itemized Stripe Balance CSV, avoid Summary and payout mistakes, get the right columns, and check your real fee rate.";
+  "Detailed walkthrough with screenshots: Itemized Balance CSV (not Summary), date range, common export mistakes, then a free fee-rate diagnosis. Need the short version? Use the quick Balance CSV guide.";
 const pagePath = "/blog/how-to-export-stripe-balance-csv";
 const published = "2026-05-16";
-const updated = "2026-07-28";
+const updated = "2026-08-04";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe Balance CSV" });
 
 export const metadata: Metadata = {
-  title: `${pageTitle} | Fee Auditor`,
+  title: "Stripe Balance CSV Export: Steps & Screenshots | Fee Auditor",
   description: pageDescription,
   alternates: { canonical: pagePath },
   openGraph: {

@@ -7,14 +7,14 @@ import { buildOgImageUrl } from "@/lib/seo-og";
 
 const pageTitle = "Why Did My Stripe Fees Increase This Month?";
 const pageDescription =
-  "Stripe payout lower than expected or fees up vs last month? Diagnose international cards, refund fees not returned, FX, and mix changes from your Balance CSV.";
+  "Fees up or payout lower than last month? See the usual drivers — international cards, refund fees not returned, FX, Radar/add-ons — then check which line moved in your Balance CSV. Free diagnosis on Fee Auditor.";
 const pagePath = "/blog/why-stripe-fees-increase";
 const published = "2026-05-16";
-const updated = "2026-07-19";
+const updated = "2026-08-04";
 const ogImage = buildOgImageUrl({ title: pageTitle, eyebrow: "Stripe fee diagnosis" });
 
 export const metadata: Metadata = {
-  title: `${pageTitle} | Fee Auditor`,
+  title: "Why Stripe Fees Increased This Month — CSV Checklist | Fee Auditor",
   description: pageDescription,
   keywords: [
     "why did my Stripe fees increase",

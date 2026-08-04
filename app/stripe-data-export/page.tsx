@@ -6,13 +6,13 @@ import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "Export Stripe Data to CSV, JSON, Tableau, or PostgreSQL";
+const pageTitle = "Stripe Data Export: Balance CSV vs JSON, Tableau, PostgreSQL";
 const pageDescription =
-  "Need Stripe data in CSV, JSON, Tableau, Power BI, or PostgreSQL? Choose the right export path, then use Balance CSV for Stripe fee reconciliation.";
+  "Pick the right Stripe export for the job. Fee reconciliation needs an itemized Balance CSV — Fee Auditor is not a JSON/Tableau/PostgreSQL connector. BI and warehouse paths use API or ETL.";
 const pagePath = "/stripe-data-export";
 
 export const metadata: Metadata = {
-  title: pageTitle,
+  title: "Stripe Export Paths: CSV vs JSON, Tableau, Postgres | Fee Auditor",
   description: pageDescription,
   keywords: [
     "export Stripe data",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     canonical: pagePath,
   },
   openGraph: {
-    title: pageTitle,
+    title: "Stripe Export Paths: CSV vs JSON, Tableau, Postgres",
     description: pageDescription,
     url: pagePath,
     siteName: "Stripe Fee Auditor",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: pageTitle,
+    title: "Stripe Export Paths: CSV vs JSON, Tableau, Postgres",
     description: pageDescription,
   },
   robots: {
@@ -158,7 +158,7 @@ export default function StripeDataExportPage() {
         <header className="mb-12">
           <p className="mb-3 text-sm font-medium text-blue-600">Stripe data export</p>
           <h1 className="text-4xl font-bold leading-tight text-gray-900">
-            Export Stripe Data to CSV, JSON, Tableau, or PostgreSQL
+            {pageTitle}
           </h1>
           <p className="mt-4 text-lg leading-relaxed text-gray-500">
             The right Stripe export depends on the job. JSON, Tableau, Power BI, and PostgreSQL usually
