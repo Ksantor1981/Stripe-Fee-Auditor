@@ -143,3 +143,39 @@ SQL: `scripts/funnel-segmentation.sql` (окно ~2026-07-29 → 2026-08-12).
 - GSC harvest: title/meta на why-fees-increase, balance-csv, how-to-export, data-export, OAuth privacy posts
 - `/analyze`: блок «какой CSV / ~60 sec» + trust
 - Chrome extension free-first copy (см. выше)
+
+## 7) Sample-first acquisition (с 2026-08-05)
+
+**Не строить** новый большой hero-калькулятор. Ads **не включать**, пока Limited serving + нет ~20–30 sample/analyze визитов из LI/partners.
+
+### Внешние ссылки (LI / DM / posts)
+
+Всегда sample-flow, не голая главная:
+
+```text
+https://feeauditor.com/analyze?sample=1&utm_source=linkedin&utm_medium=dm&utm_campaign=[slug]
+```
+
+### KPI ближайшие 7 дней
+
+Не клики/показы. Считать:
+
+1. Открытия sample / `funnel_analyze_page_view` с `sample_query` / демо-отчёты  
+2. `funnel_csv_loaded` (real)  
+3. Реальные uploads (Neon / `funnel-segmentation.sql`)
+
+Решение по продукту — только если sample не цепляет при нормальном числе визитов на `/analyze?sample=1`.
+
+### CFO DM (короткий оффер)
+
+```text
+I’m testing a CSV-based Stripe fee audit report. No OAuth, raw CSV not stored.
+It gives a client-ready breakdown of effective rate, refund leakage, international-card drag, and monthly drift.
+Happy to run one sample/client CSV free if useful:
+https://feeauditor.com/analyze?sample=1&utm_source=linkedin&utm_medium=dm&utm_campaign=[slug]
+```
+
+### SEO фокус (не плодить статьи)
+
+Pain only: why fees so high · refund fees not returned · international card fees · effective rate · payout lower than expected.  
+Не гнаться за export→Tableau/JSON/Postgres.

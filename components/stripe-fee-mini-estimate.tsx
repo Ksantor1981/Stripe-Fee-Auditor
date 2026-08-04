@@ -237,22 +237,25 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
           </div>
 
           <p className="mt-4 text-xs leading-relaxed text-gray-500">
-            This is only a published-pricing estimate. Your real effective rate depends on card mix,
-            refunds, FX, and add-ons in your Balance CSV — not this form.
+            {estimate.monthlyVolume > 0 && estimate.midRate > estimate.publishedRate
+              ? `Your rough estimate (${formatRate(estimate.lowRate)}–${formatRate(estimate.highRate)}) sits above the headline domestic rate (${(estimate.publishedRate * 100).toFixed(2)}% effective on this mix). `
+              : "This is only a published-pricing estimate. "}
+            The exact gap depends on international cards, refunds, small charges, and other fee lines —
+            not this form.
           </p>
         </div>
       </div>
 
       <div className="mt-5 rounded-xl border border-blue-200 bg-white px-4 py-4 sm:px-5">
         <p className="text-sm font-semibold text-gray-900">
-          Done estimating? Check the real number next.
+          Confirm the real rate from your Balance CSV
         </p>
         <p className="mt-1 text-sm text-gray-500">
-          Sample report in ~10 seconds, or upload your itemized{" "}
+          Upload to verify the gap — or open a sample report in ~10 seconds. Itemized{" "}
           <Link href="/stripe-balance-csv" className="text-blue-600 underline hover:text-blue-800">
             Balance CSV
-          </Link>
-          .
+          </Link>{" "}
+          only.
         </p>
         <div className="mt-3 flex flex-col gap-2 sm:flex-row">
           <Link
