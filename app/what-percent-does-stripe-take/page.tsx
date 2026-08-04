@@ -233,6 +233,7 @@ export default function WhatPercentDoesStripeTakePage() {
           <p className="mb-4 text-sm font-semibold text-gray-700">Related guides</p>
           <div className="space-y-3">
             {[
+              { href: "/blog/why-stripe-fees-increase", title: "Why did my Stripe fees increase this month?" },
               { href: "/stripe-fee-calculator", title: "Stripe fees calculator (published rate estimate)" },
               { href: "/stripe-balance-csv", title: "How to export Stripe Balance CSV" },
               { href: "/why-stripe-fee-rate-higher-than-2-9", title: "Why Stripe fees are higher than 2.9%" },

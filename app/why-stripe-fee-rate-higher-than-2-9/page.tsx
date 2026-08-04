@@ -260,6 +260,15 @@ export default function WhyStripeFeesIncreasePage() {
         {/* Next step */}
         <div className="mt-8 pt-8 border-t border-gray-100 space-y-4 text-sm text-gray-400">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <span>Fees up vs last month?</span>
+            <Link
+              href="/blog/why-stripe-fees-increase"
+              className="text-blue-600 hover:text-blue-700 font-medium"
+            >
+              Why Stripe fees increase →
+            </Link>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <span>Estimate published fees first</span>
             <Link
               href="/stripe-fee-calculator"

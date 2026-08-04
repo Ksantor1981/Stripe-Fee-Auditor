@@ -369,6 +369,15 @@ export default function StripeFeeCalculatorPage() {
           </Link>
         </div>
         <div className="mt-4 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm text-gray-400">
+          <span>Fees up vs last month?</span>
+          <Link
+            href="/blog/why-stripe-fees-increase"
+            className="text-blue-600 hover:text-blue-700 font-medium"
+          >
+            Why Stripe fees increase →
+          </Link>
+        </div>
+        <div className="mt-4 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm text-gray-400">
           <span>Want to understand the fee drivers?</span>
           <Link
             href="/why-stripe-fee-rate-higher-than-2-9"

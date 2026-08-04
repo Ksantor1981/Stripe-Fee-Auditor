@@ -150,7 +150,7 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
     slug: "why-stripe-fees-increase",
     path: "/blog/why-stripe-fees-increase",
     title: "Why Did My Stripe Fees Increase This Month?",
-    desc: "Payout lower than expected or fees up vs last month? Diagnose international cards, refund fees, FX, and mix from your CSV.",
+    desc: "Payout lower than expected or fees up vs last month? International cards, refund fees not returned, Radar/Billing, FX — plus a CSV checklist.",
     time: "5 min",
     publishedAt: "2026-05-16",
     updatedAt: "2026-07-19",

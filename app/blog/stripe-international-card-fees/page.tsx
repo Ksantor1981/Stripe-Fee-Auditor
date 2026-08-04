@@ -307,6 +307,7 @@ export default function Page() {
           <p className="text-sm font-semibold text-gray-700 mb-4">Related articles</p>
           <div className="space-y-3">
             {[
+              { href: "/blog/why-stripe-fees-increase", title: "Why Did My Stripe Fees Increase This Month?" },
               { href: "/why-stripe-fee-rate-higher-than-2-9", title: "Why Are My Stripe Fees Higher Than 2.9%?" },
               { href: "/blog/how-to-export-stripe-balance-csv", title: "How to Export Stripe Balance CSV for a Fee Audit" },
               { href: "/blog/stripe-ach-vs-credit-card-fees", title: "ACH vs Credit Card Fees on Stripe" },
