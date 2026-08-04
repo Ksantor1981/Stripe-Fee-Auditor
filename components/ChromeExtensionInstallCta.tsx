@@ -1,11 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { trackEvent } from "@/lib/analytics";
-import {
-  chromeExtensionInstallHref,
-  hasChromeWebStoreListing,
-} from "@/lib/chrome-extension";
+import { chromeExtensionInstallHref } from "@/lib/chrome-extension";
 
 type Variant = "inline" | "card" | "quiet";
 
@@ -21,7 +17,6 @@ export function ChromeExtensionInstallCta({
   className = "",
 }: Props) {
   const href = chromeExtensionInstallHref();
-  const external = hasChromeWebStoreListing();
 
   function onClick() {
     trackEvent("funnel_chrome_extension_cta", { placement });
@@ -31,25 +26,15 @@ export function ChromeExtensionInstallCta({
     return (
       <p className={`text-xs text-gray-500 ${className}`.trim()}>
         Prefer a monthly nudge in the browser?{" "}
-        {external ? (
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-blue-600 hover:underline"
-            onClick={onClick}
-          >
-            Install Chrome helper
-          </a>
-        ) : (
-          <Link
-            href={href}
-            className="font-medium text-blue-600 hover:underline"
-            onClick={onClick}
-          >
-            Install Chrome helper
-          </Link>
-        )}
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-medium text-blue-600 hover:underline"
+          onClick={onClick}
+        >
+          Install Chrome helper
+        </a>
         {" "}
         (secondary — sample report stays the main path).
       </p>
@@ -66,50 +51,30 @@ export function ChromeExtensionInstallCta({
           Open Stripe Balance export, jump back to Fee Auditor, optional monthly reminder. No OAuth
           or API keys.
         </p>
-        {external ? (
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={onClick}
-            className="mt-3 inline-flex rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 text-sm font-semibold text-gray-800 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
-          >
-            Install Chrome helper →
-          </a>
-        ) : (
-          <Link
-            href={href}
-            onClick={onClick}
-            className="mt-3 inline-flex rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 text-sm font-semibold text-gray-800 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
-          >
-            Install Chrome helper →
-          </Link>
-        )}
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={onClick}
+          className="mt-3 inline-flex rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 text-sm font-semibold text-gray-800 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+        >
+          Install Chrome helper →
+        </a>
       </div>
     );
   }
 
   return (
     <div className={className}>
-      {external ? (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={onClick}
-          className="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
-        >
-          Install Chrome helper
-        </a>
-      ) : (
-        <Link
-          href={href}
-          onClick={onClick}
-          className="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
-        >
-          Install Chrome helper
-        </Link>
-      )}
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onClick}
+        className="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+      >
+        Install Chrome helper
+      </a>
     </div>
   );
 }

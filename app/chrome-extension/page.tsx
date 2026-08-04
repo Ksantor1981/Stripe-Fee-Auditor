@@ -1,19 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { ChromeExtensionEarlyAccessForm } from "@/components/ChromeExtensionEarlyAccessForm";
 import {
   CHROME_EXTENSION_STORE_URL,
-  hasChromeWebStoreListing,
+  hasChromeWebStoreDetailUrl,
 } from "@/lib/chrome-extension";
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
 
 const pageTitle = "Stripe Fee Auditor — CSV Fee Check Helper";
 const pageDescription =
-  "Open Stripe Balance export, audit your real fee rate on FeeAuditor.com, and get monthly CSV reminders. No OAuth or API keys. Does not read Stripe pages.";
+  "Install the free Chrome helper: open Stripe Balance export, audit your real fee rate on FeeAuditor.com, optional monthly CSV reminder. No OAuth or API keys. Does not read Stripe pages.";
 const pagePath = "/chrome-extension";
-const pageUrl = absoluteUrl(pagePath);
 const ogImage = buildOgImageUrl({
   title: "Stripe Fee Auditor Chrome Extension",
   eyebrow: "CSV helper · no OAuth",
@@ -85,22 +83,16 @@ const privacyPoints = [
   "CSV analysis still happens only when you choose to upload on feeauditor.com",
 ];
 
-const installSteps = [
-  "Open the GitHub source folder for the Chrome helper.",
-  "Download or clone the repository.",
-  "Go to chrome://extensions, enable Developer mode, and choose Load unpacked.",
-  "Select the chrome-extension folder.",
-];
-
 export default function ChromeExtensionPage() {
-  const storeLive = hasChromeWebStoreListing();
+  const detailUrl = hasChromeWebStoreDetailUrl();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: "Stripe Fee Auditor — CSV Fee Check Helper",
     applicationCategory: "BrowserApplication",
     operatingSystem: "Chrome",
-    url: storeLive ? CHROME_EXTENSION_STORE_URL : pageUrl,
+    url: CHROME_EXTENSION_STORE_URL,
+    downloadUrl: CHROME_EXTENSION_STORE_URL,
     description: pageDescription,
     offers: {
       "@type": "Offer",
@@ -141,42 +133,32 @@ export default function ChromeExtensionPage() {
       <section className="mx-auto grid max-w-5xl gap-10 px-6 py-14 md:grid-cols-[1.05fr_0.95fr] md:items-center">
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">
-            Chrome helper · retention hook
+            Chrome helper · free on Web Store
           </p>
           <h1 className="mt-3 max-w-3xl text-4xl font-extrabold tracking-tight text-gray-950 sm:text-5xl">
             Stripe Fee Auditor — CSV Fee Check Helper
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-gray-600">
-            Open the Stripe Balance export flow, jump back to Fee Auditor for a free CSV diagnosis, and
-            optionally set a local monthly reminder. Does not read Stripe pages. No OAuth or API keys.
+            Free Chrome helper for founders who check Stripe fees from Balance CSV exports. Opens the
+            right export flow, sends you back to Fee Auditor, and can remind you monthly. Does not
+            read Stripe pages. No OAuth or API keys.
           </p>
-          <div className="mt-6 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm leading-relaxed text-blue-950">
-            <p className="font-semibold">Main product path is still the sample report.</p>
-            <p className="mt-1 text-blue-900/80">
-              Install the helper if you want export shortcuts and a monthly nudge. Analysis always
-              happens on feeauditor.com after you upload a CSV.
+          <div className="mt-6 rounded-2xl border border-emerald-100 bg-emerald-50 p-4 text-sm leading-relaxed text-emerald-950">
+            <p className="font-semibold">Available on the Chrome Web Store for everyone.</p>
+            <p className="mt-1 text-emerald-900/80">
+              One-click install. The main product path is still the sample report on feeauditor.com —
+              the helper is a shortcut and monthly nudge, not a second product.
             </p>
           </div>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            {storeLive ? (
-              <a
-                href={CHROME_EXTENSION_STORE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex justify-center rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
-              >
-                Install from Chrome Web Store
-              </a>
-            ) : (
-              <a
-                href="https://github.com/Ksantor1981/Stripe-Fee-Auditor/tree/master/chrome-extension"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex justify-center rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
-              >
-                Install from source
-              </a>
-            )}
+            <a
+              href={CHROME_EXTENSION_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex justify-center rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
+            >
+              Install from Chrome Web Store
+            </a>
             <Link
               href="/analyze?sample=1"
               className="inline-flex justify-center rounded-xl border border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-700 transition-colors hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
@@ -184,28 +166,46 @@ export default function ChromeExtensionPage() {
               Try sample report first
             </Link>
           </div>
-          {!storeLive && (
+          {!detailUrl && (
             <p className="mt-3 text-xs text-gray-500">
-              Set <code className="rounded bg-gray-100 px-1">NEXT_PUBLIC_CHROME_EXTENSION_STORE_URL</code>{" "}
-              in Vercel to point install CTAs at your live Web Store listing.
+              Opens Chrome Web Store search for &quot;Stripe Fee Auditor&quot;. Prefer the exact
+              listing link? Set it in{" "}
+              <code className="rounded bg-gray-100 px-1">lib/chrome-extension.ts</code>.
             </p>
           )}
         </div>
 
         <div className="rounded-3xl border border-blue-100 bg-blue-50/60 p-6 shadow-sm">
-          <p className="text-sm font-semibold text-blue-950">
-            {storeLive ? "Prefer email updates?" : "Get a note when store install is easier"}
+          <p className="text-sm font-semibold text-blue-950">What you get after install</p>
+          <ul className="mt-4 space-y-3 text-sm leading-relaxed text-blue-900/85">
+            <li className="flex gap-2">
+              <span className="text-blue-600">✓</span>
+              <span>Open Stripe Balance export in one click</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-blue-600">✓</span>
+              <span>Jump to Fee Auditor to upload your CSV or view the sample</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-blue-600">✓</span>
+              <span>Optional local monthly reminder (no OAuth)</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-blue-600">✓</span>
+              <span>Does not scrape Stripe pages or request host permissions</span>
+            </li>
+          </ul>
+          <a
+            href={CHROME_EXTENSION_STORE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex w-full justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
+          >
+            Add to Chrome →
+          </a>
+          <p className="mt-3 text-center text-xs text-blue-900/60">
+            Free · no Stripe connection · analysis stays on feeauditor.com
           </p>
-          <p className="mt-2 text-sm leading-relaxed text-blue-900/80">
-            Helper only: export shortcuts, analyze links, and monthly reminders. No Stripe account
-            connection.
-          </p>
-          <div className="mt-5">
-            <ChromeExtensionEarlyAccessForm
-              source="chrome_extension_page_hero"
-              ctaLabel={storeLive ? "Email me tips" : "Join Chrome early access"}
-            />
-          </div>
         </div>
       </section>
 
@@ -244,21 +244,26 @@ export default function ChromeExtensionPage() {
             </ul>
           </div>
           <div className="rounded-3xl border border-gray-100 bg-gray-50 p-6">
-            <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Direct install</p>
-            <h2 className="mt-2 text-2xl font-bold text-gray-950">For technical users before Web Store approval</h2>
-            <ol className="mt-5 space-y-3">
-              {installSteps.map((step, index) => (
-                <li key={step} className="flex gap-3 text-sm leading-relaxed text-gray-700">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-bold text-blue-700">
-                    {index + 1}
-                  </span>
-                  <span>{step}</span>
-                </li>
-              ))}
-            </ol>
-            <p className="mt-5 text-xs leading-relaxed text-gray-500">
-              The Chrome Web Store version is still the recommended path for non-technical users.
+            <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Prefer the web app?</p>
+            <h2 className="mt-2 text-2xl font-bold text-gray-950">You do not need the extension to audit fees</h2>
+            <p className="mt-4 text-sm leading-relaxed text-gray-600">
+              Export your Balance CSV, upload it on Fee Auditor, or start with the sample report. The
+              Chrome helper only speeds up export and reminds you to repeat the check.
             </p>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/analyze?sample=1"
+                className="inline-flex justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+              >
+                Try sample in 10s
+              </Link>
+              <Link
+                href="/stripe-balance-csv"
+                className="inline-flex justify-center rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-700 hover:border-blue-200 hover:bg-blue-50"
+              >
+                CSV export guide
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -266,27 +271,41 @@ export default function ChromeExtensionPage() {
       <section className="px-6 pb-20">
         <div className="mx-auto max-w-4xl rounded-3xl bg-slate-950 p-7 text-white">
           <p className="text-xs font-semibold uppercase tracking-widest text-blue-300">
-            Start without the extension
+            Install · then run a diagnosis
           </p>
-          <h2 className="mt-2 text-2xl font-bold">The fee audit works today from any browser.</h2>
+          <h2 className="mt-2 text-2xl font-bold">Add the helper, or start with the sample report.</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-300">
-            Export your Stripe Balance CSV, upload it to Fee Auditor, and see your processing rate,
-            all-in Stripe cost, fee drivers, and first savings opportunity.
+            Recommended path: sample report first → install Chrome helper for monthly reminders →
+            upload your own Balance CSV when ready.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/stripe-balance-csv"
-              className="inline-flex justify-center rounded-xl border border-slate-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-slate-900"
-            >
-              How to export the CSV
-            </Link>
-            <Link
-              href="/analyze"
+            <a
+              href={CHROME_EXTENSION_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
             >
-              Analyze my CSV
+              Install from Chrome Web Store
+            </a>
+            <Link
+              href="/analyze?sample=1"
+              className="inline-flex justify-center rounded-xl border border-slate-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-slate-900"
+            >
+              Try sample report
             </Link>
           </div>
+          <p className="mt-4 text-xs text-slate-500">
+            Developers: source is on{" "}
+            <a
+              href="https://github.com/Ksantor1981/Stripe-Fee-Auditor/tree/master/chrome-extension"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-slate-300"
+            >
+              GitHub
+            </a>
+            . Ordinary users should install from the Web Store, not Load unpacked.
+          </p>
         </div>
       </section>
     </main>
