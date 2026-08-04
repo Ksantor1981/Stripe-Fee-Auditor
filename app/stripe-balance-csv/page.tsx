@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
+import { ChromeExtensionInstallCta } from "@/components/ChromeExtensionInstallCta";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
@@ -317,15 +318,26 @@ export default function StripeBalanceCsvPage() {
             Drop your Balance CSV and get your real effective rate, monthly
             breakdown, and top fee drivers, usually in under 30 seconds.
           </p>
-          <Link
-            href="/analyze"
-            className="inline-flex items-center bg-blue-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors"
-          >
-            Analyze My Fees →
-          </Link>
+          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link
+              href="/analyze?sample=1"
+              className="inline-flex items-center bg-blue-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors"
+            >
+              Try sample in 10s →
+            </Link>
+            <Link
+              href="/analyze"
+              className="inline-flex items-center border border-gray-200 bg-white text-gray-800 font-semibold px-6 py-3 rounded-xl hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+            >
+              Analyze My Fees →
+            </Link>
+          </div>
           <p className="text-xs text-gray-400 mt-3">
             No account · Raw CSV file not stored · Usually under 30 seconds
           </p>
+          <div className="mt-5 flex justify-center">
+            <ChromeExtensionInstallCta placement="stripe_balance_csv_cta" variant="quiet" />
+          </div>
         </div>
 
         <SeoPageTrustFooter />

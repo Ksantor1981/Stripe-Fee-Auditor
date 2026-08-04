@@ -1,10 +1,12 @@
 const URLS = {
   analyze:
-    "https://feeauditor.com/analyze?utm_source=chrome_extension&utm_medium=extension&utm_campaign=popup_free_diagnosis",
+    "https://feeauditor.com/analyze?utm_source=chrome_extension&utm_medium=popup&utm_campaign=analyze_csv",
+  sample:
+    "https://feeauditor.com/analyze?sample=1&utm_source=chrome_extension&utm_medium=popup&utm_campaign=sample",
   monitor:
-    "https://feeauditor.com/monitor?utm_source=chrome_extension&utm_medium=extension&utm_campaign=popup_monitor",
+    "https://feeauditor.com/monitor?utm_source=chrome_extension&utm_medium=popup&utm_campaign=monitor",
   instructions:
-    "https://feeauditor.com/stripe-balance-csv?utm_source=chrome_extension&utm_medium=extension&utm_campaign=popup_instructions",
+    "https://feeauditor.com/stripe-balance-csv?utm_source=chrome_extension&utm_medium=popup&utm_campaign=export_guide",
   stripeExport: "https://dashboard.stripe.com/reports/balance",
 };
 
@@ -52,6 +54,7 @@ document.querySelectorAll("[data-open]").forEach((button) => {
     const target = button.getAttribute("data-open");
     if (target === "stripe-export") openUrl(URLS.stripeExport);
     if (target === "analyze") openUrl(URLS.analyze);
+    if (target === "sample") openUrl(URLS.sample);
     if (target === "monitor") openUrl(URLS.monitor);
     if (target === "instructions") openUrl(URLS.instructions);
   });

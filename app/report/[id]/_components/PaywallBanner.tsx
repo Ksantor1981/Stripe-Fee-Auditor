@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { ChromeExtensionInstallCta } from "@/components/ChromeExtensionInstallCta";
 import { trackEvent } from "@/lib/analytics";
 import { fmt$ } from "@/lib/format";
 import type { PaywallImpactSource } from "@/lib/paywall-impact";
@@ -130,6 +131,11 @@ export function PaywallBanner({
           </a>
           {" "}— reminders + rate drift checks after this audit.
         </p>
+        <ChromeExtensionInstallCta
+          placement="paywall_banner"
+          variant="quiet"
+          className="mt-3"
+        />
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>

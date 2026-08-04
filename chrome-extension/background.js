@@ -1,6 +1,6 @@
 const REMINDER_ALARM_NAME = "fee-auditor-monthly-reminder";
 const ANALYZE_URL =
-  "https://feeauditor.com/analyze?utm_source=chrome_extension&utm_medium=extension&utm_campaign=monthly_reminder";
+  "https://feeauditor.com/analyze?utm_source=chrome_extension&utm_medium=notification&utm_campaign=monthly_reminder";
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.get(["monthlyReminderEnabled"]).then((stored) => {

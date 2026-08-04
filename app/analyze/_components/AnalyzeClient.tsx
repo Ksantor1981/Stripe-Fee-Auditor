@@ -2,6 +2,7 @@
 
 import { useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import { ChromeExtensionInstallCta } from "@/components/ChromeExtensionInstallCta";
 import { ExportInstructions } from "./ExportInstructions";
 import { UploadZone } from "./UploadZone";
 import { trackEvent } from "@/lib/analytics";
@@ -50,6 +51,8 @@ function AnalyzeSteps() {
       </div>
 
       <UploadZone autoLoadSample={isSample} />
+
+      <ChromeExtensionInstallCta placement="analyze_page" variant="quiet" />
 
       {!isSample && <ExportInstructions />}
     </div>

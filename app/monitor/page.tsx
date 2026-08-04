@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { ChromeExtensionInstallCta } from "@/components/ChromeExtensionInstallCta";
 import { FeeMonitorWaitlistForm } from "@/components/FeeMonitorWaitlistForm";
 import { ManageBillingForm } from "@/components/ManageBillingForm";
 
@@ -110,11 +111,14 @@ export default async function MonitorPage({ searchParams }: Props) {
               Start Fee Monitor — $9/mo
             </Link>
             <Link
-              href="/analyze"
+              href="/analyze?sample=1"
               className="inline-flex justify-center rounded-xl border border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-700 transition-colors hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
             >
-              Run one CSV audit first
+              Run sample first
             </Link>
+          </div>
+          <div className="mt-4">
+            <ChromeExtensionInstallCta placement="monitor_hero" variant="quiet" />
           </div>
           <div className="mt-7 grid gap-3 text-sm text-gray-600 sm:grid-cols-3">
             <div className="rounded-xl border border-gray-100 bg-gray-50 p-4">

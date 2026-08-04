@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { applyExpectedOutlierExclusions } from "@/lib/expected-outliers";
 import { selectFreeDiagnosis } from "@/lib/free-diagnosis";
+import { ChromeWebStoreReviewAsk } from "@/components/ChromeWebStoreReviewAsk";
 import { trackEvent } from "@/lib/analytics";
 import { EmailGate } from "./EmailGate";
 import { FeedbackForm } from "./FeedbackForm";
@@ -278,6 +279,10 @@ export function ReportShell({
             <MonitorWaitlistForm reportId={reportId} />
           )}
           <FeedbackForm reportId={reportId} />
+          <ChromeWebStoreReviewAsk
+            placement={hasFullAccess ? "full_report" : "sample_or_preview"}
+            className="text-center"
+          />
         </div>
       </div>
 
