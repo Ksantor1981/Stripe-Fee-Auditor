@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDropzone } from "react-dropzone";
 import Papa from "papaparse";
@@ -77,6 +77,8 @@ export function UploadZone({ autoLoadSample }: Props) {
   const [mapping, setMapping] = useState<ColumnMapping>({});
   const [error, setError] = useState<string | null>(null);
   const [stage, setStage] = useState<Stage>("idle");
+  const autoAnalyzeStarted = useRef(false);
+  const pendingSampleAutoAnalyze = useRef(false);
 
   // Auto-load sample data when coming from ?sample=1
   useEffect(() => {
@@ -97,7 +99,7 @@ export function UploadZone({ autoLoadSample }: Props) {
       isSample: true,
     });
     setMapping({ ...detectedMapping, ...SAMPLE_COLUMN_MAPPING });
-    trackEvent("funnel_csv_loaded", { sample: true });
+    trackEvent("funnel_csv_loaded", { sample: true, auto: true });
   }, [autoLoadSample]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -181,6 +183,8 @@ export function UploadZone({ autoLoadSample }: Props) {
 
   function loadSampleData() {
     setError(null);
+    pendingSampleAutoAnalyze.current = true;
+    autoAnalyzeStarted.current = false;
     Papa.parse<Record<string, string>>(SAMPLE_CSV, {
       header: true,
       skipEmptyLines: true,
@@ -196,7 +200,7 @@ export function UploadZone({ autoLoadSample }: Props) {
           isSample: true,
         });
         setMapping(SAMPLE_COLUMN_MAPPING as ColumnMapping);
-        trackEvent("funnel_csv_loaded", { sample: true });
+        trackEvent("funnel_csv_loaded", { sample: true, auto: false });
       },
     });
   }
@@ -210,50 +214,65 @@ export function UploadZone({ autoLoadSample }: Props) {
   const missing = missingCols(mapping);
   const canAnalyze = !!parsed && missing.length === 0 && stage === "idle";
 
+  const runAnalyze = useCallback(
+    async (source: ParsedFile, columnMapping: ColumnMapping) => {
+      setError(null);
+
+      try {
+        setStage("uploading");
+        trackEvent("funnel_analyze_submit", { sample: Boolean(source.isSample) });
+
+        const csvText = source.isSample ? SAMPLE_CSV : await source.file!.text();
+
+        if (!source.isSample) {
+          if (new TextEncoder().encode(csvText).length > MAX_CSV_BYTES) {
+            setError("File too large (max 4 MB). Try a shorter date range in Stripe export.");
+            setStage("idle");
+            return;
+          }
+        }
+
+        setStage("analyzing");
+        const analyzeRes = await fetch("/api/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
+          body: JSON.stringify({ csvText, columnMapping }),
+        });
+        if (!analyzeRes.ok) {
+          const j = await analyzeRes.json();
+          throw new Error(j.error ?? "Analysis failed");
+        }
+        const { reportId, mode } = await analyzeRes.json();
+
+        trackEvent("funnel_analyze_client_ok", {
+          sample: Boolean(source.isSample),
+          mode: typeof mode === "string" ? mode : "unknown",
+        });
+
+        const qs = source.isSample ? "?demo=1" : "";
+        router.push(`/report/${reportId}${qs}`);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Something went wrong");
+        setStage("idle");
+      }
+    },
+    [router]
+  );
+
+  // Sample path → start analysis automatically (URL ?sample=1 or “Try sample” button)
+  useEffect(() => {
+    if (!parsed?.isSample || missing.length > 0 || stage !== "idle") return;
+    if (!autoLoadSample && !pendingSampleAutoAnalyze.current) return;
+    if (autoAnalyzeStarted.current) return;
+    autoAnalyzeStarted.current = true;
+    pendingSampleAutoAnalyze.current = false;
+    void runAnalyze(parsed, mapping);
+  }, [autoLoadSample, parsed, mapping, missing.length, stage, runAnalyze]);
+
   async function handleAnalyze() {
     if (!parsed) return;
-    setError(null);
-
-    try {
-      setStage("uploading");
-      trackEvent("funnel_analyze_submit", { sample: Boolean(parsed.isSample) });
-
-      const csvText = parsed.isSample
-        ? SAMPLE_CSV
-        : await parsed.file!.text();
-
-      if (!parsed.isSample) {
-        if (new TextEncoder().encode(csvText).length > MAX_CSV_BYTES) {
-          setError("File too large (max 4 MB). Try a shorter date range in Stripe export.");
-          setStage("idle");
-          return;
-        }
-      }
-
-      setStage("analyzing");
-      const analyzeRes = await fetch("/api/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "same-origin",
-        body: JSON.stringify({ csvText, columnMapping: mapping }),
-      });
-      if (!analyzeRes.ok) {
-        const j = await analyzeRes.json();
-        throw new Error(j.error ?? "Analysis failed");
-      }
-      const { reportId, mode } = await analyzeRes.json();
-
-      trackEvent("funnel_analyze_client_ok", {
-        sample: Boolean(parsed.isSample),
-        mode: typeof mode === "string" ? mode : "unknown",
-      });
-
-      const qs = parsed.isSample ? "?demo=1" : "";
-      router.push(`/report/${reportId}${qs}`);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
-      setStage("idle");
-    }
+    await runAnalyze(parsed, mapping);
   }
 
   const stageLabel: Record<Stage, string> = {
@@ -266,23 +285,16 @@ export function UploadZone({ autoLoadSample }: Props) {
     <div id="upload-csv" className="space-y-8 scroll-mt-6">
       {/* Title */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-2">Upload</p>
-        <h2 className="text-xl font-bold text-gray-900">Upload your CSV</h2>
+        <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-2">
+          {autoLoadSample ? "Sample" : "Your file"}
+        </p>
+        <h2 className="text-xl font-bold text-gray-900">
+          {autoLoadSample ? "Running sample diagnosis…" : "Upload your Balance CSV"}
+        </h2>
         <p className="mt-2 text-gray-500 text-sm">
-          {autoLoadSample ? (
-            "Sample data loads below — or drop your own Balance CSV."
-          ) : (
-            <>
-              Have your Stripe Balance CSV ready? Drop it here — or{" "}
-              <a
-                href="#export-steps"
-                className="text-blue-600 underline underline-offset-2 hover:text-blue-800"
-              >
-                see export steps below
-              </a>
-              .
-            </>
-          )}
+          {autoLoadSample
+            ? "Sample file is loading and will analyze automatically. You can also drop your own CSV."
+            : "Itemized Balance export only (.csv, max 4 MB). No account connect."}
         </p>
       </div>
 
@@ -306,11 +318,7 @@ export function UploadZone({ autoLoadSample }: Props) {
               <p className="font-semibold text-gray-700">
                 {isDragActive ? "Drop it here!" : "Drag & drop your Stripe Balance CSV"}
               </p>
-              <p className="text-sm text-gray-400 mt-1">
-                {autoLoadSample
-                  ? "or click to browse"
-                  : "Itemized Balance export · or see steps below if you still need the file"}
-              </p>
+              <p className="text-sm text-gray-400 mt-1">or click to browse</p>
             </div>
             <Badge variant="outline" className="text-xs text-gray-400">.csv only · max 4 MB</Badge>
           </div>
@@ -321,29 +329,49 @@ export function UploadZone({ autoLoadSample }: Props) {
               <p className="font-semibold text-gray-800">{parsed.fileName}</p>
               <p className="text-xs text-gray-500">
                 {parsed.isSample ? "Sample data · " : ""}
-                {parsed.totalRows.toLocaleString()} rows · scroll preview below
+                {parsed.totalRows.toLocaleString()} rows
+                {stage !== "idle" ? " · analyzing…" : " · preview below"}
               </p>
             </div>
-            <button
-              className="pointer-events-auto ml-4 text-xs text-gray-400 hover:text-red-500 underline"
-              onClick={(e) => { e.stopPropagation(); setParsed(null); setMapping({}); setError(null); }}
-            >
-              Remove
-            </button>
+            {stage === "idle" && (
+              <button
+                className="pointer-events-auto ml-4 text-xs text-gray-400 hover:text-red-500 underline"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  autoAnalyzeStarted.current = true; // don't auto-restart after manual remove
+                  setParsed(null);
+                  setMapping({});
+                  setError(null);
+                }}
+              >
+                Remove
+              </button>
+            )}
           </div>
         )}
       </div>
 
-      {/* Try with sample data */}
-      {!parsed && (
-        <div className="text-center">
-          <p className="text-sm text-gray-400 mb-2">Don&apos;t have your CSV yet?</p>
+      {/* Sample path — equal weight to upload for cold LinkedIn traffic */}
+      {!parsed && !autoLoadSample && (
+        <div className="rounded-xl border border-gray-200 bg-white px-5 py-4 text-center shadow-sm">
+          <p className="text-sm text-gray-600 mb-3">No file yet? See the product with demo data first.</p>
           <button
-            onClick={loadSampleData}
-            className="text-sm font-medium text-blue-600 hover:text-blue-800 underline underline-offset-2"
+            type="button"
+            onClick={() => {
+              trackEvent("funnel_sample_cta", { placement: "upload_zone_button" });
+              loadSampleData();
+            }}
+            className="inline-flex w-full sm:w-auto items-center justify-center rounded-lg border border-blue-200 bg-blue-50 px-6 py-3 text-sm font-semibold text-blue-700 hover:bg-blue-100"
           >
             Try with sample data →
           </button>
+          <p className="mt-2 text-xs text-gray-400">
+            Then export your own CSV when you&apos;re ready —{" "}
+            <a href="#export-steps" className="text-blue-600 hover:underline">
+              steps below
+            </a>
+            .
+          </p>
         </div>
       )}
 

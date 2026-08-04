@@ -26,42 +26,12 @@ export default function AnalyzePage() {
       </header>
 
       <div className="mx-auto max-w-2xl px-4 py-10">
-        <AdvertiserIdentityBanner className="mb-6" />
-        <h1 className="text-2xl font-bold text-gray-900">Analyze Your Stripe Fees</h1>
+        <h1 className="text-2xl font-bold text-gray-900">See your real Stripe fee rate</h1>
         <p className="mt-2 text-sm text-gray-500">
-          Free diagnosis first: your effective rate and one concrete fee driver. Independent tool — we
-          are not Stripe support and do not connect via OAuth.
+          Free diagnosis · no OAuth · raw CSV is not stored. Two paths below — sample first if you
+          don&apos;t have a file yet.
         </p>
-
-        <div className="mt-6 rounded-xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">
-            What to upload · ~60 seconds
-          </p>
-          <ul className="mt-3 space-y-2 text-sm text-gray-700">
-            <li>
-              <span className="font-medium text-gray-900">File:</span> itemized Stripe{" "}
-              <strong>Balance</strong> CSV (not Summary, not Payments, not Payouts-only).
-            </li>
-            <li>
-              <span className="font-medium text-gray-900">Path:</span> Dashboard → Reports → Balance
-              summary → Export → <strong>Itemized</strong> → Download to system.
-            </li>
-            <li>
-              <span className="font-medium text-gray-900">Trust:</span> no OAuth, no API keys. Raw CSV
-              is not stored — we keep only redacted calculated results.
-            </li>
-          </ul>
-          <p className="mt-3 text-xs text-gray-500">
-            Need screenshots?{" "}
-            <a href="#export-steps" className="font-medium text-blue-600 hover:underline">
-              Export steps on this page
-            </a>
-            {" · "}
-            <Link href="/stripe-balance-csv" className="font-medium text-blue-600 hover:underline">
-              Quick export guide
-            </Link>
-          </p>
-        </div>
+        <AdvertiserIdentityBanner variant="inline" className="mt-3" />
 
         <div className="mt-8">
           <AnalyzeClient />
