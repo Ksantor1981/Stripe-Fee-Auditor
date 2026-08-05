@@ -12,15 +12,14 @@ C:\tmp\stripe-fee-auditor-extension.zip
 
 ## Store detail URL (for site CTAs)
 
-Paste the live **detail** URL into `lib/chrome-extension.ts` (`DEFAULT_CHROME_EXTENSION_STORE_URL`)
-and/or Vercel env:
+Public listing:
 
 ```text
-NEXT_PUBLIC_CHROME_EXTENSION_STORE_URL=https://chromewebstore.google.com/detail/stripe-fee-auditor-…/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+https://chromewebstore.google.com/detail/blnamggnpkfcfennippabkoafllelchg
 ```
 
-Until the exact `/detail/…` URL is set, the site falls back to Chrome Web Store search for
-“Stripe Fee Auditor” (better than Load unpacked, worse than a direct listing link).
+The same URL is stored in `lib/chrome-extension.ts`. It can be overridden with
+`NEXT_PUBLIC_CHROME_EXTENSION_STORE_URL` if the listing URL changes.
 
 ## Graphics
 

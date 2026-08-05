@@ -3,10 +3,10 @@
  * Prefer the exact detail URL from CWS Dashboard → View in Chrome Web Store.
  * Env override: NEXT_PUBLIC_CHROME_EXTENSION_STORE_URL
  *
- * Fallback search is only until the detail URL is committed — replace ASAP.
+ * Public listing ID from Chrome Web Store Developer Dashboard.
  */
 const DEFAULT_CHROME_EXTENSION_STORE_URL =
-  "https://chromewebstore.google.com/search/Stripe%20Fee%20Auditor";
+  "https://chromewebstore.google.com/detail/blnamggnpkfcfennippabkoafllelchg";
 
 export const CHROME_EXTENSION_STORE_URL =
   process.env.NEXT_PUBLIC_CHROME_EXTENSION_STORE_URL?.trim() ||
