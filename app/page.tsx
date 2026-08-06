@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { LandingFaq, LANDING_FAQ_HOME_IDS } from "@/components/LandingFaq";
 import { LandingNav } from "@/components/LandingNav";
@@ -286,14 +285,16 @@ export default function HomePage() {
           </div>
 
           <div className="mt-10 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60">
-            <Image
+            {/* Native img + 2x srcSet: 1024px source is soft on 125–200% OS scaling without retina asset */}
+            <img
               src="/screenshots/report-preview.png"
+              srcSet="/screenshots/report-preview.png 1x, /screenshots/report-preview@2x.png 2x"
               alt="Stripe Fee Auditor report: Fee Grade D, $498.76 in quarter fees, 6.33% processing rate, 6.67% all-in cost, and comparison vs advertised 2.9% card pricing"
               width={1024}
               height={728}
-              unoptimized
-              sizes="(min-width: 1024px) 960px, 100vw"
-              className="h-auto w-full"
+              decoding="async"
+              fetchPriority="high"
+              className="mx-auto block h-auto w-full max-w-[1024px]"
             />
           </div>
 
