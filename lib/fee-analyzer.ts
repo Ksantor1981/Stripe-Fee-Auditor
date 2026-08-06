@@ -1,8 +1,18 @@
 // Fee analysis algorithm
 import type { NormalizedRow } from "./csv-parser";
 import { computeFeeGrade, type FeeGrade } from "./fee-grade";
+import {
+  getCountryFeeProfile,
+  isDomesticCardCountry,
+  type CountryFeeProfile,
+  type StripeAccountCountry,
+} from "./stripe-country-fees";
 
 export type AnalysisMode = "multi-month" | "single-month" | "low-volume";
+
+export interface AnalysisOptions {
+  accountCountry?: StripeAccountCountry;
+}
 
 export type AnomalyReason =
   | "international_card"    // [international] in description
@@ -136,7 +146,8 @@ export interface FeeMixSlice {
   sharePct: number;
 }
 
-export type FeeLeakBreakdownKind = "direct" | "estimated";
+export type FeeLeakBreakdownKind = "direct" | "calculated" | "estimated";
+export type EvidenceConfidence = "high" | "medium" | "low";
 export type FeeLeakBreakdownSeverity = "low" | "medium" | "high";
 
 export interface FeeLeakBreakdownItem {
@@ -147,14 +158,34 @@ export interface FeeLeakBreakdownItem {
   sharePct: number;
   kind: FeeLeakBreakdownKind;
   severity: FeeLeakBreakdownSeverity;
+  confidence: EvidenceConfidence;
   detail: string;
   action: string;
   actionLabel?: string;
   actionUrl?: string;
 }
 
+export interface ReconciliationSummary {
+  sourceRowCount: number;
+  chargeRowCount: number;
+  nonChargeRowCount: number;
+  reconciledChargeRows: number;
+  mismatchedChargeRows: number;
+  directNonChargeFeeRows: number;
+  chargeVolume: number;
+  chargeFees: number;
+  otherFees: number;
+  allInFees: number;
+  currencies: string[];
+  /** Row arithmetic only; this is not payout or bank reconciliation. */
+  status: "reconciled" | "review";
+}
+
 export interface AnalysisResult {
   mode: AnalysisMode;
+  /** Stripe account country used for domestic/international classification. */
+  accountCountry?: StripeAccountCountry;
+  pricingProfile?: Pick<CountryFeeProfile, "label" | "domesticPercent" | "domesticFixed" | "crossBorderPercent" | "currency">;
   chargeVolume: number;
   chargeFees: number;
   chargeRate: number;
@@ -183,6 +214,8 @@ export interface AnalysisResult {
   feeMix?: FeeMixSlice[];
   /** Action-oriented breakdown for the report UI: fixed fees, international uplift, refunds, and other fee lines. */
   feeLeakBreakdown?: FeeLeakBreakdownItem[];
+  /** Transparent tie-out from source rows to report totals. */
+  reconciliation?: ReconciliationSummary;
   periodDelta: number | null;
   /** Unique currencies found in charge rows — used for multi-currency warning. */
   currencies: string[];
@@ -208,7 +241,6 @@ function stdDev(values: number[]): number {
   return Math.sqrt(variance);
 }
 
-const FIXED_CARD_FEE_USD = 0.3;
 const SMALL_TRANSACTION_USD = 20;
 const LARGE_CARD_CHARGE_USD = 500;
 const ACH_RATE = 0.008;
@@ -221,8 +253,10 @@ function searchableText(row: NormalizedRow): string {
   return `${row.id} ${row.description ?? ""}`.toLowerCase();
 }
 
-function isInternationalLike(row: NormalizedRow): boolean {
-  if (row.cardCountry && row.cardCountry.toUpperCase() !== "US") return true;
+function isInternationalLike(row: NormalizedRow, accountCountry: StripeAccountCountry): boolean {
+  const domesticCard = isDomesticCardCountry(row.cardCountry, accountCountry);
+  if (domesticCard !== undefined) return !domesticCard;
+
   const text = searchableText(row);
   return (
     text.includes("[international]") ||
@@ -321,8 +355,10 @@ function buildFeeLeakBreakdown(
   otherFees: number,
   allInFees: number,
   geographySummary: GeographySummary | undefined,
-  refundSummary: RefundSummary
+  refundSummary: RefundSummary,
+  accountCountry: StripeAccountCountry
 ): FeeLeakBreakdownItem[] | undefined {
+  const profile = getCountryFeeProfile(accountCountry);
   if (allInFees <= 0 || charges.length === 0) return undefined;
 
   const items: FeeLeakBreakdownItem[] = [];
@@ -335,14 +371,15 @@ function buildFeeLeakBreakdown(
     });
   };
 
-  const fixedFeeDrag = Math.min(chargeFees, charges.length * FIXED_CARD_FEE_USD);
+  const fixedFeeDrag = Math.min(chargeFees, charges.length * profile.domesticFixed);
   addItem({
     key: "fixed-card-fees",
     label: "Fixed per-charge fees",
     amount: fixedFeeDrag,
     kind: "estimated",
+    confidence: "medium",
     severity: fixedFeeDrag / allInFees >= 0.25 ? "high" : "medium",
-    detail: `$${FIXED_CARD_FEE_USD.toFixed(2)} x ${charges.length} charge rows. This is why low-ticket subscriptions can look much more expensive than 2.9%.`,
+    detail: `${profile.currency} ${profile.domesticFixed.toFixed(2)} x ${charges.length} charge rows. This is why low-ticket subscriptions can look much more expensive than the headline percentage.`,
     action: "Bundle tiny charges, move very small plans to monthly billing, or set a minimum invoice size where it fits your model.",
     actionLabel: "Review Stripe Billing settings",
     actionUrl: "https://dashboard.stripe.com/settings/billing",
@@ -355,6 +392,7 @@ function buildFeeLeakBreakdown(
       label: "International card uplift",
       amount: internationalExcess,
       kind: "estimated",
+      confidence: "medium",
       severity: internationalExcess / allInFees >= 0.15 ? "high" : "medium",
       detail: `${geographySummary?.internationalCount ?? 0} international-looking charges paid above your domestic mix. This is a directional cross-border/card-mix estimate.`,
       action: "Offer local payment methods in high-volume regions and consider local currency pricing where you have meaningful customer concentration.",
@@ -363,22 +401,6 @@ function buildFeeLeakBreakdown(
     });
   }
 
-  const nonUsdCharges = charges.filter((r) => r.currency && r.currency.toLowerCase() !== "usd");
-  const nonUsdVolume = sum(nonUsdCharges, "amount");
-  const estimatedFxSpread = nonUsdVolume * 0.01;
-  if (estimatedFxSpread > 0) {
-    addItem({
-      key: "currency-conversion",
-      label: "Currency conversion estimate",
-      amount: estimatedFxSpread,
-      kind: "estimated",
-      severity: estimatedFxSpread / allInFees >= 0.1 ? "high" : "medium",
-      detail: `${nonUsdCharges.length} non-USD charges found. Stripe conversion spread is usually not shown as a clean fee row, so this is an estimate.`,
-      action: "If you repeatedly sell in the same currency, compare local settlement / multi-currency payout options before scaling that market.",
-      actionLabel: "Open Stripe payout settings",
-      actionUrl: "https://dashboard.stripe.com/settings/payouts",
-    });
-  }
 
   if (refundSummary.count > 0 && refundSummary.estimatedRetainedFees > 0) {
     addItem({
@@ -386,6 +408,7 @@ function buildFeeLeakBreakdown(
       label: "Refund fee impact",
       amount: refundSummary.estimatedRetainedFees,
       kind: "estimated",
+      confidence: "low",
       severity: refundSummary.estimatedRetainedFees / allInFees >= 0.1 ? "high" : "medium",
       detail: `${refundSummary.count} refunds totaling $${refundSummary.volume.toFixed(2)}. Stripe commonly keeps the original processing fee when a charge is refunded.`,
       action: "Track refund reasons and consider trial gates, clearer billing copy, or annual plans if refunds cluster around renewals.",
@@ -398,6 +421,7 @@ function buildFeeLeakBreakdown(
       label: "Other Stripe fee lines",
       amount: otherFees,
       kind: "direct",
+      confidence: "high",
       severity: otherFees / allInFees >= 0.15 ? "high" : "medium",
       detail: "Direct non-charge fee rows in the Balance CSV: refund fees, dispute fees, payouts, Radar, Billing, Tax, Connect, or other Stripe services.",
       action: "Open the CSV export and filter non-charge rows by reporting category to identify which add-ons, fees, or events are driving this bucket.",
@@ -410,7 +434,8 @@ function buildFeeLeakBreakdown(
     key: "base-card-processing",
     label: "Base card processing",
     amount: baseCardFees,
-    kind: "direct",
+    kind: "calculated",
+    confidence: "medium",
     severity: "low",
     detail: "The remaining direct card-processing fees after separating fixed-fee drag and visible international uplift estimates.",
     action: "Usually not the first optimization target. Focus on fixed-fee drag, international mix, refunds, and other fee lines first.",
@@ -423,6 +448,7 @@ function buildFeeLeakBreakdown(
       label: "No separate fee rows found",
       amount: 0.01,
       kind: "direct",
+      confidence: "high",
       severity: "low",
       detail: "This export is mostly charge processing. For a fuller all-in view, include refunds, dispute fee rows, payouts, and Stripe service fees in the Balance export.",
       action: "Export an itemized Balance report for the full period if you expected disputes, refunds, or additional Stripe service fees.",
@@ -437,43 +463,35 @@ function roundMoney(value: number): number {
 }
 
 /** Classify why a charge has an elevated fee rate */
-function classifyAnomaly(row: NormalizedRow, baselineRate: number): AnomalyExplanation {
+function classifyAnomaly(row: NormalizedRow, baselineRate: number, accountCountry: StripeAccountCountry): AnomalyExplanation {
+  const profile = getCountryFeeProfile(accountCountry);
   const rate = row.amount > 0 ? (row.fee / row.amount) * 100 : 0;
 
   // 1. International card — most common cause
-  if (isInternationalLike(row)) {
-    const extraFee = row.amount * 0.015; // ~1.5% cross-border fee
+  if (isInternationalLike(row, accountCountry)) {
+    const extraFee = row.amount * profile.crossBorderPercent;
     return {
       reason: "international_card",
       label: "International card",
-      detail: `Stripe adds a 1.5% cross-border fee for cards issued outside your country. This transaction paid ~$${extraFee.toFixed(2)} extra.`,
+      detail: `Cards issued outside the ${profile.label} domestic region can add about ${(profile.crossBorderPercent * 100).toFixed(1)}% on standard pricing. This transaction paid ~${profile.currency} ${extraFee.toFixed(2)} extra.`,
       savingsTip: "Consider enabling local payment methods (iDEAL, SEPA, etc.) for EU customers to avoid cross-border fees.",
     };
   }
 
-  // 2. Small transaction — fixed $0.30 fee dominates
+  // 2. Small transaction — fixed per-charge fee dominates
   if (row.amount > 0 && row.amount < SMALL_TRANSACTION_USD) {
-    const fixedFeeImpact = (FIXED_CARD_FEE_USD / row.amount) * 100;
+    const fixedFeeImpact = (profile.domesticFixed / row.amount) * 100;
     return {
       reason: "small_transaction",
       label: "Small transaction",
-      detail: `The fixed $0.30 Stripe fee represents ${fixedFeeImpact.toFixed(1)}% of this $${row.amount.toFixed(2)} charge — much more than on larger transactions.`,
+      detail: `The fixed ${profile.currency} ${profile.domesticFixed.toFixed(2)} Stripe fee represents ${fixedFeeImpact.toFixed(1)}% of this ${row.currency} ${row.amount.toFixed(2)} charge — much more than on larger transactions.`,
       savingsTip: "Bundle small charges or switch to monthly billing to reduce the fixed-fee impact.",
     };
   }
 
-  // 3. Non-USD currency conversion
-  if (row.currency && row.currency.toLowerCase() !== "usd") {
-    return {
-      reason: "currency_conversion",
-      label: "Currency conversion",
-      detail: `Stripe charges 1–2% for currency conversion on ${row.currency.toUpperCase()} transactions.`,
-      savingsTip: "Enable multi-currency payouts in Stripe to settle in the customer's currency and avoid conversion fees.",
-    };
-  }
 
   // 4. ACH mismatch (ACH should be cheap — flag if expensive)
-  if (isAchLike(row)) {
+  if (accountCountry === "US" && isAchLike(row)) {
     return {
       reason: "ach_mismatch",
       label: "ACH anomaly",
@@ -496,19 +514,21 @@ function buildSavingsOpportunities(
   charges: NormalizedRow[],
   anomalies: NormalizedRow[],
   baselineRate: number,
-  monthsInData: number
+  monthsInData: number,
+  accountCountry: StripeAccountCountry
 ): SavingsOpportunity[] {
   const opportunities: SavingsOpportunity[] = [];
   const months = Math.max(1, monthsInData);
+  const profile = getCountryFeeProfile(accountCountry);
 
   // International card savings
-  const intlCharges = charges.filter(isInternationalLike);
+  const intlCharges = charges.filter((row) => isInternationalLike(row, accountCountry));
   if (intlCharges.length > 0) {
     const intlFees = sum(intlCharges, "fee");
     const intlVolume = sum(intlCharges, "amount");
     const expectedFees = intlCharges.reduce((acc, r) => acc + r.amount * (baselineRate / 100), 0);
     const observedExcessFees = Math.max(0, intlFees - expectedFees);
-    const avoidableCrossBorderFees = intlVolume * 0.015;
+    const avoidableCrossBorderFees = intlVolume * profile.crossBorderPercent;
     const excessFees = Math.min(observedExcessFees, avoidableCrossBorderFees);
     if (excessFees > 0) {
       const annualSavings = Math.round(((excessFees * 12) / months) / 10) * 10;
@@ -516,7 +536,7 @@ function buildSavingsOpportunities(
         title: "High international card fees",
         periodLoss: roundMoney(excessFees),
         annualSavings,
-        tip: "Cross-border cards often add ~1.5% on top of domestic pricing. Local methods (SEPA, iDEAL) can reduce that for EU customers.",
+        tip: `Cross-border cards can add ~${(profile.crossBorderPercent * 100).toFixed(1)}% on top of standard domestic pricing. Local payment methods can reduce that in supported markets.`,
         confidence: "medium",
         actionLabel: "Open Stripe payment methods",
         actionUrl: "https://dashboard.stripe.com/settings/payment_methods",
@@ -532,14 +552,14 @@ function buildSavingsOpportunities(
   const smallCharges = charges.filter((r) => r.amount > 0 && r.amount < SMALL_TRANSACTION_USD);
   if (smallCharges.length > 5) {
     const avgSmallAmount = sum(smallCharges, "amount") / smallCharges.length;
-    const assumedAvoidableFixedFees = Math.floor(smallCharges.length / 2) * FIXED_CARD_FEE_USD;
+    const assumedAvoidableFixedFees = Math.floor(smallCharges.length / 2) * profile.domesticFixed;
     const annualSavings = Math.round(((assumedAvoidableFixedFees * 12) / months) / 10) * 10;
     if (annualSavings > 0) {
       opportunities.push({
-        title: "Small transactions — fixed $0.30 dominates",
+        title: `Small transactions — fixed ${profile.currency} ${profile.domesticFixed.toFixed(2)} dominates`,
         periodLoss: roundMoney(assumedAvoidableFixedFees),
         annualSavings,
-        tip: `${smallCharges.length} charges under $20 (avg $${avgSmallAmount.toFixed(2)}). Bundling or monthly billing cuts repeated $0.30 fixed fees.`,
+        tip: `${smallCharges.length} charges under ${profile.currency} 20 (avg ${profile.currency} ${avgSmallAmount.toFixed(2)}). Bundling or monthly billing cuts repeated fixed fees.`,
         confidence: "medium",
         actionLabel: "Review Stripe Billing settings",
         actionUrl: "https://dashboard.stripe.com/settings/billing",
@@ -552,11 +572,11 @@ function buildSavingsOpportunities(
   }
 
   // ACH opportunity for large charges
-  const largeCardCharges = charges.filter(
+  const largeCardCharges = accountCountry === "US" ? charges.filter(
     (r) =>
       r.amount >= LARGE_CARD_CHARGE_USD &&
       !isAchLike(r)
-  );
+  ) : [];
   if (largeCardCharges.length > 0) {
     const cardFees = sum(largeCardCharges, "fee");
     const achFees = largeCardCharges.reduce(
@@ -613,9 +633,11 @@ function buildRefundSummary(
 function buildFeeBenchmark(
   charges: NormalizedRow[],
   chargeRate: number,
-  refundSummary: RefundSummary
+  refundSummary: RefundSummary,
+  accountCountry: StripeAccountCountry
 ): FeeBenchmark {
   const chargeVolume = sum(charges, "amount");
+  const profile = getCountryFeeProfile(accountCountry);
   if (charges.length === 0 || chargeVolume <= 0) {
     return {
       status: "normal",
@@ -629,17 +651,15 @@ function buildFeeBenchmark(
   }
 
   const baseCardFees = charges.reduce(
-    (acc, r) => acc + Math.max(0, r.amount) * 0.029 + FIXED_CARD_FEE_USD,
+    (acc, r) => acc + Math.max(0, r.amount) * profile.domesticPercent + profile.domesticFixed,
     0
   );
-  const internationalCharges = charges.filter(isInternationalLike);
-  const nonUsdCharges = charges.filter((r) => r.currency && r.currency.toLowerCase() !== "usd");
+  const internationalCharges = charges.filter((row) => isInternationalLike(row, accountCountry));
   const smallCharges = charges.filter((r) => r.amount > 0 && r.amount < SMALL_TRANSACTION_USD);
   const internationalVolume = sum(internationalCharges, "amount");
-  const nonUsdVolume = sum(nonUsdCharges, "amount");
 
   // Directional benchmark: published card pricing + common visible surcharges in the CSV.
-  const expectedFees = baseCardFees + internationalVolume * 0.015 + nonUsdVolume * 0.01;
+  const expectedFees = baseCardFees + internationalVolume * profile.crossBorderPercent;
   const expectedRate = (expectedFees / chargeVolume) * 100;
   const lowVolumePadding = charges.length < 50 ? 1.0 : 0.65;
   const rangeLow = Math.max(0, expectedRate - 0.25);
@@ -650,8 +670,7 @@ function buildFeeBenchmark(
 
   const drivers: string[] = [];
   if (internationalVolume / chargeVolume >= 0.05) drivers.push("international / cross-border cards");
-  if (nonUsdVolume > 0) drivers.push("non-USD or currency conversion mix");
-  if (smallCharges.length / charges.length >= 0.15) drivers.push("small charges where the fixed $0.30 fee matters");
+  if (smallCharges.length / charges.length >= 0.15) drivers.push(`small charges where the fixed ${profile.currency} ${profile.domesticFixed.toFixed(2)} fee matters`);
   if (refundSummary.count > 0) drivers.push("refunds with retained processing fees");
   if (status !== "normal" && drivers.length === 0) {
     drivers.push("premium cards, disputes, Radar/add-on fees, or plan-specific pricing");
@@ -683,9 +702,12 @@ function buildFeeBenchmark(
   };
 }
 
-function buildGeographySummary(charges: NormalizedRow[]): GeographySummary | undefined {
-  const domestic = charges.filter((r) => !isInternationalLike(r));
-  const international = charges.filter(isInternationalLike);
+function buildGeographySummary(
+  charges: NormalizedRow[],
+  accountCountry: StripeAccountCountry
+): GeographySummary | undefined {
+  const domestic = charges.filter((row) => !isInternationalLike(row, accountCountry));
+  const international = charges.filter((row) => isInternationalLike(row, accountCountry));
   if (international.length === 0) return undefined;
 
   const domVolume = sum(domestic, "amount");
@@ -763,7 +785,40 @@ export function redactAnalysisResultForStorage(result: AnalysisResult): Analysis
   };
 }
 
-export function analyze(rows: NormalizedRow[]): AnalysisResult {
+function buildReconciliationSummary(
+  rows: NormalizedRow[],
+  charges: NormalizedRow[],
+  chargeVolume: number,
+  chargeFees: number,
+  otherFees: number
+): ReconciliationSummary {
+  const reconciledChargeRows = charges.filter(
+    (row) => Math.abs(row.amount - row.fee - row.net) <= 0.02
+  ).length;
+  const mismatchedChargeRows = charges.length - reconciledChargeRows;
+  const directNonChargeFeeRows = rows.filter(
+    (row) => row.type !== "charge" && nonChargeFeeAmount(row) > 0
+  ).length;
+
+  return {
+    sourceRowCount: rows.length,
+    chargeRowCount: charges.length,
+    nonChargeRowCount: rows.length - charges.length,
+    reconciledChargeRows,
+    mismatchedChargeRows,
+    directNonChargeFeeRows,
+    chargeVolume: roundMoney(chargeVolume),
+    chargeFees: roundMoney(chargeFees),
+    otherFees: roundMoney(otherFees),
+    allInFees: roundMoney(chargeFees + otherFees),
+    currencies: [...new Set(rows.map((row) => row.currency).filter(Boolean))],
+    status: mismatchedChargeRows === 0 ? "reconciled" : "review",
+  };
+}
+
+export function analyze(rows: NormalizedRow[], options: AnalysisOptions = {}): AnalysisResult {
+  const accountCountry = options.accountCountry ?? "US";
+  const pricingProfile = getCountryFeeProfile(accountCountry);
   const charges = rows.filter((r) => r.type === "charge");
   const others = rows.filter((r) => r.type !== "charge");
 
@@ -773,6 +828,7 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
   const otherFees = others.reduce((acc, row) => acc + nonChargeFeeAmount(row), 0);
   const allInFees = chargeFees + otherFees;
   const allInRate = chargeVolume > 0 ? (allInFees / chargeVolume) * 100 : 0;
+  const reconciliation = buildReconciliationSummary(rows, charges, chargeVolume, chargeFees, otherFees);
 
   // Monthly breakdown
   const monthMap = new Map<string, NormalizedRow[]>();
@@ -826,13 +882,13 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
   // Annotate anomalies with explanations (used for Pro tier)
   const annotatedAnomalies: AnnotatedRow[] = anomalies.map((row) => ({
     ...row,
-    explanation: classifyAnomaly(row, chargeRate),
+    explanation: classifyAnomaly(row, chargeRate, accountCountry),
   }));
 
   // Build savings opportunities (used for Pro tier)
-  const savingsOpportunities = buildSavingsOpportunities(charges, anomalies, chargeRate, monthsInData);
+  const savingsOpportunities = buildSavingsOpportunities(charges, anomalies, chargeRate, monthsInData, accountCountry);
   const refundSummary = buildRefundSummary(rows, chargeVolume, chargeRate, monthsInData);
-  const benchmark = buildFeeBenchmark(charges, chargeRate, refundSummary);
+  const benchmark = buildFeeBenchmark(charges, chargeRate, refundSummary, accountCountry);
 
   // Period delta
   let periodDelta: number | null = null;
@@ -845,9 +901,9 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
   const currencies = [...new Set(charges.map((r) => r.currency).filter(Boolean))];
 
   const transactionBuckets = buildTransactionBuckets(charges);
-  const geographySummary = buildGeographySummary(charges);
+  const geographySummary = buildGeographySummary(charges, accountCountry);
   const feeMix = buildFeeMix(rows, chargeFees, allInFees);
-  const feeLeakBreakdown = buildFeeLeakBreakdown(rows, charges, chargeFees, otherFees, allInFees, geographySummary, refundSummary);
+  const feeLeakBreakdown = buildFeeLeakBreakdown(rows, charges, chargeFees, otherFees, allInFees, geographySummary, refundSummary, accountCountry);
 
   const chargeLedger = buildChargeLedger(charges, [...topDrivers, ...anomalies]);
   const chargeLedgerComplete = charges.length <= MAX_FULL_CHARGE_LEDGER;
@@ -872,6 +928,8 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
 
   return {
     mode,
+    accountCountry,
+    pricingProfile,
     chargeVolume,
     chargeFees,
     chargeRate,
@@ -890,6 +948,7 @@ export function analyze(rows: NormalizedRow[]): AnalysisResult {
     geographySummary,
     feeMix,
     feeLeakBreakdown,
+    reconciliation,
     periodDelta,
     currencies,
     feeGrade,

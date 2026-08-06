@@ -86,12 +86,12 @@ export function MultiMonthReport({
   } = originalResult;
   const anomalyUiCount = previewAnomalyCount ?? result.anomalyCount ?? result.anomalies.length;
   const savings = result.savingsOpportunities ?? [];
-  const advertisedRate = 2.9;
-  const rateGap = chargeRate - advertisedRate;
-  const rateGapText = `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp vs 2.9%`;
+  const benchmarkRate = result.benchmark?.expectedRate ?? (result.pricingProfile?.domesticPercent ?? 0.029) * 100;
+  const rateGap = chargeRate - benchmarkRate;
+  const rateGapText = `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp vs ~${benchmarkRate.toFixed(2)}% benchmark`;
   const diagnosis =
     rateGap > 0.25
-      ? "Diagnosis: your blended rate is materially above advertised card pricing; start with savings opportunities and high-fee charges."
+      ? "Diagnosis: your blended rate is materially above the directional benchmark; start with savings opportunities and high-fee charges."
       : anomalyUiCount > 0
         ? "Diagnosis: your blended rate is close to baseline, but several transactions are still worth reviewing."
         : "Diagnosis: your blended rate looks consistent; monitor monthly changes for future spikes.";
@@ -117,6 +117,7 @@ export function MultiMonthReport({
     chargeVolume,
     monthCount,
     yearlyFeesAtThisRate: yearlyAtThisRate,
+    baselineRate: result.benchmark?.expectedRate,
   });
   const paywallProps = {
     reportId,

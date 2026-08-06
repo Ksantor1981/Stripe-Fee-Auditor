@@ -13,6 +13,18 @@ const SEVERITY_STYLE = {
   low: "bg-gray-50 text-gray-600 border-gray-100",
 } as const;
 
+const EVIDENCE_LABEL = {
+  direct: "CSV · high confidence",
+  calculated: "Calculated · medium confidence",
+  estimated: "Estimate",
+} as const;
+
+const CONFIDENCE_STYLE = {
+  high: "bg-emerald-50 text-emerald-700 border-emerald-100",
+  medium: "bg-blue-50 text-blue-700 border-blue-100",
+  low: "bg-gray-50 text-gray-600 border-gray-100",
+} as const;
+
 function BreakdownSection({
   title,
   subtitle,
@@ -57,6 +69,10 @@ function BreakdownSection({
               >
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
+                    <span className={`rounded-full border px-2 py-0.5 text-[11px] font-semibold ${CONFIDENCE_STYLE[item.confidence]}`}>
+                      {EVIDENCE_LABEL[item.kind]}
+                      {item.kind === "estimated" ? ` · ${item.confidence} confidence` : ""}
+                    </span>
                     <p className="text-sm font-semibold text-gray-900">{item.label}</p>
                     <span className={`rounded-full border px-2 py-0.5 text-[11px] font-semibold ${severityClass}`}>
                       {item.severity}
@@ -96,7 +112,7 @@ export function FeeLeakBreakdown({ items }: Props) {
   const visibleItems = items?.filter((item) => item.amount > 0) ?? [];
   if (visibleItems.length === 0) return null;
 
-  const directItems = visibleItems.filter((item) => item.kind === "direct");
+  const directItems = visibleItems.filter((item) => item.kind === "direct" || item.kind === "calculated");
   const estimatedItems = visibleItems.filter((item) => item.kind === "estimated");
 
   return (
@@ -111,18 +127,18 @@ export function FeeLeakBreakdown({ items }: Props) {
           </h2>
           <p className="mt-1 max-w-2xl text-xs leading-relaxed text-gray-500">
             Direct allocation comes from your Stripe Balance CSV. Estimated impact separates likely
-            fixed-fee drag, international uplift, FX, and refund effects — these may overlap, so do
-            not add direct and estimated buckets together as guaranteed savings.
+            fixed-fee drag, international uplift, and refund effects — these may overlap, so do
+            not add calculated and estimated buckets together as guaranteed savings.
           </p>
         </div>
       </div>
 
       <div className="space-y-8">
         <BreakdownSection
-          title="Direct fee allocation"
-          subtitle="Fee lines read directly from your export — additive within this section."
+          title="Direct and calculated fee allocation"
+          subtitle="Direct fee rows plus calculated allocation of charge fees. Evidence level is shown per bucket."
           items={directItems}
-          showAdditiveNote
+          showAdditiveNote={directItems.every((item) => item.kind === "direct")}
         />
         <BreakdownSection
           title="Estimated extra impact"

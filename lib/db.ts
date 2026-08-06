@@ -36,6 +36,19 @@ export interface ReportRow {
   created_at: string;
   expires_at: string;
 }
+export interface MonitorHistoryPoint {
+  createdAt: string;
+  periodStart: string | null;
+  periodEnd: string | null;
+  chargeVolume: number;
+  chargeFees: number;
+  otherFees: number;
+  allInFees: number;
+  chargeRate: number;
+  allInRate: number;
+  feeGrade: string | null;
+}
+
 
 export type ReportRetention = "free_preview" | "beta_full_access";
 
@@ -375,6 +388,68 @@ export async function saveReportEmail(id: string, email: string, accessToken: st
   `;
   return rows.length > 0;
 }
+/** Keep reports used by an active Monitor subscriber available for a 13-month comparison window. */
+export async function extendReportForMonitor(id: string, accessToken: string): Promise<boolean> {
+  if (!accessToken) return false;
+  const rows = await sql`
+    UPDATE reports
+    SET expires_at = GREATEST(expires_at, NOW() + INTERVAL '400 days')
+    WHERE id = ${id}
+      AND access_token_hash = ${hashReportAccessToken(accessToken)}
+      AND expires_at > NOW()
+    RETURNING id
+  `;
+  return rows.length > 0;
+}
+
+/**
+ * Return summary-only history linked to the same normalized email.
+ * Caller must verify current-report token access and active Monitor status.
+ */
+export async function getMonitorReportHistory(
+  email: string,
+  currentReportId: string,
+  limit = 12
+): Promise<MonitorHistoryPoint[]> {
+  const normalizedEmail = email.trim().toLowerCase();
+  if (!normalizedEmail) return [];
+  const safeLimit = Math.max(1, Math.min(24, Math.trunc(limit)));
+
+  const rows = await sql`
+    SELECT
+      created_at::text,
+      result->'monthly'->0->>'month' AS period_start,
+      result->'monthly'->(jsonb_array_length(COALESCE(result->'monthly', '[]'::jsonb)) - 1)->>'month' AS period_end,
+      COALESCE((result->>'chargeVolume')::numeric, 0) AS charge_volume,
+      COALESCE((result->>'chargeFees')::numeric, 0) AS charge_fees,
+      COALESCE((result->>'otherFees')::numeric, 0) AS other_fees,
+      COALESCE((result->>'allInFees')::numeric, 0) AS all_in_fees,
+      COALESCE((result->>'chargeRate')::numeric, 0) AS charge_rate,
+      COALESCE((result->>'allInRate')::numeric, 0) AS all_in_rate,
+      result->'feeGrade'->>'letter' AS fee_grade
+    FROM reports
+    WHERE LOWER(email) = ${normalizedEmail}
+      AND id <> ${currentReportId}
+      AND result IS NOT NULL
+      AND expires_at > NOW()
+    ORDER BY created_at DESC
+    LIMIT ${safeLimit}
+  `;
+
+  return rows.map((row) => ({
+    createdAt: String(row.created_at),
+    periodStart: row.period_start ? String(row.period_start) : null,
+    periodEnd: row.period_end ? String(row.period_end) : null,
+    chargeVolume: Number(row.charge_volume),
+    chargeFees: Number(row.charge_fees),
+    otherFees: Number(row.other_fees),
+    allInFees: Number(row.all_in_fees),
+    chargeRate: Number(row.charge_rate),
+    allInRate: Number(row.all_in_rate),
+    feeGrade: row.fee_grade ? String(row.fee_grade) : null,
+  }));
+}
+
 
 const MAX_EXPECTED_OUTLIERS = 200;
 const MAX_OUTLIER_ID_LEN = 256;

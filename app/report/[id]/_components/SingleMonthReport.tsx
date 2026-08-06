@@ -59,14 +59,15 @@ export function SingleMonthReport({
     chargeVolume,
     monthCount: 1,
     yearlyFeesAtThisRate: yearlyAtThisRate,
+    baselineRate: result.benchmark?.expectedRate,
   });
-  const advertisedRate = 2.9;
-  const rateGap = chargeRate - advertisedRate;
-  const rateGapText = `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp vs 2.9%`;
+  const benchmarkRate = result.benchmark?.expectedRate ?? (result.pricingProfile?.domesticPercent ?? 0.029) * 100;
+  const rateGap = chargeRate - benchmarkRate;
+  const rateGapText = `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp vs ~${benchmarkRate.toFixed(2)}% benchmark`;
   const diagnosis =
     rateGap > 0.25
-      ? "Diagnosis: this month is running above advertised card pricing; inspect the top fee drivers first."
-      : "Diagnosis: this month is close to advertised card pricing; top fee drivers are still worth checking.";
+      ? "Diagnosis: this month is running above the directional benchmark; inspect the top fee drivers first."
+      : "Diagnosis: this month is close to the directional benchmark; top fee drivers are still worth checking.";
 
   return (
     <div className="space-y-6">

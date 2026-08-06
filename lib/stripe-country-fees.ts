@@ -14,6 +14,8 @@ export interface CountryFeeProfile {
   /** Currency conversion uplift when settlement currency differs. */
   currencyConversionPercent: number;
   currency: string;
+  /** ISO card-country codes treated as domestic for this account region. */
+  domesticCardCountries: readonly string[];
 }
 
 export const STRIPE_ACCOUNT_COUNTRIES: CountryFeeProfile[] = [
@@ -25,6 +27,7 @@ export const STRIPE_ACCOUNT_COUNTRIES: CountryFeeProfile[] = [
     crossBorderPercent: 0.015,
     currencyConversionPercent: 0.01,
     currency: "USD",
+    domesticCardCountries: ["US"],
   },
   {
     id: "UK",
@@ -34,6 +37,7 @@ export const STRIPE_ACCOUNT_COUNTRIES: CountryFeeProfile[] = [
     crossBorderPercent: 0.015,
     currencyConversionPercent: 0.02,
     currency: "GBP",
+    domesticCardCountries: ["GB"],
   },
   {
     id: "EU",
@@ -43,6 +47,10 @@ export const STRIPE_ACCOUNT_COUNTRIES: CountryFeeProfile[] = [
     crossBorderPercent: 0.015,
     currencyConversionPercent: 0.02,
     currency: "EUR",
+    domesticCardCountries: [
+      "AT", "BE", "BG", "HR", "CY", "CZ", "DE", "DK", "EE", "ES", "FI", "FR", "GR", "HU", "IE",
+      "IS", "IT", "LI", "LT", "LU", "LV", "MT", "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SK",
+    ],
   },
   {
     id: "CA",
@@ -52,6 +60,7 @@ export const STRIPE_ACCOUNT_COUNTRIES: CountryFeeProfile[] = [
     crossBorderPercent: 0.015,
     currencyConversionPercent: 0.02,
     currency: "CAD",
+    domesticCardCountries: ["CA"],
   },
   {
     id: "AU",
@@ -61,11 +70,25 @@ export const STRIPE_ACCOUNT_COUNTRIES: CountryFeeProfile[] = [
     crossBorderPercent: 0.015,
     currencyConversionPercent: 0.02,
     currency: "AUD",
+    domesticCardCountries: ["AU"],
   },
 ];
 
+export function isStripeAccountCountry(value: unknown): value is StripeAccountCountry {
+  return typeof value === "string" && STRIPE_ACCOUNT_COUNTRIES.some((country) => country.id === value);
+}
+
 export function getCountryFeeProfile(id: StripeAccountCountry): CountryFeeProfile {
   return STRIPE_ACCOUNT_COUNTRIES.find((c) => c.id === id) ?? STRIPE_ACCOUNT_COUNTRIES[0];
+}
+
+export function isDomesticCardCountry(
+  cardCountry: string | null | undefined,
+  accountCountry: StripeAccountCountry
+): boolean | undefined {
+  const normalized = cardCountry?.trim().toUpperCase();
+  if (!normalized) return undefined;
+  return getCountryFeeProfile(accountCountry).domesticCardCountries.includes(normalized);
 }
 
 export function estimateCountryStripeFee(params: {

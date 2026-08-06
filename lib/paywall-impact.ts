@@ -23,6 +23,7 @@ export function resolvePaywallImpact(input: {
   chargeVolume?: number | null;
   monthCount?: number | null;
   yearlyFeesAtThisRate?: number | null;
+  baselineRate?: number | null;
 }): PaywallImpact | null {
   const savings = input.savingsAnnual;
   if (typeof savings === "number" && Number.isFinite(savings) && savings > 0) {
@@ -36,14 +37,15 @@ export function resolvePaywallImpact(input: {
   const rate = input.chargeRate ?? 0;
   const volume = input.chargeVolume ?? 0;
   const months = Math.max(1, input.monthCount ?? 1);
-  if (rate > ADVERTISED_CARD_RATE && volume > 0) {
-    const periodExcess = ((rate - ADVERTISED_CARD_RATE) / 100) * volume;
+  const baselineRate = input.baselineRate ?? ADVERTISED_CARD_RATE;
+  if (rate > baselineRate && volume > 0) {
+    const periodExcess = ((rate - baselineRate) / 100) * volume;
     const annualExcess = annualRunRate(periodExcess, months);
     if (annualExcess >= 50) {
       return {
         amount: Math.round(annualExcess / 10) * 10,
         source: "rate_gap",
-        label: `above ${ADVERTISED_CARD_RATE}% advertised card pricing`,
+        label: `above the ${baselineRate.toFixed(2)}% directional benchmark`,
       };
     }
   }

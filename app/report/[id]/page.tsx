@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
-import { getReportWithAccess, isActiveMonitorSubscriber } from "@/lib/db";
+import { getMonitorReportHistory, getReportWithAccess, isActiveMonitorSubscriber } from "@/lib/db";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { resolveReportAccessToken } from "@/lib/report-access-cookie";
 import { getSiteBaseUrl } from "@/lib/site-url";
@@ -50,6 +50,10 @@ export default async function ReportPage({ params, searchParams }: Props) {
   const demoFullAccess = demoSkipGate && report.session_id === "demo-sample";
   const betaFullAccess = FULL_REPORTS_FREE_DURING_BETA && !demoFullAccess;
   const monitorFullAccess = await isActiveMonitorSubscriber(report.email);
+  const monitorHistory =
+    monitorFullAccess && report.email
+      ? await getMonitorReportHistory(report.email, id)
+      : [];
   const paidAccess = Boolean(report.is_paid || monitorFullAccess);
   const hasFullAccess = Boolean(paidAccess || demoFullAccess || betaFullAccess);
   const paymentPending = payment === "success" && !paidAccess && !betaFullAccess;
@@ -66,6 +70,7 @@ export default async function ReportPage({ params, searchParams }: Props) {
       isPaid={paidAccess}
       monitorFullAccess={monitorFullAccess}
       demoSkipEmailGate={demoSkipGate}
+      monitorHistory={monitorHistory}
       demoFullAccess={demoFullAccess}
       betaFullAccess={betaFullAccess}
       paymentPending={paymentPending}

@@ -40,13 +40,14 @@ export function LowVolumeReport({ reportId, result, isPaid }: Props) {
     chargeVolume,
     monthCount,
     yearlyFeesAtThisRate: yearlyAtThisRate,
+    baselineRate: result.benchmark?.expectedRate,
   });
-  const advertisedRate = 2.9;
-  const rateGap = chargeRate - advertisedRate;
-  const rateGapText = `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp vs 2.9%`;
+  const benchmarkRate = result.benchmark?.expectedRate ?? (result.pricingProfile?.domesticPercent ?? 0.029) * 100;
+  const rateGap = chargeRate - benchmarkRate;
+  const rateGapText = `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp vs ~${benchmarkRate.toFixed(2)}% benchmark`;
   const diagnosis =
     rateGap > 0.25
-      ? "Diagnosis: your small sample is already above advertised card pricing; upload a longer range to confirm the pattern."
+      ? "Diagnosis: your small sample is above the directional benchmark; upload a longer range to confirm the pattern."
       : "Diagnosis: this sample is too small for statistical high-fee detection; upload more months for a stronger read.";
 
   return (

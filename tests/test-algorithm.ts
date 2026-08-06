@@ -463,6 +463,44 @@ test("fee leak breakdown exposes fixed fees and non-charge fee lines", () => {
   const fixed = breakdown.find((item) => item.key === "fixed-card-fees");
   assertClose(fixed?.amount ?? 0, 18, 0.01, "fixed-fee estimate");
 });
+test("reconciliation ties every valid charge row to source arithmetic", () => {
+  const rows: NormalizedRow[] = [
+    ...makeCharges(60),
+    {
+      id: "fee_direct_1",
+      type: "stripe_fee",
+      amount: 0,
+      fee: 12,
+      net: -12,
+      currency: "USD",
+      date: "2024-01-15",
+      month: "2024-01",
+    },
+  ];
+  const result = analyze(rows);
+  assert(result.reconciliation?.status === "reconciled", "valid charge arithmetic should reconcile");
+  assert(result.reconciliation?.sourceRowCount === 61, "all source rows should be counted");
+  assert(result.reconciliation?.reconciledChargeRows === 60, "all charge rows should tie out");
+  assert(result.reconciliation?.directNonChargeFeeRows === 1, "direct non-charge fee rows should be counted");
+});
+
+test("reconciliation flags charge rows whose amount, fee, and net do not tie", () => {
+  const rows = makeCharges(60);
+  rows[0] = { ...rows[0], net: 50 };
+  const result = analyze(rows);
+  assert(result.reconciliation?.status === "review", "mismatched arithmetic should require review");
+  assert(result.reconciliation?.mismatchedChargeRows === 1, "one mismatched row should be reported");
+});
+
+test("fee leak breakdown labels evidence kind and confidence", () => {
+  const result = analyze(makeCharges(60));
+  const breakdown = result.feeLeakBreakdown ?? [];
+  assert(breakdown.length > 0, "breakdown should contain evidence");
+  assert(breakdown.every((item) => Boolean(item.kind) && Boolean(item.confidence)), "every item needs evidence metadata");
+  assert(breakdown.some((item) => item.kind === "calculated"), "base processing should be marked calculated");
+  assert(breakdown.some((item) => item.kind === "estimated"), "fixed-fee drag should be marked estimated");
+});
+
 
 test("redacts free-text descriptions before storage", () => {
   const rows = [
@@ -648,6 +686,27 @@ test("estimateCountryStripeFee adds international uplift", () => {
     internationalShare: 0.3,
   });
   assert(intl.estimatedFee > domestic.estimatedFee, "intl share should increase estimated fee");
+});
+
+test("UK account treats GB cards as domestic and US cards as international", () => {
+  const rows = makeCharges(60, "2024-01", 3.2).map((row, index) => ({
+    ...row,
+    cardCountry: index < 45 ? "GB" : "US",
+  }));
+  const result = analyze(rows, { accountCountry: "UK" });
+  assert(result.accountCountry === "UK", "account country should be retained");
+  assert(result.geographySummary?.domesticCount === 45, "GB cards should be domestic for UK");
+  assert(result.geographySummary?.internationalCount === 15, "US cards should be international for UK");
+});
+
+test("EU account treats EEA cards as domestic", () => {
+  const rows = makeCharges(60, "2024-01", 3.2).map((row, index) => ({
+    ...row,
+    cardCountry: index < 20 ? "DE" : index < 50 ? "FR" : "US",
+  }));
+  const result = analyze(rows, { accountCountry: "EU" });
+  assert(result.geographySummary?.domesticCount === 50, "DE/FR cards should be domestic for EU");
+  assert(result.geographySummary?.internationalCount === 10, "US cards should be international for EU");
 });
 
 console.log("\n📋 paywall-impact");
