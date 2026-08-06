@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { MarketingShell } from "@/components/MarketingShell";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
@@ -131,26 +132,12 @@ const breadcrumbCrumbs = sitePageBreadcrumbs(pageTitle, pagePath);
 
 export default function StripeDataExportPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <MarketingShell>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
       />
       <BreadcrumbJsonLd crumbs={breadcrumbCrumbs} />
-
-      <nav className="border-b border-gray-100 px-6 py-4">
-        <div className="mx-auto flex max-w-3xl items-center justify-between">
-          <Link href="/" className="text-sm font-semibold text-gray-900">
-            Stripe Fee Auditor
-          </Link>
-          <Link
-            href="/analyze"
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
-          >
-            Analyze My Fees
-          </Link>
-        </div>
-      </nav>
 
       <main className="mx-auto max-w-3xl px-6 py-16">
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: pageTitle }]} className="mb-6" />
@@ -304,6 +291,6 @@ export default function StripeDataExportPage() {
           </div>
         </div>
       </main>
-    </div>
+    </MarketingShell>
   );
 }

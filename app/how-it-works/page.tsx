@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LandingFaq, LANDING_FAQ_EXTENDED_IDS } from "@/components/LandingFaq";
-import { LandingNav } from "@/components/LandingNav";
+import { MarketingShell } from "@/components/MarketingShell";
 
 const GITHUB_REPO = "https://github.com/Ksantor1981/Stripe-Fee-Auditor";
 
@@ -71,11 +71,7 @@ const CODE_LINKS = [
 
 export default function HowItWorksPage() {
   return (
-    <main className="min-h-screen bg-white">
-      <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
-        <LandingNav />
-      </div>
-
+    <MarketingShell>
       <section className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
         <p className="text-sm font-medium text-blue-600">Data handling</p>
         <h1 className="mt-3 text-4xl font-bold leading-tight text-gray-900">
@@ -228,6 +224,6 @@ export default function HowItWorksPage() {
           <LandingFaq itemIds={LANDING_FAQ_EXTENDED_IDS} />
         </div>
       </section>
-    </main>
+    </MarketingShell>
   );
 }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { MarketingShell } from "@/components/MarketingShell";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { ChromeExtensionInstallCta } from "@/components/ChromeExtensionInstallCta";
@@ -179,27 +180,12 @@ const breadcrumbCrumbs = sitePageBreadcrumbs(pageTitle, pagePath);
 
 export default function StripeBalanceCsvPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <MarketingShell>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
       />
       <BreadcrumbJsonLd crumbs={breadcrumbCrumbs} />
-
-      {/* Nav */}
-      <nav className="border-b border-gray-100 px-6 py-4">
-        <div className="max-w-3xl mx-auto flex items-center justify-between">
-          <Link href="/" className="font-semibold text-gray-900 text-sm">
-            Stripe Fee Auditor
-          </Link>
-          <Link
-            href="/analyze"
-            className="bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Analyze My Fees
-          </Link>
-        </div>
-      </nav>
 
       <main className="max-w-3xl mx-auto px-6 py-16">
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: pageTitle }]} className="mb-6" />
@@ -359,6 +345,6 @@ export default function StripeBalanceCsvPage() {
           </div>
         </div>
       </main>
-    </div>
+    </MarketingShell>
   );
 }

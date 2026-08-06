@@ -90,6 +90,26 @@ export const LANDING_FAQ_ITEMS = [
     ),
   },
   {
+    id: "chatgpt",
+    q: "Can I just paste my Stripe CSV into ChatGPT?",
+    text: [
+      "ChatGPT can discuss a few rows, but it will not reliably compute your all-in rate across thousands of transactions, flag high-fee charges with row-level evidence, or return the same ranked savings actions every time.",
+      "Fee Auditor runs deterministic rules on the full export — no hallucinated fees, with action labels and Stripe dashboard links where applicable.",
+    ],
+    a: (
+      <>
+        <p>
+          ChatGPT can discuss a few rows, but it will not reliably compute your all-in rate across thousands of
+          transactions, flag high-fee charges with row-level evidence, or return the same ranked savings actions every time.
+        </p>
+        <p className="mt-2">
+          Fee Auditor runs <strong>deterministic rules</strong> on the full export — no hallucinated fees — with ranked
+          savings opportunities and Stripe dashboard links where applicable.
+        </p>
+      </>
+    ),
+  },
+  {
     id: "excel",
     q: "Can I calculate this myself in Excel?",
     text: [

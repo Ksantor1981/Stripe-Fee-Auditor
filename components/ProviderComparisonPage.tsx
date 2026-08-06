@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities -- long-form SEO copy */
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { MarketingShell } from "@/components/MarketingShell";
 import { TrackedLink } from "@/components/TrackedLink";
 
 export type ProviderScenario = {
@@ -40,21 +41,7 @@ export type ProviderComparisonConfig = {
 
 export function ProviderComparisonPage({ config }: { config: ProviderComparisonConfig }) {
   return (
-    <main className="min-h-screen bg-white">
-      <nav className="border-b border-gray-100 px-6 py-4">
-        <div className="mx-auto flex max-w-5xl items-center justify-between">
-          <Link href="/" className="text-sm font-semibold text-gray-900">
-            Stripe Fee Auditor
-          </Link>
-          <Link
-            href="/analyze"
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
-          >
-            Analyze My Fees
-          </Link>
-        </div>
-      </nav>
-
+    <MarketingShell>
       <div className="mx-auto max-w-5xl px-4 py-14">
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: config.pageTitle }]} className="mb-8" />
 
@@ -241,6 +228,6 @@ export function ProviderComparisonPage({ config }: { config: ProviderComparisonC
           </div>
         </section>
       </div>
-    </main>
+    </MarketingShell>
   );
 }

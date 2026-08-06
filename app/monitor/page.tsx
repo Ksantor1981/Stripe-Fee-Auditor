@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MarketingShell } from "@/components/MarketingShell";
 
 import { ChromeExtensionInstallCta } from "@/components/ChromeExtensionInstallCta";
 import { FeeMonitorWaitlistForm } from "@/components/FeeMonitorWaitlistForm";
@@ -42,16 +43,7 @@ export default async function MonitorPage({ searchParams }: Props) {
   const paymentSuccess = payment === "success";
 
   return (
-    <main className="min-h-screen bg-white text-gray-950">
-      <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
-        <Link href="/" className="font-bold text-gray-900 hover:text-gray-700">
-          Stripe Fee Auditor
-        </Link>
-        <Link href="/analyze" className="text-sm font-medium text-blue-600 hover:underline">
-          Analyze a CSV →
-        </Link>
-      </nav>
-
+    <MarketingShell className="min-h-screen bg-white text-gray-950">
       {paymentSuccess && (
         <section className="mx-auto max-w-5xl px-6 pt-4">
           <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-emerald-950 shadow-sm">
@@ -248,6 +240,6 @@ export default async function MonitorPage({ searchParams }: Props) {
           </div>
         </div>
       </section>
-    </main>
+    </MarketingShell>
   );
 }

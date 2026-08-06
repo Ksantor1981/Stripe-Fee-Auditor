@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MarketingShell } from "@/components/MarketingShell";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { LandingNav } from "@/components/LandingNav";
 
 export const metadata: Metadata = {
   title: "About the Founder & Data Handling | Stripe Fee Auditor",
@@ -26,12 +26,11 @@ const PERSON_JSON_LD = {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <MarketingShell className="min-h-screen bg-gray-50">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_JSON_LD).replace(/</g, "\\u003c") }}
       />
-      <LandingNav />
 
       <main className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About" }]} className="mb-4" />
@@ -146,6 +145,6 @@ export default function AboutPage() {
           </Link>
         </div>
       </main>
-    </div>
+    </MarketingShell>
   );
 }

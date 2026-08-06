@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MarketingShell } from "@/components/MarketingShell";
 
 import {
   CHROME_EXTENSION_STORE_URL,
@@ -107,28 +108,11 @@ export default function ChromeExtensionPage() {
   };
 
   return (
-    <main className="min-h-screen bg-white text-gray-950">
+    <MarketingShell className="min-h-screen bg-white text-gray-950">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-
-      <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
-        <Link href="/" className="font-bold text-gray-900 hover:text-gray-700">
-          Stripe Fee Auditor
-        </Link>
-        <div className="flex items-center gap-4 text-sm">
-          <Link href="/stripe-balance-csv" className="font-medium text-gray-500 hover:text-gray-900">
-            Export guide
-          </Link>
-          <Link
-            href="/analyze?sample=1"
-            className="font-semibold text-blue-600 hover:underline"
-          >
-            Try sample →
-          </Link>
-        </div>
-      </nav>
 
       <section className="mx-auto grid max-w-5xl gap-10 px-6 py-14 md:grid-cols-[1.05fr_0.95fr] md:items-center">
         <div>
@@ -308,6 +292,6 @@ export default function ChromeExtensionPage() {
           </p>
         </div>
       </section>
-    </main>
+    </MarketingShell>
   );
 }

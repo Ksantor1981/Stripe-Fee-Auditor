@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
+import { MarketingShell } from "@/components/MarketingShell";
 import { SeoAnalyzeCta } from "@/components/SeoAnalyzeCta";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
@@ -145,26 +146,12 @@ const structuredData = [
 
 export default function StripeFeeAnalysisToolsPage() {
   return (
-    <div className="min-h-screen bg-white text-gray-950">
+    <MarketingShell className="min-h-screen bg-white text-gray-950">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
       />
       <BreadcrumbJsonLd crumbs={breadcrumbCrumbs} />
-
-      <header className="border-b border-gray-100">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-5">
-          <Link href="/" className="text-sm font-bold text-gray-950">
-            Stripe Fee Auditor
-          </Link>
-          <Link
-            href="/analyze"
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
-          >
-            Analyze My CSV
-          </Link>
-        </div>
-      </header>
 
       <main className="mx-auto max-w-5xl px-5 py-12 sm:py-16">
         <nav className="text-sm text-gray-500" aria-label="Breadcrumb">
@@ -281,6 +268,6 @@ export default function StripeFeeAnalysisToolsPage() {
           </div>
         </section>
       </main>
-    </div>
+    </MarketingShell>
   );
 }

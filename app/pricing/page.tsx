@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { LandingNav } from "@/components/LandingNav";
+import { MarketingShell } from "@/components/MarketingShell";
 import { TrackedLink } from "@/components/TrackedLink";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 
@@ -13,16 +13,15 @@ export const metadata: Metadata = {
 
 export default function PricingPage() {
   return (
-    <main className="min-h-screen bg-white">
-      <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
-        <LandingNav />
-      </div>
-
+    <MarketingShell>
       <section className="mx-auto max-w-lg px-4 py-14 sm:px-6 text-center">
         <h1 className="text-3xl font-bold text-gray-900">Pricing</h1>
         <p className="mt-3 text-base text-gray-600">
           $12 = one CSV audit. Preview first — pay once for full rows, exports, and a 30-day private link.
           {FULL_REPORTS_FREE_DURING_BETA ? " Full report is free during beta." : null}
+        </p>
+        <p className="mt-2 text-sm text-gray-500">
+          Not a CSV summary — ranked savings actions, high-fee row evidence, and Stripe dashboard links from your export.
         </p>
 
         <div className="mt-8 rounded-2xl border-2 border-blue-200 bg-blue-50/40 p-6 text-left shadow-sm">
@@ -72,6 +71,6 @@ export default function PricingPage() {
           </Link>
         </p>
       </section>
-    </main>
+    </MarketingShell>
   );
 }
