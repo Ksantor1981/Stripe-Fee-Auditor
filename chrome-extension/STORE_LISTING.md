@@ -15,7 +15,7 @@ C:\tmp\stripe-fee-auditor-extension.zip
 Public listing:
 
 ```text
-https://chromewebstore.google.com/detail/blnamggnpkfcfennippabkoafllelchg
+https://chromewebstore.google.com/detail/blnamggnpkfcfennippabkoafllecghc
 ```
 
 The same URL is stored in `lib/chrome-extension.ts`. It can be overridden with

@@ -6,7 +6,7 @@
  * Public listing ID from Chrome Web Store Developer Dashboard.
  */
 const DEFAULT_CHROME_EXTENSION_STORE_URL =
-  "https://chromewebstore.google.com/detail/blnamggnpkfcfennippabkoafllelchg";
+  "https://chromewebstore.google.com/detail/blnamggnpkfcfennippabkoafllecghc";
 
 export const CHROME_EXTENSION_STORE_URL =
   process.env.NEXT_PUBLIC_CHROME_EXTENSION_STORE_URL?.trim() ||
