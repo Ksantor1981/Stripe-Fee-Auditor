@@ -285,7 +285,8 @@ export default function HomePage() {
           </div>
 
           <div className="mt-10 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60">
-            {/* Native img + 2x srcSet: 1024px source is soft on 125–200% OS scaling without retina asset */}
+            {/* Native srcSet 1x/2x — next/image would re-encode or drop retina asset */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/screenshots/report-preview.png"
               srcSet="/screenshots/report-preview.png 1x, /screenshots/report-preview@2x.png 2x"
