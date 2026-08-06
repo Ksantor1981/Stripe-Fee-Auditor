@@ -87,6 +87,7 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
       profile,
       publishedFee,
       publishedRate,
+      midRate,
       lowRate,
       highRate,
       midFee,
@@ -251,7 +252,7 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
           Confirm the real rate from your Balance CSV
         </p>
         <p className="mt-1 text-sm text-gray-500">
-          Upload to verify the gap — or open a sample report in ~10 seconds. Itemized{" "}
+          Upload to verify the gap — or open a sample report first. Itemized{" "}
           <Link href="/stripe-balance-csv" className="text-blue-600 underline hover:text-blue-800">
             Balance CSV
           </Link>{" "}
@@ -262,7 +263,7 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
             href="/analyze?sample=1"
             className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
           >
-            Try sample in 10s →
+            See sample report →
           </Link>
           <Link
             href="/analyze"
