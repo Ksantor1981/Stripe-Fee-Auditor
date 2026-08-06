@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MarketingShell } from "@/components/MarketingShell";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Stripe Fee Auditor",
@@ -17,15 +18,7 @@ const OPERATOR_ADDRESS = process.env.NEXT_PUBLIC_OPERATOR_ADDRESS?.trim();
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-white">
-      <nav className="border-b border-gray-100 px-6 py-4">
-        <div className="max-w-2xl mx-auto flex items-center justify-between">
-          <Link href="/" className="font-semibold text-gray-900 text-sm">
-            Stripe Fee Auditor
-          </Link>
-        </div>
-      </nav>
-
+    <MarketingShell>
       <main className="max-w-2xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Privacy Policy</h1>
         <p className="text-sm text-gray-400 mb-10">Last updated: July 19, 2026</p>
@@ -332,6 +325,6 @@ export default function PrivacyPage() {
           <Link href="/" className="hover:text-gray-600">← Back to home</Link>
         </div>
       </main>
-    </div>
+    </MarketingShell>
   );
 }

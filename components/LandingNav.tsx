@@ -7,28 +7,32 @@ import { TrackedLink } from "@/components/TrackedLink";
 
 const PRODUCT_ITEMS = [
   {
-    href: "/analyze?sample=1",
+    href: "/analyze",
     title: "Rate analysis",
-    desc: "Your real all-in processing cost",
+    desc: "Upload your CSV — see your real all-in cost",
     utm: { source: "landing", medium: "nav", campaign: "nav_product_rate" },
+    funnelEvent: "funnel_landing_cta" as const,
   },
   {
-    href: "/analyze?sample=1",
+    href: "/analyze",
     title: "Fee breakdown",
     desc: "International cards, refunds, small-ticket drag",
     utm: { source: "landing", medium: "nav", campaign: "nav_product_breakdown" },
+    funnelEvent: "funnel_landing_cta" as const,
   },
   {
-    href: "/analyze?sample=1",
+    href: "/analyze",
     title: "Savings finder",
     desc: "Concrete actions to reduce your rate",
     utm: { source: "landing", medium: "nav", campaign: "nav_product_savings" },
+    funnelEvent: "funnel_landing_cta" as const,
   },
   {
-    href: "/analyze?sample=1",
+    href: "/analyze",
     title: "Benchmarking",
     desc: "Compare against your transaction mix",
     utm: { source: "landing", medium: "nav", campaign: "nav_product_benchmark" },
+    funnelEvent: "funnel_landing_cta" as const,
   },
 ] as const;
 
@@ -40,7 +44,7 @@ const RESOURCE_ITEMS = [
 ] as const;
 
 const NAV_LINK_CLASS =
-  "text-[15px] font-medium text-gray-700 hover:text-gray-900 transition-colors";
+  "text-base font-medium text-gray-800 hover:text-gray-950 transition-colors";
 
 function NavDropdown({
   label,
@@ -108,7 +112,7 @@ export function LandingNav() {
 
   return (
     <div className="border-b border-gray-100">
-      <nav className="relative mx-auto max-w-6xl px-4 py-4 sm:px-6">
+      <nav className="relative mx-auto max-w-7xl px-4 py-4 sm:px-8">
         <div className="flex items-center justify-between gap-4">
           <Link
             href="/"
@@ -134,12 +138,12 @@ export function LandingNav() {
                     key={item.title}
                     href={item.href}
                     utm={item.utm}
-                    funnelEvent="funnel_sample_cta"
+                    funnelEvent={item.funnelEvent}
                     funnelProps={{ placement: "nav_product" }}
                     className="rounded-lg px-3 py-3 hover:bg-gray-50 transition-colors"
                     onClick={closeMenus}
                   >
-                    <p className="text-[15px] font-semibold text-gray-900">{item.title}</p>
+                    <p className="text-base font-semibold text-gray-900">{item.title}</p>
                     <p className="text-sm text-gray-500">{item.desc}</p>
                   </TrackedLink>
                 ))}
@@ -191,7 +195,7 @@ export function LandingNav() {
               utm={{ source: "landing", medium: "nav", campaign: "header_cta" }}
               funnelEvent="funnel_landing_cta"
               funnelProps={{ placement: "nav" }}
-              className="rounded-lg bg-gray-900 px-5 py-2.5 text-[15px] font-semibold text-white hover:bg-gray-800 transition-colors whitespace-nowrap"
+              className="rounded-lg bg-gray-900 px-5 py-2.5 text-base font-semibold text-white hover:bg-gray-800 transition-colors whitespace-nowrap"
             >
               Upload CSV
             </TrackedLink>
@@ -217,7 +221,7 @@ export function LandingNav() {
                 key={item.title}
                 href={item.href}
                 utm={item.utm}
-                funnelEvent="funnel_sample_cta"
+                funnelEvent={item.funnelEvent}
                 funnelProps={{ placement: "nav_mobile_product" }}
                 className="block rounded-lg px-2 py-2 hover:bg-gray-50"
                 onClick={() => setMobileOpen(false)}

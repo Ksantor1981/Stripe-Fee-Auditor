@@ -15,7 +15,7 @@ export default function AnalyzePage() {
     <main className="min-h-screen bg-gray-50">
       <AppShellHeader />
 
-      <div className="mx-auto max-w-2xl px-4 py-10">
+      <div className="mx-auto max-w-3xl px-4 py-10">
         <h1 className="text-2xl font-bold text-gray-900">See your real Stripe fee rate</h1>
         <p className="mt-2 text-base text-gray-600">
           Upload your Balance CSV or run the sample report.

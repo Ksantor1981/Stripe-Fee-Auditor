@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MarketingShell } from "@/components/MarketingShell";
 
 export const metadata: Metadata = {
   title: "Refund Policy | Stripe Fee Auditor",
@@ -14,15 +15,7 @@ const CONTACT_EMAIL =
 
 export default function RefundPage() {
   return (
-    <div className="min-h-screen bg-white">
-      <nav className="border-b border-gray-100 px-6 py-4">
-        <div className="max-w-2xl mx-auto flex items-center justify-between">
-          <Link href="/" className="font-semibold text-gray-900 text-sm">
-            Stripe Fee Auditor
-          </Link>
-        </div>
-      </nav>
-
+    <MarketingShell>
       <main className="max-w-2xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Refund Policy</h1>
         <p className="text-sm text-gray-400 mb-10">Last updated: May 11, 2026</p>
@@ -118,6 +111,6 @@ export default function RefundPage() {
           </Link>
         </div>
       </main>
-    </div>
+    </MarketingShell>
   );
 }

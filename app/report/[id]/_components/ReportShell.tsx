@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
+import type { MonitorHistoryPoint } from "@/lib/db";
 import { applyExpectedOutlierExclusions } from "@/lib/expected-outliers";
 import { selectFreeDiagnosis } from "@/lib/free-diagnosis";
 import { ChromeWebStoreReviewAsk } from "@/components/ChromeWebStoreReviewAsk";
@@ -16,6 +17,8 @@ import { MultiMonthReport } from "./MultiMonthReport";
 import { SingleMonthReport } from "./SingleMonthReport";
 import { LowVolumeReport } from "./LowVolumeReport";
 import { ShareEmbedBenchmark } from "./ShareEmbedBenchmark";
+import { ReportReconciliation } from "./ReportReconciliation";
+import { MonitorHistory } from "./MonitorHistory";
 
 interface Props {
   reportId: string;
@@ -31,6 +34,8 @@ interface Props {
   betaFullAccess?: boolean;
   /** Active Fee Monitor subscription unlocks full reports for the saved email. */
   monitorFullAccess?: boolean;
+  /** Summary-only prior reports linked to this active Monitor email. */
+  monitorHistory?: MonitorHistoryPoint[];
   /** Polar redirected back before the payment webhook finished processing. */
   paymentPending?: boolean;
   /** Full anomaly count before preview strips rows (free tier UI). */
@@ -47,6 +52,7 @@ export function ReportShell({
   betaFullAccess = false,
   monitorFullAccess = false,
   paymentPending = false,
+  monitorHistory = [],
   previewAnomalyCount,
 }: Props) {
   const router = useRouter();
@@ -210,7 +216,7 @@ export function ReportShell({
         }
       />
 
-      <div className="mx-auto max-w-4xl px-4 py-10">
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-8">
         {paymentPending && !isPaid && (
           <div className="mb-6 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800">
             Payment received. We&apos;re unlocking your report now. This page will refresh automatically.
@@ -247,6 +253,10 @@ export function ReportShell({
               For best results, export a single-currency period.
             </span>
           </div>
+        )}
+        <ReportReconciliation result={adjustedResult} />
+        {monitorFullAccess && (
+          <MonitorHistory current={adjustedResult} history={monitorHistory} />
         )}
         {result.mode === "multi-month" && (
           <MultiMonthReport {...reportViewProps} previewAnomalyCount={previewAnomalyCount} />
