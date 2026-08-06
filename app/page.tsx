@@ -3,10 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { LandingFaq, LANDING_FAQ_HOME_IDS } from "@/components/LandingFaq";
 import { LandingNav } from "@/components/LandingNav";
+import { QuoteFooterStrip } from "@/components/QuoteFooterStrip";
 import { TrackedLink } from "@/components/TrackedLink";
-import { UserTestimonials } from "@/components/UserTestimonials";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
-import { chromeExtensionInstallHref } from "@/lib/chrome-extension";
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
 
@@ -57,21 +56,9 @@ const PAIN_LINKS = [
 ] as const;
 
 const HOW_IT_WORKS = [
-  {
-    step: "1",
-    title: "Export your CSV",
-    body: "Stripe Dashboard → Reports → Balance summary → Export → Itemized → Download to system. Takes about a minute. No API access needed.",
-  },
-  {
-    step: "2",
-    title: "Drop it here",
-    body: "The CSV is sent to our server for analysis, but the raw file is not stored as a file. During beta, full report links from real uploads stay active for up to 30 days; after beta, unpaid previews expire sooner.",
-  },
-  {
-    step: "3",
-    title: "See your real rate",
-    body: "Processing rate vs all-in cost, why your rate is higher (international cards, small transactions), refund fee leakage, benchmark context, high-fee charges when your volume allows, and savings ideas.",
-  },
+  { step: "1", title: "Export CSV", body: "Balance summary → Itemized export from Stripe Dashboard." },
+  { step: "2", title: "Upload", body: "One file, no OAuth. Raw CSV is not stored." },
+  { step: "3", title: "See drivers", body: "Effective rate, international uplift, refund drag, high-fee rows." },
 ];
 
 const FAQ_JSON_LD_ITEMS = [
@@ -231,14 +218,12 @@ export default function HomePage() {
         </div>
       )}
 
-      <LandingNav />
+      <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
+        <LandingNav />
+      </div>
 
       {/* Hero — Curiosity */}
-      <section id="problem" className="flex flex-col items-center justify-center px-4 py-12 sm:py-16 text-center scroll-mt-14">
-        <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">
-          Fee Auditor · feeauditor.com
-        </p>
-
+      <section id="problem" className="flex flex-col items-center justify-center px-4 py-10 sm:py-14 text-center scroll-mt-28">
         <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">
           Your Stripe dashboard says 2.9%.{" "}
           <span className="text-blue-600">Your effective rate often isn&apos;t.</span>
@@ -283,7 +268,7 @@ export default function HomePage() {
       </section>
 
       {/* Proof */}
-      <section className="bg-gray-50 px-4 py-14 scroll-mt-14" aria-labelledby="proof-heading">
+      <section id="proof" className="bg-gray-50 px-4 py-10 scroll-mt-28" aria-labelledby="proof-heading">
         <div className="mx-auto max-w-5xl">
           <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
             Proof
@@ -312,182 +297,82 @@ export default function HomePage() {
             />
           </div>
 
-          <div className="mt-8 text-center">
-            <p className="text-sm font-medium text-gray-700">What usually drives it</p>
-            <p className="mt-2 text-sm text-gray-600">
-              {PAIN_LINKS.map((item, index) => (
-                <span key={item.href}>
-                  {index > 0 && <span className="text-gray-300"> · </span>}
-                  <Link href={item.href} className="text-blue-600 hover:underline">
-                    {item.label}
-                  </Link>
-                </span>
-              ))}
-            </p>
-            <p className="mt-3 text-sm text-gray-500">
-              <Link href="/stripe-fee-calculator" className="text-blue-600 hover:underline">
-                Fee estimate
-              </Link>
-              {" · "}
-              <Link
-                href="/blog/how-i-found-1400-in-hidden-stripe-fees"
-                className="text-blue-600 hover:underline"
-              >
-                Read the case study →
-              </Link>
-            </p>
+          <div className="mt-6 text-center text-sm text-gray-500">
+            {PAIN_LINKS.map((item, index) => (
+              <span key={item.href}>
+                {index > 0 && <span className="text-gray-300"> · </span>}
+                <Link href={item.href} className="text-blue-600 hover:underline">
+                  {item.label}
+                </Link>
+              </span>
+            ))}
+            {" · "}
+            <Link href="/blog/how-i-found-1400-in-hidden-stripe-fees" className="text-blue-600 hover:underline">
+              Case study
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Interaction — How we find them */}
-      <section id="how-it-works" className="bg-white px-4 py-16 scroll-mt-14">
+      <section id="how-it-works" className="bg-white px-4 py-10 scroll-mt-28">
         <div className="mx-auto max-w-3xl">
-          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
-            How it works
-          </p>
-          <h2 className="mb-10 text-center text-2xl font-bold text-gray-900">How we find them</h2>
-          <div className="grid gap-6 sm:grid-cols-3">
-            {HOW_IT_WORKS.map(({ step, title, body }) => {
-              const stepBody =
-                step === "2" && !FULL_REPORTS_FREE_DURING_BETA
-                  ? "The CSV is sent to our server for analysis, but the raw file is not stored as a file. Upload once for a free preview immediately — no card required. Unlock the full report for $12 when you want high-fee charge details, exports, and savings actions."
-                  : body;
-              return (
-                <div key={step} className="relative rounded-xl border border-gray-100 bg-gray-50 p-6 shadow-sm">
-                  <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">
-                    {step}
-                  </div>
-                  <h3 className="mb-1.5 font-semibold text-gray-900">{title}</h3>
-                  <p className="text-base text-gray-600 leading-relaxed">{stepBody}</p>
+          <h2 className="text-center text-xl font-bold text-gray-900">Three steps</h2>
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
+            {HOW_IT_WORKS.map(({ step, title, body }) => (
+              <div key={step} className="rounded-xl border border-gray-100 bg-gray-50 px-4 py-4 text-center">
+                <div className="mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">
+                  {step}
                 </div>
-              );
-            })}
-          </div>
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <TrackedLink
-              href="/analyze?sample=1"
-              utm={{ source: "landing", medium: "cta", campaign: "mid_sample" }}
-              funnelEvent="funnel_sample_cta"
-              funnelProps={{ placement: "mid_sample" }}
-              className="inline-flex items-center justify-center rounded-xl border border-blue-200 bg-white px-6 py-3 text-sm font-semibold text-blue-700 hover:border-blue-300 hover:bg-blue-50 transition-colors"
-            >
-              See sample report →
-            </TrackedLink>
-            <Link
-              href="/stripe-fee-calculator"
-              className="text-sm font-medium text-gray-500 underline underline-offset-2 hover:text-blue-600"
-            >
-              Fee estimate without CSV →
-            </Link>
+                <h3 className="font-semibold text-gray-900">{title}</h3>
+                <p className="mt-1 text-sm text-gray-600">{body}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
-
-      <UserTestimonials />
 
       {/* Pricing — Result */}
-      <section id="pricing" className="px-4 py-16 bg-gray-50 scroll-mt-14">
-        <div className="mx-auto max-w-3xl">
-          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
-            Pricing
+      <section id="pricing" className="px-4 py-10 bg-gray-50 scroll-mt-28">
+        <div className="mx-auto max-w-md text-center">
+          <h2 className="text-xl font-bold text-gray-900">$12 · one CSV audit</h2>
+          <p className="mt-2 text-sm text-gray-600">
+            Preview free
+            {FULL_REPORTS_FREE_DURING_BETA ? " · full report free during beta" : " · pay once for exports & 30-day link"}
           </p>
-          <h2 className="text-center text-2xl font-bold text-gray-900 mb-3">
-            One audit, one price
-          </h2>
-          <p className="mx-auto mb-8 max-w-xl text-center text-base text-gray-600 leading-relaxed">
-            $12 = one CSV audit. Preview free · pay once for full rows, exports, and a 30-day private link.
-            {FULL_REPORTS_FREE_DURING_BETA ? " Full report is free during beta." : null}
-          </p>
-          <div className="mx-auto max-w-md rounded-2xl border-2 border-blue-200 bg-blue-50/80 p-6 shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-wide text-blue-700 mb-1">
-              One audit · $12
-            </p>
-            <p className="text-2xl font-bold text-gray-900 mb-2">This CSV, once</p>
-            <p className="text-base text-blue-900/90 leading-relaxed">
-              Full high-fee rows, savings actions with caveats, monthly detail, CSV + print export —
-              private link for 30 days.
-            </p>
-            {FULL_REPORTS_FREE_DURING_BETA ? (
-              <p className="mt-3 text-sm font-medium text-emerald-800">
-                Currently free during beta — upload your CSV to get the full report.
-              </p>
-            ) : (
-              <p className="mt-3 text-xs text-gray-500">
-                Refund available if payment succeeds but the report does not unlock.
-              </p>
-            )}
+          <div className="mt-5 rounded-2xl border-2 border-blue-200 bg-white p-5 text-left shadow-sm">
+            <ul className="space-y-1.5 text-sm text-gray-700">
+              <li>Full high-fee rows &amp; savings ideas</li>
+              <li>CSV + print export</li>
+              <li>Private link · 30 days</li>
+            </ul>
           </div>
-          <p className="mt-6 text-center text-sm text-gray-600">
-            Want monthly CSV reminders and rate drift checks?{" "}
-            <Link href="/monitor" className="font-semibold text-blue-600 hover:underline">
-              Fee Monitor ($9/mo)
+          <p className="mt-4 text-xs text-gray-500">
+            Monthly reminders?{" "}
+            <Link href="/monitor" className="font-medium text-blue-600 hover:underline">
+              Fee Monitor
+            </Link>
+            {" · "}
+            <Link href="/chrome-extension" className="font-medium text-blue-600 hover:underline">
+              Chrome helper
             </Link>
           </p>
-          <div className="mt-10 flex flex-col items-center gap-4">
-            <TrackedLink
-              href="/analyze"
-              utm={{ source: "landing", medium: "cta", campaign: "footer" }}
-              funnelEvent="funnel_landing_cta"
-              funnelProps={{ placement: "footer" }}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow hover:bg-blue-700 transition-colors"
-            >
-              Analyze my CSV
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </TrackedLink>
-            <Link href="/stripe-fee-calculator" className="text-sm font-medium text-gray-500 underline underline-offset-2 hover:text-blue-600">
-              Estimate first →
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-gray-50 px-4 py-10" aria-labelledby="chrome-helper-heading">
-        <div className="mx-auto max-w-4xl rounded-2xl border border-blue-100 bg-blue-50/60 p-5 shadow-sm">
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div className="max-w-xl">
-              <p className="text-xs font-semibold uppercase tracking-widest text-blue-700">
-                Chrome helper · free on Web Store
-              </p>
-              <h2 id="chrome-helper-heading" className="mt-1 text-xl font-bold text-gray-900">
-                Install the Chrome helper for export shortcuts and monthly reminders
-              </h2>
-              <p className="mt-2 text-base leading-relaxed text-gray-600">
-                Opens the Stripe Balance export flow, sends you back to analyze the CSV, and can remind
-                you every month. No Stripe page reading, no OAuth, no API keys.
-              </p>
-            </div>
-            <div className="flex shrink-0 flex-col gap-2 sm:flex-row md:flex-col">
-              <a
-                href={chromeExtensionInstallHref()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex justify-center rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
-              >
-                Install from Chrome Web Store
-              </a>
-              <Link
-                href="/analyze?sample=1"
-                className="inline-flex justify-center rounded-xl border border-blue-200 bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-50"
-              >
-                See sample report
-              </Link>
-            </div>
-          </div>
+          <TrackedLink
+            href="/analyze"
+            utm={{ source: "landing", medium: "cta", campaign: "footer" }}
+            funnelEvent="funnel_landing_cta"
+            funnelProps={{ placement: "footer" }}
+            className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-3.5 text-base font-semibold text-white shadow hover:bg-blue-700 transition-colors"
+          >
+            Upload CSV
+          </TrackedLink>
         </div>
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="bg-gray-50 px-4 py-16 scroll-mt-14">
+      <section id="faq" className="bg-white px-4 py-10 scroll-mt-28">
         <div className="mx-auto max-w-3xl">
-          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
-            FAQ
-          </p>
-          <h2 className="text-center text-2xl font-bold text-gray-900 mb-8">
-            Security &amp; trust
-          </h2>
+          <h2 className="text-center text-xl font-bold text-gray-900 mb-6">Trust</h2>
           <LandingFaq itemIds={LANDING_FAQ_HOME_IDS} />
           <p className="mt-6 text-center text-sm text-gray-500">
             More questions in{" "}
@@ -502,6 +387,8 @@ export default function HomePage() {
           </p>
         </div>
       </section>
+
+      <QuoteFooterStrip />
 
       {/* Footer */}
       <footer className="border-t px-4 py-8 text-center text-xs text-gray-400 space-y-2">

@@ -72,7 +72,9 @@ const CODE_LINKS = [
 export default function HowItWorksPage() {
   return (
     <main className="min-h-screen bg-white">
-      <LandingNav />
+      <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
+        <LandingNav />
+      </div>
 
       <section className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
         <p className="text-sm font-medium text-blue-600">Data handling</p>
