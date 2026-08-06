@@ -267,16 +267,15 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* Proof */}
-      <section id="proof" className="bg-gray-50 px-4 py-10 scroll-mt-28" aria-labelledby="proof-heading">
+      {/* Sample report */}
+      <section id="sample" className="bg-gray-50 px-4 py-10 scroll-mt-24" aria-labelledby="sample-heading">
         <div className="mx-auto max-w-5xl">
-          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
-            Proof
-          </p>
-          <h2 id="proof-heading" className="text-center text-2xl font-bold text-gray-900">
-            What one real export showed
+          <h2 id="sample-heading" className="text-center text-2xl font-bold text-gray-900">
+            Sample report from a Stripe export
           </h2>
-
+          <p className="mt-2 text-center text-sm text-gray-500">
+            Illustrative Balance CSV — your volume and rates will differ.
+          </p>
           <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-3 text-center">
             {PROOF_STATS.map(({ label, value }) => (
               <div key={label}>
@@ -315,7 +314,7 @@ export default function HomePage() {
       </section>
 
       {/* Interaction — How we find them */}
-      <section id="how-it-works" className="bg-white px-4 py-10 scroll-mt-28">
+      <section id="steps" className="bg-white px-4 py-10 scroll-mt-24">
         <div className="mx-auto max-w-3xl">
           <h2 className="text-center text-xl font-bold text-gray-900">Three steps</h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
@@ -332,45 +331,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Pricing — Result */}
-      <section id="pricing" className="px-4 py-10 bg-gray-50 scroll-mt-28">
-        <div className="mx-auto max-w-md text-center">
-          <h2 className="text-xl font-bold text-gray-900">$12 · one CSV audit</h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Preview free
-            {FULL_REPORTS_FREE_DURING_BETA ? " · full report free during beta" : " · pay once for exports & 30-day link"}
-          </p>
-          <div className="mt-5 rounded-2xl border-2 border-blue-200 bg-white p-5 text-left shadow-sm">
-            <ul className="space-y-1.5 text-sm text-gray-700">
-              <li>Full high-fee rows &amp; savings ideas</li>
-              <li>CSV + print export</li>
-              <li>Private link · 30 days</li>
-            </ul>
-          </div>
-          <p className="mt-4 text-xs text-gray-500">
-            Monthly reminders?{" "}
-            <Link href="/monitor" className="font-medium text-blue-600 hover:underline">
-              Fee Monitor
-            </Link>
-            {" · "}
-            <Link href="/chrome-extension" className="font-medium text-blue-600 hover:underline">
-              Chrome helper
-            </Link>
-          </p>
-          <TrackedLink
-            href="/analyze"
-            utm={{ source: "landing", medium: "cta", campaign: "footer" }}
-            funnelEvent="funnel_landing_cta"
-            funnelProps={{ placement: "footer" }}
-            className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-3.5 text-base font-semibold text-white shadow hover:bg-blue-700 transition-colors"
-          >
-            Upload CSV
-          </TrackedLink>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section id="faq" className="bg-white px-4 py-10 scroll-mt-28">
+      {/* FAQ + final CTA */}
+      <section id="faq" className="bg-gray-50 px-4 py-10 scroll-mt-24">
         <div className="mx-auto max-w-3xl">
           <h2 className="text-center text-xl font-bold text-gray-900 mb-6">Trust</h2>
           <LandingFaq itemIds={LANDING_FAQ_HOME_IDS} />
@@ -386,6 +348,26 @@ export default function HomePage() {
             .
           </p>
         </div>
+        <div className="mx-auto mt-10 max-w-md text-center">
+          <TrackedLink
+            href="/analyze"
+            utm={{ source: "landing", medium: "cta", campaign: "footer" }}
+            funnelEvent="funnel_landing_cta"
+            funnelProps={{ placement: "footer" }}
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-3.5 text-base font-semibold text-white shadow hover:bg-blue-700 transition-colors"
+          >
+            Upload CSV
+          </TrackedLink>
+          <p className="mt-3 text-sm text-gray-500">
+            <Link href="/pricing" className="text-blue-600 hover:underline">
+              Pricing
+            </Link>
+            {" · "}
+            <Link href="/monitor" className="text-blue-600 hover:underline">
+              Fee Monitor
+            </Link>
+          </p>
+        </div>
       </section>
 
       <QuoteFooterStrip />
@@ -397,6 +379,8 @@ export default function HomePage() {
           Fee Auditor (feeauditor.com) is an independent SaaS tool. Not affiliated with, endorsed by,
           or part of Stripe, Inc. &quot;Stripe&quot; is a trademark of Stripe, Inc.{" "}
           <Link href="/how-it-works" className="underline hover:text-gray-600">How it works</Link>
+          {" · "}
+          <Link href="/pricing" className="underline hover:text-gray-600">Pricing</Link>
           {" · "}
           <Link href="/privacy" className="underline hover:text-gray-600">Privacy Policy</Link>
           {" · "}

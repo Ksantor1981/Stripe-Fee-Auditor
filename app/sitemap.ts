@@ -22,6 +22,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/stripe-fee-analysis-tools`, lastModified: coreUpdatedAt, changeFrequency: "monthly", priority: 0.66 },
     { url: `${base}/blog`, lastModified: coreUpdatedAt, changeFrequency: "weekly", priority: 0.72 },
     { url: `${base}/about`, lastModified: coreUpdatedAt, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${base}/pricing`, lastModified: coreUpdatedAt, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${base}/how-it-works`, lastModified: coreUpdatedAt, changeFrequency: "monthly", priority: 0.65 },
     { url: `${base}/privacy`, lastModified: coreUpdatedAt, changeFrequency: "yearly", priority: 0.3 },
     { url: `${base}/terms`, lastModified: coreUpdatedAt, changeFrequency: "yearly", priority: 0.3 },
     { url: `${base}/refund`, lastModified: coreUpdatedAt, changeFrequency: "yearly", priority: 0.3 },

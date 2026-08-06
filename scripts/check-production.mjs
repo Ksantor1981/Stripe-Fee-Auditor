@@ -6,10 +6,16 @@ const checks = [
     containsAny: [
       ["Free diagnosis · no signup", "Free diagnosis first", "Free preview"],
       ["Upload CSV", "Analyze my CSV"],
-      ["$12 · one CSV audit", "One audit · $12", "$12 = one CSV audit"],
-      ["Three steps", "How we find them"],
+      ["Sample report from a Stripe export", "What one real export showed"],
+      "Three steps",
       "effective rate often",
-      "What one real export showed",
+    ],
+  },
+  {
+    path: "/pricing",
+    containsAny: [
+      ["One audit · $12", "$12 = one CSV audit"],
+      "Fee Monitor",
     ],
   },
   {
