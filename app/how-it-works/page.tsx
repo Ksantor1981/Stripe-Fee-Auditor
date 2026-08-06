@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { LandingFaq, LANDING_FAQ_EXTENDED_IDS } from "@/components/LandingFaq";
 import { LandingNav } from "@/components/LandingNav";
 
 const GITHUB_REPO = "https://github.com/Ksantor1981/Stripe-Fee-Auditor";
@@ -211,6 +212,18 @@ export default function HowItWorksPage() {
               Upload CSV
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section id="faq" className="border-t border-gray-100 bg-gray-50 px-4 py-14 sm:px-6 scroll-mt-14">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
+            FAQ
+          </p>
+          <h2 className="text-center text-2xl font-bold text-gray-900 mb-8">
+            More security &amp; pricing questions
+          </h2>
+          <LandingFaq itemIds={LANDING_FAQ_EXTENDED_IDS} />
         </div>
       </section>
     </main>

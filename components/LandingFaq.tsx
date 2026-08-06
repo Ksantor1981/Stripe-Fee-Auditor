@@ -103,10 +103,26 @@ export const LANDING_FAQ_ITEMS = [
   },
 ];
 
-export function LandingFaq() {
+/** Top trust questions on `/` only — rest live on `/how-it-works`. */
+export const LANDING_FAQ_HOME_IDS = ["store-csv", "stripe-access", "useful-for-me"] as const;
+
+/** FAQ items shown on `/how-it-works` (everything except the 3 on home). */
+export const LANDING_FAQ_EXTENDED_IDS = LANDING_FAQ_ITEMS.filter(
+  (item) => !(LANDING_FAQ_HOME_IDS as readonly string[]).includes(item.id)
+).map((item) => item.id);
+
+type LandingFaqProps = {
+  itemIds?: readonly string[];
+};
+
+export function LandingFaq({ itemIds }: LandingFaqProps) {
+  const items = itemIds
+    ? LANDING_FAQ_ITEMS.filter((item) => itemIds.includes(item.id))
+    : LANDING_FAQ_ITEMS;
+
   return (
     <Accordion className="mx-auto max-w-3xl rounded-2xl border border-gray-100 bg-white px-4 shadow-sm">
-          {LANDING_FAQ_ITEMS.map((item) => (
+          {items.map((item) => (
         <AccordionItem key={item.id} value={item.id} className="border-gray-100">
           <AccordionTrigger className="text-sm font-semibold text-gray-900 py-4 hover:no-underline">
             {item.q}

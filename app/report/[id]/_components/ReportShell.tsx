@@ -1,11 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { applyExpectedOutlierExclusions } from "@/lib/expected-outliers";
 import { selectFreeDiagnosis } from "@/lib/free-diagnosis";
 import { ChromeWebStoreReviewAsk } from "@/components/ChromeWebStoreReviewAsk";
+import { AppShellHeader } from "@/components/AppShellHeader";
 import { trackEvent } from "@/lib/analytics";
 import { EmailGate } from "./EmailGate";
 import { FeedbackForm } from "./FeedbackForm";
@@ -175,38 +177,38 @@ export function ReportShell({
 
   return (
     <main className="min-h-screen bg-gray-50">
-      {/* Nav */}
-      <header className="bg-white border-b px-4 py-4 sm:px-6">
-        <div className="mx-auto max-w-4xl flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <a href="/" className="text-sm font-semibold text-gray-900 shrink-0">Stripe Fee Auditor</a>
-          <div className="flex flex-wrap items-center gap-2 sm:justify-end sm:gap-3">
-            {exportsEnabled && (
-              <>
-                <a
-                  href={`/api/export/csv?reportId=${reportId}`}
-                  className="text-xs font-medium text-gray-500 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5 hover:border-gray-300 transition-colors"
-                >
-                  ↓ CSV
-                </a>
-                <a
-                  href={`/report/${reportId}/print`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs font-medium text-gray-500 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5 hover:border-gray-300 transition-colors"
-                >
-                  ↓ Print PDF
-                </a>
-              </>
-            )}
-            <a
-              href="/analyze"
-              className="text-sm text-blue-600 hover:underline"
-            >
-              Analyze another file →
-            </a>
-          </div>
-        </div>
-      </header>
+      <AppShellHeader
+        toolbar={
+          <>
+            <Link href={`/report/${reportId}`} className="text-sm font-semibold text-gray-900 shrink-0">
+              Your report
+            </Link>
+            <div className="flex flex-wrap items-center gap-2 sm:justify-end sm:gap-3">
+              {exportsEnabled && (
+                <>
+                  <a
+                    href={`/api/export/csv?reportId=${reportId}`}
+                    className="text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5 hover:border-gray-300 transition-colors bg-white"
+                  >
+                    ↓ CSV
+                  </a>
+                  <a
+                    href={`/report/${reportId}/print`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5 hover:border-gray-300 transition-colors bg-white"
+                  >
+                    ↓ Print PDF
+                  </a>
+                </>
+              )}
+              <Link href="/analyze" className="text-sm font-medium text-blue-600 hover:underline">
+                Analyze another file →
+              </Link>
+            </div>
+          </>
+        }
+      />
 
       <div className="mx-auto max-w-4xl px-4 py-10">
         {paymentPending && !isPaid && (

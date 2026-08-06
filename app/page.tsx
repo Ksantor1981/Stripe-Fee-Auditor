@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { LandingFaq } from "@/components/LandingFaq";
+import { LandingFaq, LANDING_FAQ_HOME_IDS } from "@/components/LandingFaq";
 import { LandingNav } from "@/components/LandingNav";
 import { TrackedLink } from "@/components/TrackedLink";
+import { UserTestimonials } from "@/components/UserTestimonials";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { chromeExtensionInstallHref } from "@/lib/chrome-extension";
 import { buildOgImageUrl } from "@/lib/seo-og";
@@ -54,13 +55,6 @@ const PAIN_LINKS = [
   { href: "/why-stripe-fee-rate-higher-than-2-9", label: "Refund fees not returned" },
   { href: "/blog/why-stripe-fees-increase", label: "Rate / payout drift" },
 ] as const;
-
-const INDEPENDENT_FEEDBACK = {
-  quote: "Focused single-purpose tool with a compelling privacy differentiator.",
-  name: "Assaf Sheinrok",
-  role: "Founder of PagePulse",
-  href: "https://pagepulse.page",
-};
 
 const HOW_IT_WORKS = [
   {
@@ -343,26 +337,6 @@ export default function HomePage() {
               </Link>
             </p>
           </div>
-
-          <div className="mx-auto mt-8 max-w-2xl rounded-2xl border border-slate-200 bg-white px-5 py-4 text-left shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
-              Independent feedback
-            </p>
-            <p className="mt-2 text-base leading-relaxed text-gray-700">
-              &ldquo;{INDEPENDENT_FEEDBACK.quote}&rdquo;
-            </p>
-            <p className="mt-2 text-sm text-gray-500">
-              {INDEPENDENT_FEEDBACK.name}, {INDEPENDENT_FEEDBACK.role} ·{" "}
-              <a
-                href={INDEPENDENT_FEEDBACK.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-medium text-blue-600 hover:text-blue-800 hover:underline"
-              >
-                PagePulse
-              </a>
-            </p>
-          </div>
         </div>
       </section>
 
@@ -410,81 +384,46 @@ export default function HomePage() {
         </div>
       </section>
 
+      <UserTestimonials />
+
       {/* Pricing — Result */}
-      <section id="pricing" className="px-4 py-16 bg-white scroll-mt-14">
-        <div className="mx-auto max-w-5xl">
+      <section id="pricing" className="px-4 py-16 bg-gray-50 scroll-mt-14">
+        <div className="mx-auto max-w-3xl">
           <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
             Pricing
           </p>
           <h2 className="text-center text-2xl font-bold text-gray-900 mb-3">
-            One audit or a monthly check-in
+            One audit, one price
           </h2>
-          <p className="mx-auto mb-8 max-w-2xl text-center text-base text-gray-600 leading-relaxed">
-            $12 = one CSV audit. $9/mo = a monthly reminder to re-check. Not a subscription to a
-            dashboard.
+          <p className="mx-auto mb-8 max-w-xl text-center text-base text-gray-600 leading-relaxed">
+            $12 = one CSV audit. Preview free · pay once for full rows, exports, and a 30-day private link.
+            {FULL_REPORTS_FREE_DURING_BETA ? " Full report is free during beta." : null}
           </p>
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="mx-auto max-w-md rounded-2xl border-2 border-blue-200 bg-blue-50/80 p-6 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-wide text-blue-700 mb-1">
+              One audit · $12
+            </p>
+            <p className="text-2xl font-bold text-gray-900 mb-2">This CSV, once</p>
+            <p className="text-base text-blue-900/90 leading-relaxed">
+              Full high-fee rows, savings actions with caveats, monthly detail, CSV + print export —
+              private link for 30 days.
+            </p>
             {FULL_REPORTS_FREE_DURING_BETA ? (
-              <>
-                <div className="rounded-2xl border-2 border-emerald-200 bg-emerald-50/80 p-6 shadow-sm">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 mb-1">During beta</p>
-                  <p className="text-2xl font-bold text-gray-900 mb-2">Full report — free</p>
-                  <p className="text-base text-emerald-900/90 leading-relaxed">
-                    High-fee charge details, savings ideas, exports, and dashboard charts while beta lasts. Private link with automatic expiry — see Terms.
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">After launch</p>
-                  <p className="text-2xl font-bold text-gray-900 mb-2">Free preview + $12 unlock</p>
-                  <p className="text-base text-gray-600 leading-relaxed">
-                    Preview first, then pay once to open the full analysis for one upload for 30 days.
-                  </p>
-                </div>
-              </>
+              <p className="mt-3 text-sm font-medium text-emerald-800">
+                Currently free during beta — upload your CSV to get the full report.
+              </p>
             ) : (
-              <>
-                <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Free preview</p>
-                  <p className="text-2xl font-bold text-gray-900 mb-2">No card required</p>
-                  <p className="text-base text-gray-600 leading-relaxed">
-                    Headline rates, top fee drivers, and — when found — a directional annual impact teaser
-                    (e.g. potential ~$1,400/yr). Enough to decide if a full unlock is worth $12.
-                  </p>
-                </div>
-                <div className="rounded-2xl border-2 border-blue-200 bg-blue-50/80 p-6 shadow-sm">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-blue-700 mb-1">
-                    One audit · $12
-                  </p>
-                  <p className="text-2xl font-bold text-gray-900 mb-2">This CSV, once</p>
-                  <p className="text-base text-blue-900/90 leading-relaxed">
-                    Full high-fee rows, savings actions with caveats, monthly detail, CSV + print export —
-                    private link for 30 days. Pay once to inspect what the preview only teased.
-                  </p>
-                  <p className="mt-3 text-xs text-gray-500">
-                    Refund available if payment succeeds but the report does not unlock.
-                  </p>
-                </div>
-              </>
+              <p className="mt-3 text-xs text-gray-500">
+                Refund available if payment succeeds but the report does not unlock.
+              </p>
             )}
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
-              <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                Monthly habit · $9/mo
-              </p>
-              <p className="mb-2 text-2xl font-bold text-gray-900">Did it get worse?</p>
-              <p className="text-base leading-relaxed text-gray-600">
-                Not another dashboard. A monthly reminder to upload a fresh Balance CSV, compare rate
-                drift vs last month, and catch fee leaks before they feel normal. No Stripe OAuth.
-              </p>
-              <ul className="mt-3 space-y-1.5 text-xs text-gray-600">
-                <li>✓ Monthly CSV reminder</li>
-                <li>✓ Rate drift checks (processing + all-in)</li>
-                <li>✓ Private report history as it ships</li>
-              </ul>
-              <Link href="/monitor" className="mt-4 inline-flex text-sm font-semibold text-blue-600 hover:underline">
-                Start Fee Monitor →
-              </Link>
-            </div>
           </div>
+          <p className="mt-6 text-center text-sm text-gray-600">
+            Want monthly CSV reminders and rate drift checks?{" "}
+            <Link href="/monitor" className="font-semibold text-blue-600 hover:underline">
+              Fee Monitor ($9/mo)
+            </Link>
+          </p>
           <div className="mt-10 flex flex-col items-center gap-4">
             <TrackedLink
               href="/analyze"
@@ -549,10 +488,10 @@ export default function HomePage() {
           <h2 className="text-center text-2xl font-bold text-gray-900 mb-8">
             Security &amp; trust
           </h2>
-          <LandingFaq />
+          <LandingFaq itemIds={LANDING_FAQ_HOME_IDS} />
           <p className="mt-6 text-center text-sm text-gray-500">
-            More detail in{" "}
-            <Link href="/how-it-works" className="text-blue-600 hover:underline">
+            More questions in{" "}
+            <Link href="/how-it-works#faq" className="text-blue-600 hover:underline">
               How it works
             </Link>
             {" "}and our{" "}
