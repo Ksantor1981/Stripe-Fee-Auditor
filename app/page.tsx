@@ -290,7 +290,7 @@ export default function HomePage() {
               src="/screenshots/report-preview.png"
               alt="Stripe Fee Auditor report: Fee Grade D, $498.76 in quarter fees, 6.33% processing rate, 6.67% all-in cost, and comparison vs advertised 2.9% card pricing"
               width={1024}
-              height={724}
+              height={728}
               unoptimized
               sizes="(min-width: 1024px) 960px, 100vw"
               className="h-auto w-full"
