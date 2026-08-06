@@ -5,35 +5,31 @@ import Link from "next/link";
 import { ChevronDownIcon, MenuIcon, XIcon } from "lucide-react";
 import { TrackedLink } from "@/components/TrackedLink";
 
-const PRODUCT_ITEMS = [
+const PRODUCT_ACTIONS = [
   {
     href: "/analyze",
-    title: "Rate analysis",
-    desc: "Upload your CSV — see your real all-in cost",
-    utm: { source: "landing", medium: "nav", campaign: "nav_product_rate" },
+    title: "Upload CSV",
+    desc: "Your Balance export — free diagnosis, no signup",
+    utm: { source: "landing", medium: "nav", campaign: "nav_product_upload" },
     funnelEvent: "funnel_landing_cta" as const,
+    primary: true,
   },
   {
-    href: "/analyze",
-    title: "Fee breakdown",
-    desc: "International cards, refunds, small-ticket drag",
-    utm: { source: "landing", medium: "nav", campaign: "nav_product_breakdown" },
-    funnelEvent: "funnel_landing_cta" as const,
+    href: "/analyze?sample=1",
+    title: "See sample report",
+    desc: "Demo CSV — opens a full example report in ~10s",
+    utm: { source: "landing", medium: "nav", campaign: "nav_product_sample" },
+    funnelEvent: "funnel_sample_cta" as const,
+    primary: false,
   },
-  {
-    href: "/analyze",
-    title: "Savings finder",
-    desc: "Concrete actions to reduce your rate",
-    utm: { source: "landing", medium: "nav", campaign: "nav_product_savings" },
-    funnelEvent: "funnel_landing_cta" as const,
-  },
-  {
-    href: "/analyze",
-    title: "Benchmarking",
-    desc: "Compare against your transaction mix",
-    utm: { source: "landing", medium: "nav", campaign: "nav_product_benchmark" },
-    funnelEvent: "funnel_landing_cta" as const,
-  },
+] as const;
+
+/** Shown as labels only — one product, not four separate pages. */
+const PRODUCT_INCLUDES = [
+  { title: "Rate analysis", desc: "Real all-in cost vs dashboard 2.9%" },
+  { title: "Fee breakdown", desc: "International cards, refunds, fixed-fee drag" },
+  { title: "Savings finder", desc: "Ranked actions with Stripe dashboard links" },
+  { title: "Benchmarking", desc: "Compare against your transaction mix" },
 ] as const;
 
 const RESOURCE_ITEMS = [
@@ -133,19 +129,32 @@ export function LandingNav() {
               panelId="nav-product-menu"
             >
               <div className="grid gap-0.5 sm:min-w-[24rem]">
-                {PRODUCT_ITEMS.map((item) => (
+                {PRODUCT_ACTIONS.map((item) => (
                   <TrackedLink
                     key={item.title}
                     href={item.href}
                     utm={item.utm}
                     funnelEvent={item.funnelEvent}
                     funnelProps={{ placement: "nav_product" }}
-                    className="rounded-lg px-3 py-3 hover:bg-gray-50 transition-colors"
+                    className={`rounded-lg px-3 py-3 transition-colors ${
+                      item.primary ? "bg-gray-900 text-white hover:bg-gray-800" : "hover:bg-gray-50"
+                    }`}
                     onClick={closeMenus}
                   >
-                    <p className="text-base font-semibold text-gray-900">{item.title}</p>
-                    <p className="text-sm text-gray-500">{item.desc}</p>
+                    <p className={`text-base font-semibold ${item.primary ? "text-white" : "text-gray-900"}`}>
+                      {item.title}
+                    </p>
+                    <p className={`text-sm ${item.primary ? "text-gray-200" : "text-gray-500"}`}>{item.desc}</p>
                   </TrackedLink>
+                ))}
+                <p className="px-3 pt-3 pb-1 text-[11px] font-semibold uppercase tracking-widest text-gray-400">
+                  Every report includes
+                </p>
+                {PRODUCT_INCLUDES.map((item) => (
+                  <div key={item.title} className="rounded-lg px-3 py-2.5">
+                    <p className="text-sm font-semibold text-gray-900">{item.title}</p>
+                    <p className="text-sm text-gray-500">{item.desc}</p>
+                  </div>
                 ))}
               </div>
             </NavDropdown>
@@ -216,19 +225,32 @@ export function LandingNav() {
         {mobileOpen ? (
           <div id="landing-mobile-nav" className="lg:hidden mt-3 rounded-xl border border-gray-100 bg-white p-3 shadow-sm space-y-3">
             <p className="px-2 text-xs font-semibold uppercase tracking-widest text-gray-400">Product</p>
-            {PRODUCT_ITEMS.map((item) => (
+            {PRODUCT_ACTIONS.map((item) => (
               <TrackedLink
                 key={item.title}
                 href={item.href}
                 utm={item.utm}
                 funnelEvent={item.funnelEvent}
                 funnelProps={{ placement: "nav_mobile_product" }}
-                className="block rounded-lg px-2 py-2 hover:bg-gray-50"
+                className={`block rounded-lg px-2 py-2 ${
+                  item.primary ? "bg-gray-900 text-white hover:bg-gray-800" : "hover:bg-gray-50"
+                }`}
                 onClick={() => setMobileOpen(false)}
               >
+                <p className={`text-base font-semibold ${item.primary ? "text-white" : "text-gray-900"}`}>
+                  {item.title}
+                </p>
+                <p className={`text-sm ${item.primary ? "text-gray-200" : "text-gray-500"}`}>{item.desc}</p>
+              </TrackedLink>
+            ))}
+            <p className="px-2 pt-2 text-[11px] font-semibold uppercase tracking-widest text-gray-400">
+              Every report includes
+            </p>
+            {PRODUCT_INCLUDES.map((item) => (
+              <div key={item.title} className="rounded-lg px-2 py-2">
                 <p className="text-base font-semibold text-gray-900">{item.title}</p>
                 <p className="text-sm text-gray-500">{item.desc}</p>
-              </TrackedLink>
+              </div>
             ))}
             <Link
               href="/how-it-works"
