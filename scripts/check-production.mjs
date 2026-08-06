@@ -5,9 +5,9 @@ const checks = [
     path: "/",
     containsAny: [
       ["Free diagnosis · no signup", "Free diagnosis first", "Free preview"],
-      ["See sample report", "Analyze my CSV"],
-      "No OAuth · raw CSV is not stored · independent tool",
-      ["One audit · $12", "$12 = one CSV audit"],
+      ["Upload CSV", "Analyze my CSV"],
+      ["$12 · one CSV audit", "One audit · $12", "$12 = one CSV audit"],
+      ["Three steps", "How we find them"],
       "effective rate often",
       "What one real export showed",
     ],
