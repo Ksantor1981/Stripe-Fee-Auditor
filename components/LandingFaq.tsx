@@ -9,6 +9,19 @@ import {
 
 export const LANDING_FAQ_ITEMS = [
   {
+    id: "useful-for-me",
+    q: "Is Fee Auditor useful for my business?",
+    text: [
+      "Useful if you have international cards, refunds, small subscriptions, or a Stripe rate that feels higher than expected. Skip if you only have a few domestic high-ticket charges and just need a rough spreadsheet formula.",
+    ],
+    a: (
+      <p>
+        Useful if you have international cards, refunds, small subscriptions, or a Stripe rate that feels higher than expected.
+        Skip if you only have a few domestic high-ticket charges and just need a rough spreadsheet formula.
+      </p>
+    ),
+  },
+  {
     id: "store-csv",
     q: "Do you store my Stripe CSV file?",
     text: [
@@ -98,7 +111,7 @@ export function LandingFaq() {
           <AccordionTrigger className="text-sm font-semibold text-gray-900 py-4 hover:no-underline">
             {item.q}
           </AccordionTrigger>
-          <AccordionContent className="text-sm text-gray-600 leading-relaxed pb-4 space-y-2">
+          <AccordionContent className="text-base text-gray-600 leading-relaxed pb-4 space-y-2">
             {item.a}
           </AccordionContent>
         </AccordionItem>

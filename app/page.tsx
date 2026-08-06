@@ -3,8 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { LandingFaq } from "@/components/LandingFaq";
 import { LandingNav } from "@/components/LandingNav";
-import { NewsletterSignupForm } from "@/components/NewsletterSignupForm";
-import { StripeFeeMiniEstimate } from "@/components/stripe-fee-mini-estimate";
 import { TrackedLink } from "@/components/TrackedLink";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { chromeExtensionInstallHref } from "@/lib/chrome-extension";
@@ -40,18 +38,22 @@ export const metadata: Metadata = {
   },
 };
 
-const TRUST_SIGNALS = [
-  { icon: "✓", label: "No Stripe API access" },
-  { icon: "✓", label: "Server analysis, no raw file storage" },
-  { icon: "✓", label: "No account signup" },
-  { icon: "✓", label: "No ads or profiling" },
-  { icon: "✓", label: "Core logic on GitHub" },
-  { icon: "✓", label: "Usually under 30 seconds" },
-];
-
 const reportsAnalyzedCount = Number(process.env.NEXT_PUBLIC_REPORTS_ANALYZED_COUNT ?? 0);
 const hasReportsAnalyzedCount = Number.isFinite(reportsAnalyzedCount) && reportsAnalyzedCount > 0;
 const reportsAnalyzedLabel = new Intl.NumberFormat("en-US").format(reportsAnalyzedCount);
+
+const PROOF_STATS = [
+  { label: "Stripe fees", value: "$3,597.77" },
+  { label: "Processing rate", value: "3.82%" },
+  { label: "All-in cost", value: "4.02%" },
+  { label: "High-fee charges", value: "447" },
+] as const;
+
+const PAIN_LINKS = [
+  { href: "/blog/stripe-international-card-fees", label: "International card fees" },
+  { href: "/why-stripe-fee-rate-higher-than-2-9", label: "Refund fees not returned" },
+  { href: "/blog/why-stripe-fees-increase", label: "Rate / payout drift" },
+] as const;
 
 const INDEPENDENT_FEEDBACK = {
   quote: "Focused single-purpose tool with a compelling privacy differentiator.",
@@ -74,65 +76,17 @@ const HOW_IT_WORKS = [
   {
     step: "3",
     title: "See your real rate",
-    body: "Processing rate, all-in cost, fee mix chart, monthly timeline, benchmark, high-fee charges when your volume allows, and savings ideas.",
-  },
-];
-
-const WHAT_YOU_GET = [
-  { marker: "RATE", title: "Processing rate vs all-in cost", desc: "Separate the card/charge processing rate from the all-in Stripe cost rate across refunds, payouts, disputes, and other fee lines." },
-  { marker: "BENCH", title: "Is your rate normal?", desc: "A rough benchmark range for your transaction mix, so you can see whether your rate is expected or unusually high." },
-  { marker: "WHY", title: "Why your rate is higher", desc: "International cards, small transactions, Amex, currency conversion — pinpointed by transaction." },
-  { marker: "REFUND", title: "Refund fee leakage", desc: "Estimate how much retained processing fees on refunds are quietly eating into margin." },
-  { marker: "SAVE", title: "Savings opportunities", desc: "Directional annual estimates for ACH, local payments, or bundling — prioritization, not guaranteed savings." },
-];
-
-const CALCULATOR_VS_AUDIT = [
-  {
-    label: "Fee calculator",
-    title: "Estimate the published cost",
-    rate: "2.9% + $0.30",
-    tone: "gray",
-    points: [
-      "Uses product price and rough assumptions",
-      "Good before you launch or change pricing",
-      "Misses refunds, card mix, add-ons, and real monthly drift",
-    ],
-  },
-  {
-    label: "CSV fee audit",
-    title: "Check what you actually paid",
-    rate: "3.82% / 4.02%",
-    tone: "blue",
-    points: [
-      "Uses your itemized Stripe Balance export",
-      "Separates processing rate from all-in Stripe cost",
-      "Shows fee drivers, high-fee charges, and savings ideas",
-    ],
-  },
-] as const;
-
-const PRICING_COMPARISON = [
-  {
-    label: "Spreadsheet",
-    price: "$0",
-    fit: "Good if you only need one blended-rate formula.",
-    tradeoff: "You rebuild monthly trends, high-fee rows, refund leakage, and exports yourself.",
-  },
-  {
-    label: "Broad SaaS analytics",
-    price: "$100+/mo at scale",
-    fit: "Good when you need MRR, churn, cohort, and subscription analytics.",
-    tradeoff: "Often needs OAuth or deeper account access when your only question is payment fees.",
-  },
-  {
-    label: "Fee Auditor",
-    price: "$12 once or $9/mo",
-    fit: "Good when you want a narrow Stripe fee audit from a CSV in minutes.",
-    tradeoff: "Focused on fee clarity, not a full subscription analytics suite.",
+    body: "Processing rate vs all-in cost, why your rate is higher (international cards, small transactions), refund fee leakage, benchmark context, high-fee charges when your volume allows, and savings ideas.",
   },
 ];
 
 const FAQ_JSON_LD_ITEMS = [
+  {
+    q: "Is Fee Auditor useful for my business?",
+    text: [
+      "Useful if you have international cards, refunds, small subscriptions, or a Stripe rate that feels higher than expected. Skip if you only have a few domestic high-ticket charges and just need a rough spreadsheet formula.",
+    ],
+  },
   {
     q: "Do you store my Stripe CSV file?",
     text: [
@@ -257,20 +211,20 @@ export default function HomePage() {
 
       {FULL_REPORTS_FREE_DURING_BETA ? (
         <div className="bg-emerald-600 px-4 py-2.5 text-center text-sm font-medium text-white">
-          Free right now — full reports lock to paid after launch.{" "}
+          Free diagnosis · no signup.{" "}
           <TrackedLink
-            href="/analyze"
+            href="/analyze?sample=1"
             utm={{ source: "landing", medium: "banner", campaign: "beta_banner" }}
-            funnelEvent="funnel_landing_cta"
+            funnelEvent="funnel_sample_cta"
             funnelProps={{ placement: "beta_banner" }}
             className="underline underline-offset-2 hover:text-emerald-100 transition-colors"
           >
-            Try it now →
+            See sample report →
           </TrackedLink>
         </div>
       ) : (
         <div className="bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white">
-          Free diagnosis from your Balance CSV — no signup, no OAuth.{" "}
+          Free diagnosis · no signup.{" "}
           <TrackedLink
             href="/analyze?sample=1"
             utm={{ source: "landing", medium: "banner", campaign: "launch_banner_sample" }}
@@ -278,15 +232,15 @@ export default function HomePage() {
             funnelProps={{ placement: "launch_banner" }}
             className="underline underline-offset-2 hover:text-blue-100 transition-colors"
           >
-            Try sample in 10s →
+            See sample report →
           </TrackedLink>
         </div>
       )}
 
       <LandingNav />
 
-      {/* Hero — Problem */}
-      <section id="problem" className="flex flex-col items-center justify-center px-4 py-20 text-center scroll-mt-14">
+      {/* Hero — Curiosity */}
+      <section id="problem" className="flex flex-col items-center justify-center px-4 py-12 sm:py-16 text-center scroll-mt-14">
         <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">
           Fee Auditor · feeauditor.com
         </p>
@@ -296,39 +250,20 @@ export default function HomePage() {
           <span className="text-blue-600">Your effective rate often isn&apos;t.</span>
         </h1>
         <h2 className="sr-only">Stripe effective rate, refund leakage, and international card fees</h2>
-        <p className="mt-5 max-w-xl text-lg text-gray-500 leading-relaxed">
-          Upload a Balance CSV and see the concrete drivers — international cards, refund fees that
-          aren&apos;t returned, small-ticket drag, and other fee lines. Free diagnosis first. No
-          OAuth. Raw CSV is not stored; we keep only redacted calculated results.
+        <p className="mt-5 max-w-xl text-base text-gray-600 leading-relaxed">
+          Upload a Balance CSV and see your real rate and the top driver behind it.
         </p>
 
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
-          {[
-            { href: "/blog/stripe-international-card-fees", label: "International card fees" },
-            { href: "/why-stripe-fee-rate-higher-than-2-9", label: "Refund fees not returned" },
-            { href: "/blog/why-stripe-fees-increase", label: "Rate / payout drift" },
-          ].map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-gray-700 shadow-sm hover:border-blue-200 hover:text-blue-700"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-
-        {/* CTAs */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center gap-3">
+        <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full max-w-md sm:max-w-none sm:w-auto">
           <TrackedLink
             href="/analyze"
             utm={{ source: "landing", medium: "cta", campaign: "hero_primary" }}
             funnelEvent="funnel_landing_cta"
             funnelProps={{ placement: "hero_primary" }}
-            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow-md hover:bg-blue-700 active:scale-95 transition-all"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow-md hover:bg-blue-700 active:scale-95 transition-all"
           >
-            See my rate + one driver — Free
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            Analyze my CSV — free
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </TrackedLink>
@@ -337,136 +272,240 @@ export default function HomePage() {
             utm={{ source: "landing", medium: "cta", campaign: "hero_sample" }}
             funnelEvent="funnel_sample_cta"
             funnelProps={{ placement: "hero_sample" }}
-            className="inline-flex items-center gap-2 rounded-xl border border-blue-200 bg-white px-6 py-4 text-base font-semibold text-blue-700 hover:border-blue-300 hover:bg-blue-50 transition-all"
+            className="inline-flex items-center justify-center rounded-xl border border-blue-200 bg-white px-8 py-4 text-base font-semibold text-blue-700 hover:border-blue-300 hover:bg-blue-50 transition-all"
           >
-            Try sample in 10s
+            See sample report
           </TrackedLink>
         </div>
-        <p className="mt-4 max-w-lg text-xs leading-relaxed text-gray-500">
-          Fee Auditor (feeauditor.com) is an independent tool. Not affiliated with, endorsed by, or
-          part of Stripe, Inc.
+        <p className="mt-4 text-sm text-gray-500">
+          No OAuth · raw CSV is not stored · independent tool
         </p>
-        <div className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm">
-          <Link
-            href="#instant-estimate"
-            className="font-medium text-gray-500 underline underline-offset-2 hover:text-blue-600"
-          >
-            Quick fee estimate first →
-          </Link>
-          <Link
-            href="/blog/how-i-found-1400-in-hidden-stripe-fees"
-            className="font-medium text-gray-500 underline underline-offset-2 hover:text-blue-600"
-          >
-            Case study (~$1,400) →
-          </Link>
-        </div>
 
-        <div className="mt-10 w-full max-w-5xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60">
-          <Image
-            src="/screenshots/report-preview.png"
-            alt="Stripe Fee Auditor report showing $3,597.77 in fees, 3.82% processing rate, 4.02% all-in cost rate, and savings teaser"
-            width={1076}
-            height={777}
-            priority
-            sizes="(min-width: 1024px) 960px, 100vw"
-            className="h-auto w-full"
-          />
-        </div>
-
-        {/* Trust signals */}
-        <div className="mt-8 w-full max-w-3xl rounded-2xl border border-slate-100 bg-slate-50/60 px-4 py-3.5">
-          <div className="grid gap-2 text-left sm:grid-cols-3 sm:text-center lg:grid-cols-6">
-            {TRUST_SIGNALS.map(({ icon, label }) => (
-              <div key={label} className="flex items-center justify-center gap-1.5 text-sm font-medium text-gray-700">
-                <span className="text-blue-600">{icon}</span>
-                <span>{label}</span>
-              </div>
-            ))}
-          </div>
-          <div className="mt-3 flex flex-wrap justify-center gap-x-4 gap-y-1 border-t border-slate-100 pt-3 text-xs text-gray-500">
-            <Link href="/how-it-works" className="font-medium text-blue-600 hover:underline">
-              See exactly how uploads are handled
-            </Link>
-            <a
-              href="https://github.com/Ksantor1981/Stripe-Fee-Auditor"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-blue-600 hover:underline"
-            >
-              View core logic on GitHub
-            </a>
-          </div>
-        </div>
         {hasReportsAnalyzedCount && (
-          <p className="mt-3 text-xs font-medium text-gray-500">
+          <p className="mt-3 text-sm font-medium text-gray-500">
             {reportsAnalyzedLabel} reports analyzed in beta
           </p>
         )}
+      </section>
 
-        <div className="mt-6 w-full max-w-2xl rounded-2xl border border-slate-200 bg-white px-5 py-4 text-left shadow-sm">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
-            <div
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-900 text-sm font-bold text-white"
-              aria-hidden
-            >
-              “
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
-                Independent feedback
-              </p>
-              <p className="mt-1 text-sm leading-relaxed text-gray-700">
-                “{INDEPENDENT_FEEDBACK.quote}”
-              </p>
-              <p className="mt-2 text-xs text-gray-500">
-                {INDEPENDENT_FEEDBACK.name}, {INDEPENDENT_FEEDBACK.role} ·{" "}
-                <a
-                  href={INDEPENDENT_FEEDBACK.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium text-blue-600 hover:text-blue-800 hover:underline"
-                >
-                  PagePulse
-                </a>
-              </p>
-            </div>
+      {/* Proof */}
+      <section className="bg-gray-50 px-4 py-14 scroll-mt-14" aria-labelledby="proof-heading">
+        <div className="mx-auto max-w-5xl">
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
+            Proof
+          </p>
+          <h2 id="proof-heading" className="text-center text-2xl font-bold text-gray-900">
+            What one real export showed
+          </h2>
+
+          <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-3 text-center">
+            {PROOF_STATS.map(({ label, value }) => (
+              <div key={label}>
+                <p className="text-2xl font-bold text-gray-900">{value}</p>
+                <p className="mt-0.5 text-sm text-gray-500">{label}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60">
+            <Image
+              src="/screenshots/report-preview.png"
+              alt="Stripe Fee Auditor report showing $3,597.77 in fees, 3.82% processing rate, 4.02% all-in cost rate, and savings teaser"
+              width={1076}
+              height={777}
+              sizes="(min-width: 1024px) 960px, 100vw"
+              className="h-auto w-full"
+            />
+          </div>
+
+          <div className="mt-8 text-center">
+            <p className="text-sm font-medium text-gray-700">What usually drives it</p>
+            <p className="mt-2 text-sm text-gray-600">
+              {PAIN_LINKS.map((item, index) => (
+                <span key={item.href}>
+                  {index > 0 && <span className="text-gray-300"> · </span>}
+                  <Link href={item.href} className="text-blue-600 hover:underline">
+                    {item.label}
+                  </Link>
+                </span>
+              ))}
+            </p>
+            <p className="mt-3 text-sm text-gray-500">
+              <Link href="/stripe-fee-calculator" className="text-blue-600 hover:underline">
+                Fee estimate
+              </Link>
+              {" · "}
+              <Link
+                href="/blog/how-i-found-1400-in-hidden-stripe-fees"
+                className="text-blue-600 hover:underline"
+              >
+                Read the case study →
+              </Link>
+            </p>
+          </div>
+
+          <div className="mx-auto mt-8 max-w-2xl rounded-2xl border border-slate-200 bg-white px-5 py-4 text-left shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+              Independent feedback
+            </p>
+            <p className="mt-2 text-base leading-relaxed text-gray-700">
+              &ldquo;{INDEPENDENT_FEEDBACK.quote}&rdquo;
+            </p>
+            <p className="mt-2 text-sm text-gray-500">
+              {INDEPENDENT_FEEDBACK.name}, {INDEPENDENT_FEEDBACK.role} ·{" "}
+              <a
+                href={INDEPENDENT_FEEDBACK.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-blue-600 hover:text-blue-800 hover:underline"
+              >
+                PagePulse
+              </a>
+            </p>
           </div>
         </div>
+      </section>
 
-        <div className="mt-4 w-full max-w-2xl rounded-2xl border border-blue-100 bg-blue-50/60 px-5 py-4 text-left shadow-sm">
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue-700">
-            Founder feedback
+      {/* Interaction — How we find them */}
+      <section id="how-it-works" className="bg-white px-4 py-16 scroll-mt-14">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
+            How it works
           </p>
-          <p className="mt-2 text-sm leading-relaxed text-gray-700">
-            “I never thought to audit payment costs from a Stripe Balance CSV. The preview made the
-            fee drivers obvious; next month I will test the recommendations around international
-            cards and small-charge drag, then compare the new export.”
-          </p>
-          <p className="mt-2 text-sm font-semibold text-gray-900">
-            Ivan Chernov
-          </p>
-        </div>
-
-        <div className="mt-6 w-full max-w-2xl rounded-2xl border border-blue-100 bg-blue-50/70 px-5 py-5 text-center">
-          <p className="font-semibold text-gray-900">Get monthly Stripe fee tips</p>
-          <p className="mt-1 text-sm leading-relaxed text-gray-600">
-            One practical email per month: fee drivers, CSV checks, and payment-cost fixes. No spam.
-          </p>
-          <NewsletterSignupForm source="landing_hero" />
+          <h2 className="mb-10 text-center text-2xl font-bold text-gray-900">How we find them</h2>
+          <div className="grid gap-6 sm:grid-cols-3">
+            {HOW_IT_WORKS.map(({ step, title, body }) => {
+              const stepBody =
+                step === "2" && !FULL_REPORTS_FREE_DURING_BETA
+                  ? "The CSV is sent to our server for analysis, but the raw file is not stored as a file. Upload once for a free preview immediately — no card required. Unlock the full report for $12 when you want high-fee charge details, exports, and savings actions."
+                  : body;
+              return (
+                <div key={step} className="relative rounded-xl border border-gray-100 bg-gray-50 p-6 shadow-sm">
+                  <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">
+                    {step}
+                  </div>
+                  <h3 className="mb-1.5 font-semibold text-gray-900">{title}</h3>
+                  <p className="text-base text-gray-600 leading-relaxed">{stepBody}</p>
+                </div>
+              );
+            })}
+          </div>
+          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <TrackedLink
+              href="/analyze?sample=1"
+              utm={{ source: "landing", medium: "cta", campaign: "mid_sample" }}
+              funnelEvent="funnel_sample_cta"
+              funnelProps={{ placement: "mid_sample" }}
+              className="inline-flex items-center justify-center rounded-xl border border-blue-200 bg-white px-6 py-3 text-sm font-semibold text-blue-700 hover:border-blue-300 hover:bg-blue-50 transition-colors"
+            >
+              See sample report →
+            </TrackedLink>
+            <Link
+              href="/stripe-fee-calculator"
+              className="text-sm font-medium text-gray-500 underline underline-offset-2 hover:text-blue-600"
+            >
+              Fee estimate without CSV →
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Instant estimate — no CSV required */}
-      <section className="bg-slate-50 px-4 py-14 scroll-mt-14" aria-labelledby="instant-estimate-heading">
-        <div className="mx-auto max-w-4xl">
-          <p className="sr-only" id="instant-estimate-heading">
-            Estimate your real Stripe fee rate before uploading a CSV
+      {/* Pricing — Result */}
+      <section id="pricing" className="px-4 py-16 bg-white scroll-mt-14">
+        <div className="mx-auto max-w-5xl">
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
+            Pricing
           </p>
-          <StripeFeeMiniEstimate compact />
+          <h2 className="text-center text-2xl font-bold text-gray-900 mb-3">
+            One audit or a monthly check-in
+          </h2>
+          <p className="mx-auto mb-8 max-w-2xl text-center text-base text-gray-600 leading-relaxed">
+            $12 = one CSV audit. $9/mo = a monthly reminder to re-check. Not a subscription to a
+            dashboard.
+          </p>
+          <div className="grid gap-4 md:grid-cols-3">
+            {FULL_REPORTS_FREE_DURING_BETA ? (
+              <>
+                <div className="rounded-2xl border-2 border-emerald-200 bg-emerald-50/80 p-6 shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 mb-1">During beta</p>
+                  <p className="text-2xl font-bold text-gray-900 mb-2">Full report — free</p>
+                  <p className="text-base text-emerald-900/90 leading-relaxed">
+                    High-fee charge details, savings ideas, exports, and dashboard charts while beta lasts. Private link with automatic expiry — see Terms.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">After launch</p>
+                  <p className="text-2xl font-bold text-gray-900 mb-2">Free preview + $12 unlock</p>
+                  <p className="text-base text-gray-600 leading-relaxed">
+                    Preview first, then pay once to open the full analysis for one upload for 30 days.
+                  </p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Free preview</p>
+                  <p className="text-2xl font-bold text-gray-900 mb-2">No card required</p>
+                  <p className="text-base text-gray-600 leading-relaxed">
+                    Headline rates, top fee drivers, and — when found — a directional annual impact teaser
+                    (e.g. potential ~$1,400/yr). Enough to decide if a full unlock is worth $12.
+                  </p>
+                </div>
+                <div className="rounded-2xl border-2 border-blue-200 bg-blue-50/80 p-6 shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-blue-700 mb-1">
+                    One audit · $12
+                  </p>
+                  <p className="text-2xl font-bold text-gray-900 mb-2">This CSV, once</p>
+                  <p className="text-base text-blue-900/90 leading-relaxed">
+                    Full high-fee rows, savings actions with caveats, monthly detail, CSV + print export —
+                    private link for 30 days. Pay once to inspect what the preview only teased.
+                  </p>
+                  <p className="mt-3 text-xs text-gray-500">
+                    Refund available if payment succeeds but the report does not unlock.
+                  </p>
+                </div>
+              </>
+            )}
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
+              <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                Monthly habit · $9/mo
+              </p>
+              <p className="mb-2 text-2xl font-bold text-gray-900">Did it get worse?</p>
+              <p className="text-base leading-relaxed text-gray-600">
+                Not another dashboard. A monthly reminder to upload a fresh Balance CSV, compare rate
+                drift vs last month, and catch fee leaks before they feel normal. No Stripe OAuth.
+              </p>
+              <ul className="mt-3 space-y-1.5 text-xs text-gray-600">
+                <li>✓ Monthly CSV reminder</li>
+                <li>✓ Rate drift checks (processing + all-in)</li>
+                <li>✓ Private report history as it ships</li>
+              </ul>
+              <Link href="/monitor" className="mt-4 inline-flex text-sm font-semibold text-blue-600 hover:underline">
+                Start Fee Monitor →
+              </Link>
+            </div>
+          </div>
+          <div className="mt-10 flex flex-col items-center gap-4">
+            <TrackedLink
+              href="/analyze"
+              utm={{ source: "landing", medium: "cta", campaign: "footer" }}
+              funnelEvent="funnel_landing_cta"
+              funnelProps={{ placement: "footer" }}
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow hover:bg-blue-700 transition-colors"
+            >
+              Analyze my CSV
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </TrackedLink>
+            <Link href="/stripe-fee-calculator" className="text-sm font-medium text-gray-500 underline underline-offset-2 hover:text-blue-600">
+              Estimate first →
+            </Link>
+          </div>
         </div>
       </section>
 
-      <section className="bg-white px-4 py-10" aria-labelledby="chrome-helper-heading">
+      <section className="bg-gray-50 px-4 py-10" aria-labelledby="chrome-helper-heading">
         <div className="mx-auto max-w-4xl rounded-2xl border border-blue-100 bg-blue-50/60 p-5 shadow-sm">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="max-w-xl">
@@ -476,10 +515,9 @@ export default function HomePage() {
               <h2 id="chrome-helper-heading" className="mt-1 text-xl font-bold text-gray-900">
                 Install the Chrome helper for export shortcuts and monthly reminders
               </h2>
-              <p className="mt-2 text-sm leading-relaxed text-gray-600">
+              <p className="mt-2 text-base leading-relaxed text-gray-600">
                 Opens the Stripe Balance export flow, sends you back to analyze the CSV, and can remind
-                you every month. No Stripe page reading, no OAuth, no API keys. Sample report stays the
-                main path.
+                you every month. No Stripe page reading, no OAuth, no API keys.
               </p>
             </div>
             <div className="flex shrink-0 flex-col gap-2 sm:flex-row md:flex-col">
@@ -495,326 +533,8 @@ export default function HomePage() {
                 href="/analyze?sample=1"
                 className="inline-flex justify-center rounded-xl border border-blue-200 bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-50"
               >
-                Try sample first
+                See sample report
               </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* What the report tells you */}
-      <section className="bg-white px-4 py-16" aria-labelledby="calculator-vs-audit-heading">
-        <div className="mx-auto max-w-4xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
-              Calculator vs reality
-            </p>
-            <h2 id="calculator-vs-audit-heading" className="text-2xl font-bold text-gray-900">
-              Fee calculators estimate. Your Stripe CSV tells the truth.
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-gray-500">
-              A calculator is useful before you sell. Once payments are live, your Balance export shows
-              the real mix: international cards, refunds, small charges, payout fees, and monthly drift.
-            </p>
-          </div>
-
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {CALCULATOR_VS_AUDIT.map((item) => (
-              <div
-                key={item.label}
-                className={`rounded-2xl border p-6 shadow-sm ${
-                  item.tone === "blue"
-                    ? "border-blue-200 bg-blue-50/70"
-                    : "border-gray-200 bg-gray-50"
-                }`}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p
-                      className={`text-xs font-semibold uppercase tracking-widest ${
-                        item.tone === "blue" ? "text-blue-700" : "text-gray-500"
-                      }`}
-                    >
-                      {item.label}
-                    </p>
-                    <h3 className="mt-1 text-lg font-bold text-gray-900">{item.title}</h3>
-                  </div>
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                      item.tone === "blue"
-                        ? "bg-white text-blue-700"
-                        : "bg-white text-gray-600"
-                    }`}
-                  >
-                    {item.rate}
-                  </span>
-                </div>
-                <ul className="mt-5 space-y-3">
-                  {item.points.map((point) => (
-                    <li key={point} className="flex gap-2 text-sm leading-relaxed text-gray-600">
-                      <span className={item.tone === "blue" ? "text-blue-600" : "text-gray-400"}>✓</span>
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <TrackedLink
-              href="/analyze"
-              utm={{ source: "landing", medium: "cta", campaign: "calculator_vs_audit" }}
-              funnelEvent="funnel_landing_cta"
-              funnelProps={{ placement: "calculator_vs_audit" }}
-              className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-blue-700 transition-colors"
-            >
-              Audit my real Stripe CSV
-            </TrackedLink>
-            <Link
-              href="/stripe-fee-calculator"
-              className="text-sm font-medium text-gray-500 underline underline-offset-2 hover:text-blue-600"
-            >
-              Start with a quick estimate first
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-gray-50 px-4 py-16">
-        <div className="mx-auto max-w-4xl">
-          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
-            What the report tells you
-          </p>
-          <h2 className="text-center text-2xl font-bold text-gray-900 mb-10">
-            Not just a number — a full breakdown
-          </h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {WHAT_YOU_GET.map(({ marker, title, desc }) => (
-              <div key={title} className="rounded-xl bg-white p-5 shadow-sm border border-gray-100 flex gap-4">
-                <span className="flex h-9 w-12 flex-shrink-0 items-center justify-center rounded-lg border border-blue-100 bg-blue-50 text-[10px] font-bold tracking-wide text-blue-700">
-                  {marker}
-                </span>
-                <div>
-                  <p className="font-semibold text-gray-900 mb-1">{title}</p>
-                  <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-8 text-center">
-            <TrackedLink
-              href="/analyze?sample=1"
-              utm={{ source: "landing", medium: "cta", campaign: "mid_sample" }}
-              funnelEvent="funnel_landing_cta"
-              funnelProps={{ placement: "mid_sample" }}
-              className="text-sm text-blue-600 hover:underline"
-            >
-              See a sample report without uploading anything →
-            </TrackedLink>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-white px-4 py-16">
-        <div className="mx-auto max-w-3xl rounded-2xl border border-blue-100 bg-blue-50/60 p-6 shadow-sm">
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue-700">
-            Case study
-          </p>
-          <h2 className="mt-2 text-2xl font-bold text-gray-900">
-            One sample export showed a 4.02% all-in Stripe cost
-          </h2>
-          <p className="mt-3 text-sm leading-relaxed text-gray-600">
-            The four-month CSV showed $3,597.77 in Stripe fees, a 3.82% card processing rate,
-            a 4.02% all-in cost, 447 high-fee charges, and up to ~$1,400/year in directional
-            savings opportunities.
-          </p>
-          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-            <TrackedLink
-              href="/analyze"
-              utm={{ source: "landing", medium: "cta", campaign: "case_study" }}
-              funnelEvent="funnel_landing_cta"
-              funnelProps={{ placement: "case_study" }}
-              className="inline-flex justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
-            >
-              Analyze My CSV →
-            </TrackedLink>
-            <Link
-              href="/blog/how-i-found-1400-in-hidden-stripe-fees"
-              className="inline-flex justify-center rounded-xl border border-blue-100 bg-white px-5 py-3 text-sm font-semibold text-blue-700 transition-colors hover:border-blue-200 hover:bg-blue-50"
-            >
-              Read the case study
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Compact fit check */}
-      <section className="bg-white px-4 pb-10">
-        <div className="mx-auto grid max-w-4xl gap-3 rounded-2xl border border-gray-100 bg-gray-50/80 p-4 shadow-sm sm:grid-cols-[0.65fr_1fr_1fr] sm:items-center">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
-              Quick fit check
-            </p>
-            <p className="mt-1 text-sm font-semibold text-gray-900">
-              Start with the free preview.
-            </p>
-          </div>
-          <div className="rounded-xl border border-blue-100 bg-white px-4 py-3">
-            <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">
-              Useful if
-            </p>
-            <p className="mt-1 text-sm leading-relaxed text-gray-600">
-              You have international cards, refunds, small subscriptions, or a Stripe rate that feels higher than expected.
-            </p>
-          </div>
-          <div className="rounded-xl border border-gray-100 bg-white px-4 py-3">
-            <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
-              Skip if
-            </p>
-            <p className="mt-1 text-sm leading-relaxed text-gray-600">
-              You only have a few domestic high-ticket charges and just need a rough spreadsheet formula.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section id="how-it-works" className="bg-gray-50 px-4 py-20 scroll-mt-14">
-        <div className="mx-auto max-w-3xl">
-          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
-            How it works
-          </p>
-          <h2 className="mb-12 text-center text-2xl font-bold text-gray-900">Three steps to clarity</h2>
-          <div className="grid gap-6 sm:grid-cols-3">
-            {HOW_IT_WORKS.map(({ step, title, body }) => {
-              const stepBody =
-                step === "2" && !FULL_REPORTS_FREE_DURING_BETA
-                  ? "The CSV is sent to our server for analysis, but the raw file is not stored as a file. Upload once for a free preview immediately — no card required. Unlock the full report for $12 when you want high-fee charge details, exports, and savings actions."
-                  : body;
-              return (
-              <div key={step} className="relative rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
-                <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">
-                  {step}
-                </div>
-                <h3 className="mb-1.5 font-semibold text-gray-900">{title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{stepBody}</p>
-              </div>
-            );
-            })}
-          </div>
-          <div className="mt-10 text-center">
-            <TrackedLink
-              href="/analyze"
-              utm={{ source: "landing", medium: "cta", campaign: "footer" }}
-              funnelEvent="funnel_landing_cta"
-              funnelProps={{ placement: "footer" }}
-              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow hover:bg-blue-700 transition-colors"
-            >
-              {FULL_REPORTS_FREE_DURING_BETA ? "Get Started — It&apos;s Free" : "Get Started — Free Preview"}
-            </TrackedLink>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing */}
-      <section id="pricing" className="px-4 py-16 bg-white scroll-mt-14">
-        <div className="mx-auto max-w-5xl">
-          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
-            Pricing
-          </p>
-          <h2 className="text-center text-2xl font-bold text-gray-900 mb-8">
-            $12 = one audit. $9/mo = watch it every month.
-          </h2>
-          <div className="grid gap-4 md:grid-cols-3">
-            {FULL_REPORTS_FREE_DURING_BETA ? (
-              <>
-                <div className="rounded-2xl border-2 border-emerald-200 bg-emerald-50/80 p-6 shadow-sm">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 mb-1">During beta</p>
-                  <p className="text-2xl font-bold text-gray-900 mb-2">Full report — free</p>
-                  <p className="text-sm text-emerald-900/90 leading-relaxed">
-                    High-fee charge details, savings ideas, exports, and dashboard charts while beta lasts. Private link with automatic expiry — see Terms.
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">After launch</p>
-                  <p className="text-2xl font-bold text-gray-900 mb-2">Free preview + $12 unlock</p>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    Preview first, then pay once to open the full analysis for one upload for 30 days.
-                  </p>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Free preview</p>
-                  <p className="text-2xl font-bold text-gray-900 mb-2">No card required</p>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    Headline rates, top fee drivers, and — when found — a directional annual impact teaser
-                    (e.g. potential ~$1,400/yr). Enough to decide if a full unlock is worth $12.
-                  </p>
-                </div>
-                <div className="rounded-2xl border-2 border-blue-200 bg-blue-50/80 p-6 shadow-sm">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-blue-700 mb-1">
-                    One audit · $12
-                  </p>
-                  <p className="text-2xl font-bold text-gray-900 mb-2">This CSV, once</p>
-                  <p className="text-sm text-blue-900/90 leading-relaxed">
-                    Full high-fee rows, savings actions with caveats, monthly detail, CSV + print export —
-                    private link for 30 days. Pay once to inspect what the preview only teased.
-                  </p>
-                  <p className="mt-3 text-xs text-gray-500">
-                    Refund available if payment succeeds but the report does not unlock.
-                  </p>
-                </div>
-              </>
-            )}
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
-              <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                Monthly habit · $9/mo
-              </p>
-              <p className="mb-2 text-2xl font-bold text-gray-900">Did it get worse?</p>
-              <p className="text-sm leading-relaxed text-gray-600">
-                Not another dashboard. A monthly reminder to upload a fresh Balance CSV, compare rate
-                drift vs last month, and catch fee leaks before they feel normal. No Stripe OAuth.
-              </p>
-              <ul className="mt-3 space-y-1.5 text-xs text-gray-600">
-                <li>✓ Monthly CSV reminder</li>
-                <li>✓ Rate drift checks (processing + all-in)</li>
-                <li>✓ Private report history as it ships</li>
-              </ul>
-              <Link href="/monitor" className="mt-4 inline-flex text-sm font-semibold text-blue-600 hover:underline">
-                Start Fee Monitor →
-              </Link>
-            </div>
-          </div>
-          <div className="mt-10">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
-                  Narrow audit vs heavy tools
-                </p>
-                <h3 className="mt-1 text-lg font-bold text-gray-900">
-                  If the question is &quot;why are Stripe fees high?&quot;, start smaller.
-                </h3>
-              </div>
-              <Link href="/stripe-fee-calculator" className="text-sm font-semibold text-blue-600 hover:underline">
-                Estimate first →
-              </Link>
-            </div>
-            <div className="mt-5 grid gap-3 md:grid-cols-3">
-              {PRICING_COMPARISON.map((item) => (
-                <div key={item.label} className="rounded-xl border border-gray-200 bg-white p-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <p className="text-sm font-semibold text-gray-900">{item.label}</p>
-                    <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-600">
-                      {item.price}
-                    </span>
-                  </div>
-                  <p className="mt-3 text-sm leading-relaxed text-gray-600">{item.fit}</p>
-                  <p className="mt-2 text-xs leading-relaxed text-gray-400">{item.tradeoff}</p>
-                </div>
-              ))}
             </div>
           </div>
         </div>

@@ -7,23 +7,16 @@ import { TrackedLink } from "@/components/TrackedLink";
 
 const NAV_LINKS = [
   {
+    href: "/#pricing",
+    label: "Pricing",
+    funnelEvent: "funnel_nav_about" as const,
+    funnelProps: { placement: "nav_pricing" },
+    className: "text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors",
+  },
+  {
     href: "/about",
     label: "About",
     funnelEvent: "funnel_nav_about" as const,
-    funnelProps: { placement: "nav" },
-    className: "text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors",
-  },
-  {
-    href: "/how-it-works",
-    label: "How it works",
-    funnelEvent: "funnel_nav_about" as const,
-    funnelProps: { placement: "nav_how_it_works" },
-    className: "text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors",
-  },
-  {
-    href: "/blog",
-    label: "Blog",
-    funnelEvent: "funnel_nav_blog" as const,
     funnelProps: { placement: "nav" },
     className: "text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors",
   },
@@ -60,9 +53,9 @@ export function LandingNav() {
             utm={{ source: "landing", medium: "nav", campaign: "header_cta" }}
             funnelEvent="funnel_landing_cta"
             funnelProps={{ placement: "nav" }}
-            className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 transition-colors whitespace-nowrap"
+            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 transition-colors whitespace-nowrap"
           >
-            Analyze My Fees
+            Analyze my CSV
           </TrackedLink>
         </div>
 
@@ -103,7 +96,7 @@ export function LandingNav() {
             className="block rounded-lg bg-blue-600 px-3 py-2.5 text-center text-sm font-semibold text-white hover:bg-blue-700 transition-colors"
             onClick={() => setOpen(false)}
           >
-            Analyze My Fees
+            Analyze my CSV
           </TrackedLink>
         </div>
       )}

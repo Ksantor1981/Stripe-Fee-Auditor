@@ -1,4 +1,5 @@
 import type { FunnelPropValue } from "./funnel-log";
+import { withMsSinceLoad } from "./time-since-load";
 
 declare global {
   interface Window {
@@ -56,7 +57,13 @@ function plausibleProps(props: Record<string, FunnelPropValue>): Record<string, 
 export function trackEvent(name: string, props?: Record<string, FunnelPropValue>): void {
   if (typeof window === "undefined") return;
 
-  const safeProps = props ?? {};
+  const pathname = window.location.pathname;
+  const baseProps = props ?? {};
+  const safeProps = withMsSinceLoad(
+    name,
+    baseProps as Record<string, string | number | boolean>,
+    pathname
+  ) as Record<string, FunnelPropValue>;
 
   try {
     void fetch("/api/event", {

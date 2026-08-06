@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { PageLoadMarker } from "@/components/PageLoadMarker";
 import { getGaMeasurementId } from "@/lib/ga";
 import { buildOgImageUrl } from "@/lib/seo-og";
 
@@ -147,7 +148,10 @@ plausible.init()
           }}
         />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <PageLoadMarker />
+        {children}
+      </body>
     </html>
   );
 }

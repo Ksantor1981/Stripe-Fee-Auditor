@@ -4,12 +4,12 @@ const checks = [
   {
     path: "/",
     containsAny: [
-      ["Free diagnosis from your Balance CSV", "Free diagnosis first", "Free preview"],
-      "No Stripe API access",
-      "Server analysis, no raw file storage",
-      "Quick fit check",
-      ["One audit · $12", "$12 = one audit"],
-      ["Try sample in 10s", "effective rate often"],
+      ["Free diagnosis · no signup", "Free diagnosis first", "Free preview"],
+      ["See sample report", "Analyze my CSV"],
+      "No OAuth · raw CSV is not stored · independent tool",
+      ["One audit · $12", "$12 = one CSV audit"],
+      "effective rate often",
+      "What one real export showed",
     ],
   },
   {
