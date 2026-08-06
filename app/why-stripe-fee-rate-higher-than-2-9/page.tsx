@@ -79,18 +79,25 @@ const reasons = [
     number: "03",
     title: "Refunds",
     description:
-      "Stripe keeps the processing fee when you issue a refund. The original transaction fee is not returned. A 5% refund rate adds meaningful cost across large volumes.",
+      "Per Stripe's pricing FAQ, when you issue a refund Stripe does not return the processing fees, Connect fees, or currency conversion fees from the original transaction. A 5% refund rate adds meaningful cost across large volumes.",
     example: "5% refund rate on $100k revenue = $145 in non-refundable fees",
   },
   {
     number: "04",
+    title: "Disputes",
+    description:
+      "Each dispute carries a $15 received fee (refunded if you win). Smart Disputes adds 30% of the disputed amount when you win — on top of card processing.",
+    example: "$100 disputed charge won with Smart Disputes: $15 fee refunded + $30 Smart Disputes fee",
+  },
+  {
+    number: "05",
     title: "Stripe Radar",
     description:
       "If you use Radar for fraud protection beyond the basic included tier, there's an additional $0.02–$0.07 per transaction. This shows up as a separate line in your Balance report.",
     example: "1,000 transactions × $0.05 Radar fee = $50/month extra",
   },
   {
-    number: "05",
+    number: "06",
     title: "Micro-Transactions",
     description:
       "On small charges, the fixed $0.30 component dominates. A $2.00 charge has an effective rate of 17.9% — this drags up your average significantly if you have many small payments.",
@@ -107,7 +114,12 @@ const faqItems = [
   {
     question: "Does Stripe return processing fees when I refund a payment?",
     answer:
-      "No. When you issue a refund, Stripe generally does not return the original processing fee. This can increase your effective fee rate if your business has a meaningful refund rate.",
+      "No. Per Stripe's pricing FAQ, when you issue a refund Stripe does not return the processing fees, Connect fees, or currency conversion fees from the original transaction. This can increase your effective fee rate if your business has a meaningful refund rate.",
+  },
+  {
+    question: "What do Stripe disputes and Smart Disputes cost?",
+    answer:
+      "Stripe charges a $15 fee when a dispute is received (refunded if you win). Smart Disputes, when enabled, adds 30% of the disputed amount when you win.",
   },
   {
     question: "How can I calculate my real Stripe effective fee rate?",

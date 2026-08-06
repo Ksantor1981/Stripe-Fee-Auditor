@@ -90,6 +90,113 @@ export const LANDING_FAQ_ITEMS = [
     ),
   },
   {
+    id: "stripe-refund-policy",
+    q: "Does Stripe return fees when I refund a payment?",
+    text: [
+      "No. Per Stripe's pricing FAQ, when you issue a refund Stripe does not return the processing fees, Connect fees, or currency conversion fees from the original transaction. That can raise your blended effective rate if refunds are common.",
+    ],
+    a: (
+      <p>
+        No. Per{" "}
+        <a
+          href="https://stripe.com/pricing"
+          className="text-blue-600 underline hover:text-blue-800"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Stripe&apos;s pricing FAQ
+        </a>
+        , when you issue a refund Stripe does <strong>not</strong> return the processing fees, Connect fees, or
+        currency conversion fees from the original transaction. That can raise your blended effective rate if
+        refunds are common.
+      </p>
+    ),
+  },
+  {
+    id: "stripe-disputes",
+    q: "What do Stripe disputes and Smart Disputes cost?",
+    text: [
+      "Stripe charges a $15 fee when a dispute is received; that fee is refunded if you win the dispute. Smart Disputes (when enabled) adds 30% of the disputed amount when you win — on top of card processing fees.",
+    ],
+    a: (
+      <p>
+        Stripe charges a <strong>$15</strong> fee when a dispute is received; that fee is refunded if you win the
+        dispute. <strong>Smart Disputes</strong> (when enabled) adds <strong>30% of the disputed amount</strong> when
+        you win — on top of card processing fees. See{" "}
+        <a
+          href="https://stripe.com/pricing"
+          className="text-blue-600 underline hover:text-blue-800"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          stripe.com/pricing
+        </a>
+        .
+      </p>
+    ),
+  },
+  {
+    id: "stripe-billing-fees",
+    q: "Does Stripe Billing add fees on top of card processing?",
+    text: [
+      "Yes. Stripe Billing is 0.7% of billing volume (subscriptions, invoices, usage-based billing) on top of standard card processing fees. Tax, Radar, BNPL, and other products have separate published rates.",
+    ],
+    a: (
+      <p>
+        Yes.{" "}
+        <a
+          href="https://stripe.com/billing/pricing"
+          className="text-blue-600 underline hover:text-blue-800"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Stripe Billing
+        </a>{" "}
+        is <strong>0.7%</strong> of billing volume (subscriptions, invoices, usage-based billing) on top of standard
+        card processing fees. Tax, Radar, BNPL, and other products have separate published rates.
+      </p>
+    ),
+  },
+  {
+    id: "stripe-custom-pricing",
+    q: "Why might my Stripe rate differ from published pricing?",
+    text: [
+      "Many accounts have custom or interchange-plus pricing. Regional card mix, manually entered cards (+0.5%), and product add-ons also change the blended rate. Check Dashboard → Settings → Plans and fees for your contract rates.",
+    ],
+    a: (
+      <p>
+        Many accounts have <strong>custom or interchange-plus pricing</strong>. Regional card mix, manually entered
+        cards (+0.5%), and product add-ons also change the blended rate. Check{" "}
+        <strong>Dashboard → Settings → Plans and fees</strong> for your contract rates — our calculator and benchmarks
+        use published list pricing unless noted.
+      </p>
+    ),
+  },
+  {
+    id: "stripe-regional-rates",
+    q: "Do Stripe fees differ by country?",
+    text: [
+      "Yes. Domestic and international card rates vary by account country (US, UK, EU, CA, AU, etc.). UK and EU use tiered cross-border uplifts; Canada international cards add 0.8%; Australia domestic is 1.7% + A$0.30 with lower pricing from 1 Oct 2026.",
+    ],
+    a: (
+      <p>
+        Yes. Domestic and international card rates vary by account country (US, UK, EU, CA, AU, etc.). UK and EU use
+        tiered cross-border uplifts; Canada international cards add <strong>0.8%</strong>; Australia domestic is{" "}
+        <strong>1.7% + A$0.30</strong> with lower pricing from <strong>1 Oct 2026</strong>. Our fee estimator lets you
+        pick a region; exact tiers are on{" "}
+        <a
+          href="https://stripe.com/pricing"
+          className="text-blue-600 underline hover:text-blue-800"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          stripe.com/pricing
+        </a>
+        .
+      </p>
+    ),
+  },
+  {
     id: "chatgpt",
     q: "Can I just paste my Stripe CSV into ChatGPT?",
     text: [

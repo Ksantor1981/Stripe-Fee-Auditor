@@ -106,6 +106,26 @@ const faqItems = [
       "For many US online card payments, Stripe's published rate is 2.9% + $0.30 per successful charge. On a $100 domestic card payment that is about $3.20 (3.2% effective). International cards, currency conversion, refunds, and small tickets can push the blended rate higher — use the calculator above for your mix, then upload a Balance CSV to see your real rate.",
   },
   {
+    question: "Is this calculator using my actual Stripe rates?",
+    answer:
+      "No. This page uses Stripe's published list pricing by region. Custom or interchange-plus accounts may differ — check Dashboard → Settings → Plans and fees. Upload a Balance CSV to see your real effective rate.",
+  },
+  {
+    question: "Does Stripe return fees when I refund a payment?",
+    answer:
+      "No. Per Stripe's pricing FAQ, when you issue a refund Stripe does not return the processing fees, Connect fees, or currency conversion fees from the original transaction.",
+  },
+  {
+    question: "What do Stripe disputes cost?",
+    answer:
+      "Stripe charges a $15 fee when a dispute is received (refunded if you win). Smart Disputes, when enabled, adds 30% of the disputed amount when you win — on top of card processing fees.",
+  },
+  {
+    question: "Does Stripe Billing add fees on top of card processing?",
+    answer:
+      "Yes. Stripe Billing is 0.7% of billing volume on top of standard card processing fees. See stripe.com/billing/pricing.",
+  },
+  {
     question: "Is this a Stripe fee estimator or a real calculator?",
     answer:
       "The on-page Stripe fees calculator estimates fees from public pricing. Stripe Fee Auditor calculates your real effective Stripe fee rate from your Balance Transactions CSV, so you can compare the estimate with actual numbers.",
@@ -123,7 +143,7 @@ const faqItems = [
   {
     question: "Why can my effective Stripe rate be higher than the published rate?",
     answer:
-      "International cards, currency conversion, refunds, Radar charges, disputes, and micro-transactions can all push your blended effective rate above Stripe's standard published rate.",
+      "International cards, currency conversion, refunds (fees not returned), Stripe Billing (0.7%), Radar, disputes ($15 + Smart Disputes 30% on win), and micro-transactions can all push your blended effective rate above Stripe's standard published rate.",
   },
 ];
 
@@ -195,6 +215,12 @@ export default function StripeFeeCalculatorPage() {
             Stripe Fee Auditor is built for SaaS, ecommerce, subscription, and
             marketplace teams that need a Stripe fee calculator based on actual
             Balance CSV exports instead of averages.
+          </p>
+          <p className="text-sm text-gray-500 leading-relaxed mt-3 rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+            Estimates below use Stripe&apos;s <strong>published rates</strong> by region (2025–2026). Your account
+            may differ if you have custom or interchange-plus pricing — confirm in{" "}
+            <strong>Dashboard → Settings → Plans and fees</strong>. Add-ons (Billing 0.7%, disputes, refunds) are
+            not included in the card-fee math.
           </p>
         </div>
 

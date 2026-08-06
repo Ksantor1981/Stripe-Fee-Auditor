@@ -43,10 +43,10 @@ const hasReportsAnalyzedCount = Number.isFinite(reportsAnalyzedCount) && reports
 const reportsAnalyzedLabel = new Intl.NumberFormat("en-US").format(reportsAnalyzedCount);
 
 const PROOF_STATS = [
-  { label: "Stripe fees", value: "$3,597.77" },
-  { label: "Processing rate", value: "3.82%" },
-  { label: "All-in cost", value: "4.02%" },
-  { label: "High-fee charges", value: "447" },
+  { label: "Stripe fees (quarter)", value: "$498.76" },
+  { label: "Processing rate", value: "6.33%" },
+  { label: "All-in cost", value: "6.67%" },
+  { label: "Fee grade", value: "D" },
 ] as const;
 
 const PAIN_LINKS = [
@@ -288,9 +288,9 @@ export default function HomePage() {
           <div className="mt-10 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60">
             <Image
               src="/screenshots/report-preview.png"
-              alt="Stripe Fee Auditor report showing $3,597.77 in fees, 3.82% processing rate, 4.02% all-in cost rate, and savings teaser"
-              width={1076}
-              height={777}
+              alt="Stripe Fee Auditor report: Fee Grade D, $498.76 in quarter fees, 6.33% processing rate, 6.67% all-in cost, and comparison vs advertised 2.9% card pricing"
+              width={1024}
+              height={728}
               sizes="(min-width: 1024px) 960px, 100vw"
               className="h-auto w-full"
             />

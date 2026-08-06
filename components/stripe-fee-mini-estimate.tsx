@@ -240,9 +240,10 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
           <p className="mt-4 text-xs leading-relaxed text-gray-500">
             {estimate.monthlyVolume > 0 && estimate.midRate > estimate.publishedRate
               ? `Your rough estimate (${formatRate(estimate.lowRate)}–${formatRate(estimate.highRate)}) sits above the headline domestic rate (${(estimate.publishedRate * 100).toFixed(2)}% effective on this mix). `
-              : "This is only a published-pricing estimate. "}
-            The exact gap depends on international cards, refunds, small charges, and other fee lines —
-            not this form.
+              : "Published list pricing only — confirm your contract in Dashboard → Settings → Plans and fees. "}
+            Refund fees are not returned; Billing adds 0.7% on subscription volume; disputes are $15 (refunded if won)
+            plus Smart Disputes 30% on win. The exact gap depends on international cards, refunds, small charges, and
+            other fee lines — not this form.
           </p>
         </div>
       </div>

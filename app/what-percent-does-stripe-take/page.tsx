@@ -59,7 +59,7 @@ const faqItems = [
   {
     question: "How much does Stripe charge per transaction?",
     answer:
-      "For many US online card payments, Stripe charges 2.9% + $0.30 per successful domestic card transaction. On $100 that is about $3.20. International cards often add about 1.5 percentage points, and currency conversion can add roughly another 1%. Your blended rate across a month is usually higher than any single published line — check it from your Balance CSV.",
+      "For many US online card payments, Stripe charges 2.9% + $0.30 per successful domestic card transaction. On $100 that is about $3.20. International cards often add about 1.5 percentage points, and currency conversion can add roughly another 1%. Rates vary by country — check Dashboard → Settings → Plans and fees for your account.",
   },
   {
     question: "What percentage does Stripe take from a payment?",
@@ -67,9 +67,14 @@ const faqItems = [
       "For many US online card payments, Stripe's published rate starts at 2.9% plus $0.30 per successful charge. The effective percentage on a single charge depends on the charge amount because the fixed $0.30 fee is larger on small payments.",
   },
   {
+    question: "Does Stripe return fees when I refund a payment?",
+    answer:
+      "No. Per Stripe's pricing FAQ, when you issue a refund Stripe does not return the processing fees, Connect fees, or currency conversion fees from the original transaction.",
+  },
+  {
     question: "Why is my real Stripe rate higher than 2.9%?",
     answer:
-      "International cards, currency conversion, Stripe Billing fees, refunds, disputes, Radar, and small transaction sizes can all push your real blended Stripe rate above the headline percentage.",
+      "International cards, currency conversion, Stripe Billing (0.7% on billing volume), refunds (fees not returned), disputes ($15 + Smart Disputes 30% on win), Radar, and small transaction sizes can all push your real blended Stripe rate above the headline percentage.",
   },
   {
     question: "How do I check the actual percentage Stripe took?",
@@ -142,6 +147,10 @@ export default function WhatPercentDoesStripeTakePage() {
             <strong className="text-gray-900">2.9% + $0.30</strong> per successful charge
             (about $3.20 on $100). The real percentage you pay can be higher once small charges,
             international cards, currency conversion, refunds, and other Stripe fee lines show up.
+          </p>
+          <p className="mt-3 text-sm leading-relaxed text-gray-500 rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+            Published list rates only — custom or interchange-plus pricing may differ. Confirm yours in{" "}
+            <strong>Dashboard → Settings → Plans and fees</strong>.
           </p>
         </header>
 

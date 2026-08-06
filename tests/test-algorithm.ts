@@ -688,6 +688,17 @@ test("estimateCountryStripeFee adds international uplift", () => {
   assert(intl.estimatedFee > domestic.estimatedFee, "intl share should increase estimated fee");
 });
 
+test("CA profile uses 0.8% international uplift per stripe.com/ca/pricing", () => {
+  const profile = getCountryFeeProfile("CA");
+  assertClose(profile.crossBorderPercent, 0.008, 0.0001, "CA intl uplift");
+});
+
+test("AU profile uses 1.7% domestic and 2.0% international per stripe.com/au/pricing", () => {
+  const profile = getCountryFeeProfile("AU");
+  assertClose(profile.domesticPercent, 0.017, 0.0001, "AU domestic percent");
+  assertClose(profile.crossBorderPercent, 0.02, 0.0001, "AU intl uplift");
+});
+
 test("UK account treats GB cards as domestic and US cards as international", () => {
   const rows = makeCharges(60, "2024-01", 3.2).map((row, index) => ({
     ...row,

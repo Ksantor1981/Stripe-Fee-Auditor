@@ -1,4 +1,9 @@
-/** Published Stripe card pricing by account country — illustrative, not a live API. */
+/**
+ * Published Stripe card pricing by account country — illustrative, not a live API.
+ * Source: stripe.com/{us,gb,ie,ca,au}/pricing (2025–2026). Simplified cross-border uplifts;
+ * UK/EU use tiered intl rates on Stripe's site (+1.9%/+2.9% UK, +1.1% EU non-EEA) — see FAQ.
+ * Custom/IC+ accounts: Dashboard → Settings → Plans and fees.
+ */
 
 export type StripeAccountCountry = "US" | "UK" | "EU" | "CA" | "AU";
 
@@ -34,6 +39,7 @@ export const STRIPE_ACCOUNT_COUNTRIES: CountryFeeProfile[] = [
     label: "United Kingdom",
     domesticPercent: 0.015,
     domesticFixed: 0.2,
+    /** Simplified; Stripe GB: +1.9% non-UK EEA cards, +2.9% non-EEA — stripe.com/gb/pricing */
     crossBorderPercent: 0.015,
     currencyConversionPercent: 0.02,
     currency: "GBP",
@@ -44,6 +50,7 @@ export const STRIPE_ACCOUNT_COUNTRIES: CountryFeeProfile[] = [
     label: "European Union",
     domesticPercent: 0.015,
     domesticFixed: 0.25,
+    /** Simplified; Stripe EU: +1.1% for cards issued outside EEA — stripe.com/ie/pricing */
     crossBorderPercent: 0.015,
     currencyConversionPercent: 0.02,
     currency: "EUR",
@@ -57,7 +64,8 @@ export const STRIPE_ACCOUNT_COUNTRIES: CountryFeeProfile[] = [
     label: "Canada",
     domesticPercent: 0.029,
     domesticFixed: 0.3,
-    crossBorderPercent: 0.015,
+    /** International cards: +0.8% — stripe.com/ca/pricing */
+    crossBorderPercent: 0.008,
     currencyConversionPercent: 0.02,
     currency: "CAD",
     domesticCardCountries: ["CA"],
@@ -65,9 +73,11 @@ export const STRIPE_ACCOUNT_COUNTRIES: CountryFeeProfile[] = [
   {
     id: "AU",
     label: "Australia",
-    domesticPercent: 0.0175,
+    /** Domestic online cards: 1.7% + A$0.30 — stripe.com/au/pricing (lower pricing from 1 Oct 2026). */
+    domesticPercent: 0.017,
     domesticFixed: 0.3,
-    crossBorderPercent: 0.015,
+    /** International cards: +2.0% — stripe.com/au/pricing */
+    crossBorderPercent: 0.02,
     currencyConversionPercent: 0.02,
     currency: "AUD",
     domesticCardCountries: ["AU"],
