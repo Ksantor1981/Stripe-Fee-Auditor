@@ -175,6 +175,7 @@ export function ReportShell({
     result: adjustedResult,
     originalResult: baseResult,
     isPaid: hasFullAccess,
+    isSampleReport: demoFullAccess,
     expectedOutlierIds,
     onToggleExpectedOutlier: canMarkExpectedOutliers ? toggleExpectedOutlier : undefined,
     outlierSaving,
@@ -187,7 +188,7 @@ export function ReportShell({
         toolbar={
           <>
             <Link href={`/report/${reportId}`} className="text-sm font-semibold text-gray-900 shrink-0">
-              Your report
+              {demoFullAccess ? "Sample report" : "Your report"}
             </Link>
             <div className="flex flex-wrap items-center gap-2 sm:justify-end sm:gap-3">
               {exportsEnabled && (
@@ -209,7 +210,7 @@ export function ReportShell({
                 </>
               )}
               <Link href="/analyze" className="text-sm font-medium text-blue-600 hover:underline">
-                Analyze another file →
+                {demoFullAccess ? "Upload your CSV →" : "Analyze another file →"}
               </Link>
             </div>
           </>
@@ -217,6 +218,15 @@ export function ReportShell({
       />
 
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-8">
+        {demoFullAccess && (
+          <div className="mb-6 rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm text-indigo-900">
+            <strong>Sample report.</strong> Illustrative Balance CSV — not your Stripe account. Numbers
+            match the homepage example so you can see how a full diagnosis looks.{" "}
+            <Link href="/analyze" className="font-semibold text-indigo-950 underline underline-offset-2">
+              Upload your CSV for real rates →
+            </Link>
+          </div>
+        )}
         {paymentPending && !isPaid && (
           <div className="mb-6 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800">
             Payment received. We&apos;re unlocking your report now. This page will refresh automatically.
@@ -262,10 +272,17 @@ export function ReportShell({
           <MultiMonthReport {...reportViewProps} previewAnomalyCount={previewAnomalyCount} />
         )}
         {result.mode === "single-month" && <SingleMonthReport {...reportViewProps} />}
-        {result.mode === "low-volume" && <LowVolumeReport reportId={reportId} result={adjustedResult} isPaid={hasFullAccess} />}
+        {result.mode === "low-volume" && (
+          <LowVolumeReport
+            reportId={reportId}
+            result={adjustedResult}
+            isPaid={hasFullAccess}
+            isSampleReport={demoFullAccess}
+          />
+        )}
 
         <div className="mt-8 space-y-8">
-          {hasFullAccess && (
+          {hasFullAccess && !demoFullAccess && (
             <ShareEmbedBenchmark embedShareUrl={embedShareUrl!} result={adjustedResult} />
           )}
           {monitorFullAccess ? (

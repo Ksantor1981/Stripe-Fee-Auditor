@@ -12,9 +12,13 @@ interface Props {
   searchParams: Promise<{ token?: string; demo?: string; payment?: string }>;
 }
 
-export async function generateMetadata() {
+export async function generateMetadata({ searchParams }: Props) {
+  const { demo } = await searchParams;
+  const isSample = demo === "1" || demo === "true";
   return {
-    title: `Your Stripe Fee Report — Stripe Fee Auditor`,
+    title: isSample
+      ? "Sample Stripe Fee Report — Stripe Fee Auditor"
+      : "Your Stripe Fee Report — Stripe Fee Auditor",
     robots: "noindex",
   };
 }

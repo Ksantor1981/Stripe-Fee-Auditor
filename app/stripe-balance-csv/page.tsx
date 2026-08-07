@@ -5,6 +5,8 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { ChromeExtensionInstallCta } from "@/components/ChromeExtensionInstallCta";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
+import { SeoRelatedReading } from "@/components/SeoRelatedReading";
+import { SEO_RELATED_BALANCE_CSV } from "@/lib/seo-related-reading";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
@@ -309,13 +311,13 @@ export default function StripeBalanceCsvPage() {
               href="/analyze?sample=1"
               className="inline-flex items-center bg-blue-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors"
             >
-              Try sample in 10s →
+              See sample report →
             </Link>
             <Link
               href="/analyze"
-              className="inline-flex items-center border border-gray-200 bg-white text-gray-800 font-semibold px-6 py-3 rounded-xl hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+              className="inline-flex items-center border border-gray-200 bg-white text-gray-800 font-medium px-6 py-3 rounded-xl hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 transition-colors"
             >
-              Analyze My Fees →
+              Analyze my CSV →
             </Link>
           </div>
           <p className="text-xs text-gray-400 mt-3">
@@ -328,22 +330,7 @@ export default function StripeBalanceCsvPage() {
 
         <SeoPageTrustFooter />
 
-        <div className="mt-10 border-t border-gray-100 pt-8">
-          <p className="text-sm font-semibold text-gray-700 mb-4">Related fee guides</p>
-          <div className="space-y-3">
-            {[
-              { href: "/stripe-fee-calculator", title: "Stripe fees calculator (estimate first)" },
-              { href: "/stripe-data-export", title: "Stripe data export options (JSON, Tableau, PostgreSQL)" },
-              { href: "/why-stripe-fee-rate-higher-than-2-9", title: "Why are my Stripe fees so high?" },
-              { href: "/what-percent-does-stripe-take", title: "How much does Stripe charge per transaction?" },
-              { href: "/blog/why-stripe-fees-increase", title: "Why did my Stripe fees increase?" },
-            ].map((link) => (
-              <Link key={link.href} href={link.href} className="block text-sm text-blue-600 hover:underline">
-                {link.title} →
-              </Link>
-            ))}
-          </div>
-        </div>
+        <SeoRelatedReading title="Related reading" links={SEO_RELATED_BALANCE_CSV} />
       </main>
     </MarketingShell>
   );

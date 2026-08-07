@@ -21,9 +21,10 @@ interface Props {
   reportId: string;
   result: AnalysisResult;
   isPaid: boolean;
+  isSampleReport?: boolean;
 }
 
-export function LowVolumeReport({ reportId, result, isPaid }: Props) {
+export function LowVolumeReport({ reportId, result, isPaid, isSampleReport = false }: Props) {
   const { chargeFees, chargeRate, chargeVolume, otherFees, topDrivers, monthly, savingsOpportunities } =
     result;
   const savings = savingsOpportunities ?? [];
@@ -63,13 +64,14 @@ export function LowVolumeReport({ reportId, result, isPaid }: Props) {
           <Badge variant="outline" className="text-xs text-gray-500">Low volume (&lt;50 transactions)</Badge>
         </div>
         <h1 className="text-2xl font-bold text-gray-900">
-          Your Stripe fee summary
+          {isSampleReport ? "Sample Stripe fee summary" : "Your Stripe fee summary"}
         </h1>
         <p className="text-sm text-gray-400 mt-1">
           {totalCharges} charges analyzed — statistical high-fee detection requires 50+ transactions.
         </p>
         <p className="mt-3 text-sm text-gray-700 leading-snug">
-          You paid <span className="font-semibold text-gray-900">{fmt$(periodFees)}</span> in Stripe fees{" "}
+          {isSampleReport ? "This sample shows " : "You paid "}
+          <span className="font-semibold text-gray-900">{fmt$(periodFees)}</span> in Stripe fees{" "}
           {stripeFeesPeriodTail(Math.max(1, monthCount))}
         </p>
         <p className="mt-1 text-sm text-gray-600">

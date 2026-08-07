@@ -1,11 +1,12 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import { MarketingShell } from "@/components/MarketingShell";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { SeoAnalyzeCta } from "@/components/SeoAnalyzeCta";
+import { SeoRelatedReading } from "@/components/SeoRelatedReading";
 import { StripeFeeMiniEstimate } from "@/components/stripe-fee-mini-estimate";
+import { SEO_RELATED_FEE_CALCULATOR } from "@/lib/seo-related-reading";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
@@ -372,52 +373,7 @@ export default function StripeFeeCalculatorPage() {
           showSample
         />
 
-        {/* Need the CSV */}
-        <div className="mt-8 pt-8 border-t border-gray-100 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm text-gray-400">
-          <span>Don&apos;t have the CSV yet?</span>
-          <Link
-            href="/stripe-balance-csv"
-            className="text-blue-600 hover:text-blue-700 font-medium"
-          >
-            CSV Export Guide →
-          </Link>
-        </div>
-        <div className="mt-4 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm text-gray-400">
-          <span>Fees up vs last month?</span>
-          <Link
-            href="/blog/why-stripe-fees-increase"
-            className="text-blue-600 hover:text-blue-700 font-medium"
-          >
-            Why Stripe fees increase →
-          </Link>
-        </div>
-        <div className="mt-4 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm text-gray-400">
-          <span>Want to understand the fee drivers?</span>
-          <Link
-            href="/why-stripe-fee-rate-higher-than-2-9"
-            className="text-blue-600 hover:text-blue-700 font-medium"
-          >
-            Why fees run higher →
-          </Link>
-        </div>
-        <div className="mt-4 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm text-gray-400">
-          <span>Need the short percentage answer?</span>
-          <Link
-            href="/what-percent-does-stripe-take"
-            className="text-blue-600 hover:text-blue-700 font-medium"
-          >
-            What percent Stripe takes →
-          </Link>
-        </div>
-        <div className="mt-4 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm text-gray-400">
-          <span>Comparing payment options?</span>
-          <Link
-            href="/compare-stripe-paypal-wise"
-            className="text-blue-600 hover:text-blue-700 font-medium"
-          >
-            Stripe vs PayPal vs Wise →
-          </Link>
-        </div>
+        <SeoRelatedReading links={SEO_RELATED_FEE_CALCULATOR} />
 
         <SeoPageTrustFooter />
       </main>

@@ -52,6 +52,7 @@ interface Props {
   result: AnalysisResult;
   originalResult: AnalysisResult;
   isPaid: boolean;
+  isSampleReport?: boolean;
   /** Free preview strips anomaly rows; keep real count for badges and copy. */
   previewAnomalyCount?: number;
   expectedOutlierIds?: string[];
@@ -65,6 +66,7 @@ export function MultiMonthReport({
   result,
   originalResult,
   isPaid,
+  isSampleReport = false,
   previewAnomalyCount,
   expectedOutlierIds = [],
   onToggleExpectedOutlier,
@@ -142,7 +144,8 @@ export function MultiMonthReport({
               {monthly.length}-month analysis
             </p>
             <h1 className="text-2xl font-bold text-gray-900 leading-snug">
-              You paid <span className="text-blue-600">{fmt$(periodFees)}</span> in Stripe fees{" "}
+              {isSampleReport ? "This sample shows " : "You paid "}
+              <span className="text-blue-600">{fmt$(periodFees)}</span> in Stripe fees{" "}
               {stripeFeesPeriodTail(monthCount)}
             </h1>
             <p className="mt-2 text-sm text-gray-600">
@@ -267,7 +270,11 @@ export function MultiMonthReport({
             <div className="px-5 py-4 flex items-center justify-between">
               <h3 className="text-sm font-semibold text-gray-700">Top Fee Drivers</h3>
               <Badge variant="outline" className="text-xs">
-                {isPaid ? "Full report · Top 3" : "Free preview · Top 3"}
+                {isSampleReport
+                  ? "Sample report · Top 3"
+                  : isPaid
+                    ? "Full report · Top 3"
+                    : "Free preview · Top 3"}
               </Badge>
             </div>
             {topDrivers.slice(0, 3).map((row, i) => (

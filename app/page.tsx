@@ -238,7 +238,7 @@ export default function HomePage() {
             utm={{ source: "landing", medium: "cta", campaign: "hero_primary" }}
             funnelEvent="funnel_landing_cta"
             funnelProps={{ placement: "hero_primary" }}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow-md hover:bg-blue-700 active:scale-95 transition-all"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-3.5 sm:py-4 text-sm sm:text-base font-semibold text-white shadow-md hover:bg-blue-700 active:scale-95 transition-all"
           >
             Analyze my CSV — free
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
@@ -250,7 +250,7 @@ export default function HomePage() {
             utm={{ source: "landing", medium: "cta", campaign: "hero_sample" }}
             funnelEvent="funnel_sample_cta"
             funnelProps={{ placement: "hero_sample" }}
-            className="inline-flex items-center justify-center rounded-xl border border-blue-200 bg-white px-8 py-4 text-base font-semibold text-blue-700 hover:border-blue-300 hover:bg-blue-50 transition-all"
+            className="inline-flex items-center justify-center rounded-xl border border-blue-200 bg-white px-8 py-3 sm:py-3.5 text-sm font-medium text-blue-700 hover:border-blue-300 hover:bg-blue-50 transition-all"
           >
             See sample report
           </TrackedLink>

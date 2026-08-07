@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { AppShellHeader } from "@/components/AppShellHeader";
 import { AdvertiserIdentityBanner } from "@/components/AdvertiserIdentityBanner";
 import { AnalyzeClient } from "./_components/AnalyzeClient";
+import { AnalyzePageIntro } from "./_components/AnalyzePageIntro";
 
 export const metadata: Metadata = {
   title: "Analyze My Stripe Fees — Fee Auditor",
@@ -16,10 +17,7 @@ export default function AnalyzePage() {
       <AppShellHeader />
 
       <div className="mx-auto max-w-3xl px-4 py-10">
-        <h1 className="text-2xl font-bold text-gray-900">See your real Stripe fee rate</h1>
-        <p className="mt-2 text-base text-gray-600">
-          Upload your Balance CSV or run the sample report.
-        </p>
+        <AnalyzePageIntro />
         <p className="mt-2 text-sm text-gray-500">
           No OAuth · raw CSV is not stored · independent tool
         </p>

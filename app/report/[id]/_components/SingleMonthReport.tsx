@@ -23,6 +23,7 @@ interface Props {
   result: AnalysisResult;
   originalResult: AnalysisResult;
   isPaid: boolean;
+  isSampleReport?: boolean;
   expectedOutlierIds?: string[];
   onToggleExpectedOutlier?: (chargeId: string) => void;
   outlierSaving?: boolean;
@@ -34,6 +35,7 @@ export function SingleMonthReport({
   result,
   originalResult,
   isPaid,
+  isSampleReport = false,
   expectedOutlierIds = [],
   onToggleExpectedOutlier,
   outlierSaving = false,
@@ -82,11 +84,12 @@ export function SingleMonthReport({
           Single-month analysis
         </p>
         <h1 className="text-2xl font-bold text-gray-900">
-          Your Stripe fees for{" "}
+          {isSampleReport ? "Sample Stripe fees for " : "Your Stripe fees for "}
           <span className="text-blue-600">{month ? fmtMonth(month.month) : "this period"}</span>
         </h1>
         <p className="mt-2 text-sm text-gray-700 leading-snug">
-          You paid <span className="font-semibold text-gray-900">{fmt$(periodFees)}</span> in Stripe fees{" "}
+          {isSampleReport ? "This sample shows " : "You paid "}
+          <span className="font-semibold text-gray-900">{fmt$(periodFees)}</span> in Stripe fees{" "}
           {stripeFeesPeriodTail(1)}
         </p>
         <p className="mt-1 text-sm text-gray-600">
@@ -184,7 +187,11 @@ export function SingleMonthReport({
         <div className="px-5 py-4 border-b border-gray-50 flex items-center justify-between">
           <h2 className="text-sm font-semibold text-gray-700">Top Fee Drivers</h2>
           <span className="text-xs text-gray-400">
-            {isPaid ? "Full report · Top 3" : "Free preview · Top 3"}
+            {isSampleReport
+              ? "Sample report · Top 3"
+              : isPaid
+                ? "Full report · Top 3"
+                : "Free preview · Top 3"}
           </span>
         </div>
         <div className="divide-y divide-gray-50">

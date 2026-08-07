@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import { MarketingShell } from "@/components/MarketingShell";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -6,6 +5,8 @@ import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { AdvertiserIdentityBanner } from "@/components/AdvertiserIdentityBanner";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { SeoAnalyzeCta } from "@/components/SeoAnalyzeCta";
+import { SeoRelatedReading } from "@/components/SeoRelatedReading";
+import { SEO_RELATED_WHY_HIGHER } from "@/lib/seo-related-reading";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
@@ -256,45 +257,7 @@ export default function WhyStripeFeesIncreasePage() {
           ))}
         </div>
 
-        {/* Next step */}
-        <div className="mt-8 pt-8 border-t border-gray-100 space-y-4 text-sm text-gray-400">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <span>Fees up vs last month?</span>
-            <Link
-              href="/blog/why-stripe-fees-increase"
-              className="text-blue-600 hover:text-blue-700 font-medium"
-            >
-              Why Stripe fees increase →
-            </Link>
-          </div>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <span>Estimate published fees first</span>
-            <Link
-              href="/stripe-fee-calculator"
-              className="text-blue-600 hover:text-blue-700 font-medium"
-            >
-              Stripe fees calculator →
-            </Link>
-          </div>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <span>Next: how to export the file</span>
-            <Link
-              href="/stripe-balance-csv"
-              className="text-blue-600 hover:text-blue-700 font-medium"
-            >
-              CSV Export Guide →
-            </Link>
-          </div>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <span>Need the basic percentage first?</span>
-            <Link
-              href="/what-percent-does-stripe-take"
-              className="text-blue-600 hover:text-blue-700 font-medium"
-            >
-              How much Stripe charges per transaction →
-            </Link>
-          </div>
-        </div>
+        <SeoRelatedReading links={SEO_RELATED_WHY_HIGHER} />
 
         <SeoPageTrustFooter />
       </main>

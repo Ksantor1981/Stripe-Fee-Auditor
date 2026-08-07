@@ -37,7 +37,7 @@ export function SeoAnalyzeCta({
             href="/analyze?sample=1"
             className="inline-flex justify-center text-center text-sm font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900"
           >
-            Or try sample in 10s
+            See sample report
           </Link>
         )}
       </div>

@@ -9,6 +9,11 @@ import { Badge } from "@/components/ui/badge";
 import { SAMPLE_CSV, SAMPLE_COLUMN_MAPPING } from "@/lib/sampleData";
 import { trackEvent } from "@/lib/analytics";
 import { MAX_CSV_ROWS } from "@/lib/analyze-input";
+import {
+  STRIPE_ACCOUNT_COUNTRIES,
+  type StripeAccountCountry,
+} from "@/lib/stripe-country-fees";
+
 
 const REQUIRED_COLUMNS = ["id", "type", "amount", "fee", "net", "currency", "created"] as const;
 const MAX_CSV_BYTES = 4 * 1024 * 1024;
@@ -77,6 +82,7 @@ export function UploadZone({ autoLoadSample }: Props) {
   const [mapping, setMapping] = useState<ColumnMapping>({});
   const [error, setError] = useState<string | null>(null);
   const [stage, setStage] = useState<Stage>("idle");
+  const [accountCountry, setAccountCountry] = useState<StripeAccountCountry>("US");
   const autoAnalyzeStarted = useRef(false);
   const pendingSampleAutoAnalyze = useRef(false);
 
@@ -237,7 +243,7 @@ export function UploadZone({ autoLoadSample }: Props) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "same-origin",
-          body: JSON.stringify({ csvText, columnMapping }),
+          body: JSON.stringify({ csvText, columnMapping, accountCountry }),
         });
         if (!analyzeRes.ok) {
           const j = await analyzeRes.json();
@@ -257,7 +263,7 @@ export function UploadZone({ autoLoadSample }: Props) {
         setStage("idle");
       }
     },
-    [router]
+    [accountCountry, router]
   );
 
   // Sample path → start analysis automatically (URL ?sample=1 or “Try sample” button)
@@ -298,6 +304,29 @@ export function UploadZone({ autoLoadSample }: Props) {
         </p>
       </div>
 
+      {!autoLoadSample && (
+        <label className="block rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          <span className="text-sm font-semibold text-gray-900">Stripe account country</span>
+          <span className="mt-1 block text-xs leading-relaxed text-gray-500">
+            Used to classify domestic vs international cards and select the directional standard-pricing benchmark.
+          </span>
+          <select
+            value={accountCountry}
+            onChange={(event) => setAccountCountry(event.target.value as StripeAccountCountry)}
+            disabled={stage !== "idle"}
+            className="mt-3 w-full rounded-xl border border-gray-200 bg-white px-3 py-3 text-sm text-gray-900 focus:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-100 disabled:bg-gray-50"
+          >
+            {STRIPE_ACCOUNT_COUNTRIES.map((country) => (
+              <option key={country.id} value={country.id}>
+                {country.label}
+              </option>
+            ))}
+          </select>
+          <span className="mt-2 block text-xs text-amber-700">
+            Current upload reports accept USD settlement only. Custom pricing and FX are estimates, not direct Stripe fee details.
+          </span>
+        </label>
+      )}
       {/* Drop zone */}
       <div
         {...getRootProps()}
