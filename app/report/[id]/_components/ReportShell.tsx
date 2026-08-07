@@ -217,7 +217,7 @@ export function ReportShell({
         }
       />
 
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-8">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-10">
         {demoFullAccess && (
           <div className="mb-6 rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm text-indigo-900">
             <strong>Sample report.</strong> Illustrative Balance CSV — not your Stripe account. Numbers

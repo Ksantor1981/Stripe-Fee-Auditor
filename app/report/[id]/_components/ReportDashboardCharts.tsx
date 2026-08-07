@@ -224,7 +224,7 @@ export function ReportDashboardCharts({ result }: Props) {
             </p>
           )}
         </div>
-        <div className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-right">
+        <div className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-left sm:w-auto sm:text-right">
           <p className="text-[10px] font-medium uppercase tracking-wider text-slate-400">Baseline</p>
           <p className="text-2xl font-semibold tabular-nums tracking-tight text-slate-950">
             {fmtPct(chargeRate)}
@@ -238,7 +238,7 @@ export function ReportDashboardCharts({ result }: Props) {
             <ResponsiveContainer width="100%" height={228}>
               <ComposedChart data={timelineData} margin={{ top: 6, right: 8, left: 0, bottom: 0 }}>
                 <CartesianGrid stroke={GRID} strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" tick={{ fontSize: 11, fill: SLATE }} tickLine={false} axisLine={false} />
+                <XAxis dataKey="short" tick={{ fontSize: 11, fill: SLATE }} tickLine={false} axisLine={false} />
                 <YAxis
                   yAxisId="rate"
                   tickFormatter={(v) => `${v}%`}
@@ -300,7 +300,7 @@ export function ReportDashboardCharts({ result }: Props) {
 
         {showMix && (
           <Panel title="Fee mix" eyebrow="Composition" className="lg:col-span-1">
-            <div className="grid grid-cols-[1fr_1.1fr] items-center gap-2">
+            <div className="grid grid-cols-1 items-center gap-4 sm:grid-cols-[1fr_1.1fr] sm:gap-2">
               <ResponsiveContainer width="100%" height={200}>
                 <PieChart>
                   <Pie
@@ -357,7 +357,7 @@ export function ReportDashboardCharts({ result }: Props) {
               <BarChart
                 layout="vertical"
                 data={expensiveRows}
-                margin={{ top: 0, right: 12, left: 4, bottom: 0 }}
+                margin={{ top: 0, right: 8, left: 0, bottom: 0 }}
               >
                 <CartesianGrid stroke={GRID} strokeDasharray="3 3" horizontal={false} />
                 <XAxis
@@ -370,7 +370,7 @@ export function ReportDashboardCharts({ result }: Props) {
                 <YAxis
                   type="category"
                   dataKey="label"
-                  width={110}
+                  width={96}
                   tick={{ fontSize: 10, fill: SLATE }}
                   tickLine={false}
                   axisLine={false}
@@ -399,7 +399,7 @@ export function ReportDashboardCharts({ result }: Props) {
 
         {showGeo && geographySummary && geoPie.length > 0 && (
           <Panel title="Domestic vs international" eyebrow="Geography" className="lg:col-span-1">
-            <div className="grid grid-cols-[0.9fr_1.1fr] items-center gap-3">
+            <div className="grid grid-cols-1 items-center gap-4 sm:grid-cols-[0.9fr_1.1fr] sm:gap-3">
               <ResponsiveContainer width="100%" height={180}>
                 <PieChart>
                   <Pie

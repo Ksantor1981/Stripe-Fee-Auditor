@@ -132,7 +132,7 @@ export function MultiMonthReport({
   return (
     <div className="space-y-8">
       {/* Hero */}
-      <div id="report-share-snapshot" className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
+      <div id="report-share-snapshot" className="rounded-2xl bg-white border border-gray-100 shadow-sm p-4 sm:p-6">
         {result.feeGrade && (
           <div className="mb-4">
             <FeeGradeBadge grade={result.feeGrade} size="lg" />
@@ -162,7 +162,7 @@ export function MultiMonthReport({
               </p>
             )}
           </div>
-          <div className="text-right">
+          <div className="w-full text-left sm:w-auto sm:text-right">
             <p className="text-3xl font-bold text-gray-900">{fmtPct(chargeRate)}</p>
             <p className="text-xs text-gray-400 mt-0.5">processing fee rate</p>
             <p className="mt-2 text-xl font-bold text-gray-700">{fmtPct(adjustedAllInRate)}</p>
@@ -253,15 +253,15 @@ export function MultiMonthReport({
 
       {/* Tabs */}
       <Tabs defaultValue="overview">
-        <TabsList className="w-full">
-          <TabsTrigger value="overview" className="flex-1">Overview</TabsTrigger>
-          <TabsTrigger value="anomalies" className="flex-1">
+        <TabsList className="h-auto min-h-10 w-full">
+          <TabsTrigger value="overview" className="flex-1 px-2 text-xs sm:px-3 sm:text-sm">Overview</TabsTrigger>
+          <TabsTrigger value="anomalies" className="flex-1 px-2 text-xs sm:px-3 sm:text-sm">
             High-fee
             {anomalyUiCount > 0 && (
-              <Badge className="ml-1.5 bg-red-100 text-red-700 text-xs">{anomalyUiCount}</Badge>
+              <Badge className="ml-1 bg-red-100 text-red-700 text-[10px] sm:ml-1.5 sm:text-xs">{anomalyUiCount}</Badge>
             )}
           </TabsTrigger>
-          <TabsTrigger value="monthly" className="flex-1">Monthly Detail</TabsTrigger>
+          <TabsTrigger value="monthly" className="flex-1 px-2 text-xs sm:px-3 sm:text-sm">Monthly Detail</TabsTrigger>
         </TabsList>
 
         {/* Overview tab — Top 3 summary */}
@@ -406,15 +406,15 @@ export function MultiMonthReport({
         {/* Monthly detail tab */}
         <TabsContent value="monthly">
           {isPaid ? (
-            <div className="rounded-2xl bg-white border border-gray-100 shadow-sm mt-3 overflow-x-auto">
+            <div className="mt-3 overflow-x-auto rounded-2xl border border-gray-100 bg-white shadow-sm sm:overflow-visible">
               <table className="min-w-full text-sm">
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-100">
-                    <th className="px-5 py-3 text-left text-xs font-medium text-gray-500">Month</th>
-                    <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">Volume</th>
-                    <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">Fees</th>
-                    <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">Rate</th>
-                    <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">Charges</th>
+                    <th className="px-3 py-2.5 text-left text-xs font-medium text-gray-500 sm:px-5 sm:py-3">Month</th>
+                    <th className="px-3 py-2.5 text-right text-xs font-medium text-gray-500 sm:px-5 sm:py-3">Volume</th>
+                    <th className="px-3 py-2.5 text-right text-xs font-medium text-gray-500 sm:px-5 sm:py-3">Fees</th>
+                    <th className="px-3 py-2.5 text-right text-xs font-medium text-gray-500 sm:px-5 sm:py-3">Rate</th>
+                    <th className="hidden px-3 py-2.5 text-right text-xs font-medium text-gray-500 sm:table-cell sm:px-5 sm:py-3">Charges</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
@@ -423,18 +423,18 @@ export function MultiMonthReport({
                     const delta = prev ? m.fees - prev.fees : null;
                     return (
                       <tr key={m.month} className="hover:bg-gray-50/50">
-                        <td className="px-5 py-3 font-medium text-gray-800">{fmtMonth(m.month)}</td>
-                        <td className="px-5 py-3 text-right text-gray-600">{fmt$(m.volume)}</td>
-                        <td className="px-5 py-3 text-right">
+                        <td className="px-3 py-2.5 font-medium text-gray-800 sm:px-5 sm:py-3">{fmtMonth(m.month)}</td>
+                        <td className="px-3 py-2.5 text-right text-gray-600 sm:px-5 sm:py-3">{fmt$(m.volume)}</td>
+                        <td className="px-3 py-2.5 text-right sm:px-5 sm:py-3">
                           <span className="font-semibold text-gray-900">{fmt$(m.fees)}</span>
                           {delta !== null && (
-                            <span className={`ml-1.5 text-xs ${delta > 0 ? "text-red-500" : "text-green-500"}`}>
+                            <span className={`ml-1 text-[10px] sm:ml-1.5 sm:text-xs ${delta > 0 ? "text-red-500" : "text-green-500"}`}>
                               {delta > 0 ? "▲" : "▼"}{fmt$(Math.abs(delta))}
                             </span>
                           )}
                         </td>
-                        <td className="px-5 py-3 text-right text-gray-600">{fmtPct(m.rate)}</td>
-                        <td className="px-5 py-3 text-right text-gray-500">{m.count}</td>
+                        <td className="px-3 py-2.5 text-right text-gray-600 sm:px-5 sm:py-3">{fmtPct(m.rate)}</td>
+                        <td className="hidden px-3 py-2.5 text-right text-gray-500 sm:table-cell sm:px-5 sm:py-3">{m.count}</td>
                       </tr>
                     );
                   })}

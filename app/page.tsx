@@ -275,11 +275,11 @@ export default function HomePage() {
           <p className="mt-2 text-center text-sm text-gray-500">
             Illustrative Balance CSV — your volume and rates will differ.
           </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-3 text-center">
+          <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-4 text-center sm:flex sm:flex-wrap sm:justify-center sm:gap-x-6 sm:gap-y-3">
             {PROOF_STATS.map(({ label, value }) => (
               <div key={label}>
-                <p className="text-2xl font-bold text-gray-900">{value}</p>
-                <p className="mt-0.5 text-sm text-gray-500">{label}</p>
+                <p className="text-xl font-bold text-gray-900 sm:text-2xl">{value}</p>
+                <p className="mt-0.5 text-xs text-gray-500 sm:text-sm">{label}</p>
               </div>
             ))}
           </div>
@@ -299,19 +299,21 @@ export default function HomePage() {
             />
           </div>
 
-          <div className="mt-6 text-center text-sm text-gray-500">
+          <div className="mt-6 flex flex-col items-center gap-1.5 text-center text-sm text-gray-500 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-1 sm:gap-y-0">
             {PAIN_LINKS.map((item, index) => (
-              <span key={item.href}>
-                {index > 0 && <span className="text-gray-300"> · </span>}
+              <span key={item.href} className="inline-flex items-center">
+                {index > 0 && <span className="hidden text-gray-300 sm:inline"> · </span>}
                 <Link href={item.href} className="text-blue-600 hover:underline">
                   {item.label}
                 </Link>
               </span>
             ))}
-            {" · "}
-            <Link href="/blog/how-i-found-1400-in-hidden-stripe-fees" className="text-blue-600 hover:underline">
-              Case study
-            </Link>
+            <span className="inline-flex items-center">
+              <span className="hidden text-gray-300 sm:inline"> · </span>
+              <Link href="/blog/how-i-found-1400-in-hidden-stripe-fees" className="text-blue-600 hover:underline">
+                Case study
+              </Link>
+            </span>
           </div>
         </div>
       </section>

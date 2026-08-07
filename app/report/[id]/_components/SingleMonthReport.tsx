@@ -74,7 +74,7 @@ export function SingleMonthReport({
   return (
     <div className="space-y-6">
       {/* Hero */}
-      <div id="report-share-snapshot" className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
+      <div id="report-share-snapshot" className="rounded-2xl bg-white border border-gray-100 shadow-sm p-4 sm:p-6">
         {result.feeGrade && (
           <div className="mb-4">
             <FeeGradeBadge grade={result.feeGrade} size="lg" />
