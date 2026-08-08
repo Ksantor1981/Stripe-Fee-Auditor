@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { PageLoadMarker } from "@/components/PageLoadMarker";
 import { getGaMeasurementId } from "@/lib/ga";
@@ -119,38 +120,33 @@ export default function RootLayout({
       <head>
         <link rel="dns-prefetch" href="https://plausible.io" />
         <link rel="preconnect" href="https://plausible.io" crossOrigin="" />
-        <link rel="dns-prefetch" href="https://polar.sh" />
-        <link rel="dns-prefetch" href="https://checkout.polar.sh" />
-        <link rel="preconnect" href="https://checkout.polar.sh" crossOrigin="" />
-        {gaMeasurementId ? (
-          <>
-            <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-            <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`} />
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-window.dataLayer=window.dataLayer||[];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${gaMeasurementId}');
-`.trim(),
-              }}
-            />
-          </>
-        ) : null}
-        <script async src="https://plausible.io/js/pa-NtZAVMy_DG97Ek3wmMn6V.js" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-plausible.init()
-`.trim(),
-          }}
-        />
       </head>
       <body className="antialiased">
         <PageLoadMarker />
         {children}
+        {gaMeasurementId ? (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga-config" strategy="afterInteractive">
+              {`
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${gaMeasurementId}');
+`.trim()}
+            </Script>
+          </>
+        ) : null}
+        <Script src="https://plausible.io/js/pa-NtZAVMy_DG97Ek3wmMn6V.js" strategy="afterInteractive" />
+        <Script id="plausible-init" strategy="afterInteractive">
+          {`
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init()
+`.trim()}
+        </Script>
       </body>
     </html>
   );

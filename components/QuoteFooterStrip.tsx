@@ -21,12 +21,12 @@ export function QuoteFooterStrip() {
         {QUOTES.map((item) => (
           <figure key={item.name} className="flex-1 text-center sm:text-left">
             <blockquote className="text-sm text-gray-600">&ldquo;{item.quote}&rdquo;</blockquote>
-            <figcaption className="mt-1 text-xs text-gray-400">
+            <figcaption className="mt-1 text-xs text-gray-600">
               — {item.name}
               {item.href ? (
                 <>
                   {" · "}
-                  <Link href={item.href} target="_blank" rel="noopener noreferrer" className="hover:text-gray-600">
+                  <Link href={item.href} target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-900">
                     PagePulse
                   </Link>
                 </>

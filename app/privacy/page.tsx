@@ -263,6 +263,7 @@ export default function PrivacyPage() {
                 your CSV to third-party AI providers (see section 1).
               </li>
             </ul>
+          </section>
 
           <section>
             <h2 className="text-lg font-semibold text-gray-900 mb-3">8. Your Rights (GDPR / CCPA and similar laws)</h2>

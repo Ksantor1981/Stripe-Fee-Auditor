@@ -54,7 +54,19 @@
 | L.8 | Scenario switcher для sample (3 демо) | P2 | skip | Дорого; текст-дисклеймер (L.2) достаточно |
 | L.9 | `/for-cfo` (multi-upload, white-label PDF) | P2 | skip | После PMF / agency спроса |
 
-**Мониторинг (2026-08-08):** P0 и L.5 закрыты. L.6 частично (anchor + bullets). **Следующий P1 по ROI:** L.4 после generic Stripe Dashboard скрина. L.7 — content pass, не срочно. L.6 `/security` redirect — только если CFO/enterprise feedback.
+### Performance & a11y — Aug 2026 (PageSpeed / Lighthouse)
+
+| # | Задача | Приоритет | Статус | Примечание |
+|---|--------|-----------|--------|------------|
+| L.10 | `llms.txt` markdown links + обновление positioning | P1 | **done** (Aug 8) | Agent browsing PSI 3/3 |
+| L.11 | Footer / quotes contrast (`gray-400` → `gray-600` + underline) | P1 | **done** (Aug 8) | a11y 97 → ~100 |
+| L.12 | Убрать unused preconnect `checkout.polar.sh` | P2 | **done** (Aug 8) | PSI «неиспользуемый preconnect» |
+| L.13 | GA4 + Plausible → `next/script` `afterInteractive` | P2 | **done** (Aug 8) | ↓ TBT / render delay на mobile |
+| L.14 | Убрать `fetchPriority="high"` у sample PNG (LCP = H1) | P2 | **done** (Aug 8) | — |
+| L.15 | WebP/AVIF для `report-preview` + `sizes` | P2 | backlog | ~160 KiB на mobile |
+| L.16 | Перезапустить PSI desktop + mobile после деплоя | ops | pending | Baseline Aug 6 устарел |
+
+**Мониторинг (2026-08-08):** P0 и L.5 закрыты. L.6 частично (anchor + bullets). L.10–L.14 закрыты одним pass. **Следующий P1 по ROI:** L.4 после generic Stripe Dashboard скрина. L.7 — content pass. L.15 — если mobile perf &lt; 85 после L.13.
 
 ### Фаза 2 — Снижение барьера CSV (2–4 недели)
 

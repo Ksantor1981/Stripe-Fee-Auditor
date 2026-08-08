@@ -311,7 +311,6 @@ export default function HomePage() {
               width={1024}
               height={616}
               decoding="async"
-              fetchPriority="high"
               className="mx-auto block h-auto w-full max-w-[1024px]"
             />
           </div>
@@ -395,55 +394,55 @@ export default function HomePage() {
       <QuoteFooterStrip />
 
       {/* Footer */}
-      <footer className="border-t px-4 py-8 text-center text-xs text-gray-400 space-y-2">
-        <p>Updated June 2026</p>
+      <footer className="border-t px-4 py-8 text-center text-xs text-gray-600 space-y-2">
+        <p>Updated August 2026</p>
         <p>
           Fee Auditor (feeauditor.com) is an independent SaaS tool. Not affiliated with, endorsed by,
           or part of Stripe, Inc. &quot;Stripe&quot; is a trademark of Stripe, Inc.{" "}
-          <Link href="/how-it-works" className="underline hover:text-gray-600">How it works</Link>
+          <Link href="/how-it-works" className="underline hover:text-gray-900">How it works</Link>
           {" · "}
-          <Link href="/pricing" className="underline hover:text-gray-600">Pricing</Link>
+          <Link href="/pricing" className="underline hover:text-gray-900">Pricing</Link>
           {" · "}
-          <Link href="/privacy" className="underline hover:text-gray-600">Privacy Policy</Link>
+          <Link href="/privacy" className="underline hover:text-gray-900">Privacy Policy</Link>
           {" · "}
-          <Link href="/terms" className="underline hover:text-gray-600">Terms of Service</Link>
+          <Link href="/terms" className="underline hover:text-gray-900">Terms of Service</Link>
           {" · "}
-          <Link href="/refund" className="underline hover:text-gray-600">Refund Policy</Link>
+          <Link href="/refund" className="underline hover:text-gray-900">Refund Policy</Link>
         </p>
         <p className="flex justify-center gap-3 flex-wrap">
-          <Link href="/monitor" className="hover:underline">Fee Monitor</Link>
-          <span>·</span>
-          <Link href="/chrome-extension" className="hover:underline">Chrome helper</Link>
-          <span>·</span>
-          <Link href="/stripe-fee-calculator" className="hover:underline">Stripe fee calculator</Link>
-          <span>·</span>
-          <Link href="/should-i-switch-from-stripe" className="hover:underline">Should I switch from Stripe?</Link>
-          <span>·</span>
-          <Link href="/compare-stripe-paypal-wise" className="hover:underline">Stripe vs PayPal vs Wise</Link>
-          <span>·</span>
-          <Link href="/stripe-vs-square-fees" className="hover:underline">Stripe vs Square</Link>
-          <span>·</span>
-          <Link href="/what-percent-does-stripe-take" className="hover:underline">What percent Stripe takes</Link>
-          <span>·</span>
-          <Link href="/stripe-balance-csv" className="hover:underline">Stripe Balance CSV</Link>
-          <span>·</span>
-          <Link href="/why-stripe-fee-rate-higher-than-2-9" className="hover:underline">Why fees exceed 2.9%</Link>
+          <Link href="/monitor" className="underline hover:text-gray-900">Fee Monitor</Link>
+          <span className="text-gray-400">·</span>
+          <Link href="/chrome-extension" className="underline hover:text-gray-900">Chrome helper</Link>
+          <span className="text-gray-400">·</span>
+          <Link href="/stripe-fee-calculator" className="underline hover:text-gray-900">Stripe fee calculator</Link>
+          <span className="text-gray-400">·</span>
+          <Link href="/should-i-switch-from-stripe" className="underline hover:text-gray-900">Should I switch from Stripe?</Link>
+          <span className="text-gray-400">·</span>
+          <Link href="/compare-stripe-paypal-wise" className="underline hover:text-gray-900">Stripe vs PayPal vs Wise</Link>
+          <span className="text-gray-400">·</span>
+          <Link href="/stripe-vs-square-fees" className="underline hover:text-gray-900">Stripe vs Square</Link>
+          <span className="text-gray-400">·</span>
+          <Link href="/what-percent-does-stripe-take" className="underline hover:text-gray-900">What percent Stripe takes</Link>
+          <span className="text-gray-400">·</span>
+          <Link href="/stripe-balance-csv" className="underline hover:text-gray-900">Stripe Balance CSV</Link>
+          <span className="text-gray-400">·</span>
+          <Link href="/why-stripe-fee-rate-higher-than-2-9" className="underline hover:text-gray-900">Why fees exceed 2.9%</Link>
         </p>
         <p className="flex justify-center gap-3 flex-wrap">
           <a
             href="https://github.com/Ksantor1981/Stripe-Fee-Auditor"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:underline"
+            className="underline hover:text-gray-900"
           >
             GitHub
           </a>
-          <span>·</span>
-          <Link href="/blog/why-stripe-fees-increase" className="hover:underline">Why Stripe fees increase</Link>
-          <span>·</span>
-          <Link href="/blog/how-to-reduce-stripe-fees" className="hover:underline">How to reduce fees</Link>
-          <span>·</span>
-          <Link href="/blog/stripe-effective-fee-rate-explained" className="hover:underline">Fee rate explained</Link>
+          <span className="text-gray-400">·</span>
+          <Link href="/blog/why-stripe-fees-increase" className="underline hover:text-gray-900">Why Stripe fees increase</Link>
+          <span className="text-gray-400">·</span>
+          <Link href="/blog/how-to-reduce-stripe-fees" className="underline hover:text-gray-900">How to reduce fees</Link>
+          <span className="text-gray-400">·</span>
+          <Link href="/blog/stripe-effective-fee-rate-explained" className="underline hover:text-gray-900">Fee rate explained</Link>
         </p>
       </footer>
     </main>
