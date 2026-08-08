@@ -1,12 +1,28 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import { LandingFaq, LANDING_FAQ_HOME_IDS } from "@/components/LandingFaq";
-import { LandingNav } from "@/components/LandingNav";
+import { LANDING_FAQ_HOME_IDS } from "@/components/LandingFaq";
+import { LandingNavShell } from "@/components/LandingNavShell";
+import { FunnelAnchor } from "@/components/FunnelAnchor";
+import { FunnelClickDelegate } from "@/components/FunnelClickDelegate";
 import { QuoteFooterStrip } from "@/components/QuoteFooterStrip";
-import { TrackedLink } from "@/components/TrackedLink";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
+
+const LandingNav = dynamic(
+  () => import("@/components/LandingNav").then((mod) => ({ default: mod.LandingNav })),
+  { loading: () => <LandingNavShell /> }
+);
+
+const LandingFaq = dynamic(
+  () => import("@/components/LandingFaq").then((mod) => ({ default: mod.LandingFaq })),
+  {
+    loading: () => (
+      <div className="mx-auto max-w-3xl h-56 animate-pulse rounded-xl bg-gray-100" aria-hidden />
+    ),
+  }
+);
 
 const HOME_TITLE = "Free Stripe Fee Auditor — See Your Real Effective Rate";
 const HOME_DESCRIPTION =
@@ -192,7 +208,7 @@ export default function HomePage() {
       {FULL_REPORTS_FREE_DURING_BETA ? (
         <div className="bg-emerald-600 px-4 py-2.5 text-center text-sm font-medium text-white">
           Free diagnosis · no signup.{" "}
-          <TrackedLink
+          <FunnelAnchor
             href="/analyze?sample=1"
             utm={{ source: "landing", medium: "banner", campaign: "beta_banner" }}
             funnelEvent="funnel_sample_cta"
@@ -200,12 +216,12 @@ export default function HomePage() {
             className="underline underline-offset-2 hover:text-emerald-100 transition-colors"
           >
             See sample report →
-          </TrackedLink>
+          </FunnelAnchor>
         </div>
       ) : (
         <div className="bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white">
           Free diagnosis · no signup.{" "}
-          <TrackedLink
+          <FunnelAnchor
             href="/analyze?sample=1"
             utm={{ source: "landing", medium: "banner", campaign: "launch_banner_sample" }}
             funnelEvent="funnel_sample_cta"
@@ -213,7 +229,7 @@ export default function HomePage() {
             className="underline underline-offset-2 hover:text-blue-100 transition-colors"
           >
             See sample report →
-          </TrackedLink>
+          </FunnelAnchor>
         </div>
       )}
 
@@ -236,7 +252,7 @@ export default function HomePage() {
         </p>
 
         <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full max-w-md sm:max-w-none sm:w-auto">
-          <TrackedLink
+          <FunnelAnchor
             href="/analyze"
             utm={{ source: "landing", medium: "cta", campaign: "hero_primary" }}
             funnelEvent="funnel_landing_cta"
@@ -247,8 +263,8 @@ export default function HomePage() {
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </TrackedLink>
-          <TrackedLink
+          </FunnelAnchor>
+          <FunnelAnchor
             href="/analyze?sample=1"
             utm={{ source: "landing", medium: "cta", campaign: "hero_sample" }}
             funnelEvent="funnel_sample_cta"
@@ -256,18 +272,18 @@ export default function HomePage() {
             className="inline-flex items-center justify-center rounded-xl border border-blue-200 bg-white px-8 py-3 sm:py-3.5 text-sm font-medium text-blue-700 hover:border-blue-300 hover:bg-blue-50 transition-all"
           >
             See sample report
-          </TrackedLink>
+          </FunnelAnchor>
         </div>
         <p className="mt-4 text-sm text-gray-500">
           No OAuth · raw CSV is not stored · descriptions stripped before storage
         </p>
         <p className="mt-2 text-sm text-gray-500">
           No CSV yet?{" "}
-          <Link href="/stripe-balance-csv" className="font-medium text-blue-600 hover:underline">
+          <Link href="/stripe-balance-csv" className="font-medium text-blue-700 underline hover:text-blue-800">
             Export in 2 clicks from Stripe Dashboard →
           </Link>
           {" · "}
-          <Link href="/privacy#security" className="font-medium text-blue-600 hover:underline">
+          <Link href="/privacy#security" className="font-medium text-blue-700 underline hover:text-blue-800">
             How we handle your data
           </Link>
         </p>
@@ -319,14 +335,14 @@ export default function HomePage() {
             {PAIN_LINKS.map((item, index) => (
               <span key={item.href} className="inline-flex items-center">
                 {index > 0 && <span className="hidden text-gray-300 sm:inline"> · </span>}
-                <Link href={item.href} className="text-blue-600 hover:underline">
+                <Link href={item.href} className="text-blue-700 underline hover:text-blue-800">
                   {item.label}
                 </Link>
               </span>
             ))}
             <span className="inline-flex items-center">
               <span className="hidden text-gray-300 sm:inline"> · </span>
-              <Link href="/blog/how-i-found-1400-in-hidden-stripe-fees" className="text-blue-600 hover:underline">
+              <Link href="/blog/how-i-found-1400-in-hidden-stripe-fees" className="text-blue-700 underline hover:text-blue-800">
                 Case study
               </Link>
             </span>
@@ -359,18 +375,18 @@ export default function HomePage() {
           <LandingFaq itemIds={LANDING_FAQ_HOME_IDS} />
           <p className="mt-6 text-center text-sm text-gray-500">
             More questions in{" "}
-            <Link href="/how-it-works#faq" className="text-blue-600 hover:underline">
+            <Link href="/how-it-works#faq" className="text-blue-700 underline hover:text-blue-800">
               How it works
             </Link>
             {" "}and our{" "}
-            <Link href="/privacy" className="text-blue-600 hover:underline">
+            <Link href="/privacy" className="text-blue-700 underline hover:text-blue-800">
               Privacy Policy
             </Link>
             .
           </p>
         </div>
         <div className="mx-auto mt-10 max-w-md text-center">
-          <TrackedLink
+          <FunnelAnchor
             href="/analyze"
             utm={{ source: "landing", medium: "cta", campaign: "footer" }}
             funnelEvent="funnel_landing_cta"
@@ -378,13 +394,13 @@ export default function HomePage() {
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-3.5 text-base font-semibold text-white shadow hover:bg-blue-700 transition-colors"
           >
             Upload CSV
-          </TrackedLink>
+          </FunnelAnchor>
           <p className="mt-3 text-sm text-gray-500">
-            <Link href="/pricing" className="text-blue-600 hover:underline">
+            <Link href="/pricing" className="text-blue-700 underline hover:text-blue-800">
               Pricing
             </Link>
             {" · "}
-            <Link href="/monitor" className="text-blue-600 hover:underline">
+            <Link href="/monitor" className="text-blue-700 underline hover:text-blue-800">
               Fee Monitor
             </Link>
           </p>
@@ -445,6 +461,7 @@ export default function HomePage() {
           <Link href="/blog/stripe-effective-fee-rate-explained" className="underline hover:text-gray-900">Fee rate explained</Link>
         </p>
       </footer>
+      <FunnelClickDelegate />
     </main>
   );
 }
