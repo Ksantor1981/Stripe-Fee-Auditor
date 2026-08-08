@@ -38,6 +38,24 @@
 | 1.8 | Conversion sprint: sample CTA, money-first paywall, email skip, SEO → /analyze | done |
 | 1.9 | **P1:** UI *Normal rate vs outlier-adjusted* всегда в отчёте + pain-led landing/Monitor + honest privacy copy | done (Jul 19) |
 
+### Landing UX — Aug 2026 (hero / sample / trust)
+
+Источник: LLM-аудит первого экрана + user testing mobile. **P0 = сразу в прод**, **P1 = следующий спринт**, **P2 = после сигнала трафика**.
+
+| # | Задача | Приоритет | Статус | Блокер / когда делать |
+|---|--------|-----------|--------|------------------------|
+| L.1 | Hero **Variant A** (3.5–4.2%, «Find out where your money goes») | P0 | **done** (2058e06) | — |
+| L.2 | Sample disclaimer: heavy intl mix, типичный range ~3.8–5.2% | P0 | **done** (2058e06) | — |
+| L.3 | Hero link «No CSV yet? Export in 2 clicks» → `/stripe-balance-csv` | P0 | **done** (2058e06) | — |
+| L.4 | **Side-by-side** «Stripe Dashboard vs Fee Auditor» (2 скрина + 3 строки) | P1 | backlog | Нужен **generic** скрин Stripe Dashboard (без PII); ~1h после ассета |
+| L.5 | Trust line: descriptions stripped / financial rows only + link на data handling | P1 | **done** (Aug 8) | Hero → `/privacy#security`; §7 расширен |
+| L.6 | **`/security`** или расширенный `privacy#security` для CFO (in-memory, no OAuth, retention, GitHub) | P1 | **partial** | §7 + anchor done; отдельный `/security` — optional для CFO URL |
+| L.7 | Stripe Billing % в статьях (Metronome 2026) — audit outdated Starter/Scale | P1 | backlog | Content pass по blog/FAQ, не hero |
+| L.8 | Scenario switcher для sample (3 демо) | P2 | skip | Дорого; текст-дисклеймер (L.2) достаточно |
+| L.9 | `/for-cfo` (multi-upload, white-label PDF) | P2 | skip | После PMF / agency спроса |
+
+**Мониторинг (2026-08-08):** P0 и L.5 закрыты. L.6 частично (anchor + bullets). **Следующий P1 по ROI:** L.4 после generic Stripe Dashboard скрина. L.7 — content pass, не срочно. L.6 `/security` redirect — только если CFO/enterprise feedback.
+
 ### Фаза 2 — Снижение барьера CSV (2–4 недели)
 
 | # | Задача | Зависимости |
@@ -88,6 +106,7 @@
 - Полная мультивалюта mixed-CSV
 - Sentry (по желанию позже)
 - **AI-кластер `/ai/*`, `/tools` hub, AI Spend Advisor** — отложено (решение Jul 2026). IA «tools не в `/blog`» верна **на потом**; сейчас opportunity cost &gt; SEO-опцион. Устаревшие LLM-цены хуже отсутствия страниц.
+- **Chrome Extension: CSV upload / free diagnosis внутри popup** — отложено до оценки upload-теста (~2026-08-12). После теста: сначала free-first copy (popup + Store); drop→`/analyze` только при спросе. См. `chrome-extension/README.md` → Post-test backlog и `docs/ops/WEDNESDAY_MANUAL_STEPS.md` §6.
 
 ### Когда пересмотреть AI wedge
 

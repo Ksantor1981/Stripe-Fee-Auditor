@@ -259,12 +259,16 @@ export default function HomePage() {
           </TrackedLink>
         </div>
         <p className="mt-4 text-sm text-gray-500">
-          No OAuth · raw CSV is not stored · independent tool
+          No OAuth · raw CSV is not stored · descriptions stripped before storage
         </p>
         <p className="mt-2 text-sm text-gray-500">
           No CSV yet?{" "}
           <Link href="/stripe-balance-csv" className="font-medium text-blue-600 hover:underline">
             Export in 2 clicks from Stripe Dashboard →
+          </Link>
+          {" · "}
+          <Link href="/privacy#security" className="font-medium text-blue-600 hover:underline">
+            How we handle your data
           </Link>
         </p>
 

@@ -238,14 +238,31 @@ export default function PrivacyPage() {
             </div>
           </section>
 
-          <section>
+          <section id="security">
             <h2 className="text-lg font-semibold text-gray-900 mb-3">7. Security</h2>
             <p className="text-gray-600 leading-relaxed">
               Data is transmitted over HTTPS. CSV content is processed on the server for analysis
               and is not written to a public bucket. Report access uses a secret token in addition
               to the report ID. We use rate limiting and other controls to reduce abuse.
             </p>
-          </section>
+            <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-600 leading-relaxed">
+              <li>
+                <strong>No OAuth, no API keys</strong> — you export a CSV yourself; we never get ongoing
+                access to your Stripe account.
+              </li>
+              <li>
+                <strong>In-memory processing</strong> — the raw CSV file is not stored as a blob; we keep
+                computed aggregates for your report link (see section 2).
+              </li>
+              <li>
+                <strong>Descriptions stripped before storage</strong> — free-text Stripe descriptions are
+                used only during analysis, then removed from persisted report JSON where possible.
+              </li>
+              <li>
+                <strong>Deterministic math, not LLM</strong> — fee logic is open for review; we do not send
+                your CSV to third-party AI providers (see section 1).
+              </li>
+            </ul>
 
           <section>
             <h2 className="text-lg font-semibold text-gray-900 mb-3">8. Your Rights (GDPR / CCPA and similar laws)</h2>
