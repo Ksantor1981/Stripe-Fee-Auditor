@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { consumeIpRequest, getReportWithAccess, isActiveMonitorSubscriber, saveReportEmail } from "@/lib/db";
+import {
+  consumeIpRequest,
+  extendReportForMonitor,
+  getReportWithAccess,
+  isActiveMonitorSubscriber,
+  saveReportEmail,
+} from "@/lib/db";
 import { sendReportEmail } from "@/lib/email";
 import { getTrustedClientIp } from "@/lib/request-ip";
 import { resolveReportAccessFromRequest } from "@/lib/report-access-cookie";
@@ -55,6 +61,9 @@ export async function POST(
   const monitorFullAccess = await isActiveMonitorSubscriber(normalizedEmail);
 
   if (report.email?.toLowerCase() === normalizedEmail) {
+    if (monitorFullAccess) {
+      await extendReportForMonitor(id, token);
+    }
     return NextResponse.json({ ok: true, alreadySaved: true, monitorFullAccess });
   }
 
@@ -91,6 +100,10 @@ export async function POST(
     }
 
     // Fetch total fees so the email subject shows the actual amount (e.g.
+    if (monitorFullAccess) {
+      await extendReportForMonitor(id, token);
+    }
+
     // "$847 in Stripe fees — Your report is ready") instead of the generic fallback.
     const totalFeesCents =
       report?.result && typeof report.result.allInFees === "number"

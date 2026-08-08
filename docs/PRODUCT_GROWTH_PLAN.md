@@ -47,10 +47,10 @@
 | L.1 | Hero **Variant A** (3.5–4.2%, «Find out where your money goes») | P0 | **done** (2058e06) | — |
 | L.2 | Sample disclaimer: heavy intl mix, типичный range ~3.8–5.2% | P0 | **done** (2058e06) | — |
 | L.3 | Hero link «No CSV yet? Export in 2 clicks» → `/stripe-balance-csv` | P0 | **done** (2058e06) | — |
-| L.4 | **Side-by-side** «Stripe Dashboard vs Fee Auditor» (2 скрина + 3 строки) | P1 | backlog | Нужен **generic** скрин Stripe Dashboard (без PII); ~1h после ассета |
+| L.4 | **Side-by-side** «Stripe Dashboard vs Fee Auditor» (2 скрина + 3 строки) | P1 | backlog | **M.3** — generic Stripe Dashboard скрин (без PII); ~1h после ассета |
 | L.5 | Trust line: descriptions stripped / financial rows only + link на data handling | P1 | **done** (Aug 8) | Hero → `/privacy#security`; §7 расширен |
-| L.6 | **`/security`** или расширенный `privacy#security` для CFO (in-memory, no OAuth, retention, GitHub) | P1 | **partial** | §7 + anchor done; отдельный `/security` — optional для CFO URL |
-| L.7 | Stripe Billing % в статьях (Metronome 2026) — audit outdated Starter/Scale | P1 | backlog | Content pass по blog/FAQ, не hero |
+| L.6 | **`/security`** или расширенный `privacy#security` для CFO (in-memory, no OAuth, retention, GitHub) | P1 | **partial** | **M.4** — §7 + anchor done; `/security` optional |
+| L.7 | Stripe Billing % в статьях (Metronome 2026) — audit outdated Starter/Scale | P1 | backlog | **M.5** — content pass по blog/FAQ, не hero |
 | L.8 | Scenario switcher для sample (3 демо) | P2 | skip | Дорого; текст-дисклеймер (L.2) достаточно |
 | L.9 | `/for-cfo` (multi-upload, white-label PDF) | P2 | skip | После PMF / agency спроса |
 
@@ -64,11 +64,32 @@
 | L.13 | GA4 + Plausible → `next/script` `afterInteractive` | P2 | **done** (Aug 8) | ↓ TBT / render delay на mobile |
 | L.14 | Убрать `fetchPriority="high"` у sample PNG (LCP = H1) | P2 | **done** (Aug 8) | — |
 | L.15 | WebP/AVIF для `report-preview` + `sizes` + lazy | P2 | **done** (Aug 8) | 80→31 KB 1x, lazy below fold |
-| L.16 | Перезапустить PSI desktop + mobile после деплоя | ops | pending | Mobile Aug 8: perf 87, LCP 3.3s, a11y 100 |
+| L.16 | Перезапустить PSI desktop + mobile после деплоя | ops | **monitor** | Baseline Aug 8: mobile perf **87**, LCP **3.3s**, a11y **100**; desktop ~97→100 (lab). См. **M.1–M.2** |
 | L.17 | Hero server CTAs (`FunnelAnchor` + delegate), dynamic Nav/FAQ | P1 | **done** (Aug 8) | perf 70→87, LCP 5.5→3.3s |
-| L.18 | Nav fixed at end of DOM; hero first; analytics lazyOnload | P2 | **done** (Aug 8) | Target LCP &lt; 2.5s |
+| L.18 | Nav at end of DOM; hero first; analytics lazyOnload | P2 | **superseded** | Заменено L.19: nav shell сверху + idle hydrate (desktop SI) |
+| L.19 | Nav shell top + `LandingNavHydrate`; GA off `/`; `FunnelClickDelegate` idle; browserslist | P2 | **done** (Aug 9, local) | Ждёт деплoy → **M.1** после push |
 
-**Мониторинг (2026-08-08):** P0 и L.5 закрыты. L.6 частично (anchor + bullets). L.10–L.14 закрыты одним pass. **Следующий P1 по ROI:** L.4 после generic Stripe Dashboard скрина. L.7 — content pass. L.15 — если mobile perf &lt; 85 после L.13.
+### Периодический мониторинг — не срочно, но обязательно
+
+**Не блокируют релиз**, но без них легко пропустить регресс после «массовых» правок (лендинг, layout, analytics, nav, скрины, perf).
+
+**Полный чек запускать когда:**
+
+- деплой затронул `app/page.tsx`, `app/layout.tsx`, `components/LandingNav*`, analytics, скрины лендинга; **или**
+- серия **≥3 коммитов** UI/perf подряд; **или**
+- раз в **месяц** spot-check, если правок не было.
+
+| # | Что | Периодичность | Порог / действие |
+|---|-----|---------------|------------------|
+| **M.1** | [PSI mobile](https://pagespeed.web.dev/analysis?url=https://feeauditor.com&form_factor=mobile) + [desktop](https://pagespeed.web.dev/analysis?url=https://feeauditor.com&form_factor=desktop) | после mass deploy + **1×/мес** | Mobile: perf **≥85**, LCP **≤3.5s**, a11y **100**. Desktop: perf **≥95** (цель 100). Ниже порога → новый perf pass, не hero-контент |
+| **M.2** | Зафиксировать score в таблице **L.16** (дата + 4 цифры) | каждый прогон M.1 | Aug 8 mobile: 87 / 3.3s / a11y 100. Aug 9: пауза после L.19 — перепроверить **после деплоя** |
+| **M.3** | **L.4** side-by-side Stripe Dashboard vs Fee Auditor | content sprint / **1×/кв** | Backlog до generic Stripe Dashboard скрина (без PII) |
+| **M.4** | **L.6** `/security` vs `privacy#security` | **1×/кв** или запрос CFO/partner | Partial OK; отдельный URL — по спросу, не блокер |
+| **M.5** | **L.7** audit Stripe Billing % в blog/FAQ | **1×/кв** или новости Stripe pricing | Content pass; не трогать hero |
+| **M.6** | `public/llms.txt` + positioning vs hero/H1 | после смены первого экрана / **1×/кв** | Agent browsing PSI 3/3; дата в файле актуальна |
+| **M.7** | Prod vs local: L.19 (nav hydrate, GA off `/`) | **сразу после деплоя** L.19 | View-source `/`: nav shell в начале `<main>`; на `/` нет `googletagmanager.com` в Network до навигации |
+
+**Статус на 2026-08-09:** perf-спринт **на паузе** (достаточно для beta). P0 и L.5 закрыты. L.6 partial. L.10–L.15, L.17 закрыты. **Следующий P1 по ROI (не срочно):** L.4 → L.7. **Ops:** M.1–M.2 после деплоя L.19.
 
 ### Фаза 2 — Снижение барьера CSV (2–4 недели)
 
@@ -111,6 +132,7 @@
 - Neon: `weekly-metrics.sql`
 - Vercel logs: `ops_event` + `usd_only_rejected`
 - GSC: impressions/clicks **по URL** (calculator, what-percent, analyze, blog tops)
+- **PSI / Lighthouse (M.1–M.2):** не каждую неделю — **1×/мес** или после mass deploy лендинга/perf (см. таблицу выше)
 
 **Критерий «трафик ок, пора усложнять продукт»:** стабильный organic на Stripe tools **или** предсказуемый analyze → unlock — иначе не открывать новые вертикали.
 

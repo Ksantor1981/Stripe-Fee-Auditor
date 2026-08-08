@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import "./globals.css";
+import { AnalyticsScripts } from "@/components/AnalyticsScripts";
 import { PageLoadMarker } from "@/components/PageLoadMarker";
 import { getGaMeasurementId } from "@/lib/ga";
 import { buildOgImageUrl } from "@/lib/seo-og";
@@ -121,29 +121,7 @@ export default function RootLayout({
       <body className="antialiased">
         <PageLoadMarker />
         {children}
-        {gaMeasurementId ? (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
-              strategy="lazyOnload"
-            />
-            <Script id="ga-config" strategy="lazyOnload">
-              {`
-window.dataLayer=window.dataLayer||[];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${gaMeasurementId}');
-`.trim()}
-            </Script>
-          </>
-        ) : null}
-        <Script src="https://plausible.io/js/pa-NtZAVMy_DG97Ek3wmMn6V.js" strategy="lazyOnload" />
-        <Script id="plausible-init" strategy="lazyOnload">
-          {`
-window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-plausible.init()
-`.trim()}
-        </Script>
+        <AnalyticsScripts gaMeasurementId={gaMeasurementId} />
       </body>
     </html>
   );

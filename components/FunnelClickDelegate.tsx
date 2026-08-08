@@ -17,20 +17,38 @@ function parseFunnelProps(raw: string | null): Record<string, FunnelPropValue> |
 /** One listener for all [data-funnel-event] links — avoids per-CTA client components. */
 export function FunnelClickDelegate() {
   useEffect(() => {
-    const onClick = (event: MouseEvent) => {
-      const target = event.target;
-      if (!(target instanceof Element)) return;
-      const anchor = target.closest<HTMLAnchorElement>("[data-funnel-event]");
-      if (!anchor) return;
+    let removeListener: (() => void) | undefined;
 
-      const name = anchor.dataset.funnelEvent;
-      if (!name) return;
+    const attach = () => {
+      const onClick = (event: MouseEvent) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const anchor = target.closest<HTMLAnchorElement>("[data-funnel-event]");
+        if (!anchor) return;
 
-      trackEvent(name, parseFunnelProps(anchor.dataset.funnelProps ?? null));
+        const name = anchor.dataset.funnelEvent;
+        if (!name) return;
+
+        trackEvent(name, parseFunnelProps(anchor.dataset.funnelProps ?? null));
+      };
+
+      document.addEventListener("click", onClick, true);
+      removeListener = () => document.removeEventListener("click", onClick, true);
     };
 
-    document.addEventListener("click", onClick, true);
-    return () => document.removeEventListener("click", onClick, true);
+    if (typeof window.requestIdleCallback === "function") {
+      const id = window.requestIdleCallback(attach, { timeout: 4000 });
+      return () => {
+        window.cancelIdleCallback(id);
+        removeListener?.();
+      };
+    }
+
+    const timer = window.setTimeout(attach, 200);
+    return () => {
+      window.clearTimeout(timer);
+      removeListener?.();
+    };
   }, []);
 
   return null;

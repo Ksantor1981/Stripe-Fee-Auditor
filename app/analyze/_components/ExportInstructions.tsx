@@ -149,6 +149,18 @@ export function ExportInstructions() {
                 <code className="rounded bg-gray-100 px-1">fee</code>.
               </AccordionContent>
             </AccordionItem>
+            <AccordionItem value="wrong-export" className="border-none">
+              <AccordionTrigger className="text-sm font-medium text-gray-700">
+                I exported from Payments — is that OK?
+              </AccordionTrigger>
+              <AccordionContent className="pb-4 text-sm text-gray-500">
+                Fee Auditor accepts common Stripe exports automatically:
+                {" "}
+                <strong>Reports → Balance summary → Itemized</strong> (best, full all-in picture),{" "}
+                <strong>Payments → Export</strong> (charges + refunds), and legacy Balance CSV columns.
+                You don&apos;t need to convert files manually.
+              </AccordionContent>
+            </AccordionItem>
             <AccordionItem value="how-much-data" className="border-none">
               <AccordionTrigger className="text-sm font-medium text-gray-700">
                 How much data should I export?

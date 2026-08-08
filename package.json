@@ -2,6 +2,12 @@
   "name": "stripe-fee-auditor",
   "version": "0.1.0",
   "private": true,
+  "browserslist": [
+    "chrome >= 111",
+    "edge >= 111",
+    "firefox >= 111",
+    "safari >= 16.4"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,7 +17,11 @@
     "validate:seo": "node scripts/seo-validate.mjs",
     "check:prod": "node scripts/check-production.mjs",
     "check:health": "node scripts/check-health.mjs",
-    "check:post-beta": "node scripts/check-post-beta-smoke.mjs"
+    "check:post-beta": "node scripts/check-post-beta-smoke.mjs",
+    "seed:stripe-test": "node scripts/generate_stripe_test_data_v1.mjs",
+    "seed:stripe-test:dry": "node scripts/generate_stripe_test_data_v1.mjs --dry-run",
+    "seed:founder-july": "node scripts/generate_founder_july_csv_v1.mjs",
+    "convert:payments": "tsx scripts/convert_payments_csv_v1.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
@@ -43,6 +53,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.29",
     "postcss": "^8",
+    "stripe": "^18.5.0",
     "tailwindcss": "^4.2.4",
     "tsx": "^4.21.0",
     "typescript": "^5"

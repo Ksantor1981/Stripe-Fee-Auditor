@@ -13,9 +13,14 @@ import { readAttributionFromRequest } from "@/lib/attribution";
 import { getTrustedClientIp } from "@/lib/request-ip";
 import { SAMPLE_CSV } from "@/lib/sampleData";
 import { MAX_CSV_ROWS, sanitizeColumnMapping, parseCsvWithRowLimit } from "@/lib/analyze-input";
+import { prepareStripeCsvRows } from "@/lib/stripe-csv-import";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { appendReportAccessCookie } from "@/lib/report-access-cookie";
 import { logOpsError, logOpsInfo } from "@/lib/ops-log";
+import {
+  isStripeAccountCountry,
+  type StripeAccountCountry,
+} from "@/lib/stripe-country-fees";
 
 export const maxDuration = 30;
 
@@ -80,7 +85,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    let body: { csvText?: string; columnMapping?: Record<string, string> };
+    let body: {
+      csvText?: string;
+      columnMapping?: Record<string, string>;
+      accountCountry?: StripeAccountCountry;
+    };
     try {
       body = await req.json();
     } catch {
@@ -97,6 +106,13 @@ export async function POST(req: NextRequest) {
 
     const csvText = body.csvText;
     const isDemo = isSampleCsv(csvText);
+
+    if (body.accountCountry !== undefined && !isStripeAccountCountry(body.accountCountry)) {
+      return NextResponse.json({ error: "Unsupported Stripe account country" }, { status: 400 });
+    }
+    const accountCountry: StripeAccountCountry = isDemo
+      ? "US"
+      : body.accountCountry ?? "US";
 
     // ── Rate limiting ─────────────────────────────────────────────────────────
     if (!isDemo && !(await consumeIpRequest(`analyze:${ip}`, ANALYZE_LIMIT_PER_IP_PER_DAY))) {
@@ -134,8 +150,22 @@ export async function POST(req: NextRequest) {
 
     const columnMapping = sanitizeColumnMapping(body.columnMapping, ALLOWED_CANONICAL);
 
-    let rows = parsedRows;
-    if (columnMapping && Object.keys(columnMapping).length > 0) {
+    const rawHeaders = Object.keys(parsedRows[0] ?? {});
+    const prepared = prepareStripeCsvRows(parsedRows, rawHeaders);
+    let rows = prepared.rows;
+    const csvFormatNotice = prepared.notice;
+
+    if (prepared.format === "payments" && !rows.length) {
+      return NextResponse.json(
+        {
+          error:
+            "No paid charges found in Payments export. Try Reports → Balance summary → Export → Itemized.",
+        },
+        { status: 422 }
+      );
+    }
+
+    if (prepared.format === "unknown" && columnMapping && Object.keys(columnMapping).length > 0) {
       rows = rows.map((row) => {
         const remapped: RawRow = { ...row };
         for (const [canonical, original] of Object.entries(columnMapping)) {
@@ -152,7 +182,7 @@ export async function POST(req: NextRequest) {
     const missing = validateColumns(effectiveHeaders);
     if (missing.length > 0) {
       return NextResponse.json(
-        { error: `Missing required columns: ${missing.join(", ")}` },
+        { error: `Missing required columns: ${missing.join(", ")}. Export from Stripe Dashboard → Reports → Balance summary → Itemized, or Payments → Export.` },
         { status: 422 }
       );
     }
@@ -201,7 +231,7 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Analyze ────────────────────────────────────────────────────────────────
-    const result = analyze(normalized);
+    const result = analyze(normalized, { accountCountry });
     const storedResult = redactAnalysisResultForStorage(result);
     const accessToken = createReportAccessToken();
 
@@ -223,7 +253,9 @@ export async function POST(req: NextRequest) {
     const res = NextResponse.json({
       reportId,
       mode: result.mode,
+      account_country: accountCountry,
       isDemo,
+      ...(csvFormatNotice ? { csvFormatNotice } : {}),
       summary: {
         chargeVolume: result.chargeVolume,
         chargeFees: result.chargeFees,

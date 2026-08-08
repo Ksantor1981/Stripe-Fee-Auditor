@@ -10,6 +10,14 @@ import { SAMPLE_CSV, SAMPLE_COLUMN_MAPPING } from "@/lib/sampleData";
 import { trackEvent } from "@/lib/analytics";
 import { MAX_CSV_ROWS } from "@/lib/analyze-input";
 import {
+  detectStripeCsvFormat,
+  isAutoRecognizedStripeCsv,
+  stripeCsvFormatLabel,
+  stripeCsvFormatNotice,
+  type StripeCsvFormat,
+} from "@/lib/stripe-csv-import";
+import { validateColumns } from "@/lib/csv-parser";
+import {
   STRIPE_ACCOUNT_COUNTRIES,
   type StripeAccountCountry,
 } from "@/lib/stripe-country-fees";
@@ -27,6 +35,7 @@ interface ParsedFile {
   rows: Record<string, string>[];
   totalRows: number;
   isSample?: boolean;
+  stripeFormat?: StripeCsvFormat;
 }
 
 type ColumnMapping = Partial<Record<RequiredCol, string>>;
@@ -42,6 +51,8 @@ const COLUMN_ALIASES: Record<RequiredCol, string[]> = {
     "created",
     "created_utc",
     "created utc",
+    "created date (utc)",
+    "created date utc",
     "effective_at",
     "effective_at_utc",
     "effective at utc",
@@ -83,6 +94,7 @@ export function UploadZone({ autoLoadSample }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [stage, setStage] = useState<Stage>("idle");
   const [accountCountry, setAccountCountry] = useState<StripeAccountCountry>("US");
+  const [formatNotice, setFormatNotice] = useState<string | null>(null);
   const autoAnalyzeStarted = useRef(false);
   const pendingSampleAutoAnalyze = useRef(false);
 
@@ -113,6 +125,7 @@ export function UploadZone({ autoLoadSample }: Props) {
     if (!file) return;
     setError(null);
     setParsed(null);
+    setFormatNotice(null);
 
     if (!file.name.endsWith(".csv")) {
       setError("Please upload a .csv file.");
@@ -173,12 +186,17 @@ export function UploadZone({ autoLoadSample }: Props) {
           return;
         }
 
+        const stripeFormat = detectStripeCsvFormat(headers);
+        const notice = stripeCsvFormatNotice(stripeFormat);
+        if (notice) setFormatNotice(notice);
+
         setParsed({
           file,
           fileName: file.name,
           headers,
           rows: previewRows,
           totalRows,
+          stripeFormat,
         });
         setMapping(autoDetect(headers));
         trackEvent("funnel_csv_loaded", { sample: false });
@@ -218,7 +236,9 @@ export function UploadZone({ autoLoadSample }: Props) {
   });
 
   const missing = missingCols(mapping);
-  const canAnalyze = !!parsed && missing.length === 0 && stage === "idle";
+  const autoRecognized = parsed ? isAutoRecognizedStripeCsv(parsed.headers) || validateColumns(parsed.headers).length === 0 : false;
+  const canAnalyze =
+    !!parsed && stage === "idle" && (autoRecognized || missing.length === 0);
 
   const runAnalyze = useCallback(
     async (source: ParsedFile, columnMapping: ColumnMapping) => {
@@ -295,12 +315,12 @@ export function UploadZone({ autoLoadSample }: Props) {
           {autoLoadSample ? "Sample" : "Your file"}
         </p>
         <h2 className="text-xl font-bold text-gray-900">
-          {autoLoadSample ? "Running sample diagnosis…" : "Upload your Balance CSV"}
+          {autoLoadSample ? "Running sample diagnosis…" : "Upload your Stripe CSV"}
         </h2>
         <p className="mt-2 text-gray-500 text-sm">
           {autoLoadSample
             ? "Sample file is loading and will analyze automatically. You can also drop your own CSV."
-            : "Itemized Balance export only (.csv, max 4 MB). No account connect."}
+            : "Stripe Balance or Payments export (.csv, max 4 MB). We auto-detect the format."}
         </p>
       </div>
 
@@ -345,7 +365,7 @@ export function UploadZone({ autoLoadSample }: Props) {
             </div>
             <div>
               <p className="font-semibold text-gray-700">
-                {isDragActive ? "Drop it here!" : "Drag & drop your Stripe Balance CSV"}
+                {isDragActive ? "Drop it here!" : "Drag & drop your Stripe CSV"}
               </p>
               <p className="text-sm text-gray-400 mt-1">or click to browse</p>
             </div>
@@ -454,17 +474,22 @@ export function UploadZone({ autoLoadSample }: Props) {
         </div>
       )}
 
-      {/* Column mapping */}
-      {parsed && missing.length > 0 && (
+      {formatNotice && (
+        <div className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
+          {formatNotice}
+        </div>
+      )}
+
+      {/* Column mapping — only when format is truly unknown */}
+      {parsed && missing.length > 0 && !autoRecognized && (
         <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">
           <p className="text-sm font-semibold text-amber-800 mb-1">
             ⚠️ Some columns couldn&apos;t be auto-detected
           </p>
           <p className="text-xs text-amber-700 mb-4">
-            Map the missing columns manually:&nbsp;
-            {missing.map((c) => (
-              <code key={c} className="mx-0.5 bg-amber-100 px-1 rounded">{c}</code>
-            ))}
+            We didn&apos;t recognize this as a standard Stripe export. Map columns below, or re-export from
+            Stripe Dashboard → <strong>Reports → Balance summary → Itemized</strong> (best) or{" "}
+            <strong>Payments → Export</strong>.
           </p>
           <div className="grid gap-3 sm:grid-cols-2">
             {missing.map((col) => (
@@ -489,10 +514,14 @@ export function UploadZone({ autoLoadSample }: Props) {
       )}
 
       {/* Auto-detect success */}
-      {parsed && missing.length === 0 && (
+      {parsed && autoRecognized && (
         <div className="flex items-center gap-2 rounded-xl bg-green-50 border border-green-200 px-4 py-3">
           <span className="text-green-600">✅</span>
-          <p className="text-sm text-green-800">All required columns detected automatically.</p>
+          <p className="text-sm text-green-800">
+            {parsed.stripeFormat && parsed.stripeFormat !== "unknown"
+              ? `${stripeCsvFormatLabel(parsed.stripeFormat)} recognized — ready to analyze.`
+              : "Stripe CSV recognized — ready to analyze."}
+          </p>
         </div>
       )}
 

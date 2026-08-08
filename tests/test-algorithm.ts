@@ -5,6 +5,15 @@
 
 import { normalizeRow, validateColumns, type NormalizedRow } from "../lib/csv-parser";
 import { analyze, redactAnalysisResultForStorage } from "../lib/fee-analyzer";
+import {
+  convertPaymentsCsvToBalanceRows,
+  isStripePaymentsExport,
+} from "../lib/stripe-payments-csv";
+import {
+  detectStripeCsvFormat,
+  isAutoRecognizedStripeCsv,
+  prepareStripeCsvRows,
+} from "../lib/stripe-csv-import";
 import { applyExpectedOutlierExclusions } from "../lib/expected-outliers";
 import { selectFreeDiagnosis } from "../lib/free-diagnosis";
 import { resolvePaywallImpact } from "../lib/paywall-impact";
@@ -68,6 +77,92 @@ test("accepts official Stripe Balance itemized headers", () => {
     "created_utc",
   ]);
   assert(missing.length === 0, `should accept Balance headers: ${missing}`);
+});
+
+console.log("\n📋 stripe-payments-csv");
+
+test("detects unified Payments export headers", () => {
+  assert(
+    isStripePaymentsExport([
+      "id",
+      "Created date (UTC)",
+      "Amount",
+      "Amount Refunded",
+      "Currency",
+      "Fee",
+      "Status",
+      "Description",
+      "Statement Descriptor",
+    ]),
+    "should detect payments export"
+  );
+  assert(!isStripePaymentsExport(["id", "type", "amount", "fee", "net", "currency", "created"]), "balance not payments");
+});
+
+test("converts Payments row to charge + refund in cents", () => {
+  const converted = convertPaymentsCsvToBalanceRows([
+    {
+      id: "ch_test",
+      "Created date (UTC)": "2026-08-08 23:00:36",
+      Amount: "29.00",
+      "Amount Refunded": "29.00",
+      Currency: "usd",
+      Fee: "1.14",
+      Status: "Refunded",
+      Description: "Standard UK (US Visa stand-in (intl label only))",
+      "card_type (metadata)": "international",
+    },
+  ]);
+  assert(converted.length === 2, "charge + refund");
+  const charge = normalizeRow(converted[0]);
+  assertClose(charge.amount, 29, 0.01, "charge amount");
+  assertClose(charge.fee, 1.14, 0.01, "charge fee");
+  assert(charge.description?.includes("[international]"), "intl tag from metadata");
+  const refund = normalizeRow(converted[1]);
+  assert(refund.type.includes("refund"), "refund type");
+  assertClose(refund.amount, -29, 0.01, "refund amount");
+});
+
+test("detectStripeCsvFormat recognizes user's unified_payments headers", () => {
+  const headers = [
+    "id",
+    "Created date (UTC)",
+    "Amount",
+    "Amount Refunded",
+    "Currency",
+    "Captured",
+    "Converted Amount",
+    "Fee",
+    "Status",
+    "Description",
+    "Statement Descriptor",
+    "Seller Message",
+    "card_type (metadata)",
+  ];
+  assert(detectStripeCsvFormat(headers) === "payments", "unified payments");
+  assert(isAutoRecognizedStripeCsv(headers), "auto recognized");
+});
+
+test("prepareStripeCsvRows converts payments for analyze pipeline", () => {
+  const { rows, format } = prepareStripeCsvRows(
+    [
+      {
+        id: "ch_x",
+        "Created date (UTC)": "2026-08-08 23:00:51",
+        Amount: "19.00",
+        "Amount Refunded": "0.00",
+        Currency: "usd",
+        Fee: "0.85",
+        Status: "Paid",
+        Description: "Starter intl",
+        "card_type (metadata)": "international",
+      },
+    ],
+    ["id", "Created date (UTC)", "Amount", "Fee", "Status", "Currency", "Description", "card_type (metadata)"]
+  );
+  assert(format === "payments", "format");
+  assert(rows.length === 1, "one charge");
+  assert(validateColumns(Object.keys(rows[0])).length === 0, "valid after convert");
 });
 
 console.log("\n📋 csv-parser / normalizeRow");
