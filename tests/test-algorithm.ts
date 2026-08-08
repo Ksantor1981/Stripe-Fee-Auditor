@@ -117,7 +117,7 @@ test("converts Payments row to charge + refund in cents", () => {
   const charge = normalizeRow(converted[0]);
   assertClose(charge.amount, 29, 0.01, "charge amount");
   assertClose(charge.fee, 1.14, 0.01, "charge fee");
-  assert(charge.description?.includes("[international]"), "intl tag from metadata");
+  assert(Boolean(charge.description?.includes("[international]")), "intl tag from metadata");
   const refund = normalizeRow(converted[1]);
   assert(refund.type.includes("refund"), "refund type");
   assertClose(refund.amount, -29, 0.01, "refund amount");
