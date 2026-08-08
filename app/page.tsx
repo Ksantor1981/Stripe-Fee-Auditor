@@ -221,15 +221,18 @@ export default function HomePage() {
         <LandingNav />
       </div>
 
-      {/* Hero — Curiosity */}
+      {/* Hero */}
       <section id="problem" className="flex flex-col items-center justify-center px-4 py-10 sm:py-14 text-center scroll-mt-28">
         <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">
-          Your Stripe dashboard says 2.9%.{" "}
-          <span className="text-blue-600">Your effective rate often isn&apos;t.</span>
+          Stripe charges 2.9%. Most users actually pay{" "}
+          <span className="text-blue-600">3.5–4.2%.</span>
         </h1>
+        <p className="mt-4 max-w-xl text-xl font-semibold text-gray-800 sm:text-2xl">
+          Find out where your money goes.
+        </p>
         <h2 className="sr-only">Stripe effective rate, refund leakage, and international card fees</h2>
         <p className="mt-5 max-w-xl text-base text-gray-600 leading-relaxed">
-          Upload a Balance CSV and see your real rate and the top driver behind it.
+          Upload a Balance CSV — free, no OAuth.
         </p>
 
         <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full max-w-md sm:max-w-none sm:w-auto">
@@ -258,6 +261,12 @@ export default function HomePage() {
         <p className="mt-4 text-sm text-gray-500">
           No OAuth · raw CSV is not stored · independent tool
         </p>
+        <p className="mt-2 text-sm text-gray-500">
+          No CSV yet?{" "}
+          <Link href="/stripe-balance-csv" className="font-medium text-blue-600 hover:underline">
+            Export in 2 clicks from Stripe Dashboard →
+          </Link>
+        </p>
 
         {hasReportsAnalyzedCount && (
           <p className="mt-3 text-sm font-medium text-gray-500">
@@ -274,6 +283,10 @@ export default function HomePage() {
           </h2>
           <p className="mt-2 text-center text-sm text-gray-500">
             Illustrative Balance CSV — your volume and rates will differ.
+          </p>
+          <p className="mt-2 text-center text-sm text-gray-600 max-w-2xl mx-auto">
+            This example uses a heavy international-card mix (6.67% all-in). Most SaaS founders see{" "}
+            <span className="font-medium text-gray-800">~3.8–5.2%</span>.
           </p>
           <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-4 text-center sm:flex sm:flex-wrap sm:justify-center sm:gap-x-6 sm:gap-y-3">
             {PROOF_STATS.map(({ label, value }) => (
