@@ -205,6 +205,7 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD).replace(/</g, "\\u003c") }}
       />
 
+      <div className="pt-14">
       {FULL_REPORTS_FREE_DURING_BETA ? (
         <div className="bg-emerald-600 px-4 py-2.5 text-center text-sm font-medium text-white">
           Free diagnosis · no signup.{" "}
@@ -233,11 +234,7 @@ export default function HomePage() {
         </div>
       )}
 
-      <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
-        <LandingNav />
-      </div>
-
-      {/* Hero */}
+      {/* Hero — before nav in DOM so H1 paints without waiting on nav JS */}
       <section id="problem" className="flex flex-col items-center justify-center px-4 py-10 sm:py-14 text-center scroll-mt-28">
         <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">
           Stripe charges 2.9%. Most users actually pay{" "}
@@ -318,17 +315,26 @@ export default function HomePage() {
           </div>
 
           <div className="mt-10 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60">
-            {/* Native srcSet 1x/2x — next/image would re-encode or drop retina asset */}
+            {/* WebP + PNG srcSet; lazy — below fold on mobile, not LCP */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/screenshots/report-preview.png"
-              srcSet="/screenshots/report-preview.png 1x, /screenshots/report-preview@2x.png 2x"
-              alt="Stripe Fee Auditor report: Fee Grade D, $498.76 in quarter fees, 6.33% processing rate, 6.67% all-in cost, and comparison vs advertised 2.9% card pricing"
-              width={1024}
-              height={616}
-              decoding="async"
-              className="mx-auto block h-auto w-full max-w-[1024px]"
-            />
+            <picture>
+              <source
+                type="image/webp"
+                srcSet="/screenshots/report-preview.webp 1x, /screenshots/report-preview@2x.webp 2x"
+                sizes="(max-width: 1024px) 100vw, 1024px"
+              />
+              <img
+                src="/screenshots/report-preview.png"
+                srcSet="/screenshots/report-preview.png 1x, /screenshots/report-preview@2x.png 2x"
+                sizes="(max-width: 1024px) 100vw, 1024px"
+                alt="Stripe Fee Auditor report: Fee Grade D, $498.76 in quarter fees, 6.33% processing rate, 6.67% all-in cost, and comparison vs advertised 2.9% card pricing"
+                width={1024}
+                height={616}
+                loading="lazy"
+                decoding="async"
+                className="mx-auto block h-auto w-full max-w-[1024px]"
+              />
+            </picture>
           </div>
 
           <div className="mt-6 flex flex-col items-center gap-1.5 text-center text-sm text-gray-500 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-1 sm:gap-y-0">
@@ -461,6 +467,11 @@ export default function HomePage() {
           <Link href="/blog/stripe-effective-fee-rate-explained" className="underline hover:text-gray-900">Fee rate explained</Link>
         </p>
       </footer>
+      </div>
+
+      <div className="fixed inset-x-0 top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
+        <LandingNav />
+      </div>
       <FunnelClickDelegate />
     </main>
   );

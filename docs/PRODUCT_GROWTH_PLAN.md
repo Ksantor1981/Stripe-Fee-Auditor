@@ -63,9 +63,10 @@
 | L.12 | Убрать unused preconnect `checkout.polar.sh` | P2 | **done** (Aug 8) | PSI «неиспользуемый preconnect» |
 | L.13 | GA4 + Plausible → `next/script` `afterInteractive` | P2 | **done** (Aug 8) | ↓ TBT / render delay на mobile |
 | L.14 | Убрать `fetchPriority="high"` у sample PNG (LCP = H1) | P2 | **done** (Aug 8) | — |
-| L.15 | WebP/AVIF для `report-preview` + `sizes` | P2 | backlog | ~160 KiB на mobile |
-| L.16 | Перезапустить PSI desktop + mobile после деплоя | ops | pending | Baseline Aug 6 устарел |
-| L.17 | Hero server CTAs (`FunnelAnchor` + delegate), dynamic Nav/FAQ | P1 | **done** (Aug 8) | ↓ initial client JS above fold |
+| L.15 | WebP/AVIF для `report-preview` + `sizes` + lazy | P2 | **done** (Aug 8) | 80→31 KB 1x, lazy below fold |
+| L.16 | Перезапустить PSI desktop + mobile после деплоя | ops | pending | Mobile Aug 8: perf 87, LCP 3.3s, a11y 100 |
+| L.17 | Hero server CTAs (`FunnelAnchor` + delegate), dynamic Nav/FAQ | P1 | **done** (Aug 8) | perf 70→87, LCP 5.5→3.3s |
+| L.18 | Nav fixed at end of DOM; hero first; analytics lazyOnload | P2 | **done** (Aug 8) | Target LCP &lt; 2.5s |
 
 **Мониторинг (2026-08-08):** P0 и L.5 закрыты. L.6 частично (anchor + bullets). L.10–L.14 закрыты одним pass. **Следующий P1 по ROI:** L.4 после generic Stripe Dashboard скрина. L.7 — content pass. L.15 — если mobile perf &lt; 85 после L.13.
 

@@ -117,10 +117,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="dns-prefetch" href="https://plausible.io" />
-        <link rel="preconnect" href="https://plausible.io" crossOrigin="" />
-      </head>
+      <head />
       <body className="antialiased">
         <PageLoadMarker />
         {children}
@@ -140,8 +137,8 @@ gtag('config', '${gaMeasurementId}');
             </Script>
           </>
         ) : null}
-        <Script src="https://plausible.io/js/pa-NtZAVMy_DG97Ek3wmMn6V.js" strategy="afterInteractive" />
-        <Script id="plausible-init" strategy="afterInteractive">
+        <Script src="https://plausible.io/js/pa-NtZAVMy_DG97Ek3wmMn6V.js" strategy="lazyOnload" />
+        <Script id="plausible-init" strategy="lazyOnload">
           {`
 window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
 plausible.init()
