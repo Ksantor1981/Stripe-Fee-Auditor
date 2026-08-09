@@ -208,29 +208,11 @@ export default function HomePage() {
       <div className="pt-14">
       {FULL_REPORTS_FREE_DURING_BETA ? (
         <div className="bg-emerald-600 px-4 py-2.5 text-center text-sm font-medium text-white">
-          Free diagnosis · no signup.{" "}
-          <FunnelAnchor
-            href="/analyze?sample=1"
-            utm={{ source: "landing", medium: "banner", campaign: "beta_banner" }}
-            funnelEvent="funnel_sample_cta"
-            funnelProps={{ placement: "beta_banner" }}
-            className="underline underline-offset-2 hover:text-emerald-100 transition-colors"
-          >
-            See sample report →
-          </FunnelAnchor>
+          Free diagnosis · no signup
         </div>
       ) : (
         <div className="bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white">
-          Free diagnosis · no signup.{" "}
-          <FunnelAnchor
-            href="/analyze?sample=1"
-            utm={{ source: "landing", medium: "banner", campaign: "launch_banner_sample" }}
-            funnelEvent="funnel_sample_cta"
-            funnelProps={{ placement: "launch_banner" }}
-            className="underline underline-offset-2 hover:text-blue-100 transition-colors"
-          >
-            See sample report →
-          </FunnelAnchor>
+          Free diagnosis · no signup
         </div>
       )}
 
@@ -244,14 +226,11 @@ export default function HomePage() {
           See which charges, refunds, and international payments pushed your rate up.
         </p>
         <h2 className="sr-only">Stripe effective rate, refund leakage, and international card fees</h2>
-        <p className="mt-5 max-w-xl text-base text-gray-600 leading-relaxed">
-          Stripe gives you fee rows. Fee Auditor ranks what pushed your rate up — Balance CSV, no OAuth.
-        </p>
         <p className="mt-3 max-w-lg text-sm text-gray-500">
-          0.5 pp on $1M/year ≈ $5,000 extra · uploads up to 4 MB (~75k rows)
+          Balance CSV · no OAuth · 0.5 pp on $1M/year ≈ $5,000 extra
         </p>
 
-        <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full max-w-md sm:max-w-none sm:w-auto">
+        <div className="mt-8">
           <FunnelAnchor
             href="/analyze"
             utm={{ source: "landing", medium: "cta", campaign: "hero_primary" }}
@@ -264,24 +243,18 @@ export default function HomePage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </FunnelAnchor>
-          <FunnelAnchor
-            href="/analyze?sample=1"
-            utm={{ source: "landing", medium: "cta", campaign: "hero_sample" }}
-            funnelEvent="funnel_sample_cta"
-            funnelProps={{ placement: "hero_sample" }}
-            className="inline-flex items-center justify-center rounded-xl border border-blue-200 bg-white px-8 py-3 sm:py-3.5 text-sm font-medium text-blue-700 hover:border-blue-300 hover:bg-blue-50 transition-all"
-          >
-            See sample report
-          </FunnelAnchor>
         </div>
 
-        <LandingTrustStrip />
-
         <p className="mt-4 text-sm text-gray-500">
-          No CSV yet?{" "}
+          <a href="#sample" className="font-medium text-blue-700 underline hover:text-blue-800">
+            Preview scenarios first
+          </a>
+          {" · "}
           <Link href="/stripe-balance-csv" className="font-medium text-blue-700 underline hover:text-blue-800">
-            5-minute Stripe export guide →
+            Export guide
           </Link>
+          {" · "}
+          up to 4 MB (~75k rows)
         </p>
 
         {hasReportsAnalyzedCount && (
@@ -289,16 +262,18 @@ export default function HomePage() {
             {reportsAnalyzedLabel} reports analyzed in beta
           </p>
         )}
+
+        <LandingTrustStrip />
       </section>
 
       {/* Sample report */}
       <section id="sample" className="bg-gray-50 px-4 py-10 scroll-mt-24" aria-labelledby="sample-heading">
         <div className="mx-auto max-w-5xl">
           <h2 id="sample-heading" className="text-center text-2xl font-bold text-gray-900">
-            Pick a scenario — same report, different mixes
+            Three scenarios — pick yours
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-500 max-w-xl mx-auto">
-            Illustrative exports. Open the live sample to click through drivers and high-fee rows.
+          <p className="mt-2 text-center text-sm text-gray-500 max-w-md mx-auto">
+            Illustrative mixes. One button below opens the live report.
           </p>
 
           <div className="mt-8">

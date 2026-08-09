@@ -34,9 +34,8 @@ export function LandingTrustStrip() {
         Free preview · Full audit $12 · Monitor $9/mo
       </p>
       <p className="text-xs text-gray-500">
-        Built by{" "}
-        <Link href="/about" className="font-medium text-blue-700 underline hover:text-blue-800">
-          Konstantin Starkov
+        <Link href="/about" className="underline hover:text-gray-800">
+          About
         </Link>
         {" · "}
         <Link href="/privacy#security" className="underline hover:text-gray-800">

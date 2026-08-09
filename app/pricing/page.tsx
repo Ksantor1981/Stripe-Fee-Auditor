@@ -7,7 +7,7 @@ import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 export const metadata: Metadata = {
   title: "Pricing — $12 CSV audit · Fee Monitor $9/mo",
   description:
-    "One Stripe Balance CSV audit for $12. Preview free. Optional Fee Monitor at $9/mo for monthly CSV reminders and rate drift checks. No OAuth.",
+    "One Stripe Balance CSV audit for $12. Preview free. Optional Fee Monitor at $9/mo for monthly CSV reminders and fresh reports. No OAuth.",
   alternates: { canonical: "/pricing" },
 };
 
@@ -45,7 +45,8 @@ export default function PricingPage() {
           <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">Optional · $9/mo</p>
           <p className="mt-1 text-xl font-bold text-gray-900">Fee Monitor</p>
           <p className="mt-2 text-base text-gray-600">
-            Monthly CSV reminder, rate drift checks, and report history — not another dashboard.
+            Monthly CSV reminder and a fresh full report each month. Report history and automatic drift
+            alerts are coming later — not another dashboard.
           </p>
           <Link href="/monitor" className="mt-4 inline-flex text-base font-semibold text-blue-600 hover:underline">
             Fee Monitor →

@@ -138,7 +138,7 @@ export function LandingSampleTabs() {
         </div>
 
         <p className="mt-3 text-center text-xs text-gray-500">
-          Same report layout for every export — numbers above change by scenario.
+          Same report UI — stats above match each scenario.
         </p>
 
         <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
@@ -149,7 +149,7 @@ export function LandingSampleTabs() {
             funnelProps={{ placement: "sample_tabs", scenario: active.id }}
             className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-blue-700 transition-colors"
           >
-            Open interactive sample →
+            Open live sample report →
           </FunnelAnchor>
           {active.id === "typical" ? (
             <Link
