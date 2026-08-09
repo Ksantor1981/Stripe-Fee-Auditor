@@ -67,7 +67,11 @@
 | L.16 | Перезапустить PSI desktop + mobile после деплоя | ops | **monitor** | Baseline Aug 8: mobile perf **87**, LCP **3.3s**, a11y **100**; desktop ~97→100 (lab). См. **M.1–M.2** |
 | L.17 | Hero server CTAs (`FunnelAnchor` + delegate), dynamic Nav/FAQ | P1 | **done** (Aug 8) | perf 70→87, LCP 5.5→3.3s |
 | L.18 | Nav at end of DOM; hero first; analytics lazyOnload | P2 | **superseded** | Заменено L.19: nav shell сверху + idle hydrate (desktop SI) |
-| L.19 | Nav shell top + `LandingNavHydrate`; GA off `/`; `FunnelClickDelegate` idle; browserslist | P2 | **done** (Aug 9, local) | Ждёт деплoy → **M.1** после push |
+| L.19 | Nav shell top + `LandingNavHydrate`; GA off `/`; `FunnelClickDelegate` idle; browserslist | P2 | **done** (Aug 9) | **M.7** после деплоя |
+| L.20 | **Wave G** hero: softer H1, «Stripe gives rows / we tell you what they mean», outcome CTA | P1 | **done** (Aug 9) | Refine L.1 hook; не visual redesign |
+| L.21 | Anti–CSV-summary + deterministic line («not an AI estimate») под hero CTA | P1 | **done** (Aug 9) | Зеркало pricing copy |
+| L.22 | CFO block под sample: founders + fractional CFOs, Monitor/Pricing links | P1 | **done** (Aug 9) | Не отдельный `/for-cfo` (L.9) |
+| L.23 | Sample: dollar payoff (~$270/qtr vs 2.9%), единый range 3.5–4.2% + edge-case disclaimer | P1 | **done** (Aug 9) | **M.6** — sync `llms.txt` |
 
 ### Периодический мониторинг — не срочно, но обязательно
 
@@ -89,7 +93,7 @@
 | **M.6** | `public/llms.txt` + positioning vs hero/H1 | после смены первого экрана / **1×/кв** | Agent browsing PSI 3/3; дата в файле актуальна |
 | **M.7** | Prod vs local: L.19 (nav hydrate, GA off `/`) | **сразу после деплоя** L.19 | View-source `/`: nav shell в начале `<main>`; на `/` нет `googletagmanager.com` в Network до навигации |
 
-**Статус на 2026-08-09:** perf-спринт **на паузе** (достаточно для beta). P0 и L.5 закрыты. L.6 partial. L.10–L.15, L.17 закрыты. **Следующий P1 по ROI (не срочно):** L.4 → L.7. **Ops:** M.1–M.2 после деплоя L.19.
+**Статус на 2026-08-09:** Wave G (L.20–L.23) — copy-only hero/sample. P0 и L.5 закрыты. L.6 partial. L.10–L.19, L.20–L.23 done. **Следующий P1 по ROI:** L.4 → L.7. **Ops:** M.1–M.2, M.6–M.7 после деплоя Wave G.
 
 ### Фаза 2 — Снижение барьера CSV (2–4 недели)
 

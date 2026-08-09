@@ -57,6 +57,7 @@ const PROOF_STATS = [
   { label: "Stripe fees (quarter)", value: "$498.76" },
   { label: "Processing rate", value: "6.33%" },
   { label: "All-in cost", value: "6.67%" },
+  { label: "Extra vs 2.9% headline", value: "~$270/qtr" },
   { label: "Fee grade", value: "D" },
 ] as const;
 
@@ -69,7 +70,7 @@ const PAIN_LINKS = [
 const HOW_IT_WORKS = [
   { step: "1", title: "Export CSV", body: "Balance summary → Itemized export from Stripe Dashboard." },
   { step: "2", title: "Upload", body: "One file, no OAuth. Raw CSV is not stored." },
-  { step: "3", title: "See drivers", body: "Effective rate, international uplift, refund drag, high-fee rows." },
+  { step: "3", title: "See drivers", body: "Ranked fee drivers, high-fee rows, and links back to Stripe Dashboard." },
 ];
 
 const FAQ_JSON_LD_ITEMS = [
@@ -240,15 +241,15 @@ export default function HomePage() {
       {/* Hero — H1 paints from static HTML; nav shell is fixed above, JS hydrates on idle */}
       <section id="problem" className="flex flex-col items-center justify-center px-4 py-10 sm:py-14 text-center scroll-mt-28">
         <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">
-          Stripe charges 2.9%. Most users actually pay{" "}
-          <span className="text-blue-600">3.5–4.2%.</span>
+          Stripe advertises 2.9%. Your real all-in rate is often{" "}
+          <span className="text-blue-600">much higher.</span>
         </h1>
         <p className="mt-4 max-w-xl text-xl font-semibold text-gray-800 sm:text-2xl">
-          Find out where your money goes.
+          See which charges, refunds, and international payments pushed your rate up.
         </p>
         <h2 className="sr-only">Stripe effective rate, refund leakage, and international card fees</h2>
         <p className="mt-5 max-w-xl text-base text-gray-600 leading-relaxed">
-          Upload a Balance CSV — free, no OAuth.
+          Stripe gives you fee rows. Fee Auditor tells you what they mean — from a Balance CSV, free, no OAuth.
         </p>
 
         <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full max-w-md sm:max-w-none sm:w-auto">
@@ -259,7 +260,7 @@ export default function HomePage() {
             funnelProps={{ placement: "hero_primary" }}
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-3.5 sm:py-4 text-sm sm:text-base font-semibold text-white shadow-md hover:bg-blue-700 active:scale-95 transition-all"
           >
-            Analyze my CSV — free
+            Audit my Stripe fees — free
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
@@ -274,7 +275,13 @@ export default function HomePage() {
             See sample report
           </FunnelAnchor>
         </div>
-        <p className="mt-4 text-sm text-gray-500">
+        <p className="mt-4 max-w-xl text-sm text-gray-600 leading-relaxed">
+          Not a CSV summary — see which Stripe transactions drove your rate up, and what may be worth fixing.
+        </p>
+        <p className="mt-2 text-sm text-gray-500">
+          Calculated from your actual Balance transactions — not an AI estimate.
+        </p>
+        <p className="mt-2 text-sm text-gray-500">
           No OAuth · raw CSV is not stored · descriptions stripped before storage
         </p>
         <p className="mt-2 text-sm text-gray-500">
@@ -305,8 +312,12 @@ export default function HomePage() {
             Illustrative Balance CSV — your volume and rates will differ.
           </p>
           <p className="mt-2 text-center text-sm text-gray-600 max-w-2xl mx-auto">
-            This example uses a heavy international-card mix (6.67% all-in). Most SaaS founders see{" "}
-            <span className="font-medium text-gray-800">~3.8–5.2%</span>.
+            This sample uses a heavy international-card mix (6.67% all-in) — an edge case to show fee drivers clearly.
+            Many SaaS businesses with mixed card mix often land around{" "}
+            <span className="font-medium text-gray-800">3.5–4.2%</span> all-in (directional, not a guarantee).
+          </p>
+          <p className="mt-1 text-center text-xs text-gray-500 max-w-xl mx-auto">
+            Extra vs 2.9% headline in this sample: ~$270/quarter on ~$7.9k charge volume.
           </p>
           <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-4 text-center sm:flex sm:flex-wrap sm:justify-center sm:gap-x-6 sm:gap-y-3">
             {PROOF_STATS.map(({ label, value }) => (
@@ -338,6 +349,26 @@ export default function HomePage() {
                 className="mx-auto block h-auto w-full max-w-[1024px]"
               />
             </picture>
+          </div>
+
+          <div className="mt-10 mx-auto max-w-2xl rounded-xl border border-gray-200 bg-white px-5 py-5 text-center shadow-sm">
+            <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">
+              For founders &amp; fractional CFOs
+            </p>
+            <p className="mt-2 text-base text-gray-700 leading-relaxed">
+              Audit a Stripe export, identify fee drivers, and bring transaction-level evidence to the next finance
+              review.
+            </p>
+            <p className="mt-3 text-sm text-gray-500">
+              <Link href="/monitor" className="font-medium text-blue-700 underline hover:text-blue-800">
+                Fee Monitor
+              </Link>
+              {" "}for monthly drift ·{" "}
+              <Link href="/pricing" className="font-medium text-blue-700 underline hover:text-blue-800">
+                Full report
+              </Link>
+              {" "}with high-fee rows &amp; exports
+            </p>
           </div>
 
           <div className="mt-6 flex flex-col items-center gap-1.5 text-center text-sm text-gray-500 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-1 sm:gap-y-0">
@@ -402,7 +433,7 @@ export default function HomePage() {
             funnelProps={{ placement: "footer" }}
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-3.5 text-base font-semibold text-white shadow hover:bg-blue-700 transition-colors"
           >
-            Upload CSV
+            Audit my Stripe fees — free
           </FunnelAnchor>
           <p className="mt-3 text-sm text-gray-500">
             <Link href="/pricing" className="text-blue-700 underline hover:text-blue-800">

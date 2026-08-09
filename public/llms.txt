@@ -1,12 +1,17 @@
 # Stripe Fee Auditor
 
-Last updated: 2026-08-08
+Last updated: 2026-08-09
 
 Stripe Fee Auditor is a focused fee-analysis tool for SaaS founders, indie hackers,
-and small businesses that process payments with Stripe and want to understand their
-real effective Stripe fee rate from an itemized Stripe Balance CSV export.
+fractional CFOs, and small businesses that process payments with Stripe and want to
+understand their real effective Stripe fee rate from an itemized Stripe Balance CSV export.
 
-Most Stripe users pay roughly 3.5–4.2% all-in, not the advertised 2.9% + $0.30 alone.
+Stripe advertises 2.9% + $0.30 for many US online card payments, but a business's
+real all-in rate is often much higher (international cards, refunds, small tickets, add-ons).
+Many SaaS businesses with mixed card mix often land around 3.5–4.2% all-in — directional, not a guarantee.
+
+Fee Auditor is not a CSV summary or AI estimate: it calculates from your actual Balance
+transactions — ranked fee drivers, high-fee row evidence, and Stripe dashboard links.
 
 - [Official site](https://feeauditor.com/)
 - Canonical product name: Stripe Fee Auditor
