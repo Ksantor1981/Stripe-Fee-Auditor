@@ -4,6 +4,7 @@ import Link from "next/link";
 import { LANDING_FAQ_HOME_IDS } from "@/components/LandingFaq";
 import { LandingNavHydrate, LANDING_NAV_ROOT_ID } from "@/components/LandingNavHydrate";
 import { LandingNavShell } from "@/components/LandingNavShell";
+import { LandingTrustStrip } from "@/components/LandingTrustStrip";
 import { FunnelAnchor } from "@/components/FunnelAnchor";
 import { FunnelClickDelegate } from "@/components/FunnelClickDelegate";
 import { QuoteFooterStrip } from "@/components/QuoteFooterStrip";
@@ -16,6 +17,15 @@ const LandingFaq = dynamic(
   {
     loading: () => (
       <div className="mx-auto max-w-3xl h-56 animate-pulse rounded-xl bg-gray-100" aria-hidden />
+    ),
+  }
+);
+
+const LandingSampleTabs = dynamic(
+  () => import("@/components/LandingSampleTabs").then((mod) => ({ default: mod.LandingSampleTabs })),
+  {
+    loading: () => (
+      <div className="mx-auto max-w-5xl h-96 animate-pulse rounded-2xl bg-gray-200/80" aria-hidden />
     ),
   }
 );
@@ -52,20 +62,6 @@ export const metadata: Metadata = {
 const reportsAnalyzedCount = Number(process.env.NEXT_PUBLIC_REPORTS_ANALYZED_COUNT ?? 0);
 const hasReportsAnalyzedCount = Number.isFinite(reportsAnalyzedCount) && reportsAnalyzedCount > 0;
 const reportsAnalyzedLabel = new Intl.NumberFormat("en-US").format(reportsAnalyzedCount);
-
-const PROOF_STATS = [
-  { label: "Stripe fees (quarter)", value: "$498.76" },
-  { label: "Processing rate", value: "6.33%" },
-  { label: "All-in cost", value: "6.67%" },
-  { label: "Extra vs 2.9% headline", value: "~$270/qtr" },
-  { label: "Fee grade", value: "D" },
-] as const;
-
-const PAIN_LINKS = [
-  { href: "/blog/stripe-international-card-fees", label: "International card fees" },
-  { href: "/why-stripe-fee-rate-higher-than-2-9", label: "Refund fees not returned" },
-  { href: "/blog/why-stripe-fees-increase", label: "Rate / payout drift" },
-] as const;
 
 const HOW_IT_WORKS = [
   { step: "1", title: "Export CSV", body: "Balance summary → Itemized export from Stripe Dashboard." },
@@ -249,7 +245,10 @@ export default function HomePage() {
         </p>
         <h2 className="sr-only">Stripe effective rate, refund leakage, and international card fees</h2>
         <p className="mt-5 max-w-xl text-base text-gray-600 leading-relaxed">
-          Stripe gives you fee rows. Fee Auditor tells you what they mean — from a Balance CSV, free, no OAuth.
+          Stripe gives you fee rows. Fee Auditor ranks what pushed your rate up — Balance CSV, no OAuth.
+        </p>
+        <p className="mt-3 max-w-lg text-sm text-gray-500">
+          0.5 pp on $1M/year ≈ $5,000 extra · uploads up to 4 MB (~75k rows)
         </p>
 
         <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full max-w-md sm:max-w-none sm:w-auto">
@@ -275,23 +274,13 @@ export default function HomePage() {
             See sample report
           </FunnelAnchor>
         </div>
-        <p className="mt-4 max-w-xl text-sm text-gray-600 leading-relaxed">
-          Not a CSV summary — see which Stripe transactions drove your rate up, and what may be worth fixing.
-        </p>
-        <p className="mt-2 text-sm text-gray-500">
-          Calculated from your actual Balance transactions — not an AI estimate.
-        </p>
-        <p className="mt-2 text-sm text-gray-500">
-          No OAuth · raw CSV is not stored · descriptions stripped before storage
-        </p>
-        <p className="mt-2 text-sm text-gray-500">
+
+        <LandingTrustStrip />
+
+        <p className="mt-4 text-sm text-gray-500">
           No CSV yet?{" "}
           <Link href="/stripe-balance-csv" className="font-medium text-blue-700 underline hover:text-blue-800">
-            Export in 2 clicks from Stripe Dashboard →
-          </Link>
-          {" · "}
-          <Link href="/privacy#security" className="font-medium text-blue-700 underline hover:text-blue-800">
-            How we handle your data
+            5-minute Stripe export guide →
           </Link>
         </p>
 
@@ -306,87 +295,23 @@ export default function HomePage() {
       <section id="sample" className="bg-gray-50 px-4 py-10 scroll-mt-24" aria-labelledby="sample-heading">
         <div className="mx-auto max-w-5xl">
           <h2 id="sample-heading" className="text-center text-2xl font-bold text-gray-900">
-            Sample report from a Stripe export
+            Pick a scenario — same report, different mixes
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-500">
-            Illustrative Balance CSV — your volume and rates will differ.
+          <p className="mt-2 text-center text-sm text-gray-500 max-w-xl mx-auto">
+            Illustrative exports. Open the live sample to click through drivers and high-fee rows.
           </p>
-          <p className="mt-2 text-center text-sm text-gray-600 max-w-2xl mx-auto">
-            This sample uses a heavy international-card mix (6.67% all-in) — an edge case to show fee drivers clearly.
-            Many SaaS businesses with mixed card mix often land around{" "}
-            <span className="font-medium text-gray-800">3.5–4.2%</span> all-in (directional, not a guarantee).
-          </p>
-          <p className="mt-1 text-center text-xs text-gray-500 max-w-xl mx-auto">
-            Extra vs 2.9% headline in this sample: ~$270/quarter on ~$7.9k charge volume.
-          </p>
-          <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-4 text-center sm:flex sm:flex-wrap sm:justify-center sm:gap-x-6 sm:gap-y-3">
-            {PROOF_STATS.map(({ label, value }) => (
-              <div key={label}>
-                <p className="text-xl font-bold text-gray-900 sm:text-2xl">{value}</p>
-                <p className="mt-0.5 text-xs text-gray-500 sm:text-sm">{label}</p>
-              </div>
-            ))}
+
+          <div className="mt-8">
+            <LandingSampleTabs />
           </div>
 
-          <div className="mt-10 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60">
-            {/* WebP + PNG srcSet; lazy — below fold on mobile, not LCP */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <picture>
-              <source
-                type="image/webp"
-                srcSet="/screenshots/report-preview.webp 1x, /screenshots/report-preview@2x.webp 2x"
-                sizes="(max-width: 1024px) 100vw, 1024px"
-              />
-              <img
-                src="/screenshots/report-preview.png"
-                srcSet="/screenshots/report-preview.png 1x, /screenshots/report-preview@2x.png 2x"
-                sizes="(max-width: 1024px) 100vw, 1024px"
-                alt="Stripe Fee Auditor report: Fee Grade D, $498.76 in quarter fees, 6.33% processing rate, 6.67% all-in cost, and comparison vs advertised 2.9% card pricing"
-                width={1024}
-                height={616}
-                loading="lazy"
-                decoding="async"
-                className="mx-auto block h-auto w-full max-w-[1024px]"
-              />
-            </picture>
-          </div>
-
-          <div className="mt-10 mx-auto max-w-2xl rounded-xl border border-gray-200 bg-white px-5 py-5 text-center shadow-sm">
-            <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-              For founders &amp; fractional CFOs
-            </p>
-            <p className="mt-2 text-base text-gray-700 leading-relaxed">
-              Audit a Stripe export, identify fee drivers, and bring transaction-level evidence to the next finance
-              review.
-            </p>
-            <p className="mt-3 text-sm text-gray-500">
-              <Link href="/monitor" className="font-medium text-blue-700 underline hover:text-blue-800">
-                Fee Monitor
-              </Link>
-              {" "}for monthly drift ·{" "}
-              <Link href="/pricing" className="font-medium text-blue-700 underline hover:text-blue-800">
-                Full report
-              </Link>
-              {" "}with high-fee rows &amp; exports
-            </p>
-          </div>
-
-          <div className="mt-6 flex flex-col items-center gap-1.5 text-center text-sm text-gray-500 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-1 sm:gap-y-0">
-            {PAIN_LINKS.map((item, index) => (
-              <span key={item.href} className="inline-flex items-center">
-                {index > 0 && <span className="hidden text-gray-300 sm:inline"> · </span>}
-                <Link href={item.href} className="text-blue-700 underline hover:text-blue-800">
-                  {item.label}
-                </Link>
-              </span>
-            ))}
-            <span className="inline-flex items-center">
-              <span className="hidden text-gray-300 sm:inline"> · </span>
-              <Link href="/blog/how-i-found-1400-in-hidden-stripe-fees" className="text-blue-700 underline hover:text-blue-800">
-                Case study
-              </Link>
-            </span>
-          </div>
+          <p className="mt-8 text-center text-sm text-gray-600 max-w-lg mx-auto">
+            For fractional CFOs: transaction-level evidence, CSV/print export, monthly drift via{" "}
+            <Link href="/monitor" className="font-medium text-blue-700 underline hover:text-blue-800">
+              Fee Monitor
+            </Link>
+            .
+          </p>
         </div>
       </section>
 
@@ -413,17 +338,6 @@ export default function HomePage() {
         <div className="mx-auto max-w-3xl">
           <h2 className="text-center text-xl font-bold text-gray-900 mb-6">Trust</h2>
           <LandingFaq itemIds={LANDING_FAQ_HOME_IDS} />
-          <p className="mt-6 text-center text-sm text-gray-500">
-            More questions in{" "}
-            <Link href="/how-it-works#faq" className="text-blue-700 underline hover:text-blue-800">
-              How it works
-            </Link>
-            {" "}and our{" "}
-            <Link href="/privacy" className="text-blue-700 underline hover:text-blue-800">
-              Privacy Policy
-            </Link>
-            .
-          </p>
         </div>
         <div className="mx-auto mt-10 max-w-md text-center">
           <FunnelAnchor
@@ -435,15 +349,6 @@ export default function HomePage() {
           >
             Audit my Stripe fees — free
           </FunnelAnchor>
-          <p className="mt-3 text-sm text-gray-500">
-            <Link href="/pricing" className="text-blue-700 underline hover:text-blue-800">
-              Pricing
-            </Link>
-            {" · "}
-            <Link href="/monitor" className="text-blue-700 underline hover:text-blue-800">
-              Fee Monitor
-            </Link>
-          </p>
         </div>
       </section>
 

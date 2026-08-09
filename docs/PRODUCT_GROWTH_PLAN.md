@@ -51,7 +51,7 @@
 | L.5 | Trust line: descriptions stripped / financial rows only + link на data handling | P1 | **done** (Aug 8) | Hero → `/privacy#security`; §7 расширен |
 | L.6 | **`/security`** или расширенный `privacy#security` для CFO (in-memory, no OAuth, retention, GitHub) | P1 | **partial** | **M.4** — §7 + anchor done; `/security` optional |
 | L.7 | Stripe Billing % в статьях (Metronome 2026) — audit outdated Starter/Scale | P1 | backlog | **M.5** — content pass по blog/FAQ, не hero |
-| L.8 | Scenario switcher для sample (3 демо) | P2 | skip | Дорого; текст-дисклеймер (L.2) достаточно |
+| L.8 | Scenario switcher для sample (3 демо) | P2 | **partial** | L.30 tabs v1; отдельные скрины → L.30b |
 | L.9 | `/for-cfo` (multi-upload, white-label PDF) | P2 | skip | После PMF / agency спроса |
 
 ### Performance & a11y — Aug 2026 (PageSpeed / Lighthouse)
@@ -72,6 +72,13 @@
 | L.21 | Anti–CSV-summary + deterministic line («not an AI estimate») под hero CTA | P1 | **done** (Aug 9) | Зеркало pricing copy |
 | L.22 | CFO block под sample: founders + fractional CFOs, Monitor/Pricing links | P1 | **done** (Aug 9) | Не отдельный `/for-cfo` (L.9) |
 | L.23 | Sample: dollar payoff (~$270/qtr vs 2.9%), единый range 3.5–4.2% + edge-case disclaimer | P1 | **done** (Aug 9) | **M.6** — sync `llms.txt` |
+| L.24 | Trust strip: OAuth / not stored / deterministic / GitHub (1 row) | P1 | **done** (Aug 9) | `LandingTrustStrip` |
+| L.25 | Pricing line on hero: Free preview · $12 · $9/mo | P1 | **done** (Aug 9) | — |
+| L.26 | Case study stats in sample (Typical SaaS tab, 4.02%) | P1 | **done** (Aug 9) | `LandingSampleTabs` |
+| L.27 | Founder one-liner → `/about` | P1 | **done** (Aug 9) | In trust strip |
+| L.28 | $1M × 0.5pp math + 4 MB limit (1 line hero) | P1 | **done** (Aug 9) | — |
+| L.29 | Laconic pass: убрать дубли CTA/links под hero и footer | P1 | **done** (Aug 9) | Footer = 1 CTA |
+| L.30 | Interactive sample tabs (3 scenarios, shared screenshot) | P1 | **partial** | Tabs live; per-scenario PNG → backlog **L.30b** |
 
 ### Периодический мониторинг — не срочно, но обязательно
 
@@ -93,7 +100,7 @@
 | **M.6** | `public/llms.txt` + positioning vs hero/H1 | после смены первого экрана / **1×/кв** | Agent browsing PSI 3/3; дата в файле актуальна |
 | **M.7** | Prod vs local: L.19 (nav hydrate, GA off `/`) | **сразу после деплоя** L.19 | View-source `/`: nav shell в начале `<main>`; на `/` нет `googletagmanager.com` в Network до навигации |
 
-**Статус на 2026-08-09:** Wave G (L.20–L.23) — copy-only hero/sample. P0 и L.5 закрыты. L.6 partial. L.10–L.19, L.20–L.23 done. **Следующий P1 по ROI:** L.4 → L.7. **Ops:** M.1–M.2, M.6–M.7 после деплоя Wave G.
+**Статус на 2026-08-09:** Wave H (L.24–L.30) — trust strip, pricing, interactive sample tabs, laconic hero. Wave G done. **Следующий P1:** L.4 side-by-side. **Ops:** M.1–M.2, M.6–M.7 после деплоя.
 
 ### Фаза 2 — Снижение барьера CSV (2–4 недели)
 
