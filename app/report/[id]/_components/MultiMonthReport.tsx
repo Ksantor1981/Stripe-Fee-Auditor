@@ -3,7 +3,8 @@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import type { AnalysisResult, AnnotatedRow } from "@/lib/fee-analyzer";
-import { fmt$, fmtPct, fmtMonth } from "@/lib/format";
+import { fmtPct, fmtMonth } from "@/lib/format";
+import { useFmtMoney } from "@/lib/report-currency";
 import { transactionPrimaryLabel, transactionSecondaryLine } from "@/lib/transaction-display";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { PaywallBanner } from "./PaywallBanner";
@@ -86,6 +87,7 @@ export function MultiMonthReport({
   outlierSaving = false,
   canMarkExpectedOutliers = false,
 }: Props) {
+  const fmt$ = useFmtMoney();
   const { t, tc } = useReportTranslations();
   const translateFeeLabel = useFeeLabelTranslator();
   const {

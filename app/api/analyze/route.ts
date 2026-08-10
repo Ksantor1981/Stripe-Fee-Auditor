@@ -21,6 +21,7 @@ import {
   isStripeAccountCountry,
   type StripeAccountCountry,
 } from "@/lib/stripe-country-fees";
+import { validateSettlementCurrency } from "@/lib/settlement-currency";
 
 export const maxDuration = 30;
 
@@ -89,6 +90,7 @@ export async function POST(req: NextRequest) {
       csvText?: string;
       columnMapping?: Record<string, string>;
       accountCountry?: StripeAccountCountry;
+      clientId?: string;
     };
     try {
       body = await req.json();
@@ -213,20 +215,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // USD-only beta: block non-USD CSV
     if (!isDemo) {
-      const currencies = [...new Set(normalized.map((r) => r.currency?.toLowerCase()).filter(Boolean))];
-      const nonUsd = currencies.filter((c) => c !== "usd");
-      if (nonUsd.length > 0) {
-        logOpsInfo("usd_only_rejected", {
-          currencies: nonUsd.join(","),
+      const currencies = normalized.map((r) => r.currency).filter(Boolean) as string[];
+      const settlement = validateSettlementCurrency(currencies, accountCountry);
+      if (!settlement.ok) {
+        logOpsInfo("settlement_currency_rejected", {
+          code: settlement.code,
+          account_country: accountCountry,
+          currencies: currencies.join(","),
         });
-        return NextResponse.json(
-          {
-            error: `USD accounts only in beta. Your CSV contains: ${nonUsd.map((c) => c.toUpperCase()).join(", ")}. Multi-currency support is coming soon.`,
-          },
-          { status: 422 }
-        );
+        return NextResponse.json({ error: settlement.error }, { status: 422 });
       }
     }
 
@@ -235,15 +233,24 @@ export async function POST(req: NextRequest) {
     const storedResult = redactAnalysisResultForStorage(result);
     const accessToken = createReportAccessToken();
 
-    const reportId = await createReport({
-      sessionId: isDemo ? "demo-sample" : crypto.randomUUID(),
-      blobUrl: null,
-      result: storedResult,
-      accessTokenHash: hashReportAccessToken(accessToken),
-      accessTokenCiphertext: encryptSecretPayload(accessToken),
-      retention: FULL_REPORTS_FREE_DURING_BETA && !isDemo ? "beta_full_access" : "free_preview",
-      attribution: isDemo ? undefined : readAttributionFromRequest(req),
-    });
+    let reportId: string;
+    try {
+      reportId = await createReport({
+        sessionId: isDemo ? "demo-sample" : crypto.randomUUID(),
+        blobUrl: null,
+        result: storedResult,
+        accessTokenHash: hashReportAccessToken(accessToken),
+        accessTokenCiphertext: encryptSecretPayload(accessToken),
+        retention: FULL_REPORTS_FREE_DURING_BETA && !isDemo ? "beta_full_access" : "free_preview",
+        attribution: isDemo ? undefined : readAttributionFromRequest(req),
+        clientId: typeof body.clientId === "string" ? body.clientId : null,
+      });
+    } catch (err) {
+      if (err instanceof Error && err.message === "Invalid clientId") {
+        return NextResponse.json({ error: "Unknown client profile" }, { status: 400 });
+      }
+      throw err;
+    }
 
     logFunnelServer("funnel_analyze_saved", {
       mode: result.mode,

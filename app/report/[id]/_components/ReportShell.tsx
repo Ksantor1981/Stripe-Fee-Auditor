@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
-import type { MonitorHistoryPoint } from "@/lib/db";
+import type { ClientRow, MonitorHistoryPoint } from "@/lib/db";
 import { applyExpectedOutlierExclusions } from "@/lib/expected-outliers";
 import { selectFreeDiagnosis } from "@/lib/free-diagnosis";
 import { resolvePaywallImpact } from "@/lib/paywall-impact";
@@ -20,8 +20,10 @@ import { SingleMonthReport } from "./SingleMonthReport";
 import { LowVolumeReport } from "./LowVolumeReport";
 import { ShareEmbedBenchmark } from "./ShareEmbedBenchmark";
 import { ReportReconciliation } from "./ReportReconciliation";
+import { ClientManager } from "./ClientManager";
 import { MonitorHistory } from "./MonitorHistory";
 import { ReportUnlockToolbarCta } from "./ReportUnlockToolbarCta";
+import { ReportCurrencyProvider } from "@/lib/report-currency";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 import {
   useTranslatedPaywallLabel,
@@ -44,6 +46,9 @@ interface Props {
   monitorFullAccess?: boolean;
   /** Summary-only prior reports linked to this active Monitor email. */
   monitorHistory?: MonitorHistoryPoint[];
+  monitorClients?: ClientRow[];
+  monitorClientId?: string | null;
+  ownerEmail?: string;
   /** Polar redirected back before the payment webhook finished processing. */
   paymentPending?: boolean;
   /** Full anomaly count before preview strips rows (free tier UI). */
@@ -61,9 +66,13 @@ export function ReportShell({
   monitorFullAccess = false,
   paymentPending = false,
   monitorHistory = [],
+  monitorClients = [],
+  monitorClientId = null,
+  ownerEmail,
   previewAnomalyCount,
 }: Props) {
   const { t, tc } = useReportTranslations();
+  const reportCurrency = result.pricingProfile?.currency ?? "USD";
   const router = useRouter();
   // Paid users skip EmailGate entirely — they already provided email at checkout.
   // Demo sample links skip the gate and show full sample insights without enabling exports.
@@ -184,22 +193,24 @@ export function ReportShell({
 
   if (!unlocked) {
     return (
-      <EmailGate
-        reportId={reportId}
-        headline={{
-          chargeVolume: result.chargeVolume,
-          chargeRate: result.chargeRate,
-          chargeFees: result.chargeFees,
-          otherFees: result.otherFees,
-          allInFees: result.allInFees,
-          allInRate: result.allInRate,
-          monthCount: Math.max(1, result.monthly.length),
-          topDrivers: result.topDrivers,
-          feeGrade: result.feeGrade,
-          diagnosis: freeDiagnosis,
-        }}
-        onUnlock={() => setUnlocked(true)}
-      />
+      <ReportCurrencyProvider currency={reportCurrency}>
+        <EmailGate
+          reportId={reportId}
+          headline={{
+            chargeVolume: result.chargeVolume,
+            chargeRate: result.chargeRate,
+            chargeFees: result.chargeFees,
+            otherFees: result.otherFees,
+            allInFees: result.allInFees,
+            allInRate: result.allInRate,
+            monthCount: Math.max(1, result.monthly.length),
+            topDrivers: result.topDrivers,
+            feeGrade: result.feeGrade,
+            diagnosis: freeDiagnosis,
+          }}
+          onUnlock={() => setUnlocked(true)}
+        />
+      </ReportCurrencyProvider>
     );
   }
 
@@ -216,6 +227,7 @@ export function ReportShell({
   };
 
   return (
+    <ReportCurrencyProvider currency={reportCurrency}>
     <main className="min-h-screen bg-gray-50">
       <AppShellHeader
         toolbar={
@@ -305,8 +317,22 @@ export function ReportShell({
           </div>
         )}
         <ReportReconciliation result={adjustedResult} />
+        {monitorFullAccess && ownerEmail && (
+          <ClientManager
+            reportId={reportId}
+            ownerEmail={ownerEmail}
+            initialClientId={monitorClientId}
+            clients={monitorClients}
+            monitorFullAccess={monitorFullAccess}
+          />
+        )}
         {monitorFullAccess && (
-          <MonitorHistory current={adjustedResult} history={monitorHistory} />
+          <MonitorHistory
+            current={adjustedResult}
+            history={monitorHistory}
+            ownerEmail={ownerEmail}
+            onHistoryHidden={() => router.refresh()}
+          />
         )}
         {result.mode === "multi-month" && (
           <MultiMonthReport {...reportViewProps} previewAnomalyCount={previewAnomalyCount} />
@@ -374,5 +400,6 @@ export function ReportShell({
         </p>
       </footer>
     </main>
+    </ReportCurrencyProvider>
   );
 }

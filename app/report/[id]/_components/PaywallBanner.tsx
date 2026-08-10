@@ -4,7 +4,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChromeExtensionInstallCta } from "@/components/ChromeExtensionInstallCta";
 import { trackEvent } from "@/lib/analytics";
-import { fmt$ } from "@/lib/format";
+
+import { useFmtMoney } from "@/lib/report-currency";
 import type { PaywallImpactSource } from "@/lib/paywall-impact";
 import type { FreeDiagnosis } from "@/lib/free-diagnosis";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
@@ -29,6 +30,7 @@ export function PaywallBanner({
   firstOpportunity,
   diagnosis,
 }: Props) {
+  const fmt$ = useFmtMoney();
   const { t } = useReportTranslations();
   const { unlock } = usePaywallCheckout(reportId, email);
   const translatedDiagnosis = useTranslatedDiagnosis(diagnosis);

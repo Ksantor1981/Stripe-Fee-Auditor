@@ -1,7 +1,8 @@
 "use client";
 
 import type { AnalysisResult } from "@/lib/fee-analyzer";
-import { fmt$ } from "@/lib/format";
+
+import { useFmtMoney } from "@/lib/report-currency";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 interface Props {
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export function ReportTrustChecklist({ result }: Props) {
+  const fmt$ = useFmtMoney();
   const { t } = useReportTranslations();
   const chargeCount = result.monthly.reduce((total, month) => total + month.count, 0);
 

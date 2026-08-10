@@ -1,7 +1,8 @@
 "use client";
 
 import type { SavingsOpportunity } from "@/lib/fee-analyzer";
-import { fmt$ } from "@/lib/format";
+
+import { useFmtMoney } from "@/lib/report-currency";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 import { useTranslatedSavingsOpportunity } from "@/lib/i18n/report-insights";
 
@@ -31,6 +32,7 @@ const CONFIDENCE_STYLE = {
 } as const;
 
 function SavingsOpportunityRow({ opp, index }: { opp: SavingsOpportunity; index: number }) {
+  const fmt$ = useFmtMoney();
   const { t, tc } = useReportTranslations();
   const localized = useTranslatedSavingsOpportunity(opp);
   const confidence = opp.confidence ?? "medium";
@@ -105,6 +107,7 @@ function SavingsOpportunityRow({ opp, index }: { opp: SavingsOpportunity; index:
 }
 
 export function SavingsOpportunities({ opportunities }: Props) {
+  const fmt$ = useFmtMoney();
   const { t, tc } = useReportTranslations();
 
   if (!opportunities || opportunities.length === 0) return null;

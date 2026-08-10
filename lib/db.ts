@@ -33,10 +33,12 @@ export interface ReportRow {
   is_paid: boolean;
   email: string | null;
   access_token_hash: string | null;
+  client_id?: string | null;
   created_at: string;
   expires_at: string;
 }
 export interface MonitorHistoryPoint {
+  reportId?: string;
   createdAt: string;
   periodStart: string | null;
   periodEnd: string | null;
@@ -47,6 +49,12 @@ export interface MonitorHistoryPoint {
   chargeRate: number;
   allInRate: number;
   feeGrade: string | null;
+}
+
+export interface ClientRow {
+  id: string;
+  name: string;
+  created_at: string;
 }
 
 
@@ -126,6 +134,9 @@ async function ensureReportsColumns(): Promise<void> {
   await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS utm_content TEXT`.catch(() => null);
   await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS landing_path TEXT`.catch(() => null);
   await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS referrer TEXT`.catch(() => null);
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS hidden_at TIMESTAMPTZ`.catch(() => null);
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS client_id UUID`.catch(() => null);
+  await sql`ALTER TABLE reports ADD COLUMN IF NOT EXISTS monitor_alert_sent_at TIMESTAMPTZ`.catch(() => null);
   reportsColumnsReady = true;
 }
 
@@ -137,14 +148,25 @@ export async function createReport(params: {
   accessTokenCiphertext?: string;
   retention?: ReportRetention;
   attribution?: Attribution;
+  clientId?: string | null;
 }): Promise<string> {
   await ensureReportsColumns();
+  await ensureClientsTable();
 
   const attr = params.attribution ?? {};
+  const clientId = params.clientId?.trim() || null;
+  if (clientId) {
+    const clients = await sql`SELECT id FROM clients WHERE id = ${clientId} LIMIT 1`;
+    if (clients.length === 0) {
+      throw new Error("Invalid clientId");
+    }
+  }
+
   const rows = await sql`
     INSERT INTO reports (
       session_id, blob_url, result, access_token_hash, access_token_ciphertext,
       utm_source, utm_medium, utm_campaign, utm_content, landing_path, referrer,
+      client_id,
       expires_at
     )
     VALUES (
@@ -159,6 +181,7 @@ export async function createReport(params: {
       ${attr.utm_content ?? null},
       ${attr.landing_path ?? null},
       ${attr.referrer ?? null},
+      ${clientId},
       NOW() + CASE
         WHEN ${params.retention === "beta_full_access"} THEN INTERVAL '30 days'
         ELSE INTERVAL '1 hour'
@@ -409,14 +432,17 @@ export async function extendReportForMonitor(id: string, accessToken: string): P
 export async function getMonitorReportHistory(
   email: string,
   currentReportId: string,
-  limit = 12
+  limit = 12,
+  clientId?: string | null
 ): Promise<MonitorHistoryPoint[]> {
   const normalizedEmail = email.trim().toLowerCase();
   if (!normalizedEmail) return [];
   const safeLimit = Math.max(1, Math.min(24, Math.trunc(limit)));
+  const clientFilter = clientId?.trim() || null;
 
   const rows = await sql`
     SELECT
+      id::text AS report_id,
       created_at::text,
       result->'monthly'->0->>'month' AS period_start,
       result->'monthly'->(jsonb_array_length(COALESCE(result->'monthly', '[]'::jsonb)) - 1)->>'month' AS period_end,
@@ -431,12 +457,15 @@ export async function getMonitorReportHistory(
     WHERE LOWER(email) = ${normalizedEmail}
       AND id <> ${currentReportId}
       AND result IS NOT NULL
+      AND hidden_at IS NULL
       AND expires_at > NOW()
+      AND (${clientFilter}::uuid IS NULL OR client_id = ${clientFilter}::uuid)
     ORDER BY created_at DESC
     LIMIT ${safeLimit}
   `;
 
   return rows.map((row) => ({
+    reportId: row.report_id ? String(row.report_id) : undefined,
     createdAt: String(row.created_at),
     periodStart: row.period_start ? String(row.period_start) : null,
     periodEnd: row.period_end ? String(row.period_end) : null,
@@ -448,6 +477,147 @@ export async function getMonitorReportHistory(
     allInRate: Number(row.all_in_rate),
     feeGrade: row.fee_grade ? String(row.fee_grade) : null,
   }));
+}
+
+let clientsTableReady = false;
+
+export async function ensureClientsTable(): Promise<void> {
+  if (clientsTableReady) return;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS clients (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      owner_email TEXT NOT NULL,
+      name TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `;
+
+  await sql`
+    CREATE INDEX IF NOT EXISTS clients_owner_email_idx
+    ON clients (lower(owner_email))
+  `;
+
+  clientsTableReady = true;
+}
+
+export async function createClient(ownerEmail: string, name: string): Promise<ClientRow | null> {
+  const normalizedEmail = ownerEmail.trim().toLowerCase();
+  const trimmedName = name.trim().slice(0, 120);
+  if (!normalizedEmail || trimmedName.length < 2) return null;
+
+  await ensureClientsTable();
+
+  const rows = await sql`
+    INSERT INTO clients (owner_email, name)
+    VALUES (${normalizedEmail}, ${trimmedName})
+    RETURNING id::text, name, created_at::text
+  `;
+
+  if (rows.length === 0) return null;
+  return {
+    id: String(rows[0].id),
+    name: String(rows[0].name),
+    created_at: String(rows[0].created_at),
+  };
+}
+
+export async function listClientsForEmail(ownerEmail: string): Promise<ClientRow[]> {
+  const normalizedEmail = ownerEmail.trim().toLowerCase();
+  if (!normalizedEmail) return [];
+
+  await ensureClientsTable();
+
+  const rows = await sql`
+    SELECT id::text, name, created_at::text
+    FROM clients
+    WHERE lower(owner_email) = ${normalizedEmail}
+    ORDER BY name ASC
+    LIMIT 50
+  `;
+
+  return rows.map((row) => ({
+    id: String(row.id),
+    name: String(row.name),
+    created_at: String(row.created_at),
+  }));
+}
+
+export async function assignReportToClient(
+  reportId: string,
+  accessToken: string,
+  clientId: string | null,
+  ownerEmail: string
+): Promise<boolean> {
+  if (!accessToken) return false;
+  const normalizedEmail = ownerEmail.trim().toLowerCase();
+  if (!normalizedEmail) return false;
+
+  await ensureClientsTable();
+  await ensureReportsColumns();
+
+  const nextClientId = clientId?.trim() || null;
+  if (nextClientId) {
+    const clients = await sql`
+      SELECT id
+      FROM clients
+      WHERE id = ${nextClientId}
+        AND lower(owner_email) = ${normalizedEmail}
+      LIMIT 1
+    `;
+    if (clients.length === 0) return false;
+  }
+
+  const rows = await sql`
+    UPDATE reports
+    SET client_id = ${nextClientId}
+    WHERE id = ${reportId}
+      AND access_token_hash = ${hashReportAccessToken(accessToken)}
+      AND expires_at > NOW()
+      AND lower(COALESCE(email, '')) = ${normalizedEmail}
+    RETURNING id
+  `;
+
+  return rows.length > 0;
+}
+
+export async function softHideMonitorReport(
+  reportId: string,
+  accessToken: string,
+  ownerEmail: string
+): Promise<boolean> {
+  if (!accessToken) return false;
+  const normalizedEmail = ownerEmail.trim().toLowerCase();
+  if (!normalizedEmail) return false;
+
+  await ensureReportsColumns();
+
+  const rows = await sql`
+    UPDATE reports
+    SET hidden_at = NOW()
+    WHERE id = ${reportId}
+      AND access_token_hash = ${hashReportAccessToken(accessToken)}
+      AND lower(email) = ${normalizedEmail}
+      AND hidden_at IS NULL
+    RETURNING id
+  `;
+
+  return rows.length > 0;
+}
+
+/** Atomically mark a monitor rate alert as sent (returns false if already sent). */
+export async function claimMonitorRateAlert(reportId: string): Promise<boolean> {
+  await ensureReportsColumns();
+
+  const rows = await sql`
+    UPDATE reports
+    SET monitor_alert_sent_at = NOW()
+    WHERE id = ${reportId}
+      AND monitor_alert_sent_at IS NULL
+    RETURNING id
+  `;
+
+  return rows.length > 0;
 }
 
 

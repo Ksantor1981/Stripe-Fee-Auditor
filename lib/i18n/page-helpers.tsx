@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { buildOgImageUrl } from "@/lib/seo-og";
 
 type FaqItem = { q: string; a: string };
 
@@ -62,6 +63,7 @@ export async function blogPageMetadata(
   const t = await getTranslations(`${namespace}.${contentKey}`);
   const title = t("metaTitle");
   const description = t("metaDescription");
+  const ogImage = buildOgImageUrl({ title, eyebrow: "Fee Auditor" });
   return {
     title: `${title} | Fee Auditor`,
     description,
@@ -72,11 +74,13 @@ export async function blogPageMetadata(
       description,
       url: canonical,
       siteName: "Fee Auditor",
+      images: [{ url: ogImage, width: 1200, height: 630, alt: title }],
     },
     twitter: {
       card: "summary_large_image" as const,
       title,
       description,
+      images: [ogImage],
     },
   };
 }

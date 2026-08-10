@@ -366,6 +366,60 @@ export async function sendBillingPortalEmail(to: string): Promise<void> {
   });
 }
 
+export async function sendMonitorRateAlertEmail(params: {
+  to: string;
+  reportId: string;
+  accessToken: string;
+  chargeRateDeltaBps: number;
+  allInRateDeltaBps: number;
+  currentAllInRate: number;
+  priorAllInRate: number;
+}): Promise<void> {
+  if (!process.env.RESEND_API_KEY) {
+    console.log(`[email] RESEND_API_KEY not set, skipping monitor rate alert to ${params.to}`);
+    return;
+  }
+
+  const from = process.env.EMAIL_FROM ?? DEFAULT_EMAIL_FROM;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? DEFAULT_BASE_URL;
+  const reportUrl = new URL("/api/report/access", baseUrl);
+  reportUrl.searchParams.set("reportId", params.reportId);
+  reportUrl.searchParams.set("token", params.accessToken);
+
+  const chargeSign = params.chargeRateDeltaBps > 0 ? "+" : "";
+  const allInSign = params.allInRateDeltaBps > 0 ? "+" : "";
+
+  await getResend().emails.send({
+    from,
+    to: params.to,
+    subject: `Fee Monitor alert: Stripe rate moved ${allInSign}${params.allInRateDeltaBps} bps`,
+    replyTo: process.env.EMAIL_REPLY_TO,
+    html: `
+      <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px">
+        <p style="color:#2563eb;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px">
+          Fee Monitor alert
+        </p>
+        <h1 style="font-size:20px;color:#111;margin:0 0 12px">
+          Your Stripe all-in rate shifted since the last upload
+        </h1>
+        <p style="color:#555;font-size:14px;line-height:1.6;margin:0 0 16px">
+          Processing rate drift: <strong>${chargeSign}${params.chargeRateDeltaBps} bps</strong>.
+          All-in rate drift: <strong>${allInSign}${params.allInRateDeltaBps} bps</strong>
+          (${params.priorAllInRate.toFixed(2)}% → ${params.currentAllInRate.toFixed(2)}%).
+        </p>
+        <a href="${reportUrl.toString()}"
+           style="display:inline-block;padding:12px 24px;background:#2563eb;color:#fff;border-radius:8px;font-weight:600;text-decoration:none;font-size:14px">
+          Open this month's report →
+        </a>
+        <p style="color:#888;font-size:12px;line-height:1.5;margin-top:24px">
+          Stripe Fee Auditor · Not affiliated with Stripe, Inc.<br>
+          You received this because you're subscribed to Fee Monitor.
+        </p>
+      </div>
+    `,
+  });
+}
+
 export async function sendMonthlyCsvReminderEmail(params: {
   to: string;
   audience: MonthlyReminderAudience;

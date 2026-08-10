@@ -12,7 +12,7 @@ export const config = {
   matcher: ["/((?!api/|_next/|favicon.ico|robots.txt|sitemap.xml|.*\\..*).*)"],
 };
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const res = NextResponse.next();
 
   // First-touch only: never overwrite an existing attribution cookie.

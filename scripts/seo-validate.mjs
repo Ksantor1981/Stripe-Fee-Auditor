@@ -187,7 +187,10 @@ for (const file of pageFiles) {
   }
 
   if (route.startsWith("/blog/") || route === "/why-stripe-fee-rate-higher-than-2-9") {
-    const hasOg = source.includes("buildOgImageUrl") || source.includes("openGraph:");
+    const hasOg =
+      source.includes("buildOgImageUrl") ||
+      source.includes("openGraph:") ||
+      source.includes("blogPageMetadata(");
     if (!hasOg) {
       warn(`Marketing article without OG image helper: ${route}`);
     }

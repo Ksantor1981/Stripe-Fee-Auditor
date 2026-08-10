@@ -7,7 +7,9 @@
 import Papa from "papaparse";
 import { validateColumns, normalizeRow, type RawRow } from "../lib/csv-parser";
 import { analyze } from "../lib/fee-analyzer";
-import { fmt$, fmtPct, fmtMonth, fmtDate } from "../lib/format";
+import { fmt$, fmtPct, fmtMonth, fmtDate, fmtCurrency } from "../lib/format";
+import { validateSettlementCurrency } from "../lib/settlement-currency";
+import { compareMonitorHistory, findPriorMonitorPoint, shouldSendMonitorRateAlert } from "../lib/monitor-history";
 
 let passed = 0;
 let failed = 0;
@@ -230,6 +232,90 @@ test("fmt$ formats correctly", () => {
   assert(fmt$(3.5) === "$3.50", `got ${fmt$(3.5)}`);
   assert(fmt$(1234.567) === "$1,234.57", `got ${fmt$(1234.567)}`);
   assert(fmt$(0) === "$0.00", `got ${fmt$(0)}`);
+});
+
+test("fmtCurrency formats GBP and EUR", () => {
+  assert(fmtCurrency(10, "GBP").includes("10.00"), fmtCurrency(10, "GBP"));
+  assert(fmtCurrency(10, "EUR").includes("10,00") || fmtCurrency(10, "EUR").includes("10.00"), fmtCurrency(10, "EUR"));
+});
+
+test("validateSettlementCurrency accepts matching single currency", () => {
+  const ok = validateSettlementCurrency(["usd", "USD"], "US");
+  assert(ok.ok === true, "USD should pass for US");
+  const gbp = validateSettlementCurrency(["gbp"], "UK");
+  assert(gbp.ok === true, "GBP should pass for UK");
+});
+
+test("validateSettlementCurrency rejects mixed or mismatched currency", () => {
+  const mixed = validateSettlementCurrency(["usd", "eur"], "US");
+  assert(mixed.ok === false && !mixed.ok && mixed.code === "multi_currency", mixed.ok ? "ok" : mixed.code);
+  const mismatch = validateSettlementCurrency(["eur"], "US");
+  assert(
+    mismatch.ok === false && !mismatch.ok && mismatch.code === "currency_mismatch",
+    mismatch.ok ? "ok" : mismatch.code
+  );
+});
+
+test("monitor history prefers same export period", () => {
+  const current = {
+    createdAt: "",
+    periodStart: "2024-02",
+    periodEnd: "2024-02",
+    chargeVolume: 1000,
+    chargeFees: 30,
+    otherFees: 0,
+    allInFees: 30,
+    chargeRate: 3,
+    allInRate: 3,
+    feeGrade: "B",
+  };
+  const history = [
+    {
+      createdAt: "2024-03-01",
+      periodStart: "2024-01",
+      periodEnd: "2024-01",
+      chargeVolume: 900,
+      chargeFees: 25,
+      otherFees: 0,
+      allInFees: 25,
+      chargeRate: 2.7,
+      allInRate: 2.7,
+      feeGrade: "A",
+    },
+    {
+      createdAt: "2024-02-01",
+      periodStart: "2024-02",
+      periodEnd: "2024-02",
+      chargeVolume: 950,
+      chargeFees: 28,
+      otherFees: 0,
+      allInFees: 28,
+      chargeRate: 2.9,
+      allInRate: 2.9,
+      feeGrade: "B",
+    },
+  ];
+  const match = findPriorMonitorPoint(current, history);
+  assert(match.samePeriodMatch === true, "should match same period");
+  assert(match.prior?.chargeRate === 2.9, "should pick Feb prior");
+  const comparison = compareMonitorHistory(
+    {
+      mode: "single-month",
+      chargeVolume: 1000,
+      chargeFees: 30,
+      chargeRate: 3.3,
+      otherFees: 0,
+      allInFees: 33,
+      allInRate: 3.3,
+      monthly: [{ month: "2024-02", volume: 1000, fees: 33, count: 10, rate: 3.3 }],
+      topDrivers: [],
+      anomalies: [],
+      periodDelta: null,
+      currencies: ["usd"],
+    },
+    history
+  );
+  assert(shouldSendMonitorRateAlert(comparison) === true, "40 bps drift should alert");
 });
 
 test("fmtPct formats correctly", () => {

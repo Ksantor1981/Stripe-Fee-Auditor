@@ -1,12 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
+  claimMonitorRateAlert,
   consumeIpRequest,
   extendReportForMonitor,
+  getMonitorReportHistory,
   getReportWithAccess,
   isActiveMonitorSubscriber,
   saveReportEmail,
 } from "@/lib/db";
-import { sendReportEmail } from "@/lib/email";
+import { sendMonitorRateAlertEmail, sendReportEmail } from "@/lib/email";
+import {
+  compareMonitorHistory,
+  shouldSendMonitorRateAlert,
+} from "@/lib/monitor-history";
 import { getTrustedClientIp } from "@/lib/request-ip";
 import { resolveReportAccessFromRequest } from "@/lib/report-access-cookie";
 
@@ -113,6 +119,22 @@ export async function POST(
     await sendReportEmail(email, id, token, totalFeesCents).catch((err) =>
       console.error("[email-gate] Email send failed:", err)
     );
+
+    if (monitorFullAccess && report.result) {
+      const history = await getMonitorReportHistory(normalizedEmail, id);
+      const comparison = compareMonitorHistory(report.result, history);
+      if (shouldSendMonitorRateAlert(comparison) && (await claimMonitorRateAlert(id))) {
+        await sendMonitorRateAlertEmail({
+          to: normalizedEmail,
+          reportId: id,
+          accessToken: token,
+          chargeRateDeltaBps: comparison.chargeRateDeltaBps ?? 0,
+          allInRateDeltaBps: comparison.allInRateDeltaBps ?? 0,
+          currentAllInRate: comparison.current.allInRate,
+          priorAllInRate: comparison.prior?.allInRate ?? 0,
+        }).catch((err) => console.error("[email-gate] Monitor rate alert failed:", err));
+      }
+    }
 
     return NextResponse.json({ ok: true, monitorFullAccess });
   } catch (err) {

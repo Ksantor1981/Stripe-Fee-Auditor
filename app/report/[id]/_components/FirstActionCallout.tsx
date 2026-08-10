@@ -1,7 +1,8 @@
 "use client";
 
 import type { SavingsOpportunity } from "@/lib/fee-analyzer";
-import { fmt$ } from "@/lib/format";
+
+import { useFmtMoney } from "@/lib/report-currency";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 import { useTranslatedSavingsOpportunity } from "@/lib/i18n/report-insights";
 
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export function FirstActionCallout({ opportunity }: Props) {
+  const fmt$ = useFmtMoney();
   const { t, tc } = useReportTranslations();
   const localized = useTranslatedSavingsOpportunity(opportunity);
 

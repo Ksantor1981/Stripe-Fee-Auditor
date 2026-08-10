@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { fmt$ } from "@/lib/format";
+import { useFmtMoney } from "@/lib/report-currency";
 import type { SavingsOpportunity } from "@/lib/fee-analyzer";
 import type { FreeDiagnosis } from "@/lib/free-diagnosis";
 import type { PaywallImpactSource } from "@/lib/paywall-impact";
@@ -21,24 +21,16 @@ export type TranslatedSavingsOpportunity = {
   steps?: string[];
 };
 
-function formatMoney(amount: number): string {
-  return fmt$(amount);
-}
-
-function formatPct(value: number, digits = 2): string {
-  return `${value.toFixed(digits)}%`;
-}
-
-/** Localize analyzer-generated free diagnosis copy by kind. */
 export function useTranslatedDiagnosis(
   diagnosis: FreeDiagnosis | undefined
 ): TranslatedDiagnosis | undefined {
   const t = useTranslations("report.diagnosisKinds");
+  const fmt$ = useFmtMoney();
 
   if (!diagnosis) return undefined;
 
   const p = diagnosis.params ?? {};
-  const amount = formatMoney(diagnosis.amount);
+  const amount = fmt$(diagnosis.amount);
 
   switch (diagnosis.kind) {
     case "international_card_uplift":
@@ -97,6 +89,10 @@ export function useTranslatedDiagnosis(
         disclaimer: diagnosis.disclaimer,
       };
   }
+}
+
+function formatPct(value: number, digits = 2): string {
+  return `${value.toFixed(digits)}%`;
 }
 
 /** Localize savings opportunity copy by kind; falls back to English analyzer strings. */

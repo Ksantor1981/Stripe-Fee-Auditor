@@ -6,10 +6,17 @@ import { TrackedLink } from "@/components/TrackedLink";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 
 export const metadata: Metadata = {
-  title: "Pricing — $12 CSV audit · Fee Monitor $9/mo",
+  title: "Stripe Fee Auditor Pricing — $12 audit · Fee Monitor $9/mo",
   description:
-    "One Stripe Balance CSV audit for $12. Preview free. Optional Fee Monitor at $9/mo for monthly CSV reminders and fresh reports. No OAuth.",
+    "One Stripe Balance CSV audit for $12 with a free preview. Fee Monitor at $9/mo adds monthly reminders and report history. No OAuth required.",
   alternates: { canonical: "/pricing" },
+  openGraph: {
+    title: "Stripe Fee Auditor Pricing — $12 audit · Fee Monitor $9/mo",
+    description:
+      "One Stripe Balance CSV audit for $12 with a free preview. Fee Monitor at $9/mo adds monthly reminders and report history. No OAuth required.",
+    url: "/pricing",
+    type: "website",
+  },
 };
 
 export default async function PricingPage() {

@@ -1,7 +1,8 @@
 "use client";
 
 import type { SavingsOpportunity } from "@/lib/fee-analyzer";
-import { fmt$ } from "@/lib/format";
+
+import { useFmtMoney } from "@/lib/report-currency";
 import { resolvePaywallImpact } from "@/lib/paywall-impact";
 import type { FreeDiagnosis } from "@/lib/free-diagnosis";
 import { PaywallBanner } from "./PaywallBanner";
@@ -33,6 +34,7 @@ export function MoneyFirstImpact({
   monthCount,
   diagnosis,
 }: Props) {
+  const fmt$ = useFmtMoney();
   const { t, tc } = useReportTranslations();
   const translatedSavings = useTranslatedSavingsOpportunity(savings);
   const translatedDiagnosis = useTranslatedDiagnosis(diagnosis);

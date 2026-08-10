@@ -1,7 +1,8 @@
 "use client";
 
 import type { AnalysisResult } from "@/lib/fee-analyzer";
-import { fmt$, fmtPct, fmtMonth } from "@/lib/format";
+import { fmtPct, fmtMonth } from "@/lib/format";
+import { useFmtMoney } from "@/lib/report-currency";
 import { transactionPrimaryLabel, transactionSecondaryLine } from "@/lib/transaction-display";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { PaywallBanner } from "./PaywallBanner";
@@ -42,6 +43,7 @@ export function SingleMonthReport({
   outlierSaving = false,
   canMarkExpectedOutliers = false,
 }: Props) {
+  const fmt$ = useFmtMoney();
   const { t, tc } = useReportTranslations();
   const { chargeRate, chargeVolume, monthly, topDrivers, savingsOpportunities } = result;
   const {

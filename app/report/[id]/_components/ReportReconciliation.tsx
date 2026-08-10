@@ -1,10 +1,12 @@
 "use client";
 
 import type { AnalysisResult, FeeLeakBreakdownKind } from "@/lib/fee-analyzer";
-import { fmt$ } from "@/lib/format";
+
+import { useFmtMoney } from "@/lib/report-currency";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 export function ReportReconciliation({ result }: { result: AnalysisResult }) {
+  const fmt$ = useFmtMoney();
   const { t } = useReportTranslations();
   const reconciliation = result.reconciliation;
   if (!reconciliation) return null;

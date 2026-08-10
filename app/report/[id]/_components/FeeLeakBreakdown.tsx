@@ -1,7 +1,8 @@
 "use client";
 
 import type { FeeLeakBreakdownItem } from "@/lib/fee-analyzer";
-import { fmt$ } from "@/lib/format";
+
+import { useFmtMoney } from "@/lib/report-currency";
 import { useReportTranslations, useFeeLabelTranslator } from "@/lib/i18n/use-report-translations";
 
 interface Props {
@@ -31,6 +32,7 @@ function BreakdownSection({
   items: FeeLeakBreakdownItem[];
   showAdditiveNote?: boolean;
 }) {
+  const fmt$ = useFmtMoney();
   const { t, tc } = useReportTranslations();
   const translateFeeLabel = useFeeLabelTranslator();
 

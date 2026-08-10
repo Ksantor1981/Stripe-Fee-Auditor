@@ -139,7 +139,7 @@
     "accountCountryLabel": "Stripe account country",
     "accountCountryHint": "Used to classify domestic vs international cards and select the directional standard-pricing benchmark.",
     "accountCountryFallback": "Don't see your region? Pick the closest match — your CSV drives the audit; this only sets the pricing benchmark.",
-    "accountCountryUsdNote": "Current upload reports accept USD settlement only. Custom pricing and FX are estimates, not direct Stripe fee details."
+    "accountCountryCurrencyNote": "Upload one settlement currency per file — it must match the Stripe account country you select (USD, GBP, EUR, CAD, or AUD). Custom pricing and FX remain estimates."
   },
   "pricing": {
     "title": "Pricing",

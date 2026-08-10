@@ -50,7 +50,12 @@ storage/
 results/
 temp/
 
-# Secrets (extra safety net)
+# Release artifacts / local audits
+*.zip
+AUDIT_REPORT.md
+FULL_SITE_AUDIT.md
+blog-sources/
+
 *.pem
 secrets.json
 *_keys.json

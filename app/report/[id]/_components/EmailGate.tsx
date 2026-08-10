@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { trackEvent } from "@/lib/analytics";
-import { fmt$, fmtPct } from "@/lib/format";
+import { fmtPct } from "@/lib/format";
+import { useFmtMoney } from "@/lib/report-currency";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import type { NormalizedRow } from "@/lib/csv-parser";
 import type { FeeGrade } from "@/lib/fee-grade";
@@ -51,6 +52,7 @@ function diagnosisGateTeaser(body: string): string {
 }
 
 export function EmailGate({ reportId, headline, onUnlock }: Props) {
+  const fmt$ = useFmtMoney();
   const { t, tc } = useReportTranslations();
   const translatedDiagnosis = useTranslatedDiagnosis(headline.diagnosis);
   const router = useRouter();

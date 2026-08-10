@@ -1,7 +1,8 @@
 "use client";
 
 import type { TransactionBucket } from "@/lib/fee-analyzer";
-import { fmt$, fmtPct } from "@/lib/format";
+import { fmtPct } from "@/lib/format";
+import { useFmtMoney } from "@/lib/report-currency";
 import { useReportTranslations, useFeeLabelTranslator } from "@/lib/i18n/use-report-translations";
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export function TransactionBuckets({ buckets, baselineRate }: Props) {
+  const fmt$ = useFmtMoney();
   const { t } = useReportTranslations();
   const translateFeeLabel = useFeeLabelTranslator();
 

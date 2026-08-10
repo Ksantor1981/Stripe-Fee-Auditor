@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { readStoredClientId } from "@/app/report/[id]/_components/ClientManager";
 import { useTranslations } from "next-intl";
 import { useDropzone } from "react-dropzone";
 import Papa from "papaparse";
@@ -270,7 +271,12 @@ export function UploadZone({ autoLoadSample }: Props) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "same-origin",
-          body: JSON.stringify({ csvText, columnMapping, accountCountry }),
+          body: JSON.stringify({
+            csvText,
+            columnMapping,
+            accountCountry,
+            clientId: readStoredClientId(),
+          }),
         });
         if (!analyzeRes.ok) {
           const j = await analyzeRes.json();
@@ -348,7 +354,7 @@ export function UploadZone({ autoLoadSample }: Props) {
             ))}
           </select>
           <span className="mt-2 block text-xs text-gray-500">{t("accountCountryFallback")}</span>
-          <span className="mt-1 block text-xs text-amber-700">{t("accountCountryUsdNote")}</span>
+          <span className="mt-1 block text-xs text-amber-700">{t("accountCountryCurrencyNote")}</span>
         </label>
       )}
       {/* Drop zone */}

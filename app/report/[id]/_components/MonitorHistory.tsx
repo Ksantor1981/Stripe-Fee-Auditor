@@ -2,7 +2,8 @@
 
 import type { MonitorHistoryPoint } from "@/lib/db";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
-import { fmt$, fmtPct } from "@/lib/format";
+import { fmtPct } from "@/lib/format";
+import { useFmtMoney } from "@/lib/report-currency";
 import { compareMonitorHistory } from "@/lib/monitor-history";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
@@ -32,13 +33,31 @@ function deltaTone(value: number | null, inverse = false): string {
 export function MonitorHistory({
   current,
   history,
+  ownerEmail,
+  onHistoryHidden,
 }: {
   current: AnalysisResult;
   history: MonitorHistoryPoint[];
+  ownerEmail?: string;
+  onHistoryHidden?: () => void;
 }) {
+  const fmt$ = useFmtMoney();
   const { t, tc } = useReportTranslations();
   const comparison = compareMonitorHistory(current, history);
   const points = [comparison.current, ...history].slice(0, 6);
+
+  async function hideHistoryReport(reportId: string) {
+    if (!ownerEmail) return;
+    const confirmed = window.confirm("Hide this upload from Fee Monitor history?");
+    if (!confirmed) return;
+    const res = await fetch(`/api/reports/${reportId}/hide`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify({ email: ownerEmail }),
+    });
+    if (res.ok) onHistoryHidden?.();
+  }
 
   return (
     <section className="mb-6 rounded-2xl border border-emerald-100 bg-white p-5 shadow-sm">
@@ -86,7 +105,9 @@ export function MonitorHistory({
           </div>
 
           <p className="mt-3 text-xs text-slate-500">
-            {t("monitorHistory.deltaFootnote")}
+            {comparison.samePeriodMatch
+              ? "Compared against the prior upload covering the same export period."
+              : t("monitorHistory.deltaFootnote")}
           </p>
         </>
       )}
@@ -101,19 +122,39 @@ export function MonitorHistory({
               <th className="px-3 py-2 font-semibold">{t("monitorHistory.allInRate")}</th>
               <th className="px-3 py-2 font-semibold">{tc("fees")}</th>
               <th className="px-3 py-2 font-semibold">{t("monitorHistory.grade")}</th>
+              {ownerEmail ? <th className="px-3 py-2 font-semibold"> </th> : null}
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 text-slate-700">
-            {points.map((point, index) => (
-              <tr key={index} className={index === 0 ? "bg-emerald-50/50 font-semibold" : ""}>
-                <td className="px-3 py-2">{index === 0 ? t("monitorHistory.currentPrefix") : ""}{periodLabel(point)}</td>
-                <td className="px-3 py-2">{fmt$(point.chargeVolume)}</td>
-                <td className="px-3 py-2">{fmtPct(point.chargeRate)}</td>
-                <td className="px-3 py-2">{fmtPct(point.allInRate)}</td>
-                <td className="px-3 py-2">{fmt$(point.allInFees)}</td>
-                <td className="px-3 py-2">{point.feeGrade ?? "—"}</td>
-              </tr>
-            ))}
+            {points.map((point, index) => {
+              const historyPoint = index === 0 ? null : history[index - 1];
+              return (
+                <tr key={index} className={index === 0 ? "bg-emerald-50/50 font-semibold" : ""}>
+                  <td className="px-3 py-2">
+                    {index === 0 ? t("monitorHistory.currentPrefix") : ""}
+                    {periodLabel(point)}
+                  </td>
+                  <td className="px-3 py-2">{fmt$(point.chargeVolume)}</td>
+                  <td className="px-3 py-2">{fmtPct(point.chargeRate)}</td>
+                  <td className="px-3 py-2">{fmtPct(point.allInRate)}</td>
+                  <td className="px-3 py-2">{fmt$(point.allInFees)}</td>
+                  <td className="px-3 py-2">{point.feeGrade ?? "—"}</td>
+                  {ownerEmail ? (
+                    <td className="px-3 py-2 text-right">
+                      {historyPoint?.reportId ? (
+                        <button
+                          type="button"
+                          className="text-[11px] font-medium text-slate-500 hover:text-red-700"
+                          onClick={() => void hideHistoryReport(historyPoint.reportId!)}
+                        >
+                          Hide
+                        </button>
+                      ) : null}
+                    </td>
+                  ) : null}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

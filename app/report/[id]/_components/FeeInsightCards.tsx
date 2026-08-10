@@ -1,7 +1,8 @@
 "use client";
 
 import type { FeeBenchmark, RefundSummary } from "@/lib/fee-analyzer";
-import { fmt$, fmtPct } from "@/lib/format";
+import { fmtPct } from "@/lib/format";
+import { useFmtMoney } from "@/lib/report-currency";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 interface Props {
@@ -25,6 +26,7 @@ const TONE = {
 } as const;
 
 export function FeeInsightCards({ benchmark, refundSummary }: Props) {
+  const fmt$ = useFmtMoney();
   const { t, tc } = useReportTranslations();
   const hasRefunds = Boolean(refundSummary && refundSummary.count > 0 && refundSummary.volume > 0);
   if (!benchmark && !refundSummary) return null;

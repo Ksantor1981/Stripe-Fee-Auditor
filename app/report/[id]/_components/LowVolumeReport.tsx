@@ -1,7 +1,8 @@
 "use client";
 
 import type { AnalysisResult } from "@/lib/fee-analyzer";
-import { fmt$, fmtPct, fmtDate } from "@/lib/format";
+import { fmtPct, fmtDate } from "@/lib/format";
+import { useFmtMoney } from "@/lib/report-currency";
 import { transactionPrimaryLabel } from "@/lib/transaction-display";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { Badge } from "@/components/ui/badge";
@@ -25,7 +26,13 @@ interface Props {
   isSampleReport?: boolean;
 }
 
-export function LowVolumeReport({ reportId, result, isPaid, isSampleReport = false }: Props) {
+export function LowVolumeReport({
+  reportId,
+  result,
+  isPaid,
+  isSampleReport = false,
+}: Props) {
+  const fmt$ = useFmtMoney();
   const { t, tc } = useReportTranslations();
   const { chargeFees, chargeRate, chargeVolume, otherFees, topDrivers, monthly, savingsOpportunities } =
     result;

@@ -22,7 +22,8 @@ import {
   Radar,
 } from "recharts";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
-import { fmt$, fmtPct, fmtMonth } from "@/lib/format";
+import { fmtPct, fmtMonth } from "@/lib/format";
+import { useFmtMoney } from "@/lib/report-currency";
 import { transactionPrimaryLabel } from "@/lib/transaction-display";
 import { useReportTranslations, useFeeLabelTranslator } from "@/lib/i18n/use-report-translations";
 
@@ -82,6 +83,7 @@ function RateTooltip({
   rateLabel: (rate: string) => string;
   feesVolumeLabel: (fees: string, volume: string) => string;
 }) {
+  const fmt$ = useFmtMoney();
   if (!active || !payload?.[0]) return null;
   const row = payload[0].payload;
   return (
@@ -96,6 +98,7 @@ function RateTooltip({
 }
 
 export function ReportDashboardCharts({ result }: Props) {
+  const fmt$ = useFmtMoney();
   const { t, tc } = useReportTranslations();
   const translateFeeLabel = useFeeLabelTranslator();
   const {
