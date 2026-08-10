@@ -164,6 +164,10 @@ export default function ChromeExtensionPage() {
           <ul className="mt-4 space-y-3 text-sm leading-relaxed text-blue-900/85">
             <li className="flex gap-2">
               <span className="text-blue-600">✓</span>
+              <span>Quick Stripe fee estimate in the popup (published rates by country)</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-blue-600">✓</span>
               <span>Open Stripe Balance export in one click</span>
             </li>
             <li className="flex gap-2">

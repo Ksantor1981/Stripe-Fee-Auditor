@@ -4,7 +4,7 @@ Update the **existing** product (do not create a second listing). Fake installs/
 
 ## Upload package
 
-Zip the `chrome-extension/` folder after bumping `manifest.json` version. Current target: **0.1.2**.
+Zip the `chrome-extension/` folder after bumping `manifest.json` version. Current target: **0.1.3**.
 
 ```text
 C:\tmp\stripe-fee-auditor-extension.zip

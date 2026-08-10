@@ -2,8 +2,8 @@
   "manifest_version": 3,
   "name": "Stripe Fee Auditor — CSV Fee Check Helper",
   "short_name": "Fee Auditor",
-  "version": "0.1.2",
-  "description": "Open Stripe Balance export, audit your real fee rate, and get monthly CSV reminders. No OAuth or API keys.",
+  "version": "0.1.3",
+  "description": "Estimate Stripe fees in the popup, open Balance export, audit your real rate from CSV, and get monthly reminders. No OAuth or API keys.",
   "action": {
     "default_title": "Fee Auditor — CSV fee check helper",
     "default_popup": "popup.html",

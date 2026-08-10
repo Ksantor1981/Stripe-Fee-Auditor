@@ -13,19 +13,54 @@
           <img src="icons/icon32.png" width="32" height="32" alt="" />
           <div>
             <p class="eyebrow">Fee Auditor · feeauditor.com</p>
-            <h1>CSV fee check helper</h1>
+            <h1>Stripe fee helper</h1>
           </div>
         </div>
         <p class="hero-copy">
-          Open Stripe Balance export, audit your real fee rate on Fee Auditor, optional monthly
-          reminder. No OAuth or API keys.
+          Estimate published Stripe fees, then audit your real rate from a Balance CSV — no OAuth.
         </p>
         <div class="trust-row">
           <span>No OAuth</span>
-          <span>No API keys</span>
-          <span>CSV on the site</span>
+          <span>Quick estimate</span>
+          <span>CSV audit</span>
         </div>
       </header>
+
+      <section class="calculator" aria-label="Stripe fee estimate">
+        <div class="calculator-head">
+          <p class="label">Quick fee estimate</p>
+          <p class="calculator-note">Published rates — not your actual CSV.</p>
+        </div>
+
+        <div class="calc-grid">
+          <label class="calc-field calc-field-wide">
+            <span>Account country</span>
+            <select id="calc-country"></select>
+          </label>
+          <label class="calc-field">
+            <span>Monthly volume</span>
+            <input id="calc-volume" type="number" min="0" step="100" value="50000" />
+          </label>
+          <label class="calc-field">
+            <span>Avg charge</span>
+            <input id="calc-avg-charge" type="number" min="0.01" step="1" value="50" />
+          </label>
+          <label class="calc-field">
+            <span>Intl cards %</span>
+            <input id="calc-intl" type="number" min="0" max="100" step="1" value="15" />
+          </label>
+          <label class="calc-field">
+            <span>Receive after fees</span>
+            <input id="calc-target-net" type="number" min="0" step="1" value="100" />
+          </label>
+        </div>
+
+        <div id="calc-results" class="calc-results" aria-live="polite"></div>
+
+        <button type="button" class="calc-verify" data-open="analyze">
+          Verify with Balance CSV →
+        </button>
+      </section>
 
       <section class="actions" aria-label="Primary actions">
         <button class="action-card" type="button" data-open="stripe-export">
@@ -69,11 +104,16 @@
       </section>
 
       <footer>
+        <button type="button" class="text-button" data-open="calculator">
+          Full calculator on site
+        </button>
+        <span class="footer-dot" aria-hidden>·</span>
         <button type="button" class="text-button" data-open="instructions">
-          How to export the right CSV
+          Export guide
         </button>
       </footer>
     </main>
+    <script src="fee-calculator.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>
