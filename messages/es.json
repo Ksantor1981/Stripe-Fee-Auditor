@@ -57,6 +57,47 @@
     "trustHeading": "Confianza",
     "footerCta": "Auditar mis comisiones Stripe — gratis"
   },
+  "landingSampleTabs": {
+    "tablistAria": "Escenarios de informe de ejemplo",
+    "footnote": "Misma UI de informe — las cifras coinciden con cada escenario.",
+    "openSampleCta": "Abrir informe de ejemplo en vivo →",
+    "caseStudyLink": "Caso: ~$1.400/año",
+    "scenarios": {
+      "typical": {
+        "label": "SaaS típico",
+        "blurb": "Patrón real de export: US + algo de internacional — lo que muchos founders ven.",
+        "imageAlt": "UI Fee Auditor: tasa efectiva, drivers, cargos high-fee — mix SaaS típico ~4% all-in",
+        "stats": {
+          "volume4mo": { "label": "Volumen (4 meses)", "value": "$89,490" },
+          "processingRate": { "label": "Tasa de procesamiento", "value": "3.82%" },
+          "allInCost": { "label": "Costo all-in", "value": "4.02%" },
+          "directionalOpportunity": { "label": "Oportunidad direccional", "value": "~$1.400/año" }
+        }
+      },
+      "intl": {
+        "label": "Mucho internacional",
+        "blurb": "Mix cross-border fuerte — uplift intl y arrastre de reembolsos bien visibles (caso límite).",
+        "imageAlt": "UI Fee Auditor con all-in elevada por mix internacional y fuga de comisiones en reembolsos",
+        "stats": {
+          "stripeFeesQuarter": { "label": "Comisiones Stripe (trimestre)", "value": "$498.76" },
+          "processingRate": { "label": "Tasa de procesamiento", "value": "6.33%" },
+          "allInCost": { "label": "Costo all-in", "value": "6.67%" },
+          "extraVsHeadline": { "label": "Extra vs headline 2,9%", "value": "~$270/trim" }
+        }
+      },
+      "micro": {
+        "label": "Microtransacciones",
+        "blurb": "Suscripciones de ticket bajo — el fijo $0.30 domina; la tasa efectiva sube en cargos pequeños.",
+        "imageAlt": "UI Fee Auditor: cargos pequeños donde los fijos empujan la tasa efectiva por encima del 8%",
+        "stats": {
+          "avgChargeSize": { "label": "Cargo medio", "value": "~$12" },
+          "processingRate": { "label": "Tasa de procesamiento", "value": "8.4%" },
+          "allInCost": { "label": "Costo all-in", "value": "8.9%" },
+          "highFeeRows": { "label": "Filas high-fee", "value": "847" }
+        }
+      }
+    }
+  },
   "trust": {
     "noOAuth": "Sin OAuth de Stripe",
     "rawCsvNotStored": "CSV original no guardado",

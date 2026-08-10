@@ -57,6 +57,47 @@
     "trustHeading": "विश्वास",
     "footerCta": "Stripe fees audit — मुफ़्त"
   },
+  "landingSampleTabs": {
+    "tablistAria": "Sample report scenarios",
+    "footnote": "Same report UI — stats ऊपर हर scenario से match करते हैं।",
+    "openSampleCta": "Live sample report खोलें →",
+    "caseStudyLink": "$1,400/yr case study पढ़ें",
+    "scenarios": {
+      "typical": {
+        "label": "Typical SaaS",
+        "blurb": "Real export pattern: mixed US + कुछ international — जो कई founders देखते हैं।",
+        "imageAlt": "Fee Auditor report UI: effective rate, fee drivers — typical SaaS mix ~4% all-in",
+        "stats": {
+          "volume4mo": { "label": "Volume (4 mo)", "value": "$89,490" },
+          "processingRate": { "label": "Processing rate", "value": "3.82%" },
+          "allInCost": { "label": "All-in cost", "value": "4.02%" },
+          "directionalOpportunity": { "label": "Directional opportunity", "value": "~$1,400/yr" }
+        }
+      },
+      "intl": {
+        "label": "High international",
+        "blurb": "Heavy cross-border mix — intl uplift और refund drag साफ दिखता है (edge case)।",
+        "imageAlt": "Fee Auditor UI with elevated all-in from international mix and refund leakage",
+        "stats": {
+          "stripeFeesQuarter": { "label": "Stripe fees (quarter)", "value": "$498.76" },
+          "processingRate": { "label": "Processing rate", "value": "6.33%" },
+          "allInCost": { "label": "All-in cost", "value": "6.67%" },
+          "extraVsHeadline": { "label": "Extra vs 2.9% headline", "value": "~$270/qtr" }
+        }
+      },
+      "micro": {
+        "label": "Micro-transactions",
+        "blurb": "Low-ticket subs — fixed $0.30 dominates; छोटे charges पर effective rate spike।",
+        "imageAlt": "Fee Auditor UI: small-ticket charges where fixed fees push rate above 8%",
+        "stats": {
+          "avgChargeSize": { "label": "Avg charge size", "value": "~$12" },
+          "processingRate": { "label": "Processing rate", "value": "8.4%" },
+          "allInCost": { "label": "All-in cost", "value": "8.9%" },
+          "highFeeRows": { "label": "High-fee rows flagged", "value": "847" }
+        }
+      }
+    }
+  },
   "trust": {
     "noOAuth": "No Stripe OAuth",
     "rawCsvNotStored": "Raw CSV store नहीं",

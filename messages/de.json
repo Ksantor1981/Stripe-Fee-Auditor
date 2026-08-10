@@ -57,6 +57,47 @@
     "trustHeading": "Vertrauen",
     "footerCta": "Stripe-Gebühren prüfen — kostenlos"
   },
+  "landingSampleTabs": {
+    "tablistAria": "Beispiel-Berichtsszenarien",
+    "footnote": "Gleiche Berichts-UI — die Werte oben passen zum jeweiligen Szenario.",
+    "openSampleCta": "Live-Beispielbericht öffnen →",
+    "caseStudyLink": "Fallstudie ~$1.400/Jahr",
+    "scenarios": {
+      "typical": {
+        "label": "Typisches SaaS",
+        "blurb": "Reales Export-Muster: US + etwas International — nah an dem, was viele Gründer sehen.",
+        "imageAlt": "Fee Auditor UI: Effektivrate, Gebührentreiber, High-fee-Zeilen — typischer SaaS-Mix ~4% all-in",
+        "stats": {
+          "volume4mo": { "label": "Volumen (4 Mon.)", "value": "$89,490" },
+          "processingRate": { "label": "Verarbeitungsrate", "value": "3.82%" },
+          "allInCost": { "label": "All-in-Kosten", "value": "4.02%" },
+          "directionalOpportunity": { "label": "Richtwert-Potenzial", "value": "~$1.400/Jahr" }
+        }
+      },
+      "intl": {
+        "label": "Viel International",
+        "blurb": "Starker Cross-border-Mix — Intl-Uplift und Refund-Drag deutlich sichtbar (Randfall).",
+        "imageAlt": "Fee Auditor UI mit erhöhter All-in-Rate durch internationalen Mix und Refund-Gebühren",
+        "stats": {
+          "stripeFeesQuarter": { "label": "Stripe-Gebühren (Quartal)", "value": "$498.76" },
+          "processingRate": { "label": "Verarbeitungsrate", "value": "6.33%" },
+          "allInCost": { "label": "All-in-Kosten", "value": "6.67%" },
+          "extraVsHeadline": { "label": "Extra vs. 2,9%-Headline", "value": "~$270/Q" }
+        }
+      },
+      "micro": {
+        "label": "Mikrotransaktionen",
+        "blurb": "Kleine Abos — Fix $0,30 dominiert; Effektivrate steigt bei kleinen Charges.",
+        "imageAlt": "Fee Auditor UI: Kleinstcharges, bei denen Fixgebühren die Rate über 8% treiben",
+        "stats": {
+          "avgChargeSize": { "label": "Ø Charge-Größe", "value": "~$12" },
+          "processingRate": { "label": "Verarbeitungsrate", "value": "8.4%" },
+          "allInCost": { "label": "All-in-Kosten", "value": "8.9%" },
+          "highFeeRows": { "label": "High-fee-Zeilen", "value": "847" }
+        }
+      }
+    }
+  },
   "trust": {
     "noOAuth": "Kein Stripe-OAuth",
     "rawCsvNotStored": "Roh-CSV nicht gespeichert",
