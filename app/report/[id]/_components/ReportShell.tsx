@@ -369,8 +369,8 @@ export function ReportShell({
                 {t("reportShell.viewMonitorWorkflow")}
               </a>
             </div>
-          ) : (
-            <MonitorWaitlistForm reportId={reportId} />
+          ) : showUnlockToolbar ? null : (
+            <MonitorWaitlistForm reportId={reportId} showWaitlist={!isPaid} />
           )}
           {isPaid && <FeedbackForm reportId={reportId} />}
           <ChromeWebStoreReviewAsk

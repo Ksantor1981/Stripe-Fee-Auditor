@@ -6,7 +6,13 @@ import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 const REPORT_WAITLIST_ANALYTICS = { source: "report" as const };
 
-export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
+export function MonitorWaitlistForm({
+  reportId,
+  showWaitlist = true,
+}: {
+  reportId: string;
+  showWaitlist?: boolean;
+}) {
   const { t } = useReportTranslations();
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -89,36 +95,43 @@ export function MonitorWaitlistForm({ reportId }: { reportId: string }) {
         {t("monitorWaitlistForm.startMonitor")}
       </a>
 
-      <div className="my-5 flex items-center gap-3">
-        <div className="h-px flex-1 bg-blue-100" />
-        <span className="text-xs font-semibold uppercase tracking-widest text-gray-400">{t("monitorWaitlistForm.orDivider")}</span>
-        <div className="h-px flex-1 bg-blue-100" />
-      </div>
+      {showWaitlist ? (
+        <>
+          <div className="my-5 flex items-center gap-3">
+            <div className="h-px flex-1 bg-blue-100" />
+            <span className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+              {t("monitorWaitlistForm.orDivider")}
+            </span>
+            <div className="h-px flex-1 bg-blue-100" />
+          </div>
 
-      <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-gray-500">
-        {t("monitorWaitlistForm.notReady")}
-      </p>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-gray-500">
+            {t("monitorWaitlistForm.notReady")}
+          </p>
 
-      <form onSubmit={submit} className="mx-auto flex max-w-2xl flex-col gap-3 sm:flex-row">
-        <input
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder={t("monitorWaitlistForm.emailPlaceholder")}
-          autoComplete="email"
-          className="flex-1 rounded-xl border border-gray-200 px-3 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:border-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-200"
-        />
-        <button
-          type="submit"
-          disabled={loading || !email.trim()}
-          className="h-11 rounded-xl bg-white px-5 text-sm font-semibold text-blue-700 ring-1 ring-blue-100 transition-colors hover:bg-blue-50 disabled:bg-gray-100 disabled:text-gray-400 disabled:ring-gray-100 whitespace-nowrap"
-        >
-          {loading ? t("monitorWaitlistForm.joining") : t("monitorWaitlistForm.joinFreeList")}
-        </button>
-      </form>
+          <form onSubmit={submit} className="mx-auto flex max-w-2xl flex-col gap-3 sm:flex-row">
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={t("monitorWaitlistForm.emailPlaceholder")}
+              autoComplete="email"
+              className="flex-1 rounded-xl border border-gray-200 px-3 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:border-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-200"
+            />
+            <button
+              type="submit"
+              disabled={loading || !email.trim()}
+              className="h-11 rounded-xl bg-white px-5 text-sm font-semibold text-blue-700 ring-1 ring-blue-100 transition-colors hover:bg-blue-50 disabled:bg-gray-100 disabled:text-gray-400 disabled:ring-gray-100 whitespace-nowrap"
+            >
+              {loading ? t("monitorWaitlistForm.joining") : t("monitorWaitlistForm.joinFreeList")}
+            </button>
+          </form>
 
-      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+          {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+        </>
+      ) : null}
+
       <p className="mt-3 text-xs text-gray-500">
         {t("monitorWaitlistForm.curiousLink")}{" "}
         <a href="/monitor" className="text-blue-600 hover:underline">{t("monitorWaitlistForm.seeIncluded")}</a>.

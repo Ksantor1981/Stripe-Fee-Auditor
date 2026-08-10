@@ -13,6 +13,11 @@
  * The first run creates a Polar checkout. After completing it in sandbox,
  * re-run with SMOKE_CHECKOUT_ID to verify paid confirmation, report access,
  * paywall removal, and CSV export end to end.
+ *
+ * Monitor sandbox (manual, after POLAR_SERVER=sandbox):
+ *   1. POST /api/checkout/monitor → complete Polar sandbox checkout
+ *   2. Return URL → /monitor?payment=success with onboarding panel
+ *   3. Welcome email + upload CTA on /monitor
  */
 
 const baseUrl = (process.env.SMOKE_BASE_URL || "http://localhost:3000").replace(/\/$/, "");

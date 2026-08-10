@@ -171,5 +171,18 @@
       "q": "Can I calculate this myself in Excel?",
       "a": "Yes. The basic blended rate is just total charge fees divided by total charge volume. Fee Auditor is useful when you want the next layer: monthly changes, high-fee charges, refund fee leakage, benchmark context, exports, and specific savings opportunities without rebuilding the spreadsheet every time."
     }
+  },
+  "monitorPage": {
+    "successEyebrow": "Fee Monitor active",
+    "successTitle": "You're subscribed — here's your monthly workflow",
+    "successIntro": "Welcome email is on its way. Each Balance CSV you upload becomes a full report and joins your private rate-drift history.",
+    "step1": "Upload this month's Stripe Balance CSV (itemized export) to start your baseline.",
+    "step2": "Review processing rate, all-in cost, and fee drivers in the full report.",
+    "step3": "When the next month closes, upload again — we'll compare drift against this history.",
+    "uploadCta": "Upload Balance CSV →",
+    "sampleCta": "See sample report first",
+    "billingHeading": "Manage subscription",
+    "pendingTitle": "Confirming your subscription…",
+    "pendingBody": "Polar is still processing payment. Refresh in a minute or check your inbox for the welcome email. If checkout succeeded, your subscription should appear shortly."
   }
 }
