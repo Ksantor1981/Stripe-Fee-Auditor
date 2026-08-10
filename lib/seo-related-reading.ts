@@ -1,6 +1,40 @@
 import type { SeoRelatedLink } from "@/components/SeoRelatedReading";
 
+/** Hub links: fees report → export → calculator → analyze */
+export const SEO_RELATED_FEES_REPORT: SeoRelatedLink[] = [
+  {
+    context: "Need the export steps?",
+    href: "/stripe-balance-csv",
+    label: "Export Stripe Balance CSV",
+  },
+  {
+    context: "Estimate published rates first?",
+    href: "/stripe-fee-calculator",
+    label: "Stripe fee calculator",
+  },
+  {
+    context: "Why is the rate above 2.9%?",
+    href: "/why-stripe-fee-rate-higher-than-2-9",
+    label: "Why fees run higher",
+  },
+  {
+    context: "Comparing PayPal or Wise?",
+    href: "/compare-stripe-paypal-wise",
+    label: "Stripe vs PayPal vs Wise",
+  },
+  {
+    context: "Ready to run the audit?",
+    href: "/analyze",
+    label: "Analyze my CSV",
+  },
+];
+
 export const SEO_RELATED_FEE_CALCULATOR: SeoRelatedLink[] = [
+  {
+    context: "What should the report include?",
+    href: "/stripe-fees-report",
+    label: "Stripe fees report guide",
+  },
   {
     context: "Don't have the CSV yet?",
     href: "/stripe-balance-csv",
@@ -30,6 +64,11 @@ export const SEO_RELATED_FEE_CALCULATOR: SeoRelatedLink[] = [
 
 export const SEO_RELATED_WHY_HIGHER: SeoRelatedLink[] = [
   {
+    context: "Build a full fees report",
+    href: "/stripe-fees-report",
+    label: "Stripe fees report",
+  },
+  {
     context: "Fees up vs last month?",
     href: "/blog/why-stripe-fees-increase",
     label: "Why Stripe fees increase",
@@ -57,6 +96,11 @@ export const SEO_RELATED_WHY_HIGHER: SeoRelatedLink[] = [
 ];
 
 export const SEO_RELATED_BALANCE_CSV: SeoRelatedLink[] = [
+  {
+    context: "What to do with the export?",
+    href: "/stripe-fees-report",
+    label: "Stripe fees report",
+  },
   {
     context: "Estimate fees before you export?",
     href: "/stripe-fee-calculator",

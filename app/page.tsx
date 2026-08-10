@@ -305,6 +305,19 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+          <p className="mt-5 text-center text-sm text-gray-500">
+            <Link href="/stripe-balance-csv" className="font-medium text-blue-700 underline hover:text-blue-800">
+              Export guide
+            </Link>
+            {" · "}
+            <Link href="/stripe-fee-calculator" className="font-medium text-blue-700 underline hover:text-blue-800">
+              Fee calculator
+            </Link>
+            {" · "}
+            <Link href="/stripe-fees-report" className="font-medium text-blue-700 underline hover:text-blue-800">
+              Fees report
+            </Link>
+          </p>
         </div>
       </section>
 

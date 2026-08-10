@@ -10,17 +10,19 @@ import { SEO_RELATED_BALANCE_CSV } from "@/lib/seo-related-reading";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
-const pageTitle = "How to Export Stripe Balance CSV for Fee Analysis";
+const pageTitle = "Export Stripe Balance CSV & Transactions for Fee Audit";
 const pageDescription =
-  "Quick steps: Stripe Dashboard → Reports → Balance → Export → Itemized CSV. Use it to check effective rate, refund fee leakage, and international card mix — not for Tableau, Qlik, or PostgreSQL pipelines.";
+  "Export Stripe Balance transactions (itemized CSV) in ~5 minutes: Dashboard → Reports → Balance → Export. Check effective rate, refund leakage, and international card mix.";
 const pagePath = "/stripe-balance-csv";
 
 export const metadata: Metadata = {
-  title: "Export Stripe Balance CSV (Quick Fee Audit) | Fee Auditor",
+  title: "Export Stripe Balance CSV & Transactions | Fee Auditor",
   description: pageDescription,
   keywords: [
     "how to export Stripe Balance CSV",
     "export Stripe Balance CSV",
+    "Stripe export transactions",
+    "export Stripe transactions",
     "Stripe Balance Transactions CSV",
     "Stripe balance export",
     "Stripe Balance CSV for fee analysis",
@@ -29,15 +31,12 @@ export const metadata: Metadata = {
     "Stripe fee report CSV",
     "Stripe Dashboard reports",
     "Stripe CSV columns",
-    "not Stripe Tableau export",
-    "not Stripe PostgreSQL export",
-    "not Stripe Qlik export",
   ],
   alternates: {
     canonical: pagePath,
   },
   openGraph: {
-    title: "Export Stripe Balance CSV (Quick Fee Audit)",
+    title: "Export Stripe Balance CSV & Transactions",
     description: pageDescription,
     url: pagePath,
     siteName: "Stripe Fee Auditor",
@@ -45,7 +44,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Export Stripe Balance CSV (Quick Fee Audit)",
+    title: "Export Stripe Balance CSV & Transactions",
     description: pageDescription,
   },
   robots: {

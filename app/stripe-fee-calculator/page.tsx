@@ -5,6 +5,7 @@ import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { SeoPageTrustFooter } from "@/components/seo-page-trust-footer";
 import { SeoAnalyzeCta } from "@/components/SeoAnalyzeCta";
 import { SeoRelatedReading } from "@/components/SeoRelatedReading";
+import { SeoPayPalCalculatorCallout } from "@/components/SeoPayPalCalculatorCallout";
 import { StripeFeeMiniEstimate } from "@/components/stripe-fee-mini-estimate";
 import { SEO_RELATED_FEE_CALCULATOR } from "@/lib/seo-related-reading";
 import { sitePageBreadcrumbs } from "@/lib/breadcrumb-schema";
@@ -20,12 +21,14 @@ export const metadata: Metadata = {
   description: pageDescription,
   keywords: [
     "Stripe fee calculator",
+    "Stripe cost calculator",
+    "Stripe processing fees calculator",
     "Stripe fees calculator",
+    "calculate Stripe fees",
     "how much does Stripe charge per transaction",
     "Stripe effective fee rate calculator",
     "Stripe fee audit",
     "Stripe Balance CSV analyzer",
-    "calculate Stripe fees",
     "real Stripe processing fees",
   ],
   alternates: {
@@ -226,6 +229,8 @@ export default function StripeFeeCalculatorPage() {
         </div>
 
         <StripeFeeMiniEstimate />
+
+        <SeoPayPalCalculatorCallout className="mt-8" />
 
         {/* Why estimate vs real */}
         <div className="mb-14">

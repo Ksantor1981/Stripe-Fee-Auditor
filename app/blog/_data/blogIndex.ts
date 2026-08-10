@@ -209,6 +209,16 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
     sitemapPriority: 0.85,
   },
   {
+    slug: "stripe-fees-report",
+    path: "/stripe-fees-report",
+    title: "Stripe Fees Report: What to Include Beyond Dashboard Totals",
+    desc: "Processing rate, all-in cost, refund drag, international uplift, and high-fee rows — from a Balance CSV export.",
+    time: "4 min",
+    publishedAt: "2026-08-10",
+    updatedAt: "2026-08-10",
+    sitemapPriority: 0.77,
+  },
+  {
     slug: "stripe-fee-calculator",
     path: "/stripe-fee-calculator",
     title: "Stripe Fee Calculator: Estimate Fees, Then Verify Your Real Rate",
@@ -301,11 +311,11 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
   {
     slug: "stripe-balance-csv",
     path: "/stripe-balance-csv",
-    title: "Stripe Balance CSV Export Guide for Fee Analysis and Rate Audit",
-    desc: "Export the itemized Stripe Balance CSV to audit effective rate, refund fee leakage, and international card costs. Not a BI export guide.",
+    title: "Export Stripe Balance CSV & Transactions for Fee Audit",
+    desc: "Export Stripe Balance transactions (itemized CSV) in ~5 minutes. Check effective rate, refund leakage, and international card mix.",
     time: "4 min",
     publishedAt: "2026-06-25",
-    updatedAt: "2026-07-21",
+    updatedAt: "2026-08-10",
     sitemapPriority: 0.7,
   },
 ];

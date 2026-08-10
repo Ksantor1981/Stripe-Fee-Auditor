@@ -4,6 +4,7 @@ import Link from "next/link";
 import { MarketingShell } from "@/components/MarketingShell";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { TrackedLink } from "@/components/TrackedLink";
+import { SeoPayPalCalculatorCallout } from "@/components/SeoPayPalCalculatorCallout";
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
 
@@ -24,6 +25,8 @@ export const metadata: Metadata = {
     "Stripe vs PayPal fees",
     "Stripe vs Wise fees",
     "PayPal vs Wise fees",
+    "PayPal fee calculator",
+    "PayPal cost calculator",
     "Stripe alternatives",
     "payment processor fee comparison",
     "Stripe fee calculator",
@@ -118,6 +121,7 @@ const OFFICIAL_SOURCES = [
 ];
 
 const RELATED = [
+  { href: "/stripe-fees-report", title: "Stripe fees report" },
   { href: "/should-i-switch-from-stripe", title: "Should I switch from Stripe?" },
   { href: "/stripe-fee-calculator", title: "Stripe fee calculator" },
   { href: "/blog/stripe-vs-paypal-fees", title: "Stripe vs PayPal fees" },
@@ -204,6 +208,7 @@ export default function CompareStripePayPalWisePage() {
               average charge size, international customers, refunds, conversion lift, and whether
               you are solving checkout or money movement.
             </p>
+            <SeoPayPalCalculatorCallout className="mt-5 max-w-2xl" />
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <TrackedLink
                 href="/analyze"

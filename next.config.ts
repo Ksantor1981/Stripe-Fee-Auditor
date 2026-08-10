@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import { LEGACY_BLOG_REDIRECTS } from "./app/blog/_data/blogIndex";
+import { SEO_KEYWORD_REDIRECTS } from "./lib/seo-redirects";
 import { getGaMeasurementId } from "./lib/ga";
 
 const isDev = process.env.NODE_ENV === "development";
@@ -46,11 +47,18 @@ const CSP_EMBED = [
 
 const nextConfig: NextConfig = {
   async redirects() {
-    return LEGACY_BLOG_REDIRECTS.map((r) => ({
-      source: r.source,
-      destination: r.destination,
-      permanent: true,
-    }));
+    return [
+      ...LEGACY_BLOG_REDIRECTS.map((r) => ({
+        source: r.source,
+        destination: r.destination,
+        permanent: true,
+      })),
+      ...SEO_KEYWORD_REDIRECTS.map((r) => ({
+        source: r.source,
+        destination: r.destination,
+        permanent: true,
+      })),
+    ];
   },
   async headers() {
     return [
