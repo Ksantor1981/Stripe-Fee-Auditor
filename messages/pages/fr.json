@@ -1631,127 +1631,127 @@
   },
   "blog": {
     "how-i-found-1400-in-hidden-stripe-fees": {
-      "metaTitle": "Comment j'ai trouvé environ 1 400 $/an en opportunités de frais Hidden Stripe",
-      "metaDescription": "Une véritable étude de cas Stripe Balance CSV : 3 597,77 $ de frais sur quatre mois, un taux de traitement de 3,82 %, un coût tout compris Stripe de 4,02 % et les facteurs de frais qui valent la peine d'être vérifiés.",
-      "title": "Comment j'ai trouvé environ 1 400 $/an en opportunités de frais Hidden Stripe",
+      "metaTitle": "How I Found ~$1,400/Year in Hidden Stripe Fee Opportunities",
+      "metaDescription": "A real Stripe Balance CSV case study: $3,597.77 in fees over four months, a 3.82% processing rate, a 4.02% all-in Stripe cost, and the fee drivers worth checking.",
+      "title": "How I Found ~$1,400/Year in Hidden Stripe Fee Opportunities",
       "readTime": "6 min",
       "publishedAt": "2026-06-25",
       "updatedAt": null,
       "faq": [
         {
-          "question": "Le montant d'environ 1 400 $/an est-il une économie garantie ?",
-          "answer": "Non. Il s’agit d’une opportunité d’économies directionnelles grâce à l’exportation d’échantillons. La véritable prochaine étape consiste à inspecter les lignes qui ont généré des frais élevés, puis à décider si l'ACH, les méthodes de paiement locales, la facturation annuelle ou les modifications de prix sont réalistes."
+          "question": "Is the ~$1,400/year number guaranteed savings?",
+          "answer": "No. It is a directional savings opportunity from the sample export. The real next step is to inspect which rows created the high fees, then decide whether ACH, local payment methods, annual billing, or pricing changes are realistic."
         },
         {
-          "question": "Pourquoi y a-t-il deux taux : 3,82 % et 4,02 % ?",
-          "answer": "Le taux de traitement de 3,82 % utilise les frais de traitement des frais divisés par le volume des frais. Le coût tout compris de Stripe de 4,02 % inclut également d'autres lignes de frais Stripe. En gardant ces éléments séparés, on évite de blâmer le prix des cartes pour chaque frais."
+          "question": "Why are there two rates: 3.82% and 4.02%?",
+          "answer": "The 3.82% processing rate uses charge processing fees divided by charge volume. The 4.02% all-in Stripe cost includes other Stripe fee lines too. Keeping those separate avoids blaming card pricing for every fee."
         },
         {
-          "question": "Puis-je le trouver manuellement dans Stripe ?",
-          "answer": "Oui. Exportez un solde CSV détaillé, filtrez les lignes de frais, additionnez le volume des frais et les frais de facturation, puis comparez-le avec toutes les autres lignes de frais de la période. Fee Auditor automatise le regroupement, la chronologie, les lignes à frais élevés et les invites d'économies."
+          "question": "Can I find this manually in Stripe?",
+          "answer": "Yes. Export an itemized Balance CSV, filter charge rows, sum charge volume and charge fees, then compare that with all other fee rows in the period. Fee Auditor automates the grouping, timeline, high-fee rows, and savings prompts."
         }
       ],
       "sources": [
         {
           "href": "https://stripe.com/pricing",
-          "title": "Tarification à rayures"
+          "title": "Stripe pricing"
         },
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Documentation des rapports Stripe"
+          "title": "Stripe reports documentation"
         },
         {
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
-          "title": "Types de transactions de solde Stripe"
+          "title": "Stripe balance transaction types"
         }
       ]
     },
     "cross-border-stripe-fees-migration-2026": {
-      "metaTitle": "Frais Stripe transfrontaliers : pourquoi votre taux augmente",
+      "metaTitle": "Cross-Border Stripe Fees: Why Your Rate Rises",
       "metaDescription": "How international customers, migration trends, and currency mix can push Stripe fees above 2.9% in 2026, plus how to spot the change in your Balance CSV.",
-      "title": "Frais Stripe transfrontaliers : pourquoi votre taux augmente",
-      "readTime": "10 minutes",
+      "title": "Cross-Border Stripe Fees: Why Your Rate Rises",
+      "readTime": "10 min",
       "publishedAt": "2026-06-22",
       "updatedAt": null,
       "faq": [],
       "sources": []
     },
     "stripe-fee-audit-checklist-for-saas-founders": {
-      "metaTitle": "Liste de contrôle d'audit des frais Stripe pour les fondateurs SaaS",
-      "metaDescription": "Une liste de contrôle mensuelle pratique d'audit des frais Stripe pour les fondateurs de SaaS : taux effectif, solde CSV, cartes internationales, remboursements, petits frais, ACH et surveillance mois après mois.",
-      "title": "Liste de contrôle d'audit des frais Stripe pour les fondateurs SaaS",
+      "metaTitle": "Stripe Fee Audit Checklist for SaaS Founders",
+      "metaDescription": "A practical monthly Stripe fee audit checklist for SaaS founders: effective rate, Balance CSV, international cards, refunds, small charges, ACH, and month-over-month monitoring.",
+      "title": "Stripe Fee Audit Checklist for SaaS Founders",
       "readTime": "8 min",
       "publishedAt": null,
       "updatedAt": null,
       "faq": [
         {
-          "question": "À quelle fréquence dois-je vérifier les frais Stripe ?",
-          "answer": "Pour une entreprise SaaS avec un volume Stripe significatif, un audit des frais mensuels suffit. Comparez le taux de traitement, le coût tout compris de Stripe, le nombre de remboursements, la part internationale et les facteurs de frais élevés par rapport au mois précédent."
+          "question": "How often should I audit Stripe fees?",
+          "answer": "For a SaaS business with meaningful Stripe volume, a monthly fee audit is enough. Compare processing rate, all-in Stripe cost, refund count, international share, and high-fee charge drivers against the previous month."
         },
         {
-          "question": "Quelle est la mesure des frais Stripe la plus importante à suivre ?",
-          "answer": "Suivez à la fois le taux de traitement et le coût tout compris de Stripe. Le taux de traitement isole les frais de facturation, tandis que le coût tout compris inclut d'autres lignes de frais Stripe telles que les litiges, la facturation, les taxes, le radar et l'impact lié au remboursement."
+          "question": "What is the most important Stripe fee metric to track?",
+          "answer": "Track both processing rate and all-in Stripe cost. Processing rate isolates charge fees, while all-in cost includes other Stripe fee rows such as disputes, Billing, Tax, Radar, and refund-related impact."
         },
         {
-          "question": "De quel export Stripe ai-je besoin pour un audit tarifaire ?",
+          "question": "What Stripe export do I need for a fee audit?",
           "answer": "Use an itemized Stripe Balance CSV or Balance Transactions export. Summary exports are too aggregated for charge-level fee analysis."
         }
       ],
       "sources": [
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Documentation des rapports Stripe"
+          "title": "Stripe reports documentation"
         },
         {
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
-          "title": "Types de transactions de solde Stripe"
+          "title": "Stripe balance transaction types"
         },
         {
           "href": "https://stripe.com/pricing",
-          "title": "Tarification à rayures"
+          "title": "Stripe pricing"
         }
       ]
     },
     "stripe-fee-leakage-report-may-2026": {
-      "metaTitle": "Rapport de fuite des frais Stripe : qui est en sécurité ?",
-      "metaDescription": "Un modèle de diagnostic de mai 2026 pour les fuites de frais Stripe : comparez les profils de paiement SaaS sécurisés avec les profils à faible coût, globaux et à remboursement important qui devraient maintenant auditer les frais.",
-      "title": "Rapport de fuite des frais Stripe : qui est en sécurité ?",
+      "metaTitle": "Stripe Fee Leakage Report: Who Is Safe?",
+      "metaDescription": "A May 2026 diagnostic model for Stripe fee leakage: compare safe SaaS payment profiles with the low-ticket, global, refund-heavy profiles that should audit fees now.",
+      "title": "Stripe Fee Leakage Report: Who Is Safe?",
       "readTime": "9 min",
       "publishedAt": null,
       "updatedAt": null,
       "faq": [
         {
-          "question": "Qu’est-ce que la fuite de frais Stripe ?",
-          "answer": "Les fuites de frais Stripe correspondent à l'écart entre le taux de paiement global que vous attendez et le coût global réel créé par les frais fixes, les cartes internationales, la conversion de devises, les remboursements, les litiges et les produits complémentaires."
+          "question": "What is Stripe fee leakage?",
+          "answer": "Stripe fee leakage is the gap between the headline payment rate you expect and the real all-in cost created by fixed fees, international cards, currency conversion, refunds, disputes, and add-on products."
         },
         {
-          "question": "Quelles entreprises sont les plus exposées aux fuites de frais Stripe ?",
-          "answer": "Les abonnements à bas prix, les SaaS mondiaux, les produits à remboursement élevé et les factures B2B payées par carte sont les profils les plus exposés. Les SaaS B2B nationaux coûteux sont généralement plus sûrs."
+          "question": "Which businesses are most exposed to Stripe fee leakage?",
+          "answer": "Low-ticket subscriptions, global SaaS, refund-heavy products, and B2B invoices paid by card are the most exposed profiles. High-ticket domestic B2B SaaS is usually safer."
         },
         {
-          "question": "Comment puis-je mesurer les fuites de frais à partir des données Stripe ?",
-          "answer": "Exportez un CSV de solde Stripe détaillé, calculez séparément le taux de traitement des frais et le coût tout compris de Stripe, puis inspectez les petites charges, les cartes internationales, les remboursements, les litiges et les lignes de frais non facturés."
+          "question": "How do I measure fee leakage from Stripe data?",
+          "answer": "Export an itemized Stripe Balance CSV, calculate charge processing rate and all-in Stripe cost separately, then inspect small charges, international cards, refunds, disputes, and non-charge fee rows."
         }
       ],
       "sources": [
         {
           "href": "https://stripe.com/pricing",
-          "title": "Tarification à rayures"
+          "title": "Stripe pricing"
         },
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Documentation des rapports Stripe"
+          "title": "Stripe reports documentation"
         },
         {
           "href": "https://docs.stripe.com/disputes",
-          "title": "Documentation sur les litiges Stripe"
+          "title": "Stripe disputes documentation"
         }
       ]
     },
     "stripe-alternatives-2026": {
-      "metaTitle": "Alternatives Stripe en 2026 : vérifiez les frais avant de changer",
-      "metaDescription": "Vous recherchez des alternatives à Stripe en 2026 ? Avant de changer de processeur, vérifiez votre taux effectif réel Stripe et identifiez si les frais, la combinaison de paiements ou la stratégie de paiement constituent le véritable problème.",
-      "title": "Alternatives Stripe en 2026 : vérifiez les frais avant de changer",
+      "metaTitle": "Stripe Alternatives in 2026: Check Fees Before Switching",
+      "metaDescription": "Looking for Stripe alternatives in 2026? Before switching processors, audit your real Stripe effective rate and identify whether fees, payment mix, or checkout strategy is the real problem.",
+      "title": "Stripe Alternatives in 2026: Check Fees Before Switching",
       "readTime": "8 min",
       "publishedAt": "2026-06-25",
       "updatedAt": null,
@@ -1759,30 +1759,30 @@
       "sources": [
         {
           "href": "https://stripe.com/pricing",
-          "title": "Tarification à rayures"
+          "title": "Stripe pricing"
         },
         {
           "href": "https://www.paypal.com/us/business/paypal-business-fees",
-          "title": "Frais du commerçant PayPal"
+          "title": "PayPal merchant fees"
         },
         {
           "href": "https://squareup.com/us/en/payments/our-fees",
-          "title": "Frais de traitement des paiements Square"
+          "title": "Square payment processing fees"
         },
         {
           "href": "https://gocardless.com/pricing/",
-          "title": "Tarifs GoCardless"
+          "title": "GoCardless pricing"
         },
         {
           "href": "https://www.adyen.com/pricing",
-          "title": "Tarifs Adyen"
+          "title": "Adyen pricing"
         }
       ]
     },
     "stripe-credit-card-processing-fees": {
-      "metaTitle": "Frais de traitement Stripe : tarifs des cartes par rapport au coût réel",
-      "metaDescription": "Les frais de traitement Stripe commencent au tarif publié par la carte (souvent 2,9 % + 0,30 $), mais votre coût réel dépend des frais fixes, des cartes internationales, des remboursements, des litiges et des modules complémentaires.",
-      "title": "Frais de traitement Stripe : tarifs des cartes par rapport au coût réel",
+      "metaTitle": "Stripe Processing Fees: Card Rates vs Real Cost",
+      "metaDescription": "Stripe processing fees start at the published card rate (often 2.9% + $0.30), but your real cost depends on fixed fees, international cards, refunds, disputes, and add-ons.",
+      "title": "Stripe Processing Fees: Card Rates vs Real Cost",
       "readTime": "6 min",
       "publishedAt": "2026-06-25",
       "updatedAt": "2026-07-16",
@@ -1790,22 +1790,22 @@
       "sources": [
         {
           "href": "https://stripe.com/pricing",
-          "title": "Tarification à rayures"
+          "title": "Stripe pricing"
         },
         {
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
-          "title": "Types de transactions de solde Stripe"
+          "title": "Stripe balance transaction types"
         },
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Documentation des rapports Stripe"
+          "title": "Stripe reports documentation"
         }
       ]
     },
     "stripe-vs-paypal-fees": {
-      "metaTitle": "Frais Stripe vs PayPal : comparaison réelle",
-      "metaDescription": "Les frais Stripe vs PayPal sont proches sur le papier, mais votre coût réel dépend de la combinaison de paiement, du montant moyen des frais, des clients internationaux, des remboursements, des litiges et des méthodes de paiement.",
-      "title": "Frais Stripe vs PayPal : comparaison réelle",
+      "metaTitle": "Stripe vs PayPal Fees: Real Comparison",
+      "metaDescription": "Stripe vs PayPal fees are close on paper, but your real cost depends on checkout mix, average charge size, international customers, refunds, disputes, and payment methods.",
+      "title": "Stripe vs PayPal Fees: Real Comparison",
       "readTime": "7 min",
       "publishedAt": "2026-06-25",
       "updatedAt": null,
@@ -1813,159 +1813,159 @@
       "sources": [
         {
           "href": "https://stripe.com/pricing",
-          "title": "Tarification à rayures"
+          "title": "Stripe pricing"
         },
         {
           "href": "https://www.paypal.com/us/business/paypal-business-fees",
-          "title": "Frais du commerçant PayPal"
+          "title": "PayPal merchant fees"
         },
         {
           "href": "https://developer.paypal.com/braintree/articles/guides/payment-methods/paypal",
-          "title": "Documents PayPal de Braintree"
+          "title": "Braintree PayPal docs"
         }
       ]
     },
     "stripe-international-card-fees": {
-      "metaTitle": "Frais de carte internationale Stripe : pourquoi votre tarif est plus élevé",
-      "metaDescription": "Les frais de carte internationale Stripe ajoutent environ 1,5 % aux cartes transfrontalières – une raison courante pour laquelle votre taux effectif et votre paiement semblent inférieurs à 2,9 %. Comment le trouver dans votre Balance CSV.",
-      "title": "Frais de carte internationale Stripe : pourquoi votre tarif est plus élevé",
+      "metaTitle": "Stripe International Card Fees: Why Your Rate Is Higher",
+      "metaDescription": "Stripe international card fees add about 1.5% on cross-border cards — a common reason your effective rate and payout feel worse than 2.9%. How to find it in your Balance CSV.",
+      "title": "Stripe International Card Fees: Why Your Rate Is Higher",
       "readTime": "6 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-07-19",
       "faq": [
         {
-          "question": "Quels sont les frais de carte internationale de Stripe ?",
-          "answer": "Les frais de carte internationale de Stripe sont des frais transfrontaliers supplémentaires facturés lorsque la carte a été émise en dehors du pays de votre compte Stripe. Pour de nombreux scénarios de tarification aux États-Unis, cela représente généralement 1,5 point de pourcentage en plus du traitement standard des cartes."
+          "question": "What is Stripe's international card fee?",
+          "answer": "Stripe's international card fee is an extra cross-border fee charged when the card was issued outside your Stripe account country. For many US pricing scenarios, this is commonly 1.5 percentage points on top of standard card processing."
         },
         {
-          "question": "La devise ou le pays de la carte détermine-t-il les frais internationaux ?",
-          "answer": "Les frais de carte internationale dépendent du pays émetteur de la carte par rapport au pays de votre compte Stripe. La conversion des devises est distincte et peut s’empiler lorsque les devises de frais et de règlement diffèrent."
+          "question": "Does card currency or card country decide the international fee?",
+          "answer": "The international card fee is driven by the card issuer country relative to your Stripe account country. Currency conversion is separate and can stack on top when the charge and settlement currencies differ."
         },
         {
-          "question": "Comment puis-je trouver les frais de carte internationale dans les données Stripe ?",
-          "answer": "Exportez un fichier CSV Stripe Balance détaillé et recherchez les indicateurs de cartes internationales dans les lignes de frais, les descriptions ou les modèles de frais. Comparez ensuite ces lignes aux frais de carte nationale pour la même période."
+          "question": "How do I find international card fees in Stripe data?",
+          "answer": "Export an itemized Stripe Balance CSV and look for international card indicators in charge rows, descriptions, or fee patterns. Then compare those rows against domestic card charges for the same period."
         }
       ],
       "sources": [
         {
           "href": "https://stripe.com/pricing",
-          "title": "Tarification à rayures"
+          "title": "Stripe pricing"
         },
         {
           "href": "https://docs.stripe.com/payments/payment-methods",
-          "title": "Modes de paiement Stripe"
+          "title": "Stripe payment methods"
         },
         {
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
-          "title": "Types de transactions de solde Stripe"
+          "title": "Stripe balance transaction types"
         }
       ]
     },
     "stripe-ach-vs-credit-card-fees": {
-      "metaTitle": "Stripe ACH vs frais de carte de crédit : quand ACH économise de l'argent",
+      "metaTitle": "Stripe ACH vs Credit Card Fees: When ACH Saves Money",
       "metaDescription": "Compare Stripe ACH and credit card fees. See when ACH saves money, where the $5 cap matters, and how B2B SaaS can lower payment costs.",
-      "title": "Stripe ACH vs frais de carte de crédit : quand ACH économise de l'argent",
+      "title": "Stripe ACH vs Credit Card Fees: When ACH Saves Money",
       "readTime": "7 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-06-25",
       "faq": [
         {
-          "question": "Stripe ACH est-il moins cher que les cartes de crédit ?",
-          "answer": "Pour de nombreux paiements B2B importants aux États-Unis, ACH est moins cher que les cartes car ACH a un pourcentage de frais inférieur et un plafond. Les cartes peuvent encore être meilleures en termes de vitesse, de conversion et d’attentes de paiement des consommateurs."
+          "question": "Is Stripe ACH cheaper than credit cards?",
+          "answer": "For many large US B2B payments, ACH is cheaper than cards because ACH has a lower percentage fee and a cap. Cards can still be better for speed, conversion, and consumer checkout expectations."
         },
         {
-          "question": "Quand une entreprise SaaS doit-elle proposer ACH ?",
-          "answer": "ACH est particulièrement utile pour les factures importantes, les forfaits annuels et les clients B2B qui sont à l'aise avec les paiements bancaires. Il est moins idéal pour les achats instantanés des consommateurs ou pour les flux de paiement à forte friction."
+          "question": "When should a SaaS business offer ACH?",
+          "answer": "ACH is most useful for large invoices, annual plans, and B2B customers who are comfortable with bank payments. It is less ideal for instant consumer purchases or high-friction checkout flows."
         },
         {
-          "question": "Quel est le compromis entre ACH et les paiements par carte ?",
-          "answer": "ACH coûte généralement moins cher, mais peut s’installer plus lentement, échouer différemment et créer davantage de frictions lors de l’intégration. Les paiements par carte coûtent plus cher mais sont plus rapides et familiers à de nombreux acheteurs."
+          "question": "What is the tradeoff between ACH and card payments?",
+          "answer": "ACH usually costs less but can settle slower, fail differently, and create more onboarding friction. Card payments cost more but are faster and familiar for many buyers."
         }
       ],
       "sources": [
         {
           "href": "https://stripe.com/pricing",
-          "title": "Tarification à rayures"
+          "title": "Stripe pricing"
         },
         {
           "href": "https://docs.stripe.com/payments/ach-debit",
-          "title": "Documentation sur le prélèvement automatique Stripe ACH"
+          "title": "Stripe ACH Direct Debit documentation"
         },
         {
           "href": "https://docs.stripe.com/payments/payment-methods",
-          "title": "Modes de paiement Stripe"
+          "title": "Stripe payment methods"
         }
       ]
     },
     "stripe-fees-small-transactions": {
-      "metaTitle": "Frais Stripe pour les petites transactions : pourquoi votre tarif est plus élevé",
-      "metaDescription": "Les frais Stripe fixes de 0,30 $ affectent durement les petites transactions : des frais de 5 $ peuvent coûter environ 9 %. Découvrez les calculs, l'impact sur la marge et les moyens de réduire la traînée des micro-paiements.",
-      "title": "Frais Stripe pour les petites transactions : pourquoi votre tarif est plus élevé",
+      "metaTitle": "Stripe Fees for Small Transactions: Why Your Rate Is Higher",
+      "metaDescription": "The fixed $0.30 Stripe fee hits small transactions hard: a $5 charge can cost about 9%. See the math, margin impact, and ways to reduce micro-payment drag.",
+      "title": "Stripe Fees for Small Transactions: Why Your Rate Is Higher",
       "readTime": "5 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-07-19",
       "faq": [
         {
-          "question": "Pourquoi les frais Stripe sont-ils si élevés sur les petites transactions ?",
-          "answer": "Les frais fixes par transaction de Stripe sont les mêmes, que les frais soient de 5 $ ou de 100 $. Sur des frais de 5 $, des frais fixes de 0,30 $ représentent déjà 6 % avant l'ajout du pourcentage de frais."
+          "question": "Why are Stripe fees so high on small transactions?",
+          "answer": "Stripe's fixed per-transaction fee is the same whether the charge is $5 or $100. On a $5 charge, a $0.30 fixed fee is already 6% before the percentage fee is added."
         },
         {
-          "question": "Quels sont les frais Stripe sur un paiement de 5 $ ?",
-          "answer": "En utilisant 2,9 % + 0,30 $ comme exemple de taux, un paiement de 5 $ coûte environ 0,45 $ en frais : 0,145 $ du pourcentage de frais plus 0,30 $ fixe. Cela représente un taux effectif d'environ 9 %."
+          "question": "What is the Stripe fee on a $5 payment?",
+          "answer": "Using 2.9% + $0.30 as the example rate, a $5 payment costs about $0.45 in fees: $0.145 from the percentage fee plus $0.30 fixed. That is roughly a 9% effective rate."
         },
         {
-          "question": "Comment puis-je réduire les frais Stripe pour les produits à bas prix ?",
-          "answer": "Regroupez les petits achats, augmentez le montant minimum des frais, déplacez les micro-plans mensuels vers une facturation annuelle ou regroupez les frais basés sur l'utilisation en moins de factures lorsque l'expérience client le permet."
+          "question": "How can I reduce Stripe fees for low-priced products?",
+          "answer": "Bundle small purchases, increase minimum charge size, move monthly micro-plans to annual billing, or batch usage-based charges into fewer invoices where the customer experience allows it."
         }
       ],
       "sources": [
         {
           "href": "https://stripe.com/pricing",
-          "title": "Tarification à rayures"
+          "title": "Stripe pricing"
         },
         {
           "href": "https://docs.stripe.com/billing",
-          "title": "Documentation de facturation Stripe"
+          "title": "Stripe Billing documentation"
         },
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Documentation des rapports Stripe"
+          "title": "Stripe reports documentation"
         }
       ]
     },
     "stripe-blended-rate-calculator": {
-      "metaTitle": "Calculateur de taux mixte Stripe : trouvez votre taux de frais réel",
+      "metaTitle": "Stripe Blended Rate Calculator: Find Your True Fee Rate",
       "metaDescription": "What is your real Stripe blended rate? Learn the formula, use our calculator, and find out what's pushing your effective rate above 2.9%.",
-      "title": "Calculateur de taux mixte Stripe : trouvez votre taux de frais réel",
+      "title": "Stripe Blended Rate Calculator: Find Your True Fee Rate",
       "readTime": "6 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-06-25",
       "faq": [
         {
-          "question": "Qu'est-ce qu'un tarif mixte Stripe ?",
-          "answer": "Un tarif mixte Stripe correspond au total des frais Stripe divisé par le volume total des frais sur une période. Il combine différents types de paiement, frais fixes, cartes internationales, remboursements et frais supplémentaires en un seul pourcentage réel."
+          "question": "What is a Stripe blended rate?",
+          "answer": "A Stripe blended rate is total Stripe fees divided by total charge volume across a period. It blends different payment types, fixed fees, international cards, refunds, and add-on fees into one real-world percentage."
         },
         {
-          "question": "Pourquoi mon taux mixte est-il supérieur à 2,9 % ?",
-          "answer": "Votre taux mixte peut être supérieur à 2,9 %, car les frais fixes de 0,30 $ sont importants pour les petits frais, les cartes internationales ajoutent des frais transfrontaliers, la conversion de devises peut augmenter les coûts et les remboursements ou litiges peuvent augmenter les frais globaux."
+          "question": "Why is my blended rate higher than 2.9%?",
+          "answer": "Your blended rate can be higher than 2.9% because the fixed $0.30 fee is large on small charges, international cards add cross-border fees, currency conversion can add cost, and refunds or disputes can raise all-in fees."
         },
         {
-          "question": "Dois-je utiliser les frais de facturation ou tous les frais Stripe ?",
-          "answer": "Utilisez les frais de facturation pour mesurer le taux de traitement des cartes. Utilisez tous les frais Stripe pour mesurer le coût global de Stripe. Les deux sont utiles, mais ils répondent à des questions différentes."
+          "question": "Should I use charge fees or all Stripe fees?",
+          "answer": "Use charge fees to measure card processing rate. Use all Stripe fees to measure all-in Stripe cost. Both are useful, but they answer different questions."
         }
       ],
       "sources": [
         {
           "href": "https://stripe.com/pricing",
-          "title": "Tarification à rayures"
+          "title": "Stripe pricing"
         },
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Documentation des rapports Stripe"
+          "title": "Stripe reports documentation"
         },
         {
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
-          "title": "Types de transactions de solde Stripe"
+          "title": "Stripe balance transaction types"
         }
       ]
     },
@@ -1978,83 +1978,83 @@
       "updatedAt": "2026-07-19",
       "faq": [
         {
-          "question": "Quelle exportation Stripe CSV dois-je utiliser pour l'analyse des frais ?",
-          "answer": "Utilisez l’exportation CSV du solde détaillé ou les transactions de solde. Les exportations récapitulatives sont utiles pour les totaux, mais elles ne contiennent pas suffisamment de détails sur les frais au niveau des transactions pour un audit des frais réels."
+          "question": "Which Stripe CSV export should I use for fee analysis?",
+          "answer": "Use the Itemized Balance CSV or Balance Transactions export. Summary exports are useful for totals, but they do not contain enough transaction-level fee detail for a real fee audit."
         },
         {
-          "question": "Où puis-je exporter un CSV Stripe Balance ?",
-          "answer": "Dans Stripe Dashboard, accédez à Reporting ou Reports, ouvrez Récapitulatif du solde ou Transactions de solde, définissez la plage de dates, choisissez Exporter, puis choisissez Détaillé et téléchargez le CSV."
+          "question": "Where do I export a Stripe Balance CSV?",
+          "answer": "In Stripe Dashboard, go to Reporting or Reports, open Balance summary or Balance transactions, set the date range, choose Export, then choose Itemized and download the CSV."
         },
         {
-          "question": "Quelle quantité de données Stripe dois-je exporter ?",
-          "answer": "Exportez au moins un mois complet. Trois à six mois sont préférables pour diagnostiquer les tendances des frais, la combinaison de cartes internationales, les fuites de remboursement et les changements de taux d'un mois à l'autre."
+          "question": "How much Stripe data should I export?",
+          "answer": "Export at least one full month. Three to six months is better for diagnosing fee trends, international card mix, refund leakage, and month-over-month rate changes."
         },
         {
-          "question": "Un rapport de paiement Stripe est-il suffisant pour le rapprochement des frais ?",
-          "answer": "Non. Un rapport de paiement est utile pour le rapprochement bancaire, mais il regroupe les mouvements d’argent. Utilisez l'exportation CSV du solde détaillé ou les transactions de solde lorsque vous avez besoin de lignes de frais au niveau des transactions."
+          "question": "Is a Stripe payout report enough for fee reconciliation?",
+          "answer": "No. A payout report is useful for bank reconciliation, but it groups money movement. Use the Itemized Balance CSV or Balance Transactions export when you need transaction-level fee rows."
         }
       ],
       "sources": [
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Documentation des rapports Stripe"
+          "title": "Stripe reports documentation"
         },
         {
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
-          "title": "Types de transactions de solde Stripe"
+          "title": "Stripe balance transaction types"
         },
         {
           "href": "https://dashboard.stripe.com/reports",
-          "title": "Rapports du tableau de bord Stripe"
+          "title": "Stripe Dashboard reports"
         }
       ]
     },
     "why-stripe-effective-rate-jumped-this-month": {
-      "metaTitle": "Pourquoi mon taux effectif Stripe a-t-il augmenté ce mois-ci ?",
+      "metaTitle": "Why Did My Stripe Effective Rate Jump This Month?",
       "metaDescription": "Your Stripe blended rate changed month-over-month and you don't know why. Here are the 6 most common causes — and how to find which one hit you.",
-      "title": "Pourquoi mon taux effectif Stripe a-t-il augmenté ce mois-ci ?",
+      "title": "Why Did My Stripe Effective Rate Jump This Month?",
       "readTime": "8 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-06-25",
       "faq": [
         {
-          "question": "Pourquoi mon tarif effectif Stripe a-t-il augmenté ce mois-ci ?",
-          "answer": "Les causes les plus courantes sont un plus grand nombre de cartes internationales, un montant moyen de transaction inférieur, les remboursements d'un mois précédent, la conversion d'une nouvelle devise, les frais supplémentaires Stripe ou les frais de litige."
+          "question": "Why did my Stripe effective rate jump this month?",
+          "answer": "The most common causes are more international cards, a lower average transaction size, refunds from a prior month, new currency conversion, Stripe add-on fees, or dispute fees."
         },
         {
-          "question": "Quel changement de frais Stripe d'un mois à l'autre est normal ?",
-          "answer": "Un mouvement d’environ 0,2 point de pourcentage peut être normal pour une entreprise SaaS mixte. Un saut au-dessus de 0,5 point de pourcentage a généralement une cause spécifique qui mérite d'être étudiée dans le Balance CSV."
+          "question": "What month-over-month Stripe fee change is normal?",
+          "answer": "A movement of about 0.2 percentage points can be normal for a mixed SaaS business. A jump above 0.5 percentage points usually has a specific cause worth investigating in the Balance CSV."
         },
         {
-          "question": "Quelles lignes Stripe CSV dois-je vérifier en premier ?",
-          "answer": "Commencez par les lignes de frais par mois, puis vérifiez les descriptions des cartes internationales, les tranches de frais à faible coût, les lignes de remboursement, les lignes de litige et les lignes de frais non facturés tels que la facturation, le radar, les taxes ou d'autres frais Stripe."
+          "question": "Which Stripe CSV rows should I check first?",
+          "answer": "Start with charge rows by month, then check international card descriptions, low-dollar charge buckets, refund rows, dispute rows, and non-charge fee rows such as Billing, Radar, Tax, or other Stripe fees."
         }
       ],
       "sources": [
         {
           "href": "https://stripe.com/pricing",
-          "title": "Tarification à rayures"
+          "title": "Stripe pricing"
         },
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Documentation des rapports Stripe"
+          "title": "Stripe reports documentation"
         },
         {
           "href": "https://docs.stripe.com/disputes",
-          "title": "Documentation sur les litiges Stripe"
+          "title": "Stripe disputes documentation"
         }
       ]
     },
     "why-stripe-fees-increase": {
-      "metaTitle": "Pourquoi mes frais Stripe ont-ils augmenté ce mois-ci ?",
+      "metaTitle": "Why Did My Stripe Fees Increase This Month?",
       "metaDescription": "Stripe payout lower than expected or fees up vs last month? Diagnose international cards, refund fees not returned, FX, and mix changes from your Balance CSV.",
-      "title": "Pourquoi mes frais Stripe ont-ils augmenté ce mois-ci ?",
+      "title": "Why Did My Stripe Fees Increase This Month?",
       "readTime": "5 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-07-19",
       "faq": [
         {
-          "question": "Pourquoi mes frais Stripe ont-ils augmenté ?",
+          "question": "Why did my Stripe fees increase?",
           "answer": "Stripe fees usually increase because your payment mix changed: more international cards, lower average charge size, currency conversion, disputes, refunds, or extra Stripe products such as Billing, Radar, or Tax."
         },
         {
@@ -2069,195 +2069,195 @@
       "sources": [
         {
           "href": "https://stripe.com/pricing",
-          "title": "Tarification à rayures"
+          "title": "Stripe pricing"
         },
         {
           "href": "https://docs.stripe.com/disputes",
-          "title": "Documentation sur les litiges Stripe"
+          "title": "Stripe disputes documentation"
         },
         {
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
-          "title": "Types de transactions de solde Stripe"
+          "title": "Stripe balance transaction types"
         }
       ],
       "table": {
         "headers": [
           "Cause",
-          "Impact sur les frais",
-          "Signal CSV"
+          "Fee impact",
+          "CSV signal"
         ],
         "rows": [
           [
-            "Plus de cartes internationales",
-            "+1,5% sur les frais de cartes concernés",
-            "Filtrer les lignes de cartes internationales"
+            "More international cards",
+            "+1.5% on affected card charges",
+            "Filter for international card rows"
           ],
           [
-            "Conversion de devises",
-            "Souvent environ +1 % lorsque la conversion s'applique",
-            "Comparez les devises de frais et de règlement"
+            "Currency conversion",
+            "Often about +1% when conversion applies",
+            "Compare charge and settlement currencies"
           ],
           [
-            "Transactions plus petites",
-            "Les frais fixes de 0,30 $ deviennent une part plus importante",
-            "Regrouper les frais par tranche de montant"
+            "Smaller transactions",
+            "$0.30 fixed fee becomes a larger share",
+            "Group charges by amount bucket"
           ],
           [
-            "Litiges",
-            "Les frais de litige forfaitaires peuvent faire grimper le coût global",
-            "Filtrer les lignes de litige"
+            "Disputes",
+            "Flat dispute fees can spike all-in cost",
+            "Filter dispute rows"
           ],
           [
-            "Facturation, Radar, Taxes, modules complémentaires",
-            "Des lignes de frais distinctes augmentent le coût tout compris de Stripe",
-            "Somme des lignes de frais gratuits"
+            "Billing, Radar, Tax, add-ons",
+            "Separate fee lines raise all-in Stripe cost",
+            "Sum non-charge fee rows"
           ],
           [
-            "Remboursements",
-            "Les frais de traitement originaux ne sont généralement pas remboursés",
-            "Examiner les lignes de remboursement et les frais retenus"
+            "Refunds",
+            "Original processing fees are generally not returned",
+            "Review refund rows and retained fees"
           ]
         ]
       }
     },
     "how-to-reduce-stripe-fees": {
-      "metaTitle": "Comment réduire vos frais Stripe",
+      "metaTitle": "How to Reduce Your Stripe Fees",
       "metaDescription": "Practical tactics to lower your Stripe effective fee rate: negotiate custom pricing, reduce disputes, optimize currency settings, and more.",
-      "title": "Comment réduire vos frais Stripe",
+      "title": "How to Reduce Your Stripe Fees",
       "readTime": "7 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-06-25",
       "intro": [
-        "Le taux standard de Stripe est de 2,9 % + 0,30 $ par transaction, mais votre taux effectif (ce que vous payez réellement) peut être considérablement plus élevé. Voici comment le réduire."
+        "Stripe's standard rate is 2.9% + $0.30 per transaction, but your effective rate — what you actually pay — can be significantly higher. Here's how to bring it down."
       ],
       "sections": [
         {
           "type": "callout",
-          "title": "Réponse courte",
-          "body": "La meilleure façon de réduire les frais Stripe est d'adapter la solution au conducteur : ACH pour les grosses factures, facturation annuelle pour les petits frais récurrents, méthodes de paiement locales pour les clients internationaux et réduction des litiges/remboursements lorsque ces lignes dominent."
+          "title": "Short answer",
+          "body": "The best way to reduce Stripe fees is to match the fix to the driver: ACH for large invoices, annual billing for small recurring charges, local payment methods for international customers, and dispute/refund reduction when those rows dominate."
         },
         {
           "type": "section",
-          "heading": "Réponse courte",
+          "heading": "Short answer",
           "paragraphs": [
-            "La meilleure façon de réduire les frais Stripe est d'adapter la solution au conducteur : ACH pour les grosses factures, facturation annuelle pour les petits frais récurrents, méthodes de paiement locales pour les clients internationaux et réduction des litiges/remboursements lorsque ces lignes dominent."
+            "The best way to reduce Stripe fees is to match the fix to the driver: ACH for large invoices, annual billing for small recurring charges, local payment methods for international customers, and dispute/refund reduction when those rows dominate."
           ]
         },
         {
           "type": "section",
-          "heading": "1. Négocier des prix personnalisés",
+          "heading": "1. Negotiate Custom Pricing",
           "paragraphs": [
-            "Une fois que vous aurez traité plus de 80 000 $/mois, Stripe discutera des tarifs personnalisés. Contactez votre responsable de compte ou contactez-nous sur stripe.com/contact/sales. Même une réduction de 0,2 % sur 100 000 $/mois permet d'économiser 200 $ chaque mois."
+            "Once you're processing over $80,000/month, Stripe will discuss custom rates. Contact your account manager or reach out at stripe.com/contact/sales. Even a 0.2% reduction on $100K/month saves $200 every month."
           ]
         },
         {
           "type": "section",
-          "heading": "2. Augmenter la valeur moyenne des transactions",
+          "heading": "2. Increase Average Transaction Value",
           "paragraphs": [
-            "La composante fixe de 0,30 $ nuit le plus aux petites transactions. Envisagez de regrouper des produits, de proposer des forfaits annuels au lieu de mensuels ou de fixer un montant minimum de commande."
+            "The $0.30 fixed component hurts small transactions most. Consider bundling products, offering annual plans instead of monthly, or setting a minimum order value."
           ]
         },
         {
           "type": "section",
-          "heading": "3. Réduire les litiges",
+          "heading": "3. Reduce Disputes",
           "paragraphs": [
-            "Activez les règles Stripe Radar pour bloquer les transactions suspectes avant qu'elles ne deviennent des litiges. Utilisez des descripteurs de facturation clairs. Chaque litige évité permet d'économiser 15 $ + frais de remboursement potentiels."
+            "Enable Stripe Radar rules to block suspicious transactions before they become disputes. Use clear billing descriptors. Each avoided dispute saves $15 + potential refund costs."
           ]
         },
         {
           "type": "section",
-          "heading": "4. Optimiser les paramètres de devise",
+          "heading": "4. Optimize Currency Settings",
           "paragraphs": [
             "If you sell in multiple countries, consider enabling local payment methods via Stripe to avoid currency conversion fees (1% per transaction)."
           ]
         },
         {
           "type": "section",
-          "heading": "5. Utilisez ACH pour les paiements B2B de grande valeur",
+          "heading": "5. Use ACH for High-Value B2B Payments",
           "paragraphs": [
             "ACH bank transfers via Stripe cost 0.8% (capped at $5). For invoices over $1,000, this is 70–80% cheaper than card processing."
           ]
         },
         {
           "type": "section",
-          "heading": "Premièrement : connaissez votre base de référence",
+          "heading": "First: Know Your Baseline",
           "paragraphs": [
-            "Avant d'optimiser, vous devez connaître votre taux effectif actuel et quelles transactions coûtent le plus cher. Téléchargez votre CSV Stripe Balance sur Fee Auditor pour obtenir une ventilation avec le contexte de référence, les fuites de remboursement et les idées d'économies liées à votre exportation."
+            "Before optimizing, you need to know your current effective rate and which transactions are costing the most. Upload your Stripe Balance CSV to Fee Auditor for a breakdown with benchmark context, refund leakage, and savings ideas tied to your export."
           ]
         }
       ],
       "faq": [
         {
-          "question": "Quel est le moyen le plus rapide de réduire les frais Stripe ?",
-          "answer": "Le chemin le plus rapide dépend de votre pilote de frais. Pour les grosses factures B2B, ACH peut être la plus grande victoire. Pour les petits frais, le regroupement ou la facturation annuelle est généralement plus utile. Pour les clients internationaux, les méthodes de paiement locales peuvent réduire les frais supplémentaires liés à la carte."
+          "question": "What is the fastest way to reduce Stripe fees?",
+          "answer": "The fastest path depends on your fee driver. For large B2B invoices, ACH can be the biggest win. For small charges, bundling or annual billing usually helps more. For international customers, local payment methods can reduce card surcharges."
         },
         {
-          "question": "Puis-je négocier les frais Stripe ?",
-          "answer": "Stripe peut discuter de tarifs personnalisés pour les entreprises ayant un volume de traitement important ou des besoins de paiement spécifiques. Avant de négocier, mesurez votre taux effectif actuel et les facteurs de frais à partir de votre solde CSV."
+          "question": "Can I negotiate Stripe fees?",
+          "answer": "Stripe may discuss custom pricing for businesses with meaningful processing volume or specific payment needs. Before negotiating, measure your current effective rate and fee drivers from your Balance CSV."
         },
         {
-          "question": "Dois-je abandonner Stripe pour réduire les frais ?",
-          "answer": "Pas toujours. Identifiez d'abord si votre coût provient du prix de base de Stripe, de cartes internationales, de petits frais, de remboursements, de litiges ou de modules complémentaires. Certains problèmes peuvent être résolus au sein de Stripe en modifiant le mix de paiement."
+          "question": "Should I switch away from Stripe to reduce fees?",
+          "answer": "Not always. First identify whether your cost comes from Stripe's base pricing, international cards, small charges, refunds, disputes, or add-ons. Some problems can be fixed inside Stripe by changing payment mix."
         }
       ],
       "sources": [
         {
           "href": "https://stripe.com/pricing",
-          "title": "Tarification à rayures"
+          "title": "Stripe pricing"
         },
         {
           "href": "https://docs.stripe.com/payments/payment-methods",
-          "title": "Modes de paiement Stripe"
+          "title": "Stripe payment methods"
         },
         {
           "href": "https://docs.stripe.com/disputes",
-          "title": "Documentation sur les litiges Stripe"
+          "title": "Stripe disputes documentation"
         }
       ],
       "table": {
         "headers": [
-          "Tactique",
-          "Potentiel",
-          "Meilleur ajustement"
+          "Tactic",
+          "Potential",
+          "Best fit"
         ],
         "rows": [
           [
-            "Ajoutez ACH pour les grosses factures B2B",
+            "Add ACH for large B2B invoices",
             "High",
-            "Idéal pour les factures B2B et les forfaits annuels aux États-Unis"
+            "Best for US B2B invoices and annual plans"
           ],
           [
-            "Augmenter la taille moyenne des transactions",
+            "Raise average transaction size",
             "High",
-            "Idéal pour les abonnements ou les modules complémentaires à faible coût"
+            "Best for low-ticket subscriptions or add-ons"
           ],
           [
-            "Proposer des méthodes de paiement locales",
-            "Moyen-élevé",
-            "Idéal pour les bases de clients internationales"
+            "Offer local payment methods",
+            "Medium-high",
+            "Best for international customer bases"
           ],
           [
-            "Réduisez les litiges et les remboursements",
-            "Moyen",
-            "Idéal lorsque les lignes de remboursement/litige sont visibles au format CSV"
+            "Reduce disputes and refunds",
+            "Medium",
+            "Best when refund/dispute rows are visible in CSV"
           ],
           [
-            "Négocier des tarifs personnalisés",
-            "Moyen",
-            "Meilleur après un volume de traitement mensuel significatif"
+            "Negotiate custom pricing",
+            "Medium",
+            "Best after meaningful monthly processing volume"
           ],
           [
-            "Examiner les modules complémentaires de facturation/radar/taxe",
-            "Au cas par cas",
-            "Idéal lorsque les lignes de frais gratuits augmentent"
+            "Review Billing/Radar/Tax add-ons",
+            "Case-by-case",
+            "Best when non-charge fee rows are growing"
           ]
         ]
       }
     },
     "stripe-effective-fee-rate-explained": {
-      "metaTitle": "Quel est votre taux de frais effectif Stripe ?",
+      "metaTitle": "What Is Your Stripe Effective Fee Rate?",
       "metaDescription": "Your effective Stripe fee rate is the true percentage of revenue you pay to Stripe. Learn how to calculate it and what a good rate looks like.",
-      "title": "Quel est votre taux de frais effectif Stripe ?",
+      "title": "What Is Your Stripe Effective Fee Rate?",
       "readTime": "4 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-06-25",
@@ -2267,75 +2267,75 @@
       "sections": [
         {
           "type": "section",
-          "heading": "Définition : taux de frais effectif de Stripe",
+          "heading": "Definition: Stripe effective fee rate",
           "paragraphs": [
-            "Le taux de frais effectif de Stripe est le montant total que vous avez payé en frais Stripe divisé par votre volume total de frais traités pour la même période. C'est la réponse pratique à la question « quel pourcentage Stripe a-t-il réellement pris ? »"
+            "Stripe effective fee rate is the total amount you paid in Stripe fees divided by your total processed charge volume for the same period. It is the practical answer to “what percentage did Stripe actually take?”"
           ]
         },
         {
           "type": "section",
-          "heading": "Comment le calculer",
+          "heading": "How to Calculate It",
           "paragraphs": [
-            "Taux de frais effectif = total des frais payés ÷ volume total des frais × 100",
-            "Volume total : 38 500 $",
-            "Taux effectif : 1 240 $ / 38 500 $ = 3,22 %"
+            "Effective fee rate = total fees paid ÷ total charge volume × 100",
+            "Total volume: $38,500",
+            "Effective rate: $1,240 / $38,500 = 3.22%"
           ]
         },
         {
           "type": "section",
-          "heading": "Qu'est-ce qu'un bon taux effectif ?",
+          "heading": "What's a Good Effective Rate?",
           "paragraphs": [
-            "Pour les transactions nationales uniquement aux États-Unis avec une valeur de commande moyenne de 50 $ et plus, un taux de 3,0 à 3,3 % est typique. Un taux supérieur à 3,5 % signifie généralement qu'il y a quelque chose sur lequel enquêter : cartes internationales, litiges ou transactions de petite taille."
+            "For US-only domestic transactions with an average order value of $50+, a rate of 3.0–3.3% is typical. Higher than 3.5% usually means there's something to investigate — international cards, disputes, or small transaction sizes."
           ]
         },
         {
           "type": "section",
-          "heading": "Pourquoi c'est supérieur à 2,9 %",
+          "heading": "Why It's Higher Than 2.9%",
           "paragraphs": [
-            "Plusieurs facteurs poussent le taux au-dessus des 2,9% annoncés :"
+            "Several factors push the rate above the advertised 2.9%:"
           ]
         },
         {
           "type": "section",
-          "heading": "Suivez-le mensuellement",
+          "heading": "Track It Monthly",
           "paragraphs": [
-            "Le tarif effectif peut varier de mois en mois en fonction de votre clientèle. Le suivre vous aide à détecter rapidement les problèmes, comme un afflux soudain de trafic international ou un lot de transactions contesté."
+            "The effective rate can shift month to month based on your customer mix. Tracking it helps you catch problems early — like a sudden influx of international traffic, or a disputed batch of transactions."
           ]
         }
       ],
       "faq": [
         {
-          "question": "Quel est le taux de frais effectif de Stripe ?",
-          "answer": "Le taux de frais effectif de Stripe correspond au total des frais Stripe divisé par le volume total de frais traités pour la même période. Il montre le pourcentage réel des revenus payés à Stripe après frais fixes, cartes internationales, remboursements, litiges et modules complémentaires."
+          "question": "What is Stripe effective fee rate?",
+          "answer": "Stripe effective fee rate is total Stripe fees divided by total processed charge volume for the same period. It shows the real percentage of revenue paid to Stripe after fixed fees, international cards, refunds, disputes, and add-ons."
         },
         {
-          "question": "Le taux de frais effectif est-il le même que le taux de 2,9 % de Stripe ?",
-          "answer": "Non. Le taux de 2,9 % + 0,30 $ de Stripe est un taux publié pour un scénario de carte courant. Votre taux effectif utilise votre combinaison de transactions réelle. Il peut donc être plus élevé lorsque vous avez de petits frais, des clients internationaux ou une activité de remboursement/litige."
+          "question": "Is effective fee rate the same as Stripe's 2.9% rate?",
+          "answer": "No. Stripe's 2.9% + $0.30 is a published rate for a common card scenario. Your effective rate uses your actual transaction mix, so it can be higher when you have small charges, international customers, or refund/dispute activity."
         },
         {
-          "question": "Qu'est-ce qu'un bon taux de frais effectif Stripe ?",
-          "answer": "Pour les paiements par carte nationaux aux États-Unis avec une taille de transaction moyenne saine, environ 3,0 % à 3,3 % peuvent être normaux. Un taux supérieur à 3,5 % mérite généralement une enquête, notamment pour les SaaS avec des cartes internationales ou des forfaits à bas prix."
+          "question": "What is a good Stripe effective fee rate?",
+          "answer": "For domestic US card payments with healthy average transaction size, roughly 3.0% to 3.3% can be normal. A rate above 3.5% usually deserves investigation, especially for SaaS with international cards or low-ticket plans."
         }
       ],
       "sources": [
         {
           "href": "https://stripe.com/pricing",
-          "title": "Tarification à rayures"
+          "title": "Stripe pricing"
         },
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Documentation des rapports Stripe"
+          "title": "Stripe reports documentation"
         },
         {
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
-          "title": "Types de transactions de solde Stripe"
+          "title": "Stripe balance transaction types"
         }
       ]
     },
     "why-stripe-effective-rate-higher-than-2-9-percent": {
-      "metaTitle": "Pourquoi mon taux effectif Stripe est-il supérieur à 2,9 % ?",
+      "metaTitle": "Why Is My Stripe Effective Rate Higher Than 2.9%?",
       "metaDescription": "Stripe advertises 2.9% + $0.30. But most businesses pay more. Here are the 4 real reasons your blended Stripe fee rate is higher than advertised.",
-      "title": "Pourquoi mon taux effectif Stripe est-il supérieur à 2,9 % ?",
+      "title": "Why Is My Stripe Effective Rate Higher Than 2.9%?",
       "readTime": "8 min",
       "publishedAt": null,
       "updatedAt": null,
@@ -2345,32 +2345,32 @@
   },
   "privacy": {
     "why-i-wont-connect-my-stripe-account-to-third-party-tools": {
-      "metaTitle": "Pourquoi je ne connecterais pas mon compte Stripe à tous les outils tiers",
-      "metaDescription": "L'accès Stripe OAuth/lecture seule est une décision de confiance, pas un bouton de connexion. Lorsque vous n’avez besoin que d’un audit des frais, un CSV de solde détaillé suffit – pas de connexion persistante.",
-      "title": "Pourquoi je ne connecterais pas mon compte Stripe à tous les outils tiers",
-      "shortTitle": "Pourquoi je ne connecterais pas mon compte Stripe à tous les outils",
+      "metaTitle": "Why I Wouldn't Connect My Stripe Account to Every Third-Party Tool",
+      "metaDescription": "Stripe OAuth / read-only access is a trust decision, not a login button. When you only need a fee audit, an itemized Balance CSV is enough — no persistent connection.",
+      "title": "Why I Wouldn't Connect My Stripe Account to Every Third-Party Tool",
+      "shortTitle": "Why I Wouldn't Connect My Stripe Account to Every Tool",
       "readTime": "7 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-08-04",
       "intro": [
-        "Connecter un outil à Stripe est simple. Un écran OAuth, un clic, et tout à coup, l'outil peut commencer à créer des graphiques, des tableaux de bord, des alertes et des prévisions à partir de vos données de paiement.",
-        "Cette commodité est réelle. Mais le compromis l’est aussi. Votre compte Stripe contient les dossiers clients, les paiements, les remboursements, les factures, les paiements, les litiges et un historique de la façon dont l'argent circule dans votre entreprise. Même l’accès en lecture peut être une décision de confiance plus importante qu’il n’y paraît.",
-        "C'est pourquoi je préfère un workflow CSV first pour les audits payants ponctuels : exportez les données dont j'ai besoin, analysez cet instantané et évitez d'accorder une connexion persistante à mon compte Stripe en direct."
+        "Connecting a tool to Stripe is easy. One OAuth screen, one click, and suddenly the tool can start building charts, dashboards, alerts, and forecasts from your payment data.",
+        "That convenience is real. But so is the tradeoff. Your Stripe account contains customer records, payments, refunds, invoices, payouts, disputes, and a history of how money moves through your business. Even read access can be a bigger trust decision than it sounds.",
+        "This is why I prefer a CSV-first workflow for one-off fee audits: export the data I need, analyze that snapshot, and avoid granting a persistent connection to my live Stripe account."
       ],
       "sections": [
         {
           "type": "section",
-          "heading": "Le problème n'est pas que OAuth soit mauvais",
+          "heading": "The problem is not that OAuth is bad",
           "paragraphs": [
-            "OAuth est un moyen légitime de connecter des logiciels. Si vous avez besoin d'un tableau de bord d'abonnement en direct, d'une reconnaissance automatisée des revenus ou de synchronisations opérationnelles récurrentes, une connexion API peut avoir du sens.",
-            "Le problème est que de nombreux fondateurs traitent une invite Stripe OAuth comme un bouton de connexion inoffensif. Ce n'est pas. Il s’agit d’une décision d’autorisation concernant certaines des données opérationnelles les plus sensibles de l’entreprise."
+            "OAuth is a legitimate way to connect software. If you need a live subscription dashboard, automated revenue recognition, or recurring operational syncs, an API connection can make sense.",
+            "The problem is that many founders treat a Stripe OAuth prompt like a harmless login button. It is not. It is a permission decision around some of the most sensitive operating data in the business."
           ]
         },
         {
           "type": "section",
-          "heading": "Ce qu’un large accès en lecture peut révéler",
+          "heading": "What broad read access can expose",
           "paragraphs": [
-            "Stripe dispose de plusieurs modèles d'intégration, notamment Connect OAuth, les autorisations Stripe Apps et les clés API. Les données exactes dépendent du modèle et des autorisations accordées. Mais un accès large en lecture peut exposer des catégories comme celles-ci :"
+            "Stripe has more than one integration model, including Connect OAuth, Stripe Apps permissions, and API keys. The exact data depends on the model and permissions granted. But broad read access can expose categories like these:"
           ],
           "bullets": [
             "Customer records such as names, email addresses, billing details, and tax identifiers when customer access is granted.",
@@ -2381,282 +2381,282 @@
         },
         {
           "type": "section",
-          "heading": "Lecture seule signifie toujours des données copiables",
+          "heading": "Read-only still means copyable data",
           "paragraphs": [
-            "En lecture seule signifie normalement que l'outil ne doit pas créer de remboursements, mettre à jour les abonnements ou modifier vos paramètres Stripe. C'est bon. Mais les données en lecture seule peuvent toujours être copiées, traitées, stockées, exportées, jointes à d’autres ensembles de données et exposées en cas de violation du fournisseur.",
-            "En d’autres termes, la question importante n’est pas seulement « Cette application peut-elle modifier mon compte ? Il s'agit également de « Que peut apprendre cette application sur mes clients et mon entreprise, et combien de temps conservera-t-elle ces données ? »"
+            "Read-only normally means the tool should not create refunds, update subscriptions, or change your Stripe settings. That is good. But read-only data can still be copied, processed, stored, exported, joined with other datasets, and exposed if the vendor is breached.",
+            "In other words, the important question is not only 'Can this app change my account?' It is also 'What can this app learn about my customers and business, and how long will it keep that data?'"
           ]
         },
         {
           "type": "section",
-          "heading": "L'accès persistant est la partie cachée",
+          "heading": "Persistent access is the hidden part",
           "paragraphs": [
-            "Une exportation CSV est un instantané. Une connexion OAuth ou API peut être continue jusqu'à ce qu'elle soit révoquée ou limitée par l'intégration. Si vous arrêtez d'utiliser un outil mais oubliez de le déconnecter, cette connexion peut rester une partie de votre surface de sécurité.",
-            "Cela ne signifie pas que tous les outils connectés sont dangereux. Cela signifie que chaque connexion mérite le même examen minutieux que celui que vous accorderiez à n’importe quel fournisseur qui gère des données clients ou financières."
+            "A CSV export is a snapshot. An OAuth or API connection can be ongoing until it is revoked or otherwise limited by the integration. If you stop using a tool but forget to disconnect it, that connection may remain part of your security surface.",
+            "That does not mean every connected tool is unsafe. It means every connection deserves the same scrutiny you would give any vendor that handles customer or financial data."
           ]
         },
         {
           "type": "section",
-          "heading": "La première alternative CSV",
+          "heading": "The CSV-first alternative",
           "paragraphs": [
-            "Pour un audit payant, l’accès en temps réel est généralement inutile. Vous n’avez pas besoin d’une connexion permanente pour répondre à des questions telles que : Quel est mon taux de commission effectif ? Quelles transactions sont coûteuses ? Les remboursements perdent-ils de la marge ? Mon taux de 4,5% est-il normal pour mon mix ?",
-            "L’auditeur des honoraires utilise cette approche. Vous exportez un CSV détaillé des transactions de solde Stripe, le téléchargez pour analyse et obtenez un rapport sans connecter votre compte Stripe. Le CSV brut n'est pas stocké sous forme de fichier brut ; l'application conserve un résultat d'analyse dérivé afin que vous puissiez rouvrir le lien. Pendant la version bêta promotionnelle, l'accès au rapport complet peut être gratuit pendant 30 jours maximum ; après la version bêta, les aperçus non payés sont plus courts, sauf si vous achetez un déverrouillage du rapport complet – consultez la politique de confidentialité."
+            "For a fee audit, real-time access is usually unnecessary. You do not need a permanent connection to answer questions like: What is my effective fee rate? Which transactions are expensive? Are refunds leaking margin? Is my 4.5% rate normal for my mix?",
+            "Fee Auditor uses this approach. You export an itemized Stripe Balance Transactions CSV, upload it for analysis, and get a report without connecting your Stripe account. The raw CSV is not stored as a raw file; the app keeps a derived analysis result so you can reopen the link. During the promotional beta, full-report access may be free for up to 30 days; after beta, unpaid previews are shorter unless you purchase a full-report unlock — see the Privacy Policy."
           ]
         }
       ],
       "faq": [
         {
-          "question": "La connexion d'un outil Stripe est-elle toujours dangereuse ?",
-          "answer": "Non. Les outils API peuvent être utiles lorsque vous avez besoin de tableaux de bord ou d'automatisation en temps réel. Le but est de traiter l’accès à Stripe comme une décision de confiance du fournisseur, et non comme une étape de connexion occasionnelle."
+          "question": "Is connecting a Stripe tool always unsafe?",
+          "answer": "No. API tools can be valuable when you need real-time dashboards or automation. The point is to treat Stripe access as a vendor trust decision, not a casual login step."
         },
         {
-          "question": "Pourquoi le CSV est-il suffisant pour un audit tarifaire ?",
-          "answer": "Un audit des honoraires est généralement rétrospectif. Un CSV détaillé des transactions de solde contient les montants, les frais, les types, les devises et les horodatages nécessaires pour calculer votre taux de frais effectif et trouver des transactions coûteuses."
+          "question": "Why is CSV enough for a fee audit?",
+          "answer": "A fee audit is usually retrospective. An itemized Balance Transactions CSV contains the amounts, fees, types, currencies, and timestamps needed to calculate your effective fee rate and find expensive transactions."
         }
       ],
       "related": [
         {
           "href": "/blog/what-does-stripe-oauth-read-only-access-actually-see",
-          "title": "Accès en lecture seule à Stripe OAuth : ce que les applications peuvent voir"
+          "title": "Stripe OAuth read-only access: what apps can see"
         },
         {
           "href": "/blog/how-to-audit-stripe-fees-without-connecting-your-account",
-          "title": "Comment auditer les frais Stripe sans connecter votre compte"
+          "title": "How to audit Stripe fees without connecting your account"
         },
         {
           "href": "/blog/csv-vs-api-stripe-fee-analysis",
-          "title": "CSV vs API pour l'analyse des frais Stripe"
+          "title": "CSV vs API for Stripe fee analysis"
         }
       ],
       "sources": [
         {
           "href": "https://docs.stripe.com/connect/oauth-reference",
-          "title": "Référence OAuth de Stripe Connect"
+          "title": "Stripe Connect OAuth reference"
         },
         {
           "href": "https://docs.stripe.com/stripe-apps/reference/permissions",
-          "title": "Référence des autorisations des applications Stripe"
+          "title": "Stripe Apps permissions reference"
         }
       ]
     },
     "what-does-stripe-oauth-read-only-access-actually-see": {
-      "metaTitle": "Accès en lecture seule Stripe OAuth : ce que les applications tierces peuvent voir",
+      "metaTitle": "Stripe OAuth Read-Only Access: What Third-Party Apps Can See",
       "metaDescription": "What “read-only” Stripe OAuth can still expose — and when a Balance CSV fee check is enough without connecting your account.",
-      "title": "Accès en lecture seule Stripe OAuth : ce que les applications tierces peuvent voir",
-      "shortTitle": "Accès en lecture seule Stripe OAuth : ce que les applications peuvent voir",
+      "title": "Stripe OAuth Read-Only Access: What Third-Party Apps Can See",
+      "shortTitle": "Stripe OAuth Read-Only Access: What Apps Can See",
       "readTime": "8 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-08-04",
       "intro": [
-        "L’expression lecture seule semble sûre. Pour Stripe, cela peut toujours signifier une large visibilité sur votre entreprise : clients, paiements, paiements, remboursements, abonnements, litiges et métadonnées en fonction de l'application et des autorisations.",
-        "Cela est important lorsque vous n’avez besoin que d’un audit tarifaire. Un flux de travail basé sur CSV vous donne un instantané unique au lieu d'une connexion Stripe persistante, le compromis est donc la friction d'accès par rapport à l'exposition continue des données."
+        "The phrase read-only sounds safe. For Stripe, it can still mean broad visibility into your business: customers, payments, payouts, refunds, subscriptions, disputes, and metadata depending on the app and permissions.",
+        "That matters when you only need a fee audit. A CSV-based workflow gives you a one-time snapshot instead of a persistent Stripe connection, so the tradeoff is access friction versus ongoing data exposure."
       ],
       "sections": [
         {
           "type": "section",
-          "heading": "Tout d’abord, séparez les modèles d’accès",
+          "heading": "First, separate the access models",
           "table": {
             "headers": [
               "Model",
-              "Ce que cela signifie",
-              "Pourquoi les fondateurs devraient s'en soucier"
+              "What it means",
+              "Why founders should care"
             ],
             "rows": [
               [
-                "Connecter OAuth",
-                "Une application connectée reçoit un accès en fonction du flux OAuth et de la portée sélectionnée.",
-                "Utile pour les services tiers, mais l'accès peut persister jusqu'à sa révocation."
+                "Connect OAuth",
+                "A connected app receives access according to the OAuth flow and selected scope.",
+                "Useful for third-party services, but access can persist until revoked."
               ],
               [
-                "Applications Stripe",
+                "Stripe Apps",
                 "Apps declare granular permissions such as customer_read, charge_read, payout_read, and event_read.",
-                "La liste des autorisations affiche le type de catégories de données qu'une application peut demander."
+                "The permission list shows the kind of data categories an app may request."
               ],
               [
-                "Clés API",
-                "Une entreprise ou un développeur crée des clés pour un accès direct à l'API, parfois restreint.",
-                "Puissant, mais dangereux si les clés sont trop larges ou fuient."
+                "API keys",
+                "A business or developer creates keys for direct API access, sometimes restricted.",
+                "Powerful, but dangerous if keys are overbroad or leaked."
               ]
             ]
           }
         },
         {
           "type": "section",
-          "heading": "Les catégories de données en accès large en lecture peuvent inclure",
+          "heading": "Data categories broad read access can include",
           "paragraphs": [
-            "Tous les outils ne demandent pas toutes les catégories. Une intégration responsable ne devrait demander que ce dont elle a besoin. Mais lors de l’évaluation d’un outil, ce sont les catégories qui valent la peine d’être vérifiées sur l’écran de consentement, le manifeste de l’application, la documentation et la politique de confidentialité."
+            "Not every tool requests every category. A responsible integration should ask for only what it needs. But when evaluating a tool, these are the categories worth checking on the consent screen, app manifest, documentation, and privacy policy."
           ],
           "table": {
             "headers": [
-              "Catégorie",
-              "Exemples",
-              "Pourquoi c'est important"
+              "Category",
+              "Examples",
+              "Why it matters"
             ],
             "rows": [
               [
-                "Clients",
-                "Noms, e-mails, détails de facturation, métadonnées client",
-                "Cela peut identifier qui achète chez vous et quelle est leur valeur."
+                "Customers",
+                "Names, emails, billing details, customer metadata",
+                "This can identify who buys from you and how valuable they are."
               ],
               [
-                "Paiements",
-                "Frais, remboursements, intentions de paiement, factures",
-                "Cela révèle l’historique des revenus et le comportement au niveau des transactions."
+                "Payments",
+                "Charges, refunds, payment intents, invoices",
+                "This reveals revenue history and transaction-level behavior."
               ],
               [
-                "Solde et paiements",
-                "Transactions de solde, transferts, calendrier de paiement",
-                "Cela montre les mouvements de trésorerie et les données financières opérationnelles."
+                "Balance and payouts",
+                "Balance transactions, transfers, payout timing",
+                "This shows cash movement and operational finance data."
               ],
               [
-                "Abonnements",
-                "Forfaits, prix, coupons, statut de renouvellement",
-                "Cela expose votre modèle de tarification et le cycle de vie du client."
+                "Subscriptions",
+                "Plans, prices, coupons, renewal status",
+                "This exposes your pricing model and customer lifecycle."
               ],
               [
-                "Risques et litiges",
-                "Litiges, rétrofacturations, avertissements de fraude",
-                "Cela peut révéler des faiblesses opérationnelles et des conflits avec les clients."
+                "Risk and disputes",
+                "Disputes, chargebacks, fraud warnings",
+                "This can reveal operational weaknesses and customer conflicts."
               ],
               [
-                "Événements et fichiers",
-                "Événements de compte, fichiers téléchargés en fonction des autorisations",
-                "Cela peut élargir l’empreinte des données au-delà des paiements."
+                "Events and files",
+                "Account events, uploaded files depending on permissions",
+                "This can broaden the data footprint beyond payments."
               ]
             ]
           }
         },
         {
           "type": "section",
-          "heading": "Ce que la lecture seule ne peut généralement pas faire",
+          "heading": "What read-only usually cannot do",
           "paragraphs": [
-            "L'accès en lecture seule ne doit pas permettre à une application d'émettre des remboursements, de mettre à jour des abonnements, de créer des paiements, de modifier les paramètres du compte ou de modifier des objets en direct. C'est une protection importante.",
-            "Mais il peut toujours permettre à un fournisseur de lire et de traiter des données commerciales sensibles. Le risque réside dans l'exposition des données, le stockage par le fournisseur, l'impact des violations et l'accès de longue durée - pas nécessairement les écritures non autorisées."
+            "Read-only access should not let an app issue refunds, update subscriptions, create payouts, change account settings, or modify live objects. That is an important protection.",
+            "But it can still let a vendor read and process sensitive business data. The risk is data exposure, vendor storage, breach impact, and long-lived access - not necessarily unauthorized writes."
           ]
         },
         {
           "type": "section",
-          "heading": "Questions à poser avant d'accorder l'accès",
+          "heading": "Questions to ask before granting access",
           "bullets": [
-            "Quelles autorisations ou étendues Stripe exactes l'outil demande-t-il ?",
-            "A-t-il besoin d'un accès en direct, ou un fichier CSV exporté répondrait-il à la question ?",
+            "Which exact Stripe permissions or scopes does the tool request?",
+            "Does it need live access, or would an exported CSV answer the question?",
             "Does it store customer-level data, transaction-level data, or only aggregated metrics?",
             "How do I revoke access, and what happens to stored historical data after revocation?",
-            "Existe-t-il une politique de confidentialité claire, une page de sécurité et une explication sur la conservation des données ?"
+            "Is there a clear privacy policy, security page, and data retention explanation?"
           ]
         },
         {
           "type": "section",
-          "heading": "Comment Fee Auditor évite cette classe d’accès",
+          "heading": "How Fee Auditor avoids this class of access",
           "paragraphs": [
-            "Fee Auditor ne vous demande pas de connecter Stripe. Il analyse un CSV détaillé des transactions Stripe Balance. Cela signifie qu'il ne peut pas continuer à interroger votre compte Stripe, ne peut pas lire l'activité des nouveaux clients après l'exportation et ne peut rien changer dans Stripe.",
-            "Pour un audit périodique des frais, cela suffit généralement : le CSV du solde contient le montant des frais, les frais, le montant net, la devise, le type et l'horodatage nécessaires pour calculer le taux de frais effectif réel."
+            "Fee Auditor does not ask you to connect Stripe. It analyzes an itemized Stripe Balance Transactions CSV. That means it cannot keep polling your Stripe account, cannot read new customer activity after the export, and cannot change anything in Stripe.",
+            "For a periodic fee audit, this is usually enough: the Balance CSV contains the charge amount, fee, net amount, currency, type, and timestamp needed to calculate the real effective fee rate."
           ]
         }
       ],
       "faq": [
         {
-          "question": "L'accès en lecture seule à Stripe OAuth est-il sécurisé ?",
-          "answer": "Il est plus sûr que l'accès en écriture, car il ne doit pas permettre à une application de modifier votre compte Stripe, mais il peut toujours exposer des données commerciales sensibles en fonction des étendues et des autorisations demandées. Vérifiez les autorisations exactes et si une exportation CSV est suffisante pour le travail."
+          "question": "Is Stripe OAuth read-only access safe?",
+          "answer": "It is safer than write access because it should not let an app change your Stripe account, but it can still expose sensitive business data depending on the scopes and permissions requested. Check the exact permissions and whether a CSV export is enough for the job."
         },
         {
-          "question": "L'accès en lecture seule inclut-il les numéros de carte ?",
-          "answer": "Stripe n'expose pas les numéros de carte bruts via l'accès API normal. Cependant, l'accès en lecture peut toujours exposer les enregistrements de clients, de paiements, d'abonnements, de remboursements, de paiements et de litiges en fonction des autorisations d'intégration."
+          "question": "Does read-only access include card numbers?",
+          "answer": "Stripe does not expose raw card numbers through normal API access. However, read access can still expose customer, payment, subscription, refund, payout, and dispute records depending on the integration permissions."
         },
         {
-          "question": "Puis-je révoquer l'accès à l'application Stripe plus tard ?",
-          "answer": "Oui, les applications connectées peuvent généralement être examinées et révoquées à partir du tableau de bord Stripe. La révocation arrête les accès futurs, mais vous devez toujours vérifier la politique de chaque fournisseur pour les données déjà stockées."
+          "question": "Can I revoke Stripe app access later?",
+          "answer": "Yes, connected apps can generally be reviewed and revoked from the Stripe Dashboard. Revocation stops future access, but you should still check each vendor's policy for data already stored."
         }
       ],
       "related": [
         {
           "href": "/blog/why-i-wont-connect-my-stripe-account-to-third-party-tools",
-          "title": "Pourquoi je ne connecterais pas mon compte Stripe à tous les outils"
+          "title": "Why I would not connect my Stripe account to every tool"
         },
         {
           "href": "/blog/the-stripe-data-you-share-with-analytics-tools",
-          "title": "Les données Stripe que vous partagez avec les outils d'analyse"
+          "title": "The Stripe data you share with analytics tools"
         },
         {
           "href": "/blog/csv-vs-api-stripe-fee-analysis",
-          "title": "CSV vs API pour l'analyse des frais Stripe"
+          "title": "CSV vs API for Stripe fee analysis"
         }
       ],
       "sources": [
         {
           "href": "https://docs.stripe.com/connect/oauth-reference",
-          "title": "Référence OAuth de Stripe Connect"
+          "title": "Stripe Connect OAuth reference"
         },
         {
           "href": "https://docs.stripe.com/stripe-apps/reference/permissions",
-          "title": "Référence des autorisations des applications Stripe"
+          "title": "Stripe Apps permissions reference"
         }
       ]
     },
     "how-to-audit-stripe-fees-without-connecting-your-account": {
-      "metaTitle": "Comment auditer vos frais Stripe sans connecter votre compte",
-      "metaDescription": "Un guide pratique pour auditer les frais Stripe à partir d'un CSV de transactions de solde détaillé : formule de taux mixte, facteurs de frais, remboursements, frais élevés et analyse sans OAuth.",
-      "title": "Comment auditer vos frais Stripe sans connecter votre compte",
-      "shortTitle": "Auditez les frais Stripe sans connecter votre compte",
+      "metaTitle": "How to Audit Your Stripe Fees Without Connecting Your Account",
+      "metaDescription": "A practical guide to auditing Stripe fees from an itemized Balance Transactions CSV: blended rate formula, fee drivers, refunds, high-fee charges, and no-OAuth analysis.",
+      "title": "How to Audit Your Stripe Fees Without Connecting Your Account",
+      "shortTitle": "Audit Stripe Fees Without Connecting Your Account",
       "readTime": "9 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-05-16",
       "intro": [
-        "Si vous regardez uniquement le tarif global de la carte Stripe, il est facile de supposer que votre coût est d'environ 2,9 % plus 30 cents. Le nombre réel peut être plus élevé une fois que votre clientèle réelle apparaît : cartes internationales, petits frais, remboursements, litiges, radar et coûts liés aux devises.",
-        "Vous n'avez pas besoin de connecter votre compte Stripe pour comprendre cela. Vous pouvez vérifier les frais à partir d'un CSV détaillé des transactions de solde et calculer votre taux de frais effectif réel à partir des données que Stripe vous fournit déjà."
+        "If you only look at Stripe's headline card rate, it is easy to assume your cost is roughly 2.9% plus 30 cents. The real number can be higher once your actual customer mix shows up: international cards, small charges, refunds, disputes, Radar, and currency-related costs.",
+        "You do not need to connect your Stripe account to understand this. You can audit fees from an itemized Balance Transactions CSV and calculate your real effective fee rate from the data Stripe already gives you."
       ],
       "sections": [
         {
           "type": "section",
-          "heading": "Étape 1 : exporter le bon CSV Stripe",
+          "heading": "Step 1: export the right Stripe CSV",
           "paragraphs": [
-            "Utilisez l’exportation détaillée des transactions de solde, et non un récapitulatif des paiements. Dans Stripe Dashboard, accédez à Rapports, ouvrez les transactions Balance, choisissez la période que vous souhaitez auditer et exportez le CSV détaillé.",
-            "Pour un rapport significatif, utilisez si possible au moins trois mois de données. Pour la détection des frais élevés et l’analyse des tendances, six à douze mois sont préférables."
+            "Use the itemized Balance Transactions export, not a payout summary. In Stripe Dashboard, go to Reports, open Balance transactions, choose the period you want to audit, and export the itemized CSV.",
+            "For a meaningful report, use at least three months of data if possible. For high-fee charge detection and trend analysis, six to twelve months is better."
           ]
         },
         {
           "type": "section",
-          "heading": "Étape 2 : confirmer les colonnes requises",
+          "heading": "Step 2: confirm the required columns",
           "paragraphs": [
             "For a basic fee audit, you need transaction-level rows with the core columns Fee Auditor also expects:"
           ],
           "bullets": [
-            "id - l'identifiant de la transaction du solde Stripe.",
-            "type - par exemple frais, remboursement, paiement, frais ou ajustement.",
-            "montant - montant brut, généralement stocké dans la plus petite unité monétaire du CSV.",
-            "frais - les frais associés à la ligne.",
-            "net - montant après frais.",
-            "devise - par exemple USD.",
-            "créé - horodatage ou date.",
+            "id - the Stripe balance transaction identifier.",
+            "type - for example charge, refund, payout, fee, or adjustment.",
+            "amount - gross amount, usually stored in the smallest currency unit in the CSV.",
+            "fee - the fee associated with the row.",
+            "net - amount after fees.",
+            "currency - for example usd.",
+            "created - timestamp or date.",
             "description - optional, but helpful for classifying international cards and other context."
           ]
         },
         {
           "type": "section",
-          "heading": "Étape 3 : calculez votre taux de frais effectif",
+          "heading": "Step 3: calculate your effective fee rate",
           "paragraphs": [
-            "Le calcul des frais le plus simple est basé sur les lignes de frais, car il compare les frais de traitement des cartes au volume de frais traités pour le même ensemble de transactions."
+            "The cleanest fee-rate calculation is based on charge rows, because that compares card processing fees to processed charge volume for the same set of transactions."
           ],
           "table": {
             "headers": [
-              "Métrique",
-              "Comment le calculer"
+              "Metric",
+              "How to calculate it"
             ],
             "rows": [
               [
-                "Volume de chargement",
-                "Type de filtre = frais, puis montant total."
+                "Charge volume",
+                "Filter type = charge, then sum amount."
               ],
               [
-                "Facturer des frais",
-                "Sur ces mêmes lignes de frais, additionnez les frais."
+                "Charge fees",
+                "On those same charge rows, sum fee."
               ],
               [
-                "Taux de commission effectif",
-                "Frais de facturation divisés par le volume de facturation, multipliés par 100."
+                "Effective fee rate",
+                "Charge fees divided by charge volume, multiplied by 100."
               ],
               [
-                "Autres frais",
+                "Other fees",
                 "Sum fee on non-charge rows separately so disputes, adjustments, and add-ons do not hide inside the card rate."
               ]
             ]
@@ -2664,7 +2664,7 @@
         },
         {
           "type": "section",
-          "heading": "Étape 4 : trouver ce qui fait monter le taux",
+          "heading": "Step 4: find what is pushing the rate up",
           "bullets": [
             "International and cross-border cards can add a meaningful surcharge to otherwise normal charges.",
             "Small transactions can have a very high effective rate because the fixed 30 cent fee dominates the payment.",
@@ -2675,278 +2675,278 @@
         },
         {
           "type": "section",
-          "heading": "Étape 5 : comparer le résultat",
+          "heading": "Step 5: benchmark the result",
           "paragraphs": [
-            "Un taux effectif de 4,5 % n’est pas automatiquement bon ou mauvais. Cela dépend de votre mélange. Une entreprise SaaS exclusivement américaine avec des paiements par carte nationaux plus importants devrait généralement être différente d'une entreprise mondiale vendant des abonnements à bas prix à des clients dans de nombreux pays.",
-            "C'est pourquoi un rapport utile ne devrait pas seulement dire « votre taux est de 4,5 % ». Il doit répondre : est-ce normal pour ce mélange, qu'est-ce qui le motive et que dois-je regarder en premier ?"
+            "A 4.5% effective rate is not automatically good or bad. It depends on your mix. A US-only SaaS business with larger domestic card payments should usually look different from a global business selling low-ticket subscriptions to customers across many countries.",
+            "That is why a useful report should not only say 'your rate is 4.5%.' It should answer: is this normal for this mix, what is driving it, and what should I look at first?"
           ]
         },
         {
           "type": "section",
-          "heading": "Comment Fee Auditor automatise l’audit",
+          "heading": "How Fee Auditor automates the audit",
           "paragraphs": [
-            "L’auditeur honoraire suit l’approche CSV. Vous exportez le fichier CSV détaillé des transactions de solde, le téléchargez et obtenez un rapport indiquant le taux de frais effectif réel, le verdict de référence, les principaux facteurs de frais, les fuites de remboursement, les frais élevés, les tendances mensuelles et les opportunités d'économies.",
-            "Il ne se connecte pas à votre compte Stripe et ne demande pas d'accès OAuth. Le CSV brut est analysé pour analyse et n'est pas stocké sous forme de fichier brut ; un résultat dérivé est conservé afin que vous puissiez rouvrir votre lien. Pendant la version bêta promotionnelle, l'accès au rapport complet peut être gratuit pendant 30 jours maximum ; après la version bêta, l'accès suit la politique de confidentialité (aperçu court non rémunéré vs déverrouillage payant)."
+            "Fee Auditor follows the CSV approach. You export the itemized Balance Transactions CSV, upload it, and get a report showing real effective fee rate, benchmark verdict, top fee drivers, refund leakage, high-fee charges, monthly trends, and savings opportunities.",
+            "It does not connect to your Stripe account or request OAuth access. The raw CSV is parsed for analysis and not stored as a raw file; a derived result is retained so you can reopen your link. During the promotional beta, full-report access may be free for up to 30 days; after beta, access follows the Privacy Policy (short unpaid preview vs paid unlock)."
           ]
         }
       ],
       "faq": [
         {
-          "question": "Puis-je calculer les frais Stripe manuellement à partir d'un fichier CSV ?",
-          "answer": "Oui. Filtrez les lignes de frais, le montant de la somme, la somme des frais sur ces mêmes lignes, puis divisez les frais par volume. Pour une analyse plus approfondie, regroupez par mois, taille de transaction, lignes de remboursement et valeurs aberrantes élevées."
+          "question": "Can I calculate Stripe fees manually from CSV?",
+          "answer": "Yes. Filter charge rows, sum amount, sum fee on those same rows, then divide fees by volume. For deeper analysis, group by month, transaction size, refund rows, and high-fee outliers."
         },
         {
-          "question": "Dois-je connecter mon compte Stripe pour utiliser Fee Auditor ?",
-          "answer": "Non. Fee Auditor utilise un fichier CSV Stripe Balance Transactions exporté. Il ne demande pas d'accès Stripe OAuth ou API. La durée pendant laquelle votre lien de rapport reste disponible dépend du mode bêta ou standard – consultez notre politique de confidentialité."
+          "question": "Do I need to connect my Stripe account to use Fee Auditor?",
+          "answer": "No. Fee Auditor uses an exported Stripe Balance Transactions CSV. It does not request Stripe OAuth or API access. How long your report link stays available depends on beta vs standard mode — see our Privacy Policy."
         }
       ],
       "related": [
         {
           "href": "/stripe-balance-csv",
-          "title": "Guide d'exportation CSV Stripe Balance étape par étape"
+          "title": "Step-by-step Stripe Balance CSV export guide"
         },
         {
           "href": "/blog/stripe-blended-rate-calculator",
-          "title": "Calculateur de taux mixte Stripe"
+          "title": "Stripe blended rate calculator"
         },
         {
           "href": "/blog/stripe-fees-small-transactions",
-          "title": "Frais Stripe pour les petites transactions"
+          "title": "Stripe fees for small transactions"
         }
       ],
       "sources": [
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Documentation des rapports Stripe"
+          "title": "Stripe reports documentation"
         },
         {
           "href": "https://docs.stripe.com/connect/oauth-reference",
-          "title": "Référence OAuth de Stripe Connect"
+          "title": "Stripe Connect OAuth reference"
         }
       ]
     },
     "the-stripe-data-you-share-with-analytics-tools": {
-      "metaTitle": "Les données Stripe que vous partagez avec chaque outil d'analyse que vous connectez",
-      "metaDescription": "Une liste de contrôle pratique pour les fondateurs connectant les outils d'analyse Stripe : données clients, paiements, abonnements, paiements, litiges, politiques de confidentialité, conservation et alternatives.",
-      "title": "Les données Stripe que vous partagez avec chaque outil d'analyse que vous connectez",
-      "shortTitle": "Les données Stripe que vous partagez avec les outils d'analyse",
+      "metaTitle": "The Stripe Data You're Sharing With Every Analytics Tool You Connect",
+      "metaDescription": "A practical checklist for founders connecting Stripe analytics tools: customer data, payments, subscriptions, payouts, disputes, privacy policies, retention, and alternatives.",
+      "title": "The Stripe Data You're Sharing With Every Analytics Tool You Connect",
+      "shortTitle": "The Stripe Data You Share With Analytics Tools",
       "readTime": "8 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-05-16",
       "intro": [
-        "Les fondateurs connectent Stripe aux outils d'analyse pour de bonnes raisons : MRR, désabonnement, cohortes, échecs de paiement, prévisions de revenus et segmentation des clients. Ces informations peuvent être précieuses.",
-        "Mais chaque connexion crée également une relation de partage de données. En fonction de l'outil et des autorisations, vous pouvez partager des dossiers clients, des transactions, des factures, des abonnements, des remboursements, l'historique des paiements et des données de litige. Ce n’est pas automatiquement faux, mais cela devrait être intentionnel."
+        "Founders connect Stripe to analytics tools for good reasons: MRR, churn, cohorts, failed payments, revenue forecasting, and customer segmentation. Those insights can be valuable.",
+        "But each connection also creates a data-sharing relationship. Depending on the tool and permissions, you may be sharing customer records, transactions, invoices, subscriptions, refunds, payout history, and dispute data. That is not automatically wrong, but it should be intentional."
       ],
       "sections": [
         {
           "type": "section",
-          "heading": "De quoi les outils d'analyse ont-ils souvent besoin",
+          "heading": "What analytics tools often need",
           "paragraphs": [
-            "Les outils d’analyse des revenus nécessitent généralement plus d’un total. Pour calculer le MRR, le taux de désabonnement, la valeur à vie du client, les remboursements, les revenus d'expansion et les cohortes, ils ont besoin d'un contexte au niveau de la transaction et au niveau du client."
+            "Revenue analytics tools usually need more than a single total. To calculate MRR, churn, customer lifetime value, refunds, expansion revenue, and cohorts, they need transaction-level and customer-level context."
           ],
           "bullets": [
-            "Identifiants client et champs de contact pour les rapports au niveau du compte.",
+            "Customer identifiers and contact fields for account-level reporting.",
             "Subscriptions, prices, invoices, coupons, and invoice status for recurring revenue metrics.",
-            "Frais, remboursements, litiges et échecs de paiement pour les rapports sur les revenus et les risques.",
-            "Équilibrez les transactions et les paiements pour obtenir des vues de rapprochement et de flux de trésorerie."
+            "Charges, refunds, disputes, and payment failures for revenue and risk reporting.",
+            "Balance transactions and payouts for reconciliation and cash flow views."
           ]
         },
         {
           "type": "section",
-          "heading": "Le risque cumulé de nombreuses connexions",
+          "heading": "The cumulative risk of many connections",
           "paragraphs": [
-            "Un outil fiable peut être raisonnable. Cinq outils avec un accès Stripe qui se chevauchent représentent une plus grande surface. Chaque fournisseur possède sa propre infrastructure, ses employés, ses journaux, ses sauvegardes, ses sous-traitants et sa politique de conservation des données.",
-            "C'est pourquoi la question n'est pas « Les outils d'analyse sont-ils mauvais ? La meilleure question est « Quels outils nécessitent un accès en direct, lesquels nécessitent uniquement des instantanés et lesquels doivent être supprimés ? »"
+            "One trusted tool may be reasonable. Five tools with overlapping Stripe access are a larger surface area. Each vendor has its own infrastructure, employees, logs, backups, subprocessors, and data retention policy.",
+            "This is why the question is not 'Are analytics tools bad?' The better question is 'Which tools need live access, which only need snapshots, and which should be removed?'"
           ]
         },
         {
           "type": "section",
-          "heading": "Une liste de contrôle du fondateur avant de cliquer sur se connecter",
+          "heading": "A founder checklist before clicking connect",
           "bullets": [
-            "De quelles données Stripe exactes l'outil a-t-il besoin pour fournir la fonctionnalité que je souhaite ?",
-            "Puis-je obtenir la réponse à partir d’une exportation CSV au lieu d’un accès API en direct ?",
-            "Le fournisseur stocke-t-il des données brutes au niveau des transactions ou uniquement des mesures dérivées ?",
-            "Combien de temps les données sont-elles conservées après ma déconnexion ?",
-            "Puis-je révoquer facilement l'accès depuis Stripe Dashboard ?",
-            "La politique de confidentialité mentionne-t-elle les sous-traitants ultérieurs, la gestion des violations et la suppression des données ?"
+            "What exact Stripe data does the tool need to deliver the feature I want?",
+            "Can I get the answer from a CSV export instead of live API access?",
+            "Does the vendor store raw transaction-level data or only derived metrics?",
+            "How long is the data retained after I disconnect?",
+            "Can I revoke access easily from Stripe Dashboard?",
+            "Does the privacy policy mention subprocessors, breach handling, and data deletion?"
           ]
         },
         {
           "type": "section",
-          "heading": "Quand les analyses en direct en valent la peine",
+          "heading": "When live analytics are worth it",
           "paragraphs": [
-            "Si vous dirigez une entreprise d'abonnement mature et avez besoin de mesures quotidiennes, d'automatisation du cycle de vie ou d'alertes en temps réel, une plateforme d'analyse connectée peut être le bon compromis. Il ne s’agit pas d’éviter toute intégration. Le but est de faire correspondre le niveau d’accès à l’emploi."
+            "If you run a mature subscription business and need daily metrics, lifecycle automation, or real-time alerts, a connected analytics platform may be the right tradeoff. The point is not to avoid every integration. The point is to match the access level to the job."
           ]
         },
         {
           "type": "section",
-          "heading": "Quand un audit CSV suffit",
+          "heading": "When a CSV audit is enough",
           "paragraphs": [
-            "Si la question est périodique et rétrospective, par exemple : « Quel était mon taux de frais réel Stripe au dernier trimestre ? » - un export CSV suffit souvent. Vous pouvez analyser la période exacte qui vous intéresse sans accorder à un fournisseur un accès continu à votre compte Stripe.",
-            "Fee Auditor est conçu pour ce cas d’utilisation. Il n’essaie pas de remplacer l’analyse des abonnements en direct. Il s'agit d'un outil d'audit ciblé pour la visibilité des frais Stripe, le contexte de référence, les fuites de frais de remboursement et les facteurs de frais au niveau des transactions."
+            "If the question is periodic and retrospective - for example, 'What was my real Stripe fee rate last quarter?' - a CSV export is often enough. You can analyze the exact period you care about without granting a vendor ongoing access to your Stripe account.",
+            "Fee Auditor is built for that use case. It is not trying to replace live subscription analytics. It is a focused audit tool for Stripe fee visibility, benchmark context, refund fee leakage, and transaction-level fee drivers."
           ]
         }
       ],
       "faq": [
         {
-          "question": "Dois-je éviter les outils comme Baremetrics ou ChartMogul ?",
-          "answer": "Pas nécessairement. Ils résolvent de vrais problèmes d’analyse des revenus. Le but est de comprendre quelles données vous partagez, pourquoi l'outil en a besoin et si un flux de travail à accès réduit serait suffisant pour la tâche spécifique."
+          "question": "Should I avoid tools like Baremetrics or ChartMogul?",
+          "answer": "Not necessarily. They solve real revenue analytics problems. The point is to understand what data you share, why the tool needs it, and whether a lower-access workflow would be enough for the specific task."
         },
         {
-          "question": "Quelle est la manière la plus simple d'analyser les frais Stripe ?",
-          "answer": "Exportez un fichier CSV détaillé des transactions Stripe Balance et analysez cet instantané. Cela évite l'accès persistant au compte Stripe tout en fournissant suffisamment de données pour l'analyse des tarifs."
+          "question": "What is a lower-access way to analyze Stripe fees?",
+          "answer": "Export an itemized Stripe Balance Transactions CSV and analyze that snapshot. This avoids persistent Stripe account access while still giving enough data for fee-rate analysis."
         }
       ],
       "related": [
         {
           "href": "/blog/why-i-wont-connect-my-stripe-account-to-third-party-tools",
-          "title": "Pourquoi je ne connecterais pas mon compte Stripe à tous les outils"
+          "title": "Why I would not connect my Stripe account to every tool"
         },
         {
           "href": "/blog/what-does-stripe-oauth-read-only-access-actually-see",
-          "title": "Ce que l'accès en lecture seule à Stripe peut voir"
+          "title": "What Stripe read-only access can see"
         },
         {
           "href": "/blog/how-to-audit-stripe-fees-without-connecting-your-account",
-          "title": "Auditez les frais Stripe sans connecter votre compte"
+          "title": "Audit Stripe fees without connecting your account"
         }
       ],
       "sources": [
         {
           "href": "https://docs.stripe.com/stripe-apps/reference/permissions",
-          "title": "Référence des autorisations des applications Stripe"
+          "title": "Stripe Apps permissions reference"
         },
         {
           "href": "https://docs.stripe.com/connect/oauth-reference",
-          "title": "Référence OAuth de Stripe Connect"
+          "title": "Stripe Connect OAuth reference"
         }
       ]
     },
     "csv-vs-api-stripe-fee-analysis": {
-      "metaTitle": "CSV vs API : deux façons d'analyser les frais Stripe et quand chacune a du sens",
-      "metaDescription": "Une comparaison équilibrée des exportations CSV et des intégrations de l'API Stripe pour l'analyse des frais, y compris la confidentialité, l'automatisation, la précision, les références et le moment d'utiliser chaque approche.",
-      "title": "CSV vs API : deux façons d'analyser les frais Stripe et quand chacune a du sens",
-      "shortTitle": "CSV vs API pour l'analyse des frais Stripe",
+      "metaTitle": "CSV vs API: Two Ways to Analyze Stripe Fees, and When Each Makes Sense",
+      "metaDescription": "A balanced comparison of CSV exports and Stripe API integrations for fee analysis, including privacy, automation, accuracy, benchmarks, and when to use each approach.",
+      "title": "CSV vs API: Two Ways to Analyze Stripe Fees, and When Each Makes Sense",
+      "shortTitle": "CSV vs API for Stripe Fee Analysis",
       "readTime": "8 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-05-16",
       "intro": [
-        "Il existe deux manières honnêtes d'analyser les frais Stripe : vous connecter à l'API ou exporter des données CSV et analyser un instantané. Ni l’un ni l’autre n’est universellement meilleur. Ils optimisent pour différentes choses.",
-        "L'approche API l'emporte lorsque vous avez besoin d'automatisation et de tableaux de bord en direct. L'approche CSV est gagnante lorsque vous avez besoin d'un audit ciblé, d'un flux de travail à accès réduit et d'une réponse claire sans maintenir une connexion persistante à Stripe."
+        "There are two honest ways to analyze Stripe fees: connect to the API, or export CSV data and analyze a snapshot. Neither is universally better. They optimize for different things.",
+        "The API approach wins when you need automation and live dashboards. The CSV approach wins when you need a focused audit, a lower-access workflow, and a clear answer without maintaining a persistent connection to Stripe."
       ],
       "sections": [
         {
           "type": "section",
-          "heading": "Comparaison rapide",
+          "heading": "Quick comparison",
           "table": {
             "headers": [
               "Question",
-              "Approche CSV",
-              "Approche API"
+              "CSV approach",
+              "API approach"
             ],
             "rows": [
               [
-                "Besoin d'un accès Stripe en direct ?",
+                "Needs live Stripe access?",
                 "No",
                 "Yes"
               ],
               [
-                "Idéal pour",
-                "Audits d'honoraires mensuels ou trimestriels",
-                "Tableaux de bord continus et automatisation"
+                "Best for",
+                "Monthly or quarterly fee audits",
+                "Continuous dashboards and automation"
               ],
               [
-                "Effort de configuration",
-                "Exporter et télécharger un fichier",
-                "Connectez l'application ou créez une intégration"
+                "Setup effort",
+                "Export and upload a file",
+                "Connect app or build integration"
               ],
               [
-                "Surface d'intimité",
-                "Aperçu de la période sélectionnée",
-                "Accès au compte persistant en fonction des autorisations"
+                "Privacy surface",
+                "Snapshot of selected period",
+                "Persistent account access depending on permissions"
               ],
               [
-                "Rapports en temps réel",
+                "Real-time reporting",
                 "No",
                 "Yes"
               ],
               [
-                "Bon pour les benchmarks et les fuites de frais",
+                "Good for benchmark and fee leakage",
                 "Yes",
-                "Oui, si mis en œuvre avec soin"
+                "Yes, if implemented carefully"
               ]
             ]
           }
         },
         {
           "type": "section",
-          "heading": "Quand l'API a du sens",
+          "heading": "When the API makes sense",
           "bullets": [
             "You need daily or real-time dashboards for revenue, churn, failed payments, or subscriptions.",
-            "Vous avez besoin d'alertes et d'automatisations qui réagissent aux événements Stripe.",
+            "You need alerts and automation that react to Stripe events.",
             "You have an internal team that can manage least-privilege access, logging, deletion, and vendor review.",
             "You are comfortable with a third-party service having ongoing access to the Stripe data it needs."
           ]
         },
         {
           "type": "section",
-          "heading": "Quand CSV a du sens",
+          "heading": "When CSV makes sense",
           "bullets": [
             "You want to answer a periodic question like 'What was my real effective fee rate last quarter?'",
-            "Vous ne souhaitez pas connecter votre compte Stripe en direct à un autre fournisseur.",
-            "Vous n'avez besoin que d'une période de temps sélectionnée, pas d'une interrogation en cours.",
+            "You do not want to connect your live Stripe account to another vendor.",
+            "You only need a selected time period, not ongoing polling.",
             "You want a file-based workflow you can explain to finance, operations, or a cofounder."
           ]
         },
         {
           "type": "section",
-          "heading": "La précision dépend des données sources",
+          "heading": "Accuracy depends on the source data",
           "paragraphs": [
-            "Pour l'analyse des frais, le fichier CSV détaillé des transactions de solde est une source solide car il contient les montants, les frais, les montants nets, les types, les devises et les horodatages au niveau des transactions. Cela suffit pour calculer le taux des frais, les autres frais, les tendances mensuelles, les principaux conducteurs et l'impact des frais de remboursement.",
-            "Une intégration d'API peut accéder à des données similaires ou plus riches, mais elle doit toujours prendre les mêmes décisions de modélisation : quelles lignes comptent comme volume de frais, quels frais sont séparés, comment les remboursements sont traités et comment classer les frais élevés."
+            "For fee analysis, the itemized Balance Transactions CSV is a strong source because it contains transaction-level amounts, fees, net amounts, types, currencies, and timestamps. That is enough to calculate charge fee rate, other fees, monthly trends, top drivers, and refund fee impact.",
+            "An API integration can access similar or richer data, but it still has to make the same modeling decisions: which rows count as charge volume, which fees are separate, how refunds are treated, and how to classify high-fee charges."
           ]
         },
         {
           "type": "section",
-          "heading": "Pourquoi Fee Auditor utilise CSV en premier",
+          "heading": "Why Fee Auditor uses CSV first",
           "paragraphs": [
-            "Fee Auditor est conçu pour une seule tâche : aider les fondateurs à comprendre leurs frais réels Stripe sans accorder l'accès au compte. Pour ce travail, CSV est le bon point de départ. Elle est explicite, limitée à la période exportée, et facile à révoquer car il n'y a aucune connexion à révoquer.",
-            "Le résultat n’est pas une suite d’analyse des revenus en direct. Il s'agit d'un audit des frais ciblé : taux effectif réel, verdict de référence, fuites de remboursement, principaux facteurs de frais, frais élevés, tendances mensuelles et opportunités d'économies à partir de vos données de solde exportées. Pendant la version bêta promotionnelle, les téléchargements peuvent bénéficier d'un accès au rapport complet sans paiement pendant 30 jours maximum ; après la version bêta, l'accès suit la politique de confidentialité (aperçu court non rémunéré vs déverrouillage payant unique)."
+            "Fee Auditor is built for one job: help founders understand their actual Stripe fees without granting account access. For that job, CSV is the right starting point. It is explicit, limited to the exported period, and easy to revoke because there is no connection to revoke.",
+            "The result is not a live revenue analytics suite. It is a focused fee audit: real effective rate, benchmark verdict, refund leakage, top fee drivers, high-fee charges, monthly trends, and savings opportunities from your exported Balance data. During the promotional beta, uploads may receive full-report access without payment for up to 30 days; after beta, access follows the Privacy Policy (short unpaid preview vs one-time paid unlock)."
           ]
         }
       ],
       "faq": [
         {
-          "question": "Le CSV est-il moins précis que l'API Stripe ?",
-          "answer": "Pas nécessairement. Pour une analyse rétrospective des frais, un fichier CSV détaillé des transactions de solde peut contenir les champs exacts nécessaires. L'accès à l'API est plus utile lorsque vous avez besoin de rapports en direct ou automatisés."
+          "question": "Is CSV less accurate than the Stripe API?",
+          "answer": "Not necessarily. For retrospective fee analysis, an itemized Balance Transactions CSV can contain the exact fields needed. API access is more useful when you need live or automated reporting."
         },
         {
-          "question": "Fee Auditor peut-il remplacer une plateforme d’analyse d’abonnement ?",
-          "answer": "Non. Fee Auditor se concentre sur l’analyse des frais Stripe, et non sur l’analyse complète des revenus. Il est conçu pour les audits, les analyses comparatives, les fuites de remboursement et la visibilité des frais liés aux exportations CSV."
+          "question": "Can Fee Auditor replace a subscription analytics platform?",
+          "answer": "No. Fee Auditor is focused on Stripe fee analysis, not full revenue analytics. It is designed for audits, benchmarks, refund leakage, and fee-driver visibility from CSV exports."
         }
       ],
       "related": [
         {
           "href": "/blog/how-to-audit-stripe-fees-without-connecting-your-account",
-          "title": "Comment auditer les frais Stripe sans connecter votre compte"
+          "title": "How to audit Stripe fees without connecting your account"
         },
         {
           "href": "/stripe-fee-calculator",
-          "title": "Calculateur de taux de frais effectif Stripe"
+          "title": "Stripe effective fee rate calculator"
         },
         {
           "href": "/analyze?sample=1",
-          "title": "Essayez un exemple de rapport d'auditeur d'honoraires"
+          "title": "Try a sample Fee Auditor report"
         }
       ],
       "sources": [
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Documentation des rapports Stripe"
+          "title": "Stripe reports documentation"
         },
         {
           "href": "https://docs.stripe.com/connect/oauth-reference",
-          "title": "Référence OAuth de Stripe Connect"
+          "title": "Stripe Connect OAuth reference"
         }
       ]
     }

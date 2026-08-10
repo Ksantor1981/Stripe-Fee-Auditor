@@ -159,22 +159,6 @@
           "a": "For many US online card payments, Stripe's published rate is 2.9% + $0.30 per successful charge. On a $100 domestic card payment that is about $3.20 (3.2% effective). International cards, currency conversion, refunds, and small tickets can push the blended rate higher — use the calculator above for your mix, then upload a Balance CSV to see your real rate."
         },
         {
-          "q": "Is this calculator using my actual Stripe rates?",
-          "a": "No. This page uses Stripe's published list pricing by region. Custom or interchange-plus accounts may differ — check Dashboard → Settings → Plans and fees. Upload a Balance CSV to see your real effective rate."
-        },
-        {
-          "q": "Does Stripe return fees when I refund a payment?",
-          "a": "No. Per Stripe's pricing FAQ, when you issue a refund Stripe does not return the processing fees, Connect fees, or currency conversion fees from the original transaction."
-        },
-        {
-          "q": "What do Stripe disputes cost?",
-          "a": "Stripe charges a $15 fee when a dispute is received (refunded if you win). Smart Disputes, when enabled, adds 30% of the disputed amount when you win — on top of card processing fees."
-        },
-        {
-          "q": "Does Stripe Billing add fees on top of card processing?",
-          "a": "Yes. Stripe Billing is 0.7% of billing volume on top of standard card processing fees. See stripe.com/billing/pricing."
-        },
-        {
           "q": "Is this a Stripe fee estimator or a real calculator?",
           "a": "The on-page Stripe fees calculator estimates fees from public pricing. Stripe Fee Auditor calculates your real effective Stripe fee rate from your Balance Transactions CSV, so you can compare the estimate with actual numbers."
         },
@@ -188,7 +172,7 @@
         },
         {
           "q": "Why can my effective Stripe rate be higher than the published rate?",
-          "a": "International cards, currency conversion, refunds (fees not returned), Stripe Billing (0.7%), Radar, disputes ($15 + Smart Disputes 30% on win), and micro-transactions can all push your blended effective rate above Stripe's standard published rate."
+          "a": "International cards, currency conversion, refunds, Radar charges, disputes, and micro-transactions can all push your blended effective rate above Stripe's standard published rate."
         }
       ],
       "cta": {
@@ -333,23 +317,17 @@
             {
               "number": "03",
               "title": "Refunds",
-              "description": "Per Stripe's pricing FAQ, when you issue a refund Stripe does not return the processing fees, Connect fees, or currency conversion fees from the original transaction. A 5% refund rate adds meaningful cost across large volumes.",
+              "description": "Stripe keeps the processing fee when you issue a refund. The original transaction fee is not returned. A 5% refund rate adds meaningful cost across large volumes.",
               "example": "5% refund rate on $100k revenue = $145 in non-refundable fees"
             },
             {
               "number": "04",
-              "title": "Disputes",
-              "description": "Each dispute carries a $15 received fee (refunded if you win). Smart Disputes adds 30% of the disputed amount when you win — on top of card processing.",
-              "example": "$100 disputed charge won with Smart Disputes: $15 fee refunded + $30 Smart Disputes fee"
-            },
-            {
-              "number": "05",
               "title": "Stripe Radar",
               "description": "If you use Radar for fraud protection beyond the basic included tier, there's an additional $0.02–$0.07 per transaction. This shows up as a separate line in your Balance report.",
               "example": "1,000 transactions × $0.05 Radar fee = $50/month extra"
             },
             {
-              "number": "06",
+              "number": "05",
               "title": "Micro-Transactions",
               "description": "On small charges, the fixed $0.30 component dominates. A $2.00 charge has an effective rate of 17.9% — this drags up your average significantly if you have many small payments.",
               "example": "$2.00 charge: 2.9% ($0.06) + $0.30 = $0.36 total = 17.9% effective rate"
@@ -364,19 +342,11 @@
         },
         {
           "q": "Does Stripe return processing fees when I refund a payment?",
-          "a": "No. Per Stripe's pricing FAQ, when you issue a refund Stripe does not return the processing fees, Connect fees, or currency conversion fees from the original transaction. This can increase your effective fee rate if your business has a meaningful refund rate."
-        },
-        {
-          "q": "What do Stripe disputes and Smart Disputes cost?",
-          "a": "Stripe charges a $15 fee when a dispute is received (refunded if you win). Smart Disputes, when enabled, adds 30% of the disputed amount when you win."
+          "a": "No. When you issue a refund, Stripe generally does not return the original processing fee. This can increase your effective fee rate if your business has a meaningful refund rate."
         },
         {
           "q": "How can I calculate my real Stripe effective fee rate?",
-          "a": "Export your Stripe Balance Transactions CSV and divide total Stripe fees by total processed charge volume for the same period. Fee Auditor (feeauditor.com) does this from your real CSV and shows the transactions driving the rate up."
-        },
-        {
-          "q": "Is Fee Auditor part of Stripe?",
-          "a": "No. Fee Auditor is an independent tool at feeauditor.com. It is not affiliated with, endorsed by, or part of Stripe, Inc. We do not provide Stripe customer support and do not connect to your Stripe account via OAuth."
+          "a": "Export your Stripe Balance Transactions CSV and divide total Stripe fees by total processed charge volume for the same period. Stripe Fee Auditor does this from your real CSV and shows the transactions driving the rate up."
         }
       ],
       "cta": {
@@ -443,19 +413,15 @@
       "faq": [
         {
           "q": "How much does Stripe charge per transaction?",
-          "a": "For many US online card payments, Stripe charges 2.9% + $0.30 per successful domestic card transaction. On $100 that is about $3.20. International cards often add about 1.5 percentage points, and currency conversion can add roughly another 1%. Rates vary by country — check Dashboard → Settings → Plans and fees for your account."
+          "a": "For many US online card payments, Stripe charges 2.9% + $0.30 per successful domestic card transaction. On $100 that is about $3.20. International cards often add about 1.5 percentage points, and currency conversion can add roughly another 1%. Your blended rate across a month is usually higher than any single published line — check it from your Balance CSV."
         },
         {
           "q": "What percentage does Stripe take from a payment?",
           "a": "For many US online card payments, Stripe's published rate starts at 2.9% plus $0.30 per successful charge. The effective percentage on a single charge depends on the charge amount because the fixed $0.30 fee is larger on small payments."
         },
         {
-          "q": "Does Stripe return fees when I refund a payment?",
-          "a": "No. Per Stripe's pricing FAQ, when you issue a refund Stripe does not return the processing fees, Connect fees, or currency conversion fees from the original transaction."
-        },
-        {
           "q": "Why is my real Stripe rate higher than 2.9%?",
-          "a": "International cards, currency conversion, Stripe Billing (0.7% on billing volume), refunds (fees not returned), disputes ($15 + Smart Disputes 30% on win), Radar, and small transaction sizes can all push your real blended Stripe rate above the headline percentage."
+          "a": "International cards, currency conversion, Stripe Billing fees, refunds, disputes, Radar, and small transaction sizes can all push your real blended Stripe rate above the headline percentage."
         },
         {
           "q": "How do I check the actual percentage Stripe took?",
@@ -1079,7 +1045,6 @@
           "notYet": [
             "No live Stripe OAuth connection in the first version",
             "No automatic sync until users ask for it",
-            "No automatic cross-month comparison or drift alert yet",
             "No accounting, tax, or bookkeeping advice"
           ]
         },
@@ -1666,24 +1631,24 @@
   },
   "blog": {
     "how-i-found-1400-in-hidden-stripe-fees": {
-      "metaTitle": "मुझे छुपे हुए Stripe शुल्क अवसरों में ~$1,400/Year कैसे मिले",
-      "metaDescription": "एक वास्तविक Stripe बैलेंस CSV केस अध्ययन: चार महीनों में फीस में $3,597.77, 3.82% प्रसंस्करण दर, 4.02% कुल मिलाकर Stripe लागत, और जांच योग्य शुल्क चालक।",
-      "title": "मुझे छुपे हुए Stripe शुल्क अवसरों में ~$1,400/Year कैसे मिले",
+      "metaTitle": "How I Found ~$1,400/Year in Hidden Stripe Fee Opportunities",
+      "metaDescription": "A real Stripe Balance CSV case study: $3,597.77 in fees over four months, a 3.82% processing rate, a 4.02% all-in Stripe cost, and the fee drivers worth checking.",
+      "title": "How I Found ~$1,400/Year in Hidden Stripe Fee Opportunities",
       "readTime": "6 min",
       "publishedAt": "2026-06-25",
       "updatedAt": null,
       "faq": [
         {
-          "question": "क्या ~$1,400/year नंबर बचत की गारंटी देता है?",
-          "answer": "नहीं, यह नमूना निर्यात से एक दिशात्मक बचत का अवसर है। वास्तविक अगला कदम यह निरीक्षण करना है कि किन पंक्तियों ने उच्च शुल्क बनाया है, फिर तय करें कि क्या ACH, स्थानीय भुगतान विधियां, वार्षिक बिलिंग, या मूल्य निर्धारण परिवर्तन यथार्थवादी हैं।"
+          "question": "Is the ~$1,400/year number guaranteed savings?",
+          "answer": "No. It is a directional savings opportunity from the sample export. The real next step is to inspect which rows created the high fees, then decide whether ACH, local payment methods, annual billing, or pricing changes are realistic."
         },
         {
-          "question": "दो दरें क्यों हैं: 3.82% और 4.02%?",
-          "answer": "3.82% प्रोसेसिंग दर चार्ज वॉल्यूम द्वारा विभाजित चार्ज प्रोसेसिंग फीस का उपयोग करती है। 4.02% समग्र Stripe लागत में अन्य Stripe शुल्क लाइनें भी शामिल हैं। इन्हें अलग रखने से हर शुल्क के लिए कार्ड मूल्य निर्धारण को दोष देने से बचा जा सकता है।"
+          "question": "Why are there two rates: 3.82% and 4.02%?",
+          "answer": "The 3.82% processing rate uses charge processing fees divided by charge volume. The 4.02% all-in Stripe cost includes other Stripe fee lines too. Keeping those separate avoids blaming card pricing for every fee."
         },
         {
-          "question": "क्या मैं इसे Stripe में मैन्युअल रूप से पा सकता हूँ?",
-          "answer": "हाँ। एक आइटमयुक्त बैलेंस CSV, फ़िल्टर चार्ज पंक्तियाँ, योग चार्ज वॉल्यूम और चार्ज शुल्क निर्यात करें, फिर अवधि में अन्य सभी शुल्क पंक्तियों के साथ इसकी तुलना करें। Fee Auditor समूहीकरण, समयरेखा, उच्च-शुल्क पंक्तियों और बचत संकेतों को स्वचालित करता है।"
+          "question": "Can I find this manually in Stripe?",
+          "answer": "Yes. Export an itemized Balance CSV, filter charge rows, sum charge volume and charge fees, then compare that with all other fee rows in the period. Fee Auditor automates the grouping, timeline, high-fee rows, and savings prompts."
         }
       ],
       "sources": [
@@ -1693,18 +1658,18 @@
         },
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Stripe दस्तावेज़ीकरण की रिपोर्ट करता है"
+          "title": "Stripe reports documentation"
         },
         {
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
-          "title": "Stripe शेष लेनदेन प्रकार"
+          "title": "Stripe balance transaction types"
         }
       ]
     },
     "cross-border-stripe-fees-migration-2026": {
-      "metaTitle": "सीमा पार Stripe शुल्क: आपकी दर क्यों बढ़ती है",
-      "metaDescription": "कैसे अंतर्राष्ट्रीय ग्राहक, प्रवासन रुझान और मुद्रा मिश्रण 2026 में Stripe शुल्क को 2.9% से ऊपर बढ़ा सकते हैं, साथ ही अपने शेष CSV में परिवर्तन को कैसे पहचानें।",
-      "title": "सीमा पार Stripe शुल्क: आपकी दर क्यों बढ़ती है",
+      "metaTitle": "Cross-Border Stripe Fees: Why Your Rate Rises",
+      "metaDescription": "How international customers, migration trends, and currency mix can push Stripe fees above 2.9% in 2026, plus how to spot the change in your Balance CSV.",
+      "title": "Cross-Border Stripe Fees: Why Your Rate Rises",
       "readTime": "10 min",
       "publishedAt": "2026-06-22",
       "updatedAt": null,
@@ -1712,34 +1677,34 @@
       "sources": []
     },
     "stripe-fee-audit-checklist-for-saas-founders": {
-      "metaTitle": "Stripe SaaS संस्थापकों के लिए शुल्क ऑडिट चेकलिस्ट",
-      "metaDescription": "SaaS संस्थापकों के लिए एक व्यावहारिक मासिक Stripe शुल्क ऑडिट चेकलिस्ट: प्रभावी दर, शेष CSV, अंतर्राष्ट्रीय कार्ड, रिफंड, छोटे शुल्क, ACH, और महीने-दर-महीने निगरानी।",
-      "title": "Stripe SaaS संस्थापकों के लिए शुल्क ऑडिट चेकलिस्ट",
+      "metaTitle": "Stripe Fee Audit Checklist for SaaS Founders",
+      "metaDescription": "A practical monthly Stripe fee audit checklist for SaaS founders: effective rate, Balance CSV, international cards, refunds, small charges, ACH, and month-over-month monitoring.",
+      "title": "Stripe Fee Audit Checklist for SaaS Founders",
       "readTime": "8 min",
       "publishedAt": null,
       "updatedAt": null,
       "faq": [
         {
-          "question": "मुझे कितनी बार Stripe फीस का ऑडिट करना चाहिए?",
-          "answer": "सार्थक Stripe वॉल्यूम वाले SaaS व्यवसाय के लिए, एक मासिक शुल्क ऑडिट पर्याप्त है। पिछले महीने की तुलना में प्रसंस्करण दर, संपूर्ण Stripe लागत, रिफंड संख्या, अंतर्राष्ट्रीय शेयर और उच्च-शुल्क शुल्क ड्राइवरों की तुलना करें।"
+          "question": "How often should I audit Stripe fees?",
+          "answer": "For a SaaS business with meaningful Stripe volume, a monthly fee audit is enough. Compare processing rate, all-in Stripe cost, refund count, international share, and high-fee charge drivers against the previous month."
         },
         {
-          "question": "ट्रैक करने के लिए सबसे महत्वपूर्ण Stripe शुल्क मीट्रिक क्या है?",
-          "answer": "प्रसंस्करण दर और संपूर्ण Stripe लागत दोनों को ट्रैक करें। प्रसंस्करण दर शुल्क शुल्क को अलग करती है, जबकि कुल लागत में अन्य Stripe शुल्क पंक्तियाँ जैसे विवाद, बिलिंग, कर, रडार और धनवापसी-संबंधी प्रभाव शामिल होते हैं।"
+          "question": "What is the most important Stripe fee metric to track?",
+          "answer": "Track both processing rate and all-in Stripe cost. Processing rate isolates charge fees, while all-in cost includes other Stripe fee rows such as disputes, Billing, Tax, Radar, and refund-related impact."
         },
         {
-          "question": "शुल्क ऑडिट के लिए मुझे किस Stripe निर्यात की आवश्यकता होगी?",
-          "answer": "एक आइटमयुक्त Stripe बैलेंस CSV या बैलेंस लेनदेन निर्यात का उपयोग करें। चार्ज-स्तरीय शुल्क विश्लेषण के लिए सारांश निर्यात बहुत अधिक एकत्रित हैं।"
+          "question": "What Stripe export do I need for a fee audit?",
+          "answer": "Use an itemized Stripe Balance CSV or Balance Transactions export. Summary exports are too aggregated for charge-level fee analysis."
         }
       ],
       "sources": [
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Stripe दस्तावेज़ीकरण की रिपोर्ट करता है"
+          "title": "Stripe reports documentation"
         },
         {
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
-          "title": "Stripe शेष लेनदेन प्रकार"
+          "title": "Stripe balance transaction types"
         },
         {
           "href": "https://stripe.com/pricing",
@@ -1748,24 +1713,24 @@
       ]
     },
     "stripe-fee-leakage-report-may-2026": {
-      "metaTitle": "Stripe शुल्क रिसाव रिपोर्ट: कौन सुरक्षित है?",
-      "metaDescription": "Stripe शुल्क रिसाव के लिए मई 2026 डायग्नोस्टिक मॉडल: सुरक्षित SaaS भुगतान प्रोफाइल की तुलना कम-टिकट, वैश्विक, रिफंड-भारी प्रोफाइल से करें, जिन्हें अब फीस का ऑडिट करना चाहिए।",
-      "title": "Stripe शुल्क रिसाव रिपोर्ट: कौन सुरक्षित है?",
+      "metaTitle": "Stripe Fee Leakage Report: Who Is Safe?",
+      "metaDescription": "A May 2026 diagnostic model for Stripe fee leakage: compare safe SaaS payment profiles with the low-ticket, global, refund-heavy profiles that should audit fees now.",
+      "title": "Stripe Fee Leakage Report: Who Is Safe?",
       "readTime": "9 min",
       "publishedAt": null,
       "updatedAt": null,
       "faq": [
         {
-          "question": "Stripe शुल्क रिसाव क्या है?",
-          "answer": "Stripe शुल्क रिसाव आपके द्वारा अपेक्षित हेडलाइन भुगतान दर और निश्चित शुल्क, अंतर्राष्ट्रीय कार्ड, मुद्रा रूपांतरण, रिफंड, विवादों और ऐड-ऑन उत्पादों द्वारा बनाई गई वास्तविक कुल लागत के बीच का अंतर है।"
+          "question": "What is Stripe fee leakage?",
+          "answer": "Stripe fee leakage is the gap between the headline payment rate you expect and the real all-in cost created by fixed fees, international cards, currency conversion, refunds, disputes, and add-on products."
         },
         {
-          "question": "कौन से व्यवसाय Stripe शुल्क रिसाव के सबसे अधिक संपर्क में हैं?",
-          "answer": "कम-टिकट सदस्यता, वैश्विक SaaS, रिफंड-भारी उत्पाद, और कार्ड द्वारा भुगतान किए गए B2B चालान सबसे अधिक उजागर प्रोफ़ाइल हैं। उच्च टिकट वाला घरेलू B2B SaaS आमतौर पर अधिक सुरक्षित होता है।"
+          "question": "Which businesses are most exposed to Stripe fee leakage?",
+          "answer": "Low-ticket subscriptions, global SaaS, refund-heavy products, and B2B invoices paid by card are the most exposed profiles. High-ticket domestic B2B SaaS is usually safer."
         },
         {
-          "question": "मैं Stripe डेटा से शुल्क रिसाव को कैसे मापूं?",
-          "answer": "एक आइटमयुक्त Stripe बैलेंस CSV निर्यात करें, चार्ज प्रोसेसिंग दर और संपूर्ण Stripe लागत की अलग से गणना करें, फिर छोटे शुल्क, अंतर्राष्ट्रीय कार्ड, रिफंड, विवाद और गैर-चार्ज शुल्क पंक्तियों का निरीक्षण करें।"
+          "question": "How do I measure fee leakage from Stripe data?",
+          "answer": "Export an itemized Stripe Balance CSV, calculate charge processing rate and all-in Stripe cost separately, then inspect small charges, international cards, refunds, disputes, and non-charge fee rows."
         }
       ],
       "sources": [
@@ -1775,18 +1740,18 @@
         },
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Stripe दस्तावेज़ीकरण की रिपोर्ट करता है"
+          "title": "Stripe reports documentation"
         },
         {
           "href": "https://docs.stripe.com/disputes",
-          "title": "Stripe दस्तावेज़ीकरण पर विवाद करता है"
+          "title": "Stripe disputes documentation"
         }
       ]
     },
     "stripe-alternatives-2026": {
-      "metaTitle": "Stripe 2026 में विकल्प: स्विच करने से पहले शुल्क की जाँच करें",
-      "metaDescription": "2026 में Stripe विकल्प खोज रहे हैं? प्रोसेसर बदलने से पहले, अपनी वास्तविक Stripe प्रभावी दर का ऑडिट करें और पहचानें कि क्या फीस, भुगतान मिश्रण, या चेकआउट रणनीति वास्तविक समस्या है।",
-      "title": "Stripe 2026 में विकल्प: स्विच करने से पहले शुल्क की जाँच करें",
+      "metaTitle": "Stripe Alternatives in 2026: Check Fees Before Switching",
+      "metaDescription": "Looking for Stripe alternatives in 2026? Before switching processors, audit your real Stripe effective rate and identify whether fees, payment mix, or checkout strategy is the real problem.",
+      "title": "Stripe Alternatives in 2026: Check Fees Before Switching",
       "readTime": "8 min",
       "publishedAt": "2026-06-25",
       "updatedAt": null,
@@ -1798,11 +1763,11 @@
         },
         {
           "href": "https://www.paypal.com/us/business/paypal-business-fees",
-          "title": "PayPal व्यापारी शुल्क"
+          "title": "PayPal merchant fees"
         },
         {
           "href": "https://squareup.com/us/en/payments/our-fees",
-          "title": "वर्ग भुगतान प्रसंस्करण शुल्क"
+          "title": "Square payment processing fees"
         },
         {
           "href": "https://gocardless.com/pricing/",
@@ -1810,14 +1775,14 @@
         },
         {
           "href": "https://www.adyen.com/pricing",
-          "title": "एडयेन मूल्य निर्धारण"
+          "title": "Adyen pricing"
         }
       ]
     },
     "stripe-credit-card-processing-fees": {
-      "metaTitle": "Stripe प्रसंस्करण शुल्क: कार्ड दरें बनाम वास्तविक लागत",
-      "metaDescription": "Stripe प्रसंस्करण शुल्क प्रकाशित कार्ड दर (अक्सर 2.9% + $0.30) से शुरू होता है, लेकिन आपकी वास्तविक लागत निश्चित शुल्क, अंतर्राष्ट्रीय कार्ड, रिफंड, विवाद और ऐड-ऑन पर निर्भर करती है।",
-      "title": "Stripe प्रसंस्करण शुल्क: कार्ड दरें बनाम वास्तविक लागत",
+      "metaTitle": "Stripe Processing Fees: Card Rates vs Real Cost",
+      "metaDescription": "Stripe processing fees start at the published card rate (often 2.9% + $0.30), but your real cost depends on fixed fees, international cards, refunds, disputes, and add-ons.",
+      "title": "Stripe Processing Fees: Card Rates vs Real Cost",
       "readTime": "6 min",
       "publishedAt": "2026-06-25",
       "updatedAt": "2026-07-16",
@@ -1829,18 +1794,18 @@
         },
         {
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
-          "title": "Stripe शेष लेनदेन प्रकार"
+          "title": "Stripe balance transaction types"
         },
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Stripe दस्तावेज़ीकरण की रिपोर्ट करता है"
+          "title": "Stripe reports documentation"
         }
       ]
     },
     "stripe-vs-paypal-fees": {
-      "metaTitle": "Stripe बनाम PayPal शुल्क: वास्तविक तुलना",
-      "metaDescription": "Stripe बनाम PayPal शुल्क कागज पर समान हैं, लेकिन आपकी वास्तविक लागत चेकआउट मिश्रण, औसत शुल्क आकार, अंतर्राष्ट्रीय ग्राहक, रिफंड, विवाद और भुगतान विधियों पर निर्भर करती है।",
-      "title": "Stripe बनाम PayPal शुल्क: वास्तविक तुलना",
+      "metaTitle": "Stripe vs PayPal Fees: Real Comparison",
+      "metaDescription": "Stripe vs PayPal fees are close on paper, but your real cost depends on checkout mix, average charge size, international customers, refunds, disputes, and payment methods.",
+      "title": "Stripe vs PayPal Fees: Real Comparison",
       "readTime": "7 min",
       "publishedAt": "2026-06-25",
       "updatedAt": null,
@@ -1852,33 +1817,33 @@
         },
         {
           "href": "https://www.paypal.com/us/business/paypal-business-fees",
-          "title": "PayPal व्यापारी शुल्क"
+          "title": "PayPal merchant fees"
         },
         {
           "href": "https://developer.paypal.com/braintree/articles/guides/payment-methods/paypal",
-          "title": "ब्रेनट्री PayPal डॉक्स"
+          "title": "Braintree PayPal docs"
         }
       ]
     },
     "stripe-international-card-fees": {
-      "metaTitle": "Stripe अंतर्राष्ट्रीय कार्ड शुल्क: आपकी दर अधिक क्यों है",
-      "metaDescription": "Stripe अंतर्राष्ट्रीय कार्ड शुल्क सीमा पार कार्डों पर लगभग 1.5% जोड़ता है - एक सामान्य कारण जो आपकी प्रभावी दर और भुगतान 2.9% से भी बदतर लगता है। इसे अपने बैलेंस CSV में कैसे खोजें।",
-      "title": "Stripe अंतर्राष्ट्रीय कार्ड शुल्क: आपकी दर अधिक क्यों है",
+      "metaTitle": "Stripe International Card Fees: Why Your Rate Is Higher",
+      "metaDescription": "Stripe international card fees add about 1.5% on cross-border cards — a common reason your effective rate and payout feel worse than 2.9%. How to find it in your Balance CSV.",
+      "title": "Stripe International Card Fees: Why Your Rate Is Higher",
       "readTime": "6 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-07-19",
       "faq": [
         {
-          "question": "Stripe का अंतर्राष्ट्रीय कार्ड शुल्क क्या है?",
-          "answer": "Stripe का अंतर्राष्ट्रीय कार्ड शुल्क एक अतिरिक्त सीमा पार शुल्क है जो तब लिया जाता है जब कार्ड आपके Stripe खाते वाले देश के बाहर जारी किया जाता है। कई अमेरिकी मूल्य निर्धारण परिदृश्यों के लिए, यह आमतौर पर मानक कार्ड प्रसंस्करण के शीर्ष पर 1.5 प्रतिशत अंक है।"
+          "question": "What is Stripe's international card fee?",
+          "answer": "Stripe's international card fee is an extra cross-border fee charged when the card was issued outside your Stripe account country. For many US pricing scenarios, this is commonly 1.5 percentage points on top of standard card processing."
         },
         {
-          "question": "क्या कार्ड मुद्रा या कार्ड देश अंतरराष्ट्रीय शुल्क तय करता है?",
-          "answer": "अंतर्राष्ट्रीय कार्ड शुल्क आपके Stripe खाता देश के सापेक्ष कार्ड जारीकर्ता देश द्वारा संचालित होता है। मुद्रा रूपांतरण अलग है और शुल्क और निपटान मुद्राएं भिन्न होने पर शीर्ष पर रखी जा सकती हैं।"
+          "question": "Does card currency or card country decide the international fee?",
+          "answer": "The international card fee is driven by the card issuer country relative to your Stripe account country. Currency conversion is separate and can stack on top when the charge and settlement currencies differ."
         },
         {
-          "question": "मैं Stripe डेटा में अंतर्राष्ट्रीय कार्ड शुल्क का पता कैसे लगा सकता हूँ?",
-          "answer": "एक आइटमयुक्त Stripe बैलेंस CSV निर्यात करें और प्रभारी पंक्तियों, विवरणों या शुल्क पैटर्न में अंतर्राष्ट्रीय कार्ड संकेतक देखें। फिर उसी अवधि के लिए घरेलू कार्ड शुल्कों से उन पंक्तियों की तुलना करें।"
+          "question": "How do I find international card fees in Stripe data?",
+          "answer": "Export an itemized Stripe Balance CSV and look for international card indicators in charge rows, descriptions, or fee patterns. Then compare those rows against domestic card charges for the same period."
         }
       ],
       "sources": [
@@ -1888,33 +1853,33 @@
         },
         {
           "href": "https://docs.stripe.com/payments/payment-methods",
-          "title": "Stripe भुगतान विधियाँ"
+          "title": "Stripe payment methods"
         },
         {
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
-          "title": "Stripe शेष लेनदेन प्रकार"
+          "title": "Stripe balance transaction types"
         }
       ]
     },
     "stripe-ach-vs-credit-card-fees": {
-      "metaTitle": "Stripe ACH बनाम क्रेडिट कार्ड शुल्क: जब ACH पैसे बचाता है",
-      "metaDescription": "Stripe ACH और क्रेडिट कार्ड शुल्क की तुलना करें। देखें कि ACH कब पैसे बचाता है, $5 सीमा कहां मायने रखती है, और B2B SaaS भुगतान लागत को कैसे कम कर सकता है।",
-      "title": "Stripe ACH बनाम क्रेडिट कार्ड शुल्क: जब ACH पैसे बचाता है",
+      "metaTitle": "Stripe ACH vs Credit Card Fees: When ACH Saves Money",
+      "metaDescription": "Compare Stripe ACH and credit card fees. See when ACH saves money, where the $5 cap matters, and how B2B SaaS can lower payment costs.",
+      "title": "Stripe ACH vs Credit Card Fees: When ACH Saves Money",
       "readTime": "7 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-06-25",
       "faq": [
         {
-          "question": "क्या Stripe ACH क्रेडिट कार्ड से सस्ता है?",
-          "answer": "कई बड़े यूएस B2B भुगतानों के लिए, ACH कार्ड से सस्ता है क्योंकि ACH में प्रतिशत शुल्क और सीमा कम है। गति, रूपांतरण और उपभोक्ता चेकआउट अपेक्षाओं के लिए कार्ड अभी भी बेहतर हो सकते हैं।"
+          "question": "Is Stripe ACH cheaper than credit cards?",
+          "answer": "For many large US B2B payments, ACH is cheaper than cards because ACH has a lower percentage fee and a cap. Cards can still be better for speed, conversion, and consumer checkout expectations."
         },
         {
-          "question": "SaaS व्यवसाय को कब ACH की पेशकश करनी चाहिए?",
-          "answer": "ACH बड़े चालान, वार्षिक योजनाओं और B2B ग्राहकों के लिए सबसे उपयोगी है जो बैंक भुगतान में सहज हैं। यह तत्काल उपभोक्ता खरीदारी या उच्च-घर्षण चेकआउट प्रवाह के लिए कम आदर्श है।"
+          "question": "When should a SaaS business offer ACH?",
+          "answer": "ACH is most useful for large invoices, annual plans, and B2B customers who are comfortable with bank payments. It is less ideal for instant consumer purchases or high-friction checkout flows."
         },
         {
-          "question": "ACH और कार्ड भुगतान के बीच क्या तालमेल है?",
-          "answer": "ACH की लागत आमतौर पर कम होती है, लेकिन यह धीमी गति से व्यवस्थित हो सकता है, अलग तरीके से विफल हो सकता है, और अधिक ऑनबोर्डिंग घर्षण पैदा कर सकता है। कार्ड से भुगतान की लागत अधिक है लेकिन कई खरीदारों के लिए यह तेज़ और परिचित है।"
+          "question": "What is the tradeoff between ACH and card payments?",
+          "answer": "ACH usually costs less but can settle slower, fail differently, and create more onboarding friction. Card payments cost more but are faster and familiar for many buyers."
         }
       ],
       "sources": [
@@ -1924,33 +1889,33 @@
         },
         {
           "href": "https://docs.stripe.com/payments/ach-debit",
-          "title": "Stripe ACH प्रत्यक्ष डेबिट दस्तावेज़"
+          "title": "Stripe ACH Direct Debit documentation"
         },
         {
           "href": "https://docs.stripe.com/payments/payment-methods",
-          "title": "Stripe भुगतान विधियाँ"
+          "title": "Stripe payment methods"
         }
       ]
     },
     "stripe-fees-small-transactions": {
-      "metaTitle": "Stripe छोटे लेनदेन के लिए शुल्क: आपकी दर अधिक क्यों है",
-      "metaDescription": "निर्धारित $0.30 Stripe शुल्क छोटे लेनदेन को बुरी तरह प्रभावित करता है: $5 शुल्क की लागत लगभग 9% हो सकती है। गणित, मार्जिन प्रभाव और माइक्रो-पेमेंट ड्रैग को कम करने के तरीके देखें।",
-      "title": "Stripe छोटे लेनदेन के लिए शुल्क: आपकी दर अधिक क्यों है",
+      "metaTitle": "Stripe Fees for Small Transactions: Why Your Rate Is Higher",
+      "metaDescription": "The fixed $0.30 Stripe fee hits small transactions hard: a $5 charge can cost about 9%. See the math, margin impact, and ways to reduce micro-payment drag.",
+      "title": "Stripe Fees for Small Transactions: Why Your Rate Is Higher",
       "readTime": "5 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-07-19",
       "faq": [
         {
-          "question": "छोटे लेनदेन पर Stripe शुल्क इतना अधिक क्यों है?",
-          "answer": "Stripe का निर्धारित प्रति लेनदेन शुल्क समान है, चाहे शुल्क $5 हो या $100. $5 शुल्क पर, $0.30 निर्धारित शुल्क प्रतिशत शुल्क जोड़ने से पहले ही 6% है।"
+          "question": "Why are Stripe fees so high on small transactions?",
+          "answer": "Stripe's fixed per-transaction fee is the same whether the charge is $5 or $100. On a $5 charge, a $0.30 fixed fee is already 6% before the percentage fee is added."
         },
         {
-          "question": "$5 भुगतान पर Stripe शुल्क क्या है?",
-          "answer": "उदाहरण दर के रूप में 2.9% + $0.30 का उपयोग करते हुए, $5 भुगतान की लागत लगभग $0.45 शुल्क है: $0.145 प्रतिशत शुल्क प्लस $0.30 निर्धारित से। यह लगभग 9% प्रभावी दर है।"
+          "question": "What is the Stripe fee on a $5 payment?",
+          "answer": "Using 2.9% + $0.30 as the example rate, a $5 payment costs about $0.45 in fees: $0.145 from the percentage fee plus $0.30 fixed. That is roughly a 9% effective rate."
         },
         {
-          "question": "मैं कम कीमत वाले उत्पादों के लिए Stripe शुल्क कैसे कम कर सकता हूँ?",
-          "answer": "छोटी खरीदारी को बंडल करें, न्यूनतम शुल्क का आकार बढ़ाएं, मासिक माइक्रो-प्लान को वार्षिक बिलिंग में स्थानांतरित करें, या उपयोग-आधारित शुल्कों को कम चालान में बैचें जहां ग्राहक अनुभव इसकी अनुमति देता है।"
+          "question": "How can I reduce Stripe fees for low-priced products?",
+          "answer": "Bundle small purchases, increase minimum charge size, move monthly micro-plans to annual billing, or batch usage-based charges into fewer invoices where the customer experience allows it."
         }
       ],
       "sources": [
@@ -1960,33 +1925,33 @@
         },
         {
           "href": "https://docs.stripe.com/billing",
-          "title": "Stripe बिलिंग दस्तावेज़"
+          "title": "Stripe Billing documentation"
         },
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Stripe दस्तावेज़ीकरण की रिपोर्ट करता है"
+          "title": "Stripe reports documentation"
         }
       ]
     },
     "stripe-blended-rate-calculator": {
-      "metaTitle": "Stripe मिश्रित दर कैलकुलेटर: अपनी वास्तविक शुल्क दर ज्ञात करें",
-      "metaDescription": "आपकी वास्तविक Stripe मिश्रित दर क्या है? सूत्र सीखें, हमारे कैलकुलेटर का उपयोग करें, और पता लगाएं कि आपकी प्रभावी दर 2.9% से ऊपर क्यों बढ़ रही है।",
-      "title": "Stripe मिश्रित दर कैलकुलेटर: अपनी वास्तविक शुल्क दर ज्ञात करें",
+      "metaTitle": "Stripe Blended Rate Calculator: Find Your True Fee Rate",
+      "metaDescription": "What is your real Stripe blended rate? Learn the formula, use our calculator, and find out what's pushing your effective rate above 2.9%.",
+      "title": "Stripe Blended Rate Calculator: Find Your True Fee Rate",
       "readTime": "6 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-06-25",
       "faq": [
         {
-          "question": "Stripe मिश्रित दर क्या है?",
-          "answer": "एक Stripe मिश्रित दर कुल Stripe शुल्क है जो एक अवधि में कुल शुल्क मात्रा से विभाजित होती है। यह विभिन्न भुगतान प्रकारों, निश्चित शुल्क, अंतर्राष्ट्रीय कार्ड, रिफंड और ऐड-ऑन शुल्क को एक वास्तविक दुनिया प्रतिशत में मिश्रित करता है।"
+          "question": "What is a Stripe blended rate?",
+          "answer": "A Stripe blended rate is total Stripe fees divided by total charge volume across a period. It blends different payment types, fixed fees, international cards, refunds, and add-on fees into one real-world percentage."
         },
         {
-          "question": "मेरी मिश्रित दर 2.9% से अधिक क्यों है?",
-          "answer": "आपकी मिश्रित दर 2.9% से अधिक हो सकती है क्योंकि निर्धारित $0.30 शुल्क छोटे शुल्कों पर बड़ा है, अंतर्राष्ट्रीय कार्ड सीमा पार शुल्क जोड़ते हैं, मुद्रा रूपांतरण लागत जोड़ सकते हैं, और रिफंड या विवाद समग्र शुल्क बढ़ा सकते हैं।"
+          "question": "Why is my blended rate higher than 2.9%?",
+          "answer": "Your blended rate can be higher than 2.9% because the fixed $0.30 fee is large on small charges, international cards add cross-border fees, currency conversion can add cost, and refunds or disputes can raise all-in fees."
         },
         {
-          "question": "क्या मुझे शुल्क शुल्क या सभी Stripe शुल्क का उपयोग करना चाहिए?",
-          "answer": "कार्ड प्रोसेसिंग दर मापने के लिए शुल्क शुल्क का उपयोग करें। संपूर्ण Stripe लागत मापने के लिए सभी Stripe शुल्क का उपयोग करें। दोनों उपयोगी हैं, लेकिन वे अलग-अलग सवालों के जवाब देते हैं।"
+          "question": "Should I use charge fees or all Stripe fees?",
+          "answer": "Use charge fees to measure card processing rate. Use all Stripe fees to measure all-in Stripe cost. Both are useful, but they answer different questions."
         }
       ],
       "sources": [
@@ -1996,73 +1961,73 @@
         },
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Stripe दस्तावेज़ीकरण की रिपोर्ट करता है"
+          "title": "Stripe reports documentation"
         },
         {
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
-          "title": "Stripe शेष लेनदेन प्रकार"
+          "title": "Stripe balance transaction types"
         }
       ]
     },
     "how-to-export-stripe-balance-csv": {
-      "metaTitle": "शुल्क विश्लेषण के लिए Stripe शेष CSV निर्यात करें",
-      "metaDescription": "स्क्रीनशॉट के साथ विस्तृत पूर्वाभ्यास: मदवार शेष CSV (सारांश नहीं), तिथि सीमा, सामान्य निर्यात गलतियाँ, फिर एक निःशुल्क शुल्क-दर निदान। लघु संस्करण की आवश्यकता है? त्वरित बैलेंस CSV गाइड का उपयोग करें।",
-      "title": "शुल्क विश्लेषण के लिए Stripe शेष CSV निर्यात करें",
+      "metaTitle": "How to Export Stripe Balance CSV: Step-by-Step Guide",
+      "metaDescription": "Step-by-step: export the Itemized Stripe Balance CSV, avoid Summary and payout mistakes, get the right columns, and check your real fee rate.",
+      "title": "How to Export Stripe Balance CSV: Step-by-Step Guide",
       "readTime": "4 min",
       "publishedAt": "2026-05-16",
-      "updatedAt": "2026-08-04",
+      "updatedAt": "2026-07-19",
       "faq": [
         {
-          "question": "शुल्क विश्लेषण के लिए मुझे किस Stripe CSV निर्यात का उपयोग करना चाहिए?",
-          "answer": "आइटमयुक्त शेष CSV या शेष लेनदेन निर्यात का उपयोग करें। सारांश निर्यात कुल के लिए उपयोगी होते हैं, लेकिन उनमें वास्तविक शुल्क ऑडिट के लिए पर्याप्त लेनदेन-स्तर शुल्क विवरण नहीं होता है।"
+          "question": "Which Stripe CSV export should I use for fee analysis?",
+          "answer": "Use the Itemized Balance CSV or Balance Transactions export. Summary exports are useful for totals, but they do not contain enough transaction-level fee detail for a real fee audit."
         },
         {
-          "question": "मैं Stripe बैलेंस CSV कहां निर्यात करूं?",
-          "answer": "Stripe डैशबोर्ड में, रिपोर्टिंग या रिपोर्ट पर जाएं, बैलेंस सारांश या बैलेंस लेनदेन खोलें, दिनांक सीमा निर्धारित करें, निर्यात चुनें, फिर आइटमयुक्त चुनें और CSV डाउनलोड करें।"
+          "question": "Where do I export a Stripe Balance CSV?",
+          "answer": "In Stripe Dashboard, go to Reporting or Reports, open Balance summary or Balance transactions, set the date range, choose Export, then choose Itemized and download the CSV."
         },
         {
-          "question": "मुझे कितना Stripe डेटा निर्यात करना चाहिए?",
-          "answer": "कम से कम एक पूरा महीना निर्यात करें. शुल्क के रुझान, अंतर्राष्ट्रीय कार्ड मिश्रण, रिफंड लीकेज और महीने-दर-महीने दर में बदलाव के निदान के लिए तीन से छह महीने बेहतर हैं।"
+          "question": "How much Stripe data should I export?",
+          "answer": "Export at least one full month. Three to six months is better for diagnosing fee trends, international card mix, refund leakage, and month-over-month rate changes."
         },
         {
-          "question": "क्या Stripe भुगतान रिपोर्ट शुल्क समाधान के लिए पर्याप्त है?",
-          "answer": "नहीं, भुगतान रिपोर्ट बैंक समाधान के लिए उपयोगी है, लेकिन यह धन की आवाजाही को समूहित करती है। जब आपको लेन-देन-स्तरीय शुल्क पंक्तियों की आवश्यकता हो तो आइटमयुक्त शेष CSV या शेष लेन-देन निर्यात का उपयोग करें।"
+          "question": "Is a Stripe payout report enough for fee reconciliation?",
+          "answer": "No. A payout report is useful for bank reconciliation, but it groups money movement. Use the Itemized Balance CSV or Balance Transactions export when you need transaction-level fee rows."
         }
       ],
       "sources": [
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Stripe दस्तावेज़ीकरण की रिपोर्ट करता है"
+          "title": "Stripe reports documentation"
         },
         {
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
-          "title": "Stripe शेष लेनदेन प्रकार"
+          "title": "Stripe balance transaction types"
         },
         {
           "href": "https://dashboard.stripe.com/reports",
-          "title": "Stripe डैशबोर्ड रिपोर्ट"
+          "title": "Stripe Dashboard reports"
         }
       ]
     },
     "why-stripe-effective-rate-jumped-this-month": {
-      "metaTitle": "इस महीने मेरी Stripe प्रभावी दर में उछाल क्यों आया?",
-      "metaDescription": "आपकी Stripe मिश्रित दर महीने-दर-महीने बदलती रहती है और आप नहीं जानते कि क्यों। यहां 6 सबसे आम कारण हैं - और कैसे पता लगाएं कि कौन सा कारण आपको प्रभावित करता है।",
-      "title": "इस महीने मेरी Stripe प्रभावी दर में उछाल क्यों आया?",
+      "metaTitle": "Why Did My Stripe Effective Rate Jump This Month?",
+      "metaDescription": "Your Stripe blended rate changed month-over-month and you don't know why. Here are the 6 most common causes — and how to find which one hit you.",
+      "title": "Why Did My Stripe Effective Rate Jump This Month?",
       "readTime": "8 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-06-25",
       "faq": [
         {
-          "question": "इस महीने मेरी Stripe प्रभावी दर क्यों बढ़ गई?",
-          "answer": "सबसे आम कारण अधिक अंतर्राष्ट्रीय कार्ड, कम औसत लेनदेन आकार, पिछले महीने से रिफंड, नई मुद्रा रूपांतरण, Stripe ऐड-ऑन शुल्क, या विवाद शुल्क हैं।"
+          "question": "Why did my Stripe effective rate jump this month?",
+          "answer": "The most common causes are more international cards, a lower average transaction size, refunds from a prior month, new currency conversion, Stripe add-on fees, or dispute fees."
         },
         {
-          "question": "महीने-दर-महीने Stripe शुल्क परिवर्तन सामान्य है?",
-          "answer": "मिश्रित SaaS व्यवसाय के लिए लगभग 0.2 प्रतिशत अंक का उतार-चढ़ाव सामान्य हो सकता है। 0.5 प्रतिशत अंक से ऊपर की छलांग का आमतौर पर शेष CSV में जांच के लायक एक विशिष्ट कारण होता है।"
+          "question": "What month-over-month Stripe fee change is normal?",
+          "answer": "A movement of about 0.2 percentage points can be normal for a mixed SaaS business. A jump above 0.5 percentage points usually has a specific cause worth investigating in the Balance CSV."
         },
         {
-          "question": "मुझे पहले कौन सी Stripe CSV पंक्तियाँ जाँचनी चाहिए?",
-          "answer": "महीने के अनुसार शुल्क पंक्तियों से प्रारंभ करें, फिर अंतर्राष्ट्रीय कार्ड विवरण, कम-डॉलर शुल्क बकेट, धनवापसी पंक्तियाँ, विवाद पंक्तियाँ, और गैर-शुल्क शुल्क पंक्तियाँ जैसे बिलिंग, रडार, कर, या अन्य Stripe शुल्क की जाँच करें।"
+          "question": "Which Stripe CSV rows should I check first?",
+          "answer": "Start with charge rows by month, then check international card descriptions, low-dollar charge buckets, refund rows, dispute rows, and non-charge fee rows such as Billing, Radar, Tax, or other Stripe fees."
         }
       ],
       "sources": [
@@ -2072,125 +2037,33 @@
         },
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Stripe दस्तावेज़ीकरण की रिपोर्ट करता है"
+          "title": "Stripe reports documentation"
         },
         {
           "href": "https://docs.stripe.com/disputes",
-          "title": "Stripe दस्तावेज़ीकरण पर विवाद करता है"
+          "title": "Stripe disputes documentation"
         }
       ]
     },
     "why-stripe-fees-increase": {
-      "metaTitle": "इस महीने मेरी Stripe फीस क्यों बढ़ गई?",
-      "metaDescription": "फीस बढ़ी है या भुगतान पिछले महीने से कम है? सामान्य ड्राइवर देखें - अंतर्राष्ट्रीय कार्ड, रिफंड शुल्क वापस नहीं किया गया, FX, रडार/add-ons - फिर जांचें कि आपके बैलेंस CSV में कौन सी लाइन चली गई है। Fee Auditor पर निःशुल्क निदान।",
-      "title": "इस महीने मेरी Stripe फीस क्यों बढ़ गई?",
+      "metaTitle": "Why Did My Stripe Fees Increase This Month?",
+      "metaDescription": "Stripe payout lower than expected or fees up vs last month? Diagnose international cards, refund fees not returned, FX, and mix changes from your Balance CSV.",
+      "title": "Why Did My Stripe Fees Increase This Month?",
       "readTime": "5 min",
       "publishedAt": "2026-05-16",
-      "updatedAt": "2026-08-05",
-      "intro": [
-        "यदि आपकी Stripe प्रभावी शुल्क दर पिछले कुछ महीनों में बढ़ गई है - या आपका भुगतान मात्रा से कम दिखता है - तो आप अकेले नहीं हैं। कई टीमें स्पष्ट डैशबोर्ड स्पष्टीकरण के बिना धीरे-धीरे वृद्धि देखती हैं। यहां सबसे सामान्य कारण दिए गए हैं और इसकी पुष्टि कैसे की जाए कि कौन स्थानांतरित हुआ।"
-      ],
-      "sections": [
-        {
-          "type": "callout",
-          "title": "संक्षिप्त जवाब",
-          "body": "आपकी Stripe फीस आम तौर पर इसलिए बढ़ती है क्योंकि आपका लेनदेन मिश्रण बदल गया है, इसलिए नहीं कि कोई स्पष्ट सेटिंग बदल गई है। अंतर्राष्ट्रीय कार्ड, छोटे शुल्क, रिफंड, विवाद, मुद्रा रूपांतरण और ऐड-ऑन उत्पाद सभी प्रभावी दर बढ़ा सकते हैं।"
-        },
-        {
-          "type": "section",
-          "heading": "संक्षिप्त जवाब",
-          "paragraphs": [
-            "आपकी Stripe फीस आम तौर पर इसलिए बढ़ती है क्योंकि आपका लेनदेन मिश्रण बदल गया है, इसलिए नहीं कि कोई स्पष्ट सेटिंग बदल गई है। अंतर्राष्ट्रीय कार्ड, छोटे शुल्क, रिफंड, विवाद, मुद्रा रूपांतरण और ऐड-ऑन उत्पाद सभी प्रभावी दर बढ़ा सकते हैं।"
-          ]
-        },
-        {
-          "type": "section",
-          "heading": "1. अधिक अंतर्राष्ट्रीय कार्ड",
-          "paragraphs": [
-            "Stripe अंतरराष्ट्रीय कार्ड (आपके देश के बाहर जारी किए गए कार्ड) के लिए अतिरिक्त 1.5% शुल्क लेता है। यदि शुल्क मुद्रा आपकी निपटान मुद्रा से भिन्न है, तो रूपांतरण शुल्क (अक्सर लगभग 1%) शीर्ष पर रखा जाता है - एक सामान्य सबसे खराब स्थिति मिश्रण $100 उदाहरण पर निश्चित शुल्क से पहले शुल्क के ~5.7% तक पहुंच सकता है (हमारी अंतर्राष्ट्रीय शुल्क मार्गदर्शिका और सीमा पार शुल्क प्रवासन ब्रीफिंग देखें)। यदि आपका ग्राहक मिश्रण अंतरराष्ट्रीय खरीदारों की ओर स्थानांतरित हो गया है, तो आपकी प्रभावी दर बढ़ जाती है।"
-          ]
-        },
-        {
-          "type": "section",
-          "heading": "2. अधिक अमेरिकन एक्सप्रेस लेनदेन",
-          "paragraphs": [
-            "एमेक्स कार्ड में इंटरचेंज शुल्क अधिक होता है। एमेक्स के लिए मानक Stripe दर वीज़ा/मास्टरकार्ड के समान 2.9% + $0.30, है - लेकिन अंतर्निहित इंटरचेंज अधिक है, जो आपकी लागत को प्रभावित कर सकता है यदि आप कस्टम मूल्य निर्धारण योजना पर हैं।"
-          ]
-        },
-        {
-          "type": "section",
-          "heading": "3. छोटा औसत लेनदेन आकार",
-          "paragraphs": [
-            "छोटे भुगतानों के लिए प्रति लेनदेन निश्चित $0.30 अधिक मायने रखता है। $5 चार्ज की प्रभावी दर 8.9% ($5.00 पर 2.9% + $0.30 = $0.445) है, जबकि $100 चार्ज केवल 3.2% है। यदि आपके औसत ऑर्डर मूल्य में गिरावट आई, तो आपकी प्रभावी दर बढ़ गई। विवरण: लघु-लेनदेन शुल्क खींचें।"
-          ]
-        },
-        {
-          "type": "section",
-          "heading": "4. विवाद दर में वृद्धि",
-          "paragraphs": [
-            "प्रत्येक विवाद की लागत $15. है यहां तक ​​कि विवाद की आवृत्ति में थोड़ी सी भी वृद्धि कुल शुल्क को सार्थक रूप से बढ़ा सकती है, खासकर यदि आपके औसत लेनदेन का आकार मध्यम है।"
-          ]
-        },
-        {
-          "type": "section",
-          "heading": "5. मुद्रा परिवर्तन",
-          "paragraphs": [
-            "Stripe आपकी निपटान मुद्रा के अलावा किसी अन्य मुद्रा में चार्ज करने पर लगभग 1% रूपांतरण शुल्क जोड़ता है। यदि आपने हाल ही में विश्व स्तर पर बिक्री शुरू की है, तो यह संभवतः योगदान दे रहा है - विशेष रूप से अंतर्राष्ट्रीय कार्ड के साथ।"
-          ]
-        },
-        {
-          "type": "section",
-          "heading": "6. रिफंड (फीस आमतौर पर वापस नहीं की जाती)",
-          "paragraphs": [
-            "जब आप रिफंड जारी करते हैं, तो Stripe आम तौर पर मूल प्रसंस्करण शुल्क रखता है। कार्ड की कीमत अपरिवर्तित रहने पर भी रिफंड दर में एक शांत वृद्धि आपकी कुल लागत को बढ़ा सकती है। यह अंतरराष्ट्रीय मिश्रण के साथ-साथ सबसे आम \"भुगतान हल्का लगता है\" स्पष्टीकरणों में से एक है।"
-          ]
-        },
-        {
-          "type": "section",
-          "heading": "7. Stripe बिलिंग, रडार, टैक्स",
-          "paragraphs": [
-            "यदि आप सब्सक्रिप्शन और इनवॉइसिंग के लिए Stripe के बिलिंग उत्पाद का उपयोग करते हैं, तो भुगतान-जैसी कीमत आमतौर पर कार्ड या ACH प्रसंस्करण के शीर्ष पर बिलिंग मात्रा का लगभग 0.7% जोड़ देती है। निश्चित वार्षिक बिलिंग योजनाएँ उस प्रतिशत के बजाय $620/month के आसपास शुरू होती हैं। रडार और टैक्स अलग-अलग शुल्क लाइनें जोड़ते हैं - इसमें वह समय भी शामिल है जब रडार परीक्षण बाद में भुगतान स्तर में आता है। बैलेंस CSV में गैर-चार्ज शुल्क पंक्तियों का योग यह देखने के लिए कि कार्ड नहीं, ऐड-ऑन ने सुई को स्थानांतरित किया है या नहीं।",
-            "देखें कि कौन सा ड्राइवर चला गया - पहले नमूना, या आपका CSV"
-          ]
-        },
-        {
-          "type": "section",
-          "heading": "अपनी फीस का निदान कैसे करें",
-          "paragraphs": [
-            "कारण जानने का सबसे तेज़ तरीका आपके Stripe बैलेंस CSV का विश्लेषण करना है। इसे Stripe → रिपोर्ट → बैलेंस (आइटमबद्ध) से निर्यात करें, फिर अपने प्रभावी दर और शीर्ष लागत ड्राइवरों के विश्लेषण के लिए इसे Fee Auditor पर अपलोड करें।",
-            "यदि आपके पास अभी तक फ़ाइल नहीं है, तो त्वरित बैलेंस CSV निर्यात मार्गदर्शिका (या विस्तृत स्क्रीनशॉट वॉकथ्रू) का उपयोग करें, फिर वापस आएं और ऑडिट चलाएं। पहले डेमो पसंद करें? नमूना रिपोर्ट खोलें.",
-            "संबंधित दर्द मार्गदर्शिकाएँ: शुल्क 2.9% से अधिक क्यों है अंतर्राष्ट्रीय कार्ड शुल्क इस महीने प्रभावी दर में उछाल आया प्रकाशित-दर कैलकुलेटर"
-          ]
-        }
-      ],
+      "updatedAt": "2026-07-19",
       "faq": [
         {
-          "question": "मेरी Stripe फीस क्यों बढ़ गई?",
-          "answer": "Stripe शुल्क आम तौर पर बढ़ जाते हैं क्योंकि आपका भुगतान मिश्रण बदल गया है: अधिक अंतर्राष्ट्रीय कार्ड, कम औसत शुल्क आकार, मुद्रा रूपांतरण, विवाद, धनवापसी, या बिलिंग, रडार, या कर जैसे अतिरिक्त Stripe उत्पाद - इसलिए नहीं कि होमपेज 2.9% दर चुपचाप रातोंरात बदल गई।"
+          "question": "Why did my Stripe fees increase?",
+          "answer": "Stripe fees usually increase because your payment mix changed: more international cards, lower average charge size, currency conversion, disputes, refunds, or extra Stripe products such as Billing, Radar, or Tax."
         },
         {
-          "question": "मेरी Stripe फीस 2.9% की तुलना में इतनी अधिक क्यों है?",
-          "answer": "प्रकाशित 2.9% + $0.30 एक घरेलू कार्ड प्रारंभिक बिंदु है। आपकी प्रभावी दर कुल शुल्क ÷ शुल्क मात्रा है। अंतर्राष्ट्रीय कार्ड, FX, छोटे टिकटों पर निश्चित शुल्क, रिफंड शुल्क प्रतिधारण, विवाद और ऐड-ऑन मिश्रित संख्या को 2.9% से ऊपर बढ़ा सकते हैं।"
+          "question": "How can I tell what caused the increase?",
+          "answer": "Export your itemized Stripe Balance CSV and compare this month to prior months. Check international card share, average transaction size, refund rows, dispute rows, and non-charge Stripe fee rows."
         },
         {
-          "question": "मेरा Stripe भुगतान अपेक्षा से कम क्यों है?",
-          "answer": "भुगतान शुल्क, रिफंड, विवादों और अन्य शेष रेखाओं का निपटान करता है। यदि वॉल्यूम ठीक दिखता है लेकिन नकदी कम है, तो जांचें कि क्या शुल्क बढ़ा, रिफंड बढ़ा, या गैर-शुल्क शुल्क पंक्तियां (रडार, बिलिंग, टैक्स) बढ़ीं। मदवार शेष CSV में महीने-दर-महीने की तुलना करें।"
-        },
-        {
-          "question": "क्या Stripe रिफंड फीस वापस मिलती है?",
-          "answer": "आमतौर पर नहीं. जब आप कोई शुल्क वापस करते हैं, तो Stripe आम तौर पर मूल प्रसंस्करण शुल्क रखता है। उच्च रिफंड दर आपकी संपूर्ण लागत को बढ़ा सकती है, भले ही कार्ड की कीमत में बदलाव न हुआ हो। अपने शेष निर्यात में धनवापसी पंक्तियाँ और बनाए रखा शुल्क प्रभाव देखें।"
-        },
-        {
-          "question": "क्या रडार या बिलिंग इस महीने मेरी प्रभावी दर बढ़ा सकता है?",
-          "answer": "हाँ। भुगतान की गई रडार स्क्रीनिंग, बिलिंग प्रतिशत शुल्क, कर और समान उत्पाद अलग-अलग शुल्क लाइनों के रूप में दिखाई देते हैं। एक नया रडार परीक्षण जो भुगतान मानक, या उच्च बिलिंग वॉल्यूम में आता है, आपके आधार कार्ड दर को बदले बिना समग्र दर को स्थानांतरित कर सकता है।"
-        },
-        {
-          "question": "मैं कैसे बता सकता हूं कि वृद्धि का कारण क्या है?",
-          "answer": "अपना आइटमयुक्त Stripe बैलेंस CSV निर्यात करें और इस महीने की तुलना पिछले महीनों से करें। अंतर्राष्ट्रीय कार्ड शेयर, औसत लेनदेन आकार, धनवापसी पंक्तियाँ, विवाद पंक्तियाँ, और गैर-चार्ज Stripe शुल्क पंक्तियाँ जाँचें - या एक निःशुल्क निदान चलाएँ जो एक ठोस ड्राइवर को सामने लाता है।"
-        },
-        {
-          "question": "क्या मेरी कीमत नहीं बदलने पर भी Stripe फीस बढ़ सकती है?",
-          "answer": "हाँ। आपकी प्रभावी दर बढ़ने पर आपकी Stripe कीमत वही रह सकती है क्योंकि ग्राहक भूगोल, लेन-देन का आकार, रिफंड, विवाद या ऐड-ऑन उपयोग बदल गया है।"
+          "question": "Can Stripe fees increase even if my pricing did not change?",
+          "answer": "Yes. Your Stripe pricing can stay the same while your effective rate rises because customer geography, transaction size, refunds, disputes, or add-on usage changed."
         }
       ],
       "sources": [
@@ -2200,135 +2073,131 @@
         },
         {
           "href": "https://docs.stripe.com/disputes",
-          "title": "Stripe दस्तावेज़ीकरण पर विवाद करता है"
+          "title": "Stripe disputes documentation"
         },
         {
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
-          "title": "Stripe शेष लेनदेन प्रकार"
-        },
-        {
-          "href": "https://support.stripe.com/questions/updates-to-radar-pricing-(january-2027)",
-          "title": "Stripe रडार मूल्य निर्धारण अद्यतन"
+          "title": "Stripe balance transaction types"
         }
       ],
       "table": {
         "headers": [
-          "कारण",
-          "शुल्क का प्रभाव",
-          "CSV सिग्नल"
+          "Cause",
+          "Fee impact",
+          "CSV signal"
         ],
         "rows": [
           [
-            "अधिक अंतर्राष्ट्रीय कार्ड",
-            "प्रभावित कार्ड शुल्क पर +1.5%",
-            "अंतर्राष्ट्रीय कार्ड पंक्तियों के लिए फ़िल्टर करें"
+            "More international cards",
+            "+1.5% on affected card charges",
+            "Filter for international card rows"
           ],
           [
-            "मुद्रा रूपांतरण",
-            "जब रूपांतरण लागू होता है तो अक्सर लगभग +1%",
-            "शुल्क और निपटान मुद्राओं की तुलना करें"
+            "Currency conversion",
+            "Often about +1% when conversion applies",
+            "Compare charge and settlement currencies"
           ],
           [
-            "छोटे लेन-देन",
-            "$0.30 निर्धारित शुल्क एक बड़ा हिस्सा बन जाता है",
-            "राशि बकेट के अनुसार समूह शुल्क"
+            "Smaller transactions",
+            "$0.30 fixed fee becomes a larger share",
+            "Group charges by amount bucket"
           ],
           [
             "Disputes",
-            "फ्लैट विवाद शुल्क से कुल लागत बढ़ सकती है",
-            "विवाद पंक्तियों को फ़िल्टर करें"
+            "Flat dispute fees can spike all-in cost",
+            "Filter dispute rows"
           ],
           [
-            "बिलिंग, रडार, टैक्स, ऐड-ऑन",
-            "अलग-अलग शुल्क लाइनें कुल मिलाकर Stripe लागत बढ़ाती हैं",
-            "गैर-शुल्क शुल्क पंक्तियों का योग"
+            "Billing, Radar, Tax, add-ons",
+            "Separate fee lines raise all-in Stripe cost",
+            "Sum non-charge fee rows"
           ],
           [
             "Refunds",
-            "मूल प्रसंस्करण शुल्क आम तौर पर वापस नहीं किया जाता है",
-            "धनवापसी पंक्तियों और बरकरार रखी गई फीस की समीक्षा करें"
+            "Original processing fees are generally not returned",
+            "Review refund rows and retained fees"
           ]
         ]
       }
     },
     "how-to-reduce-stripe-fees": {
-      "metaTitle": "अपनी Stripe फीस कैसे कम करें",
-      "metaDescription": "आपकी Stripe प्रभावी शुल्क दर को कम करने के लिए व्यावहारिक रणनीति: कस्टम मूल्य निर्धारण पर बातचीत, विवादों को कम करना, मुद्रा सेटिंग्स को अनुकूलित करना, और बहुत कुछ।",
-      "title": "अपनी Stripe फीस कैसे कम करें",
+      "metaTitle": "How to Reduce Your Stripe Fees",
+      "metaDescription": "Practical tactics to lower your Stripe effective fee rate: negotiate custom pricing, reduce disputes, optimize currency settings, and more.",
+      "title": "How to Reduce Your Stripe Fees",
       "readTime": "7 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-06-25",
       "intro": [
-        "Stripe की मानक दर 2.9% + $0.30 प्रति लेनदेन है, लेकिन आपकी प्रभावी दर - जो आप वास्तव में भुगतान करते हैं - काफी अधिक हो सकती है। यहां बताया गया है कि इसे कैसे नीचे लाया जाए।"
+        "Stripe's standard rate is 2.9% + $0.30 per transaction, but your effective rate — what you actually pay — can be significantly higher. Here's how to bring it down."
       ],
       "sections": [
         {
           "type": "callout",
-          "title": "संक्षिप्त जवाब",
-          "body": "Stripe शुल्क को कम करने का सबसे अच्छा तरीका ड्राइवर के साथ फिक्स का मिलान करना है: बड़े चालान के लिए ACH, छोटे आवर्ती शुल्कों के लिए वार्षिक बिलिंग, अंतर्राष्ट्रीय ग्राहकों के लिए स्थानीय भुगतान के तरीके, और उन पंक्तियों के हावी होने पर विवाद/refund कटौती।"
+          "title": "Short answer",
+          "body": "The best way to reduce Stripe fees is to match the fix to the driver: ACH for large invoices, annual billing for small recurring charges, local payment methods for international customers, and dispute/refund reduction when those rows dominate."
         },
         {
           "type": "section",
-          "heading": "संक्षिप्त जवाब",
+          "heading": "Short answer",
           "paragraphs": [
-            "Stripe शुल्क को कम करने का सबसे अच्छा तरीका ड्राइवर के साथ फिक्स का मिलान करना है: बड़े चालान के लिए ACH, छोटे आवर्ती शुल्कों के लिए वार्षिक बिलिंग, अंतर्राष्ट्रीय ग्राहकों के लिए स्थानीय भुगतान के तरीके, और उन पंक्तियों के हावी होने पर विवाद/refund कटौती।"
+            "The best way to reduce Stripe fees is to match the fix to the driver: ACH for large invoices, annual billing for small recurring charges, local payment methods for international customers, and dispute/refund reduction when those rows dominate."
           ]
         },
         {
           "type": "section",
-          "heading": "1. कस्टम मूल्य निर्धारण पर बातचीत करें",
+          "heading": "1. Negotiate Custom Pricing",
           "paragraphs": [
-            "एक बार जब आप $80,000/month पर प्रसंस्करण कर रहे हों, Stripe कस्टम दरों पर चर्चा करेगा। अपने खाता प्रबंधक से संपर्क करें या Stripe.com/contact/sales पर संपर्क करें। यहां तक ​​कि $100K/month पर 0.2% की कटौती से भी हर महीने $200 की बचत होती है।"
+            "Once you're processing over $80,000/month, Stripe will discuss custom rates. Contact your account manager or reach out at stripe.com/contact/sales. Even a 0.2% reduction on $100K/month saves $200 every month."
           ]
         },
         {
           "type": "section",
-          "heading": "2. औसत लेनदेन मूल्य बढ़ाएँ",
+          "heading": "2. Increase Average Transaction Value",
           "paragraphs": [
-            "$0.30 निश्चित घटक छोटे लेनदेन को सबसे अधिक नुकसान पहुंचाता है। उत्पादों को बंडल करने, मासिक के बजाय वार्षिक योजनाएं पेश करने या न्यूनतम ऑर्डर मूल्य निर्धारित करने पर विचार करें।"
+            "The $0.30 fixed component hurts small transactions most. Consider bundling products, offering annual plans instead of monthly, or setting a minimum order value."
           ]
         },
         {
           "type": "section",
-          "heading": "3. विवादों को कम करें",
+          "heading": "3. Reduce Disputes",
           "paragraphs": [
-            "संदिग्ध लेनदेन को विवाद बनने से पहले रोकने के लिए Stripe रडार नियम सक्षम करें। स्पष्ट बिलिंग विवरणकों का उपयोग करें. प्रत्येक टाला गया विवाद $15 + संभावित धनवापसी लागत बचाता है।"
+            "Enable Stripe Radar rules to block suspicious transactions before they become disputes. Use clear billing descriptors. Each avoided dispute saves $15 + potential refund costs."
           ]
         },
         {
           "type": "section",
-          "heading": "4. मुद्रा सेटिंग्स को अनुकूलित करें",
+          "heading": "4. Optimize Currency Settings",
           "paragraphs": [
-            "यदि आप कई देशों में बेचते हैं, तो मुद्रा रूपांतरण शुल्क (प्रति लेनदेन 1%) से बचने के लिए Stripe के माध्यम से स्थानीय भुगतान विधियों को सक्षम करने पर विचार करें।"
+            "If you sell in multiple countries, consider enabling local payment methods via Stripe to avoid currency conversion fees (1% per transaction)."
           ]
         },
         {
           "type": "section",
-          "heading": "5. उच्च-मूल्य वाले B2B भुगतान के लिए ACH का उपयोग करें",
+          "heading": "5. Use ACH for High-Value B2B Payments",
           "paragraphs": [
-            "Stripe के माध्यम से ACH बैंक हस्तांतरण की लागत 0.8% ($5 पर अधिकतम) है। $1,000, से अधिक के चालान के लिए यह कार्ड प्रोसेसिंग से 70-80% सस्ता है।"
+            "ACH bank transfers via Stripe cost 0.8% (capped at $5). For invoices over $1,000, this is 70–80% cheaper than card processing."
           ]
         },
         {
           "type": "section",
-          "heading": "पहला: अपनी आधार रेखा जानें",
+          "heading": "First: Know Your Baseline",
           "paragraphs": [
-            "अनुकूलन करने से पहले, आपको अपनी वर्तमान प्रभावी दर और कौन से लेनदेन की लागत सबसे अधिक है, यह जानना होगा। बेंचमार्क संदर्भ, रिफंड लीकेज और अपने निर्यात से जुड़े बचत विचारों के विश्लेषण के लिए अपना Stripe बैलेंस CSV को Fee Auditor पर अपलोड करें।"
+            "Before optimizing, you need to know your current effective rate and which transactions are costing the most. Upload your Stripe Balance CSV to Fee Auditor for a breakdown with benchmark context, refund leakage, and savings ideas tied to your export."
           ]
         }
       ],
       "faq": [
         {
-          "question": "Stripe फीस कम करने का सबसे तेज़ तरीका क्या है?",
-          "answer": "सबसे तेज़ पथ आपके शुल्क ड्राइवर पर निर्भर करता है। बड़े B2B इनवॉइस के लिए, ACH सबसे बड़ी जीत हो सकती है। छोटे शुल्कों के लिए, बंडलिंग या वार्षिक बिलिंग आमतौर पर अधिक मदद करती है। अंतर्राष्ट्रीय ग्राहकों के लिए, स्थानीय भुगतान विधियाँ कार्ड अधिभार को कम कर सकती हैं।"
+          "question": "What is the fastest way to reduce Stripe fees?",
+          "answer": "The fastest path depends on your fee driver. For large B2B invoices, ACH can be the biggest win. For small charges, bundling or annual billing usually helps more. For international customers, local payment methods can reduce card surcharges."
         },
         {
-          "question": "क्या मैं Stripe शुल्क पर बातचीत कर सकता हूँ?",
-          "answer": "Stripe सार्थक प्रसंस्करण मात्रा या विशिष्ट भुगतान आवश्यकताओं वाले व्यवसायों के लिए कस्टम मूल्य निर्धारण पर चर्चा कर सकता है। बातचीत करने से पहले, अपने शेष CSV से अपनी वर्तमान प्रभावी दर और शुल्क चालकों को मापें।"
+          "question": "Can I negotiate Stripe fees?",
+          "answer": "Stripe may discuss custom pricing for businesses with meaningful processing volume or specific payment needs. Before negotiating, measure your current effective rate and fee drivers from your Balance CSV."
         },
         {
           "question": "Should I switch away from Stripe to reduce fees?",
-          "answer": "हमेशा नहीं। पहले पहचानें कि क्या आपकी लागत Stripe के आधार मूल्य निर्धारण, अंतर्राष्ट्रीय कार्ड, छोटे शुल्क, रिफंड, विवाद या ऐड-ऑन से आती है। भुगतान मिश्रण को बदलकर कुछ समस्याओं को Stripe के अंदर ठीक किया जा सकता है।"
+          "answer": "Not always. First identify whether your cost comes from Stripe's base pricing, international cards, small charges, refunds, disputes, or add-ons. Some problems can be fixed inside Stripe by changing payment mix."
         }
       ],
       "sources": [
@@ -2338,114 +2207,114 @@
         },
         {
           "href": "https://docs.stripe.com/payments/payment-methods",
-          "title": "Stripe भुगतान विधियाँ"
+          "title": "Stripe payment methods"
         },
         {
           "href": "https://docs.stripe.com/disputes",
-          "title": "Stripe दस्तावेज़ीकरण पर विवाद करता है"
+          "title": "Stripe disputes documentation"
         }
       ],
       "table": {
         "headers": [
-          "रणनीति",
-          "संभावना",
-          "सबसे अच्छा फिट"
+          "Tactic",
+          "Potential",
+          "Best fit"
         ],
         "rows": [
           [
-            "बड़े B2B इनवॉइस के लिए ACH जोड़ें",
-            "उच्च",
-            "यूएस बी2बी चालान और वार्षिक योजनाओं के लिए सर्वोत्तम"
+            "Add ACH for large B2B invoices",
+            "High",
+            "Best for US B2B invoices and annual plans"
           ],
           [
-            "औसत लेन-देन का आकार बढ़ाएँ",
-            "उच्च",
-            "कम टिकट वाली सदस्यताओं या ऐड-ऑन के लिए सर्वोत्तम"
+            "Raise average transaction size",
+            "High",
+            "Best for low-ticket subscriptions or add-ons"
           ],
           [
-            "स्थानीय भुगतान विधियों की पेशकश करें",
-            "मध्यम ऊँचाई",
-            "अंतर्राष्ट्रीय ग्राहक आधारों के लिए सर्वोत्तम"
+            "Offer local payment methods",
+            "Medium-high",
+            "Best for international customer bases"
           ],
           [
-            "विवादों और रिफंड को कम करें",
-            "मध्यम",
-            "सबसे अच्छा तब जब रिफंड/dispute पंक्तियाँ CSV में दिखाई दें"
+            "Reduce disputes and refunds",
+            "Medium",
+            "Best when refund/dispute rows are visible in CSV"
           ],
           [
-            "कस्टम मूल्य निर्धारण पर बातचीत करें",
-            "मध्यम",
-            "सार्थक मासिक प्रसंस्करण मात्रा के बाद सर्वोत्तम"
+            "Negotiate custom pricing",
+            "Medium",
+            "Best after meaningful monthly processing volume"
           ],
           [
-            "बिलिंग/रडार/टैक्स ऐड-ऑन की समीक्षा करें",
-            "विषयानुसार",
-            "सबसे अच्छा तब जब गैर-प्रभार शुल्क पंक्तियाँ बढ़ रही हों"
+            "Review Billing/Radar/Tax add-ons",
+            "Case-by-case",
+            "Best when non-charge fee rows are growing"
           ]
         ]
       }
     },
     "stripe-effective-fee-rate-explained": {
-      "metaTitle": "आपकी Stripe प्रभावी शुल्क दर क्या है?",
-      "metaDescription": "आपकी प्रभावी Stripe शुल्क दर आपके द्वारा Stripe को भुगतान किए जाने वाले राजस्व का वास्तविक प्रतिशत है। जानें कि इसकी गणना कैसे करें और एक अच्छी दर कैसी दिखती है।",
-      "title": "आपकी Stripe प्रभावी शुल्क दर क्या है?",
+      "metaTitle": "What Is Your Stripe Effective Fee Rate?",
+      "metaDescription": "Your effective Stripe fee rate is the true percentage of revenue you pay to Stripe. Learn how to calculate it and what a good rate looks like.",
+      "title": "What Is Your Stripe Effective Fee Rate?",
       "readTime": "4 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-06-25",
       "intro": [
-        "Stripe प्रति लेनदेन 2.9% + $0.30 का विज्ञापन करता है। लेकिन आप वास्तव में जो भुगतान करते हैं - आपकी प्रभावी शुल्क दर - लगभग हमेशा भिन्न होती है, और आमतौर पर अधिक होती है।"
+        "Stripe advertises 2.9% + $0.30 per transaction. But what you actually pay — your effective fee rate — is almost always different, and usually higher."
       ],
       "sections": [
         {
           "type": "section",
-          "heading": "परिभाषा: Stripe प्रभावी शुल्क दर",
+          "heading": "Definition: Stripe effective fee rate",
           "paragraphs": [
-            "Stripe प्रभावी शुल्क दर आपके द्वारा Stripe शुल्क में भुगतान की गई कुल राशि को उसी अवधि के लिए आपके कुल संसाधित शुल्क की मात्रा से विभाजित करने पर प्राप्त होती है। यह \"वास्तव में Stripe ने कितना प्रतिशत लिया?\" का व्यावहारिक उत्तर है।"
+            "Stripe effective fee rate is the total amount you paid in Stripe fees divided by your total processed charge volume for the same period. It is the practical answer to “what percentage did Stripe actually take?”"
           ]
         },
         {
           "type": "section",
-          "heading": "इसकी गणना कैसे करें",
+          "heading": "How to Calculate It",
           "paragraphs": [
-            "प्रभावी शुल्क दर = भुगतान की गई कुल फीस ÷ कुल शुल्क मात्रा × 100",
-            "कुल मात्रा: $38,500",
-            "प्रभावी दर: $1,240 / $38,500 = 3.22%"
+            "Effective fee rate = total fees paid ÷ total charge volume × 100",
+            "Total volume: $38,500",
+            "Effective rate: $1,240 / $38,500 = 3.22%"
           ]
         },
         {
           "type": "section",
-          "heading": "एक अच्छी प्रभावी दर क्या है?",
+          "heading": "What's a Good Effective Rate?",
           "paragraphs": [
-            "$50+ के औसत ऑर्डर मूल्य वाले केवल यूएस घरेलू लेनदेन के लिए, 3.0–3.3% की दर सामान्य है। 3.5% से अधिक का आम तौर पर मतलब है कि जांच करने के लिए कुछ है - अंतर्राष्ट्रीय कार्ड, विवाद, या छोटे लेनदेन आकार।"
+            "For US-only domestic transactions with an average order value of $50+, a rate of 3.0–3.3% is typical. Higher than 3.5% usually means there's something to investigate — international cards, disputes, or small transaction sizes."
           ]
         },
         {
           "type": "section",
-          "heading": "यह 2.9% से अधिक क्यों है",
+          "heading": "Why It's Higher Than 2.9%",
           "paragraphs": [
-            "कई कारक दर को विज्ञापित 2.9% से ऊपर धकेलते हैं:"
+            "Several factors push the rate above the advertised 2.9%:"
           ]
         },
         {
           "type": "section",
-          "heading": "इसे मासिक रूप से ट्रैक करें",
+          "heading": "Track It Monthly",
           "paragraphs": [
-            "आपके ग्राहक मिश्रण के आधार पर प्रभावी दर महीने-दर-महीने बदल सकती है। इसे ट्रैक करने से आपको समस्याओं को जल्दी पकड़ने में मदद मिलती है - जैसे अंतरराष्ट्रीय ट्रैफ़िक का अचानक आना, या लेनदेन का विवादित बैच।"
+            "The effective rate can shift month to month based on your customer mix. Tracking it helps you catch problems early — like a sudden influx of international traffic, or a disputed batch of transactions."
           ]
         }
       ],
       "faq": [
         {
-          "question": "Stripe प्रभावी शुल्क दर क्या है?",
-          "answer": "Stripe प्रभावी शुल्क दर कुल Stripe शुल्क को उसी अवधि के लिए कुल संसाधित शुल्क मात्रा से विभाजित करने पर प्राप्त होती है। यह निश्चित शुल्क, अंतर्राष्ट्रीय कार्ड, रिफंड, विवाद और ऐड-ऑन के बाद Stripe को भुगतान किए गए राजस्व का वास्तविक प्रतिशत दिखाता है।"
+          "question": "What is Stripe effective fee rate?",
+          "answer": "Stripe effective fee rate is total Stripe fees divided by total processed charge volume for the same period. It shows the real percentage of revenue paid to Stripe after fixed fees, international cards, refunds, disputes, and add-ons."
         },
         {
-          "question": "क्या प्रभावी शुल्क दर Stripe की 2.9% दर के समान है?",
-          "answer": "संख्या Stripe का 2.9% + $0.30 सामान्य कार्ड परिदृश्य के लिए एक प्रकाशित दर है। आपकी प्रभावी दर आपके वास्तविक लेनदेन मिश्रण का उपयोग करती है, इसलिए जब आपके पास छोटे शुल्क, अंतर्राष्ट्रीय ग्राहक, या रिफंड/dispute गतिविधि हो तो यह अधिक हो सकती है।"
+          "question": "Is effective fee rate the same as Stripe's 2.9% rate?",
+          "answer": "No. Stripe's 2.9% + $0.30 is a published rate for a common card scenario. Your effective rate uses your actual transaction mix, so it can be higher when you have small charges, international customers, or refund/dispute activity."
         },
         {
-          "question": "एक अच्छी Stripe प्रभावी शुल्क दर क्या है?",
-          "answer": "स्वस्थ औसत लेनदेन आकार वाले घरेलू यूएस कार्ड भुगतान के लिए, लगभग 3.0% से 3.3% सामान्य हो सकता है। 3.5% से ऊपर की दर आमतौर पर जांच के योग्य होती है, खासकर अंतरराष्ट्रीय कार्ड या कम-टिकट योजनाओं वाले SaaS के लिए।"
+          "question": "What is a good Stripe effective fee rate?",
+          "answer": "For domestic US card payments with healthy average transaction size, roughly 3.0% to 3.3% can be normal. A rate above 3.5% usually deserves investigation, especially for SaaS with international cards or low-ticket plans."
         }
       ],
       "sources": [
@@ -2455,19 +2324,19 @@
         },
         {
           "href": "https://docs.stripe.com/reports",
-          "title": "Stripe दस्तावेज़ीकरण की रिपोर्ट करता है"
+          "title": "Stripe reports documentation"
         },
         {
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
-          "title": "Stripe शेष लेनदेन प्रकार"
+          "title": "Stripe balance transaction types"
         }
       ]
     },
     "why-stripe-effective-rate-higher-than-2-9-percent": {
-      "metaTitle": null,
-      "metaDescription": null,
-      "title": null,
-      "readTime": "5 min",
+      "metaTitle": "Why Is My Stripe Effective Rate Higher Than 2.9%?",
+      "metaDescription": "Stripe advertises 2.9% + $0.30. But most businesses pay more. Here are the 4 real reasons your blended Stripe fee rate is higher than advertised.",
+      "title": "Why Is My Stripe Effective Rate Higher Than 2.9%?",
+      "readTime": "8 min",
       "publishedAt": null,
       "updatedAt": null,
       "faq": [],

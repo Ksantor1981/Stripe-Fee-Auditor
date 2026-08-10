@@ -17,6 +17,7 @@
     "validate:seo": "node scripts/seo-validate.mjs",
     "i18n:pages:extract": "node scripts/extract-pages-en.mjs",
     "i18n:pages:translate": "python scripts/translate-pages-locales.py",
+    "i18n:pages:sync": "node scripts/restructure-locale-pages.mjs",
     "check:prod": "node scripts/check-production.mjs",
     "check:health": "node scripts/check-health.mjs",
     "check:post-beta": "node scripts/check-post-beta-smoke.mjs",

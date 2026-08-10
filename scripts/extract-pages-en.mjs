@@ -11,11 +11,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 const OUT = path.join(ROOT, "messages", "pages", "en.json");
 
-function slugToCamelKey(slug) {
-  const parts = slug.split("-");
-  return parts[0] + parts.slice(1).map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join("");
-}
-
 function readFile(rel) {
   return fs.readFileSync(path.join(ROOT, rel), "utf8");
 }
@@ -237,38 +232,6 @@ function parseBlogPage(slug) {
     if (result[k] === undefined) delete result[k];
   }
   return result;
-}
-
-function parsePrivacyArticles(blog) {
-  const source = readFile("app/blog/_data/privacyPosts.ts");
-  const start = source.indexOf("export const PRIVACY_ARTICLES");
-  const end = source.indexOf("export const PRIVACY_ARTICLE_INDEX");
-  const slice = source.slice(start, end);
-  const arrStart = slice.indexOf("[");
-  const arrEnd = slice.lastIndexOf("]");
-  const articles = vm.runInNewContext(`(${slice.slice(arrStart, arrEnd + 1)})`, {}, { timeout: 10000 });
-  for (const a of articles || []) {
-    blog[slugToCamelKey(a.slug)] = {
-      metaTitle: a.title,
-      metaDescription: a.description,
-      title: a.title,
-      shortTitle: a.shortTitle,
-      readTime: a.time,
-      publishedAt: a.datePublished,
-      updatedAt: a.dateModified,
-      intro: a.intro,
-      sections: a.sections.map((s) => ({
-        type: "section",
-        heading: s.heading,
-        ...(s.paragraphs ? { paragraphs: s.paragraphs } : {}),
-        ...(s.bullets ? { bullets: s.bullets } : {}),
-        ...(s.table ? { table: s.table } : {}),
-      })),
-      faq: normalizeBlogFaq(a.faqs),
-      related: a.related,
-      sources: a.sources,
-    };
-  }
 }
 
 function extractFaqFromStructuredData(source) {
@@ -700,20 +663,56 @@ function buildBlog() {
   for (const slug of BLOG_SLUGS) {
     process.stdout.write(`  blog: ${slug}\n`);
     const parsed = parseBlogPage(slug);
-    if (parsed) blog[slugToCamelKey(slug)] = parsed;
+    if (parsed) blog[slug] = parsed;
     else console.warn("Missing blog:", slug);
   }
   console.log("buildBlog done", Object.keys(blog).length);
   return blog;
 }
 
+function buildPrivacy() {
+  const privacy = {};
+  const source = readFile("app/blog/_data/privacyPosts.ts");
+  const start = source.indexOf("export const PRIVACY_ARTICLES");
+  const end = source.indexOf("export const PRIVACY_ARTICLE_INDEX");
+  const slice = source.slice(start, end);
+  const arrStart = slice.indexOf("[");
+  const arrEnd = slice.lastIndexOf("]");
+  const articles = vm.runInNewContext(`(${slice.slice(arrStart, arrEnd + 1)})`, {}, { timeout: 10000 });
+  for (const a of articles || []) {
+    privacy[a.slug] = {
+      metaTitle: a.title,
+      metaDescription: a.description,
+      title: a.title,
+      shortTitle: a.shortTitle,
+      readTime: a.time,
+      publishedAt: a.datePublished,
+      updatedAt: a.dateModified,
+      intro: a.intro,
+      sections: a.sections.map((s) => ({
+        type: "section",
+        heading: s.heading,
+        ...(s.paragraphs ? { paragraphs: s.paragraphs } : {}),
+        ...(s.bullets ? { bullets: s.bullets } : {}),
+        ...(s.table ? { table: s.table } : {}),
+      })),
+      faq: normalizeBlogFaq(a.faqs),
+      sources: a.sources ?? [],
+      related: (a.related ?? []).map((r) => ({ href: r.href, title: r.title })),
+    };
+  }
+  console.log("buildPrivacy done", Object.keys(privacy).length);
+  return privacy;
+}
+
 console.log("extract start");
 const blog = buildBlog();
-parsePrivacyArticles(blog);
+const privacy = buildPrivacy();
 
 const output = {
   seo: buildSeoPages(),
   blog,
+  privacy,
 };
 console.log("extract assembled");
 
@@ -727,4 +726,5 @@ const byteSize = Buffer.byteLength(JSON.stringify(output, null, 2) + "\n", "utf8
 console.log("Wrote:", OUT);
 console.log("Byte size:", byteSize);
 console.log("SEO keys (" + seoKeys.length + "):", seoKeys.join(", "));
-console.log("Blog keys (" + blogKeys.length + "):", blogKeys.join(", "));
+console.log("Blog keys (" + blogKeys.length + "):", blogKeys.slice(0, 5).join(", "), "...");
+console.log("Privacy keys (" + Object.keys(output.privacy).length + "):", Object.keys(output.privacy).join(", "));

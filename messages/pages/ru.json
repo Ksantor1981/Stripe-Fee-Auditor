@@ -155,40 +155,24 @@
       ],
       "faq": [
         {
-          "q": "Сколько Stripe взимает за транзакцию?",
-          "a": "Для многих онлайн-платежей по картам в США опубликованная ставка Stripe составляет 2,9 % + $0.30 за успешное списание. При оплате внутренней картой $100 это около $3.20 (эффективность 3,2%). Международные карты, конвертация валюты, возврат средств и небольшие билеты могут повысить смешанный курс — воспользуйтесь калькулятором выше для своего сочетания, а затем загрузите баланс CSV, чтобы увидеть свой реальный курс."
+          "q": "How much does Stripe charge per transaction?",
+          "a": "For many US online card payments, Stripe's published rate is 2.9% + $0.30 per successful charge. On a $100 domestic card payment that is about $3.20 (3.2% effective). International cards, currency conversion, refunds, and small tickets can push the blended rate higher — use the calculator above for your mix, then upload a Balance CSV to see your real rate."
         },
         {
-          "q": "Использует ли этот калькулятор мои фактические ставки Stripe?",
-          "a": "Нет. На этой странице используются опубликованные Stripe прейскурантные цены по регионам. Пользовательские учетные записи или учетные записи Interchange Plus могут отличаться — проверьте Панель управления → Настройки → Планы и сборы. Загрузите баланс CSV, чтобы увидеть реальную эффективную ставку."
+          "q": "Is this a Stripe fee estimator or a real calculator?",
+          "a": "The on-page Stripe fees calculator estimates fees from public pricing. Stripe Fee Auditor calculates your real effective Stripe fee rate from your Balance Transactions CSV, so you can compare the estimate with actual numbers."
         },
         {
-          "q": "Возвращает ли Stripe комиссию при возврате платежа?",
-          "a": "Нет. Согласно часто задаваемым вопросам о ценах Stripe, при возврате средств Stripe не возвращает комиссию за обработку, комиссию за подключение или комиссию за конвертацию валюты из исходной транзакции."
+          "q": "How do I estimate monthly Stripe fees?",
+          "a": "Enter your monthly card volume and average charge amount to estimate monthly fees. Use the reverse calculator when you know the net amount you want to receive and need the gross amount to charge."
         },
         {
-          "q": "Сколько стоят споры Stripe?",
-          "a": "Stripe взимает комиссию $15 при получении спора (возвращается в случае выигрыша). Функция Smart Disputes, если она включена, добавляет 30 % к сумме спора в случае выигрыша — помимо комиссии за обработку карты."
+          "q": "What file do I need to calculate my Stripe effective fee rate?",
+          "a": "You need the Stripe Balance Transactions CSV export. It includes the transaction amount, fee, net amount, currency, type, and timestamp needed for an accurate fee analysis."
         },
         {
-          "q": "Добавляет ли Stripe Billing комиссию за обработку карты?",
-          "a": "Да. Stripe Оплата составляет 0,7% от суммы счета сверх стандартной комиссии за обработку карты. См. Stripe.com/billing/pricing."
-        },
-        {
-          "q": "Это оценщик комиссий Stripe или настоящий калькулятор?",
-          "a": "Калькулятор комиссий Stripe на странице рассчитывает комиссионные на основе общедоступных цен. Stripe Fee Auditor рассчитывает реальную эффективную ставку комиссии Stripe на основе ваших балансовых транзакций CSV, чтобы вы могли сравнить оценку с фактическими цифрами."
-        },
-        {
-          "q": "Как оценить ежемесячную плату Stripe?",
-          "a": "Введите ежемесячный объем карты и среднюю сумму расходов, чтобы оценить ежемесячную плату. Используйте обратный калькулятор, если вы знаете чистую сумму, которую хотите получить, и вам нужна валовая сумма для взимания платы."
-        },
-        {
-          "q": "Какой файл мне нужен для расчета эффективной ставки комиссии Stripe?",
-          "a": "Вам необходим экспорт Stripe Balance Transactions CSV. Он включает сумму транзакции, комиссию, чистую сумму, валюту, тип и временную метку, необходимые для точного анализа комиссий."
-        },
-        {
-          "q": "Почему моя эффективная ставка Stripe может быть выше опубликованной?",
-          "a": "Международные карты, конвертация валюты, возврат средств (комиссия не возвращается), выставление счетов Stripe (0,7%), радар, споры ($15 + Smart Disputes 30% при выигрыше) и микротранзакции — все это может привести к тому, что ваша смешанная эффективная ставка превысит стандартную опубликованную ставку Stripe."
+          "q": "Why can my effective Stripe rate be higher than the published rate?",
+          "a": "International cards, currency conversion, refunds, Radar charges, disputes, and micro-transactions can all push your blended effective rate above Stripe's standard published rate."
         }
       ],
       "cta": {
@@ -333,23 +317,17 @@
             {
               "number": "03",
               "title": "Refunds",
-              "description": "Per Stripe's pricing FAQ, when you issue a refund Stripe does not return the processing fees, Connect fees, or currency conversion fees from the original transaction. A 5% refund rate adds meaningful cost across large volumes.",
+              "description": "Stripe keeps the processing fee when you issue a refund. The original transaction fee is not returned. A 5% refund rate adds meaningful cost across large volumes.",
               "example": "5% refund rate on $100k revenue = $145 in non-refundable fees"
             },
             {
               "number": "04",
-              "title": "Disputes",
-              "description": "Each dispute carries a $15 received fee (refunded if you win). Smart Disputes adds 30% of the disputed amount when you win — on top of card processing.",
-              "example": "$100 disputed charge won with Smart Disputes: $15 fee refunded + $30 Smart Disputes fee"
-            },
-            {
-              "number": "05",
               "title": "Stripe Radar",
               "description": "If you use Radar for fraud protection beyond the basic included tier, there's an additional $0.02–$0.07 per transaction. This shows up as a separate line in your Balance report.",
               "example": "1,000 transactions × $0.05 Radar fee = $50/month extra"
             },
             {
-              "number": "06",
+              "number": "05",
               "title": "Micro-Transactions",
               "description": "On small charges, the fixed $0.30 component dominates. A $2.00 charge has an effective rate of 17.9% — this drags up your average significantly if you have many small payments.",
               "example": "$2.00 charge: 2.9% ($0.06) + $0.30 = $0.36 total = 17.9% effective rate"
@@ -364,19 +342,11 @@
         },
         {
           "q": "Does Stripe return processing fees when I refund a payment?",
-          "a": "No. Per Stripe's pricing FAQ, when you issue a refund Stripe does not return the processing fees, Connect fees, or currency conversion fees from the original transaction. This can increase your effective fee rate if your business has a meaningful refund rate."
-        },
-        {
-          "q": "What do Stripe disputes and Smart Disputes cost?",
-          "a": "Stripe charges a $15 fee when a dispute is received (refunded if you win). Smart Disputes, when enabled, adds 30% of the disputed amount when you win."
+          "a": "No. When you issue a refund, Stripe generally does not return the original processing fee. This can increase your effective fee rate if your business has a meaningful refund rate."
         },
         {
           "q": "How can I calculate my real Stripe effective fee rate?",
-          "a": "Export your Stripe Balance Transactions CSV and divide total Stripe fees by total processed charge volume for the same period. Fee Auditor (feeauditor.com) does this from your real CSV and shows the transactions driving the rate up."
-        },
-        {
-          "q": "Is Fee Auditor part of Stripe?",
-          "a": "No. Fee Auditor is an independent tool at feeauditor.com. It is not affiliated with, endorsed by, or part of Stripe, Inc. We do not provide Stripe customer support and do not connect to your Stripe account via OAuth."
+          "a": "Export your Stripe Balance Transactions CSV and divide total Stripe fees by total processed charge volume for the same period. Stripe Fee Auditor does this from your real CSV and shows the transactions driving the rate up."
         }
       ],
       "cta": {
@@ -442,20 +412,16 @@
       ],
       "faq": [
         {
-          "q": "Сколько Stripe взимает за транзакцию?",
-          "a": "For many US online card payments, Stripe charges 2.9% + $0.30 per successful domestic card transaction. On $100 that is about $3.20. International cards often add about 1.5 percentage points, and currency conversion can add roughly another 1%. Rates vary by country — check Dashboard → Settings → Plans and fees for your account."
+          "q": "How much does Stripe charge per transaction?",
+          "a": "For many US online card payments, Stripe charges 2.9% + $0.30 per successful domestic card transaction. On $100 that is about $3.20. International cards often add about 1.5 percentage points, and currency conversion can add roughly another 1%. Your blended rate across a month is usually higher than any single published line — check it from your Balance CSV."
         },
         {
           "q": "What percentage does Stripe take from a payment?",
           "a": "For many US online card payments, Stripe's published rate starts at 2.9% plus $0.30 per successful charge. The effective percentage on a single charge depends on the charge amount because the fixed $0.30 fee is larger on small payments."
         },
         {
-          "q": "Возвращает ли Stripe комиссию при возврате платежа?",
-          "a": "Нет. Согласно часто задаваемым вопросам о ценах Stripe, при возврате средств Stripe не возвращает комиссию за обработку, комиссию за подключение или комиссию за конвертацию валюты из исходной транзакции."
-        },
-        {
           "q": "Why is my real Stripe rate higher than 2.9%?",
-          "a": "International cards, currency conversion, Stripe Billing (0.7% on billing volume), refunds (fees not returned), disputes ($15 + Smart Disputes 30% on win), Radar, and small transaction sizes can all push your real blended Stripe rate above the headline percentage."
+          "a": "International cards, currency conversion, Stripe Billing fees, refunds, disputes, Radar, and small transaction sizes can all push your real blended Stripe rate above the headline percentage."
         },
         {
           "q": "How do I check the actual percentage Stripe took?",
@@ -1079,7 +1045,6 @@
           "notYet": [
             "No live Stripe OAuth connection in the first version",
             "No automatic sync until users ask for it",
-            "No automatic cross-month comparison or drift alert yet",
             "No accounting, tax, or bookkeeping advice"
           ]
         },
@@ -2005,12 +1970,12 @@
       ]
     },
     "how-to-export-stripe-balance-csv": {
-      "metaTitle": "Export Stripe Balance CSV for Fee Analysis",
-      "metaDescription": "Detailed walkthrough with screenshots: Itemized Balance CSV (not Summary), date range, common export mistakes, then a free fee-rate diagnosis. Need the short version? Use the quick Balance CSV guide.",
-      "title": "Export Stripe Balance CSV for Fee Analysis",
+      "metaTitle": "How to Export Stripe Balance CSV: Step-by-Step Guide",
+      "metaDescription": "Step-by-step: export the Itemized Stripe Balance CSV, avoid Summary and payout mistakes, get the right columns, and check your real fee rate.",
+      "title": "How to Export Stripe Balance CSV: Step-by-Step Guide",
       "readTime": "4 min",
       "publishedAt": "2026-05-16",
-      "updatedAt": "2026-08-04",
+      "updatedAt": "2026-07-19",
       "faq": [
         {
           "question": "Which Stripe CSV export should I use for fee analysis?",
@@ -2082,111 +2047,19 @@
     },
     "why-stripe-fees-increase": {
       "metaTitle": "Why Did My Stripe Fees Increase This Month?",
-      "metaDescription": "Fees up or payout lower than last month? See the usual drivers — international cards, refund fees not returned, FX, Radar/add-ons — then check which line moved in your Balance CSV. Free diagnosis on Fee Auditor.",
+      "metaDescription": "Stripe payout lower than expected or fees up vs last month? Diagnose international cards, refund fees not returned, FX, and mix changes from your Balance CSV.",
       "title": "Why Did My Stripe Fees Increase This Month?",
       "readTime": "5 min",
       "publishedAt": "2026-05-16",
-      "updatedAt": "2026-08-05",
-      "intro": [
-        "If your Stripe effective fee rate has climbed over the past few months — or your payout looks lighter than volume suggests — you're not alone. Many teams notice a gradual increase without a clear Dashboard explanation. Here are the most common causes and how to confirm which one moved."
-      ],
-      "sections": [
-        {
-          "type": "callout",
-          "title": "Short answer",
-          "body": "Your Stripe fees usually increase because your transaction mix changed, not because one obvious setting changed. International cards, smaller charges, refunds, disputes, currency conversion, and add-on products can all raise the effective rate."
-        },
-        {
-          "type": "section",
-          "heading": "Short answer",
-          "paragraphs": [
-            "Your Stripe fees usually increase because your transaction mix changed, not because one obvious setting changed. International cards, smaller charges, refunds, disputes, currency conversion, and add-on products can all raise the effective rate."
-          ]
-        },
-        {
-          "type": "section",
-          "heading": "1. More International Cards",
-          "paragraphs": [
-            "Stripe charges an additional 1.5% for international cards (cards issued outside your country). If the charge currency differs from your settlement currency, conversion fees (often around 1%) stack on top — a common worst-case mix can approach ~5.7% of the charge before fixed fees on a $100 example (see our international fees guide and the cross-border fee migration briefing ). If your customer mix has shifted toward international buyers, your effective rate rises."
-          ]
-        },
-        {
-          "type": "section",
-          "heading": "2. More American Express Transactions",
-          "paragraphs": [
-            "Amex cards have higher interchange fees. Standard Stripe rate for Amex is 2.9% + $0.30, same as Visa/Mastercard — but the underlying interchange is higher, which can affect your costs if you're on a custom pricing plan."
-          ]
-        },
-        {
-          "type": "section",
-          "heading": "3. Smaller Average Transaction Size",
-          "paragraphs": [
-            "The fixed $0.30 per transaction matters more for small payments. A $5 charge has an effective rate of 8.9% (2.9% + $0.30 = $0.445 on $5.00), while a $100 charge is just 3.2%. If your average order value dropped, your effective rate went up. Details: small-transaction fee drag ."
-          ]
-        },
-        {
-          "type": "section",
-          "heading": "4. Increased Dispute Rate",
-          "paragraphs": [
-            "Each dispute costs $15. Even a small increase in dispute frequency can meaningfully raise total fees, especially if your average transaction size is moderate."
-          ]
-        },
-        {
-          "type": "section",
-          "heading": "5. Currency Conversion",
-          "paragraphs": [
-            "Stripe adds roughly a 1% conversion fee when charging in a currency other than your settlement currency. If you recently started selling globally, this is likely contributing — especially alongside international cards."
-          ]
-        },
-        {
-          "type": "section",
-          "heading": "6. Refunds (fees usually not returned)",
-          "paragraphs": [
-            "When you issue a refund, Stripe generally keeps the original processing fee. A quiet rise in refund rate can lift your all-in cost even when card pricing is unchanged. This is one of the most common \"payout feels light\" explanations alongside international mix."
-          ]
-        },
-        {
-          "type": "section",
-          "heading": "7. Stripe Billing, Radar, Tax",
-          "paragraphs": [
-            "If you use Stripe's Billing product for subscriptions and invoicing, pay-as-you-go pricing commonly adds about 0.7% of billing volume on top of card or ACH processing. Fixed annual Billing plans start around $620/month instead of that percentage. Radar and Tax add separate fee lines — including when a Radar trial later rolls into a paid tier. Sum non-charge fee rows in the Balance CSV to see whether add-ons, not cards, moved the needle.",
-            "See which driver moved — sample first, or your CSV"
-          ]
-        },
-        {
-          "type": "section",
-          "heading": "How to diagnose your fees",
-          "paragraphs": [
-            "The fastest way to find the cause is to analyze your Stripe Balance CSV. Export it from Stripe → Reports → Balance (Itemized), then upload it to Fee Auditor for a breakdown of your effective rate and top cost drivers.",
-            "If you do not have the file yet, use the quick Balance CSV export guide (or the detailed screenshot walkthrough ), then come back and run the audit. Prefer a demo first? Open the sample report .",
-            "Related pain guides: Why fees run higher than 2.9% International card fees Effective rate jumped this month Published-rate calculator"
-          ]
-        }
-      ],
+      "updatedAt": "2026-07-19",
       "faq": [
         {
           "question": "Why did my Stripe fees increase?",
-          "answer": "Stripe fees usually increase because your payment mix changed: more international cards, lower average charge size, currency conversion, disputes, refunds, or extra Stripe products such as Billing, Radar, or Tax — not because the homepage 2.9% rate quietly changed overnight."
-        },
-        {
-          "question": "Why are my Stripe fees so high compared with 2.9%?",
-          "answer": "The published 2.9% + $0.30 is a domestic card starting point. Your effective rate is total fees ÷ charge volume. International cards, FX, fixed fees on small tickets, refund fee retention, disputes, and add-ons can push the blended number well above 2.9%."
-        },
-        {
-          "question": "Why is my Stripe payout lower than expected?",
-          "answer": "Payouts settle net of fees, refunds, disputes, and other Balance lines. If volume looks fine but cash is light, check whether fees rose, refunds increased, or non-charge fee rows (Radar, Billing, Tax) grew. Compare month-over-month in an itemized Balance CSV."
-        },
-        {
-          "question": "Do Stripe refund fees get returned?",
-          "answer": "Usually no. When you refund a charge, Stripe generally keeps the original processing fee. A higher refund rate can raise your all-in cost even if card pricing did not change. Look for refund rows and retained fee impact in your Balance export."
-        },
-        {
-          "question": "Can Radar or Billing raise my effective rate this month?",
-          "answer": "Yes. Paid Radar screening, Billing percentage fees, Tax, and similar products show up as separate fee lines. A new Radar trial that rolls into paid Standard, or higher Billing volume, can move the all-in rate without changing your base card rate."
+          "answer": "Stripe fees usually increase because your payment mix changed: more international cards, lower average charge size, currency conversion, disputes, refunds, or extra Stripe products such as Billing, Radar, or Tax."
         },
         {
           "question": "How can I tell what caused the increase?",
-          "answer": "Export your itemized Stripe Balance CSV and compare this month to prior months. Check international card share, average transaction size, refund rows, dispute rows, and non-charge Stripe fee rows — or run a free diagnosis that surfaces one concrete driver."
+          "answer": "Export your itemized Stripe Balance CSV and compare this month to prior months. Check international card share, average transaction size, refund rows, dispute rows, and non-charge Stripe fee rows."
         },
         {
           "question": "Can Stripe fees increase even if my pricing did not change?",
@@ -2205,10 +2078,6 @@
         {
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
           "title": "Stripe balance transaction types"
-        },
-        {
-          "href": "https://support.stripe.com/questions/updates-to-radar-pricing-(january-2027)",
-          "title": "Stripe Radar pricing updates"
         }
       ],
       "table": {
@@ -2464,10 +2333,10 @@
       ]
     },
     "why-stripe-effective-rate-higher-than-2-9-percent": {
-      "metaTitle": null,
-      "metaDescription": null,
-      "title": null,
-      "readTime": "5 min",
+      "metaTitle": "Why Is My Stripe Effective Rate Higher Than 2.9%?",
+      "metaDescription": "Stripe advertises 2.9% + $0.30. But most businesses pay more. Here are the 4 real reasons your blended Stripe fee rate is higher than advertised.",
+      "title": "Why Is My Stripe Effective Rate Higher Than 2.9%?",
+      "readTime": "8 min",
       "publishedAt": null,
       "updatedAt": null,
       "faq": [],

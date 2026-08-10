@@ -1630,7 +1630,7 @@
     }
   },
   "blog": {
-    "howIFound1400InHiddenStripeFees": {
+    "how-i-found-1400-in-hidden-stripe-fees": {
       "metaTitle": "How I Found ~$1,400/Year in Hidden Stripe Fee Opportunities",
       "metaDescription": "A real Stripe Balance CSV case study: $3,597.77 in fees over four months, a 3.82% processing rate, a 4.02% all-in Stripe cost, and the fee drivers worth checking.",
       "title": "How I Found ~$1,400/Year in Hidden Stripe Fee Opportunities",
@@ -1666,7 +1666,7 @@
         }
       ]
     },
-    "crossBorderStripeFeesMigration2026": {
+    "cross-border-stripe-fees-migration-2026": {
       "metaTitle": "Cross-Border Stripe Fees: Why Your Rate Rises",
       "metaDescription": "How international customers, migration trends, and currency mix can push Stripe fees above 2.9% in 2026, plus how to spot the change in your Balance CSV.",
       "title": "Cross-Border Stripe Fees: Why Your Rate Rises",
@@ -1676,7 +1676,7 @@
       "faq": [],
       "sources": []
     },
-    "stripeFeeAuditChecklistForSaasFounders": {
+    "stripe-fee-audit-checklist-for-saas-founders": {
       "metaTitle": "Stripe Fee Audit Checklist for SaaS Founders",
       "metaDescription": "A practical monthly Stripe fee audit checklist for SaaS founders: effective rate, Balance CSV, international cards, refunds, small charges, ACH, and month-over-month monitoring.",
       "title": "Stripe Fee Audit Checklist for SaaS Founders",
@@ -1712,7 +1712,7 @@
         }
       ]
     },
-    "stripeFeeLeakageReportMay2026": {
+    "stripe-fee-leakage-report-may-2026": {
       "metaTitle": "Stripe Fee Leakage Report: Who Is Safe?",
       "metaDescription": "A May 2026 diagnostic model for Stripe fee leakage: compare safe SaaS payment profiles with the low-ticket, global, refund-heavy profiles that should audit fees now.",
       "title": "Stripe Fee Leakage Report: Who Is Safe?",
@@ -1748,7 +1748,7 @@
         }
       ]
     },
-    "stripeAlternatives2026": {
+    "stripe-alternatives-2026": {
       "metaTitle": "Stripe Alternatives in 2026: Check Fees Before Switching",
       "metaDescription": "Looking for Stripe alternatives in 2026? Before switching processors, audit your real Stripe effective rate and identify whether fees, payment mix, or checkout strategy is the real problem.",
       "title": "Stripe Alternatives in 2026: Check Fees Before Switching",
@@ -1779,7 +1779,7 @@
         }
       ]
     },
-    "stripeCreditCardProcessingFees": {
+    "stripe-credit-card-processing-fees": {
       "metaTitle": "Stripe Processing Fees: Card Rates vs Real Cost",
       "metaDescription": "Stripe processing fees start at the published card rate (often 2.9% + $0.30), but your real cost depends on fixed fees, international cards, refunds, disputes, and add-ons.",
       "title": "Stripe Processing Fees: Card Rates vs Real Cost",
@@ -1802,7 +1802,7 @@
         }
       ]
     },
-    "stripeVsPaypalFees": {
+    "stripe-vs-paypal-fees": {
       "metaTitle": "Stripe vs PayPal Fees: Real Comparison",
       "metaDescription": "Stripe vs PayPal fees are close on paper, but your real cost depends on checkout mix, average charge size, international customers, refunds, disputes, and payment methods.",
       "title": "Stripe vs PayPal Fees: Real Comparison",
@@ -1825,7 +1825,7 @@
         }
       ]
     },
-    "stripeInternationalCardFees": {
+    "stripe-international-card-fees": {
       "metaTitle": "Stripe International Card Fees: Why Your Rate Is Higher",
       "metaDescription": "Stripe international card fees add about 1.5% on cross-border cards — a common reason your effective rate and payout feel worse than 2.9%. How to find it in your Balance CSV.",
       "title": "Stripe International Card Fees: Why Your Rate Is Higher",
@@ -1861,7 +1861,7 @@
         }
       ]
     },
-    "stripeAchVsCreditCardFees": {
+    "stripe-ach-vs-credit-card-fees": {
       "metaTitle": "Stripe ACH vs Credit Card Fees: When ACH Saves Money",
       "metaDescription": "Compare Stripe ACH and credit card fees. See when ACH saves money, where the $5 cap matters, and how B2B SaaS can lower payment costs.",
       "title": "Stripe ACH vs Credit Card Fees: When ACH Saves Money",
@@ -1897,7 +1897,7 @@
         }
       ]
     },
-    "stripeFeesSmallTransactions": {
+    "stripe-fees-small-transactions": {
       "metaTitle": "Stripe Fees for Small Transactions: Why Your Rate Is Higher",
       "metaDescription": "The fixed $0.30 Stripe fee hits small transactions hard: a $5 charge can cost about 9%. See the math, margin impact, and ways to reduce micro-payment drag.",
       "title": "Stripe Fees for Small Transactions: Why Your Rate Is Higher",
@@ -1933,7 +1933,7 @@
         }
       ]
     },
-    "stripeBlendedRateCalculator": {
+    "stripe-blended-rate-calculator": {
       "metaTitle": "Stripe Blended Rate Calculator: Find Your True Fee Rate",
       "metaDescription": "What is your real Stripe blended rate? Learn the formula, use our calculator, and find out what's pushing your effective rate above 2.9%.",
       "title": "Stripe Blended Rate Calculator: Find Your True Fee Rate",
@@ -1969,7 +1969,7 @@
         }
       ]
     },
-    "howToExportStripeBalanceCsv": {
+    "how-to-export-stripe-balance-csv": {
       "metaTitle": "How to Export Stripe Balance CSV: Step-by-Step Guide",
       "metaDescription": "Step-by-step: export the Itemized Stripe Balance CSV, avoid Summary and payout mistakes, get the right columns, and check your real fee rate.",
       "title": "How to Export Stripe Balance CSV: Step-by-Step Guide",
@@ -2009,7 +2009,7 @@
         }
       ]
     },
-    "whyStripeEffectiveRateJumpedThisMonth": {
+    "why-stripe-effective-rate-jumped-this-month": {
       "metaTitle": "Why Did My Stripe Effective Rate Jump This Month?",
       "metaDescription": "Your Stripe blended rate changed month-over-month and you don't know why. Here are the 6 most common causes — and how to find which one hit you.",
       "title": "Why Did My Stripe Effective Rate Jump This Month?",
@@ -2045,7 +2045,7 @@
         }
       ]
     },
-    "whyStripeFeesIncrease": {
+    "why-stripe-fees-increase": {
       "metaTitle": "Why Did My Stripe Fees Increase This Month?",
       "metaDescription": "Stripe payout lower than expected or fees up vs last month? Diagnose international cards, refund fees not returned, FX, and mix changes from your Balance CSV.",
       "title": "Why Did My Stripe Fees Increase This Month?",
@@ -2120,7 +2120,7 @@
         ]
       }
     },
-    "howToReduceStripeFees": {
+    "how-to-reduce-stripe-fees": {
       "metaTitle": "How to Reduce Your Stripe Fees",
       "metaDescription": "Practical tactics to lower your Stripe effective fee rate: negotiate custom pricing, reduce disputes, optimize currency settings, and more.",
       "title": "How to Reduce Your Stripe Fees",
@@ -2254,7 +2254,7 @@
         ]
       }
     },
-    "stripeEffectiveFeeRateExplained": {
+    "stripe-effective-fee-rate-explained": {
       "metaTitle": "What Is Your Stripe Effective Fee Rate?",
       "metaDescription": "Your effective Stripe fee rate is the true percentage of revenue you pay to Stripe. Learn how to calculate it and what a good rate looks like.",
       "title": "What Is Your Stripe Effective Fee Rate?",
@@ -2332,7 +2332,7 @@
         }
       ]
     },
-    "whyStripeEffectiveRateHigherThan29Percent": {
+    "why-stripe-effective-rate-higher-than-2-9-percent": {
       "metaTitle": "Why Is My Stripe Effective Rate Higher Than 2.9%?",
       "metaDescription": "Stripe advertises 2.9% + $0.30. But most businesses pay more. Here are the 4 real reasons your blended Stripe fee rate is higher than advertised.",
       "title": "Why Is My Stripe Effective Rate Higher Than 2.9%?",
@@ -2341,8 +2341,10 @@
       "updatedAt": null,
       "faq": [],
       "sources": []
-    },
-    "whyIWontConnectMyStripeAccountToThirdPartyTools": {
+    }
+  },
+  "privacy": {
+    "why-i-wont-connect-my-stripe-account-to-third-party-tools": {
       "metaTitle": "Why I Wouldn't Connect My Stripe Account to Every Third-Party Tool",
       "metaDescription": "Stripe OAuth / read-only access is a trust decision, not a login button. When you only need a fee audit, an itemized Balance CSV is enough — no persistent connection.",
       "title": "Why I Wouldn't Connect My Stripe Account to Every Third-Party Tool",
@@ -2412,6 +2414,16 @@
           "answer": "A fee audit is usually retrospective. An itemized Balance Transactions CSV contains the amounts, fees, types, currencies, and timestamps needed to calculate your effective fee rate and find expensive transactions."
         }
       ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/connect/oauth-reference",
+          "title": "Stripe Connect OAuth reference"
+        },
+        {
+          "href": "https://docs.stripe.com/stripe-apps/reference/permissions",
+          "title": "Stripe Apps permissions reference"
+        }
+      ],
       "related": [
         {
           "href": "/blog/what-does-stripe-oauth-read-only-access-actually-see",
@@ -2425,19 +2437,9 @@
           "href": "/blog/csv-vs-api-stripe-fee-analysis",
           "title": "CSV vs API for Stripe fee analysis"
         }
-      ],
-      "sources": [
-        {
-          "href": "https://docs.stripe.com/connect/oauth-reference",
-          "title": "Stripe Connect OAuth reference"
-        },
-        {
-          "href": "https://docs.stripe.com/stripe-apps/reference/permissions",
-          "title": "Stripe Apps permissions reference"
-        }
       ]
     },
-    "whatDoesStripeOauthReadOnlyAccessActuallySee": {
+    "what-does-stripe-oauth-read-only-access-actually-see": {
       "metaTitle": "Stripe OAuth Read-Only Access: What Third-Party Apps Can See",
       "metaDescription": "What “read-only” Stripe OAuth can still expose — and when a Balance CSV fee check is enough without connecting your account.",
       "title": "Stripe OAuth Read-Only Access: What Third-Party Apps Can See",
@@ -2566,6 +2568,16 @@
           "answer": "Yes, connected apps can generally be reviewed and revoked from the Stripe Dashboard. Revocation stops future access, but you should still check each vendor's policy for data already stored."
         }
       ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/connect/oauth-reference",
+          "title": "Stripe Connect OAuth reference"
+        },
+        {
+          "href": "https://docs.stripe.com/stripe-apps/reference/permissions",
+          "title": "Stripe Apps permissions reference"
+        }
+      ],
       "related": [
         {
           "href": "/blog/why-i-wont-connect-my-stripe-account-to-third-party-tools",
@@ -2579,19 +2591,9 @@
           "href": "/blog/csv-vs-api-stripe-fee-analysis",
           "title": "CSV vs API for Stripe fee analysis"
         }
-      ],
-      "sources": [
-        {
-          "href": "https://docs.stripe.com/connect/oauth-reference",
-          "title": "Stripe Connect OAuth reference"
-        },
-        {
-          "href": "https://docs.stripe.com/stripe-apps/reference/permissions",
-          "title": "Stripe Apps permissions reference"
-        }
       ]
     },
-    "howToAuditStripeFeesWithoutConnectingYourAccount": {
+    "how-to-audit-stripe-fees-without-connecting-your-account": {
       "metaTitle": "How to Audit Your Stripe Fees Without Connecting Your Account",
       "metaDescription": "A practical guide to auditing Stripe fees from an itemized Balance Transactions CSV: blended rate formula, fee drivers, refunds, high-fee charges, and no-OAuth analysis.",
       "title": "How to Audit Your Stripe Fees Without Connecting Your Account",
@@ -2698,6 +2700,16 @@
           "answer": "No. Fee Auditor uses an exported Stripe Balance Transactions CSV. It does not request Stripe OAuth or API access. How long your report link stays available depends on beta vs standard mode — see our Privacy Policy."
         }
       ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe reports documentation"
+        },
+        {
+          "href": "https://docs.stripe.com/connect/oauth-reference",
+          "title": "Stripe Connect OAuth reference"
+        }
+      ],
       "related": [
         {
           "href": "/stripe-balance-csv",
@@ -2711,19 +2723,9 @@
           "href": "/blog/stripe-fees-small-transactions",
           "title": "Stripe fees for small transactions"
         }
-      ],
-      "sources": [
-        {
-          "href": "https://docs.stripe.com/reports",
-          "title": "Stripe reports documentation"
-        },
-        {
-          "href": "https://docs.stripe.com/connect/oauth-reference",
-          "title": "Stripe Connect OAuth reference"
-        }
       ]
     },
-    "theStripeDataYouShareWithAnalyticsTools": {
+    "the-stripe-data-you-share-with-analytics-tools": {
       "metaTitle": "The Stripe Data You're Sharing With Every Analytics Tool You Connect",
       "metaDescription": "A practical checklist for founders connecting Stripe analytics tools: customer data, payments, subscriptions, payouts, disputes, privacy policies, retention, and alternatives.",
       "title": "The Stripe Data You're Sharing With Every Analytics Tool You Connect",
@@ -2795,6 +2797,16 @@
           "answer": "Export an itemized Stripe Balance Transactions CSV and analyze that snapshot. This avoids persistent Stripe account access while still giving enough data for fee-rate analysis."
         }
       ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/stripe-apps/reference/permissions",
+          "title": "Stripe Apps permissions reference"
+        },
+        {
+          "href": "https://docs.stripe.com/connect/oauth-reference",
+          "title": "Stripe Connect OAuth reference"
+        }
+      ],
       "related": [
         {
           "href": "/blog/why-i-wont-connect-my-stripe-account-to-third-party-tools",
@@ -2808,19 +2820,9 @@
           "href": "/blog/how-to-audit-stripe-fees-without-connecting-your-account",
           "title": "Audit Stripe fees without connecting your account"
         }
-      ],
-      "sources": [
-        {
-          "href": "https://docs.stripe.com/stripe-apps/reference/permissions",
-          "title": "Stripe Apps permissions reference"
-        },
-        {
-          "href": "https://docs.stripe.com/connect/oauth-reference",
-          "title": "Stripe Connect OAuth reference"
-        }
       ]
     },
-    "csvVsApiStripeFeeAnalysis": {
+    "csv-vs-api-stripe-fee-analysis": {
       "metaTitle": "CSV vs API: Two Ways to Analyze Stripe Fees, and When Each Makes Sense",
       "metaDescription": "A balanced comparison of CSV exports and Stripe API integrations for fee analysis, including privacy, automation, accuracy, benchmarks, and when to use each approach.",
       "title": "CSV vs API: Two Ways to Analyze Stripe Fees, and When Each Makes Sense",
@@ -2923,6 +2925,16 @@
           "answer": "No. Fee Auditor is focused on Stripe fee analysis, not full revenue analytics. It is designed for audits, benchmarks, refund leakage, and fee-driver visibility from CSV exports."
         }
       ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe reports documentation"
+        },
+        {
+          "href": "https://docs.stripe.com/connect/oauth-reference",
+          "title": "Stripe Connect OAuth reference"
+        }
+      ],
       "related": [
         {
           "href": "/blog/how-to-audit-stripe-fees-without-connecting-your-account",
@@ -2935,16 +2947,6 @@
         {
           "href": "/analyze?sample=1",
           "title": "Try a sample Fee Auditor report"
-        }
-      ],
-      "sources": [
-        {
-          "href": "https://docs.stripe.com/reports",
-          "title": "Stripe reports documentation"
-        },
-        {
-          "href": "https://docs.stripe.com/connect/oauth-reference",
-          "title": "Stripe Connect OAuth reference"
         }
       ]
     }
