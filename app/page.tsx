@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { LANDING_FAQ_HOME_IDS } from "@/components/LandingFaq";
 import { LandingNavHydrate, LANDING_NAV_ROOT_ID } from "@/components/LandingNavHydrate";
 import { LandingNavShell } from "@/components/LandingNavShell";
@@ -62,12 +63,6 @@ export const metadata: Metadata = {
 const reportsAnalyzedCount = Number(process.env.NEXT_PUBLIC_REPORTS_ANALYZED_COUNT ?? 0);
 const hasReportsAnalyzedCount = Number.isFinite(reportsAnalyzedCount) && reportsAnalyzedCount > 0;
 const reportsAnalyzedLabel = new Intl.NumberFormat("en-US").format(reportsAnalyzedCount);
-
-const HOW_IT_WORKS = [
-  { step: "1", title: "Export CSV", body: "Balance summary → Itemized export from Stripe Dashboard." },
-  { step: "2", title: "Upload", body: "One file, no OAuth. Raw CSV is not stored." },
-  { step: "3", title: "See drivers", body: "Ranked fee drivers, high-fee rows, and links back to Stripe Dashboard." },
-];
 
 const FAQ_JSON_LD_ITEMS = [
   {
@@ -182,7 +177,17 @@ const ORGANIZATION_JSON_LD = {
   ],
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const t = await getTranslations("home");
+  const tc = await getTranslations("common");
+  const tn = await getTranslations("nav");
+
+  const howItWorks = [
+    { step: "1", title: t("step1Title"), body: t("step1Body") },
+    { step: "2", title: t("step2Title"), body: t("step2Body") },
+    { step: "3", title: t("step3Title"), body: t("step3Body") },
+  ];
+
   return (
     <main className="min-h-screen bg-white">
       <script
@@ -208,26 +213,26 @@ export default function HomePage() {
       <div className="pt-14">
       {FULL_REPORTS_FREE_DURING_BETA ? (
         <div className="bg-emerald-600 px-4 py-2.5 text-center text-sm font-medium text-white">
-          Free diagnosis · no signup
+          {tc("freeDiagnosis")}
         </div>
       ) : (
         <div className="bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white">
-          Free diagnosis · no signup
+          {tc("freeDiagnosis")}
         </div>
       )}
 
       {/* Hero — H1 paints from static HTML; nav shell is fixed above, JS hydrates on idle */}
       <section id="problem" className="flex flex-col items-center justify-center px-4 py-10 sm:py-14 text-center scroll-mt-28">
         <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">
-          Stripe advertises 2.9%. Your real all-in rate is often{" "}
-          <span className="text-blue-600">much higher.</span>
+          {t("heroTitleBefore")}{" "}
+          <span className="text-blue-600">{t("heroTitleHighlight")}</span>
         </h1>
         <p className="mt-4 max-w-xl text-xl font-semibold text-gray-800 sm:text-2xl">
-          See which charges, refunds, and international payments pushed your rate up.
+          {t("heroSubtitle")}
         </p>
         <h2 className="sr-only">Stripe effective rate, refund leakage, and international card fees</h2>
         <p className="mt-3 max-w-lg text-sm text-gray-500">
-          Balance CSV · no OAuth · 0.5 pp on $1M/year ≈ $5,000 extra
+          {t("heroMeta")}
         </p>
 
         <div className="mt-8">
@@ -238,7 +243,7 @@ export default function HomePage() {
             funnelProps={{ placement: "hero_primary" }}
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-3.5 sm:py-4 text-sm sm:text-base font-semibold text-white shadow-md hover:bg-blue-700 active:scale-95 transition-all"
           >
-            Audit my Stripe fees — free
+            {t("heroCta")}
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
@@ -247,19 +252,19 @@ export default function HomePage() {
 
         <p className="mt-4 text-sm text-gray-500">
           <a href="#sample" className="font-medium text-blue-700 underline hover:text-blue-800">
-            Preview scenarios first
+            {t("previewScenarios")}
           </a>
           {" · "}
           <Link href="/stripe-balance-csv" className="font-medium text-blue-700 underline hover:text-blue-800">
-            Export guide
+            {t("exportGuide")}
           </Link>
           {" · "}
-          up to 4 MB (~75k rows)
+          {t("uploadLimit")}
         </p>
 
         {hasReportsAnalyzedCount && (
           <p className="mt-3 text-sm font-medium text-gray-500">
-            {reportsAnalyzedLabel} reports analyzed in beta
+            {t("reportsAnalyzedBeta", { count: reportsAnalyzedLabel })}
           </p>
         )}
 
@@ -270,10 +275,10 @@ export default function HomePage() {
       <section id="sample" className="bg-gray-50 px-4 py-10 scroll-mt-24" aria-labelledby="sample-heading">
         <div className="mx-auto max-w-5xl">
           <h2 id="sample-heading" className="text-center text-2xl font-bold text-gray-900">
-            Three scenarios — pick yours
+            {t("sampleHeading")}
           </h2>
           <p className="mt-2 text-center text-sm text-gray-500 max-w-md mx-auto">
-            Illustrative mixes. One button below opens the live report.
+            {t("sampleSub")}
           </p>
 
           <div className="mt-8">
@@ -281,9 +286,9 @@ export default function HomePage() {
           </div>
 
           <p className="mt-8 text-center text-sm text-gray-600 max-w-lg mx-auto">
-            For fractional CFOs: transaction-level evidence, CSV/print export, monthly drift via{" "}
+            {t("cfoLine")}{" "}
             <Link href="/monitor" className="font-medium text-blue-700 underline hover:text-blue-800">
-              Fee Monitor
+              {t("feeMonitor")}
             </Link>
             .
           </p>
@@ -293,9 +298,9 @@ export default function HomePage() {
       {/* Interaction — How we find them */}
       <section id="steps" className="bg-white px-4 py-10 scroll-mt-24">
         <div className="mx-auto max-w-3xl">
-          <h2 className="text-center text-xl font-bold text-gray-900">Three steps</h2>
+          <h2 className="text-center text-xl font-bold text-gray-900">{t("stepsHeading")}</h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            {HOW_IT_WORKS.map(({ step, title, body }) => (
+            {howItWorks.map(({ step, title, body }) => (
               <div key={step} className="rounded-xl border border-gray-100 bg-gray-50 px-4 py-4 text-center">
                 <div className="mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">
                   {step}
@@ -307,15 +312,15 @@ export default function HomePage() {
           </div>
           <p className="mt-5 text-center text-sm text-gray-500">
             <Link href="/stripe-balance-csv" className="font-medium text-blue-700 underline hover:text-blue-800">
-              Export guide
+              {t("exportGuide")}
             </Link>
             {" · "}
             <Link href="/stripe-fee-calculator" className="font-medium text-blue-700 underline hover:text-blue-800">
-              Fee calculator
+              {t("feeCalculator")}
             </Link>
             {" · "}
             <Link href="/stripe-fees-report" className="font-medium text-blue-700 underline hover:text-blue-800">
-              Fees report
+              {t("feesReport")}
             </Link>
           </p>
         </div>
@@ -324,7 +329,7 @@ export default function HomePage() {
       {/* FAQ + final CTA */}
       <section id="faq" className="bg-gray-50 px-4 py-10 scroll-mt-24">
         <div className="mx-auto max-w-3xl">
-          <h2 className="text-center text-xl font-bold text-gray-900 mb-6">Trust</h2>
+          <h2 className="text-center text-xl font-bold text-gray-900 mb-6">{t("trustHeading")}</h2>
           <LandingFaq itemIds={LANDING_FAQ_HOME_IDS} />
         </div>
         <div className="mx-auto mt-10 max-w-md text-center">
@@ -335,7 +340,7 @@ export default function HomePage() {
             funnelProps={{ placement: "footer" }}
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-3.5 text-base font-semibold text-white shadow hover:bg-blue-700 transition-colors"
           >
-            Audit my Stripe fees — free
+            {t("footerCta")}
           </FunnelAnchor>
         </div>
       </section>
@@ -348,9 +353,9 @@ export default function HomePage() {
         <p>
           Fee Auditor (feeauditor.com) is an independent SaaS tool. Not affiliated with, endorsed by,
           or part of Stripe, Inc. &quot;Stripe&quot; is a trademark of Stripe, Inc.{" "}
-          <Link href="/how-it-works" className="underline hover:text-gray-900">How it works</Link>
+          <Link href="/how-it-works" className="underline hover:text-gray-900">{tn("howItWorks")}</Link>
           {" · "}
-          <Link href="/pricing" className="underline hover:text-gray-900">Pricing</Link>
+          <Link href="/pricing" className="underline hover:text-gray-900">{tn("pricing")}</Link>
           {" · "}
           <Link href="/privacy" className="underline hover:text-gray-900">Privacy Policy</Link>
           {" · "}

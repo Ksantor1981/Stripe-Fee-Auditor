@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from "next";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import "./globals.css";
 import { AnalyticsScripts } from "@/components/AnalyticsScripts";
 import { PageLoadMarker } from "@/components/PageLoadMarker";
@@ -110,17 +112,22 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head />
       <body className="antialiased">
         <PageLoadMarker />
-        {children}
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {children}
+        </NextIntlClientProvider>
         <AnalyticsScripts gaMeasurementId={gaMeasurementId} />
       </body>
     </html>

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useDropzone } from "react-dropzone";
 import Papa from "papaparse";
 import { Button } from "@/components/ui/button";
@@ -89,6 +90,7 @@ type Stage = "idle" | "uploading" | "analyzing";
 
 export function UploadZone({ autoLoadSample }: Props) {
   const router = useRouter();
+  const t = useTranslations("analyze");
   const [parsed, setParsed] = useState<ParsedFile | null>(null);
   const [mapping, setMapping] = useState<ColumnMapping>({});
   const [error, setError] = useState<string | null>(null);
@@ -128,12 +130,12 @@ export function UploadZone({ autoLoadSample }: Props) {
     setFormatNotice(null);
 
     if (!file.name.endsWith(".csv")) {
-      setError("Please upload a .csv file.");
+      setError(t("errorNotCsv"));
       return;
     }
 
     if (file.size > MAX_CSV_BYTES) {
-      setError("File too large (max 4 MB). Try a shorter date range in Stripe export.");
+      setError(t("errorTooLarge"));
       return;
     }
 
@@ -171,18 +173,23 @@ export function UploadZone({ autoLoadSample }: Props) {
         }
 
         if (tooManyRows) {
-          setError(`CSV too many rows (max ${MAX_CSV_ROWS.toLocaleString()}). Narrow your Stripe date range and export again.`);
+          setError(t("errorTooManyRows", { max: MAX_CSV_ROWS.toLocaleString() }));
           return;
         }
 
         if (parseErrors.length > 0) {
           const firstError = parseErrors[0];
-          setError(`CSV parse error near row ${firstError.row ?? "unknown"}: ${firstError.message ?? "invalid CSV"}`);
+          setError(
+            t("errorParseRow", {
+              row: String(firstError.row ?? "unknown"),
+              message: firstError.message ?? "invalid CSV",
+            })
+          );
           return;
         }
 
         if (!headers.length) {
-          setError("Could not detect columns. Is this a valid CSV?");
+          setError(t("errorNoColumns"));
           return;
         }
 
@@ -201,9 +208,9 @@ export function UploadZone({ autoLoadSample }: Props) {
         setMapping(autoDetect(headers));
         trackEvent("funnel_csv_loaded", { sample: false });
       },
-      error: () => setError("Failed to parse the file. Please try again."),
+      error: () => setError(t("errorParseFailed")),
     });
-  }, []);
+  }, [t]);
 
   function loadSampleData() {
     setError(null);
@@ -252,7 +259,7 @@ export function UploadZone({ autoLoadSample }: Props) {
 
         if (!source.isSample) {
           if (new TextEncoder().encode(csvText).length > MAX_CSV_BYTES) {
-            setError("File too large (max 4 MB). Try a shorter date range in Stripe export.");
+            setError(t("errorTooLarge"));
             setStage("idle");
             return;
           }
@@ -267,7 +274,7 @@ export function UploadZone({ autoLoadSample }: Props) {
         });
         if (!analyzeRes.ok) {
           const j = await analyzeRes.json();
-          throw new Error(j.error ?? "Analysis failed");
+          throw new Error(j.error ?? t("errorAnalysisFailed"));
         }
         const { reportId, mode } = await analyzeRes.json();
 
@@ -279,11 +286,11 @@ export function UploadZone({ autoLoadSample }: Props) {
         const qs = source.isSample ? "?demo=1" : "";
         router.push(`/report/${reportId}${qs}`);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Something went wrong");
+        setError(err instanceof Error ? err.message : t("errorGeneric"));
         setStage("idle");
       }
     },
-    [accountCountry, router]
+    [accountCountry, router, t]
   );
 
   // Sample path → start analysis automatically (URL ?sample=1 or “Try sample” button)
@@ -302,9 +309,9 @@ export function UploadZone({ autoLoadSample }: Props) {
   }
 
   const stageLabel: Record<Stage, string> = {
-    idle: "Analyze My Fees →",
-    uploading: "Reading file…",
-    analyzing: "Analyzing…",
+    idle: t("ctaIdle"),
+    uploading: t("ctaUploading"),
+    analyzing: t("ctaAnalyzing"),
   };
 
   return (
@@ -312,15 +319,13 @@ export function UploadZone({ autoLoadSample }: Props) {
       {/* Title */}
       <div>
         <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-2">
-          {autoLoadSample ? "Sample" : "Your file"}
+          {autoLoadSample ? t("badgeSample") : t("badgeYourFile")}
         </p>
         <h2 className="text-xl font-bold text-gray-900">
-          {autoLoadSample ? "Running sample diagnosis…" : "Upload your Stripe CSV"}
+          {autoLoadSample ? t("headingSampleLoading") : t("headingUpload")}
         </h2>
         <p className="mt-2 text-gray-500 text-sm">
-          {autoLoadSample
-            ? "Sample file is loading and will analyze automatically. You can also drop your own CSV."
-            : "Stripe Balance or Payments export (.csv, max 4 MB). We auto-detect the format."}
+          {autoLoadSample ? t("hintSample") : t("hintUpload")}
         </p>
       </div>
 
@@ -365,7 +370,7 @@ export function UploadZone({ autoLoadSample }: Props) {
             </div>
             <div>
               <p className="font-semibold text-gray-700">
-                {isDragActive ? "Drop it here!" : "Drag & drop your Stripe CSV"}
+                {isDragActive ? t("dropActive") : t("dropIdle")}
               </p>
               <p className="text-sm text-gray-400 mt-1">or click to browse</p>
             </div>
@@ -377,7 +382,7 @@ export function UploadZone({ autoLoadSample }: Props) {
             <div className="text-left">
               <p className="font-semibold text-gray-800">{parsed.fileName}</p>
               <p className="text-xs text-gray-500">
-                {parsed.isSample ? "Sample data · " : ""}
+                {parsed.isSample ? t("samplePrefix") : ""}
                 {parsed.totalRows.toLocaleString()} rows
                 {stage !== "idle" ? " · analyzing…" : " · preview below"}
               </p>
@@ -520,7 +525,7 @@ export function UploadZone({ autoLoadSample }: Props) {
           <p className="text-sm text-green-800">
             {parsed.stripeFormat && parsed.stripeFormat !== "unknown"
               ? `${stripeCsvFormatLabel(parsed.stripeFormat)} recognized — ready to analyze.`
-              : "Stripe CSV recognized — ready to analyze."}
+              : t("readyAnalyze")}
           </p>
         </div>
       )}
@@ -548,8 +553,8 @@ export function UploadZone({ autoLoadSample }: Props) {
           </Button>
           <p className="mt-3 text-xs text-gray-400">
             {parsed.isSample
-              ? "This is sample data for demonstration purposes."
-              : "Your file is processed in memory only. Report links expire automatically."}
+              ? t("privacySample")
+              : t("privacyUpload")}
           </p>
         </div>
       )}

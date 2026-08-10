@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { MarketingShell } from "@/components/MarketingShell";
 import { TrackedLink } from "@/components/TrackedLink";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
@@ -11,45 +12,40 @@ export const metadata: Metadata = {
   alternates: { canonical: "/pricing" },
 };
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const t = await getTranslations("pricing");
+
   return (
     <MarketingShell>
       <section className="mx-auto max-w-lg px-4 py-14 sm:px-6 text-center">
-        <h1 className="text-3xl font-bold text-gray-900">Pricing</h1>
+        <h1 className="text-3xl font-bold text-gray-900">{t("title")}</h1>
         <p className="mt-3 text-base text-gray-600">
-          $12 = one CSV audit. Preview first — pay once for full rows, exports, and a 30-day private link.
-          {FULL_REPORTS_FREE_DURING_BETA ? " Full report is free during beta." : null}
+          {t("intro")}
+          {FULL_REPORTS_FREE_DURING_BETA ? t("introBeta") : null}
         </p>
-        <p className="mt-2 text-sm text-gray-500">
-          Not a CSV summary — ranked savings actions, high-fee row evidence, and Stripe dashboard links from your export.
-        </p>
+        <p className="mt-2 text-sm text-gray-500">{t("sub")}</p>
 
         <div className="mt-8 rounded-2xl border-2 border-blue-200 bg-blue-50/40 p-6 text-left shadow-sm">
-          <p className="text-sm font-semibold uppercase tracking-wide text-blue-700">One audit · $12</p>
-          <p className="mt-1 text-2xl font-bold text-gray-900">This CSV, once</p>
+          <p className="text-sm font-semibold uppercase tracking-wide text-blue-700">{t("auditLabel")}</p>
+          <p className="mt-1 text-2xl font-bold text-gray-900">{t("auditTitle")}</p>
           <ul className="mt-4 space-y-2 text-base text-gray-700">
-            <li>Full high-fee rows &amp; savings ideas</li>
-            <li>CSV + print export</li>
-            <li>Private link · 30 days</li>
+            <li>{t("auditFeature1")}</li>
+            <li>{t("auditFeature2")}</li>
+            <li>{t("auditFeature3")}</li>
           </ul>
           {FULL_REPORTS_FREE_DURING_BETA ? (
-            <p className="mt-4 text-sm font-medium text-emerald-800">Currently free during beta.</p>
+            <p className="mt-4 text-sm font-medium text-emerald-800">{t("auditBetaFree")}</p>
           ) : (
-            <p className="mt-4 text-sm text-gray-500">
-              Refund if payment succeeds but the report does not unlock.
-            </p>
+            <p className="mt-4 text-sm text-gray-500">{t("auditRefund")}</p>
           )}
         </div>
 
         <div className="mt-8 rounded-2xl border border-gray-200 bg-gray-50 p-6 text-left">
-          <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">Optional · $9/mo</p>
-          <p className="mt-1 text-xl font-bold text-gray-900">Fee Monitor</p>
-          <p className="mt-2 text-base text-gray-600">
-            Monthly CSV reminder and a fresh full report each month. Report history and automatic drift
-            alerts are coming later — not another dashboard.
-          </p>
+          <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">{t("monitorLabel")}</p>
+          <p className="mt-1 text-xl font-bold text-gray-900">{t("monitorTitle")}</p>
+          <p className="mt-2 text-base text-gray-600">{t("monitorBody")}</p>
           <Link href="/monitor" className="mt-4 inline-flex text-base font-semibold text-blue-600 hover:underline">
-            Fee Monitor →
+            {t("monitorLink")}
           </Link>
         </div>
 
@@ -60,15 +56,15 @@ export default function PricingPage() {
           funnelProps={{ placement: "pricing_page" }}
           className="mt-10 inline-flex items-center justify-center rounded-xl bg-blue-600 px-8 py-3.5 text-base font-semibold text-white shadow hover:bg-blue-700 transition-colors"
         >
-          Upload CSV
+          {t("uploadCta")}
         </TrackedLink>
         <p className="mt-4 text-sm text-gray-500">
           <Link href="/stripe-fee-calculator" className="text-blue-600 hover:underline">
-            Estimate without CSV
+            {t("estimateLink")}
           </Link>
           {" · "}
           <Link href="/how-it-works" className="text-blue-600 hover:underline">
-            How it works
+            {t("howItWorksLink")}
           </Link>
         </p>
       </section>

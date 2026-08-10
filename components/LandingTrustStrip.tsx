@@ -1,45 +1,47 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
-const TRUST_ITEMS = [
-  "No Stripe OAuth",
-  "Raw CSV not stored",
-  "Deterministic — not LLM",
-  "Logic on GitHub",
+const TRUST_ITEM_KEYS = [
+  "noOAuth",
+  "rawCsvNotStored",
+  "deterministic",
+  "logicOnGitHub",
 ] as const;
 
 /** Compact trust + pricing — one visual row, no paragraph wall. */
-export function LandingTrustStrip() {
+export async function LandingTrustStrip() {
+  const t = await getTranslations("trust");
+  const tc = await getTranslations("common");
+
   return (
     <div className="mt-5 max-w-xl space-y-2 text-center">
       <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs sm:text-sm text-gray-600">
-        {TRUST_ITEMS.map((item, i) => (
-          <span key={item} className="inline-flex items-center gap-2">
+        {TRUST_ITEM_KEYS.map((key, i) => (
+          <span key={key} className="inline-flex items-center gap-2">
             {i > 0 ? <span className="text-gray-300" aria-hidden>·</span> : null}
-            {item === "Logic on GitHub" ? (
+            {key === "logicOnGitHub" ? (
               <a
                 href="https://github.com/Ksantor1981/Stripe-Fee-Auditor"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-medium text-blue-700 underline hover:text-blue-800"
               >
-                {item}
+                {t(key)}
               </a>
             ) : (
-              <span>{item}</span>
+              <span>{t(key)}</span>
             )}
           </span>
         ))}
       </p>
-      <p className="text-sm font-medium text-gray-700">
-        Free preview · Full audit $12 · Monitor $9/mo
-      </p>
+      <p className="text-sm font-medium text-gray-700">{t("pricingLine")}</p>
       <p className="text-xs text-gray-500">
         <Link href="/about" className="underline hover:text-gray-800">
-          About
+          {tc("about")}
         </Link>
         {" · "}
         <Link href="/privacy#security" className="underline hover:text-gray-800">
-          Data handling
+          {tc("dataHandling")}
         </Link>
       </p>
     </div>

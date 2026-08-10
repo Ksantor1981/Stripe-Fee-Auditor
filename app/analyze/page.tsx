@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { AppShellHeader } from "@/components/AppShellHeader";
 import { AdvertiserIdentityBanner } from "@/components/AdvertiserIdentityBanner";
 import { AnalyzeClient } from "./_components/AnalyzeClient";
@@ -11,16 +12,16 @@ export const metadata: Metadata = {
   alternates: { canonical: "/analyze" },
 };
 
-export default function AnalyzePage() {
+export default async function AnalyzePage() {
+  const t = await getTranslations("analyze");
+
   return (
     <main className="min-h-screen bg-gray-50">
       <AppShellHeader />
 
       <div className="mx-auto max-w-3xl px-4 py-10">
         <AnalyzePageIntro />
-        <p className="mt-2 text-sm text-gray-500">
-          No OAuth · raw CSV is not stored · independent tool
-        </p>
+        <p className="mt-2 text-sm text-gray-500">{t("metaTrust")}</p>
 
         <div className="mt-8">
           <AnalyzeClient />

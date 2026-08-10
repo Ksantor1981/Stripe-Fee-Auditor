@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
 import { LEGACY_BLOG_REDIRECTS } from "./app/blog/_data/blogIndex";
 import { SEO_KEYWORD_REDIRECTS } from "./lib/seo-redirects";
 import { getGaMeasurementId } from "./lib/ga";
+
+const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const isDev = process.env.NODE_ENV === "development";
 const hasGa4 = Boolean(getGaMeasurementId());
@@ -105,4 +108,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
