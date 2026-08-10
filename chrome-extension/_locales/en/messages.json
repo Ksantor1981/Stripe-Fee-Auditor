@@ -6,7 +6,7 @@
     "message": "Fee Auditor"
   },
   "extDescription": {
-    "message": "Estimate Stripe fees in the popup, open Balance export, audit your real rate from CSV, and get monthly reminders. No OAuth or API keys."
+    "message": "Open Stripe Balance export, audit your real fee rate, and get monthly CSV reminders. No OAuth or API keys."
   },
   "actionTitle": {
     "message": "Fee Auditor — CSV fee check helper"

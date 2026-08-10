@@ -330,9 +330,18 @@ function buildSeoPages() {
       heroTitle: pageTitle,
       heroDescription: pageDescription,
       dashboardTitle: "Dashboard export",
-      dashboardItems: evalConstLiteral(s, "dashboardShows") ?? [],
+      dashboardItems: [
+        "Fee rows per Balance transaction",
+        "Payout totals and net amounts",
+        "Raw export for spreadsheets",
+      ],
       reportAddsTitle: "Fees report should add",
-      reportAddsItems: evalConstLiteral(s, "reportShouldAdd") ?? [],
+      reportAddsItems: [
+        { title: "Processing rate vs all-in cost", body: "Separate card processing from refunds, disputes, Radar, Billing, and FX lines so the headline 2.9% is not mistaken for total Stripe drag." },
+        { title: "Ranked fee drivers", body: "International cards, micro-transactions, refund fee leakage, and one-off spikes — with dollar impact, not only percentages." },
+        { title: "High-fee transaction evidence", body: "Row-level charges you can match back to Stripe Dashboard, useful for finance reviews and CFO client packs." },
+        { title: "Directional savings checks", body: "What to verify first (billing cadence, local methods, interchange-plus eligibility) — estimates, not guaranteed savings." },
+      ],
       stepsTitle: "Build the report in three steps",
       step1Label: "1. Export",
       step1BeforeLink: "",
@@ -347,7 +356,13 @@ function buildSeoPages() {
       step3Label: "3. Audit",
       step3Body: "upload the CSV for processing vs all-in rate, drivers, and high-fee rows.",
       faqTitle: "Common questions",
-      faq: normalizeFaq(evalConstLiteral(s, "faqItems")),
+      faq: normalizeFaq(evalConstLiteral(s, "faqItems"))?.length
+        ? normalizeFaq(evalConstLiteral(s, "faqItems"))
+        : [
+            { q: "Is a Stripe fees report the same as the Balance CSV?", a: "The CSV is the source. A fees report is the interpreted view: effective rate, drivers, and actionable rows — without rebuilding pivot tables every month." },
+            { q: "Where do I export Stripe transactions for a fee report?", a: "Stripe Dashboard → Reports → Balance → Balance change from activity → Itemized export. See the step-by-step Balance CSV guide linked below." },
+            { q: "Can Stripe Dashboard show my effective rate?", a: "You can sum fees manually, but Dashboard does not rank drivers or separate recurring leakage from one-off spikes the way a focused fee audit does." },
+          ],
       ctaTitle: "Turn your export into a fees report",
       ctaDescription:
         "Free preview from your Balance CSV — full report adds high-fee rows, savings checks, and exports.",
@@ -695,7 +710,6 @@ function buildBlog() {
 console.log("extract start");
 const blog = buildBlog();
 parsePrivacyArticles(blog);
-console.log("privacy merged into blog, total blog keys:", Object.keys(blog).length);
 
 const output = {
   seo: buildSeoPages(),

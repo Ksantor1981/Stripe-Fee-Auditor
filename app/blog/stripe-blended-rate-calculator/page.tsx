@@ -3,7 +3,7 @@ import { blogPageMetadata } from "@/lib/i18n/page-helpers";
 import { BlogArticleContent } from "@/components/marketing/BlogArticleContent";
 
 const pagePath = "/blog/stripe-blended-rate-calculator";
-const contentKey = "stripeBlendedRateCalculator";
+const contentKey = "stripe-blended-rate-calculator";
 
 export async function generateMetadata(): Promise<Metadata> {
   return blogPageMetadata(contentKey, pagePath);

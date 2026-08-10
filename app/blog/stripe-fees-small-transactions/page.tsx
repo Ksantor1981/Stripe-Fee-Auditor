@@ -3,7 +3,7 @@ import { blogPageMetadata } from "@/lib/i18n/page-helpers";
 import { BlogArticleContent } from "@/components/marketing/BlogArticleContent";
 
 const pagePath = "/blog/stripe-fees-small-transactions";
-const contentKey = "stripeFeesSmallTransactions";
+const contentKey = "stripe-fees-small-transactions";
 
 export async function generateMetadata(): Promise<Metadata> {
   return blogPageMetadata(contentKey, pagePath);

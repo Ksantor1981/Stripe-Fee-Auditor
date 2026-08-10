@@ -6,7 +6,7 @@
     "message": "Fee Auditor"
   },
   "extDescription": {
-    "message": "Estimez les frais Stripe dans le popup, ouvrez l'export Balance, auditez votre taux réel depuis le CSV et recevez des rappels mensuels. Pas d'OAuth ni de clés API."
+    "message": "Ouvrez l'export Balance, auditez votre taux réel depuis le CSV et recevez des rappels mensuels. Pas d'OAuth ni clés API."
   },
   "actionTitle": {
     "message": "Fee Auditor — assistant de vérification des frais CSV"

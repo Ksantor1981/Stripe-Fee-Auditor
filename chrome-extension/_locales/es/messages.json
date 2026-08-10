@@ -6,7 +6,7 @@
     "message": "Fee Auditor"
   },
   "extDescription": {
-    "message": "Estima comisiones Stripe en el popup, abre exportación Balance, audita tu tasa real desde CSV y recibe recordatorios mensuales. Sin OAuth ni claves API."
+    "message": "Abre exportación Balance, audita tu tasa real desde CSV y recibe recordatorios mensuales. Sin OAuth ni claves API."
   },
   "actionTitle": {
     "message": "Fee Auditor — asistente de comprobación de comisiones CSV"

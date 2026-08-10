@@ -52,8 +52,14 @@ export async function seoPageFaqJsonLd(contentKey: string) {
   };
 }
 
-export async function blogPageMetadata(contentKey: string, canonical: string) {
-  const t = await getTranslations(`blog.${contentKey}`);
+type PageContentNamespace = "blog" | "privacy";
+
+export async function blogPageMetadata(
+  contentKey: string,
+  canonical: string,
+  namespace: PageContentNamespace = "blog",
+) {
+  const t = await getTranslations(`${namespace}.${contentKey}`);
   const title = t("metaTitle");
   const description = t("metaDescription");
   return {
@@ -75,8 +81,8 @@ export async function blogPageMetadata(contentKey: string, canonical: string) {
   };
 }
 
-export async function blogReadTimeLabel(contentKey: string) {
-  const t = await getTranslations(`blog.${contentKey}`);
+export async function blogReadTimeLabel(contentKey: string, namespace: PageContentNamespace = "blog") {
+  const t = await getTranslations(`${namespace}.${contentKey}`);
   const hub = await getTranslations("blogHub");
   const readTime = t("readTime");
   const format = hub.has("readTimeFormat") ? hub("readTimeFormat") : "{time} read";

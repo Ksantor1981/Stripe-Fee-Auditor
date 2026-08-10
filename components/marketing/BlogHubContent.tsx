@@ -73,9 +73,9 @@ type CardData = {
 
 async function loadCard(path: string): Promise<CardData | null> {
   const ref = contentKeyFromPath(path);
-  if (!ref) return null;
+  if (!ref || ref.namespace === "seo") return null;
   const t = await getTranslations(`${ref.namespace}.${ref.key}`);
-  const title = ref.namespace === "blog" ? t("title") : t("metaTitle");
+  const title = ref.namespace === "blog" ? t("title") : t("title");
   const desc = t("metaDescription");
   const readTime = t.has("readTime") ? t("readTime") : null;
   return { path, title, desc, readTime };

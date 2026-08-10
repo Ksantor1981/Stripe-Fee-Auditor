@@ -12,9 +12,12 @@ type SourceItem = { href: string; title: string };
 type RelatedItem = { href: string; title: string };
 type TableData = { headers: string[]; rows: string[][] };
 
+import type { PageContentNamespace } from "@/lib/i18n/blog-slug-map";
+
 type Props = {
   contentKey: string;
   path: string;
+  namespace?: PageContentNamespace;
 };
 
 function BlogTable({ table }: { table: TableData }) {
@@ -145,15 +148,15 @@ function BlogSections({ sections }: { sections: Section[] }) {
   );
 }
 
-export async function BlogArticleContent({ contentKey, path }: Props) {
-  const t = await getTranslations(`blog.${contentKey}`);
+export async function BlogArticleContent({ contentKey, path, namespace = "blog" }: Props) {
+  const t = await getTranslations(`${namespace}.${contentKey}`);
   const intro = (t.raw("intro") as string[] | undefined) ?? [];
   const sections = (t.raw("sections") as Section[] | undefined) ?? [];
   const faq = (t.raw("faq") as FaqItem[] | undefined) ?? [];
   const sources = (t.raw("sources") as SourceItem[] | undefined) ?? [];
   const related = (t.raw("related") as RelatedItem[] | undefined) ?? [];
   const table = t.raw("table") as TableData | undefined;
-  const readTimeLabel = await blogReadTimeLabel(contentKey);
+  const readTimeLabel = await blogReadTimeLabel(contentKey, namespace);
 
   const title = t("title");
   const breadcrumbTitle = t.has("shortTitle") ? t("shortTitle") : title;

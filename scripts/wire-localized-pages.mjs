@@ -25,24 +25,24 @@ const SEO_PAGES = [
   { dir: "stripe-vs-gocardless", key: "vsGocardless", variant: "comparison", cta: "stripe-vs-gocardless" },
 ];
 
-const BLOG_PAGES = [
-  ["why-stripe-fees-increase", "whyStripeFeesIncrease"],
-  ["how-to-reduce-stripe-fees", "howToReduceStripeFees"],
-  ["stripe-blended-rate-calculator", "stripeBlendedRateCalculator"],
-  ["how-i-found-1400-in-hidden-stripe-fees", "howIFound1400InHiddenStripeFees"],
-  ["cross-border-stripe-fees-migration-2026", "crossBorderStripeFeesMigration2026"],
-  ["stripe-alternatives-2026", "stripeAlternatives2026"],
-  ["stripe-vs-paypal-fees", "stripeVsPaypalFees"],
-  ["stripe-effective-fee-rate-explained", "stripeEffectiveFeeRateExplained"],
-  ["stripe-fee-audit-checklist-for-saas-founders", "stripeFeeAuditChecklistForSaasFounders"],
-  ["stripe-fee-leakage-report-may-2026", "stripeFeeLeakageReportMay2026"],
-  ["stripe-fees-small-transactions", "stripeFeesSmallTransactions"],
-  ["stripe-international-card-fees", "stripeInternationalCardFees"],
-  ["how-to-export-stripe-balance-csv", "howToExportStripeBalanceCsv"],
-  ["why-stripe-effective-rate-jumped-this-month", "whyStripeEffectiveRateJumpedThisMonth"],
-  ["stripe-ach-vs-credit-card-fees", "stripeAchVsCreditCardFees"],
-  ["stripe-credit-card-processing-fees", "stripeCreditCardProcessingFees"],
-  ["why-stripe-effective-rate-higher-than-2-9-percent", "whyStripeEffectiveRateHigherThan29Percent"],
+const BLOG_SLUGS = [
+  "why-stripe-fees-increase",
+  "how-to-reduce-stripe-fees",
+  "stripe-blended-rate-calculator",
+  "how-i-found-1400-in-hidden-stripe-fees",
+  "cross-border-stripe-fees-migration-2026",
+  "stripe-alternatives-2026",
+  "stripe-vs-paypal-fees",
+  "stripe-effective-fee-rate-explained",
+  "stripe-fee-audit-checklist-for-saas-founders",
+  "stripe-fee-leakage-report-may-2026",
+  "stripe-fees-small-transactions",
+  "stripe-international-card-fees",
+  "how-to-export-stripe-balance-csv",
+  "why-stripe-effective-rate-jumped-this-month",
+  "stripe-ach-vs-credit-card-fees",
+  "stripe-credit-card-processing-fees",
+  "why-stripe-effective-rate-higher-than-2-9-percent",
 ];
 
 function seoPageContent({ dir, key, related, children, variant, cta, banner }) {
@@ -99,14 +99,14 @@ export default async function Page() {
 `;
 }
 
-function blogPageContent(slug, contentKey) {
+function blogPageContent(slug) {
   const pagePath = `/blog/${slug}`;
   return `import type { Metadata } from "next";
 import { blogPageMetadata } from "@/lib/i18n/page-helpers";
 import { BlogArticleContent } from "@/components/marketing/BlogArticleContent";
 
 const pagePath = "${pagePath}";
-const contentKey = "${contentKey}";
+const contentKey = "${slug}";
 
 export async function generateMetadata(): Promise<Metadata> {
   return blogPageMetadata(contentKey, pagePath);
@@ -142,7 +142,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const contentKey = blogContentKeyFromSlug(slug);
   if (!contentKey) return {};
-  return blogPageMetadata(contentKey, "/blog/" + slug);
+  return blogPageMetadata(contentKey, "/blog/" + slug, "privacy");
 }
 
 export default async function PrivacyArticlePage({ params }: Props) {
@@ -152,7 +152,7 @@ export default async function PrivacyArticlePage({ params }: Props) {
 
   return (
     <main className="min-h-screen bg-white">
-      <BlogArticleContent contentKey={contentKey} path={"/blog/" + slug} />
+      <BlogArticleContent contentKey={contentKey} path={"/blog/" + slug} namespace="privacy" />
     </main>
   );
 }
@@ -164,9 +164,9 @@ for (const cfg of SEO_PAGES) {
   console.log("SEO:", cfg.dir);
 }
 
-for (const [slug, key] of BLOG_PAGES) {
+for (const slug of BLOG_SLUGS) {
   const file = path.join(root, "app", "blog", slug, "page.tsx");
-  fs.writeFileSync(file, blogPageContent(slug, key), "utf8");
+  fs.writeFileSync(file, blogPageContent(slug), "utf8");
   console.log("Blog:", slug);
 }
 

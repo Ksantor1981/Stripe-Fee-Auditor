@@ -3,7 +3,7 @@ import { blogPageMetadata } from "@/lib/i18n/page-helpers";
 import { BlogArticleContent } from "@/components/marketing/BlogArticleContent";
 
 const pagePath = "/blog/how-to-export-stripe-balance-csv";
-const contentKey = "howToExportStripeBalanceCsv";
+const contentKey = "how-to-export-stripe-balance-csv";
 
 export async function generateMetadata(): Promise<Metadata> {
   return blogPageMetadata(contentKey, pagePath);

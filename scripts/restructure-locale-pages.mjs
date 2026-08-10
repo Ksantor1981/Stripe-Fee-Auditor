@@ -15,15 +15,34 @@ function slugToCamelKey(slug) {
   return parts[0] + parts.slice(1).map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join("");
 }
 
+function deepMergeEnBase(localized, english) {
+  if (Array.isArray(localized)) {
+    return localized.length ? localized : english;
+  }
+  if (localized && typeof localized === "object" && english && typeof english === "object") {
+    const out = { ...english, ...localized };
+    for (const k of Object.keys(english)) {
+      if (Array.isArray(english[k]) && Array.isArray(localized[k]) && localized[k].length === 0) {
+        out[k] = english[k];
+      } else if (localized[k] && typeof localized[k] === "object" && english[k]) {
+        out[k] = deepMergeEnBase(localized[k], english[k]);
+      }
+    }
+    return out;
+  }
+  return localized ?? english;
+}
+
 function restructureLocale(locale) {
   const file = path.join(ROOT, "messages/pages", `${locale}.json`);
   if (!fs.existsSync(file)) return null;
   const old = JSON.parse(fs.readFileSync(file, "utf8"));
   const out = JSON.parse(JSON.stringify(EN));
 
-  // SEO: keep translated seo blocks when keys match
+  // SEO: deep-merge — keep translations, fill empty arrays/objects from en
   for (const key of Object.keys(out.seo)) {
-    if (old.seo?.[key]) out.seo[key] = old.seo[key];
+    if (!old.seo?.[key]) continue;
+    out.seo[key] = deepMergeEnBase(old.seo[key], out.seo[key]);
   }
 
   // Blog: map hyphen slug -> camelCase legacy key

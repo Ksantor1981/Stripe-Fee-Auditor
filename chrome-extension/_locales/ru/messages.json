@@ -6,7 +6,7 @@
     "message": "Fee Auditor"
   },
   "extDescription": {
-    "message": "Оценка комиссий Stripe в popup, открытие экспорта Balance, аудит реальной ставки из CSV и ежемесячные напоминания. Без OAuth и API-ключей."
+    "message": "Откройте экспорт Balance, проверьте реальную ставку из CSV и получайте ежемесячные напоминания. Без OAuth и API-ключей."
   },
   "actionTitle": {
     "message": "Fee Auditor — CSV-помощник проверки комиссий"

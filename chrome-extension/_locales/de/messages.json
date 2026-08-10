@@ -6,7 +6,7 @@
     "message": "Fee Auditor"
   },
   "extDescription": {
-    "message": "Stripe-Gebühren im Popup schätzen, Balance-Export öffnen, echte Rate aus CSV prüfen und monatliche Erinnerungen erhalten. Kein OAuth, keine API-Schlüssel."
+    "message": "Balance-Export öffnen, echte Gebührenrate aus CSV prüfen, monatliche Erinnerungen. Kein OAuth, keine API-Schlüssel."
   },
   "actionTitle": {
     "message": "Fee Auditor — CSV-Gebührenprüf-Helfer"

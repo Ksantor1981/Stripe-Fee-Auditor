@@ -1,4 +1,4 @@
-import { BLOG_SLUG_TO_KEY } from "@/lib/i18n/blog-slug-map";
+import { FEE_BLOG_SLUGS, PRIVACY_SLUGS, type PageContentNamespace } from "@/lib/i18n/blog-slug-map";
 
 /** SEO landing paths → messages/pages seo.* content key */
 export const SEO_PATH_TO_KEY: Record<string, string> = {
@@ -23,14 +23,16 @@ export function blogPathFromSlug(slug: string): string {
   return `/blog/${slug}`;
 }
 
-export function contentKeyFromPath(path: string): { namespace: "seo" | "blog"; key: string } | null {
+export function contentKeyFromPath(
+  path: string,
+): { namespace: "seo" | PageContentNamespace; key: string } | null {
   if (SEO_PATH_TO_KEY[path]) {
     return { namespace: "seo", key: SEO_PATH_TO_KEY[path] };
   }
   if (path.startsWith("/blog/")) {
     const slug = path.slice("/blog/".length);
-    const key = BLOG_SLUG_TO_KEY[slug];
-    if (key) return { namespace: "blog", key };
+    if (PRIVACY_SLUGS.has(slug)) return { namespace: "privacy", key: slug };
+    if (FEE_BLOG_SLUGS.has(slug)) return { namespace: "blog", key: slug };
   }
   return null;
 }
