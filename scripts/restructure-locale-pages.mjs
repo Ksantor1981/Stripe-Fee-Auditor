@@ -15,15 +15,6 @@ function slugToCamelKey(slug) {
   return parts[0] + parts.slice(1).map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join("");
 }
 
-function deepGet(obj, pathParts) {
-  let cur = obj;
-  for (const p of pathParts) {
-    if (!cur || typeof cur !== "object") return undefined;
-    cur = cur[p];
-  }
-  return cur;
-}
-
 function restructureLocale(locale) {
   const file = path.join(ROOT, "messages/pages", `${locale}.json`);
   if (!fs.existsSync(file)) return null;

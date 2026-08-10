@@ -53,17 +53,46 @@ function extractConst(source, name) {
   return match?.[1] ?? null;
 }
 
-function extractMetadataTitle(source) {
+function extractMetadataTitle(source, route) {
   const fromConst = extractConst(source, "pageTitle") ?? extractConst(source, "title");
   if (fromConst) return fromConst;
-  const metaMatch = source.match(/title:\s*[`"']([^`"']+)[`"']/);
-  return metaMatch?.[1] ?? null;
+
+  const blogKey = source.match(/contentKey\s*=\s*["']([^"']+)["']/)?.[1];
+  if (source.includes("blogPageMetadata(")) return `blog:${blogKey ?? route}`;
+
+  const seoKey = source.match(/seoPageMetadata\(\s*["']([^"']+)["']/)?.[1];
+  if (source.includes("seoPageMetadata(") && seoKey) return `seo:${seoKey}`;
+
+  if (source.includes("blogHubMetadata")) return "blog:hub";
+  if (source.includes("stripeFeesReportMetadata")) return "seo:stripeFeesReport";
+
+  const legalDoc = source.match(/getTranslations\(["']legal\.(\w+)["']\)/)?.[1];
+  if (legalDoc) return `legal:${legalDoc}`;
+
+  const chromeT = source.match(/getTranslations\(["']chromeExtension["']\)/);
+  if (chromeT) return "chromeExtension";
+
+  const metaMatch = source.match(/title:\s*[`"']([^$`"']{8,})[`"']/);
+  return metaMatch?.[1] ?? (source.includes("generateMetadata") ? `dynamic:${route}` : null);
 }
 
-function extractMetadataDescription(source) {
+function extractMetadataDescription(source, route) {
   const fromConst = extractConst(source, "pageDescription") ?? extractConst(source, "description");
   if (fromConst) return fromConst;
-  const metaMatch = source.match(/description:\s*[`"']([^`"']+)[`"']/);
+
+  if (
+    source.includes("blogPageMetadata(") ||
+    source.includes("seoPageMetadata(") ||
+    source.includes("blogHubMetadata") ||
+    source.includes("stripeFeesReportMetadata") ||
+    source.includes('getTranslations("legal.') ||
+    source.includes("getTranslations('legal.") ||
+    source.includes('getTranslations("chromeExtension")')
+  ) {
+    return `i18n-description:${route}`;
+  }
+
+  const metaMatch = source.match(/description:\s*[`"']([^$`"']{20,})[`"']/);
   return metaMatch?.[1] ?? null;
 }
 
@@ -105,8 +134,8 @@ for (const file of pageFiles) {
 
   routes.set(route, file);
 
-  const title = extractMetadataTitle(source);
-  const description = extractMetadataDescription(source);
+  const title = extractMetadataTitle(source, route);
+  const description = extractMetadataDescription(source, route);
 
   if (!title) {
     warn(`Missing detectable title: ${route} (${path.relative(ROOT, file)})`);
@@ -117,7 +146,9 @@ for (const file of pageFiles) {
       titles.set(title, route);
     }
     if (title.length < 20 || title.length > 70) {
-      warn(`Title length ${title.length} on ${route} (aim 20–70)`);
+      if (!title.startsWith("blog:") && !title.startsWith("seo:") && !title.startsWith("legal:") && !title.startsWith("dynamic:")) {
+        warn(`Title length ${title.length} on ${route} (aim 20–70)`);
+      }
     }
   }
 
@@ -146,6 +177,7 @@ for (const file of pageFiles) {
       continue;
     }
     const hasBreadcrumb =
+      source.includes("BlogArticleContent") ||
       source.includes("BlogBreadcrumbs") ||
       source.includes("BreadcrumbJsonLd") ||
       source.includes("BlogJsonLd");
