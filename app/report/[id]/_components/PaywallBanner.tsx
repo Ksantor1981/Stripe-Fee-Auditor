@@ -8,11 +8,11 @@ import { trackEvent } from "@/lib/analytics";
 import { fmt$ } from "@/lib/format";
 import type { PaywallImpactSource } from "@/lib/paywall-impact";
 import type { FreeDiagnosis } from "@/lib/free-diagnosis";
+import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 interface Props {
   reportId: string;
   email?: string;
-  /** Directional annual $ figure (savings, rate gap, or fee run-rate). */
   annualImpact?: number;
   impactSource?: PaywallImpactSource;
   firstOpportunity?: string;
@@ -27,6 +27,7 @@ export function PaywallBanner({
   firstOpportunity,
   diagnosis,
 }: Props) {
+  const { t } = useReportTranslations();
   const [open, setOpen] = useState(false);
   const hasImpact = annualImpact != null && annualImpact > 0;
 
@@ -56,47 +57,47 @@ export function PaywallBanner({
   }
 
   const included = [
-    "Full unusual-charge list with explanations",
-    "Savings opportunities with step-by-step actions",
-    "Monthly volume, fees, charge count, and trends",
-    "CSV export and print-ready report",
-    "Private report link for 30 days",
+    t("paywallBanner.includedUnusualCharges"),
+    t("paywallBanner.includedSavings"),
+    t("paywallBanner.includedMonthly"),
+    t("paywallBanner.includedExport"),
+    t("paywallBanner.includedLink"),
   ];
 
   const notIncluded = [
-    "No Stripe OAuth or API connection",
-    "No tax, accounting, or contractual fee advice",
+    t("paywallBanner.notIncludedOAuth"),
+    t("paywallBanner.notIncludedAdvice"),
   ];
 
   const title = diagnosis
-    ? "We found the problem. See every affected row."
+    ? t("paywallBanner.titleDiagnosis")
     : hasImpact
-    ? impactSource === "fee_runrate"
-      ? `Unlock the drivers behind ~${fmt$(annualImpact)}/yr in fees`
-      : `Unlock why this could be worth ~${fmt$(annualImpact)}/yr`
-    : "Unlock why your rate looks the way it does";
+      ? impactSource === "fee_runrate"
+        ? t("paywallBanner.titleFeeRunrate", { amount: fmt$(annualImpact!) })
+        : t("paywallBanner.titleSavings", { amount: fmt$(annualImpact!) })
+      : t("paywallBanner.titleDefault");
 
   const body = diagnosis
-    ? `Your free diagnosis points to ${diagnosis.title.toLowerCase()}. Pay $12 once for every affected row, the caveats, and the next checks in Stripe.`
+    ? t("paywallBanner.bodyDiagnosis", { diagnosis: diagnosis.title.toLowerCase() })
     : hasImpact
-    ? impactSource === "fee_runrate"
-      ? `Pay $12 once to see high-fee rows, caveats, and actions behind ~${fmt$(annualImpact)}/yr at this rate.`
-      : `Pay $12 once to see the rows, caveats, and actions behind${
-          firstOpportunity ? ` “${firstOpportunity}”` : " this directional impact"
-        }.`
-    : "Pay $12 once for every high-fee row, why it was flagged, and which Stripe checks are most likely to reduce fees.";
+      ? impactSource === "fee_runrate"
+        ? t("paywallBanner.bodyFeeRunrate", { amount: fmt$(annualImpact!) })
+        : firstOpportunity
+          ? t("paywallBanner.bodySavings", { opportunity: firstOpportunity })
+          : t("paywallBanner.bodySavingsGeneric")
+      : t("paywallBanner.bodyDefault");
 
   const cta = diagnosis
-    ? "Unlock the full investigation — $12 →"
+    ? t("paywallBanner.ctaDiagnosis")
     : hasImpact
-    ? `Unlock ~${fmt$(annualImpact)}/yr insight — $12 →`
-    : "Unlock Full Report — $12 →";
+      ? t("paywallBanner.ctaSavings", { amount: fmt$(annualImpact!) })
+      : t("paywallBanner.ctaDefault");
 
   return (
     <>
       <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-6 text-center shadow-sm">
         <div className="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 mb-3">
-          Full report · $12 one-time
+          {t("paywallBanner.badge")}
         </div>
         <h3 className="text-lg font-bold text-gray-900 mb-1">{title}</h3>
         <p className="text-sm text-gray-500 mb-4 max-w-sm mx-auto">{body}</p>
@@ -107,12 +108,10 @@ export function PaywallBanner({
           {cta}
         </Button>
         <p className="mt-3 text-xs text-gray-500 max-w-md mx-auto leading-relaxed">
-          You&apos;ll leave feeauditor.com briefly for{" "}
-          <strong className="font-semibold text-gray-700">secure checkout powered by Polar</strong>. We
-          never connect to your Stripe account (no OAuth).
+          {t("paywallBanner.checkoutNote")}
         </p>
         <p className="mt-2 text-xs text-gray-400">
-          One-time · 30-day private link · Refund available if access fails ·{" "}
+          {t("paywallBanner.footerNote")}{" "}
           <button
             type="button"
             className="underline hover:text-gray-600"
@@ -121,21 +120,17 @@ export function PaywallBanner({
               setOpen(true);
             }}
           >
-            What&apos;s included?
+            {t("paywallBanner.whatsIncluded")}
           </button>
         </p>
         <p className="mt-2 text-xs text-gray-500">
-          Prefer a monthly habit?{" "}
+          {t("paywallBanner.monitorUpsell")}{" "}
           <a href="/monitor" className="font-medium text-blue-600 hover:underline">
-            Fee Monitor is $9/mo
+            {t("paywallBanner.monitorLink")}
           </a>
-          {" "}— reminders + rate drift checks after this audit.
+          {t("paywallBanner.monitorSuffix")}
         </p>
-        <ChromeExtensionInstallCta
-          placement="paywall_banner"
-          variant="quiet"
-          className="mt-3"
-        />
+        <ChromeExtensionInstallCta placement="paywall_banner" variant="quiet" className="mt-3" />
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
@@ -144,29 +139,28 @@ export function PaywallBanner({
           closeButtonClassName="z-10 text-white hover:bg-white/15 hover:text-white"
         >
           <div className="bg-gray-900 px-6 py-5">
-            <h2 className="text-lg font-bold text-white">Get Full Report</h2>
-            <p className="text-sm text-gray-400 mt-1">
-              $12 once. Open this report for 30 days.
-            </p>
+            <h2 className="text-lg font-bold text-white">{t("paywallBanner.modalTitle")}</h2>
+            <p className="text-sm text-gray-400 mt-1">{t("paywallBanner.modalSubtitle")}</p>
           </div>
           <div className="p-5">
             <div className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-4 mb-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="font-semibold text-blue-700">Full Report</span>
+                <span className="font-semibold text-blue-700">{t("paywallBanner.planName")}</span>
                 <span className="text-sm font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">$12</span>
               </div>
               {hasImpact && (
                 <p className="mb-3 text-xs leading-relaxed text-emerald-800 bg-emerald-50 border border-emerald-100 rounded-lg px-3 py-2">
-                  Preview points to ~{fmt$(annualImpact)}/yr
-                  {firstOpportunity ? ` (${firstOpportunity})` : ""}. Unlock shows rows, caveats, and actions.
+                  {t("paywallBanner.previewPointsTo", {
+                    amount: fmt$(annualImpact!),
+                    opportunity: firstOpportunity ? ` (${firstOpportunity})` : "",
+                  })}
                 </p>
               )}
               <p className="mb-3 text-xs leading-relaxed text-blue-900/80">
-                The preview already showed your headline rate and top drivers. Unlock adds the rows,
-                explanations, savings actions, exports, and monthly detail.
+                {t("paywallBanner.modalBody")}
               </p>
               <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-blue-700">
-                Included
+                {t("paywallBanner.includedHeading")}
               </p>
               <ul className="space-y-1">
                 {included.map((f) => (
@@ -176,7 +170,7 @@ export function PaywallBanner({
                 ))}
               </ul>
               <p className="mb-1 mt-3 text-xs font-semibold uppercase tracking-widest text-gray-400">
-                Not included
+                {t("paywallBanner.notIncludedHeading")}
               </p>
               <ul className="space-y-1">
                 {notIncluded.map((f) => (
@@ -190,12 +184,12 @@ export function PaywallBanner({
               className="h-11 w-full rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
               onClick={() => unlock("modal")}
             >
-              {hasImpact ? `Continue — unlock ~${fmt$(annualImpact)}/yr insight →` : "Continue to Secure Checkout →"}
+              {hasImpact
+                ? t("paywallBanner.continueUnlock", { amount: fmt$(annualImpact!) })
+                : t("paywallBanner.continueCheckout")}
             </button>
             <p className="text-xs text-center text-gray-500 mt-3 leading-relaxed">
-              Next step: <strong className="font-semibold text-gray-700">secure checkout powered by Polar</strong>.
-              No Stripe OAuth to your account. If payment succeeds but the report does not unlock, request a
-              refund.
+              {t("paywallBanner.modalCheckoutNote")}
             </p>
           </div>
         </DialogContent>

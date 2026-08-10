@@ -1,0 +1,66 @@
+{
+  "chromeExtension": {
+    "metaTitle": "Stripe Fee Auditor — CSV-помощник проверки комиссий",
+    "metaDescription": "Установите бесплатное Chrome-расширение: откройте экспорт Balance Stripe, проверьте реальную ставку комиссий на FeeAuditor.com, опциональное ежемесячное напоминание о CSV. Без OAuth и API-ключей. Не читает страницы Stripe.",
+    "ogAlt": "Chrome-расширение Stripe Fee Auditor",
+    "eyebrow": "Chrome-помощник · бесплатно в Web Store",
+    "heroTitle": "Stripe Fee Auditor — CSV-помощник проверки комиссий",
+    "heroDescription": "Бесплатный Chrome-помощник для основателей, которые проверяют комиссии Stripe из CSV-экспортов Balance. Открывает нужный экспорт, возвращает в Fee Auditor и может напоминать ежемесячно. Не читает страницы Stripe. Без OAuth и API-ключей.",
+    "calloutTitle": "Доступно в Chrome Web Store для всех.",
+    "calloutBody": "Установка в один клик. Основной путь продукта — sample-отчёт на feeauditor.com — помощник это ярлык и ежемесячный nudge, а не второй продукт.",
+    "installCta": "Установить из Chrome Web Store",
+    "trySampleFirstCta": "Сначала sample-отчёт",
+    "searchFallbackPrefix": "Открывает поиск Chrome Web Store «Stripe Fee Auditor». Нужна точная ссылка на listing? Укажите в",
+    "searchFallbackCodeHint": "lib/chrome-extension.ts",
+    "benefitsHeading": "Что вы получите после установки",
+    "benefits": [
+      "Быстрая оценка комиссий Stripe в popup (опубликованные ставки по странам)",
+      "Открыть экспорт Balance Stripe в один клик",
+      "Перейти в Fee Auditor для загрузки CSV или просмотра sample",
+      "Опциональное локальное ежемесячное напоминание (без OAuth)",
+      "Не сканирует страницы Stripe и не запрашивает host permissions"
+    ],
+    "addToChromeCta": "Добавить в Chrome →",
+    "benefitsFooter": "Бесплатно · без подключения Stripe · анализ остаётся на feeauditor.com",
+    "workflowEyebrow": "Workflow",
+    "workflowHeading": "Для ежемесячной привычки CSV-аудита",
+    "features": [
+      {
+        "step": "1",
+        "title": "Открыть экспорт Stripe",
+        "body": "Сразу к экспорту Balance Stripe вместо поиска в отчётах каждый месяц."
+      },
+      {
+        "step": "2",
+        "title": "Анализ CSV",
+        "body": "Откройте Fee Auditor и загрузите Balance CSV, чтобы проверить processing rate, all-in cost и fee drivers."
+      },
+      {
+        "step": "3",
+        "title": "Ежемесячное напоминание",
+        "body": "Локальное напоминание браузера, чтобы повторить проверку до того, как drift комиссий станет незаметным."
+      }
+    ],
+    "privacyEyebrow": "Подход к приватности",
+    "privacyHeading": "Без чтения страниц. Без API-ключей.",
+    "privacyPoints": [
+      "Без Stripe OAuth и API-ключей",
+      "Без host permissions для stripe.com",
+      "Не читает страницы Stripe Dashboard",
+      "Хранит только настройку напоминания в Chrome storage",
+      "Анализ CSV только когда вы сами загружаете на feeauditor.com"
+    ],
+    "webAppEyebrow": "Предпочитаете веб?",
+    "webAppHeading": "Расширение не обязательно для аудита комиссий",
+    "webAppBody": "Экспортируйте Balance CSV, загрузите на Fee Auditor или начните с sample-отчёта. Chrome-помощник только ускоряет экспорт и напоминает повторить проверку.",
+    "trySample10sCta": "Sample за 10 сек",
+    "csvGuideCta": "Гайд по экспорту CSV",
+    "bottomEyebrow": "Установить · затем диагностика",
+    "bottomHeading": "Добавьте помощник или начните с sample-отчёта.",
+    "bottomBody": "Рекомендуемый путь: sample-отчёт → Chrome-помощник для ежемесячных напоминаний → загрузка своего Balance CSV, когда готовы.",
+    "trySampleReportCta": "Sample-отчёт",
+    "developerNotePrefix": "Разработчикам: исходники на",
+    "githubLinkLabel": "GitHub",
+    "developerNoteSuffix": ". Обычным пользователям — установка из Web Store, не Load unpacked."
+  }
+}

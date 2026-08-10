@@ -1,4 +1,6 @@
 import type { SeoRelatedLink } from "@/components/SeoRelatedReading";
+import { getTranslations } from "next-intl/server";
+import { seoRelatedFromMessages } from "@/lib/i18n/seo-related";
 
 /** Hub links: fees report → export → calculator → analyze */
 export const SEO_RELATED_FEES_REPORT: SeoRelatedLink[] = [
@@ -127,3 +129,18 @@ export const SEO_RELATED_BALANCE_CSV: SeoRelatedLink[] = [
     label: "Stripe data export options",
   },
 ];
+
+const SEO_RELATED_FALLBACKS = {
+  feesReport: SEO_RELATED_FEES_REPORT,
+  feeCalculator: SEO_RELATED_FEE_CALCULATOR,
+  whyHigher: SEO_RELATED_WHY_HIGHER,
+  balanceCsv: SEO_RELATED_BALANCE_CSV,
+} as const;
+
+export type SeoRelatedKey = keyof typeof SEO_RELATED_FALLBACKS;
+
+/** Locale-aware related links with English export fallback. */
+export async function getSeoRelated(key: SeoRelatedKey): Promise<SeoRelatedLink[]> {
+  const t = await getTranslations("seoRelated");
+  return seoRelatedFromMessages(t.raw(key), SEO_RELATED_FALLBACKS[key]);
+}

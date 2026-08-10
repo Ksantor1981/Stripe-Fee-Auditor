@@ -1,0 +1,128 @@
+{
+  "extName": {
+    "message": "Stripe Fee Auditor — Asistente de comprobación de comisiones CSV"
+  },
+  "extShortName": {
+    "message": "Fee Auditor"
+  },
+  "extDescription": {
+    "message": "Estima comisiones Stripe en el popup, abre exportación Balance, audita tu tasa real desde CSV y recibe recordatorios mensuales. Sin OAuth ni claves API."
+  },
+  "actionTitle": {
+    "message": "Fee Auditor — asistente de comprobación de comisiones CSV"
+  },
+  "eyebrow": {
+    "message": "Fee Auditor · feeauditor.com"
+  },
+  "heroTitle": {
+    "message": "Asistente de comisiones Stripe"
+  },
+  "heroCopy": {
+    "message": "Estima comisiones publicadas de Stripe, luego audita tu tasa real desde un CSV Balance — sin OAuth."
+  },
+  "trustNoOAuth": {
+    "message": "Sin OAuth"
+  },
+  "trustQuickEstimate": {
+    "message": "Estimación rápida"
+  },
+  "trustCsvAudit": {
+    "message": "Auditoría CSV"
+  },
+  "calcLabel": {
+    "message": "Estimación rápida de comisiones"
+  },
+  "calcNote": {
+    "message": "Tarifas publicadas — no tu CSV real."
+  },
+  "calcCountry": {
+    "message": "País de la cuenta"
+  },
+  "calcVolume": {
+    "message": "Volumen mensual"
+  },
+  "calcAvgCharge": {
+    "message": "Cargo medio"
+  },
+  "calcIntl": {
+    "message": "% tarjetas intl"
+  },
+  "calcTargetNet": {
+    "message": "Recibir tras comisiones"
+  },
+  "calcVerify": {
+    "message": "Verificar con CSV Balance →"
+  },
+  "actionExportTitle": {
+    "message": "Abrir exportación Stripe"
+  },
+  "actionExportSub": {
+    "message": "Informe Balance → CSV detallado"
+  },
+  "actionAnalyzeTitle": {
+    "message": "Analizar CSV"
+  },
+  "actionAnalyzeSub": {
+    "message": "Subir en Fee Auditor"
+  },
+  "actionSampleTitle": {
+    "message": "Ver informe de ejemplo"
+  },
+  "actionSampleSub": {
+    "message": "Ver el diagnóstico sin CSV"
+  },
+  "actionMonitorTitle": {
+    "message": "Fee Monitor (opcional)"
+  },
+  "actionMonitorSub": {
+    "message": "Recordatorios $9/mes — secundario"
+  },
+  "reminderLabel": {
+    "message": "Recordatorio mensual"
+  },
+  "reminderOff": {
+    "message": "Desactivado"
+  },
+  "reminderOn": {
+    "message": "Activado — abre Fee Auditor mensualmente"
+  },
+  "reminderTurnOn": {
+    "message": "Activar"
+  },
+  "reminderTurnOff": {
+    "message": "Desactivar"
+  },
+  "footerCalculator": {
+    "message": "Calculadora completa en el sitio"
+  },
+  "footerGuide": {
+    "message": "Guía de exportación"
+  },
+  "calcEmpty": {
+    "message": "Introduce volumen mensual para ver una estimación."
+  },
+  "calcLikelyRate": {
+    "message": "Tasa total probable"
+  },
+  "calcPublished": {
+    "message": "Publicado $1% + $2"
+  },
+  "calcMidEstimate": {
+    "message": "Estimación media"
+  },
+  "calcPerMonth": {
+    "message": "/mes"
+  },
+  "calcAbovePublished": {
+    "message": "$1 por encima de lo publicado"
+  },
+  "calcClosePublished": {
+    "message": "Cerca del mix publicado"
+  },
+  "calcChargesMeta": {
+    "message": "~$1 cargos/mes con tu media."
+  },
+  "calcReverse": {
+    "message": "Para recibir $1 en un cargo → pide $2 (comisión ~$3)"
+  }
+}

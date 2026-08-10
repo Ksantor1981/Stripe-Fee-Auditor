@@ -13,6 +13,7 @@ import {
   type RegionBenchmarkId,
 } from "@/lib/region-benchmark";
 import { buildTwitterIntentUrl } from "@/lib/share-copy";
+import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 const REGION_STORAGE_KEY = "fee_auditor_region_benchmark";
 
@@ -26,6 +27,7 @@ interface Props {
 }
 
 export function ShareEmbedBenchmark({ embedShareUrl, result }: Props) {
+  const { t } = useReportTranslations();
   const [regionId, setRegionId] = useState<RegionBenchmarkId>("us");
   const [copiedEmbed, setCopiedEmbed] = useState(false);
   const [pngBusy, setPngBusy] = useState(false);
@@ -121,26 +123,25 @@ export function ShareEmbedBenchmark({ embedShareUrl, result }: Props) {
     <div className="rounded-2xl border border-violet-100 bg-gradient-to-br from-violet-50/80 to-white p-6 shadow-sm space-y-6">
       <div>
         <p className="text-xs font-semibold uppercase tracking-widest text-violet-600 mb-1">
-          Share & compare
+          {t("shareEmbedBenchmark.eyebrow")}
         </p>
         <h2 className="text-lg font-bold text-gray-900">
-          Show others what Stripe really costs you
+          {t("shareEmbedBenchmark.title")}
         </h2>
         <p className="text-xs text-gray-500 mt-1">
-          Post uses your <span className="font-medium text-gray-700">all-in cost rate</span> ({fmtPct(displayAllInRate)})
+          {t("shareEmbedBenchmark.bodyIntro", { rate: fmtPct(displayAllInRate) })}
           {result.feeGrade ? (
             <>
-              {" "}
-              and fee grade <span className="font-medium text-gray-700">{result.feeGrade.letter}</span>
+              {t("shareEmbedBenchmark.bodyGrade", { grade: result.feeGrade.letter })}
             </>
-          ) : null}{" "}
-          — the headline numbers most founders underestimate.
+          ) : null}
+          {t("shareEmbedBenchmark.bodySuffix")}
         </p>
       </div>
 
       <div className="rounded-xl border border-white bg-white/90 px-4 py-4 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
-          <p className="text-sm font-semibold text-gray-800">Regional benchmark</p>
+          <p className="text-sm font-semibold text-gray-800">{t("shareEmbedBenchmark.regionalBenchmark")}</p>
           <select
             className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 bg-white text-gray-700"
             value={regionId}
@@ -154,30 +155,22 @@ export function ShareEmbedBenchmark({ embedShareUrl, result }: Props) {
           </select>
         </div>
         <p className="text-sm text-gray-800 leading-relaxed">
-          Your effective <strong>all-in rate</strong> is{" "}
-          <strong className="text-violet-700">{fmtPct(displayAllInRate)}</strong>.
-          Our directional midpoint for similar businesses in{" "}
-          <strong>{region.label}</strong> is around{" "}
-          <strong>{fmtPct(region.typicalMidPct)}</strong>
+          {t("shareEmbedBenchmark.effectiveRateBody", {
+            rate: fmtPct(displayAllInRate),
+            region: region.label,
+            midpoint: fmtPct(region.typicalMidPct),
+          })}
           {deltaVsTypical >= 0.05 ? (
-            <>
-              {" "}
-              — you&apos;re running about{" "}
-              <strong className="text-amber-700">{Math.abs(deltaVsTypical).toFixed(2)} pp higher</strong>.
-            </>
+            t("shareEmbedBenchmark.runningHigher", { delta: Math.abs(deltaVsTypical).toFixed(2) })
           ) : deltaVsTypical <= -0.05 ? (
-            <>
-              {" "}
-              — you&apos;re about{" "}
-              <strong className="text-emerald-700">{Math.abs(deltaVsTypical).toFixed(2)} pp lower</strong>.
-            </>
+            t("shareEmbedBenchmark.runningLower", { delta: Math.abs(deltaVsTypical).toFixed(2) })
           ) : (
-            <> — roughly in line with that midpoint.</>
+            t("shareEmbedBenchmark.inLine")
           )}
         </p>
         <p className="text-[11px] text-gray-400 mt-2 leading-snug">{region.context}</p>
         <p className="text-[10px] text-gray-400 mt-2 italic">
-          Midpoints are modeled guesses for storytelling — not live market averages or Stripe-official stats.
+          {t("shareEmbedBenchmark.midpointDisclaimer")}
         </p>
       </div>
 
@@ -187,20 +180,20 @@ export function ShareEmbedBenchmark({ embedShareUrl, result }: Props) {
           className="bg-gray-900 hover:bg-gray-800 text-white"
           onClick={openTwitter}
         >
-          Share on X / Twitter
+          {t("shareEmbedBenchmark.shareTwitter")}
         </Button>
         <Button type="button" variant="outline" disabled={pngBusy} onClick={() => void downloadChartPng()}>
-          {pngBusy ? "Saving…" : "Download chart PNG"}
+          {pngBusy ? t("shareEmbedBenchmark.savingPng") : t("shareEmbedBenchmark.downloadChartPng")}
         </Button>
       </div>
       <p className="text-[11px] text-gray-400">
-        X opens with text ready to post. Attach the PNG for extra reach — graphs outperform text-only posts.
+        {t("shareEmbedBenchmark.twitterHint")}
       </p>
 
       <div className="rounded-xl border border-gray-100 bg-gray-50/80 px-4 py-4">
-        <p className="text-sm font-semibold text-gray-800 mb-1">Embed on Notion / your dashboard</p>
+        <p className="text-sm font-semibold text-gray-800 mb-1">{t("shareEmbedBenchmark.embedTitle")}</p>
         <p className="text-xs text-gray-500 mb-3">
-          Paste as &quot;Embed&quot; or HTML block. Anyone with this iframe URL can see summary stats — keep your link private.
+          {t("shareEmbedBenchmark.embedBody")}
         </p>
         <textarea
           readOnly
@@ -208,7 +201,7 @@ export function ShareEmbedBenchmark({ embedShareUrl, result }: Props) {
           value={iframeSnippet}
         />
         <Button type="button" variant="secondary" className="mt-2" onClick={() => void copyEmbed()}>
-          {copiedEmbed ? "Copied!" : "Copy embed code"}
+          {copiedEmbed ? t("shareEmbedBenchmark.copied") : t("shareEmbedBenchmark.copyEmbed")}
         </Button>
       </div>
     </div>

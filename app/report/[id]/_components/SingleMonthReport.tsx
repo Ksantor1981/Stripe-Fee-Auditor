@@ -17,6 +17,7 @@ import { OutlierRateComparison } from "./OutlierRateComparison";
 import { ExpectedOutlierToggle } from "./ExpectedOutlierToggle";
 import { resolvePaywallImpact } from "@/lib/paywall-impact";
 import { selectFreeDiagnosis } from "@/lib/free-diagnosis";
+import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 interface Props {
   reportId: string;
@@ -41,6 +42,7 @@ export function SingleMonthReport({
   outlierSaving = false,
   canMarkExpectedOutliers = false,
 }: Props) {
+  const { t, tc } = useReportTranslations();
   const { chargeRate, chargeVolume, monthly, topDrivers, savingsOpportunities } = result;
   const {
     chargeFees: actualChargeFees,
@@ -65,11 +67,14 @@ export function SingleMonthReport({
   });
   const benchmarkRate = result.benchmark?.expectedRate ?? (result.pricingProfile?.domesticPercent ?? 0.029) * 100;
   const rateGap = chargeRate - benchmarkRate;
-  const rateGapText = `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp vs ~${benchmarkRate.toFixed(2)}% benchmark`;
+  const rateGapText = tc("rateGapVsBenchmark", {
+    gap: `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp`,
+    benchmark: benchmarkRate.toFixed(2),
+  });
   const diagnosis =
     rateGap > 0.25
-      ? "Diagnosis: this month is running above the directional benchmark; inspect the top fee drivers first."
-      : "Diagnosis: this month is close to the directional benchmark; top fee drivers are still worth checking.";
+      ? t("singleMonthReport.diagnosisAboveBenchmark")
+      : t("singleMonthReport.diagnosisNearBenchmark");
 
   return (
     <div className="space-y-6">
@@ -81,21 +86,21 @@ export function SingleMonthReport({
           </div>
         )}
         <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">
-          Single-month analysis
+          {t("singleMonthReport.eyebrow")}
         </p>
         <h1 className="text-2xl font-bold text-gray-900">
-          {isSampleReport ? "Sample Stripe fees for " : "Your Stripe fees for "}
-          <span className="text-blue-600">{month ? fmtMonth(month.month) : "this period"}</span>
+          {isSampleReport ? t("singleMonthReport.titleSample") : t("singleMonthReport.titleYour")}
+          <span className="text-blue-600">{month ? fmtMonth(month.month) : t("singleMonthReport.thisPeriod")}</span>
         </h1>
         <p className="mt-2 text-sm text-gray-700 leading-snug">
-          {isSampleReport ? "This sample shows " : "You paid "}
-          <span className="font-semibold text-gray-900">{fmt$(periodFees)}</span> in Stripe fees{" "}
+          {isSampleReport ? tc("thisSampleShows") : tc("youPaid")}{" "}
+          <span className="font-semibold text-gray-900">{fmt$(periodFees)}</span> {tc("inStripeFees")}{" "}
           {stripeFeesPeriodTail(1)}
         </p>
         <p className="mt-1 text-sm text-gray-600">
-          That&apos;s{" "}
+          {tc("thats")}{" "}
           <span className="font-semibold text-gray-900">{fmt$(yearlyAtThisRate)}</span>
-          /year at this rate.
+          {tc("yearSuffix")} {tc("atThisRate")}.
         </p>
         <p className="mt-2 max-w-2xl text-sm font-medium text-gray-800">
           {diagnosis}
@@ -103,10 +108,10 @@ export function SingleMonthReport({
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
-            { label: "Processing Rate", value: fmtPct(chargeRate), highlight: true },
-            { label: "All-in Cost Rate", value: fmtPct(allInRate) },
-            { label: "Charge Fees", value: fmt$(actualChargeFees) },
-            { label: "Charge Volume", value: fmt$(chargeVolume) },
+            { label: tc("processingRate"), value: fmtPct(chargeRate), highlight: true },
+            { label: tc("allInCostRate"), value: fmtPct(allInRate) },
+            { label: tc("chargeFees"), value: fmt$(actualChargeFees) },
+            { label: tc("chargeVolume"), value: fmt$(chargeVolume) },
           ].map(({ label, value, highlight }) => (
             <div key={label} className={`rounded-xl px-4 py-3 ${highlight ? "bg-blue-50 border border-blue-100" : "bg-gray-50"}`}>
               <p className={`text-xs mb-0.5 ${highlight ? "text-blue-500 font-semibold" : "text-gray-400"}`}>{label}</p>
@@ -125,13 +130,14 @@ export function SingleMonthReport({
 
         <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
           <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-1">
-            Your rate vs advertised card pricing
+            {tc("yourRateVsAdvertised")}
           </p>
           <p className="text-sm text-blue-900">
-            Your card/charge processing rate is <span className="font-semibold">{fmtPct(chargeRate)}</span>{" "}
-            (<span className="font-semibold">{rateGapText}</span>). Stripe&apos;s advertised card rate starts at
-            2.9% + $0.30, but the real rate often moves higher because of fixed fees, international cards, and card mix.
-            Your all-in Stripe cost rate for this export is <span className="font-semibold">{fmtPct(allInRate)}</span>.
+            {t("singleMonthReport.rateComparisonBody", {
+              chargeRate: fmtPct(chargeRate),
+              rateGap: rateGapText,
+              allInRate: fmtPct(allInRate),
+            })}
           </p>
         </div>
       </div>
@@ -164,20 +170,20 @@ export function SingleMonthReport({
       {/* Fee blocks */}
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-5">
-          <h2 className="text-sm font-semibold text-gray-700 mb-3">Charge Fees</h2>
+          <h2 className="text-sm font-semibold text-gray-700 mb-3">{tc("chargeFees")}</h2>
           <p className="text-3xl font-bold text-gray-900">{fmt$(actualChargeFees)}</p>
           <p className="text-sm text-gray-400 mt-1">
-            {fmtPct(chargeRate)} on {fmt$(chargeVolume)} volume
+            {t("singleMonthReport.chargeFeesOnVolume", { rate: fmtPct(chargeRate), volume: fmt$(chargeVolume) })}
           </p>
           {month && (
-            <p className="text-xs text-gray-400 mt-1">{month.count} charges processed</p>
+            <p className="text-xs text-gray-400 mt-1">{t("singleMonthReport.chargesProcessed", { count: month.count })}</p>
           )}
         </div>
         <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-5">
-          <h2 className="text-sm font-semibold text-gray-700 mb-3">All-in Stripe Fees</h2>
+          <h2 className="text-sm font-semibold text-gray-700 mb-3">{tc("allInStripeFees")}</h2>
           <p className="text-3xl font-bold text-gray-900">{fmt$(periodFees)}</p>
           <p className="text-sm text-gray-400 mt-1">
-            Charge fees plus refunds, disputes, payouts &amp; other Stripe fee lines
+            {t("singleMonthReport.allInFeesSubtitle")}
           </p>
         </div>
       </div>
@@ -185,19 +191,19 @@ export function SingleMonthReport({
       {/* Top drivers */}
       <div className="rounded-2xl bg-white border border-gray-100 shadow-sm">
         <div className="px-5 py-4 border-b border-gray-50 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-gray-700">Top Fee Drivers</h2>
+          <h2 className="text-sm font-semibold text-gray-700">{tc("topFeeDrivers")}</h2>
           <span className="text-xs text-gray-400">
             {isSampleReport
-              ? "Sample report · Top 3"
+              ? tc("sampleReportTop3")
               : isPaid
-                ? "Full report · Top 3"
-                : "Free preview · Top 3"}
+                ? tc("fullReportTop3")
+                : tc("freePreviewTop3")}
           </span>
         </div>
         <div className="divide-y divide-gray-50">
           {canMarkExpectedOutliers && topDrivers.length > 0 && (
             <p className="px-5 py-3 text-xs text-gray-500 border-b border-gray-50 bg-gray-50/50">
-              Mark expected one-off charges so they do not skew your typical processing rate. Dollar totals stay unchanged.
+              {t("singleMonthReport.markExpectedOutliersHint")}
             </p>
           )}
           {topDrivers.slice(0, 3).map((row, i) => {
@@ -229,7 +235,7 @@ export function SingleMonthReport({
                     {fmt$(row.fee)}
                   </p>
                   <p className="text-xs text-gray-400">
-                    {row.amount > 0 ? fmtPct((row.fee / row.amount) * 100) : "—"} rate
+                    {row.amount > 0 ? fmtPct((row.fee / row.amount) * 100) : "—"} {tc("rate")}
                   </p>
                 </div>
               </div>
@@ -251,13 +257,13 @@ export function SingleMonthReport({
 
       {/* Upload more CTA */}
       <div className="rounded-2xl bg-blue-50 border border-blue-100 p-5 text-center">
-        <p className="text-sm font-semibold text-blue-800 mb-1">Want trend analysis?</p>
-        <p className="text-xs text-blue-600 mb-3">Upload 2+ months of data to see month-over-month trends and high-fee charge detection.</p>
+        <p className="text-sm font-semibold text-blue-800 mb-1">{t("singleMonthReport.trendCtaTitle")}</p>
+        <p className="text-xs text-blue-600 mb-3">{t("singleMonthReport.trendCtaBody")}</p>
         <a
           href="/analyze"
           className="inline-block text-sm font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900"
         >
-          Upload more months →
+          {t("singleMonthReport.trendCtaLink")}
         </a>
       </div>
     </div>

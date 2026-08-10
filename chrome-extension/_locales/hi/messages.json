@@ -1,0 +1,128 @@
+{
+  "extName": {
+    "message": "Stripe Fee Auditor — CSV शुल्क जाँच सहायक"
+  },
+  "extShortName": {
+    "message": "Fee Auditor"
+  },
+  "extDescription": {
+    "message": "पॉपअप में Stripe शुल्क अनुमान, Balance निर्यात खोलें, CSV से वास्तविक दर ऑडिट करें और मासिक अनुस्मारक पाएँ। OAuth या API कुंजी नहीं।"
+  },
+  "actionTitle": {
+    "message": "Fee Auditor — CSV शुल्क जाँच सहायक"
+  },
+  "eyebrow": {
+    "message": "Fee Auditor · feeauditor.com"
+  },
+  "heroTitle": {
+    "message": "Stripe शुल्क सहायक"
+  },
+  "heroCopy": {
+    "message": "प्रकाशित Stripe शुल्क अनुमानित करें, फिर Balance CSV से वास्तविक दर ऑडिट करें — OAuth नहीं।"
+  },
+  "trustNoOAuth": {
+    "message": "OAuth नहीं"
+  },
+  "trustQuickEstimate": {
+    "message": "त्वरित अनुमान"
+  },
+  "trustCsvAudit": {
+    "message": "CSV ऑडिट"
+  },
+  "calcLabel": {
+    "message": "त्वरित शुल्क अनुमान"
+  },
+  "calcNote": {
+    "message": "प्रकाशित दरें — आपका वास्तविक CSV नहीं।"
+  },
+  "calcCountry": {
+    "message": "खाता देश"
+  },
+  "calcVolume": {
+    "message": "मासिक वॉल्यूम"
+  },
+  "calcAvgCharge": {
+    "message": "औसत चार्ज"
+  },
+  "calcIntl": {
+    "message": "अंतर्राष्ट्रीय कार्ड %"
+  },
+  "calcTargetNet": {
+    "message": "शुल्क के बाद प्राप्त"
+  },
+  "calcVerify": {
+    "message": "Balance CSV से सत्यापित करें →"
+  },
+  "actionExportTitle": {
+    "message": "Stripe निर्यात खोलें"
+  },
+  "actionExportSub": {
+    "message": "Balance रिपोर्ट → विस्तृत CSV"
+  },
+  "actionAnalyzeTitle": {
+    "message": "CSV विश्लेषण"
+  },
+  "actionAnalyzeSub": {
+    "message": "Fee Auditor पर अपलोड"
+  },
+  "actionSampleTitle": {
+    "message": "Sample रिपोर्ट देखें"
+  },
+  "actionSampleSub": {
+    "message": "CSV के बिना निदान देखें"
+  },
+  "actionMonitorTitle": {
+    "message": "Fee Monitor (वैकल्पिक)"
+  },
+  "actionMonitorSub": {
+    "message": "$9/माह अनुस्मारक — द्वितीयक"
+  },
+  "reminderLabel": {
+    "message": "मासिक अनुस्मारक"
+  },
+  "reminderOff": {
+    "message": "बंद"
+  },
+  "reminderOn": {
+    "message": "चालू — मासिक Fee Auditor खोलता है"
+  },
+  "reminderTurnOn": {
+    "message": "चालू करें"
+  },
+  "reminderTurnOff": {
+    "message": "बंद करें"
+  },
+  "footerCalculator": {
+    "message": "साइट पर पूर्ण कैलकुलेटर"
+  },
+  "footerGuide": {
+    "message": "निर्यात गाइड"
+  },
+  "calcEmpty": {
+    "message": "अनुमान देखने के लिए मासिक वॉल्यूम दर्ज करें।"
+  },
+  "calcLikelyRate": {
+    "message": "संभावित all-in दर"
+  },
+  "calcPublished": {
+    "message": "प्रकाशित $1% + $2"
+  },
+  "calcMidEstimate": {
+    "message": "मध्य अनुमान"
+  },
+  "calcPerMonth": {
+    "message": "/माह"
+  },
+  "calcAbovePublished": {
+    "message": "प्रकाशित से $1 अधिक"
+  },
+  "calcClosePublished": {
+    "message": "प्रकाशित mix के करीब"
+  },
+  "calcChargesMeta": {
+    "message": "आपके औसत पर ~$1 चार्ज/माह।"
+  },
+  "calcReverse": {
+    "message": "एक चार्ज पर $1 प्राप्त करने के लिए → $2 माँगें (शुल्क ~$3)"
+  }
+}

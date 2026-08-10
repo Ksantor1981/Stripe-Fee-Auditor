@@ -1,0 +1,128 @@
+{
+  "extName": {
+    "message": "Stripe Fee Auditor — CSV Fee Check Helper"
+  },
+  "extShortName": {
+    "message": "Fee Auditor"
+  },
+  "extDescription": {
+    "message": "Estimate Stripe fees in the popup, open Balance export, audit your real rate from CSV, and get monthly reminders. No OAuth or API keys."
+  },
+  "actionTitle": {
+    "message": "Fee Auditor — CSV fee check helper"
+  },
+  "eyebrow": {
+    "message": "Fee Auditor · feeauditor.com"
+  },
+  "heroTitle": {
+    "message": "Stripe fee helper"
+  },
+  "heroCopy": {
+    "message": "Estimate published Stripe fees, then audit your real rate from a Balance CSV — no OAuth."
+  },
+  "trustNoOAuth": {
+    "message": "No OAuth"
+  },
+  "trustQuickEstimate": {
+    "message": "Quick estimate"
+  },
+  "trustCsvAudit": {
+    "message": "CSV audit"
+  },
+  "calcLabel": {
+    "message": "Quick fee estimate"
+  },
+  "calcNote": {
+    "message": "Published rates — not your actual CSV."
+  },
+  "calcCountry": {
+    "message": "Account country"
+  },
+  "calcVolume": {
+    "message": "Monthly volume"
+  },
+  "calcAvgCharge": {
+    "message": "Avg charge"
+  },
+  "calcIntl": {
+    "message": "Intl cards %"
+  },
+  "calcTargetNet": {
+    "message": "Receive after fees"
+  },
+  "calcVerify": {
+    "message": "Verify with Balance CSV →"
+  },
+  "actionExportTitle": {
+    "message": "Open Stripe export"
+  },
+  "actionExportSub": {
+    "message": "Balance report → Itemized CSV"
+  },
+  "actionAnalyzeTitle": {
+    "message": "Analyze CSV"
+  },
+  "actionAnalyzeSub": {
+    "message": "Upload on Fee Auditor"
+  },
+  "actionSampleTitle": {
+    "message": "View sample report"
+  },
+  "actionSampleSub": {
+    "message": "See the diagnosis without a CSV"
+  },
+  "actionMonitorTitle": {
+    "message": "Fee Monitor (optional)"
+  },
+  "actionMonitorSub": {
+    "message": "$9/mo reminders — secondary"
+  },
+  "reminderLabel": {
+    "message": "Monthly reminder"
+  },
+  "reminderOff": {
+    "message": "Off"
+  },
+  "reminderOn": {
+    "message": "On - opens Fee Auditor monthly"
+  },
+  "reminderTurnOn": {
+    "message": "Turn on"
+  },
+  "reminderTurnOff": {
+    "message": "Turn off"
+  },
+  "footerCalculator": {
+    "message": "Full calculator on site"
+  },
+  "footerGuide": {
+    "message": "Export guide"
+  },
+  "calcEmpty": {
+    "message": "Enter monthly volume to see an estimate."
+  },
+  "calcLikelyRate": {
+    "message": "Likely all-in rate"
+  },
+  "calcPublished": {
+    "message": "Published $1% + $2"
+  },
+  "calcMidEstimate": {
+    "message": "Mid estimate"
+  },
+  "calcPerMonth": {
+    "message": "/mo"
+  },
+  "calcAbovePublished": {
+    "message": "$1 above published"
+  },
+  "calcClosePublished": {
+    "message": "Close to published mix"
+  },
+  "calcChargesMeta": {
+    "message": "~$1 charges/mo at your average."
+  },
+  "calcReverse": {
+    "message": "To receive $1 on one charge → ask for $2 (fee ~$3)"
+  }
+}

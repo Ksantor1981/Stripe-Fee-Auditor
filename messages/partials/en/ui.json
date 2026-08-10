@@ -1,0 +1,175 @@
+{
+  "footer": {
+    "updated": "Updated August 2026",
+    "disclaimer": "Fee Auditor (feeauditor.com) is an independent SaaS tool. Not affiliated with, endorsed by, or part of Stripe, Inc. \"Stripe\" is a trademark of Stripe, Inc.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "refundPolicy": "Refund Policy",
+    "seoLinks": [
+      { "href": "/monitor", "label": "Fee Monitor" },
+      { "href": "/chrome-extension", "label": "Chrome helper" },
+      { "href": "/stripe-fee-calculator", "label": "Stripe fee calculator" },
+      { "href": "/should-i-switch-from-stripe", "label": "Should I switch from Stripe?" },
+      { "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" },
+      { "href": "/stripe-vs-square-fees", "label": "Stripe vs Square" },
+      { "href": "/what-percent-does-stripe-take", "label": "What percent Stripe takes" },
+      { "href": "/stripe-balance-csv", "label": "Stripe Balance CSV" },
+      { "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Why fees exceed 2.9%" }
+    ],
+    "blogLinks": [
+      { "href": "/blog/why-stripe-fees-increase", "label": "Why Stripe fees increase" },
+      { "href": "/blog/how-to-reduce-stripe-fees", "label": "How to reduce fees" },
+      { "href": "/blog/stripe-effective-fee-rate-explained", "label": "Fee rate explained" }
+    ]
+  },
+  "breadcrumbs": {
+    "home": "Home"
+  },
+  "quotes": {
+    "quote1": "Focused single-purpose tool with a compelling privacy differentiator.",
+    "quote1Name": "Assaf Sheinrok",
+    "quote1Link": "PagePulse",
+    "quote2": "The preview made the fee drivers obvious.",
+    "quote2Name": "Ivan Chernov"
+  },
+  "seoShell": {
+    "lastUpdated": "Last updated:",
+    "lastUpdatedValue": "August 2026",
+    "trustDisclaimer": "Fee Auditor (feeauditor.com) is an independent SaaS tool operated under the Stripe Fee Auditor product name. It is not affiliated with, endorsed by, or part of Stripe, Inc. \"Stripe\" is a trademark of Stripe, Inc.",
+    "ctaTitle": "Audit your real Stripe fee rate",
+    "ctaDescription": "Upload a Balance CSV — no OAuth. Free preview first.",
+    "ctaPrimary": "Analyze My CSV →",
+    "ctaSample": "See sample report",
+    "relatedReading": "Related reading",
+    "faqHeading": "Common questions",
+    "blogFaqHeading": "Common questions",
+    "sourcesHeading": "Official sources",
+    "sourcesIntro": "Pricing and payment rules can change. Use official docs as the current reference, then compare them with your own Stripe export."
+  },
+  "blogHub": {
+    "metaTitle": "Stripe Fees Guide: Hidden Fees, Audits & Savings | FeeAuditor Blog",
+    "metaDescription": "Practical guides on Stripe effective rate, Balance CSV exports, international card fees, ACH savings, payment alternatives, and no-OAuth fee audits.",
+    "pageTitle": "Stripe fee guides",
+    "pageSubtitle": "Practical articles on effective rate, exports, international cards, and savings — no OAuth required.",
+    "readTimeFormat": "{time} read",
+    "readArticle": "Read article",
+    "privacyClusterTitle": "Privacy & trust",
+    "privacyClusterDesc": "Why CSV-first beats OAuth for one-off fee audits.",
+    "sections": {
+      "startHere": {
+        "eyebrow": "Start here",
+        "title": "Find your real Stripe fee rate",
+        "description": "Use these pages when you want the shortest path from confusion to a useful number."
+      },
+      "diagnose": {
+        "eyebrow": "Diagnose fees",
+        "title": "Understand why Stripe costs more than expected",
+        "description": "Break down the drivers behind a 3.8% or 4%+ effective rate."
+      },
+      "compare": {
+        "eyebrow": "Compare options",
+        "title": "Decide whether to switch, add ACH, or change checkout",
+        "description": "Comparison and optimization guides for founders who want lower payment costs."
+      },
+      "reduce": {
+        "eyebrow": "Reduce fees",
+        "title": "Actionable savings from your export",
+        "description": "Checklists and playbooks once you know where the drag comes from."
+      },
+      "exportPrivacy": {
+        "eyebrow": "Export and privacy",
+        "title": "Audit fees without connecting your Stripe account",
+        "description": "CSV export steps, data-handling details, and no-OAuth privacy notes."
+      }
+    }
+  },
+  "seoRelated": {
+    "feesReport": [
+      { "context": "Need the export steps?", "href": "/stripe-balance-csv", "label": "Export Stripe Balance CSV" },
+      { "context": "Estimate published rates first?", "href": "/stripe-fee-calculator", "label": "Stripe fee calculator" },
+      { "context": "Why is the rate above 2.9%?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Why fees run higher" },
+      { "context": "Comparing PayPal or Wise?", "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" },
+      { "context": "Ready to run the audit?", "href": "/analyze", "label": "Analyze my CSV" }
+    ],
+    "feeCalculator": [
+      { "context": "What should the report include?", "href": "/stripe-fees-report", "label": "Stripe fees report guide" },
+      { "context": "Don't have the CSV yet?", "href": "/stripe-balance-csv", "label": "CSV Export Guide" },
+      { "context": "Fees up vs last month?", "href": "/blog/why-stripe-fees-increase", "label": "Why Stripe fees increase" },
+      { "context": "Want to understand the fee drivers?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Why fees run higher" },
+      { "context": "Need the short percentage answer?", "href": "/what-percent-does-stripe-take", "label": "What percent Stripe takes" },
+      { "context": "Comparing payment options?", "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" }
+    ],
+    "whyHigher": [
+      { "context": "Build a full fees report", "href": "/stripe-fees-report", "label": "Stripe fees report" },
+      { "context": "Fees up vs last month?", "href": "/blog/why-stripe-fees-increase", "label": "Why Stripe fees increase" },
+      { "context": "Estimate published fees first", "href": "/stripe-fee-calculator", "label": "Stripe fees calculator" },
+      { "context": "Next: how to export the file", "href": "/stripe-balance-csv", "label": "CSV Export Guide" },
+      { "context": "Need the basic percentage first?", "href": "/what-percent-does-stripe-take", "label": "How much Stripe charges per transaction" },
+      { "context": "Ready to check your real rate?", "href": "/analyze", "label": "Analyze my CSV" }
+    ],
+    "balanceCsv": [
+      { "context": "What to do with the export?", "href": "/stripe-fees-report", "label": "Stripe fees report" },
+      { "context": "Estimate fees before you export?", "href": "/stripe-fee-calculator", "label": "Stripe fees calculator" },
+      { "context": "Why is the rate above 2.9%?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Why fees run higher than 2.9%" },
+      { "context": "Need the short percentage answer?", "href": "/what-percent-does-stripe-take", "label": "What percent Stripe takes" },
+      { "context": "Fees jumped month over month?", "href": "/blog/why-stripe-fees-increase", "label": "Why Stripe fees increase" },
+      { "context": "Other export formats?", "href": "/stripe-data-export", "label": "Stripe data export options" }
+    ]
+  },
+  "faq": {
+    "useful-for-me": {
+      "q": "Is Fee Auditor useful for my business?",
+      "a": "Useful if you have international cards, refunds, small subscriptions, or a Stripe rate that feels higher than expected. Skip if you only have a few domestic high-ticket charges and just need a rough spreadsheet formula."
+    },
+    "store-csv": {
+      "q": "Do you store my Stripe CSV file?",
+      "a": "No. Your browser reads the file for upload preview, then sends it once to our servers for analysis. We store <strong>computed numbers and aggregates</strong> (rates, totals, grouped categories) — not the raw CSV as a file.",
+      "a2": "Transaction IDs may appear in your private report so you can match rows to Stripe; free-text descriptions from the export are stripped before long-term storage where possible."
+    },
+    "stripe-access": {
+      "q": "Does Stripe Fee Auditor connect to my Stripe account?",
+      "a": "No API connection and no OAuth. You export a CSV from the Stripe Dashboard and upload it here — same data you could open in a spreadsheet, without granting third-party access to your live account."
+    },
+    "who-sees": {
+      "q": "Who can see my report?",
+      "a": "Only someone with your private link (including the access token in the URL). Treat it like a password: don't share it in public channels. Reports expire automatically based on our retention policy (short preview window or longer during beta / after purchase — see Terms)."
+    },
+    "accuracy": {
+      "q": "Are the benchmarks and savings numbers guaranteed?",
+      "a": "They're <strong>directional estimates</strong> built from your export using simplified rules (not Stripe's internal ledger). Use them to spot patterns and questions for your finance team — not as contractual fee quotes."
+    },
+    "worth-12": {
+      "q": "Is the $12 full report worth it after beta?",
+      "a": "It depends on your volume. If you process only a few small payments, the preview or a spreadsheet may be enough. If you process meaningful monthly volume, have international customers, refunds, or many low-ticket charges, the full report is designed to show the specific rows and actions behind the headline rate."
+    },
+    "stripe-refund-policy": {
+      "q": "Does Stripe return fees when I refund a payment?",
+      "a": "No. Per <stripeLink>Stripe's pricing FAQ</stripeLink>, when you issue a refund Stripe does <strong>not</strong> return the processing fees, Connect fees, or currency conversion fees from the original transaction. That can raise your blended effective rate if refunds are common."
+    },
+    "stripe-disputes": {
+      "q": "What do Stripe disputes and Smart Disputes cost?",
+      "a": "Stripe charges a <strong>$15</strong> fee when a dispute is received; that fee is refunded if you win the dispute. <strong>Smart Disputes</strong> (when enabled) adds <strong>30% of the disputed amount</strong> when you win — on top of card processing fees. See <stripeLink>stripe.com/pricing</stripeLink>."
+    },
+    "stripe-billing-fees": {
+      "q": "Does Stripe Billing add fees on top of card processing?",
+      "a": "Yes. <billingLink>Stripe Billing</billingLink> is <strong>0.7%</strong> of billing volume (subscriptions, invoices, usage-based billing) on top of standard card processing fees. Tax, Radar, BNPL, and other products have separate published rates."
+    },
+    "stripe-custom-pricing": {
+      "q": "Why might my Stripe rate differ from published pricing?",
+      "a": "Many accounts have <strong>custom or interchange-plus pricing</strong>. Regional card mix, manually entered cards (+0.5%), and product add-ons also change the blended rate. Check <strong>Dashboard → Settings → Plans and fees</strong> for your contract rates — our calculator and benchmarks use published list pricing unless noted."
+    },
+    "stripe-regional-rates": {
+      "q": "Do Stripe fees differ by country?",
+      "a": "Yes. Domestic and international card rates vary by account country (US, UK, EU, CA, AU, etc.). UK and EU use tiered cross-border uplifts; Canada international cards add <strong>0.8%</strong>; Australia domestic is <strong>1.7% + A$0.30</strong> with lower pricing from <strong>1 Oct 2026</strong>. Our fee estimator lets you pick a region; exact tiers are on <stripeLink>stripe.com/pricing</stripeLink>."
+    },
+    "chatgpt": {
+      "q": "Can I just paste my Stripe CSV into ChatGPT?",
+      "a": "ChatGPT can discuss a few rows, but it will not reliably compute your all-in rate across thousands of transactions, flag high-fee charges with row-level evidence, or return the same ranked savings actions every time.",
+      "a2": "Fee Auditor runs <strong>deterministic rules</strong> on the full export — no hallucinated fees — with ranked savings opportunities and Stripe dashboard links where applicable."
+    },
+    "excel": {
+      "q": "Can I calculate this myself in Excel?",
+      "a": "Yes. The basic blended rate is just total charge fees divided by total charge volume. Fee Auditor is useful when you want the next layer: monthly changes, high-fee charges, refund fee leakage, benchmark context, exports, and specific savings opportunities without rebuilding the spreadsheet every time."
+    }
+  }
+}

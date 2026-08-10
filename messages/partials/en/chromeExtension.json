@@ -1,0 +1,30 @@
+{
+  "chromeExtension": {
+    "metaTitle": "Stripe Fee Auditor — CSV Fee Check Helper",
+    "metaDescription": "Install the free Chrome helper: open Stripe Balance export, audit your real fee rate on FeeAuditor.com, optional monthly CSV reminder. No OAuth or API keys. Does not read Stripe pages.",
+    "heroTitle": "Stripe Fee Auditor — CSV helper for your real fee rate",
+    "heroDescription": "Estimate published fees in the popup, jump to Stripe Balance export, and audit your CSV on FeeAuditor.com — no OAuth, no API keys, no reading Stripe Dashboard pages.",
+    "installCta": "Install from Chrome Web Store",
+    "installPending": "Store listing pending",
+    "viewSource": "View source on GitHub",
+    "featuresHeading": "What it does",
+    "feature1Title": "Open Stripe export",
+    "feature1Body": "Jump straight to Stripe's Balance export workflow instead of hunting through reports every month.",
+    "feature2Title": "Analyze CSV",
+    "feature2Body": "Open Fee Auditor and upload the Balance CSV to check processing rate, all-in cost, and fee drivers.",
+    "feature3Title": "Monthly reminder",
+    "feature3Body": "Use a local browser reminder to repeat the check before fee drift becomes invisible.",
+    "privacyHeading": "Privacy posture",
+    "privacy1": "No Stripe OAuth and no API keys",
+    "privacy2": "No host permissions for stripe.com",
+    "privacy3": "Does not read Stripe Dashboard pages",
+    "privacy4": "Stores only the reminder setting in Chrome storage",
+    "privacy5": "CSV analysis still happens only when you choose to upload on feeauditor.com",
+    "webAppHeading": "Prefer the web app?",
+    "webAppBody": "Upload a Balance CSV directly — same diagnosis, no extension required.",
+    "webAppCta": "Audit my Stripe fees — free",
+    "finalCtaTitle": "Install the helper · audit on your terms",
+    "finalCtaBody": "Free extension. Fee analysis stays on feeauditor.com when you choose to upload.",
+    "githubNote": "Extension source is public on GitHub for review."
+  }
+}

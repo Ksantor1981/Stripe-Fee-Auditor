@@ -1,0 +1,128 @@
+{
+  "extName": {
+    "message": "Stripe Fee Auditor — Assistant de vérification des frais CSV"
+  },
+  "extShortName": {
+    "message": "Fee Auditor"
+  },
+  "extDescription": {
+    "message": "Estimez les frais Stripe dans le popup, ouvrez l'export Balance, auditez votre taux réel depuis le CSV et recevez des rappels mensuels. Pas d'OAuth ni de clés API."
+  },
+  "actionTitle": {
+    "message": "Fee Auditor — assistant de vérification des frais CSV"
+  },
+  "eyebrow": {
+    "message": "Fee Auditor · feeauditor.com"
+  },
+  "heroTitle": {
+    "message": "Assistant frais Stripe"
+  },
+  "heroCopy": {
+    "message": "Estimez les frais Stripe publiés, puis auditez votre taux réel depuis un CSV Balance — sans OAuth."
+  },
+  "trustNoOAuth": {
+    "message": "Sans OAuth"
+  },
+  "trustQuickEstimate": {
+    "message": "Estimation rapide"
+  },
+  "trustCsvAudit": {
+    "message": "Audit CSV"
+  },
+  "calcLabel": {
+    "message": "Estimation rapide des frais"
+  },
+  "calcNote": {
+    "message": "Tarifs publiés — pas votre CSV réel."
+  },
+  "calcCountry": {
+    "message": "Pays du compte"
+  },
+  "calcVolume": {
+    "message": "Volume mensuel"
+  },
+  "calcAvgCharge": {
+    "message": "Paiement moyen"
+  },
+  "calcIntl": {
+    "message": "% cartes intl"
+  },
+  "calcTargetNet": {
+    "message": "Recevoir après frais"
+  },
+  "calcVerify": {
+    "message": "Vérifier avec CSV Balance →"
+  },
+  "actionExportTitle": {
+    "message": "Ouvrir l'export Stripe"
+  },
+  "actionExportSub": {
+    "message": "Rapport Balance → CSV détaillé"
+  },
+  "actionAnalyzeTitle": {
+    "message": "Analyser le CSV"
+  },
+  "actionAnalyzeSub": {
+    "message": "Téléverser sur Fee Auditor"
+  },
+  "actionSampleTitle": {
+    "message": "Voir le rapport exemple"
+  },
+  "actionSampleSub": {
+    "message": "Voir le diagnostic sans CSV"
+  },
+  "actionMonitorTitle": {
+    "message": "Fee Monitor (optionnel)"
+  },
+  "actionMonitorSub": {
+    "message": "Rappels 9 $/mois — secondaire"
+  },
+  "reminderLabel": {
+    "message": "Rappel mensuel"
+  },
+  "reminderOff": {
+    "message": "Désactivé"
+  },
+  "reminderOn": {
+    "message": "Activé — ouvre Fee Auditor chaque mois"
+  },
+  "reminderTurnOn": {
+    "message": "Activer"
+  },
+  "reminderTurnOff": {
+    "message": "Désactiver"
+  },
+  "footerCalculator": {
+    "message": "Calculateur complet sur le site"
+  },
+  "footerGuide": {
+    "message": "Guide d'export"
+  },
+  "calcEmpty": {
+    "message": "Saisissez le volume mensuel pour une estimation."
+  },
+  "calcLikelyRate": {
+    "message": "Taux global probable"
+  },
+  "calcPublished": {
+    "message": "Publié $1% + $2"
+  },
+  "calcMidEstimate": {
+    "message": "Estimation médiane"
+  },
+  "calcPerMonth": {
+    "message": "/mois"
+  },
+  "calcAbovePublished": {
+    "message": "$1 au-dessus du publié"
+  },
+  "calcClosePublished": {
+    "message": "Proche du mix publié"
+  },
+  "calcChargesMeta": {
+    "message": "~$1 paiements/mois à votre moyenne."
+  },
+  "calcReverse": {
+    "message": "Pour recevoir $1 sur un paiement → demander $2 (frais ~$3)"
+  }
+}

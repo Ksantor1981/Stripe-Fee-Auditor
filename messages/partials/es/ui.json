@@ -1,0 +1,175 @@
+{
+  "footer": {
+    "updated": "Actualizado en agosto de 2026",
+    "disclaimer": "Fee Auditor (feeauditor.com) es una herramienta SaaS independiente. No está afiliada, respaldada ni forma parte de Stripe, Inc. «Stripe» es una marca registrada de Stripe, Inc.",
+    "privacyPolicy": "Política de privacidad",
+    "termsOfService": "Términos del servicio",
+    "refundPolicy": "Política de reembolsos",
+    "seoLinks": [
+      { "href": "/monitor", "label": "Monitor de comisiones" },
+      { "href": "/chrome-extension", "label": "Extensión para Chrome" },
+      { "href": "/stripe-fee-calculator", "label": "Calculadora de comisiones de Stripe" },
+      { "href": "/should-i-switch-from-stripe", "label": "¿Debería cambiar de Stripe?" },
+      { "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" },
+      { "href": "/stripe-vs-square-fees", "label": "Stripe vs Square" },
+      { "href": "/what-percent-does-stripe-take", "label": "Qué porcentaje cobra Stripe" },
+      { "href": "/stripe-balance-csv", "label": "CSV de saldo de Stripe" },
+      { "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Por qué las comisiones superan el 2,9 %" }
+    ],
+    "blogLinks": [
+      { "href": "/blog/why-stripe-fees-increase", "label": "Por qué suben las comisiones de Stripe" },
+      { "href": "/blog/how-to-reduce-stripe-fees", "label": "Cómo reducir las comisiones" },
+      { "href": "/blog/stripe-effective-fee-rate-explained", "label": "Tasa de comisión explicada" }
+    ]
+  },
+  "breadcrumbs": {
+    "home": "Inicio"
+  },
+  "quotes": {
+    "quote1": "Herramienta enfocada en un solo propósito con un diferenciador de privacidad convincente.",
+    "quote1Name": "Assaf Sheinrok",
+    "quote1Link": "PagePulse",
+    "quote2": "La vista previa dejó claros los factores que impulsan las comisiones.",
+    "quote2Name": "Ivan Chernov"
+  },
+  "seoShell": {
+    "lastUpdated": "Última actualización:",
+    "lastUpdatedValue": "Agosto de 2026",
+    "trustDisclaimer": "Fee Auditor (feeauditor.com) es una herramienta SaaS independiente operada bajo el nombre de producto Stripe Fee Auditor. No está afiliada, respaldada ni forma parte de Stripe, Inc. «Stripe» es una marca registrada de Stripe, Inc.",
+    "ctaTitle": "Audita tu tasa real de comisiones de Stripe",
+    "ctaDescription": "Sube un CSV de saldo — sin OAuth. Vista previa gratuita primero.",
+    "ctaPrimary": "Analizar mi CSV →",
+    "ctaSample": "Ver informe de ejemplo",
+    "relatedReading": "Lecturas relacionadas",
+    "faqHeading": "Preguntas frecuentes",
+    "blogFaqHeading": "Preguntas frecuentes",
+    "sourcesHeading": "Fuentes oficiales",
+    "sourcesIntro": "Los precios y las reglas de pago pueden cambiar. Usa la documentación oficial como referencia actual y compárala con tu propia exportación de Stripe."
+  },
+  "blogHub": {
+    "metaTitle": "Guía de comisiones de Stripe: comisiones ocultas, auditorías y ahorros | Blog de FeeAuditor",
+    "metaDescription": "Guías prácticas sobre tasa efectiva de Stripe, exportaciones CSV de saldo, comisiones de tarjetas internacionales, ahorros con ACH, alternativas de pago y auditorías de comisiones sin OAuth.",
+    "pageTitle": "Guías de comisiones de Stripe",
+    "pageSubtitle": "Artículos prácticos sobre tasa efectiva, exportaciones, tarjetas internacionales y ahorros — sin OAuth.",
+    "readTimeFormat": "{time} de lectura",
+    "readArticle": "Leer artículo",
+    "privacyClusterTitle": "Privacidad y confianza",
+    "privacyClusterDesc": "Por qué CSV primero supera a OAuth para auditorías puntuales de comisiones.",
+    "sections": {
+      "startHere": {
+        "eyebrow": "Empieza aquí",
+        "title": "Encuentra tu tasa real de comisiones de Stripe",
+        "description": "Usa estas páginas cuando quieras el camino más corto de la confusión a un número útil."
+      },
+      "diagnose": {
+        "eyebrow": "Diagnosticar comisiones",
+        "title": "Entiende por qué Stripe cuesta más de lo esperado",
+        "description": "Desglosa los factores detrás de una tasa efectiva del 3,8 % o más del 4 %."
+      },
+      "compare": {
+        "eyebrow": "Comparar opciones",
+        "title": "Decide si cambiar, añadir ACH o modificar el checkout",
+        "description": "Guías de comparación y optimización para fundadores que buscan reducir costes de pago."
+      },
+      "reduce": {
+        "eyebrow": "Reducir comisiones",
+        "title": "Ahorros accionables a partir de tu exportación",
+        "description": "Listas de verificación y guías prácticas una vez que sepas de dónde viene el arrastre."
+      },
+      "exportPrivacy": {
+        "eyebrow": "Exportación y privacidad",
+        "title": "Audita comisiones sin conectar tu cuenta de Stripe",
+        "description": "Pasos de exportación CSV, detalles de manejo de datos y notas de privacidad sin OAuth."
+      }
+    }
+  },
+  "seoRelated": {
+    "feesReport": [
+      { "context": "¿Necesitas los pasos de exportación?", "href": "/stripe-balance-csv", "label": "Exportar CSV de saldo de Stripe" },
+      { "context": "¿Estimar primero las tarifas publicadas?", "href": "/stripe-fee-calculator", "label": "Calculadora de comisiones de Stripe" },
+      { "context": "¿Por qué la tasa supera el 2,9 %?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Por qué las comisiones son más altas" },
+      { "context": "¿Comparando PayPal o Wise?", "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" },
+      { "context": "¿Listo para ejecutar la auditoría?", "href": "/analyze", "label": "Analizar mi CSV" }
+    ],
+    "feeCalculator": [
+      { "context": "¿Qué debe incluir el informe?", "href": "/stripe-fees-report", "label": "Guía del informe de comisiones de Stripe" },
+      { "context": "¿Aún no tienes el CSV?", "href": "/stripe-balance-csv", "label": "Guía de exportación CSV" },
+      { "context": "¿Comisiones al alza respecto al mes pasado?", "href": "/blog/why-stripe-fees-increase", "label": "Por qué suben las comisiones de Stripe" },
+      { "context": "¿Quieres entender los factores de comisión?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Por qué las comisiones son más altas" },
+      { "context": "¿Necesitas la respuesta breve en porcentaje?", "href": "/what-percent-does-stripe-take", "label": "Qué porcentaje cobra Stripe" },
+      { "context": "¿Comparando opciones de pago?", "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" }
+    ],
+    "whyHigher": [
+      { "context": "Crea un informe completo de comisiones", "href": "/stripe-fees-report", "label": "Informe de comisiones de Stripe" },
+      { "context": "¿Comisiones al alza respecto al mes pasado?", "href": "/blog/why-stripe-fees-increase", "label": "Por qué suben las comisiones de Stripe" },
+      { "context": "Estima primero las comisiones publicadas", "href": "/stripe-fee-calculator", "label": "Calculadora de comisiones de Stripe" },
+      { "context": "Siguiente: cómo exportar el archivo", "href": "/stripe-balance-csv", "label": "Guía de exportación CSV" },
+      { "context": "¿Necesitas primero el porcentaje básico?", "href": "/what-percent-does-stripe-take", "label": "Cuánto cobra Stripe por transacción" },
+      { "context": "¿Listo para comprobar tu tasa real?", "href": "/analyze", "label": "Analizar mi CSV" }
+    ],
+    "balanceCsv": [
+      { "context": "¿Qué hacer con la exportación?", "href": "/stripe-fees-report", "label": "Informe de comisiones de Stripe" },
+      { "context": "¿Estimar comisiones antes de exportar?", "href": "/stripe-fee-calculator", "label": "Calculadora de comisiones de Stripe" },
+      { "context": "¿Por qué la tasa supera el 2,9 %?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Por qué las comisiones superan el 2,9 %" },
+      { "context": "¿Necesitas la respuesta breve en porcentaje?", "href": "/what-percent-does-stripe-take", "label": "Qué porcentaje cobra Stripe" },
+      { "context": "¿Comisiones disparadas mes a mes?", "href": "/blog/why-stripe-fees-increase", "label": "Por qué suben las comisiones de Stripe" },
+      { "context": "¿Otros formatos de exportación?", "href": "/stripe-data-export", "label": "Opciones de exportación de datos de Stripe" }
+    ]
+  },
+  "faq": {
+    "useful-for-me": {
+      "q": "¿Fee Auditor es útil para mi negocio?",
+      "a": "Es útil si tienes tarjetas internacionales, reembolsos, suscripciones pequeñas o una tasa de Stripe que parece más alta de lo esperado. Omítelo si solo tienes unos pocos cobros domésticos de importe alto y solo necesitas una fórmula aproximada en una hoja de cálculo."
+    },
+    "store-csv": {
+      "q": "¿Guardáis mi archivo CSV de Stripe?",
+      "a": "No. Tu navegador lee el archivo para la vista previa de carga y luego lo envía una vez a nuestros servidores para el análisis. Almacenamos <strong>números calculados y agregados</strong> (tasas, totales, categorías agrupadas) — no el CSV en bruto como archivo.",
+      "a2": "Los ID de transacción pueden aparecer en tu informe privado para que puedas hacer coincidir filas con Stripe; las descripciones de texto libre de la exportación se eliminan antes del almacenamiento a largo plazo cuando es posible."
+    },
+    "stripe-access": {
+      "q": "¿Stripe Fee Auditor se conecta a mi cuenta de Stripe?",
+      "a": "Sin conexión API ni OAuth. Exportas un CSV desde el panel de Stripe y lo subes aquí — los mismos datos que podrías abrir en una hoja de cálculo, sin conceder acceso de terceros a tu cuenta activa."
+    },
+    "who-sees": {
+      "q": "¿Quién puede ver mi informe?",
+      "a": "Solo quien tenga tu enlace privado (incluido el token de acceso en la URL). Trátalo como una contraseña: no lo compartas en canales públicos. Los informes caducan automáticamente según nuestra política de retención (ventana corta de vista previa o más tiempo durante la beta / tras la compra — consulta los Términos)."
+    },
+    "accuracy": {
+      "q": "¿Están garantizados los benchmarks y las cifras de ahorro?",
+      "a": "Son <strong>estimaciones orientativas</strong> elaboradas a partir de tu exportación con reglas simplificadas (no el libro mayor interno de Stripe). Úsalas para detectar patrones y preguntas para tu equipo financiero — no como cotizaciones contractuales de comisiones."
+    },
+    "worth-12": {
+      "q": "¿Vale la pena el informe completo de 12 $ después de la beta?",
+      "a": "Depende de tu volumen. Si procesas solo unos pocos pagos pequeños, la vista previa o una hoja de cálculo pueden bastar. Si procesas un volumen mensual significativo, tienes clientes internacionales, reembolsos o muchos cobros de bajo importe, el informe completo está diseñado para mostrar las filas y acciones concretas detrás de la tasa principal."
+    },
+    "stripe-refund-policy": {
+      "q": "¿Stripe devuelve las comisiones cuando reembolso un pago?",
+      "a": "No. Según las <stripeLink>FAQ de precios de Stripe</stripeLink>, cuando emites un reembolso Stripe <strong>no</strong> devuelve las comisiones de procesamiento, las comisiones de Connect ni las de conversión de divisas de la transacción original. Eso puede elevar tu tasa efectiva combinada si los reembolsos son frecuentes."
+    },
+    "stripe-disputes": {
+      "q": "¿Cuánto cuestan las disputas y Smart Disputes de Stripe?",
+      "a": "Stripe cobra una comisión de <strong>15 $</strong> cuando se recibe una disputa; esa comisión se reembolsa si ganas la disputa. <strong>Smart Disputes</strong> (cuando está activado) añade el <strong>30 % del importe disputado</strong> cuando ganas — además de las comisiones de procesamiento de tarjeta. Consulta <stripeLink>stripe.com/pricing</stripeLink>."
+    },
+    "stripe-billing-fees": {
+      "q": "¿Stripe Billing añade comisiones además del procesamiento de tarjetas?",
+      "a": "Sí. <billingLink>Stripe Billing</billingLink> supone un <strong>0,7 %</strong> del volumen de facturación (suscripciones, facturas, facturación por uso) además de las comisiones estándar de procesamiento de tarjetas. Impuestos, Radar, BNPL y otros productos tienen tarifas publicadas por separado."
+    },
+    "stripe-custom-pricing": {
+      "q": "¿Por qué mi tasa de Stripe puede diferir de los precios publicados?",
+      "a": "Muchas cuentas tienen <strong>precios personalizados o interchange-plus</strong>. La mezcla regional de tarjetas, las tarjetas introducidas manualmente (+0,5 %) y los complementos de producto también cambian la tasa combinada. Consulta <strong>Panel → Configuración → Planes y comisiones</strong> para ver tus tarifas contractuales — nuestra calculadora y benchmarks usan precios de lista publicados salvo que se indique lo contrario."
+    },
+    "stripe-regional-rates": {
+      "q": "¿Las comisiones de Stripe varían según el país?",
+      "a": "Sí. Las tarifas de tarjetas domésticas e internacionales varían según el país de la cuenta (EE. UU., Reino Unido, UE, CA, AU, etc.). Reino Unido y UE usan recargos transfronterizos por niveles; las tarjetas internacionales en Canadá añaden un <strong>0,8 %</strong>; Australia doméstica es <strong>1,7 % + 0,30 A$</strong> con precios más bajos a partir del <strong>1 oct 2026</strong>. Nuestro estimador de comisiones te permite elegir una región; los niveles exactos están en <stripeLink>stripe.com/pricing</stripeLink>."
+    },
+    "chatgpt": {
+      "q": "¿Puedo simplemente pegar mi CSV de Stripe en ChatGPT?",
+      "a": "ChatGPT puede comentar unas pocas filas, pero no calculará de forma fiable tu tasa total en miles de transacciones, señalará cobros de alta comisión con pruebas fila por fila ni devolverá las mismas acciones de ahorro priorizadas cada vez.",
+      "a2": "Fee Auditor ejecuta <strong>reglas deterministas</strong> sobre la exportación completa — sin comisiones alucinadas — con oportunidades de ahorro priorizadas y enlaces al panel de Stripe cuando corresponda."
+    },
+    "excel": {
+      "q": "¿Puedo calcular esto yo mismo en Excel?",
+      "a": "Sí. La tasa combinada básica es simplemente el total de comisiones de cobros dividido por el volumen total de cobros. Fee Auditor es útil cuando quieres la capa siguiente: cambios mensuales, cobros de alta comisión, fugas por comisiones de reembolso, contexto de benchmark, exportaciones y oportunidades de ahorro concretas sin reconstruir la hoja de cálculo cada vez."
+    }
+  }
+}

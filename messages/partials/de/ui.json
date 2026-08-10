@@ -1,0 +1,175 @@
+{
+  "footer": {
+    "updated": "Aktualisiert August 2026",
+    "disclaimer": "Fee Auditor (feeauditor.com) ist ein unabhängiges SaaS-Tool. Nicht verbunden mit, unterstützt von oder Teil von Stripe, Inc. „Stripe“ ist eine Marke von Stripe, Inc.",
+    "privacyPolicy": "Datenschutzrichtlinie",
+    "termsOfService": "Nutzungsbedingungen",
+    "refundPolicy": "Rückerstattungsrichtlinie",
+    "seoLinks": [
+      { "href": "/monitor", "label": "Gebühren-Monitor" },
+      { "href": "/chrome-extension", "label": "Chrome-Helfer" },
+      { "href": "/stripe-fee-calculator", "label": "Stripe-Gebührenrechner" },
+      { "href": "/should-i-switch-from-stripe", "label": "Von Stripe wechseln?" },
+      { "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" },
+      { "href": "/stripe-vs-square-fees", "label": "Stripe vs Square" },
+      { "href": "/what-percent-does-stripe-take", "label": "Welchen Prozentsatz Stripe nimmt" },
+      { "href": "/stripe-balance-csv", "label": "Stripe-Saldo-CSV" },
+      { "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Warum Gebühren über 2,9 % liegen" }
+    ],
+    "blogLinks": [
+      { "href": "/blog/why-stripe-fees-increase", "label": "Warum Stripe-Gebühren steigen" },
+      { "href": "/blog/how-to-reduce-stripe-fees", "label": "Gebühren senken" },
+      { "href": "/blog/stripe-effective-fee-rate-explained", "label": "Effektive Gebührenrate erklärt" }
+    ]
+  },
+  "breadcrumbs": {
+    "home": "Startseite"
+  },
+  "quotes": {
+    "quote1": "Fokussiertes Einzweck-Tool mit überzeugendem Datenschutz-Vorteil.",
+    "quote1Name": "Assaf Sheinrok",
+    "quote1Link": "PagePulse",
+    "quote2": "Die Vorschau machte die Gebührentreiber offensichtlich.",
+    "quote2Name": "Ivan Chernov"
+  },
+  "seoShell": {
+    "lastUpdated": "Zuletzt aktualisiert:",
+    "lastUpdatedValue": "August 2026",
+    "trustDisclaimer": "Fee Auditor (feeauditor.com) ist ein unabhängiges SaaS-Tool unter dem Produktnamen Stripe Fee Auditor. Es ist nicht verbunden mit, unterstützt von oder Teil von Stripe, Inc. „Stripe“ ist eine Marke von Stripe, Inc.",
+    "ctaTitle": "Prüfen Sie Ihre tatsächliche Stripe-Gebührenrate",
+    "ctaDescription": "Saldo-CSV hochladen — ohne OAuth. Zuerst kostenlose Vorschau.",
+    "ctaPrimary": "Meine CSV analysieren →",
+    "ctaSample": "Beispielbericht ansehen",
+    "relatedReading": "Weiterführende Artikel",
+    "faqHeading": "Häufige Fragen",
+    "blogFaqHeading": "Häufige Fragen",
+    "sourcesHeading": "Offizielle Quellen",
+    "sourcesIntro": "Preise und Zahlungsregeln können sich ändern. Nutzen Sie offizielle Dokumentation als aktuelle Referenz und vergleichen Sie sie mit Ihrem eigenen Stripe-Export."
+  },
+  "blogHub": {
+    "metaTitle": "Stripe-Gebühren-Leitfaden: versteckte Gebühren, Audits & Einsparungen | FeeAuditor Blog",
+    "metaDescription": "Praxisleitfäden zu effektiver Stripe-Rate, Saldo-CSV-Exporten, internationalen Kartengebühren, ACH-Einsparungen, Zahlungsalternativen und OAuth-freien Gebührenaudits.",
+    "pageTitle": "Stripe-Gebühren-Leitfäden",
+    "pageSubtitle": "Praxisartikel zu effektiver Rate, Exporten, internationalen Karten und Einsparungen — ohne OAuth.",
+    "readTimeFormat": "{time} Lesezeit",
+    "readArticle": "Artikel lesen",
+    "privacyClusterTitle": "Datenschutz & Vertrauen",
+    "privacyClusterDesc": "Warum CSV-first OAuth für einmalige Gebührenaudits übertrifft.",
+    "sections": {
+      "startHere": {
+        "eyebrow": "Hier starten",
+        "title": "Finden Sie Ihre tatsächliche Stripe-Gebührenrate",
+        "description": "Nutzen Sie diese Seiten, wenn Sie den kürzesten Weg von Verwirrung zu einer brauchbaren Zahl suchen."
+      },
+      "diagnose": {
+        "eyebrow": "Gebühren analysieren",
+        "title": "Verstehen Sie, warum Stripe mehr kostet als erwartet",
+        "description": "Zerlegen Sie die Treiber hinter einer effektiven Rate von 3,8 % oder über 4 %."
+      },
+      "compare": {
+        "eyebrow": "Optionen vergleichen",
+        "title": "Entscheiden Sie, ob Sie wechseln, ACH hinzufügen oder Checkout ändern",
+        "description": "Vergleichs- und Optimierungsleitfäden für Gründer, die niedrigere Zahlungskosten wollen."
+      },
+      "reduce": {
+        "eyebrow": "Gebühren senken",
+        "title": "Umsetzbare Einsparungen aus Ihrem Export",
+        "description": "Checklisten und Playbooks, sobald Sie wissen, woher die Belastung kommt."
+      },
+      "exportPrivacy": {
+        "eyebrow": "Export und Datenschutz",
+        "title": "Gebühren prüfen, ohne Ihr Stripe-Konto zu verbinden",
+        "description": "CSV-Export-Schritte, Datenhandhabung und No-OAuth-Datenschutzhinweise."
+      }
+    }
+  },
+  "seoRelated": {
+    "feesReport": [
+      { "context": "Export-Schritte benötigt?", "href": "/stripe-balance-csv", "label": "Stripe-Saldo-CSV exportieren" },
+      { "context": "Zuerst veröffentlichte Tarife schätzen?", "href": "/stripe-fee-calculator", "label": "Stripe-Gebührenrechner" },
+      { "context": "Warum liegt die Rate über 2,9 %?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Warum Gebühren höher ausfallen" },
+      { "context": "PayPal oder Wise vergleichen?", "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" },
+      { "context": "Bereit für das Audit?", "href": "/analyze", "label": "Meine CSV analysieren" }
+    ],
+    "feeCalculator": [
+      { "context": "Was soll der Bericht enthalten?", "href": "/stripe-fees-report", "label": "Leitfaden Stripe-Gebührenbericht" },
+      { "context": "Noch keine CSV?", "href": "/stripe-balance-csv", "label": "CSV-Export-Leitfaden" },
+      { "context": "Gebühren höher als im Vormonat?", "href": "/blog/why-stripe-fees-increase", "label": "Warum Stripe-Gebühren steigen" },
+      { "context": "Gebührentreiber verstehen?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Warum Gebühren höher ausfallen" },
+      { "context": "Kurze Prozent-Antwort benötigt?", "href": "/what-percent-does-stripe-take", "label": "Welchen Prozentsatz Stripe nimmt" },
+      { "context": "Zahlungsoptionen vergleichen?", "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" }
+    ],
+    "whyHigher": [
+      { "context": "Vollständigen Gebührenbericht erstellen", "href": "/stripe-fees-report", "label": "Stripe-Gebührenbericht" },
+      { "context": "Gebühren höher als im Vormonat?", "href": "/blog/why-stripe-fees-increase", "label": "Warum Stripe-Gebühren steigen" },
+      { "context": "Zuerst veröffentlichte Gebühren schätzen", "href": "/stripe-fee-calculator", "label": "Stripe-Gebührenrechner" },
+      { "context": "Als Nächstes: Datei exportieren", "href": "/stripe-balance-csv", "label": "CSV-Export-Leitfaden" },
+      { "context": "Zuerst den Basis-Prozentsatz?", "href": "/what-percent-does-stripe-take", "label": "Was Stripe pro Transaktion berechnet" },
+      { "context": "Bereit, Ihre tatsächliche Rate zu prüfen?", "href": "/analyze", "label": "Meine CSV analysieren" }
+    ],
+    "balanceCsv": [
+      { "context": "Was mit dem Export tun?", "href": "/stripe-fees-report", "label": "Stripe-Gebührenbericht" },
+      { "context": "Gebühren vor dem Export schätzen?", "href": "/stripe-fee-calculator", "label": "Stripe-Gebührenrechner" },
+      { "context": "Warum liegt die Rate über 2,9 %?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Warum Gebühren über 2,9 % liegen" },
+      { "context": "Kurze Prozent-Antwort benötigt?", "href": "/what-percent-does-stripe-take", "label": "Welchen Prozentsatz Stripe nimmt" },
+      { "context": "Gebühren von Monat zu Monat gestiegen?", "href": "/blog/why-stripe-fees-increase", "label": "Warum Stripe-Gebühren steigen" },
+      { "context": "Andere Exportformate?", "href": "/stripe-data-export", "label": "Stripe-Datenexport-Optionen" }
+    ]
+  },
+  "faq": {
+    "useful-for-me": {
+      "q": "Ist Fee Auditor für mein Unternehmen nützlich?",
+      "a": "Nützlich, wenn Sie internationale Karten, Rückerstattungen, kleine Abonnements oder eine Stripe-Rate haben, die höher wirkt als erwartet. Überspringen Sie es, wenn Sie nur wenige inländische Hochpreis-Zahlungen haben und nur eine grobe Tabellenformel brauchen."
+    },
+    "store-csv": {
+      "q": "Speichern Sie meine Stripe-CSV-Datei?",
+      "a": "Nein. Ihr Browser liest die Datei für die Upload-Vorschau und sendet sie einmal an unsere Server zur Analyse. Wir speichern <strong>berechnete Zahlen und Aggregate</strong> (Raten, Summen, gruppierte Kategorien) — nicht die rohe CSV als Datei.",
+      "a2": "Transaktions-IDs können in Ihrem privaten Bericht erscheinen, damit Sie Zeilen mit Stripe abgleichen können; Freitext-Beschreibungen aus dem Export werden wo möglich vor der Langzeitspeicherung entfernt."
+    },
+    "stripe-access": {
+      "q": "Verbindet sich Stripe Fee Auditor mit meinem Stripe-Konto?",
+      "a": "Keine API-Verbindung und kein OAuth. Sie exportieren eine CSV aus dem Stripe-Dashboard und laden sie hier hoch — dieselben Daten, die Sie in einer Tabelle öffnen könnten, ohne Drittanbieter-Zugriff auf Ihr Live-Konto zu gewähren."
+    },
+    "who-sees": {
+      "q": "Wer kann meinen Bericht sehen?",
+      "a": "Nur jemand mit Ihrem privaten Link (einschließlich des Zugriffstokens in der URL). Behandeln Sie ihn wie ein Passwort: teilen Sie ihn nicht in öffentlichen Kanälen. Berichte laufen automatisch ab gemäß unserer Aufbewahrungsrichtlinie (kurzes Vorschaufenster oder länger während Beta / nach Kauf — siehe Nutzungsbedingungen)."
+    },
+    "accuracy": {
+      "q": "Sind Benchmarks und Einsparungszahlen garantiert?",
+      "a": "Es sind <strong>orientierende Schätzungen</strong>, die aus Ihrem Export mit vereinfachten Regeln erstellt werden (nicht Stripes internes Ledger). Nutzen Sie sie, um Muster und Fragen für Ihr Finanzteam zu erkennen — nicht als vertragliche Gebührenangebote."
+    },
+    "worth-12": {
+      "q": "Lohnt sich der vollständige Bericht für 12 $ nach der Beta?",
+      "a": "Das hängt von Ihrem Volumen ab. Bei nur wenigen kleinen Zahlungen reichen Vorschau oder Tabelle. Bei nennenswertem monatlichem Volumen, internationalen Kunden, Rückerstattungen oder vielen Kleinstbeträgen zeigt der vollständige Bericht die konkreten Zeilen und Maßnahmen hinter der Haupt-Rate."
+    },
+    "stripe-refund-policy": {
+      "q": "Erstattet Stripe Gebühren zurück, wenn ich eine Zahlung erstatte?",
+      "a": "Nein. Laut <stripeLink>Stripes Preis-FAQ</stripeLink> erstattet Stripe bei einer Rückerstattung die <strong>nicht</strong> Verarbeitungsgebühren, Connect-Gebühren oder Währungsumrechnungsgebühren der ursprünglichen Transaktion. Das kann Ihre gemischte effektive Rate erhöhen, wenn Rückerstattungen häufig sind."
+    },
+    "stripe-disputes": {
+      "q": "Was kosten Stripe-Streitfälle und Smart Disputes?",
+      "a": "Stripe berechnet eine Gebühr von <strong>15 $</strong>, wenn ein Streitfall eingeht; diese Gebühr wird erstattet, wenn Sie den Streitfall gewinnen. <strong>Smart Disputes</strong> (wenn aktiviert) addiert <strong>30 % des strittigen Betrags</strong>, wenn Sie gewinnen — zusätzlich zu den Kartenverarbeitungsgebühren. Siehe <stripeLink>stripe.com/pricing</stripeLink>."
+    },
+    "stripe-billing-fees": {
+      "q": "Fügt Stripe Billing Gebühren zusätzlich zur Kartenverarbeitung hinzu?",
+      "a": "Ja. <billingLink>Stripe Billing</billingLink> kostet <strong>0,7 %</strong> des Abrechnungsvolumens (Abonnements, Rechnungen, nutzungsbasierte Abrechnung) zusätzlich zu den Standard-Kartenverarbeitungsgebühren. Steuern, Radar, BNPL und andere Produkte haben separate veröffentlichte Tarife."
+    },
+    "stripe-custom-pricing": {
+      "q": "Warum kann meine Stripe-Rate von den veröffentlichten Preisen abweichen?",
+      "a": "Viele Konten haben <strong>individuelle oder Interchange-Plus-Preise</strong>. Regionale Kartenmischung, manuell eingegebene Karten (+0,5 %) und Produkt-Add-ons ändern ebenfalls die gemischte Rate. Prüfen Sie <strong>Dashboard → Einstellungen → Pläne und Gebühren</strong> für Ihre Vertragstarife — unser Rechner und Benchmarks nutzen veröffentlichte Listenpreise, sofern nicht anders angegeben."
+    },
+    "stripe-regional-rates": {
+      "q": "Unterscheiden sich Stripe-Gebühren nach Land?",
+      "a": "Ja. Inländische und internationale Kartentarife variieren je nach Kontoland (USA, UK, EU, CA, AU usw.). UK und EU nutzen gestaffelte grenzüberschreitende Aufschläge; internationale Karten in Kanada addieren <strong>0,8 %</strong>; Australien inländisch ist <strong>1,7 % + 0,30 A$</strong> mit niedrigeren Preisen ab <strong>1. Okt. 2026</strong>. Unser Gebührenschätzer lässt eine Region wählen; exakte Stufen stehen auf <stripeLink>stripe.com/pricing</stripeLink>."
+    },
+    "chatgpt": {
+      "q": "Kann ich meine Stripe-CSV einfach in ChatGPT einfügen?",
+      "a": "ChatGPT kann einige Zeilen besprechen, berechnet aber nicht zuverlässig Ihre Gesamtrate über Tausende Transaktionen, markiert keine hochgebührenpflichtigen Zahlungen mit zeilenweisen Belegen und liefert nicht jedes Mal dieselben priorisierten Einsparungsmaßnahmen.",
+      "a2": "Fee Auditor wendet <strong>deterministische Regeln</strong> auf den vollständigen Export an — ohne halluzinierte Gebühren — mit priorisierten Einsparmöglichkeiten und Stripe-Dashboard-Links, wo zutreffend."
+    },
+    "excel": {
+      "q": "Kann ich das selbst in Excel berechnen?",
+      "a": "Ja. Die grundlegende gemischte Rate ist einfach Gesamtgebühren geteilt durch Gesamtzahlungsvolumen. Fee Auditor ist nützlich, wenn Sie die nächste Ebene wollen: monatliche Änderungen, hochgebührenpflichtige Zahlungen, Rückerstattungs-Gebührenverlust, Benchmark-Kontext, Exporte und konkrete Einsparmöglichkeiten — ohne die Tabelle jedes Mal neu aufzubauen."
+    }
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "footer": {
+    "updated": "अगस्त 2026 में अपडेट",
+    "disclaimer": "Fee Auditor (feeauditor.com) एक स्वतंत्र SaaS टूल है। Stripe, Inc. से संबद्ध, समर्थित या उसका हिस्सा नहीं है। \"Stripe\" Stripe, Inc. का ट्रेडमार्क है।",
+    "privacyPolicy": "गोपनीयता नीति",
+    "termsOfService": "सेवा की शर्तें",
+    "refundPolicy": "रिफंड नीति",
+    "seoLinks": [
+      { "href": "/monitor", "label": "फी मॉनिटर" },
+      { "href": "/chrome-extension", "label": "Chrome सहायक" },
+      { "href": "/stripe-fee-calculator", "label": "Stripe फी कैलकुलेटर" },
+      { "href": "/should-i-switch-from-stripe", "label": "क्या Stripe छोड़ना चाहिए?" },
+      { "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" },
+      { "href": "/stripe-vs-square-fees", "label": "Stripe vs Square" },
+      { "href": "/what-percent-does-stripe-take", "label": "Stripe कितना प्रतिशत लेता है" },
+      { "href": "/stripe-balance-csv", "label": "Stripe बैलेंस CSV" },
+      { "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "फी 2.9% से अधिक क्यों" }
+    ],
+    "blogLinks": [
+      { "href": "/blog/why-stripe-fees-increase", "label": "Stripe फी क्यों बढ़ती हैं" },
+      { "href": "/blog/how-to-reduce-stripe-fees", "label": "फी कैसे कम करें" },
+      { "href": "/blog/stripe-effective-fee-rate-explained", "label": "प्रभावी फी दर समझाई" }
+    ]
+  },
+  "breadcrumbs": {
+    "home": "होम"
+  },
+  "quotes": {
+    "quote1": "एक उद्देश्य पर केंद्रित टूल जिसमें प्रभावशाली गोपनीयता लाभ है।",
+    "quote1Name": "Assaf Sheinrok",
+    "quote1Link": "PagePulse",
+    "quote2": "पूर्वावलोकन ने फी के कारण स्पष्ट कर दिए।",
+    "quote2Name": "Ivan Chernov"
+  },
+  "seoShell": {
+    "lastUpdated": "अंतिम अपडेट:",
+    "lastUpdatedValue": "अगस्त 2026",
+    "trustDisclaimer": "Fee Auditor (feeauditor.com) Stripe Fee Auditor उत्पाद नाम के तहत संचालित एक स्वतंत्र SaaS टूल है। यह Stripe, Inc. से संबद्ध, समर्थित या उसका हिस्सा नहीं है। \"Stripe\" Stripe, Inc. का ट्रेडमार्क है।",
+    "ctaTitle": "अपनी वास्तविक Stripe फी दर का ऑडिट करें",
+    "ctaDescription": "बैलेंस CSV अपलोड करें — OAuth नहीं। पहले मुफ्त पूर्वावलोकन।",
+    "ctaPrimary": "मेरा CSV विश्लेषण करें →",
+    "ctaSample": "नमूना रिपोर्ट देखें",
+    "relatedReading": "संबंधित पठन",
+    "faqHeading": "सामान्य प्रश्न",
+    "blogFaqHeading": "सामान्य प्रश्न",
+    "sourcesHeading": "आधिकारिक स्रोत",
+    "sourcesIntro": "मूल्य निर्धारण और भुगतान नियम बदल सकते हैं। वर्तमान संदर्भ के लिए आधिकारिक दस्तावेज़ उपयोग करें, फिर अपने Stripe एक्सपोर्ट से तुलना करें।"
+  },
+  "blogHub": {
+    "metaTitle": "Stripe फी गाइड: छिपी फी, ऑडिट और बचत | FeeAuditor ब्लॉग",
+    "metaDescription": "Stripe प्रभावी दर, बैलेंस CSV एक्सपोर्ट, अंतर्राष्ट्रीय कार्ड फी, ACH बचत, भुगतान विकल्प और OAuth-रहित फी ऑडिट पर व्यावहारिक गाइड।",
+    "pageTitle": "Stripe फी गाइड",
+    "pageSubtitle": "प्रभावी दर, एक्सपोर्ट, अंतर्राष्ट्रीय कार्ड और बचत पर व्यावहारिक लेख — OAuth की जरूरत नहीं।",
+    "readTimeFormat": "{time} पढ़ें",
+    "readArticle": "लेख पढ़ें",
+    "privacyClusterTitle": "गोपनीयता और विश्वास",
+    "privacyClusterDesc": "एक बार के फी ऑडिट के लिए CSV-पहले OAuth से बेहतर क्यों है।",
+    "sections": {
+      "startHere": {
+        "eyebrow": "यहाँ से शुरू करें",
+        "title": "अपनी वास्तविक Stripe फी दर खोजें",
+        "description": "जब आप भ्रम से उपयोगी संख्या तक सबसे छोटा रास्ता चाहते हैं, तो ये पेज उपयोग करें।"
+      },
+      "diagnose": {
+        "eyebrow": "फी का निदान",
+        "title": "समझें Stripe अपेक्षा से अधिक क्यों लगता है",
+        "description": "3.8% या 4%+ प्रभावी दर के पीछे के कारकों का विश्लेषण करें।"
+      },
+      "compare": {
+        "eyebrow": "विकल्प तुलना",
+        "title": "तय करें — बदलें, ACH जोड़ें या checkout बदलें",
+        "description": "कम भुगतान लागत चाहने वाले संस्थापकों के लिए तुलना और अनुकूलन गाइड।"
+      },
+      "reduce": {
+        "eyebrow": "फी कम करें",
+        "title": "एक्सपोर्ट से कार्रवाई योग्य बचत",
+        "description": "जब पता चल जाए कि भार कहाँ से आ रहा है, तो चेकलिस्ट और प्लेबुक।"
+      },
+      "exportPrivacy": {
+        "eyebrow": "एक्सपोर्ट और गोपनीयता",
+        "title": "Stripe खाता कनेक्ट किए बिना फी ऑडिट करें",
+        "description": "CSV एक्सपोर्ट स्टेप, डेटा हैंडलिंग और No-OAuth गोपनीयता नोट्स।"
+      }
+    }
+  },
+  "seoRelated": {
+    "feesReport": [
+      { "context": "एक्सपोर्ट चरण चाहिए?", "href": "/stripe-balance-csv", "label": "Stripe बैलेंस CSV एक्सपोर्ट करें" },
+      { "context": "पहले प्रकाशित दरें अनुमान?", "href": "/stripe-fee-calculator", "label": "Stripe फी कैलकुलेटर" },
+      { "context": "दर 2.9% से ऊपर क्यों?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "फी अधिक क्यों" },
+      { "context": "PayPal या Wise की तुलना?", "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" },
+      { "context": "ऑडिट चलाने के लिए तैयार?", "href": "/analyze", "label": "मेरा CSV विश्लेषण करें" }
+    ],
+    "feeCalculator": [
+      { "context": "रिपोर्ट में क्या होना चाहिए?", "href": "/stripe-fees-report", "label": "Stripe फी रिपोर्ट गाइड" },
+      { "context": "अभी CSV नहीं है?", "href": "/stripe-balance-csv", "label": "CSV एक्सपोर्ट गाइड" },
+      { "context": "पिछले महीने से फी बढ़ी?", "href": "/blog/why-stripe-fees-increase", "label": "Stripe फी क्यों बढ़ती हैं" },
+      { "context": "फी कारकों को समझना है?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "फी अधिक क्यों" },
+      { "context": "संक्षिप्त प्रतिशत उत्तर चाहिए?", "href": "/what-percent-does-stripe-take", "label": "Stripe कितना प्रतिशत लेता है" },
+      { "context": "भुगतान विकल्प तुलना?", "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" }
+    ],
+    "whyHigher": [
+      { "context": "पूर्ण फी रिपोर्ट बनाएं", "href": "/stripe-fees-report", "label": "Stripe फी रिपोर्ट" },
+      { "context": "पिछले महीने से फी बढ़ी?", "href": "/blog/why-stripe-fees-increase", "label": "Stripe फी क्यों बढ़ती हैं" },
+      { "context": "पहले प्रकाशित फी का अनुमान", "href": "/stripe-fee-calculator", "label": "Stripe फी कैलकुलेटर" },
+      { "context": "अगला: फ़ाइल एक्सपोर्ट कैसे करें", "href": "/stripe-balance-csv", "label": "CSV एक्सपोर्ट गाइड" },
+      { "context": "पहले बुनियादी प्रतिशत चाहिए?", "href": "/what-percent-does-stripe-take", "label": "Stripe प्रति लेनदेन कितना लेता है" },
+      { "context": "वास्तविक दर जांचने के लिए तैयार?", "href": "/analyze", "label": "मेरा CSV विश्लेषण करें" }
+    ],
+    "balanceCsv": [
+      { "context": "एक्सपोर्ट के साथ क्या करें?", "href": "/stripe-fees-report", "label": "Stripe फी रिपोर्ट" },
+      { "context": "एक्सपोर्ट से पहले फी अनुमान?", "href": "/stripe-fee-calculator", "label": "Stripe फी कैलकुलेटर" },
+      { "context": "दर 2.9% से ऊपर क्यों?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "फी 2.9% से अधिक क्यों" },
+      { "context": "संक्षिप्त प्रतिशत उत्तर चाहिए?", "href": "/what-percent-does-stripe-take", "label": "Stripe कितना प्रतिशत लेता है" },
+      { "context": "महीने-दर-महीने फी बढ़ गई?", "href": "/blog/why-stripe-fees-increase", "label": "Stripe फी क्यों बढ़ती हैं" },
+      { "context": "अन्य एक्सपोर्ट प्रारूप?", "href": "/stripe-data-export", "label": "Stripe डेटा एक्सपोर्ट विकल्प" }
+    ]
+  },
+  "faq": {
+    "useful-for-me": {
+      "q": "क्या Fee Auditor मेरे व्यवसाय के लिए उपयोगी है?",
+      "a": "उपयोगी है अगर आपके पास अंतर्राष्ट्रीय कार्ड, रिफंड, छोटी सदस्यताएँ हैं या Stripe दर अपेक्षा से अधिक लगती है। छोड़ दें अगर केवल कुछ घरेलू बड़े भुगतान हैं और आपको बस अनुमानित स्प्रेडशीट फॉर्मूला चाहिए।"
+    },
+    "store-csv": {
+      "q": "क्या आप मेरी Stripe CSV फ़ाइल संग्रहीत करते हैं?",
+      "a": "नहीं। आपका ब्राउज़र अपलोड पूर्वावलोकन के लिए फ़ाइल पढ़ता है, फिर विश्लेषण के लिए एक बार हमारे सर्वर पर भेजता है। हम <strong>गणना किए गए संख्याएँ और समुच्चय</strong> (दरें, कुल, समूहित श्रेणियाँ) संग्रहीत करते हैं — कच्ची CSV फ़ाइल के रूप में नहीं।",
+      "a2": "लेनदेन ID आपकी निजी रिपोर्ट में दिख सकते हैं ताकि आप Stripe से पंक्तियाँ मिला सकें; एक्सपोर्ट से मुक्त पाठ विवरण जहाँ संभव हो दीर्घकालिक संग्रहण से पहले हटा दिए जाते हैं।"
+    },
+    "stripe-access": {
+      "q": "क्या Stripe Fee Auditor मेरे Stripe खाते से जुड़ता है?",
+      "a": "कोई API कनेक्शन या OAuth नहीं। आप Stripe Dashboard से CSV एक्सपोर्ट करके यहाँ अपलोड करते हैं — वही डेटा जो आप स्प्रेडशीट में खोल सकते हैं, बिना लाइव खाते पर तृतीय-पक्ष पहुँच दिए।"
+    },
+    "who-sees": {
+      "q": "मेरी रिपोर्ट कौन देख सकता है?",
+      "a": "केवल वही जिसके पास आपका निजी लिंक है (URL में एक्सेस टोकन सहित)। इसे पासवर्ड की तरह रखें: सार्वजनिक चैनलों में साझा न करें। रिपोर्ट हमारी प्रतिधारण नीति के अनुसार स्वतः समाप्त होती हैं (छोटी पूर्वावलोकन अवधि या बीटा / खरीद के बाद लंबी — शर्तें देखें)।"
+    },
+    "accuracy": {
+      "q": "क्या बेंचमार्क और बचत संख्याएँ गारंटीशुदा हैं?",
+      "a": "ये <strong>दिशात्मक अनुमान</strong> हैं जो आपके एक्सपोर्ट से सरलीकृत नियमों से बनाए गए हैं (Stripe की आंतरिक लेजर नहीं)। पैटर्न और वित्त टीम के प्रश्न पहचानने के लिए उपयोग करें — अनुबंधात्मक फी कोट के रूप में नहीं।"
+    },
+    "worth-12": {
+      "q": "क्या बीटा के बाद $12 की पूर्ण रिपोर्ट लायक है?",
+      "a": "यह आपके वॉल्यूम पर निर्भर करता है। अगर केवल कुछ छोटे भुगतान हैं, तो पूर्वावलोकन या स्प्रेडशीट काफी हो सकता है। अगर महत्वपूर्ण मासिक वॉल्यूम, अंतर्राष्ट्रीय ग्राहक, रिफंड या कई छोटे शुल्क हैं, तो पूर्ण रिपोर्ट मुख्य दर के पीछे की विशिष्ट पंक्तियाँ और कार्रवाइयाँ दिखाने के लिए बनाई गई है।"
+    },
+    "stripe-refund-policy": {
+      "q": "क्या Stripe भुगतान रिफंड करने पर फी वापस करता है?",
+      "a": "नहीं। <stripeLink>Stripe की मूल्य FAQ</stripeLink> के अनुसार, जब आप रिफंड जारी करते हैं Stripe मूल लेनदेन की प्रोसेसिंग फी, Connect फी या मुद्रा रूपांतरण फी <strong>वापस नहीं</strong> करता। अगर रिफंड आम हैं तो यह आपकी मिश्रित प्रभावी दर बढ़ा सकता है।"
+    },
+    "stripe-disputes": {
+      "q": "Stripe विवाद और Smart Disputes की लागत क्या है?",
+      "a": "विवाद मिलने पर Stripe <strong>$15</strong> शुल्क लेता है; विवाद जीतने पर यह शुल्क वापस मिलता है। <strong>Smart Disputes</strong> (सक्षम होने पर) जीतने पर <strong>विवादित राशि का 30%</strong> जोड़ता है — कार्ड प्रोसेसिंग फी के अतिरिक्त। देखें <stripeLink>stripe.com/pricing</stripeLink>।"
+    },
+    "stripe-billing-fees": {
+      "q": "क्या Stripe Billing कार्ड प्रोसेसिंग के ऊपर फी जोड़ता है?",
+      "a": "हाँ। <billingLink>Stripe Billing</billingLink> बिलिंग वॉल्यूम का <strong>0.7%</strong> है (सदस्यताएँ, इनवॉइस, उपयोग-आधारित बिलिंग) मानक कार्ड प्रोसेसिंग फी के अतिरिक्त। Tax, Radar, BNPL और अन्य उत्पादों की अलग प्रकाशित दरें हैं।"
+    },
+    "stripe-custom-pricing": {
+      "q": "मेरी Stripe दर प्रकाशित मूल्य से अलग क्यों हो सकती है?",
+      "a": "कई खातों में <strong>कस्टम या interchange-plus मूल्य</strong> होता है। क्षेत्रीय कार्ड मिश्रण, मैन्युअल दर्ज कार्ड (+0.5%) और उत्पाद ऐड-ऑन भी मिश्रित दर बदलते हैं। अनुबंध दरों के लिए <strong>Dashboard → Settings → Plans and fees</strong> देखें — हमारा कैलकुलेटर और बेंचमार्क जब तक न कहा जाए प्रकाशित सूची मूल्य उपयोग करते हैं।"
+    },
+    "stripe-regional-rates": {
+      "q": "क्या Stripe फी देश के अनुसार अलग हैं?",
+      "a": "हाँ। घरेलू और अंतर्राष्ट्रीय कार्ड दरें खाते के देश (US, UK, EU, CA, AU आदि) के अनुसार भिन्न हैं। UK और EU में स्तरीय cross-border अतिरिक्त शुल्क; कनाडा अंतर्राष्ट्रीय कार्ड <strong>0.8%</strong> जोड़ते हैं; ऑस्ट्रेलिया घरेलू <strong>1.7% + A$0.30</strong> है, <strong>1 Oct 2026</strong> से कम मूल्य। हमारा फी अनुमानक क्षेत्र चुनने देता है; सटीक स्तर <stripeLink>stripe.com/pricing</stripeLink> पर हैं।"
+    },
+    "chatgpt": {
+      "q": "क्या मैं अपनी Stripe CSV ChatGPT में चिपका सकता हूँ?",
+      "a": "ChatGPT कुछ पंक्तियों पर चर्चा कर सकता है, लेकिन हजारों लेनदेन में आपकी कुल दर विश्वसनीय रूप से नहीं गिनेगा, उच्च-फी शुल्कों को पंक्ति-स्तर साक्ष्य के साथ नहीं चिह्नित करेगा, या हर बार समान क्रमित बचत कार्रवाइयाँ नहीं देगा।",
+      "a2": "Fee Auditor पूर्ण एक्सपोर्ट पर <strong>निर्धारक नियम</strong> चलाता है — कोई काल्पनिक फी नहीं — क्रमित बचत अवसरों और जहाँ लागू हो Stripe dashboard लिंक के साथ।"
+    },
+    "excel": {
+      "q": "क्या मैं यह Excel में खुद गणना कर सकता हूँ?",
+      "a": "हाँ। बुनियादी मिश्रित दर बस कुल शुल्क फी को कुल शुल्क वॉल्यूम से विभाजित करना है। Fee Auditor तब उपयोगी है जब अगला स्तर चाहिए: मासिक परिवर्तन, उच्च-फी शुल्क, रिफंड फी रिसाव, बेंचमार्क संदर्भ, एक्सपोर्ट और विशिष्ट बचत अवसर — हर बार स्प्रेडशीट दोबारा बनाए बिना।"
+    }
+  }
+}

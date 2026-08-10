@@ -24,6 +24,7 @@ import {
 import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { fmt$, fmtPct, fmtMonth } from "@/lib/format";
 import { transactionPrimaryLabel } from "@/lib/transaction-display";
+import { useReportTranslations, useFeeLabelTranslator } from "@/lib/i18n/use-report-translations";
 
 const SLATE = "#64748b";
 const GRID = "#e2e8f0";
@@ -72,25 +73,31 @@ function RateTooltip({
   active,
   payload,
   label,
+  rateLabel,
+  feesVolumeLabel,
 }: {
   active?: boolean;
   payload?: Array<{ payload: { rate: number; fees: number; volume: number; count: number } }>;
   label?: string;
+  rateLabel: (rate: string) => string;
+  feesVolumeLabel: (fees: string, volume: string) => string;
 }) {
   if (!active || !payload?.[0]) return null;
   const row = payload[0].payload;
   return (
     <div className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs shadow-md">
       <p className="font-semibold text-slate-900">{label}</p>
-      <p className="mt-1 tabular-nums text-slate-700">Rate {fmtPct(row.rate)}</p>
+      <p className="mt-1 tabular-nums text-slate-700">{rateLabel(fmtPct(row.rate))}</p>
       <p className="tabular-nums text-slate-500">
-        {fmt$(row.fees)} fees · {fmt$(row.volume)} volume
+        {feesVolumeLabel(fmt$(row.fees), fmt$(row.volume))}
       </p>
     </div>
   );
 }
 
 export function ReportDashboardCharts({ result }: Props) {
+  const { t, tc } = useReportTranslations();
+  const translateFeeLabel = useFeeLabelTranslator();
   const {
     feeMix,
     monthly,
@@ -140,7 +147,7 @@ export function ReportDashboardCharts({ result }: Props) {
     .sort((a, b) => b.amount - a.amount)
     .slice(0, 6)
     .map((item) => ({
-      axis: shortLeakLabel(item.label),
+      axis: shortLeakLabel(item.label, t, translateFeeLabel),
       fullLabel: item.label,
       score: Number(Math.min(100, Math.max(item.sharePct, 0)).toFixed(1)),
       amount: item.amount,
@@ -175,33 +182,37 @@ export function ReportDashboardCharts({ result }: Props) {
   const insightParts: string[] = [];
   if (peakRate && rateSpread >= 0.15) {
     insightParts.push(
-      `${peakRate.name} peaked at ${fmtPct(peakRate.rate)} (${(peakRate.rate - chargeRate >= 0 ? "+" : "")}${(peakRate.rate - chargeRate).toFixed(2)}pp vs baseline)`
+      t("reportDashboardCharts.insightPeakRate", {
+        month: peakRate.name,
+        rate: fmtPct(peakRate.rate),
+        delta: `${peakRate.rate - chargeRate >= 0 ? "+" : ""}${(peakRate.rate - chargeRate).toFixed(2)}pp`,
+      })
     );
   } else if (peakFees) {
-    insightParts.push(`${peakFees.name} had the most fee dollars (${fmt$(peakFees.fees)})`);
+    insightParts.push(t("reportDashboardCharts.insightPeakFees", { month: peakFees.name, fees: fmt$(peakFees.fees) }));
   }
   if (showGeo && geographySummary) {
     insightParts.push(
-      `intl cards ~${Math.round(geographySummary.pctDiff)}% pricier than domestic`
+      t("reportDashboardCharts.insightIntlCards", { pct: Math.round(geographySummary.pctDiff) })
     );
   }
   if (expensiveRows[0]) {
-    insightParts.push(`top charge fee ${fmt$(expensiveRows[0].fee)}`);
+    insightParts.push(t("reportDashboardCharts.insightTopCharge", { fee: fmt$(expensiveRows[0].fee) }));
   }
 
   if (showRadar && radarRows[0]) {
-    insightParts.push(`largest leak bucket: ${radarRows[0].fullLabel}`);
+    insightParts.push(t("reportDashboardCharts.insightLargestLeak", { label: radarRows[0].fullLabel }));
   }
 
   const geoPie = geographySummary
     ? [
         {
-          name: "Domestic",
+          name: tc("domestic"),
           value: Number(geographySummary.domVolume.toFixed(2)),
           rate: geographySummary.domRate,
         },
         {
-          name: "International",
+          name: tc("international"),
           value: Number(geographySummary.intlVolume.toFixed(2)),
           rate: geographySummary.intlRate,
         },
@@ -213,10 +224,10 @@ export function ReportDashboardCharts({ result }: Props) {
       <div className="flex flex-wrap items-end justify-between gap-4 border-b border-slate-100 bg-slate-50/80 px-5 py-4 sm:px-6">
         <div>
           <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
-            Fee dashboard
+            {t("reportDashboardCharts.eyebrow")}
           </p>
           <h2 className="mt-1 text-lg font-semibold tracking-tight text-slate-950 sm:text-xl">
-            Where your Stripe fees concentrate
+            {t("reportDashboardCharts.title")}
           </h2>
           {insightParts.length > 0 && (
             <p className="mt-1.5 max-w-2xl text-sm leading-snug text-slate-600">
@@ -225,7 +236,7 @@ export function ReportDashboardCharts({ result }: Props) {
           )}
         </div>
         <div className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-left sm:w-auto sm:text-right">
-          <p className="text-[10px] font-medium uppercase tracking-wider text-slate-400">Baseline</p>
+          <p className="text-[10px] font-medium uppercase tracking-wider text-slate-400">{tc("baseline")}</p>
           <p className="text-2xl font-semibold tabular-nums tracking-tight text-slate-950">
             {fmtPct(chargeRate)}
           </p>
@@ -234,7 +245,7 @@ export function ReportDashboardCharts({ result }: Props) {
 
       <div className="grid gap-4 p-4 sm:p-5 lg:grid-cols-2">
         {showTimeline && peakRate && (
-          <Panel title="Rate vs volume" eyebrow="Trend" className="lg:col-span-1">
+          <Panel title={t("reportDashboardCharts.panelRateVsVolume")} eyebrow={t("reportDashboardCharts.panelRateVsVolumeEyebrow")} className="lg:col-span-1">
             <ResponsiveContainer width="100%" height={228}>
               <ComposedChart data={timelineData} margin={{ top: 6, right: 8, left: 0, bottom: 0 }}>
                 <CartesianGrid stroke={GRID} strokeDasharray="3 3" vertical={false} />
@@ -257,7 +268,17 @@ export function ReportDashboardCharts({ result }: Props) {
                   axisLine={false}
                   width={42}
                 />
-                <Tooltip content={<RateTooltip />} cursor={{ fill: "rgba(15,23,42,0.04)" }} />
+                <Tooltip
+                  content={
+                    <RateTooltip
+                      rateLabel={(rate) => t("reportDashboardCharts.tooltipRate", { rate })}
+                      feesVolumeLabel={(fees, volume) =>
+                        t("reportDashboardCharts.tooltipFeesVolume", { fees, volume })
+                      }
+                    />
+                  }
+                  cursor={{ fill: "rgba(15,23,42,0.04)" }}
+                />
                 <ReferenceLine
                   yAxisId="rate"
                   y={Number(chargeRate.toFixed(3))}
@@ -268,7 +289,7 @@ export function ReportDashboardCharts({ result }: Props) {
                   yAxisId="volume"
                   type="monotone"
                   dataKey="volume"
-                  name="Volume"
+                  name={t("reportDashboardCharts.chartVolume")}
                   stroke="#94a3b8"
                   strokeWidth={1.5}
                   fill={VOLUME_FILL}
@@ -276,7 +297,7 @@ export function ReportDashboardCharts({ result }: Props) {
                   dot={false}
                   activeDot={{ r: 4, fill: SLATE }}
                 />
-                <Bar yAxisId="rate" dataKey="rate" name="Rate" radius={[5, 5, 0, 0]} maxBarSize={40}>
+                <Bar yAxisId="rate" dataKey="rate" name={t("reportDashboardCharts.chartRate")} radius={[5, 5, 0, 0]} maxBarSize={40}>
                   {timelineData.map((row) => (
                     <Cell
                       key={row.key}
@@ -288,18 +309,18 @@ export function ReportDashboardCharts({ result }: Props) {
             </ResponsiveContainer>
             <div className="mt-2 flex flex-wrap gap-3 text-[10px] text-slate-400">
               <span className="inline-flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-sm bg-blue-700" /> Rate %
+                <span className="h-2 w-2 rounded-sm bg-blue-700" /> {t("reportDashboardCharts.legendRate")}
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <span className="h-2 w-3 rounded-sm bg-slate-300" /> Volume (area)
+                <span className="h-2 w-3 rounded-sm bg-slate-300" /> {t("reportDashboardCharts.legendVolume")}
               </span>
-              <span>Dashed = baseline rate</span>
+              <span>{t("reportDashboardCharts.legendBaseline")}</span>
             </div>
           </Panel>
         )}
 
         {showMix && (
-          <Panel title="Fee mix" eyebrow="Composition" className="lg:col-span-1">
+          <Panel title={t("reportDashboardCharts.panelFeeMix")} eyebrow={t("reportDashboardCharts.panelFeeMixEyebrow")} className="lg:col-span-1">
             <div className="grid grid-cols-1 items-center gap-4 sm:grid-cols-[1fr_1.1fr] sm:gap-2">
               <ResponsiveContainer width="100%" height={200}>
                 <PieChart>
@@ -330,7 +351,7 @@ export function ReportDashboardCharts({ result }: Props) {
                 </PieChart>
               </ResponsiveContainer>
               <div>
-                <p className="text-[10px] uppercase tracking-wider text-slate-400">Tracked fees</p>
+                <p className="text-[10px] uppercase tracking-wider text-slate-400">{t("reportDashboardCharts.trackedFees")}</p>
                 <p className="text-xl font-semibold tabular-nums text-slate-950">{fmt$(mixTotal)}</p>
                 <ul className="mt-3 space-y-2">
                   {mixRows.slice(0, 4).map((row, i) => (
@@ -352,7 +373,7 @@ export function ReportDashboardCharts({ result }: Props) {
         )}
 
         {showExpensive && (
-          <Panel title="Most expensive charges" eyebrow="Transactions" className="lg:col-span-1">
+          <Panel title={t("reportDashboardCharts.panelExpensiveCharges")} eyebrow={t("reportDashboardCharts.panelExpensiveChargesEyebrow")} className="lg:col-span-1">
             <ResponsiveContainer width="100%" height={Math.max(180, expensiveRows.length * 36)}>
               <BarChart
                 layout="vertical"
@@ -378,7 +399,7 @@ export function ReportDashboardCharts({ result }: Props) {
                 <Tooltip
                   formatter={(value, _name, item) => {
                     const rate = Number((item as { payload?: { rate?: number } })?.payload?.rate ?? 0);
-                    return [`${fmt$(Number(value ?? 0))} · ${fmtPct(rate)}`, "Fee"];
+                    return [`${fmt$(Number(value ?? 0))} · ${fmtPct(rate)}`, t("reportDashboardCharts.tooltipFee")];
                   }}
                   labelFormatter={(_, payload) => {
                     const full = (payload?.[0] as { payload?: { fullLabel?: string } } | undefined)
@@ -398,7 +419,7 @@ export function ReportDashboardCharts({ result }: Props) {
         )}
 
         {showGeo && geographySummary && geoPie.length > 0 && (
-          <Panel title="Domestic vs international" eyebrow="Geography" className="lg:col-span-1">
+          <Panel title={t("reportDashboardCharts.panelDomesticIntl")} eyebrow={t("reportDashboardCharts.panelDomesticIntlEyebrow")} className="lg:col-span-1">
             <div className="grid grid-cols-1 items-center gap-4 sm:grid-cols-[0.9fr_1.1fr] sm:gap-3">
               <ResponsiveContainer width="100%" height={180}>
                 <PieChart>
@@ -418,7 +439,7 @@ export function ReportDashboardCharts({ result }: Props) {
                     <Cell fill={TEAL} />
                   </Pie>
                   <Tooltip
-                    formatter={(value, name) => [fmt$(Number(value ?? 0)), `${name} volume`]}
+                    formatter={(value, name) => [fmt$(Number(value ?? 0)), `${name} ${t("reportDashboardCharts.tooltipVolumeSuffix")}`]}
                     contentStyle={{ borderRadius: 10, border: "1px solid #e2e8f0", fontSize: 12 }}
                   />
                 </PieChart>
@@ -426,7 +447,7 @@ export function ReportDashboardCharts({ result }: Props) {
               <div className="space-y-3">
                 <div>
                   <div className="flex justify-between text-xs">
-                    <span className="text-slate-500">Domestic rate</span>
+                    <span className="text-slate-500">{t("reportDashboardCharts.domesticRate")}</span>
                     <span className="font-semibold tabular-nums text-slate-900">
                       {fmtPct(geographySummary.domRate)}
                     </span>
@@ -442,7 +463,7 @@ export function ReportDashboardCharts({ result }: Props) {
                 </div>
                 <div>
                   <div className="flex justify-between text-xs">
-                    <span className="text-slate-500">International rate</span>
+                    <span className="text-slate-500">{t("reportDashboardCharts.internationalRate")}</span>
                     <span className="font-semibold tabular-nums text-teal-800">
                       {fmtPct(geographySummary.intlRate)}
                     </span>
@@ -457,9 +478,11 @@ export function ReportDashboardCharts({ result }: Props) {
                   </div>
                 </div>
                 <p className="text-xs leading-relaxed text-slate-500">
-                  Intl is ~{Math.round(geographySummary.pctDiff)}% more expensive per dollar ·{" "}
-                  {Math.round(geographySummary.intlShare)}% of volume · ~{fmt$(geographySummary.excessIntlFees)}{" "}
-                  uplift estimate
+                  {t("reportDashboardCharts.intlMoreExpensive", {
+                    pct: Math.round(geographySummary.pctDiff),
+                    share: Math.round(geographySummary.intlShare),
+                    fees: fmt$(geographySummary.excessIntlFees),
+                  })}
                 </p>
               </div>
             </div>
@@ -467,7 +490,7 @@ export function ReportDashboardCharts({ result }: Props) {
         )}
 
         {showRadar && (
-          <Panel title="Fee leak profile" eyebrow="Radar" className="lg:col-span-1">
+          <Panel title={t("reportDashboardCharts.panelFeeLeakProfile")} eyebrow={t("reportDashboardCharts.panelFeeLeakProfileEyebrow")} className="lg:col-span-1">
             <div className="grid grid-cols-1 items-center gap-2 sm:grid-cols-[1.15fr_0.85fr]">
               <ResponsiveContainer width="100%" height={220}>
                 <RadarChart data={radarRows} cx="50%" cy="50%" outerRadius="72%">
@@ -480,7 +503,7 @@ export function ReportDashboardCharts({ result }: Props) {
                     tickFormatter={(v) => `${v}%`}
                   />
                   <Radar
-                    name="Share of fees"
+                    name={t("reportDashboardCharts.chartShareOfFees")}
                     dataKey="score"
                     stroke={BLUE}
                     fill={BLUE}
@@ -492,7 +515,7 @@ export function ReportDashboardCharts({ result }: Props) {
                       const amount = Number(
                         (item as { payload?: { amount?: number } })?.payload?.amount ?? 0
                       );
-                      return [`${Number(value ?? 0).toFixed(1)}% · ${fmt$(amount)}`, "Leak share"];
+                      return [`${Number(value ?? 0).toFixed(1)}% · ${fmt$(amount)}`, t("reportDashboardCharts.tooltipLeakShare")];
                     }}
                     labelFormatter={(_, payload) => {
                       const full = (payload?.[0] as { payload?: { fullLabel?: string } } | undefined)
@@ -515,13 +538,13 @@ export function ReportDashboardCharts({ result }: Props) {
               </ul>
             </div>
             <p className="mt-2 text-[11px] text-slate-400">
-              Axes = share of all-in fees by leak bucket (directional; some estimates can overlap).
+              {t("reportDashboardCharts.radarFootnote")}
             </p>
           </Panel>
         )}
 
         {showTimeline && peakFees && (
-          <Panel title="Fee timeline" eyebrow="Month intensity" className="lg:col-span-2">
+          <Panel title={t("reportDashboardCharts.panelFeeTimeline")} eyebrow={t("reportDashboardCharts.panelFeeTimelineEyebrow")} className="lg:col-span-2">
             <div className="space-y-2.5">
               {timelineData.map((row) => {
                 const widthPct = Math.max(6, (row.fees / maxMonthFees) * 100);
@@ -550,7 +573,7 @@ export function ReportDashboardCharts({ result }: Props) {
               })}
             </div>
             <p className="mt-3 text-[11px] text-slate-400">
-              Bar length = fee dollars that month (Gantt-style intensity). Label inside = processing rate.
+              {t("reportDashboardCharts.timelineFootnote")}
             </p>
           </Panel>
         )}
@@ -569,21 +592,26 @@ function rateBarWidth(value: number, peer: number): number {
   return Math.max(8, (value / max) * 100);
 }
 
-function shortLeakLabel(label: string): string {
+function shortLeakLabel(
+  label: string,
+  t: ReturnType<typeof useReportTranslations>["t"],
+  translateFeeLabel: (english: string) => string
+): string {
+  const translated = translateFeeLabel(label);
   const map: Record<string, string> = {
-    "Fixed per-charge fees": "Fixed",
-    "International card uplift": "Intl",
-    "Currency conversion estimate": "FX",
-    "Refund fee impact": "Refunds",
-    "Other Stripe fee lines": "Other",
-    "Base card processing": "Card",
+    [translateFeeLabel("Fixed per-charge fees")]: t("reportDashboardCharts.shortFixed"),
+    [translateFeeLabel("International card uplift")]: t("reportDashboardCharts.shortIntl"),
+    [translateFeeLabel("Currency conversion estimate")]: t("reportDashboardCharts.shortFx"),
+    [translateFeeLabel("Refund fee impact")]: t("reportDashboardCharts.shortRefunds"),
+    [translateFeeLabel("Other Stripe fee lines")]: t("reportDashboardCharts.shortOther"),
+    [translateFeeLabel("Base card processing")]: t("reportDashboardCharts.shortCard"),
   };
-  if (map[label]) return map[label];
-  if (label.toLowerCase().includes("fixed")) return "Fixed";
-  if (label.toLowerCase().includes("international")) return "Intl";
-  if (label.toLowerCase().includes("currency") || label.toLowerCase().includes("fx")) return "FX";
-  if (label.toLowerCase().includes("refund")) return "Refunds";
-  if (label.toLowerCase().includes("dispute")) return "Disputes";
-  if (label.toLowerCase().includes("card")) return "Card";
+  if (map[translated]) return map[translated];
+  if (label.toLowerCase().includes("fixed")) return t("reportDashboardCharts.shortFixed");
+  if (label.toLowerCase().includes("international")) return t("reportDashboardCharts.shortIntl");
+  if (label.toLowerCase().includes("currency") || label.toLowerCase().includes("fx")) return t("reportDashboardCharts.shortFx");
+  if (label.toLowerCase().includes("refund")) return t("reportDashboardCharts.shortRefunds");
+  if (label.toLowerCase().includes("dispute")) return t("reportDashboardCharts.shortDisputes");
+  if (label.toLowerCase().includes("card")) return t("reportDashboardCharts.shortCard");
   return truncate(label, 10);
 }

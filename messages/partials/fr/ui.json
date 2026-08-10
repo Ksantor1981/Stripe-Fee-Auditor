@@ -1,0 +1,175 @@
+{
+  "footer": {
+    "updated": "Mis à jour en août 2026",
+    "disclaimer": "Fee Auditor (feeauditor.com) est un outil SaaS indépendant. Non affilié, approuvé ni partie de Stripe, Inc. « Stripe » est une marque de Stripe, Inc.",
+    "privacyPolicy": "Politique de confidentialité",
+    "termsOfService": "Conditions d'utilisation",
+    "refundPolicy": "Politique de remboursement",
+    "seoLinks": [
+      { "href": "/monitor", "label": "Surveillance des frais" },
+      { "href": "/chrome-extension", "label": "Extension Chrome" },
+      { "href": "/stripe-fee-calculator", "label": "Calculateur de frais Stripe" },
+      { "href": "/should-i-switch-from-stripe", "label": "Faut-il quitter Stripe ?" },
+      { "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" },
+      { "href": "/stripe-vs-square-fees", "label": "Stripe vs Square" },
+      { "href": "/what-percent-does-stripe-take", "label": "Quel pourcentage Stripe prélève" },
+      { "href": "/stripe-balance-csv", "label": "CSV de solde Stripe" },
+      { "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Pourquoi les frais dépassent 2,9 %" }
+    ],
+    "blogLinks": [
+      { "href": "/blog/why-stripe-fees-increase", "label": "Pourquoi les frais Stripe augmentent" },
+      { "href": "/blog/how-to-reduce-stripe-fees", "label": "Comment réduire les frais" },
+      { "href": "/blog/stripe-effective-fee-rate-explained", "label": "Taux effectif expliqué" }
+    ]
+  },
+  "breadcrumbs": {
+    "home": "Accueil"
+  },
+  "quotes": {
+    "quote1": "Outil mono-objectif avec un différenciateur de confidentialité convaincant.",
+    "quote1Name": "Assaf Sheinrok",
+    "quote1Link": "PagePulse",
+    "quote2": "L'aperçu a rendu les facteurs de frais évidents.",
+    "quote2Name": "Ivan Chernov"
+  },
+  "seoShell": {
+    "lastUpdated": "Dernière mise à jour :",
+    "lastUpdatedValue": "Août 2026",
+    "trustDisclaimer": "Fee Auditor (feeauditor.com) est un outil SaaS indépendant exploité sous le nom de produit Stripe Fee Auditor. Il n'est pas affilié, approuvé ni partie de Stripe, Inc. « Stripe » est une marque de Stripe, Inc.",
+    "ctaTitle": "Auditez votre taux réel de frais Stripe",
+    "ctaDescription": "Importez un CSV de solde — sans OAuth. Aperçu gratuit d'abord.",
+    "ctaPrimary": "Analyser mon CSV →",
+    "ctaSample": "Voir un rapport exemple",
+    "relatedReading": "Lectures connexes",
+    "faqHeading": "Questions fréquentes",
+    "blogFaqHeading": "Questions fréquentes",
+    "sourcesHeading": "Sources officielles",
+    "sourcesIntro": "Les tarifs et règles de paiement peuvent changer. Utilisez la documentation officielle comme référence actuelle, puis comparez-la à votre propre export Stripe."
+  },
+  "blogHub": {
+    "metaTitle": "Guide des frais Stripe : frais cachés, audits et économies | Blog FeeAuditor",
+    "metaDescription": "Guides pratiques sur le taux effectif Stripe, les exports CSV de solde, les frais de cartes internationales, les économies ACH, les alternatives de paiement et les audits de frais sans OAuth.",
+    "pageTitle": "Guides des frais Stripe",
+    "pageSubtitle": "Articles pratiques sur le taux effectif, les exports, les cartes internationales et les économies — sans OAuth.",
+    "readTimeFormat": "lecture {time}",
+    "readArticle": "Lire l'article",
+    "privacyClusterTitle": "Confidentialité et confiance",
+    "privacyClusterDesc": "Pourquoi le CSV d'abord surpasse OAuth pour les audits ponctuels de frais.",
+    "sections": {
+      "startHere": {
+        "eyebrow": "Commencer ici",
+        "title": "Trouvez votre taux réel de frais Stripe",
+        "description": "Utilisez ces pages pour le chemin le plus court de la confusion à un chiffre utile."
+      },
+      "diagnose": {
+        "eyebrow": "Diagnostiquer les frais",
+        "title": "Comprendre pourquoi Stripe coûte plus que prévu",
+        "description": "Décomposez les facteurs derrière un taux effectif de 3,8 % ou plus de 4 %."
+      },
+      "compare": {
+        "eyebrow": "Comparer les options",
+        "title": "Décider de changer, d'ajouter l'ACH ou de modifier le checkout",
+        "description": "Guides de comparaison et d'optimisation pour les fondateurs qui veulent réduire les coûts de paiement."
+      },
+      "reduce": {
+        "eyebrow": "Réduire les frais",
+        "title": "Économies concrètes à partir de votre export",
+        "description": "Listes de contrôle et guides une fois que vous savez d'où vient la charge."
+      },
+      "exportPrivacy": {
+        "eyebrow": "Export et confidentialité",
+        "title": "Auditez les frais sans connecter votre compte Stripe",
+        "description": "Étapes d'export CSV, gestion des données et notes de confidentialité sans OAuth."
+      }
+    }
+  },
+  "seoRelated": {
+    "feesReport": [
+      { "context": "Besoin des étapes d'export ?", "href": "/stripe-balance-csv", "label": "Exporter le CSV de solde Stripe" },
+      { "context": "Estimer d'abord les tarifs publiés ?", "href": "/stripe-fee-calculator", "label": "Calculateur de frais Stripe" },
+      { "context": "Pourquoi le taux dépasse 2,9 % ?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Pourquoi les frais sont plus élevés" },
+      { "context": "Comparer PayPal ou Wise ?", "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" },
+      { "context": "Prêt à lancer l'audit ?", "href": "/analyze", "label": "Analyser mon CSV" }
+    ],
+    "feeCalculator": [
+      { "context": "Que doit contenir le rapport ?", "href": "/stripe-fees-report", "label": "Guide du rapport de frais Stripe" },
+      { "context": "Pas encore de CSV ?", "href": "/stripe-balance-csv", "label": "Guide d'export CSV" },
+      { "context": "Frais en hausse vs le mois dernier ?", "href": "/blog/why-stripe-fees-increase", "label": "Pourquoi les frais Stripe augmentent" },
+      { "context": "Comprendre les facteurs de frais ?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Pourquoi les frais sont plus élevés" },
+      { "context": "Besoin de la réponse courte en pourcentage ?", "href": "/what-percent-does-stripe-take", "label": "Quel pourcentage Stripe prélève" },
+      { "context": "Comparer les options de paiement ?", "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" }
+    ],
+    "whyHigher": [
+      { "context": "Créer un rapport complet de frais", "href": "/stripe-fees-report", "label": "Rapport de frais Stripe" },
+      { "context": "Frais en hausse vs le mois dernier ?", "href": "/blog/why-stripe-fees-increase", "label": "Pourquoi les frais Stripe augmentent" },
+      { "context": "Estimer d'abord les frais publiés", "href": "/stripe-fee-calculator", "label": "Calculateur de frais Stripe" },
+      { "context": "Ensuite : exporter le fichier", "href": "/stripe-balance-csv", "label": "Guide d'export CSV" },
+      { "context": "Besoin d'abord du pourcentage de base ?", "href": "/what-percent-does-stripe-take", "label": "Combien Stripe facture par transaction" },
+      { "context": "Prêt à vérifier votre taux réel ?", "href": "/analyze", "label": "Analyser mon CSV" }
+    ],
+    "balanceCsv": [
+      { "context": "Que faire de l'export ?", "href": "/stripe-fees-report", "label": "Rapport de frais Stripe" },
+      { "context": "Estimer les frais avant d'exporter ?", "href": "/stripe-fee-calculator", "label": "Calculateur de frais Stripe" },
+      { "context": "Pourquoi le taux dépasse 2,9 % ?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Pourquoi les frais dépassent 2,9 %" },
+      { "context": "Besoin de la réponse courte en pourcentage ?", "href": "/what-percent-does-stripe-take", "label": "Quel pourcentage Stripe prélève" },
+      { "context": "Frais en forte hausse d'un mois à l'autre ?", "href": "/blog/why-stripe-fees-increase", "label": "Pourquoi les frais Stripe augmentent" },
+      { "context": "Autres formats d'export ?", "href": "/stripe-data-export", "label": "Options d'export de données Stripe" }
+    ]
+  },
+  "faq": {
+    "useful-for-me": {
+      "q": "Fee Auditor est-il utile pour mon entreprise ?",
+      "a": "Utile si vous avez des cartes internationales, des remboursements, de petits abonnements ou un taux Stripe qui semble plus élevé que prévu. Passez si vous n'avez que quelques paiements domestiques à montant élevé et avez juste besoin d'une formule approximative dans un tableur."
+    },
+    "store-csv": {
+      "q": "Conservez-vous mon fichier CSV Stripe ?",
+      "a": "Non. Votre navigateur lit le fichier pour l'aperçu d'import, puis l'envoie une fois à nos serveurs pour analyse. Nous stockons des <strong>chiffres calculés et des agrégats</strong> (taux, totaux, catégories groupées) — pas le CSV brut en tant que fichier.",
+      "a2": "Les identifiants de transaction peuvent apparaître dans votre rapport privé pour faire correspondre les lignes à Stripe ; les descriptions en texte libre de l'export sont supprimées avant le stockage à long terme lorsque c'est possible."
+    },
+    "stripe-access": {
+      "q": "Stripe Fee Auditor se connecte-t-il à mon compte Stripe ?",
+      "a": "Pas de connexion API ni d'OAuth. Vous exportez un CSV depuis le tableau de bord Stripe et l'importez ici — les mêmes données que vous pourriez ouvrir dans un tableur, sans accorder un accès tiers à votre compte actif."
+    },
+    "who-sees": {
+      "q": "Qui peut voir mon rapport ?",
+      "a": "Uniquement quelqu'un avec votre lien privé (y compris le jeton d'accès dans l'URL). Traitez-le comme un mot de passe : ne le partagez pas sur des canaux publics. Les rapports expirent automatiquement selon notre politique de conservation (courte fenêtre d'aperçu ou plus longue pendant la bêta / après achat — voir les Conditions)."
+    },
+    "accuracy": {
+      "q": "Les benchmarks et chiffres d'économie sont-ils garantis ?",
+      "a": "Ce sont des <strong>estimations indicatives</strong> construites à partir de votre export avec des règles simplifiées (pas le grand livre interne de Stripe). Utilisez-les pour repérer des tendances et des questions pour votre équipe finance — pas comme des devis contractuels de frais."
+    },
+    "worth-12": {
+      "q": "Le rapport complet à 12 $ vaut-il le coup après la bêta ?",
+      "a": "Cela dépend de votre volume. Si vous ne traitez que quelques petits paiements, l'aperçu ou un tableur peut suffire. Si vous traitez un volume mensuel significatif, avez des clients internationaux, des remboursements ou beaucoup de petits montants, le rapport complet est conçu pour montrer les lignes et actions précises derrière le taux principal."
+    },
+    "stripe-refund-policy": {
+      "q": "Stripe rembourse-t-il les frais quand je rembourse un paiement ?",
+      "a": "Non. Selon la <stripeLink>FAQ tarifs de Stripe</stripeLink>, lorsque vous effectuez un remboursement Stripe ne restitue <strong>pas</strong> les frais de traitement, les frais Connect ni les frais de conversion de devise de la transaction d'origine. Cela peut augmenter votre taux effectif mixte si les remboursements sont fréquents."
+    },
+    "stripe-disputes": {
+      "q": "Combien coûtent les litiges et Smart Disputes de Stripe ?",
+      "a": "Stripe facture des <strong>15 $</strong> lorsqu'un litige est reçu ; ces frais sont remboursés si vous gagnez le litige. <strong>Smart Disputes</strong> (si activé) ajoute <strong>30 % du montant contesté</strong> lorsque vous gagnez — en plus des frais de traitement carte. Voir <stripeLink>stripe.com/pricing</stripeLink>."
+    },
+    "stripe-billing-fees": {
+      "q": "Stripe Billing ajoute-t-il des frais en plus du traitement carte ?",
+      "a": "Oui. <billingLink>Stripe Billing</billingLink> représente <strong>0,7 %</strong> du volume de facturation (abonnements, factures, facturation à l'usage) en plus des frais standard de traitement carte. Tax, Radar, BNPL et autres produits ont des tarifs publiés séparément."
+    },
+    "stripe-custom-pricing": {
+      "q": "Pourquoi mon taux Stripe peut-il différer des tarifs publiés ?",
+      "a": "De nombreux comptes ont des <strong>tarifs personnalisés ou interchange-plus</strong>. Le mix régional de cartes, les cartes saisies manuellement (+0,5 %) et les modules complémentaires modifient aussi le taux mixte. Consultez <strong>Tableau de bord → Paramètres → Plans et frais</strong> pour vos tarifs contractuels — notre calculateur et benchmarks utilisent les tarifs catalogue publiés sauf indication contraire."
+    },
+    "stripe-regional-rates": {
+      "q": "Les frais Stripe diffèrent-ils selon le pays ?",
+      "a": "Oui. Les tarifs cartes domestiques et internationales varient selon le pays du compte (États-Unis, Royaume-Uni, UE, CA, AU, etc.). Royaume-Uni et UE appliquent des majorations transfrontalières par paliers ; les cartes internationales au Canada ajoutent <strong>0,8 %</strong> ; l'Australie domestique est à <strong>1,7 % + 0,30 A$</strong> avec des tarifs plus bas à partir du <strong>1er oct. 2026</strong>. Notre estimateur permet de choisir une région ; les paliers exacts sont sur <stripeLink>stripe.com/pricing</stripeLink>."
+    },
+    "chatgpt": {
+      "q": "Puis-je simplement coller mon CSV Stripe dans ChatGPT ?",
+      "a": "ChatGPT peut commenter quelques lignes, mais il ne calculera pas de façon fiable votre taux global sur des milliers de transactions, ne signalera pas les paiements à frais élevés avec des preuves ligne par ligne, ni ne retournera les mêmes actions d'économie classées à chaque fois.",
+      "a2": "Fee Auditor applique des <strong>règles déterministes</strong> sur l'export complet — sans frais hallucinés — avec des opportunités d'économie classées et des liens vers le tableau de bord Stripe le cas échéant."
+    },
+    "excel": {
+      "q": "Puis-je calculer cela moi-même dans Excel ?",
+      "a": "Oui. Le taux mixte de base est simplement le total des frais de paiement divisé par le volume total des paiements. Fee Auditor est utile quand vous voulez la couche suivante : variations mensuelles, paiements à frais élevés, fuite de frais de remboursement, contexte benchmark, exports et opportunités d'économie concrètes sans reconstruire le tableur à chaque fois."
+    }
+  }
+}

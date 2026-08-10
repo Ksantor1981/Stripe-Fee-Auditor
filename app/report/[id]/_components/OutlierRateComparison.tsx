@@ -2,6 +2,7 @@
 
 import { fmtPct } from "@/lib/format";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
+import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 type Props = {
   original: AnalysisResult;
@@ -14,6 +15,7 @@ type Props = {
  * Dollar totals elsewhere stay original; this only reframes rates.
  */
 export function OutlierRateComparison({ original, adjusted, count }: Props) {
+  const { t } = useReportTranslations();
   const hasAdjustments = count > 0;
   const originalAllIn = original.allInRate ?? 0;
   const adjustedAllIn = adjusted.allInRate ?? 0;
@@ -22,19 +24,23 @@ export function OutlierRateComparison({ original, adjusted, count }: Props) {
   return (
     <div className="rounded-xl border border-slate-200 bg-slate-50/90 px-4 py-4 text-sm text-slate-900">
       <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
-        Normal rate vs outlier-adjusted
+        {t("outlierRateComparison.eyebrow")}
       </p>
       <p className="mt-1 font-semibold text-slate-950">
         {hasAdjustments
-          ? `Excluding ${count} expected one-off charge${count === 1 ? "" : "s"}`
-          : "Is the spike a recurring leak — or a one-off?"}
+          ? count === 1
+            ? t("outlierRateComparison.excludingCount", { count })
+            : t("outlierRateComparison.excludingCountPlural", { count })
+          : t("outlierRateComparison.spikeQuestion")}
       </p>
 
       <div className="mt-3 grid gap-3 sm:grid-cols-2">
         <div className="rounded-lg border border-slate-200 bg-white px-3 py-3">
-          <p className="text-xs font-medium text-slate-500">Normal (all charges)</p>
+          <p className="text-xs font-medium text-slate-500">{t("outlierRateComparison.normalLabel")}</p>
           <p className="mt-1 text-lg font-bold text-slate-900">{fmtPct(original.chargeRate)}</p>
-          <p className="text-xs text-slate-500">processing · all-in {fmtPct(originalAllIn)}</p>
+          <p className="text-xs text-slate-500">
+            {t("outlierRateComparison.normalDetail", { rate: fmtPct(originalAllIn) })}
+          </p>
         </div>
         <div
           className={`rounded-lg border px-3 py-3 ${
@@ -43,27 +49,25 @@ export function OutlierRateComparison({ original, adjusted, count }: Props) {
               : "border-dashed border-slate-300 bg-white/60"
           }`}
         >
-          <p className="text-xs font-medium text-slate-500">Outlier-adjusted</p>
+          <p className="text-xs font-medium text-slate-500">{t("outlierRateComparison.adjustedLabel")}</p>
           {hasAdjustments ? (
             <>
               <p className="mt-1 text-lg font-bold text-emerald-950">{fmtPct(adjusted.chargeRate)}</p>
-              <p className="text-xs text-emerald-900/80">processing · all-in {fmtPct(adjustedAllIn)}</p>
+              <p className="text-xs text-emerald-900/80">
+                {t("outlierRateComparison.normalDetail", { rate: fmtPct(adjustedAllIn) })}
+              </p>
             </>
           ) : (
             <p className="mt-2 text-xs leading-relaxed text-slate-600">
-              Mark high-fee charges as expected one-offs below. Adjusted rate shows your typical mix
-              without those rows skewing the average.
+              {t("outlierRateComparison.adjustedHint")}
             </p>
           )}
         </div>
       </div>
 
       <p className="mt-3 text-xs leading-relaxed text-slate-600">
-        Dollar totals still include everything Stripe charged. Use this to separate{" "}
-        <strong>recurring leaks</strong> (intl cards, refunds, small tickets) from{" "}
-        <strong>one-off spikes</strong>.
-        {partialLedger &&
-          " Large exports adjust marked rows only — re-upload a shorter CSV for full-period recalc."}
+        {t("outlierRateComparison.footnote")}
+        {partialLedger && t("outlierRateComparison.partialLedgerNote")}
       </p>
     </div>
   );

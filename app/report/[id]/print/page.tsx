@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { getReportWithAccess, isActiveMonitorSubscriber } from "@/lib/db";
 import { resolveReportAccessToken } from "@/lib/report-access-cookie";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
@@ -20,6 +21,9 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
 
   if (!UUID_V4.test(id)) notFound();
 
+  const t = await getTranslations("report");
+  const tc = await getTranslations("report.common");
+
   const token = resolveReportAccessToken(id, {
     cookieStore: await cookies(),
     queryToken,
@@ -35,6 +39,7 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
   const periodFees = periodTotalFees(chargeFees, otherFees);
   const monthCount = monthly.length;
   const yearlyAtThisRate = annualRunRate(periodFees, Math.max(1, monthCount));
+  const generatedDate = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 
   return (
     <>
@@ -72,99 +77,108 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
       `}</style>
 
       <div className="page">
-        {/* Header */}
         <div className="header">
           <div>
-            <h1>Stripe Fee Analysis Report</h1>
+            <h1>{t("print.title")}</h1>
             <div className="meta">
-              Report ID: {params_id.slice(0, 8)} · Generated: {new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+              {t("print.reportIdMeta", { id: params_id.slice(0, 8), date: generatedDate })}
             </div>
           </div>
           <div style={{ textAlign: "right" }}>
             <span className="badge">{mode.replace("-", " ")}</span>
-            <div className="meta" style={{ marginTop: 4 }}>{monthly.length} month{monthly.length !== 1 ? "s" : ""} analyzed</div>
+            <div className="meta" style={{ marginTop: 4 }}>
+              {monthly.length === 1
+                ? t("print.monthsAnalyzed", { count: monthly.length })
+                : t("print.monthsAnalyzedPlural", { count: monthly.length })}
+            </div>
           </div>
         </div>
 
-        {/* Summary cards */}
         <div className="cards">
           <div className="card accent">
-            <div className="label">Effective Rate</div>
+            <div className="label">{t("print.effectiveRate")}</div>
             <div className="value">{fmtPct(chargeRate)}</div>
           </div>
           <div className="card">
-            <div className="label">Charge Fees</div>
+            <div className="label">{tc("chargeFees")}</div>
             <div className="value">{fmt$(chargeFees)}</div>
           </div>
           <div className="card">
-            <div className="label">Charge Volume</div>
+            <div className="label">{tc("chargeVolume")}</div>
             <div className="value">{fmt$(chargeVolume)}</div>
           </div>
           <div className="card">
-            <div className="label">Other Fees</div>
+            <div className="label">{t("print.otherFees")}</div>
             <div className="value">{fmt$(otherFees)}</div>
           </div>
         </div>
 
         <div style={{ marginBottom: 24, fontSize: 14, lineHeight: 1.55 }}>
           <p style={{ margin: "0 0 6px" }}>
-            You paid <strong>{fmt$(periodFees)}</strong> in Stripe fees {stripeFeesPeriodTail(monthCount || 1)}
+            {tc("youPaid")} <strong>{fmt$(periodFees)}</strong> {tc("inStripeFees")} {stripeFeesPeriodTail(monthCount || 1)}
           </p>
           <p style={{ margin: 0, color: "#4b5563" }}>
-            That&apos;s <strong>{fmt$(yearlyAtThisRate)}</strong>/year at this rate.
+            {tc("thats")} <strong>{fmt$(yearlyAtThisRate)}</strong>{tc("yearSuffix")} {tc("atThisRate")}.
           </p>
         </div>
 
-        {/* Benchmark and refund leakage */}
         {(benchmark || (refundSummary && refundSummary.count > 0)) && (
           <div style={{ marginBottom: 24, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             {benchmark && (
               <div style={{ padding: "12px 14px", background: "#f8fafc", borderRadius: 8, border: "1px solid #e5e7eb", fontSize: 12 }}>
                 <div style={{ color: "#6b7280", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 }}>
-                  Benchmark
+                  {t("print.benchmark")}
                 </div>
                 <div style={{ fontWeight: 700, fontSize: 15 }}>{benchmark.label}</div>
                 <div style={{ color: "#4b5563", marginTop: 4 }}>
-                  Rough range: {fmtPct(benchmark.rangeLow)}–{fmtPct(benchmark.rangeHigh)}
+                  {t("print.roughRange", { low: fmtPct(benchmark.rangeLow), high: fmtPct(benchmark.rangeHigh) })}
                 </div>
               </div>
             )}
             {refundSummary && refundSummary.count > 0 && (
               <div style={{ padding: "12px 14px", background: "#f8fafc", borderRadius: 8, border: "1px solid #e5e7eb", fontSize: 12 }}>
                 <div style={{ color: "#6b7280", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 }}>
-                  Refund fee leakage
+                  {t("feeInsightCards.refundLeakage")}
                 </div>
                 <div style={{ fontWeight: 700, fontSize: 15 }}>~{fmt$(refundSummary.estimatedRetainedFees)}</div>
                 <div style={{ color: "#4b5563", marginTop: 4 }}>
-                  {refundSummary.count} refunds · {fmt$(refundSummary.volume)} refunded · {fmtPct(refundSummary.refundRate)} refund rate
+                  {refundSummary.count === 1
+                    ? t("print.refundSingular", {
+                        count: refundSummary.count,
+                        volume: fmt$(refundSummary.volume),
+                        rate: fmtPct(refundSummary.refundRate),
+                      })
+                    : t("print.refundsMeta", {
+                        count: refundSummary.count,
+                        volume: fmt$(refundSummary.volume),
+                        rate: fmtPct(refundSummary.refundRate),
+                      })}
                 </div>
               </div>
             )}
           </div>
         )}
 
-        {/* Period delta */}
         {periodDelta !== null && (
           <div style={{ marginBottom: 24, padding: "10px 14px", background: "#f8fafc", borderRadius: 8, border: "1px solid #e5e7eb", fontSize: 13 }}>
-            <strong>Period comparison:</strong>{" "}
+            <strong>{t("print.periodComparison")}</strong>{" "}
             <span className={periodDelta > 0 ? "delta-pos" : "delta-neg"}>
               {periodDelta > 0 ? "▲" : "▼"} {fmt$(Math.abs(periodDelta))}
             </span>{" "}
-            vs previous period ({fmtMonth(monthly[monthly.length - 2]?.month ?? "")})
+            {tc("vsPreviousPeriod")} ({fmtMonth(monthly[monthly.length - 2]?.month ?? "")})
           </div>
         )}
 
-        {/* Fee leak breakdown */}
         {feeLeakBreakdown && feeLeakBreakdown.length > 0 && (
           <div className="section">
-            <h2>Where Fees Leak</h2>
+            <h2>{t("print.whereFeesLeak")}</h2>
             <table>
               <thead>
                 <tr>
-                  <th>Bucket</th>
-                  <th style={{ textAlign: "right" }}>Impact</th>
-                  <th style={{ textAlign: "right" }}>Share</th>
-                  <th>Type</th>
+                  <th>{t("feeLeakBreakdown.columnBucket")}</th>
+                  <th style={{ textAlign: "right" }}>{t("feeLeakBreakdown.columnImpact")}</th>
+                  <th style={{ textAlign: "right" }}>{t("print.share")}</th>
+                  <th>{t("print.type")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -184,18 +198,17 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
           </div>
         )}
 
-        {/* Monthly breakdown */}
         {monthly.length > 0 && (
           <div className="section">
-            <h2>Monthly Breakdown</h2>
+            <h2>{t("print.monthlyBreakdown")}</h2>
             <table>
               <thead>
                 <tr>
-                  <th>Month</th>
-                  <th style={{ textAlign: "right" }}>Volume</th>
-                  <th style={{ textAlign: "right" }}>Fees</th>
-                  <th style={{ textAlign: "right" }}>Rate</th>
-                  <th style={{ textAlign: "right" }}>Charges</th>
+                  <th>{tc("month")}</th>
+                  <th style={{ textAlign: "right" }}>{tc("volume")}</th>
+                  <th style={{ textAlign: "right" }}>{tc("fees")}</th>
+                  <th style={{ textAlign: "right" }}>{tc("rate")}</th>
+                  <th style={{ textAlign: "right" }}>{tc("charges")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -224,18 +237,17 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
           </div>
         )}
 
-        {/* Anomalies */}
         {anomalies.length > 0 && (
           <div className="section">
-            <h2>High-fee charges ({highFeeCount})</h2>
+            <h2>{t("print.highFeeCharges", { count: highFeeCount })}</h2>
             <table>
               <thead>
                 <tr>
-                  <th>Transaction ID</th>
-                  <th>Date</th>
-                  <th style={{ textAlign: "right" }}>Amount</th>
-                  <th style={{ textAlign: "right" }}>Fee</th>
-                  <th style={{ textAlign: "right" }}>Rate</th>
+                  <th>{t("print.transactionId")}</th>
+                  <th>{t("print.date")}</th>
+                  <th style={{ textAlign: "right" }}>{t("print.amount")}</th>
+                  <th style={{ textAlign: "right" }}>{t("print.fee")}</th>
+                  <th style={{ textAlign: "right" }}>{tc("rate")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -257,19 +269,18 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
           </div>
         )}
 
-        {/* Top drivers */}
         {topDrivers.length > 0 && (
           <div className="section">
-            <h2>Top Fee Drivers</h2>
+            <h2>{tc("topFeeDrivers")}</h2>
             <table>
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Transaction ID</th>
-                  <th>Date</th>
-                  <th style={{ textAlign: "right" }}>Amount</th>
-                  <th style={{ textAlign: "right" }}>Fee</th>
-                  <th style={{ textAlign: "right" }}>Rate</th>
+                  <th>{t("print.transactionId")}</th>
+                  <th>{t("print.date")}</th>
+                  <th style={{ textAlign: "right" }}>{t("print.amount")}</th>
+                  <th style={{ textAlign: "right" }}>{t("print.fee")}</th>
+                  <th style={{ textAlign: "right" }}>{tc("rate")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -290,16 +301,13 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
           </div>
         )}
 
-        {/* Footer */}
         <div className="footer">
-          <span>Stripe Fee Auditor · Not affiliated with Stripe, Inc.</span>
+          <span>{tc("notAffiliated")}</span>
           <span>feeauditor.com</span>
         </div>
       </div>
 
-      {/* Print button — hidden when printing */}
       <PrintButton />
     </>
   );
 }
-

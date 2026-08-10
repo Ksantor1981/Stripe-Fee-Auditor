@@ -21,30 +21,43 @@ import { resolvePaywallImpact } from "@/lib/paywall-impact";
 import { selectFreeDiagnosis } from "@/lib/free-diagnosis";
 import { OutlierRateComparison } from "./OutlierRateComparison";
 import { ExpectedOutlierToggle } from "./ExpectedOutlierToggle";
+import { useReportTranslations, useFeeLabelTranslator } from "@/lib/i18n/use-report-translations";
 
 function anomalyExplainerText(
   count: number,
   baselineRate: number,
   paidRows: AnnotatedRow[],
-  isPaid: boolean
+  isPaid: boolean,
+  t: ReturnType<typeof useReportTranslations>["t"],
+  translateFeeLabel: (english: string) => string
 ): string | null {
   if (count <= 0) return null;
   if (!isPaid) {
-    return `${count} charges cleared above your statistical threshold vs your baseline — unlock for categories and line-by-line tips.`;
+    return t("multiMonthReport.anomalyPreviewLocked", { count });
   }
-  const labels = paidRows.map((r) => r.explanation?.label ?? "Elevated rate");
+  const labels = paidRows.map((r) => translateFeeLabel(r.explanation?.label ?? t("multiMonthReport.elevatedRate")));
   const tally = new Map<string, number>();
   for (const l of labels) tally.set(l, (tally.get(l) ?? 0) + 1);
   const sorted = [...tally.entries()].sort((a, b) => b[1] - a[1]);
   const top = sorted[0];
   if (!top || paidRows.length === 0) {
-    return `${count} charges paid above your ~${baselineRate.toFixed(2)}% baseline — common when card mix includes international or premium interchange; not necessarily errors.`;
+    return t("multiMonthReport.anomalyPaidGeneric", {
+      count,
+      baseline: baselineRate.toFixed(2),
+    });
   }
   const [topLabel, topN] = top;
   const shownCount = paidRows.length;
   const pct = Math.round((topN / Math.max(1, shownCount)) * 100);
-  const sampleCopy = shownCount < count ? ` Showing the top ${shownCount};` : "";
-  return `${count} charges paid above your ~${baselineRate.toFixed(2)}% baseline.${sampleCopy} About ${pct}% of ${shownCount < count ? "shown rows" : "them"} are tagged “${topLabel}”. Typical when international or premium cards are a large share; not necessarily errors.`;
+  const sampleCopy = shownCount < count ? t("multiMonthReport.showingTopRows", { count: shownCount }) : "";
+  return t("multiMonthReport.anomalyPaidDetailed", {
+    count,
+    baseline: baselineRate.toFixed(2),
+    sampleCopy,
+    pct,
+    scope: shownCount < count ? t("multiMonthReport.shownRows") : t("multiMonthReport.them"),
+    label: topLabel,
+  });
 }
 
 interface Props {
@@ -73,6 +86,8 @@ export function MultiMonthReport({
   outlierSaving = false,
   canMarkExpectedOutliers = false,
 }: Props) {
+  const { t, tc } = useReportTranslations();
+  const translateFeeLabel = useFeeLabelTranslator();
   const {
     chargeRate,
     chargeVolume,
@@ -90,13 +105,16 @@ export function MultiMonthReport({
   const savings = result.savingsOpportunities ?? [];
   const benchmarkRate = result.benchmark?.expectedRate ?? (result.pricingProfile?.domesticPercent ?? 0.029) * 100;
   const rateGap = chargeRate - benchmarkRate;
-  const rateGapText = `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp vs ~${benchmarkRate.toFixed(2)}% benchmark`;
+  const rateGapText = tc("rateGapVsBenchmark", {
+    gap: `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp`,
+    benchmark: benchmarkRate.toFixed(2),
+  });
   const diagnosis =
     rateGap > 0.25
-      ? "Diagnosis: your blended rate is materially above the directional benchmark; start with savings opportunities and high-fee charges."
+      ? t("multiMonthReport.diagnosisAboveBenchmark")
       : anomalyUiCount > 0
-        ? "Diagnosis: your blended rate is close to baseline, but several transactions are still worth reviewing."
-        : "Diagnosis: your blended rate looks consistent; monitor monthly changes for future spikes.";
+        ? t("multiMonthReport.diagnosisNearWithAnomalies")
+        : t("multiMonthReport.diagnosisConsistent");
 
   const paidAnomalyRows: AnnotatedRow[] =
     originalResult.annotatedAnomalies && originalResult.annotatedAnomalies.length > 0
@@ -109,7 +127,14 @@ export function MultiMonthReport({
   const adjustedAllInRate =
     result.allInRate ?? (chargeVolume > 0 ? ((result.chargeFees + actualOtherFees) / chargeVolume) * 100 : 0);
   const yearlyAtThisRate = annualRunRate(periodFees, monthCount);
-  const anomalyExplainer = anomalyExplainerText(anomalyUiCount, chargeRate, paidAnomalyRows.filter((row) => !expectedOutlierIds.includes(row.id)), isPaid);
+  const anomalyExplainer = anomalyExplainerText(
+    anomalyUiCount,
+    chargeRate,
+    paidAnomalyRows.filter((row) => !expectedOutlierIds.includes(row.id)),
+    isPaid,
+    t,
+    translateFeeLabel
+  );
   const teaserSavings = savings[0];
   const freeDiagnosis = selectFreeDiagnosis(originalResult);
   const paywallImpact = resolvePaywallImpact({
@@ -141,42 +166,42 @@ export function MultiMonthReport({
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">
-              {monthly.length}-month analysis
+              {t("multiMonthReport.monthAnalysisEyebrow", { count: monthly.length })}
             </p>
             <h1 className="text-2xl font-bold text-gray-900 leading-snug">
-              {isSampleReport ? "This sample shows " : "You paid "}
-              <span className="text-blue-600">{fmt$(periodFees)}</span> in Stripe fees{" "}
+              {isSampleReport ? tc("thisSampleShows") : tc("youPaid")}{" "}
+              <span className="text-blue-600">{fmt$(periodFees)}</span> {tc("inStripeFees")}{" "}
               {stripeFeesPeriodTail(monthCount)}
             </h1>
             <p className="mt-2 text-sm text-gray-600">
-              That&apos;s{" "}
+              {tc("thats")}{" "}
               <span className="font-semibold text-gray-900">{fmt$(yearlyAtThisRate)}</span>
-              /year at this rate.
+              {tc("yearSuffix")} {tc("atThisRate")}.
             </p>
             <p className="mt-2 max-w-2xl text-sm font-medium text-gray-800">
               {diagnosis}
             </p>
             {periodDelta !== null && (
               <p className={`mt-1 text-sm font-medium ${deltaPositive ? "text-red-600" : "text-green-600"}`}>
-                {deltaPositive ? "▲" : "▼"} {fmt$(Math.abs(periodDelta))} vs previous period
+                {deltaPositive ? "▲" : "▼"} {fmt$(Math.abs(periodDelta))} {tc("vsPreviousPeriod")}
               </p>
             )}
           </div>
           <div className="w-full text-left sm:w-auto sm:text-right">
             <p className="text-3xl font-bold text-gray-900">{fmtPct(chargeRate)}</p>
-            <p className="text-xs text-gray-400 mt-0.5">processing fee rate</p>
+            <p className="text-xs text-gray-400 mt-0.5">{tc("processingFeeRate")}</p>
             <p className="mt-2 text-xl font-bold text-gray-700">{fmtPct(adjustedAllInRate)}</p>
-            <p className="text-xs text-gray-400 mt-0.5">all-in cost rate</p>
+            <p className="text-xs text-gray-400 mt-0.5">{tc("allInCostRateShort")}</p>
           </div>
         </div>
 
         {/* Summary cards */}
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
-            { label: "Charge Volume", value: fmt$(chargeVolume) },
-            { label: "Charge Fees", value: fmt$(actualChargeFees) },
-            { label: "All-in Fees", value: fmt$(periodFees) },
-            { label: "High-fee charges", value: String(anomalyUiCount) },
+            { label: tc("chargeVolume"), value: fmt$(chargeVolume) },
+            { label: tc("chargeFees"), value: fmt$(actualChargeFees) },
+            { label: tc("allInFees"), value: fmt$(periodFees) },
+            { label: tc("highFeeCharges"), value: String(anomalyUiCount) },
           ].map(({ label, value }) => (
             <div key={label} className="rounded-xl bg-gray-50 px-4 py-3">
               <p className="text-xs text-gray-400 mb-0.5">{label}</p>
@@ -199,21 +224,18 @@ export function MultiMonthReport({
 
         <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
           <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-1">
-            Your rate vs advertised card pricing
+            {tc("yourRateVsAdvertised")}
           </p>
           <p className="text-sm text-blue-900">
-            Your card/charge processing rate is <span className="font-semibold">{fmtPct(chargeRate)}</span>{" "}
-            (<span className="font-semibold">{rateGapText}</span>). Stripe&apos;s advertised card rate starts at
-            2.9% + $0.30, but international cards, small charges, card mix, currency conversion, and add-ons can push
-            the real rate higher.             Your all-in Stripe cost rate for this export is{" "}
-            <span className="font-semibold">{fmtPct(adjustedAllInRate)}</span>
-            {expectedOutlierIds.length > 0 && originalAllInRate !== undefined && (
-              <>
-                {" "}
-                (adjusted; was {fmtPct(originalAllInRate)})
-              </>
-            )}
-            .
+            {t("multiMonthReport.rateComparisonBody", {
+              chargeRate: fmtPct(chargeRate),
+              rateGap: rateGapText,
+              allInRate: fmtPct(adjustedAllInRate),
+              adjustedNote:
+                expectedOutlierIds.length > 0 && originalAllInRate !== undefined
+                  ? t("multiMonthReport.adjustedWas", { rate: fmtPct(originalAllInRate) })
+                  : "",
+            })}
           </p>
         </div>
       </div>
@@ -254,27 +276,27 @@ export function MultiMonthReport({
       {/* Tabs */}
       <Tabs defaultValue="overview">
         <TabsList className="h-auto min-h-10 w-full">
-          <TabsTrigger value="overview" className="flex-1 px-2 text-xs sm:px-3 sm:text-sm">Overview</TabsTrigger>
+          <TabsTrigger value="overview" className="flex-1 px-2 text-xs sm:px-3 sm:text-sm">{t("multiMonthReport.tabOverview")}</TabsTrigger>
           <TabsTrigger value="anomalies" className="flex-1 px-2 text-xs sm:px-3 sm:text-sm">
-            High-fee
+            {t("multiMonthReport.tabHighFee")}
             {anomalyUiCount > 0 && (
               <Badge className="ml-1 bg-red-100 text-red-700 text-[10px] sm:ml-1.5 sm:text-xs">{anomalyUiCount}</Badge>
             )}
           </TabsTrigger>
-          <TabsTrigger value="monthly" className="flex-1 px-2 text-xs sm:px-3 sm:text-sm">Monthly Detail</TabsTrigger>
+          <TabsTrigger value="monthly" className="flex-1 px-2 text-xs sm:px-3 sm:text-sm">{t("multiMonthReport.tabMonthlyDetail")}</TabsTrigger>
         </TabsList>
 
         {/* Overview tab — Top 3 summary */}
         <TabsContent value="overview">
           <div className="rounded-2xl bg-white border border-gray-100 shadow-sm mt-3 divide-y divide-gray-50">
             <div className="px-5 py-4 flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-gray-700">Top Fee Drivers</h3>
+              <h3 className="text-sm font-semibold text-gray-700">{tc("topFeeDrivers")}</h3>
               <Badge variant="outline" className="text-xs">
                 {isSampleReport
-                  ? "Sample report · Top 3"
+                  ? tc("sampleReportTop3")
                   : isPaid
-                    ? "Full report · Top 3"
-                    : "Free preview · Top 3"}
+                    ? tc("fullReportTop3")
+                    : tc("freePreviewTop3")}
               </Badge>
             </div>
             {topDrivers.slice(0, 3).map((row, i) => (
@@ -289,7 +311,7 @@ export function MultiMonthReport({
                 <div className="text-right flex-shrink-0">
                   <p className="text-sm font-semibold text-gray-900">{fmt$(row.fee)}</p>
                   <p className="text-xs text-gray-400">
-                    {row.amount > 0 ? fmtPct((row.fee / row.amount) * 100) : "—"} rate
+                    {row.amount > 0 ? fmtPct((row.fee / row.amount) * 100) : "—"} {tc("rate")}
                   </p>
                 </div>
               </div>
@@ -320,10 +342,10 @@ export function MultiMonthReport({
           <div className="rounded-2xl bg-white border border-gray-100 shadow-sm mt-3">
             <div className="px-5 py-4 border-b border-gray-50">
               <h3 className="text-sm font-semibold text-gray-700">
-                Charges above baseline
+                {t("multiMonthReport.chargesAboveBaseline")}
               </h3>
               <p className="text-xs text-gray-400 mt-0.5">
-                Charges with a higher fee rate than your typical mix — not necessarily errors
+                {t("multiMonthReport.chargesAboveBaselineSubtitle")}
               </p>
               {anomalyExplainer && (
                 <p className="text-xs text-gray-500 mt-2 leading-relaxed max-w-3xl">{anomalyExplainer}</p>
@@ -333,14 +355,13 @@ export function MultiMonthReport({
             {isPaid ? (
               paidAnomalyRows.length === 0 ? (
                 <p className="px-5 py-8 text-sm text-center text-gray-400">
-                  No high-fee charges detected. Your fee rate looks consistent!
+                  {t("multiMonthReport.noHighFeeCharges")}
                 </p>
               ) : (
                 <div className="divide-y divide-gray-50">
                   {canMarkExpectedOutliers && (
                     <p className="px-5 py-3 text-xs text-gray-500 border-b border-gray-50 bg-gray-50/50">
-                      Mark one-off charges (large refunds, international spikes) as expected so they do not skew your
-                      typical processing rate. Dollar totals stay unchanged.
+                      {t("multiMonthReport.markOneOffHint")}
                     </p>
                   )}
                   {paidAnomalyRows.map((row) => {
@@ -356,11 +377,11 @@ export function MultiMonthReport({
                           {row.explanation && (
                             <div className="mt-3 rounded-lg border border-gray-100 bg-gray-50/80 px-3 py-2.5 space-y-1.5">
                               <Badge variant="outline" className="text-[10px] font-medium text-gray-700 border-gray-200">
-                                {row.explanation.label}
+                                {translateFeeLabel(row.explanation.label)}
                               </Badge>
                               <p className="text-xs text-gray-600 leading-relaxed">{row.explanation.detail}</p>
                               <p className="text-xs text-emerald-800 leading-relaxed">
-                                <span className="font-medium">Tip:</span> {row.explanation.savingsTip}
+                                <span className="font-medium">{tc("tip")}:</span> {row.explanation.savingsTip}
                               </p>
                             </div>
                           )}
@@ -382,7 +403,7 @@ export function MultiMonthReport({
                           <Badge
                             className={`text-xs mt-1 ${marked ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-700"}`}
                           >
-                            {fmtPct((row.fee / row.amount) * 100)} rate
+                            {fmtPct((row.fee / row.amount) * 100)} {tc("rate")}
                           </Badge>
                         </div>
                       </div>
@@ -394,9 +415,11 @@ export function MultiMonthReport({
               <div className="px-5 py-10 text-center">
                 <p className="text-2xl mb-2">🔒</p>
                 <p className="text-sm font-semibold text-gray-700 mb-1">
-                  {anomalyUiCount} high-fee charge{anomalyUiCount === 1 ? "" : "s"} found
+                  {anomalyUiCount === 1
+                    ? t("multiMonthReport.highFeeFound", { count: anomalyUiCount })
+                    : t("multiMonthReport.highFeeFoundPlural", { count: anomalyUiCount })}
                 </p>
-                <p className="text-xs text-gray-400 mb-4">Unlock to see which charges are above your baseline and why</p>
+                <p className="text-xs text-gray-400 mb-4">{t("multiMonthReport.unlockHighFeeHint")}</p>
                 <PaywallBanner {...paywallProps} />
               </div>
             )}
@@ -410,11 +433,11 @@ export function MultiMonthReport({
               <table className="min-w-full text-sm">
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-100">
-                    <th className="px-3 py-2.5 text-left text-xs font-medium text-gray-500 sm:px-5 sm:py-3">Month</th>
-                    <th className="px-3 py-2.5 text-right text-xs font-medium text-gray-500 sm:px-5 sm:py-3">Volume</th>
-                    <th className="px-3 py-2.5 text-right text-xs font-medium text-gray-500 sm:px-5 sm:py-3">Fees</th>
-                    <th className="px-3 py-2.5 text-right text-xs font-medium text-gray-500 sm:px-5 sm:py-3">Rate</th>
-                    <th className="hidden px-3 py-2.5 text-right text-xs font-medium text-gray-500 sm:table-cell sm:px-5 sm:py-3">Charges</th>
+                    <th className="px-3 py-2.5 text-left text-xs font-medium text-gray-500 sm:px-5 sm:py-3">{tc("month")}</th>
+                    <th className="px-3 py-2.5 text-right text-xs font-medium text-gray-500 sm:px-5 sm:py-3">{tc("volume")}</th>
+                    <th className="px-3 py-2.5 text-right text-xs font-medium text-gray-500 sm:px-5 sm:py-3">{tc("fees")}</th>
+                    <th className="px-3 py-2.5 text-right text-xs font-medium text-gray-500 sm:px-5 sm:py-3">{tc("rate")}</th>
+                    <th className="hidden px-3 py-2.5 text-right text-xs font-medium text-gray-500 sm:table-cell sm:px-5 sm:py-3">{tc("charges")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
@@ -445,7 +468,7 @@ export function MultiMonthReport({
             <div className="rounded-2xl bg-white border border-gray-100 shadow-sm mt-3 px-5 py-10 text-center">
               <p className="text-2xl mb-2">🔒</p>
               <p className="text-sm font-semibold text-gray-700 mb-4">
-                Detailed monthly breakdown is in the paid report
+                {t("multiMonthReport.monthlyBreakdownLocked")}
               </p>
               <PaywallBanner {...paywallProps} />
             </div>

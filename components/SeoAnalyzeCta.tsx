@@ -1,43 +1,40 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
 type Props = {
-  /** Optional context line above the buttons. */
   title?: string;
   description?: string;
-  /** Primary button label */
   primaryLabel?: string;
-  /** Keep the sample link off paid-intent landing pages. */
   showSample?: boolean;
   className?: string;
 };
 
-/**
- * Ranking-page CTA: one primary action → /analyze. Sample is secondary only.
- */
-export function SeoAnalyzeCta({
-  title = "Audit your real Stripe fee rate",
-  description = "Upload a Balance CSV — no OAuth. Free preview first.",
-  primaryLabel = "Analyze My CSV →",
+export async function SeoAnalyzeCta({
+  title,
+  description,
+  primaryLabel,
   showSample = true,
   className = "",
 }: Props) {
+  const t = await getTranslations("seoShell");
+
   return (
     <div className={`rounded-xl border border-blue-100 bg-blue-50 px-5 py-6 ${className}`}>
-      <h2 className="text-lg font-bold text-gray-900">{title}</h2>
-      <p className="mt-2 text-sm leading-relaxed text-gray-600">{description}</p>
+      <h2 className="text-lg font-bold text-gray-900">{title ?? t("ctaTitle")}</h2>
+      <p className="mt-2 text-sm leading-relaxed text-gray-600">{description ?? t("ctaDescription")}</p>
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
         <Link
           href="/analyze"
           className="inline-flex justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-blue-700"
         >
-          {primaryLabel}
+          {primaryLabel ?? t("ctaPrimary")}
         </Link>
         {showSample && (
           <Link
             href="/analyze?sample=1"
             className="inline-flex justify-center text-center text-sm font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900"
           >
-            See sample report
+            {t("ctaSample")}
           </Link>
         )}
       </div>

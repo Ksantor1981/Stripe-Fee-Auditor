@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { blogArticleBreadcrumbs } from "@/lib/breadcrumb-schema";
 import { absoluteUrl } from "@/lib/site-url";
@@ -67,10 +68,12 @@ export function BlogJsonLd({ title, description, path, published, updated = publ
   );
 }
 
-export function BlogFaqSection({ items }: { items: BlogFaqItem[] }) {
+export async function BlogFaqSection({ items, title }: { items: BlogFaqItem[]; title?: string }) {
+  const t = await getTranslations("seoShell");
+
   return (
     <section className="mt-10 border-t border-gray-100 pt-8">
-      <h2 className="text-xl font-bold text-gray-900">Common questions</h2>
+      <h2 className="text-xl font-bold text-gray-900">{title ?? t("blogFaqHeading")}</h2>
       <div className="mt-5 space-y-4">
         {items.map((item) => (
           <div key={item.question} className="rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm">
@@ -102,13 +105,13 @@ export function BlogFaqJsonLd({ items }: { items: BlogFaqItem[] }) {
   );
 }
 
-export function BlogSourcesSection({ items }: { items: BlogSourceItem[] }) {
+export async function BlogSourcesSection({ items }: { items: BlogSourceItem[] }) {
+  const t = await getTranslations("seoShell");
+
   return (
     <section className="mt-10 border-t border-gray-100 pt-8">
-      <h2 className="text-sm font-semibold text-gray-700">Official sources</h2>
-      <p className="mt-2 text-sm leading-relaxed text-gray-500">
-        Pricing and payment rules can change. Use official docs as the current reference, then compare them with your own Stripe export.
-      </p>
+      <h2 className="text-sm font-semibold text-gray-700">{t("sourcesHeading")}</h2>
+      <p className="mt-2 text-sm leading-relaxed text-gray-500">{t("sourcesIntro")}</p>
       <div className="mt-4 space-y-2">
         {items.map((source) => (
           <a

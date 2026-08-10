@@ -16,6 +16,7 @@ import { PaywallBanner } from "./PaywallBanner";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 import { resolvePaywallImpact } from "@/lib/paywall-impact";
 import { selectFreeDiagnosis } from "@/lib/free-diagnosis";
+import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 interface Props {
   reportId: string;
@@ -25,6 +26,7 @@ interface Props {
 }
 
 export function LowVolumeReport({ reportId, result, isPaid, isSampleReport = false }: Props) {
+  const { t, tc } = useReportTranslations();
   const { chargeFees, chargeRate, chargeVolume, otherFees, topDrivers, monthly, savingsOpportunities } =
     result;
   const savings = savingsOpportunities ?? [];
@@ -45,11 +47,14 @@ export function LowVolumeReport({ reportId, result, isPaid, isSampleReport = fal
   });
   const benchmarkRate = result.benchmark?.expectedRate ?? (result.pricingProfile?.domesticPercent ?? 0.029) * 100;
   const rateGap = chargeRate - benchmarkRate;
-  const rateGapText = `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp vs ~${benchmarkRate.toFixed(2)}% benchmark`;
+  const rateGapText = tc("rateGapVsBenchmark", {
+    gap: `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp`,
+    benchmark: benchmarkRate.toFixed(2),
+  });
   const diagnosis =
     rateGap > 0.25
-      ? "Diagnosis: your small sample is above the directional benchmark; upload a longer range to confirm the pattern."
-      : "Diagnosis: this sample is too small for statistical high-fee detection; upload more months for a stronger read.";
+      ? t("lowVolumeReport.diagnosisAboveBenchmark")
+      : t("lowVolumeReport.diagnosisTooSmall");
 
   return (
     <div className="space-y-6">
@@ -61,23 +66,23 @@ export function LowVolumeReport({ reportId, result, isPaid, isSampleReport = fal
           </div>
         )}
         <div className="flex items-start gap-3 mb-4">
-          <Badge variant="outline" className="text-xs text-gray-500">Low volume (&lt;50 transactions)</Badge>
+          <Badge variant="outline" className="text-xs text-gray-500">{t("lowVolumeReport.badge")}</Badge>
         </div>
         <h1 className="text-2xl font-bold text-gray-900">
-          {isSampleReport ? "Sample Stripe fee summary" : "Your Stripe fee summary"}
+          {isSampleReport ? t("lowVolumeReport.titleSample") : t("lowVolumeReport.titleYour")}
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          {totalCharges} charges analyzed — statistical high-fee detection requires 50+ transactions.
+          {t("lowVolumeReport.chargesAnalyzed", { count: totalCharges })}
         </p>
         <p className="mt-3 text-sm text-gray-700 leading-snug">
-          {isSampleReport ? "This sample shows " : "You paid "}
-          <span className="font-semibold text-gray-900">{fmt$(periodFees)}</span> in Stripe fees{" "}
+          {isSampleReport ? tc("thisSampleShows") : tc("youPaid")}{" "}
+          <span className="font-semibold text-gray-900">{fmt$(periodFees)}</span> {tc("inStripeFees")}{" "}
           {stripeFeesPeriodTail(Math.max(1, monthCount))}
         </p>
         <p className="mt-1 text-sm text-gray-600">
-          That&apos;s{" "}
+          {tc("thats")}{" "}
           <span className="font-semibold text-gray-900">{fmt$(yearlyAtThisRate)}</span>
-          /year at this rate.
+          {tc("yearSuffix")} {tc("atThisRate")}.
         </p>
         <p className="mt-2 max-w-2xl text-sm font-medium text-gray-800">
           {diagnosis}
@@ -85,10 +90,10 @@ export function LowVolumeReport({ reportId, result, isPaid, isSampleReport = fal
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
-            { label: "Processing Rate", value: fmtPct(chargeRate), accent: true },
-            { label: "All-in Cost Rate", value: fmtPct(allInRate) },
-            { label: "Charge Volume", value: fmt$(chargeVolume) },
-            { label: "All-in Fees", value: fmt$(periodFees) },
+            { label: tc("processingRate"), value: fmtPct(chargeRate), accent: true },
+            { label: tc("allInCostRate"), value: fmtPct(allInRate) },
+            { label: tc("chargeVolume"), value: fmt$(chargeVolume) },
+            { label: tc("allInFees"), value: fmt$(periodFees) },
           ].map(({ label, value, accent }) => (
             <div key={label} className={`rounded-xl px-4 py-3 ${accent ? "bg-blue-50 border border-blue-100" : "bg-gray-50"}`}>
               <p className={`text-xs mb-0.5 ${accent ? "text-blue-500 font-semibold" : "text-gray-400"}`}>{label}</p>
@@ -99,13 +104,14 @@ export function LowVolumeReport({ reportId, result, isPaid, isSampleReport = fal
 
         <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
           <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-1">
-            Your rate vs advertised card pricing
+            {tc("yourRateVsAdvertised")}
           </p>
           <p className="text-sm text-blue-900">
-            Your card/charge processing rate is <span className="font-semibold">{fmtPct(chargeRate)}</span>{" "}
-            (<span className="font-semibold">{rateGapText}</span>). On low-volume exports, fixed $0.30 fees and a few
-            high-fee charges can move the blended rate a lot. Your all-in Stripe cost rate for this export is{" "}
-            <span className="font-semibold">{fmtPct(allInRate)}</span>.
+            {t("lowVolumeReport.rateComparisonBody", {
+              chargeRate: fmtPct(chargeRate),
+              rateGap: rateGapText,
+              allInRate: fmtPct(allInRate),
+            })}
           </p>
         </div>
       </div>
@@ -137,19 +143,19 @@ export function LowVolumeReport({ reportId, result, isPaid, isSampleReport = fal
       {/* Top 5 highest-fee transactions */}
       <div className="rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden">
         <div className="px-5 py-4 border-b border-gray-50">
-          <h2 className="text-sm font-semibold text-gray-700">Top 5 Highest-Fee Transactions</h2>
-          <p className="text-xs text-gray-400 mt-0.5">Ranked by fee rate (fee / amount)</p>
+          <h2 className="text-sm font-semibold text-gray-700">{t("lowVolumeReport.top5Title")}</h2>
+          <p className="text-xs text-gray-400 mt-0.5">{t("lowVolumeReport.top5Subtitle")}</p>
         </div>
         <div className="overflow-x-auto">
           <table className="min-w-[640px] w-full text-sm">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-100">
                 <th className="px-5 py-3 text-left text-xs font-medium text-gray-500">#</th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500">Transaction</th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500">Date</th>
-                <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">Amount</th>
-                <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">Fee</th>
-                <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">Rate</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500">{t("lowVolumeReport.tableTransaction")}</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500">{t("lowVolumeReport.tableDate")}</th>
+                <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">{t("lowVolumeReport.tableAmount")}</th>
+                <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">{t("lowVolumeReport.tableFee")}</th>
+                <th className="px-5 py-3 text-right text-xs font-medium text-gray-500">{t("lowVolumeReport.tableRate")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -194,20 +200,19 @@ export function LowVolumeReport({ reportId, result, isPaid, isSampleReport = fal
       {/* No stats disclaimer */}
       <div className="rounded-xl bg-gray-50 border border-gray-100 px-5 py-4">
         <p className="text-xs text-gray-500">
-          <strong>Note:</strong> High-fee charge detection and trend analysis require 50+ charge transactions.
-          Export a longer date range (3–12 months) and re-analyze for full statistical insights.
+          <strong>{t("lowVolumeReport.noteTitle")}</strong> {t("lowVolumeReport.noteBody")}
         </p>
       </div>
 
       {/* Upload more */}
       <div className="rounded-2xl bg-blue-50 border border-blue-100 p-5 text-center">
-        <p className="text-sm font-semibold text-blue-800 mb-1">Want deeper analysis?</p>
-        <p className="text-xs text-blue-600 mb-3">Export a longer date range from Stripe to unlock high-fee charge detection and trend charts.</p>
+        <p className="text-sm font-semibold text-blue-800 mb-1">{t("lowVolumeReport.deeperAnalysisTitle")}</p>
+        <p className="text-xs text-blue-600 mb-3">{t("lowVolumeReport.deeperAnalysisBody")}</p>
         <a
           href="/analyze"
           className="inline-block text-sm font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900"
         >
-          Upload more data →
+          {t("lowVolumeReport.deeperAnalysisLink")}
         </a>
       </div>
     </div>

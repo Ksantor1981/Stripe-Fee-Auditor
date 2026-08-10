@@ -2,6 +2,7 @@
 
 import type { SavingsOpportunity } from "@/lib/fee-analyzer";
 import { fmt$ } from "@/lib/format";
+import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 interface Props {
   opportunities: SavingsOpportunity[];
@@ -29,6 +30,8 @@ const CONFIDENCE_STYLE = {
 } as const;
 
 export function SavingsOpportunities({ opportunities }: Props) {
+  const { t, tc } = useReportTranslations();
+
   if (!opportunities || opportunities.length === 0) return null;
 
   const totalSavings = opportunities.reduce((a, o) => a + o.annualSavings, 0);
@@ -38,21 +41,22 @@ export function SavingsOpportunities({ opportunities }: Props) {
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-1">
-            Opportunities to save
+            {t("savingsOpportunities.eyebrow")}
           </p>
           <h2 className="text-base font-bold text-gray-900">
-            {opportunities.length} action{opportunities.length > 1 ? "s" : ""}, ranked by impact
+            {opportunities.length === 1
+              ? t("savingsOpportunities.titleSingular")
+              : t("savingsOpportunities.titlePlural", { count: opportunities.length })}
           </h2>
         </div>
         <div className="text-right shrink-0">
           <p className="text-2xl font-bold text-emerald-700">~{fmt$(totalSavings)}</p>
-          <p className="text-xs text-gray-400">potential / year</p>
+          <p className="text-xs text-gray-400">{tc("potentialPerYear")}</p>
         </div>
       </div>
 
       <p className="text-xs text-gray-400 mb-5">
-        Problem → potential cost in this export → what to inspect in Stripe. Annual figures are directional;
-        scenarios can overlap — treat them as prioritization, not guaranteed savings.
+        {t("savingsOpportunities.intro")}
       </p>
 
       <div className="space-y-3">
@@ -73,7 +77,9 @@ export function SavingsOpportunities({ opportunities }: Props) {
                   <p className="text-sm font-semibold text-gray-800 leading-snug">{opp.title}</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-sm font-bold text-emerald-700">potential ~{fmt$(opp.annualSavings)}/yr</p>
+                  <p className="text-sm font-bold text-emerald-700">
+                    {t("savingsOpportunities.potentialPerYear", { amount: fmt$(opp.annualSavings) })}
+                  </p>
                   {opp.annualSavingsNote && (
                     <p className="text-[11px] text-gray-500 mt-0.5 max-w-[11rem] ml-auto leading-snug">
                       {opp.annualSavingsNote}
@@ -81,15 +87,15 @@ export function SavingsOpportunities({ opportunities }: Props) {
                   )}
                   <span className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full mt-1 ${style.badge}`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${style.dot}`} />
-                    {confidence} confidence
+                    {tc("confidence", { level: confidence })}
                   </span>
                 </div>
               </div>
 
               {opp.periodLoss != null && opp.periodLoss > 0 && (
                 <p className="text-xs font-medium text-amber-800 ml-7 mb-2">
-                  ~{fmt$(opp.periodLoss)} potential cost in this export period
-                  {opp.periodLossNote ? ` (${opp.periodLossNote})` : " (estimate)"}
+                  {t("savingsOpportunities.periodCost", { amount: fmt$(opp.periodLoss) })}
+                  {opp.periodLossNote ? ` (${opp.periodLossNote})` : ` (${tc("estimate")})`}
                 </p>
               )}
 
@@ -97,9 +103,7 @@ export function SavingsOpportunities({ opportunities }: Props) {
 
               {/ACH/i.test(opp.title) && (
                 <p className="text-xs text-amber-800 leading-relaxed ml-7 mb-3 rounded-lg border border-amber-100 bg-amber-50/80 px-3 py-2">
-                  ACH can reduce card fees on large invoices, but bank transfers add checkout friction,
-                  failure/retry risk, and longer settlement. Best for B2B invoices where customers already
-                  pay by bank transfer — not a blanket swap for every card charge.
+                  {t("savingsOpportunities.achWarning")}
                 </p>
               )}
 

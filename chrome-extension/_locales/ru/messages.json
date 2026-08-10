@@ -1,0 +1,128 @@
+{
+  "extName": {
+    "message": "Stripe Fee Auditor — CSV-помощник проверки комиссий"
+  },
+  "extShortName": {
+    "message": "Fee Auditor"
+  },
+  "extDescription": {
+    "message": "Оценка комиссий Stripe в popup, открытие экспорта Balance, аудит реальной ставки из CSV и ежемесячные напоминания. Без OAuth и API-ключей."
+  },
+  "actionTitle": {
+    "message": "Fee Auditor — CSV-помощник проверки комиссий"
+  },
+  "eyebrow": {
+    "message": "Fee Auditor · feeauditor.com"
+  },
+  "heroTitle": {
+    "message": "Помощник по комиссиям Stripe"
+  },
+  "heroCopy": {
+    "message": "Оцените опубликованные комиссии Stripe, затем проверьте реальную ставку из Balance CSV — без OAuth."
+  },
+  "trustNoOAuth": {
+    "message": "Без OAuth"
+  },
+  "trustQuickEstimate": {
+    "message": "Быстрая оценка"
+  },
+  "trustCsvAudit": {
+    "message": "CSV-аудит"
+  },
+  "calcLabel": {
+    "message": "Быстрая оценка комиссий"
+  },
+  "calcNote": {
+    "message": "Опубликованные ставки — не ваш реальный CSV."
+  },
+  "calcCountry": {
+    "message": "Страна аккаунта"
+  },
+  "calcVolume": {
+    "message": "Месячный объём"
+  },
+  "calcAvgCharge": {
+    "message": "Средний платёж"
+  },
+  "calcIntl": {
+    "message": "Межд. карты %"
+  },
+  "calcTargetNet": {
+    "message": "Получить после комиссий"
+  },
+  "calcVerify": {
+    "message": "Проверить по Balance CSV →"
+  },
+  "actionExportTitle": {
+    "message": "Открыть экспорт Stripe"
+  },
+  "actionExportSub": {
+    "message": "Balance report → Itemized CSV"
+  },
+  "actionAnalyzeTitle": {
+    "message": "Анализ CSV"
+  },
+  "actionAnalyzeSub": {
+    "message": "Загрузить на Fee Auditor"
+  },
+  "actionSampleTitle": {
+    "message": "Sample-отчёт"
+  },
+  "actionSampleSub": {
+    "message": "Диагностика без CSV"
+  },
+  "actionMonitorTitle": {
+    "message": "Fee Monitor (опционально)"
+  },
+  "actionMonitorSub": {
+    "message": "Напоминания $9/мес — вторично"
+  },
+  "reminderLabel": {
+    "message": "Ежемесячное напоминание"
+  },
+  "reminderOff": {
+    "message": "Выкл."
+  },
+  "reminderOn": {
+    "message": "Вкл. — открывает Fee Auditor ежемесячно"
+  },
+  "reminderTurnOn": {
+    "message": "Включить"
+  },
+  "reminderTurnOff": {
+    "message": "Выключить"
+  },
+  "footerCalculator": {
+    "message": "Полный калькулятор на сайте"
+  },
+  "footerGuide": {
+    "message": "Гайд по экспорту"
+  },
+  "calcEmpty": {
+    "message": "Введите месячный объём для оценки."
+  },
+  "calcLikelyRate": {
+    "message": "Вероятная all-in ставка"
+  },
+  "calcPublished": {
+    "message": "Опубликовано $1% + $2"
+  },
+  "calcMidEstimate": {
+    "message": "Средняя оценка"
+  },
+  "calcPerMonth": {
+    "message": "/мес"
+  },
+  "calcAbovePublished": {
+    "message": "$1 выше опубликованного"
+  },
+  "calcClosePublished": {
+    "message": "Близко к опубликованному mix"
+  },
+  "calcChargesMeta": {
+    "message": "~$1 платежей/мес при вашем среднем."
+  },
+  "calcReverse": {
+    "message": "Чтобы получить $1 с одного платежа → запросите $2 (комиссия ~$3)"
+  }
+}

@@ -1,0 +1,2866 @@
+{
+  "seo": {
+    "stripeFeesReport": {
+      "metaTitle": "Stripe Informe de tarifas: qué incluir más allá de los totales del panel",
+      "metaDescription": "Un útil informe de tarifas de Stripe muestra la tasa de procesamiento, el costo total, el retraso en el reembolso, el aumento internacional y las filas de tarifas altas, no solo una suma de CSV. Exportar transacciones de saldo y luego auditar.",
+      "breadcrumb": "Stripe informe de tarifas",
+      "eyebrow": "Stripe informe de tarifas",
+      "heroTitle": "Stripe Informe de tarifas: qué incluir más allá de los totales del panel",
+      "heroDescription": "Un útil informe de tarifas de Stripe muestra la tasa de procesamiento, el costo total, el retraso en el reembolso, el aumento internacional y las filas de tarifas altas, no solo una suma de CSV. Exportar transacciones de saldo y luego auditar.",
+      "dashboardTitle": "Exportación del panel",
+      "dashboardItems": [],
+      "reportAddsTitle": "El informe de tarifas debe agregar",
+      "reportAddsItems": [],
+      "stepsTitle": "Cree el informe en tres pasos",
+      "step1Label": "1. Exportar",
+      "step1BeforeLink": "",
+      "step1LinkText": "Stripe Saldo CSV",
+      "step1LinkHref": "/stripe-balance-csv",
+      "step1AfterLink": "(detallado, 1 a 3 meses).",
+      "step2Label": "2. Estimación",
+      "step2BeforeLink": "opcional",
+      "step2LinkText": "calculadora de tarifas publicadas",
+      "step2LinkHref": "/stripe-fee-calculator",
+      "step2AfterLink": "para establecer expectativas.",
+      "step3Label": "3. Auditoría",
+      "step3Body": "cargue el CSV para procesar frente a la tarifa total, los controladores y las filas con tarifas altas.",
+      "faqTitle": "Preguntas comunes",
+      "faq": [],
+      "ctaTitle": "Convierta su exportación en un informe de tarifas",
+      "ctaDescription": "Vista previa gratuita de su Saldo CSV: el informe completo agrega filas con tarifas altas, cheques de ahorro y exportaciones.",
+      "ctaPrimary": "Subir Saldo CSV →"
+    },
+    "stripeFeeCalculator": {
+      "metaTitle": "Stripe Calculadora de tarifas: calcule las tarifas y luego verifique su tarifa real",
+      "metaDescription": "Calculadora gratuita de tarifas Stripe para volumen mensual, tamaño de cargo promedio y cálculo de tarifas inversas. Calcule los costos y luego verifique su tasa efectiva real a partir de un Saldo CSV.",
+      "breadcrumb": "Stripe Calculadora de tarifas: calcule las tarifas y luego verifique su tarifa real",
+      "eyebrow": "Stripe calculadora de tarifas",
+      "heroTitle": "Stripe Calculadora de tarifas: calcule las tarifas y luego verifique su tarifa real",
+      "heroDescription": "Calcule las tarifas mensuales de Stripe, la tasa efectiva y cuánto cobrar si desea recibir un monto objetivo después de las tarifas. Luego compare esa estimación con su tasa efectiva real de un Saldo CSV, donde las tarjetas internacionales, los reembolsos, los pequeños cargos y los complementos pueden aumentar el número real.",
+      "sections": [
+        {
+          "type": "note",
+          "body": "Las estimaciones a continuación utilizan las tasas publicadas por Stripe por región (2025-2026). Su cuenta puede diferir si tiene precios personalizados o de intercambio plus; confirme en Panel → Configuración → Planes y tarifas. Los complementos (facturación 0,7%, disputas, reembolsos) no están incluidos en el cálculo de cargos de la tarjeta."
+        },
+        {
+          "type": "audiencia",
+          "body": "Stripe Fee Auditor está diseñado para equipos de SaaS, comercio electrónico, suscripción y mercado que necesitan una calculadora de tarifas Stripe basada en las exportaciones reales de Balance CSV en lugar de promedios."
+        },
+        {
+          "type": "tarjetas de tarifas",
+          "heading": "Por qué importa la diferencia",
+          "items": [
+            {
+              "label": "Tarifa publicada",
+              "rate": "2.9%",
+              "note": "Tarifa estándar estadounidense de Stripe",
+              "highlight": false
+            },
+            {
+              "label": "Tasa efectiva típica",
+              "rate": "3,1–3,4%",
+              "note": "Después de tarjetas internacionales + reembolsos",
+              "highlight": false
+            },
+            {
+              "label": "Con alto intl. volumen",
+              "rate": "3,5–4,2%",
+              "note": "30%+ clientes internacionales",
+              "highlight": true
+            }
+          ]
+        },
+        {
+          "type": "ejemplo",
+          "body": "Con $50,000/month de ingresos, una tasa efectiva del 3,3% frente a la tasa publicada del 2,9% es $200/month extra - $2,400/year. Saber qué lo está impulsando te dice qué hacer al respecto."
+        },
+        {
+          "type": "comparación",
+          "heading": "Estimador vs análisis de datos reales.",
+          "left": {
+            "title": "Estimador de tarifas",
+            "items": [
+              "Ingrese el monto de una transacción",
+              "Obtenga la tarifa publicada de Stripe",
+              "Asume tarifa estándar",
+              "Sin historia ni tendencias"
+            ]
+          },
+          "right": {
+            "title": "Stripe Fee Auditor",
+            "items": [
+              "Sube tu Saldo real CSV",
+              "Tasa real de transacciones reales",
+              "Tendencia mensual y cambio intermensual",
+              "Transacciones específicas que generan costos"
+            ]
+          }
+        },
+        {
+          "type": "características",
+          "heading": "Lo que obtienes del análisis",
+          "items": [
+            {
+              "title": "Tasa efectiva del período",
+              "description": "Su tarifa real para todos los cargos, no una estimación basada en datos ingresados."
+            },
+            {
+              "title": "Cambio mes a mes",
+              "description": "Vea si su tarifa subió, bajó o se mantuvo estable. En dólares, no sólo en porcentajes."
+            },
+            {
+              "title": "Conductores con tarifas superiores",
+              "description": "Qué transacciones específicas tuvieron la tarifa más alta y por qué (tarjeta internacional, microtransacción, etc.)."
+            },
+            {
+              "title": "Cobrar tarifas frente a otras tarifas",
+              "description": "Tarifas de procesamiento separadas de Radar, tarifas de disputas y costos relacionados con reembolsos."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "¿Cuánto cobra Stripe por transacción?",
+          "a": "Para muchos pagos con tarjeta en línea en EE. UU., la tasa publicada de Stripe es 2,9% + $0.30 por cargo exitoso. En un pago con tarjeta nacional de $100 de aproximadamente $3.20 (3,2 % de efectividad). Las tarjetas internacionales, la conversión de moneda, los reembolsos y los billetes pequeños pueden aumentar la tasa combinada: use la calculadora de arriba para su combinación y luego cargue un Saldo CSV para ver su tasa real."
+        },
+        {
+          "q": "¿Es este un estimador de tarifas Stripe o una calculadora real?",
+          "a": "La calculadora de tarifas Stripe en la página estima las tarifas de los precios públicos. Stripe Fee Auditor calcula su tasa de tarifa efectiva real Stripe a partir de sus transacciones de saldo CSV, para que pueda comparar la estimación con las cifras reales."
+        },
+        {
+          "q": "¿Cómo calculo las tarifas mensuales de Stripe?",
+          "a": "Ingrese el volumen mensual de su tarjeta y el monto promedio del cargo para estimar las tarifas mensuales. Utilice la calculadora inversa cuando sepa el monto neto que desea recibir y necesite cobrar el monto bruto."
+        },
+        {
+          "q": "¿Qué archivo necesito para calcular mi tarifa efectiva Stripe?",
+          "a": "Necesita la exportación Stripe Transacciones de saldo CSV. Incluye el monto de la transacción, la tarifa, el monto neto, la moneda, el tipo y la marca de tiempo necesarios para un análisis de tarifas preciso."
+        },
+        {
+          "q": "¿Por qué mi tasa Stripe efectiva puede ser mayor que la tasa publicada?",
+          "a": "Las tarjetas internacionales, la conversión de moneda, los reembolsos, los cargos de Radar, las disputas y las microtransacciones pueden hacer que su tasa efectiva combinada supere la tasa estándar publicada de Stripe."
+        }
+      ],
+      "cta": {
+        "title": "¿Terminaste de estimar? Este fue solo el precio publicado.",
+        "description": "Su tasa efectiva real depende de la combinación de tarjetas, los reembolsos y FX en su Saldo CSV. Primero ejecute la muestra gratuita o cargue su propio archivo, no OAuth.",
+        "primaryLabel": "Subir mi Saldo CSV →"
+      }
+    },
+    "stripeBalanceCsv": {
+      "metaTitle": "Exportar Stripe Saldo CSV y transacciones | Fee Auditor",
+      "metaDescription": "Exporte el saldo Stripe detallado CSV para auditar la tasa efectiva real Stripe, la fuga de tarifas de reembolso y los costos de tarjetas internacionales. No es una guía de exportación de Tableau, Qlik o PostgreSQL.",
+      "breadcrumb": "Stripe Saldo CSV Guía de Exportación para Análisis de Tarifas y Auditoría de Tarifas",
+      "eyebrow": "Guía de exportación rápida · ~5 minutos",
+      "heroTitle": "Stripe Saldo CSV Guía de Exportación para Análisis de Tarifas y Auditoría de Tarifas",
+      "heroDescription": "Esta guía está dirigida a usuarios de Stripe que desean comprender sus costos de procesamiento reales: tasa efectiva, diferencias de pago, fuga de tarifas de reembolso y combinación de tarjetas internacionales. No es para desarrolladores que creen canales de datos para almacenes Tableau, PostgreSQL, Qlik, Power BI o JSON.",
+      "sections": [
+        {
+          "type": "badge",
+          "text": "No apto para herramientas de BI ni canalizaciones de datos"
+        },
+        {
+          "type": "enlace cruzado",
+          "text": "¿Busca en su lugar una ruta de exportación de datos Stripe más amplia?",
+          "linkLabel": "Exportaciones Stripe para JSON, Tableau, Power BI y PostgreSQL",
+          "linkHref": "/stripe-data-export"
+        },
+        {
+          "type": "steps",
+          "heading": "Pasos de exportación",
+          "steps": [
+            {
+              "number": "1",
+              "title": "Abra el panel Stripe",
+              "body": "Vaya a Dashboard.stripe.com e inicie sesión en su cuenta Stripe."
+            },
+            {
+              "number": "2",
+              "title": "Haga clic en \"Informes\" en la barra lateral izquierda",
+              "body": "Busque la sección Informes en el menú de navegación de la izquierda. Si no lo ve, busque en \"Saldo\" o utilice la búsqueda del Panel."
+            },
+            {
+              "number": "3",
+              "title": "Seleccione \"Saldo\" → \"Transacciones de saldo\"",
+              "body": "Elija \"Transacciones de saldo\" en lugar de un informe resumido para que CSV incluya una fila por transacción con detalles de tarifas."
+            },
+            {
+              "number": "4",
+              "title": "Establece tu rango de fechas",
+              "body": "Elija al menos un mes de datos. Tres o más meses es mejor para el análisis de tendencias y la comparación mes a mes."
+            },
+            {
+              "number": "5",
+              "title": "Exportar como CSV",
+              "body": "Haga clic en Exportar, seleccione el formato CSV y descargue el archivo de Transacciones de saldo."
+            }
+          ]
+        },
+        {
+          "type": "columnas",
+          "heading": "Columnas clave en el archivo",
+          "columns": [
+            {
+              "name": "balance_transaction_id",
+              "description": "Identificador único de transacción de saldo"
+            },
+            {
+              "name": "categoría_informes",
+              "description": "cargo, reembolso, disputa, pago, tarifa, ajuste"
+            },
+            {
+              "name": "gross",
+              "description": "Importe bruto de la transacción en unidades monetarias normales"
+            },
+            {
+              "name": "fee",
+              "description": "Stripe monto de la tarifa en unidades monetarias normales"
+            },
+            {
+              "name": "net",
+              "description": "Importe bruto menos comisiones en unidades monetarias normales"
+            },
+            {
+              "name": "divisa",
+              "description": "Código de moneda ISO 4217 (usd, eur, gbp)"
+            },
+            {
+              "name": "creado",
+              "description": "Marca de tiempo de la transacción (creada o creada_utc)"
+            },
+            {
+              "name": "descripción",
+              "description": "Descripción de pago opcional o información del cliente"
+            }
+          ],
+          "footnote": "Stripe Las exportaciones de saldo del panel generalmente muestran montos en unidades monetarias normales (por ejemplo, 49,00 USD). También se aceptan columnas de centavos estilo API cuando proporciona monto/tarifa/neto."
+        }
+      ],
+      "faq": [
+        {
+          "q": "No veo \"Transacciones de saldo\" en Informes",
+          "a": "Intente navegar a Informes -> Saldo y busque el botón \"Exportar\" en la parte superior derecha. La interfaz de usuario varía ligeramente según el tipo de cuenta. Algunas cuentas lo ven en Pagos -> Todas las transacciones."
+        },
+        {
+          "q": "¿Cuál es la diferencia entre los informes de saldo y pagos?",
+          "a": "Las transacciones de saldo incluyen cargos, reembolsos y tarifas individuales. Los informes de pagos son resúmenes agrupados de lo que Stripe envió a su banco. Utilice transacciones de saldo para analizar tarifas."
+        },
+        {
+          "q": "¿Cuántos datos debo exportar?",
+          "a": "Exporta al menos un mes de datos. Tres o más meses brindan mejores datos de tendencias y comparaciones mes a mes. Stripe Fee Auditor admite archivos de hasta 4 MB."
+        }
+      ],
+      "cta": {
+        "title": "¿Tienes tu CSV? Súbelo ahora.",
+        "description": "Deposite su Saldo CSV y obtenga su tasa efectiva real, desglose mensual y controladores de tarifa máxima, generalmente en menos de 30 segundos.",
+        "primaryLabel": "Analiza mi CSV →",
+        "secondaryLabel": "Ver informe de muestra →"
+      }
+    },
+    "whyHigher": {
+      "metaTitle": "¿Por qué mi tasa efectiva Stripe es más alta de lo esperado?",
+      "metaDescription": "La tasa efectiva de Stripe y el pago a menudo superan el 2,9 % + $0.30 debido a tarjetas internacionales, tarifas de reembolso no devueltas, FX y billetes pequeños. Encuentre el controlador en su Saldo CSV.",
+      "breadcrumb": "¿Por qué mi tasa efectiva Stripe es más alta de lo esperado?",
+      "eyebrow": "Fee Auditor · Educación de pago independiente",
+      "heroTitle": "¿Por qué mi tasa efectiva Stripe es más alta de lo esperado?",
+      "heroDescription": "Stripe anuncia 2,9% + $0.30. Su tasa efectiva (y a veces su pago versus volumen) a menudo se ubica entre 3,2% y 3,8% debido a las tarjetas internacionales, tarifas de reembolso que no se devuelven, FX y boletos pequeños. Aquí están los cinco impulsores, con números reales. Fee Auditor te ayuda a consultar tu propio Saldo CSV; No somos soporte de Stripe.",
+      "sections": [
+        {
+          "type": "razones",
+          "items": [
+            {
+              "number": "01",
+              "title": "Tarjetas Internacionales",
+              "description": "Cuando la tarjeta de su cliente se emite fuera de su país, Stripe agrega una tarifa transfronteriza de +1,5%. Si el 20 % de sus clientes son internacionales, esto por sí solo añade ~0,3 % a su tarifa efectiva.",
+              "example": "20% clientes internacionales × 1,5% = +0,30% sobre tu tarifa efectiva"
+            },
+            {
+              "number": "02",
+              "title": "Conversión de moneda",
+              "description": "Si cobra en USD pero el banco de su cliente liquida en EUR o GBP, Stripe aplica un margen de beneficio de FX además de la tasa base. Esto es independiente de la tarifa transfronteriza y, a menudo, invisible en el Panel de control.",
+              "example": "El margen de beneficio FX está integrado en el tipo de cambio; no se muestra como una partida separada"
+            },
+            {
+              "number": "03",
+              "title": "Reembolsos",
+              "description": "Stripe se queda con la tarifa de procesamiento cuando usted emite un reembolso. La tarifa de transacción original no se devuelve. Una tasa de reembolso del 5 % añade un costo significativo en grandes volúmenes.",
+              "example": "Tasa de reembolso del 5% sobre $100k ingresos = $145 en tarifas no reembolsables"
+            },
+            {
+              "number": "04",
+              "title": "StripeRadar",
+              "description": "Si utiliza Radar para protección contra fraudes más allá del nivel básico incluido, hay $0.02–$0.07 adicionales por transacción. Esto aparece como una línea separada en su informe de Saldo.",
+              "example": "1000 transacciones × $0.05 Tarifa de radar = $50/month adicional"
+            },
+            {
+              "number": "05",
+              "title": "Microtransacciones",
+              "description": "En cargas pequeñas, domina el componente fijo $0.30. Un cargo de $2.00 tiene una tasa efectiva del 17,9%; esto aumenta significativamente su promedio si tiene muchos pagos pequeños.",
+              "example": "Cargo $2.00: 2,9% ($0.06) + $0.30 = $0.36 total = 17,9% tasa efectiva"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "¿Por qué mi tasa de tarifa Stripe es superior al 2,9 %?",
+          "a": "Su tasa de tarifa efectiva Stripe puede ser más alta que el 2.9 % + $0.30 publicado debido a tarifas de tarjetas internacionales, conversión de moneda, tarifas no reembolsables en reembolsos, cargos de Radar, disputas y transacciones pequeñas donde la tarifa fija representa una gran parte del pago."
+        },
+        {
+          "q": "¿Stripe devuelve las tarifas de procesamiento cuando reembolso un pago?",
+          "a": "No. Cuando emite un reembolso, Stripe generalmente no devuelve la tarifa de procesamiento original. Esto puede aumentar su tasa de tarifa efectiva si su empresa tiene una tasa de reembolso significativa."
+        },
+        {
+          "q": "¿Cómo puedo calcular mi tasa de tarifa efectiva real Stripe?",
+          "a": "Exporte sus Stripe transacciones de saldo CSV y divida las tarifas totales de Stripe por el volumen total de cargos procesados ​​para el mismo período. Stripe Fee Auditor hace esto desde su CSV real y muestra las transacciones que aumentan la tasa."
+        }
+      ],
+      "cta": {
+        "title": "Encuentre su conductor de pago específico con Fee Auditor, gratis",
+        "description": "Herramienta independiente en feeauditor.com, no afiliada a Stripe. Cargue su Saldo CSV para ver la tarifa que realmente pagó y un factor concreto. Sin OAuth. El CSV sin procesar no se almacena.",
+        "primaryLabel": "Analizar mi Saldo CSV →"
+      }
+    },
+    "whatPercent": {
+      "metaTitle": "¿Cuánto cobra Stripe por transacción?",
+      "metaDescription": "¿Cuánto cobra Stripe por transacción? Para muchas tarjetas en línea de EE. UU., comienza en 2,9% + $0.30. Calcule el porcentaje publicado y luego verifique su tasa combinada real a partir de un Saldo CSV.",
+      "breadcrumb": "¿Cuánto cobra Stripe por transacción?",
+      "eyebrow": "¿Cuánto cobra Stripe?",
+      "heroTitle": "¿Cuánto cobra Stripe por transacción?",
+      "heroDescription": "Respuesta corta: para muchas tarjetas en línea de EE. UU., Stripe comienza en 2,9% + $0.30 por cargo exitoso (aproximadamente $3.20 en $100). El porcentaje real que paga puede ser mayor una vez que aparecen cargos pequeños, tarjetas internacionales, conversión de moneda, reembolsos y otras líneas de tarifas Stripe.",
+      "sections": [
+        {
+          "type": "note",
+          "body": "Solo tarifas de lista publicadas: los precios personalizados o de intercambio plus pueden diferir. Confirma el tuyo en Panel → Configuración → Planes y tarifas."
+        },
+        {
+          "type": "tarjetas de tarifas",
+          "heading": "La respuesta depende de la combinación de pagos.",
+          "items": [
+            {
+              "label": "Tarjeta en línea estándar de EE. UU.",
+              "rate": "2,9% + $0.30",
+              "note": "La tasa principal común para muchos pagos con tarjeta en línea en EE. UU."
+            },
+            {
+              "label": "Pequeños pagos",
+              "rate": "A menudo 4%+",
+              "note": "La tarifa fija $0.30 puede dominar $5-10 suscripciones o complementos."
+            },
+            {
+              "label": "tarjeta internacional",
+              "rate": "A menudo 4,4%+",
+              "note": "Las tarjetas internacionales pueden sumar 1,5 puntos porcentuales antes de FX."
+            },
+            {
+              "label": "Internacional + FX",
+              "rate": "A menudo 5%+",
+              "note": "La conversión de moneda puede agregar aproximadamente otro punto porcentual."
+            }
+          ]
+        },
+        {
+          "type": "fórmula",
+          "heading": "Cómo calcular el porcentaje real",
+          "formula": "Porcentaje real de Stripe = tarifas totales de Stripe / volumen total de cargos procesados",
+          "paragraphs": [
+            "Para una transacción, divida la tarifa Stripe por el monto del cargo. Para su negocio, utilice la tarifa combinada durante un período completo.",
+            "Ese es el número que le indica lo que Stripe realmente tomó de sus ingresos. Un solo cargo de tarjeta nacional $100 puede parecer cercano al 3,2%, pero un mes real puede llegar al 3,8%, 4,2% o más, dependiendo de la geografía del cliente y el tamaño de la transacción."
+          ]
+        },
+        {
+          "type": "ctaBloque",
+          "title": "Verifique su porcentaje real de Stripe de CSV",
+          "description": "Una calculadora pública puede estimar un cargo. Su Stripe Saldo CSV muestra lo que sucedió en todos los cargos, reembolsos y líneas de tarifas. Cárguelo para ver su tasa de procesamiento, el costo total de Stripe, la tendencia mensual y los factores que determinan las tarifas principales.",
+          "primaryLabel": "Analizar mi Stripe CSV",
+          "secondaryLabel": "Abrir calculadora de tarifas Stripe"
+        }
+      ],
+      "faq": [
+        {
+          "q": "¿Cuánto cobra Stripe por transacción?",
+          "a": "Para muchos pagos con tarjeta en línea en EE. UU., Stripe cobra 2,9% + $0.30 por transacción exitosa con tarjeta nacional. En $100, es decir aproximadamente $3.20., las tarjetas internacionales suelen sumar alrededor de 1,5 puntos porcentuales, y la conversión de moneda puede sumar aproximadamente otro 1%. Su tarifa combinada a lo largo de un mes suele ser más alta que cualquier línea publicada; compruébelo en su Saldo CSV."
+        },
+        {
+          "q": "¿Qué porcentaje toma Stripe de un pago?",
+          "a": "Para muchos pagos con tarjeta en línea en EE. UU., la tasa publicada de Stripe comienza en 2,9% más $0.30 por cargo exitoso. El porcentaje efectivo de un cargo único depende del monto del cargo porque la tarifa fija $0.30 es mayor en pagos pequeños."
+        },
+        {
+          "q": "¿Por qué mi tasa real de Stripe es superior al 2,9 %?",
+          "a": "Las tarjetas internacionales, la conversión de moneda, las tarifas de facturación Stripe, los reembolsos, las disputas, el radar y las transacciones pequeñas pueden hacer que su tasa real combinada de Stripe supere el porcentaje principal."
+        },
+        {
+          "q": "¿Cómo verifico el porcentaje real que tomó Stripe?",
+          "a": "Exporte su Stripe saldo CSV detallado, sume el volumen de cargos, sume las tarifas Stripe y divida las tarifas por volumen. Stripe Fee Auditor hace esto desde su Saldo CSV y separa la tasa de procesamiento del costo total Stripe. También puede comenzar con la calculadora de tarifas Stripe gratuita para obtener una estimación de la tarifa publicada."
+        }
+      ],
+      "cta": {
+        "title": "Verifique su porcentaje real de Stripe de CSV",
+        "description": "Cargue su Saldo CSV para ver la tasa de procesamiento, el costo total, la tendencia mensual y los factores que determinan las tarifas máximas.",
+        "primaryLabel": "Analizar mi Stripe CSV"
+      }
+    },
+    "dataExport": {
+      "metaTitle": "Stripe Rutas de exportación: CSV vs JSON, Tableau, Postgres | Fee Auditor",
+      "metaDescription": "¿Necesita datos Stripe en CSV, JSON, Tableau, Power BI o PostgreSQL? Elija la ruta de exportación correcta y luego use Saldo CSV para la conciliación de tarifas Stripe.",
+      "breadcrumb": "Exportar datos Stripe a CSV, JSON, Tableau o PostgreSQL",
+      "eyebrow": "Stripe exportación de datos",
+      "heroTitle": "Exportar datos Stripe a CSV, JSON, Tableau o PostgreSQL",
+      "heroDescription": "La exportación Stripe correcta depende del trabajo. JSON, Tableau, Power BI y PostgreSQL generalmente significan una API o un flujo de trabajo de canalización de datos. La conciliación de tarifas es diferente: use el Stripe Saldo CSV detallado para que pueda ver las tarifas, reembolsos y diferencias de pago a nivel de transacción.",
+      "sections": [
+        {
+          "type": "gritar",
+          "title": "respuesta rapida",
+          "body": "Si necesita una base de datos o un panel de BI, utilice la API Stripe, webhooks o un conector ETL. Si necesita comprender por qué las tarifas o pagos de Stripe parecen incorrectos, exporte el Saldo detallado CSV y audite las filas de tarifas directamente."
+        },
+        {
+          "type": "table",
+          "heading": "Elija la ruta de exportación Stripe para su objetivo",
+          "headers": [
+            "Goal",
+            "Mejor camino",
+            "cuidado con"
+          ],
+          "rows": [
+            [
+              "Exportar Stripe a JSON",
+              "Stripe API o un conector ETL",
+              "Úselo para integraciones de aplicaciones, almacenes de datos o paneles personalizados."
+            ],
+            [
+              "Exportar Stripe a Tableau o Power BI",
+              "CSV importación, conector o sincronización de almacén",
+              "Es útil para generar informes, pero aún necesita las filas de tarifas correctas para la conciliación."
+            ],
+            [
+              "Exportar Stripe a PostgreSQL",
+              "Stripe API, webhooks o canalización administrada",
+              "Es mejor cuando necesita sincronización continua, uniones y análisis internos personalizados."
+            ],
+            [
+              "Conciliar tarifas Stripe",
+              "Detallado Stripe Saldo CSV",
+              "Lo mejor para tasas efectivas, diferencias de pago, fugas de tarifas de reembolso y factores determinantes de las tarifas."
+            ]
+          ]
+        },
+        {
+          "type": "doscolumna",
+          "left": {
+            "title": "Cuando necesita JSON, BI o SQL",
+            "body": "Utilice esta ruta cuando desee sincronización continua, paneles, uniones con datos de productos o informes financieros en muchas fuentes. Por lo general, le interesarán los cargos, los clientes, las facturas, las suscripciones, los reembolsos, las disputas y los pagos."
+          },
+          "right": {
+            "title": "Cuando necesitas tu tarifa real Stripe",
+            "body": "Utilice esta ruta cuando el pago sea menor de lo esperado, las tarifas hayan aumentado este mes o desee comparar su tasa efectiva real con el precio publicado de Stripe. Comience con el Saldo detallado CSV."
+          }
+        },
+        {
+          "type": "columnas",
+          "heading": "Columnas importantes para el análisis de tarifas Stripe",
+          "body": "Las exportaciones de BI pueden incluir docenas de objetos. Para una auditoría de tarifas Stripe, la parte importante es mucho menor: cada fila necesita datos suficientes para separar el volumen de cargos de los dólares de las tarifas.",
+          "columns": [
+            {
+              "name": "categoría_informes",
+              "description": "categoría_informes"
+            },
+            {
+              "name": "gross",
+              "description": "gross"
+            },
+            {
+              "name": "fee",
+              "description": "fee"
+            },
+            {
+              "name": "net",
+              "description": "net"
+            },
+            {
+              "name": "divisa",
+              "description": "divisa"
+            },
+            {
+              "name": "creado",
+              "description": "creado"
+            },
+            {
+              "name": "balance_transaction_id",
+              "description": "balance_transaction_id"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "¿Puedo exportar Stripe directamente a JSON?",
+          "a": "Sí, pero la exportación JSON normalmente es un flujo de trabajo de API o conector, no un flujo de trabajo del Panel CSV. Si su objetivo es la conciliación de tarifas, el Saldo detallado CSV suele ser más rápido que crear una canalización de API completa."
+        },
+        {
+          "q": "¿Puedo usar datos Stripe en Tableau o Power BI?",
+          "a": "Sí. Puede importar CSV exportaciones o sincronizar Stripe en un almacén primero. Para el análisis de tarifas, asegúrese de que su conjunto de datos incluya filas de transacciones de saldo con bruto, tarifa, neto, moneda, fecha de creación y categoría de informe."
+        },
+        {
+          "q": "¿Es Fee Auditor un conector de almacén de datos Stripe?",
+          "a": "No. Fee Auditor es una herramienta de análisis de tarifas Stripe. No sincroniza su cuenta Stripe con PostgreSQL, Tableau, Power BI o JSON. Analiza un Saldo detallado CSV para calcular su tasa efectiva real y los controladores de tarifas."
+        },
+        {
+          "q": "¿Qué exportación Stripe debo utilizar para la conciliación de tarifas?",
+          "a": "Utilice la exportación detallada de Saldo CSV o Transacciones de Saldo. Los CSV de pago y los resúmenes de pago pueden ser útiles, pero generalmente no contienen suficientes detalles de tarifas a nivel de transacción para una auditoría de tarifas confiable."
+        }
+      ],
+      "cta": {
+        "title": "¿Busca conciliación de tarifas?",
+        "description": "Fee Auditor no es un conector de Tableau, Power BI, JSON o PostgreSQL. Es un auditor enfocado en Stripe Saldo CSV: cargue la exportación detallada, vea su tasa de procesamiento, el costo total, la fuga de reembolsos, el arrastre de tarjetas internacionales y los controladores de tarifas más altas.",
+        "primaryLabel": "Analizar mi Stripe CSV"
+      }
+    },
+    "comparePaypal": {
+      "metaTitle": "Tarifas de Stripe vs PayPal vs Wise: comparar antes de cambiar | Fee Auditor",
+      "metaDescription": "Compare las tarifas de Stripe, PayPal y Wise por caso de uso de pago, luego audite su Stripe saldo real CSV antes de mover el volumen de pago.",
+      "breadcrumb": "Tarifas de Stripe vs PayPal vs Wise: comparar antes de cambiar",
+      "eyebrow": "Comparación de tarifas de pago",
+      "heroTitle": "Tarifas de Stripe vs PayPal vs Wise: primero compare el caso de uso.",
+      "heroDescription": "Una sola calculadora de tarifas $100 no es suficiente. El verdadero ganador depende de la combinación de tarjetas, el monto promedio del cargo, los clientes internacionales, los reembolsos, el aumento de conversión y si está resolviendo el pago o el movimiento de dinero.",
+      "sections": [
+        {
+          "type": "héroeCard",
+          "title": "Encuentre el controlador en sus datos Stripe existentes.",
+          "body": "Si su problema son cargos pequeños, tarjetas internacionales, reembolsos o facturas B2B financiadas con tarjetas, la solución puede ser una combinación de pagos en lugar de una migración completa del procesador.",
+          "metrics": [
+            "Tasa de procesamiento",
+            "Costo total",
+            "conductores de pago"
+          ]
+        },
+        {
+          "type": "plataformas",
+          "heading": "¿Qué opción de pago se adapta a qué problema?",
+          "items": [
+            {
+              "name": "Stripe",
+              "bestFor": "Pago SaaS, suscripciones, mercados, flujos de pago personalizados",
+              "watch": "Tarjetas internacionales, tarifas fijas por cargo, reembolsos, disputas, líneas de tarifas de Facturación/Radar/add-on",
+              "auditQuestion": "¿Su costo total real Stripe es mayor que la tarifa de tarjeta publicada?"
+            },
+            {
+              "name": "PayPal",
+              "bestFor": "Pago con billetera, compradores que prefieren PayPal, mercados en los que la confianza de PayPal puede aumentar la conversión",
+              "watch": "Reglas transfronterizas, conversión de moneda, tarifas específicas de productos, combinación de pagos",
+              "auditQuestion": "¿PayPal aumentará la conversión lo suficiente como para justificar cualquier diferencia en las tarifas?"
+            },
+            {
+              "name": "Wise",
+              "bestFor": "Transferencias bancarias internacionales, pagos a proveedores, operaciones comerciales multidivisa",
+              "watch": "Tarifas de transferencia, tarifas de conversión, flujo de trabajo de pagos, no un reemplazo directo de pago con tarjeta",
+              "auditQuestion": "¿Está resolviendo el procesamiento de pagos o el movimiento internacional de dinero?"
+            }
+          ]
+        },
+        {
+          "type": "tabla de casos de uso",
+          "heading": "Comparar por escenario de pago real",
+          "headers": [
+            "Caso de uso",
+            "Stripe",
+            "PayPal",
+            "Wise"
+          ],
+          "rows": [
+            {
+              "useCase": "Suscripciones a tarjetas SaaS",
+              "stripe": "Generalmente es el valor predeterminado porque las suscripciones, las facturas y el control de los desarrolladores son sólidos.",
+              "paypal": "Útil como opción extra de billetera si los clientes lo solicitan.",
+              "wise": "Por lo general, no es un reemplazo de pago por suscripción con tarjeta."
+            },
+            {
+              "useCase": "Productos de bajo coste",
+              "stripe": "Las tarifas fijas por cargo pueden dominar las transacciones $5-20.",
+              "paypal": "Las tarifas fijas también pueden dominar las transacciones de bajo costo.",
+              "wise": "Pueden caber facturas o transferencias, no pago con tarjeta por impulso."
+            },
+            {
+              "useCase": "Clientes internacionales",
+              "stripe": "La combinación del país de la tarjeta y FX puede elevar la tasa efectiva por encima de la tasa general.",
+              "paypal": "Puede ayudar cuando los compradores confían en PayPal, pero los precios transfronterizos siguen siendo importantes.",
+              "wise": "Excelente opción para transferencias internacionales y flujos de trabajo de conversión de moneda."
+            },
+            {
+              "useCase": "facturas B2B",
+              "stripe": "Las tarjetas pueden resultar costosas para facturas grandes; Los métodos ACH/bank pueden ayudar.",
+              "paypal": "Puede funcionar, pero mide la preferencia del comprador frente a las tarifas.",
+              "wise": "A menudo es relevante para transferencias bancarias y pagos internacionales de proveedores/customer."
+            }
+          ]
+        },
+        {
+          "type": "lista de verificación",
+          "heading": "Haga esto antes de mover el volumen de pago.",
+          "items": [
+            "Exporte de 3 a 6 meses de Stripe datos de saldo.",
+            "Separe la tarifa de procesamiento de tarjetas del costo total Stripe.",
+            "Compruebe si las tarjetas internacionales, los reembolsos, las disputas y los pequeños cargos son los verdaderos impulsores.",
+            "Calcule si un cambio en el método de pago soluciona el problema antes de migrar plataformas.",
+            "Compare las páginas de precios oficiales para su país y producto antes de cambiar el proceso de pago."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "¿Es PayPal más barato que Stripe?",
+          "a": "A veces, pero no universalmente. La comparación correcta depende del método de pago, el país, el producto de pago, la combinación transfronteriza, la conversión de moneda, los reembolsos y el aumento de conversión."
+        },
+        {
+          "q": "¿Es Wise una alternativa a Stripe?",
+          "a": "Wise puede ser útil para transferencias internacionales y flujos de trabajo de conversión de moneda, pero no es un reemplazo directo para todos los casos de uso de suscripción o pago con tarjeta Stripe."
+        },
+        {
+          "q": "¿Qué debo comprobar antes de cambiar de procesador de pagos?",
+          "a": "Audite primero su saldo Stripe real CSV. Descubra si el verdadero factor son las tarjetas internacionales, las pequeñas transacciones, los reembolsos, las disputas, los complementos o la conversión de pago antes de cambiar de proveedor."
+        }
+      ],
+      "cta": {
+        "title": "Conozca su línea de base real Stripe antes de comparar proveedores.",
+        "description": "Cargue el Stripe Saldo CSV detallado y vea su tasa de procesamiento real, costo total, deriva mensual, cargos altos e ideas de ahorro.",
+        "primaryLabel": "Analiza mi CSV"
+      }
+    },
+    "shouldSwitch": {
+      "metaTitle": "¿Debo cambiar de Stripe? Honorarios de auditoría primero | Fee Auditor",
+      "metaDescription": "Antes de cambiar de Stripe, audite el factor real de sus tarifas: tarjetas internacionales, cargos pequeños, reembolsos, oportunidades de ACH, conversión de pago u operaciones de impuestos.",
+      "breadcrumb": "¿Debo cambiar de Stripe? Honorarios de auditoría primero",
+      "eyebrow": "guía de decisión de pago",
+      "heroTitle": "¿Deberías cambiar de Stripe? Primero, audite el controlador de la tarifa.",
+      "heroDescription": "Si Stripe parece caro, la respuesta no siempre es \"mover procesadores\". Su mejor solución puede ser ACH, facturación anual, métodos de pago locales, limpieza de reembolsos o una plataforma de comerciante registrado para operaciones fiscales.",
+      "sections": [
+        {
+          "type": "héroeCard",
+          "title": "Cambie sólo después de saber por qué la tasa es alta.",
+          "body": "Un costo total de Stripe de más del 4% puede significar varias cosas diferentes. El siguiente paso correcto depende de si el factor determinante es el método de pago, la geografía, los reembolsos, las disputas, los complementos o la estrategia de pago."
+        },
+        {
+          "type": "decisiónTabla",
+          "heading": "Guía de decisión: síntoma para el primer paso",
+          "rows": [
+            {
+              "symptom": "Tu tarifa es alta porque muchas tarjetas son internacionales.",
+              "inspect": "Compartir tarjeta internacional, combinación de países, conversión de moneda, ajuste del método de pago local",
+              "firstMove": "Pruebe los métodos de pago locales o los precios en moneda local antes de cambiar de procesador",
+              "compare": "GoCardless, débito bancario local, billetera PayPal, métodos locales Stripe"
+            },
+            {
+              "symptom": "Las suscripciones pequeñas hacen que tu tarifa parezca extrema",
+              "inspect": "Tamaño promedio de los cargos, número de cargos sub-$20, arrastre de tarifa fija",
+              "firstMove": "Agrupe el uso, cambie pequeños planes mensuales a anuales o establezca un cargo mínimo",
+              "compare": "Un cambio de procesador rara vez soluciona por sí solo la economía de tarifa fija"
+            },
+            {
+              "symptom": "Las grandes facturas B2B se pagan con tarjeta",
+              "inspect": "Facturas financiadas con tarjeta por encima de $500, cargos del plan anual, tipo de comprador",
+              "firstMove": "Ofrezca ACH o débito bancario para facturas grandes manteniendo la reserva de tarjeta",
+              "compare": "Stripe ACH, GoCardless, flujos de trabajo de transferencias bancarias"
+            },
+            {
+              "symptom": "Los reembolsos están perdiendo margen",
+              "inspect": "Recuento de reembolsos, tarifas de procesamiento retenidas, motivos de reembolso, renovaciones de planes",
+              "firstMove": "Corrija las puertas de prueba, la copia de facturación, la UX de cancelación y las expectativas del plan anual",
+              "compare": "No cambie hasta que se comprendan las causas del reembolso"
+            },
+            {
+              "symptom": "Los impuestos y el cumplimiento son el verdadero dolor",
+              "inspect": "IVA/GST/sales operaciones fiscales, facturas, cobertura de países, carga de soporte",
+              "firstMove": "Compare el valor del comerciante registrado, no solo la tasa de procesamiento",
+              "compare": "Paddle, Lemon Squeezy, plataformas MoR"
+            },
+            {
+              "symptom": "Los pagos en persona importan",
+              "inspect": "Flujo de trabajo de POS, necesidades de lectores de tarjetas, flujo de trabajo del personal, operaciones de servicio local",
+              "firstMove": "Compare el ajuste operativo, no solo las tarifas de las tarjetas en línea",
+              "compare": "Square, terminal Stripe, primeras herramientas POS"
+            }
+          ]
+        },
+        {
+          "type": "lista de verificación",
+          "heading": "Un cambio de procesador es el último paso, no el primero.",
+          "body": "A menudo puedes obtener la mayor parte del beneficio con un cambio menor: método de pago, estructura del plan, flujo de reembolso u opción de pago local.",
+          "items": [
+            "Exporte de 3 a 6 meses de datos detallados del saldo Stripe.",
+            "Separe la tasa de procesamiento del costo total Stripe.",
+            "Identifique el factor principal: tarjetas internacionales, tarifas fijas, reembolsos, disputas, complementos o facturas grandes.",
+            "Pruebe primero la solución operativa más económica: ACH, métodos de pago locales, facturación anual, mejor flujo de reembolso o cambios de precios.",
+            "Compare únicamente los proveedores con el controlador específico que encontró."
+          ]
+        },
+        {
+          "type": "comparaciónEnlaces",
+          "heading": "Compare la alternativa adecuada para el problema",
+          "items": [
+            {
+              "href": "/stripe-vs-gocardless",
+              "title": "Stripe frente a GoCardless",
+              "desc": "Tarjetas vs débito bancario para pagos recurrentes y B2B."
+            },
+            {
+              "href": "/stripe-vs-square-fees",
+              "title": "Stripe frente a Cuadrado",
+              "desc": "Pago en línea SaaS frente a POS y flujos de trabajo de empresas locales."
+            },
+            {
+              "href": "/stripe-vs-paddle-fees",
+              "title": "Stripe frente a paleta",
+              "desc": "Procesador de pagos frente a operaciones de comerciante registrado."
+            },
+            {
+              "href": "/compare-stripe-paypal-wise",
+              "title": "Stripe frente a PayPal frente a Wise",
+              "desc": "Casos de uso de pago, preferencia de billetera y movimiento de dinero."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "¿Debo dejar de usar Stripe para reducir las tarifas?",
+          "a": "No sin antes auditar el factor real de la tarifa. Muchos problemas con las tarifas de Stripe se deben a una combinación de tarjetas, pequeños cargos, reembolsos, disputas o selección de método de pago y no a Stripe en sí."
+        },
+        {
+          "q": "¿Qué debo hacer antes de comparar alternativas Stripe?",
+          "a": "Exporte su Stripe Saldo CSV detallado, calcule el procesamiento y las tarifas totales, identifique el factor de tarifa superior y luego compare las alternativas solo con ese factor."
+        }
+      ],
+      "cta": {
+        "title": "Su Stripe CSV le indica qué alternativa vale la pena probar.",
+        "description": "Fee Auditor convierte el Saldo CSV en tasa de procesamiento, tasa total, cargos elevados, impacto en el reembolso y oportunidades de ahorro. Comience allí antes de reconstruir el pago.",
+        "primaryLabel": "Analizar mi Stripe CSV"
+      }
+    },
+    "analysisTools": {
+      "metaTitle": null,
+      "metaDescription": null,
+      "breadcrumb": "Stripe herramientas de análisis de tarifas",
+      "eyebrow": "Comparación de herramientas",
+      "heroTitle": "Las mejores herramientas de análisis de tarifas Stripe para comprobar su tasa efectiva real",
+      "heroDescription": "Si sólo necesitas la tarifa publicada para una transacción, una calculadora es suficiente. Si desea saber por qué su tasa Stripe real es más alta de lo esperado, necesita su Saldo detallado CSV y una auditoría del controlador de tarifas.",
+      "sections": [
+        {
+          "type": "pilares",
+          "items": [
+            {
+              "title": "antes de vender",
+              "body": "Utilice una calculadora para estimar una tarifa futura de Stripe."
+            },
+            {
+              "title": "despues de vender",
+              "body": "Utilice un Saldo CSV para calcular lo que realmente tomó Stripe."
+            },
+            {
+              "title": "Cuando las tasas varían",
+              "body": "Busque tarjetas internacionales, reembolsos, pequeños cargos y complementos."
+            }
+          ]
+        },
+        {
+          "type": "herramientasTabla",
+          "heading": "¿Qué herramienta de tarifas Stripe se adapta al trabajo?",
+          "items": null
+        },
+        {
+          "type": "cuando usar",
+          "useAuditor": [
+            "Ya procesa pagos con Stripe y desea la tarifa real, no una estimación publicada.",
+            "Su pago parece menor de lo esperado y desea separar las tarifas del volumen.",
+            "Quiere inspeccionar las tarifas de tarjetas internacionales, la fuga de tarifas de reembolso y los cargos elevados.",
+            "Prefiere el análisis basado en CSV sin Stripe OAuth o claves API."
+          ],
+          "useOther": [
+            "Necesita detalles oficiales de la política Stripe. Utilice la documentación Stripe primero.",
+            "Necesita asesoramiento contable, fiscal o teneduría de libros. Utilice su contador o sistema financiero.",
+            "Está creando una exportación de almacén de datos a Tableau, Qlik, Power BI, PostgreSQL o JSON.",
+            "Necesita sincronización de transacciones en vivo o alternativas de procesamiento de pagos."
+          ]
+        }
+      ],
+      "faq": [],
+      "cta": {
+        "title": "Verifique su tasa Stripe real de un Saldo CSV",
+        "description": "Vista previa gratuita primero. No hay Stripe OAuth, no hay claves API y los archivos CSV sin procesar no se almacenan como archivos.",
+        "primaryLabel": "Analizar mi CSV"
+      }
+    },
+    "howItWorks": {
+      "metaTitle": "Cómo Stripe Fee Auditor maneja su CSV",
+      "metaDescription": "Una mirada transparente a lo que sucede cuando carga un Stripe Balance CSV: análisis del servidor, manejo de archivos sin procesar, datos de informes almacenados, retención y lógica central de código abierto.",
+      "breadcrumb": "como funciona",
+      "eyebrow": "Manejo de datos",
+      "heroTitle": "¿Qué sucede cuando subes un Stripe CSV?",
+      "heroDescription": "Fee Auditor no es intencionalmente una aplicación OAuth. Exportas un Stripe Saldo CSV, lo subes una vez y obtienes un informe. La versión honesta: el CSV deja su computadora portátil para el análisis del lado del servidor, pero el archivo sin formato no se almacena como un archivo y el informe almacenado se deriva del CSV.",
+      "sections": [
+        {
+          "type": "flow",
+          "heading": "El flujo de carga",
+          "steps": [
+            {
+              "step": "1",
+              "title": "Subes un Stripe Saldo CSV",
+              "body": "El CSV se envía a Fee Auditor a través de HTTPS para que el servidor pueda analizarlo. No hay conexión Stripe OAuth, ni clave API ni acceso continuo a su cuenta Stripe."
+            },
+            {
+              "step": "2",
+              "title": "Lo analizamos para el análisis de tarifas.",
+              "body": "El analizador extrae los campos necesarios para totales, tasas, fechas, tipos de transacciones y categorías de tarifas. No necesita registros de clientes activos ni permisos Stripe en toda la cuenta."
+            },
+            {
+              "step": "3",
+              "title": "Almacenamos un informe calculado, no el archivo sin formato.",
+              "body": "El CSV sin procesar no se almacena como un archivo. El informe almacena números derivados y filas categorizadas para que se pueda volver a abrir el enlace de su informe privado."
+            },
+            {
+              "step": "4",
+              "title": "Los informes caducan automáticamente",
+              "body": "Las vistas previas no pagas son de corta duración fuera de la versión beta, los informes pagos permanecen disponibles por hasta 30 días y las filas de informes caducados se eliminan mediante trabajos de limpieza."
+            }
+          ]
+        },
+        {
+          "type": "almacenamiento",
+          "stored": [
+            "Tasa de procesamiento y tasa de costo total Stripe",
+            "Totales mensuales, tendencias y veredictos de referencia",
+            "Categorías de tarifas agrupadas y banderas de cargos de tarifas altas",
+            "ID de informe privado y estado de acceso",
+            "Correo electrónico solo si lo proporciona para acceder al informe o realizar la compra"
+          ],
+          "notStored": [
+            "Raw CSV como un archivo cargado",
+            "Stripe claves API o OAuth tokens",
+            "Acceso permanente a su cuenta Stripe",
+            "Datos para anuncios, elaboración de perfiles o reventa",
+            "Descripciones de texto libre cuando no sean necesarias después del análisis."
+          ]
+        },
+        {
+          "type": "fuente abierta",
+          "heading": "Puedes inspeccionar cómo funciona el análisis.",
+          "body": "La señal de confianza útil es la transparencia: puede ver el analizador y el flujo de solicitudes. El repositorio es público, incluido el CSV principal y la lógica de tarifas.",
+          "links": [
+            {
+              "label": "CSV analizador",
+              "href": "https://github.com/Ksantor1981/Stripe-Fee-Auditor/blob/master/lib/csv-parser.ts",
+              "desc": "Mapeo de columnas, normalización de cantidades y análisis de filas."
+            },
+            {
+              "label": "Analizador de tarifas",
+              "href": "https://github.com/Ksantor1981/Stripe-Fee-Auditor/blob/master/lib/fee-analyzer.ts",
+              "desc": "Tasa efectiva, detección de cargos elevados, estimaciones de ahorro y redacción de almacenamiento."
+            },
+            {
+              "label": "Analizar ruta API",
+              "href": "https://github.com/Ksantor1981/Stripe-Fee-Auditor/blob/master/app/api/analyze/route.ts",
+              "desc": "Punto final del servidor que recibe el CSV, ejecuta el análisis y guarda el informe derivado."
+            }
+          ]
+        },
+        {
+          "type": "privacidad",
+          "heading": "Resumen de privacidad en inglés sencillo",
+          "paragraphs": [
+            "Fee Auditor usa su CSV para producir el informe que solicitó. No vende datos financieros, no los utiliza para perfiles publicitarios y no se conecta a su cuenta Stripe.",
+            "Los proveedores de infraestructura todavía existen: Vercel aloja la aplicación, Neon almacena informes derivados, Polar maneja el pago, Resend puede enviar correo electrónico transaccional y Plausible mide el tráfico agregado. La versión detallada se encuentra en la Política de Privacidad.",
+            "Si su política requiere un procesamiento completamente local, use el código público como referencia o espere un modo de vista previa solo para el navegador. La aplicación de producción actual utiliza análisis del lado del servidor."
+          ]
+        },
+        {
+          "type": "exportarguía",
+          "title": "¿Necesita exportar CSV primero?",
+          "body": "Utilice la guía Stripe Saldo CSV, luego regrese y cargue la exportación detallada.",
+          "primaryLabel": "CSV guía de exportación",
+          "secondaryLabel": "Subir CSV"
+        }
+      ],
+      "faq": [],
+      "cta": {
+        "title": "Analiza mi CSV",
+        "description": "Cargue su Stripe Saldo CSV para una auditoría de tarifas.",
+        "primaryLabel": "Analiza mi CSV"
+      }
+    },
+    "monitor": {
+      "metaTitle": "Monitor de tarifas: detecte la desviación de tarifas Stripe antes de que se vuelva normal",
+      "metaDescription": "Desviación de la tasa de captura, fuga de reembolsos y anomalías excepcionales antes de que se vuelvan normales. Recordatorios mensuales de CSV: no Stripe OAuth permanentes. $9/month.",
+      "breadcrumb": "Monitor de tarifas",
+      "eyebrow": "Monitor de tarifas · $9/mo",
+      "heroTitle": "Desarrolle un hábito de verificación de tarifas mensual Stripe antes de que la deriva se vuelva invisible.",
+      "heroDescription": "$12 = un cheque CSV (esta exportación, 30 días). $9/mo = un recordatorio mensual + informe completo nuevo. Hoy es una verificación manual; El historial de informes y las alertas automáticas de deriva llegan solo después de su envío. Sin Stripe OAuth permanente: usted mantiene el control de cada exportación.",
+      "sections": [
+        {
+          "type": "tarjeta de precios",
+          "price": "$9",
+          "period": "/ month",
+          "body": "En comparación con una investigación $12 única: Monitor es para fundadores que desean un recordatorio para repetir la verificación. Aún no se trata de un seguimiento automático ni de un panel histórico.",
+          "included": [
+            "Recordatorio mensual para cargar el último Stripe Saldo CSV",
+            "La desviación de la tasa de captura antes de que un mal mes se convierta en su nueva línea de base",
+            "Fuga de reembolsos y avisos de anomalías únicas o de tarifas elevadas",
+            "Tasa de procesamiento versus costo total Stripe cada mes",
+            "Primer acceso al historial de informes privados a medida que se envía"
+          ]
+        },
+        {
+          "type": "reflejos",
+          "items": [
+            {
+              "title": "No OAuth primero",
+              "body": "Usted mantiene el control de cada exportación de CSV."
+            },
+            {
+              "title": "Historia",
+              "body": "Se planifica el historial del informe; hoy, guarde cada enlace de informe privado."
+            },
+            {
+              "title": "Alertas más tarde",
+              "body": "Recordatorios mensuales ahora; alertas automáticas de deriva más tarde si la demanda es real."
+            }
+          ]
+        },
+        {
+          "type": "why",
+          "heading": "La pregunta útil no es simplemente \"¿cuál es mi tarifa?\"",
+          "body": "Es \"¿empeoró mi tarifa? ¿Por qué? ¿Qué debo inspeccionar primero?\". Today Monitor crea el hábito de check-in recurrente; El historial de comparación y la detección automática de deriva son funciones futuras, no una promesa ya cumplida.",
+          "steps": [
+            [
+              "1",
+              "Subir cada mes",
+              "Utilice el mismo flujo de trabajo de exportación de Balance CSV en el que ya confía."
+            ],
+            [
+              "2",
+              "Mantenga los enlaces de sus informes",
+              "Compare manualmente el nuevo informe con su exportación anterior hasta que se envíe el historial del producto."
+            ],
+            [
+              "3",
+              "Recibe un empujón mensual",
+              "Un recordatorio lo traerá de regreso antes de que la variación de tarifas se vuelva invisible."
+            ]
+          ]
+        },
+        {
+          "type": "incluidoAún no",
+          "included": [
+            "Recordatorio mensual para cargar el último Stripe Saldo CSV",
+            "La desviación de la tasa de captura antes de que un mal mes se convierta en su nueva línea de base",
+            "Fuga de reembolsos y avisos de anomalías únicas o de tarifas elevadas",
+            "Tasa de procesamiento versus costo total Stripe cada mes",
+            "Primer acceso al historial de informes privados a medida que se envía"
+          ],
+          "notYet": [
+            "No hay conexión Stripe OAuth en vivo en la primera versión",
+            "Sin sincronización automática hasta que los usuarios lo soliciten",
+            "Sin asesoramiento contable, fiscal o teneduría de libros."
+          ]
+        },
+        {
+          "type": "hoja informativa",
+          "title": "¿Quieres consejos sobre tarifas mensuales antes de suscribirte?",
+          "body": "Únase a la lista gratuita si solo desea Stripe notas de tarifas y actualizaciones de productos ocasionales. Suscríbete cuando quieras el hábito de recordatorio mensual CSV."
+        }
+      ],
+      "faq": [],
+      "cta": {
+        "title": "Monitor de tarifa inicial: $9/mo",
+        "description": "Recordatorio mensual de CSV + informe completo actualizado. Sin Stripe OAuth permanente.",
+        "primaryLabel": "Monitor de tarifa inicial: $9/mo"
+      }
+    },
+    "about": {
+      "metaTitle": "Acerca del fundador y manejo de datos | Stripe Fee Auditor",
+      "metaDescription": "Quién creó Stripe Fee Auditor, por qué existe y qué datos almacenamos (y no almacenamos) cuando carga un Stripe Balance CSV.",
+      "breadcrumb": "About",
+      "eyebrow": "About",
+      "heroTitle": "Acerca de Stripe Fee Auditor",
+      "heroDescription": "Stripe Fee Auditor es una herramienta independiente que ayuda a los fundadores y equipos financieros a comprender su procesamiento real Stripe y las tasas de costos totales de una transacción de saldo CSV, sin conectar Stripe OAuth ni compartir claves API.",
+      "sections": [
+        {
+          "type": "fundador",
+          "heading": "Sobre el fundador",
+          "paragraphs": [
+            "Construido por Konstantin Starkov, un fundador independiente de SaaS. Creé Stripe Fee Auditor después de ver qué tan rápido el costo real de Stripe puede alejarse de la tasa principal del 2,9 %: una exportación de muestra mostró una tasa de procesamiento de tarjetas del 3,82 % y un costo total de Stripe del 4,02 %.",
+            "El producto es intencionalmente limitado: una exportación CSV, una pregunta, un informe que explica si las tarifas son normales o si vale la pena investigarlas."
+          ],
+          "links": [
+            {
+              "label": "GitHub",
+              "href": "https://github.com/Ksantor1981"
+            },
+            {
+              "label": "Búsqueda de productos",
+              "href": "https://www.producthunt.com/products/stripe-fee-auditor?launch=stripe-fee-auditor"
+            },
+            {
+              "label": "Hackers independientes",
+              "href": "https://www.indiehackers.com/product/stripe-fee-auditor-2"
+            }
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Por que existe",
+          "paragraphs": [
+            "Stripe se anuncia 2,9% + $0.30 es sólo una parte de la historia. Las tarjetas internacionales, los pequeños cargos, los reembolsos, las disputas y los servicios complementarios aumentan la tarifa combinada, a menudo sin una vista clara del panel. Esta herramienta convierte los datos de su Saldo exportados en una auditoría legible: tasa de procesamiento, costo total, tendencias mensuales, cargos elevados e ideas de ahorro direccionales."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Privacidad y manejo de datos",
+          "bullets": [
+            "Sin acceso a la API Stripe. Exporta CSV desde el panel Stripe y lo carga una vez para su análisis.",
+            "Raw CSV no se almacena como un archivo. Lo analizamos en la memoria, calculamos agregados y descartamos el cuerpo de la carga.",
+            "El informe calculado JSON (totales, tarifas, filas categorizadas) se almacena para que pueda volver a abrir su enlace privado. Los campos de descripción del cliente se redactan antes del almacenamiento.",
+            "Las cuentas en USD primero. Beta admite exportaciones de saldo en USD; El soporte multidivisa está en la hoja de ruta."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Independencia",
+          "paragraphs": [
+            "Stripe Fee Auditor no está afiliado a Stripe, Inc. No recibimos tarifas de referencia de Stripe por recomendaciones en informes. Los enlaces de acción apuntan a Stripe páginas del panel para que pueda verificar la configuración usted mismo."
+          ]
+        }
+      ],
+      "faq": [],
+      "cta": {
+        "title": "Analiza mis honorarios",
+        "description": "Cargue su Stripe Saldo CSV para una auditoría de tarifas.",
+        "primaryLabel": "Analiza mis honorarios →"
+      }
+    },
+    "chromeExtension": {
+      "metaTitle": "Stripe Fee Auditor — CSV Ayudante de cheque de tarifas",
+      "metaDescription": "Instale el asistente gratuito de Chrome: abra Stripe Exportación de saldo, audite su tarifa real en FeeAuditor.com, recordatorio mensual opcional CSV. Sin OAuth o claves API. No lee Stripe páginas.",
+      "breadcrumb": "Stripe Fee Auditor — CSV Ayudante de cheque de tarifas",
+      "eyebrow": "Ayudante de Chrome · gratis en Web Store",
+      "heroTitle": "Stripe Fee Auditor — CSV ayudante para su tasa de tarifa real",
+      "heroDescription": "Calcule las tarifas publicadas en la ventana emergente, vaya a Stripe Exportación de saldo y audite su CSV en FeeAuditor.com: sin OAuth, sin claves API, sin lectura de las páginas del Panel de control Stripe.",
+      "sections": [
+        {
+          "type": "gritar",
+          "title": "Disponible en Chrome Web Store para todos.",
+          "body": "Instalación con un clic. La ruta principal del producto sigue siendo el informe de muestra en feeauditor.com: la ayuda es un atajo y un empujón mensual, no un segundo producto."
+        },
+        {
+          "type": "beneficios",
+          "heading": "Lo que obtienes después de la instalación",
+          "items": [
+            "Abra la exportación de Stripe: vaya directamente al flujo de trabajo de exportación de saldo de Stripe en lugar de buscar informes todos los meses.",
+            "Analizar CSV: Abra Fee Auditor y cargue el Saldo CSV para verificar la tasa de procesamiento, el costo total y los controladores de tarifas.",
+            "Recordatorio mensual: use un recordatorio del navegador local para repetir la verificación antes de que la variación de las tarifas se vuelva invisible.",
+            "Recordatorio mensual local opcional (no OAuth)",
+            "No extrae Stripe páginas ni solicita permisos de host"
+          ]
+        },
+        {
+          "type": "flujo de trabajo",
+          "heading": "que hace",
+          "steps": [
+            {
+              "step": "1",
+              "title": "Abrir exportación Stripe",
+              "body": "Vaya directamente al flujo de trabajo de exportación de saldo de Stripe en lugar de buscar informes todos los meses."
+            },
+            {
+              "step": "2",
+              "title": "Analizar CSV",
+              "body": "Abra Fee Auditor y cargue el Saldo CSV para verificar la tasa de procesamiento, el costo total y los controladores de tarifas."
+            },
+            {
+              "step": "3",
+              "title": "recordatorio mensual",
+              "body": "Utilice un recordatorio del navegador local para repetir la verificación antes de que la variación de tarifas se vuelva invisible."
+            }
+          ]
+        },
+        {
+          "type": "privacidad",
+          "heading": "Postura de privacidad",
+          "items": [
+            "Sin Stripe OAuth ni claves API",
+            "No hay permisos de host para stripe.com",
+            "No lee Stripe páginas del panel",
+            "Almacena solo la configuración del recordatorio en el almacenamiento de Chrome",
+            "El análisis CSV todavía se realiza solo cuando eliges cargarlo en feeauditor.com"
+          ]
+        },
+        {
+          "type": "aplicación web",
+          "heading": "¿Prefieres la aplicación web?",
+          "body": "Cargue un Saldo CSV directamente: el mismo diagnóstico, no se requiere extensión."
+        }
+      ],
+      "faq": [],
+      "cta": {
+        "title": "Instale el asistente · audite según sus condiciones",
+        "description": "Extensión gratuita. El análisis de tarifas permanece en feeauditor.com cuando elige cargarlo.",
+        "primaryLabel": "Instalar desde Chrome Web Store"
+      }
+    },
+    "vsSquare": {
+      "metaTitle": "Stripe frente a tarifas Square: compare antes de cambiar",
+      "metaDescription": "Compare Stripe y Square por caso de uso: pago de SaaS, pagos en persona, facturas, cargos económicos y qué auditar antes de cambiar.",
+      "breadcrumb": "Stripe frente a tarifas Square: compare antes de cambiar",
+      "eyebrow": "Stripe frente a Cuadrado",
+      "heroTitle": "Stripe vs tarifas de Square: compare el modelo de negocio antes de cambiar.",
+      "heroDescription": "Stripe y Square pueden procesar pagos, pero a menudo se adaptan a trabajos diferentes. Stripe es sólido para SaaS en línea y pago personalizado. Square suele ser más fuerte cuando son importantes los pagos en persona, los POS, las citas o los servicios locales.",
+      "sections": [
+        {
+          "type": "héroeCard",
+          "title": "Square no es solo un Stripe más barato.",
+          "body": "Si su problema Stripe son tarjetas internacionales, reembolsos o pequeños cargos de suscripción, es posible que cambiar a Square no solucione la causa raíz. Primero mida qué está impulsando su tasa real de Stripe."
+        },
+        {
+          "type": "escenarios",
+          "heading": "Comparar por escenario de pago real",
+          "rows": [
+            {
+              "useCase": "Suscripciones SaaS",
+              "stripe": "Generalmente es el valor predeterminado para la lógica de suscripción, facturas, API y flujos de pago personalizados.",
+              "alternative": "Puede funcionar para pagos en línea más simples, pero generalmente es menos nativo de SaaS que Stripe.",
+              "decision": "Audite Stripe primero; Si las tarifas son altas debido a la combinación de tarjetas, cambie los métodos de pago antes de cambiar de plataforma."
+            },
+            {
+              "useCase": "servicios presenciales",
+              "stripe": "Funciona en línea, pero puede que no sea la opción más sencilla para las empresas que priorizan los puntos de venta.",
+              "alternative": "A menudo es más adecuado para lectores de tarjetas, puntos de venta, citas y flujos de trabajo de servicios locales.",
+              "decision": "Si la mayoría de los pagos se realizan en persona, compare el flujo de trabajo de pago con la tarifa."
+            },
+            {
+              "useCase": "Cargos bajos",
+              "stripe": "Las tarifas fijas por cargo pueden dominar las transacciones pequeñas y aumentar la tasa efectiva.",
+              "alternative": "También tiene economía por transacción; Las matemáticas de bajo costo todavía necesitan ser revisadas.",
+              "decision": "Pruebe con paquetes, cargos mínimos o facturas mensuales antes de asumir que el problema es el procesador."
+            },
+            {
+              "useCase": "Clientes internacionales en línea",
+              "stripe": "Las tarjetas internacionales, la conversión de moneda y la combinación de tarjetas pueden elevar el costo real por encima del precio general.",
+              "alternative": "Puede ser menos relevante si el problema principal es el pago en línea SaaS transfronterizo.",
+              "decision": "Primero inspeccione las opciones de métodos de pago locales y de uso compartido de tarjetas internacionales."
+            },
+            {
+              "useCase": "Venta minorista más en línea",
+              "stripe": "Pila en línea sólida, pero las herramientas POS pueden necesitar una configuración adicional.",
+              "alternative": "Suele ser atractivo para flujos de trabajo unificados de POS, inventario y empresas locales.",
+              "decision": "Elija según las operaciones y la conciliación, no solo las tarifas de procesamiento publicadas."
+            }
+          ]
+        },
+        {
+          "type": "tarjetasfit",
+          "goodFit": [
+            {
+              "title": "vendes en persona",
+              "body": "El hardware de POS, los flujos de trabajo del personal y los pagos de servicios locales son parte de la decisión de compra."
+            },
+            {
+              "title": "Quieres operaciones locales más simples",
+              "body": "Las citas, los lectores de tarjetas, el inventario y los pagos simples en línea pueden ser más importantes que la flexibilidad del desarrollador."
+            },
+            {
+              "title": "Tu equipo no es técnico.",
+              "body": "Square puede resultar más fácil para las empresas locales que no desean crear flujos de pago personalizados."
+            }
+          ],
+          "badFit": [
+            {
+              "title": "Tu problema es la combinación de tarjetas.",
+              "body": "Las tarjetas internacionales, los reembolsos y los pequeños cargos pueden acompañarlo a cualquier procesador de tarjetas."
+            },
+            {
+              "title": "Necesita una facturación SaaS compleja",
+              "body": "Las suscripciones, actualizaciones, facturas, pruebas y flujos intensivos de API aún pueden favorecer a Stripe."
+            },
+            {
+              "title": "No has medido al verdadero conductor.",
+              "body": "Una tasa principal más baja no ayuda si la filtración son reembolsos, disputas o tamaño de la transacción."
+            }
+          ]
+        },
+        {
+          "type": "lista de verificación",
+          "heading": "Lista de verificación previa al cambio",
+          "items": [
+            "Exporte el saldo Stripe detallado CSV de los últimos 3 a 6 meses.",
+            "Verifique la tasa de procesamiento versus el costo total Stripe.",
+            "Mide cuánto proviene de tarjetas internacionales, reembolsos, disputas y pequeños cargos.",
+            "Compare Square solo con el controlador específico que encontró.",
+            "Si la mayoría de los pagos se realizan en persona, compare también el flujo de trabajo y la conciliación del POS."
+          ]
+        },
+        {
+          "type": "fuentes",
+          "heading": "Fuentes oficiales de precios",
+          "items": [
+            {
+              "title": "Stripe precios",
+              "href": "https://stripe.com/pricing"
+            },
+            {
+              "title": "Tarifas de procesamiento de Square",
+              "href": "https://squareup.com/us/en/payments/our-fees"
+            }
+          ]
+        },
+        {
+          "type": "relacionado",
+          "heading": "Guías relacionadas",
+          "items": [
+            {
+              "title": "¿Debo cambiar de Stripe?",
+              "href": "/should-i-switch-from-stripe"
+            },
+            {
+              "title": "Stripe alternativas en 2026",
+              "href": "/blog/stripe-alternatives-2026"
+            },
+            {
+              "title": "Stripe calculadora de tarifas",
+              "href": "/stripe-fee-calculator"
+            },
+            {
+              "title": "Cómo reducir las tarifas de Stripe",
+              "href": "/blog/how-to-reduce-stripe-fees"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "¿Square es más barato que Stripe?",
+          "a": "No universalmente. La respuesta depende del país, el método de pago, el tamaño de la transacción, la combinación de tarjetas, los reembolsos, las necesidades en persona y el nivel de producto que utilice."
+        },
+        {
+          "q": "¿Debería una empresa SaaS cambiar de Stripe a Square?",
+          "a": "Por lo general, solo después de auditar el controlador de tarifas Stripe real. Para las suscripciones SaaS, cambiar el modelo de facturación, ACH, los métodos de pago locales o los precios pueden resolver el problema antes de un cambio completo de procesador."
+        }
+      ],
+      "cta": {
+        "title": "Conozca su línea de base real Stripe antes de comparar proveedores.",
+        "description": "Cargue el Stripe Saldo CSV detallado y vea su tasa de procesamiento real, costo total, deriva mensual, cargos altos e ideas de ahorro.",
+        "primaryLabel": "Analiza mi CSV"
+      }
+    },
+    "vsPaddle": {
+      "metaTitle": "Stripe vs Paddle Fees: Procesador vs Comerciante de Registro",
+      "metaDescription": "Compare Stripe y Paddle para SaaS: procesamiento de pagos, manejo de impuestos del comerciante registrado, ventas internacionales, control de pago y qué auditar antes de cambiar.",
+      "breadcrumb": "Stripe vs Paddle Fees: Procesador vs Comerciante de Registro",
+      "eyebrow": "Stripe frente a paleta",
+      "heroTitle": "Stripe frente a tarifas de Paddle: compare el procesamiento de pagos con la cobertura del comerciante registrado.",
+      "heroDescription": "Paddle no es un procesador más. Puede actuar como comerciante registrado, lo que modifica los impuestos, el cumplimiento, el pago, las devoluciones de cargo y los informes. Esto puede valer la pena para algunos equipos SaaS, pero no es automáticamente más barato que Stripe.",
+      "sections": [
+        {
+          "type": "héroeCard",
+          "title": "El valor MoR tiene que ver con las operaciones, no solo con la tasa de comisión.",
+          "body": "Si su problema Stripe es la complejidad fiscal, el cumplimiento internacional o las necesidades de un comerciante registrado, Paddle puede ser relevante. Si su problema es una combinación de tarjetas o cargos pequeños, primero audite el controlador de tarifas Stripe."
+        },
+        {
+          "type": "escenarios",
+          "heading": "Comparar por escenario de pago real",
+          "rows": [
+            {
+              "useCase": "Manejo de impuestos global SaaS",
+              "stripe": "Mantienes más control de pago, pero la configuración de tax/compliance puede necesitar herramientas y operaciones adicionales.",
+              "alternative": "El modelo de comerciante registrado puede manejar más flujo de trabajo de cumplimiento e impuestos para las regiones admitidas.",
+              "decision": "Si las operaciones fiscales son el problema, compare el costo operativo total, no solo la tasa de procesamiento."
+            },
+            {
+              "useCase": "Suscripciones SaaS simples",
+              "stripe": "Fuerte control de desarrolladores, amplias integraciones y lógica de suscripción flexible.",
+              "alternative": "Puede simplificar las operaciones de facturación, pero puede reducir la flexibilidad de pago/control.",
+              "decision": "Utilice Paddle cuando la simplificación operativa supere la flexibilidad de la plataforma."
+            },
+            {
+              "useCase": "Alto porcentaje de tarjetas internacionales",
+              "stripe": "Las tarjetas internacionales y FX pueden elevar la tasa efectiva por encima de los precios nacionales publicados.",
+              "alternative": "Puede ayudar con la experiencia de pago localizada, pero aún es necesario verificar el precio total de MoR.",
+              "decision": "Medir primero el progreso internacional; Los métodos locales pueden ser suficientes sin un interruptor MoR completo."
+            },
+            {
+              "useCase": "Planes económicos",
+              "stripe": "Las tarifas fijas y los complementos pueden encarecer las suscripciones económicas.",
+              "alternative": "Los precios MoR también pueden ser elevados para los planes de bajo costo.",
+              "decision": "Pruebe la facturación anual, la agrupación o los cambios de plan mínimo antes de migrar."
+            },
+            {
+              "useCase": "Lógica de mercado y pago personalizado",
+              "stripe": "Por lo general, es más potente para flujos personalizados, pagos de plataforma y pagos profundamente integrados.",
+              "alternative": "Es mejor cuando desea una capa de comercio SaaS empaquetada, no un control máximo de pago.",
+              "decision": "No renuncies a la flexibilidad del producto a menos que el beneficio de las operaciones sea claro."
+            }
+          ]
+        },
+        {
+          "type": "tarjetasfit",
+          "goodFit": [
+            {
+              "title": "Los impuestos y el cumplimiento son el verdadero cuello de botella",
+              "body": "El valor del comerciante registrado es más fuerte cuando las operaciones de ventas globales están consumiendo el tiempo del fundador o de las finanzas."
+            },
+            {
+              "title": "Quieres una capa de comercio SaaS",
+              "body": "La facturación, el pago, los impuestos, las suscripciones y las operaciones comerciales se pueden agrupar en un solo flujo de trabajo."
+            },
+            {
+              "title": "Vendes internacionalmente",
+              "body": "La localización y el manejo del MoR pueden ser más importantes que reducir un pequeño porcentaje del procesamiento."
+            }
+          ],
+          "badFit": [
+            {
+              "title": "Solo quieres tarifas de tarjeta más bajas",
+              "body": "Una plataforma MoR puede costar más en papel; compare el valor total, no solo la tasa de procesamiento de Stripe."
+            },
+            {
+              "title": "Tu pago necesita un control profundo",
+              "body": "Stripe puede seguir siendo mejor si los flujos personalizados, la lógica del mercado o los casos extremos de facturación son fundamentales para el producto."
+            },
+            {
+              "title": "Tu CSV muestra soluciones simples",
+              "body": "El aumento internacional, la facturación anual, ACH y la limpieza de reembolsos pueden resolver el problema sin cambiar de plataforma."
+            }
+          ]
+        },
+        {
+          "type": "lista de verificación",
+          "heading": "Lista de verificación previa al cambio",
+          "items": [
+            "Audite la tasa de procesamiento actual de Stripe y el costo total.",
+            "Separe el dolor de las tarifas de pago del dolor de impuestos/compliance/operations.",
+            "Calcule el valor de la cobertura MoR en horas ahorradas y riesgo reducido.",
+            "Primero verifique si los métodos de pago locales o los cambios de plan resuelven el factor de la tarifa.",
+            "Compare los precios oficiales de Stripe y Paddle para su país, producto y volumen."
+          ]
+        },
+        {
+          "type": "fuentes",
+          "heading": "Fuentes oficiales de precios",
+          "items": [
+            {
+              "title": "Stripe precios",
+              "href": "https://stripe.com/pricing"
+            },
+            {
+              "title": "Precios de remo",
+              "href": "https://www.paddle.com/pricing"
+            }
+          ]
+        },
+        {
+          "type": "relacionado",
+          "heading": "Guías relacionadas",
+          "items": [
+            {
+              "title": "¿Debo cambiar de Stripe?",
+              "href": "/should-i-switch-from-stripe"
+            },
+            {
+              "title": "Stripe alternativas en 2026",
+              "href": "/blog/stripe-alternatives-2026"
+            },
+            {
+              "title": "Tarifas de Stripe frente a PayPal frente a Wise",
+              "href": "/compare-stripe-paypal-wise"
+            },
+            {
+              "title": "Cómo encontré $1,400 en oportunidades de tarifas ocultas de Stripe",
+              "href": "/blog/how-i-found-1400-in-hidden-stripe-fees"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "¿Es Paddle más barato que Stripe?",
+          "a": "No necesariamente. El modelo de comerciante registrado de Paddle puede incluir valor operativo y de cumplimiento, así que compare el costo y el valor total en lugar de solo la tasa de procesamiento de la tarjeta."
+        },
+        {
+          "q": "¿Cuándo debería considerar SaaS Paddle en lugar de Stripe?",
+          "a": "Paddle puede tener sentido cuando los impuestos, el cumplimiento, las ventas internacionales de SaaS y las operaciones de comerciantes registrados son más importantes que el control máximo de pago."
+        }
+      ],
+      "cta": {
+        "title": "Conozca su línea de base real Stripe antes de comparar proveedores.",
+        "description": "Cargue el Stripe Saldo CSV detallado y vea su tasa de procesamiento real, costo total, deriva mensual, cargos altos e ideas de ahorro.",
+        "primaryLabel": "Analiza mi CSV"
+      }
+    },
+    "vsGocardless": {
+      "metaTitle": "Stripe vs GoCardless: tarifas de tarjeta vs débito bancario",
+      "metaDescription": "Compare Stripe y GoCardless para pagos recurrentes, ACH, SEPA, facturas B2B, pago con tarjeta y cuándo el débito bancario puede reducir los costos de pago.",
+      "breadcrumb": "Stripe vs GoCardless: tarifas de tarjeta vs débito bancario",
+      "eyebrow": "Stripe frente a GoCardless",
+      "heroTitle": "Stripe vs GoCardless: compara el pago con tarjeta con el débito bancario.",
+      "heroDescription": "GoCardless no es un reemplazo de pago con tarjeta sin cita previa. Es más interesante cuando los débitos bancarios recurrentes, SEPA, ACH, Bacs o pagos de facturas pueden reemplazar los costosos pagos financiados con tarjeta.",
+      "sections": [
+        {
+          "type": "héroeCard",
+          "title": "El débito bancario puede resultar más económico, pero sólo para los pagos correctos.",
+          "body": "Para B2B SaaS, facturas anuales y suscripciones recurrentes, el débito bancario puede reducir la carga del procesamiento de tarjetas. Para el pago del consumidor, las tarjetas aún pueden generar mejores conversiones."
+        },
+        {
+          "type": "escenarios",
+          "heading": "Comparar por escenario de pago real",
+          "rows": [
+            {
+              "useCase": "SaaS recurrente",
+              "stripe": "Excelente para suscripciones con tarjetas, facturas, actualizaciones, pruebas y pagos en línea.",
+              "alternative": "Fuerte cuando los clientes aceptan la domiciliación bancaria o el débito bancario como método de pago recurrente.",
+              "decision": "Segmentar primero a los clientes B2B y de plan anual; No obligue a todos los compradores a alejarse de las tarjetas."
+            },
+            {
+              "useCase": "Grandes facturas B2B",
+              "stripe": "Las facturas financiadas con tarjetas pueden resultar costosas con billetes de gran tamaño.",
+              "alternative": "Los pagos mediante débito bancario o cuenta a cuenta pueden ser adecuados para los equipos financieros que ya prefieren los pagos bancarios.",
+              "decision": "Ofrezca débito bancario para facturas grandes y, al mismo tiempo, mantenga el respaldo de la tarjeta para mayor velocidad."
+            },
+            {
+              "useCase": "Pago instantáneo del consumidor",
+              "stripe": "Las tarjetas y billeteras son familiares y pueden ser rápidas.",
+              "alternative": "El débito bancario puede añadir fricción y puede no ser ideal para compras impulsivas puntuales.",
+              "decision": "No optimice las tarifas a expensas de la conversión sin realizar pruebas."
+            },
+            {
+              "useCase": "Suscripciones UE/Reino Unido",
+              "stripe": "Las tarjetas pueden tener costos combinados transfronterizos o internacionales.",
+              "alternative": "El débito SEPA/Bacs/direct puede ser una opción seria para pagos recurrentes.",
+              "decision": "Verifique cuánto aumento de tarjeta internacional existe antes de agregar métodos bancarios locales."
+            },
+            {
+              "useCase": "Flujos con gran cantidad de reembolsos",
+              "stripe": "La fuga de tarifas de reembolso puede ser un problema de margen en los datos de la tarjeta.",
+              "alternative": "El débito bancario tiene sus propios mecanismos de fallo, reintento y mandato.",
+              "decision": "Inspeccione los motivos del reembolso y los costos por fallas en el pago, no solo los cargos principales."
+            }
+          ]
+        },
+        {
+          "type": "tarjetasfit",
+          "goodFit": [
+            {
+              "title": "Tienes facturas B2B",
+              "body": "Es posible que los clientes ya se sientan cómodos con los pagos bancarios, especialmente para facturas anuales o de mayor tamaño."
+            },
+            {
+              "title": "Vendes planes recurrentes",
+              "body": "Un ritmo de pago mensual o anual da tiempo a los clientes para aceptar un flujo de débito bancario."
+            },
+            {
+              "title": "El aumento de la tarjeta internacional es material",
+              "body": "Si su CSV muestra un arrastre de tarjeta internacional, vale la pena probar los métodos bancarios locales."
+            }
+          ],
+          "badFit": [
+            {
+              "title": "La conversión de pago es frágil",
+              "body": "Un método de pago más económico aún puede hacer perder dinero si reduce la conversión o aumenta el soporte."
+            },
+            {
+              "title": "Necesita un pago único e instantáneo con tarjeta",
+              "body": "Las tarjetas y billeteras pueden ser mejores por su velocidad, familiaridad del comprador y compras sin fricciones."
+            },
+            {
+              "title": "No has separado tarjeta vs coste total",
+              "body": "El débito bancario no solucionará líneas de tarifas, disputas o complementos de suscripción no relacionados."
+            }
+          ]
+        },
+        {
+          "type": "lista de verificación",
+          "heading": "Lista de verificación previa al cambio",
+          "items": [
+            "Encuentre grandes facturas financiadas con tarjeta y cargos del plan anual en su exportación Stripe.",
+            "Compruebe cuánto contribuye el aumento de tarjeta internacional a las tarifas de cobro.",
+            "Calcule los ahorros por débito bancario sólo para los clientes que probablemente lo acepten.",
+            "Mantenga la tarjeta de respaldo para los clientes donde la fricción en el proceso de pago perjudicaría la conversión.",
+            "Pruebe el débito bancario en un segmento antes de cambiar todo el pago."
+          ]
+        },
+        {
+          "type": "fuentes",
+          "heading": "Fuentes oficiales de precios",
+          "items": [
+            {
+              "title": "Stripe precios",
+              "href": "https://stripe.com/pricing"
+            },
+            {
+              "title": "Precios de GoCardless",
+              "href": "https://gocardless.com/pricing/"
+            },
+            {
+              "title": "Stripe ACH vs guía de tarjetas de crédito",
+              "href": "/blog/stripe-ach-vs-credit-card-fees"
+            }
+          ]
+        },
+        {
+          "type": "relacionado",
+          "heading": "Guías relacionadas",
+          "items": [
+            {
+              "title": "ACH frente a tarifas de tarjeta de crédito",
+              "href": "/blog/stripe-ach-vs-credit-card-fees"
+            },
+            {
+              "title": "Stripe tarifas de tarjeta internacional",
+              "href": "/blog/stripe-international-card-fees"
+            },
+            {
+              "title": "¿Debo cambiar de Stripe?",
+              "href": "/should-i-switch-from-stripe"
+            },
+            {
+              "title": "Stripe alternativas en 2026",
+              "href": "/blog/stripe-alternatives-2026"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "¿GoCardless es más barato que Stripe?",
+          "a": "Puede ser más barato para ciertos flujos de pagos de débito bancario o de cuenta a cuenta, especialmente pagos recurrentes o B2B, pero no es un reemplazo universal para el pago con tarjeta."
+        },
+        {
+          "q": "¿Cuándo debería SaaS utilizar débito bancario en lugar de tarjetas?",
+          "a": "El débito bancario suele ser más relevante para grandes facturas B2B, planes anuales o pagos recurrentes donde los clientes aceptan flujos de trabajo de pagos bancarios."
+        }
+      ],
+      "cta": {
+        "title": "Conozca su línea de base real Stripe antes de comparar proveedores.",
+        "description": "Cargue el Stripe Saldo CSV detallado y vea su tasa de procesamiento real, costo total, deriva mensual, cargos altos e ideas de ahorro.",
+        "primaryLabel": "Analiza mi CSV"
+      }
+    }
+  },
+  "blog": {
+    "how-i-found-1400-in-hidden-stripe-fees": {
+      "metaTitle": "Cómo encontré ~$1,400/Year en oportunidades de tarifas ocultas Stripe",
+      "metaDescription": "Un estudio de caso real de Stripe Balance CSV: $3,597.77 en tarifas durante cuatro meses, una tasa de procesamiento del 3,82 %, un costo total de Stripe del 4,02 % y los controladores de tarifas que vale la pena verificar.",
+      "title": "Cómo encontré ~$1,400/Year en oportunidades de tarifas ocultas Stripe",
+      "readTime": "6 min",
+      "publishedAt": "2026-06-25",
+      "updatedAt": null,
+      "faq": [
+        {
+          "question": "¿El número ~$1,400/year tiene ahorros garantizados?",
+          "answer": "No. Es una oportunidad de ahorro direccional proveniente de la exportación de muestra. El siguiente paso real es inspeccionar qué filas generaron las tarifas altas y luego decidir si ACH, los métodos de pago locales, la facturación anual o los cambios de precios son realistas."
+        },
+        {
+          "question": "¿Por qué hay dos tipos: 3,82% y 4,02%?",
+          "answer": "La tasa de procesamiento del 3,82% utiliza tarifas de procesamiento de cargos divididas por el volumen de cargos. El costo total de Stripe del 4,02 % también incluye otras líneas de tarifas de Stripe. Mantenerlos separados evita culpar al precio de la tarjeta por cada tarifa."
+        },
+        {
+          "question": "¿Puedo encontrar esto manualmente en Stripe?",
+          "answer": "Sí. Exporte un Saldo detallado CSV, filtre las filas de cargos, sume el volumen de cargos y las tarifas de cargos, luego compárelo con todas las demás filas de tarifas del período. Fee Auditor automatiza la agrupación, el cronograma, las filas de tarifas altas y las indicaciones de ahorro."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe precios"
+        },
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe informa documentación"
+        },
+        {
+          "href": "https://docs.stripe.com/reports/balance-transaction-types",
+          "title": "Stripe tipos de transacciones de saldo"
+        }
+      ]
+    },
+    "cross-border-stripe-fees-migration-2026": {
+      "metaTitle": "Tarifas transfronterizas de Stripe: por qué aumenta su tarifa",
+      "metaDescription": "Cómo los clientes internacionales, las tendencias migratorias y la combinación de divisas pueden impulsar las tarifas de Stripe por encima del 2,9 % en 2026, además de cómo detectar el cambio en su Saldo CSV.",
+      "title": "Tarifas transfronterizas de Stripe: por qué aumenta su tarifa",
+      "readTime": "10 min",
+      "publishedAt": "2026-06-22",
+      "updatedAt": null,
+      "faq": [],
+      "sources": []
+    },
+    "stripe-fee-audit-checklist-for-saas-founders": {
+      "metaTitle": "Stripe Lista de verificación de auditoría de tarifas para fundadores de SaaS",
+      "metaDescription": "Una práctica lista de verificación de auditoría de tarifas mensuales de Stripe para fundadores de SaaS: tasa efectiva, saldo CSV, tarjetas internacionales, reembolsos, cargos pequeños, ACH y monitoreo mes a mes.",
+      "title": "Stripe Lista de verificación de auditoría de tarifas para fundadores de SaaS",
+      "readTime": "8 min",
+      "publishedAt": null,
+      "updatedAt": null,
+      "faq": [
+        {
+          "question": "¿Con qué frecuencia debo auditar las tarifas de Stripe?",
+          "answer": "Para una empresa SaaS con un volumen significativo de Stripe, una auditoría de tarifas mensuales es suficiente. Compare la tasa de procesamiento, el costo total de Stripe, el recuento de reembolsos, la proporción internacional y los conductores con cargos elevados con respecto al mes anterior."
+        },
+        {
+          "question": "¿Cuál es la métrica de tarifas Stripe más importante para realizar un seguimiento?",
+          "answer": "Realice un seguimiento de la tasa de procesamiento y del costo total de Stripe. La tasa de procesamiento aísla las tarifas de cargos, mientras que el costo total incluye otras filas de tarifas Stripe, como disputas, facturación, impuestos, radar e impacto relacionado con los reembolsos."
+        },
+        {
+          "question": "¿Qué exportación Stripe necesito para una auditoría de tarifas?",
+          "answer": "Utilice una exportación detallada de Stripe Saldo CSV o Transacciones de saldo. Las exportaciones resumidas están demasiado agregadas para el análisis de tarifas a nivel de cargos."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe informa documentación"
+        },
+        {
+          "href": "https://docs.stripe.com/reports/balance-transaction-types",
+          "title": "Stripe tipos de transacciones de saldo"
+        },
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe precios"
+        }
+      ]
+    },
+    "stripe-fee-leakage-report-may-2026": {
+      "metaTitle": "Stripe Informe de fuga de tarifas: ¿Quién está a salvo?",
+      "metaDescription": "Un modelo de diagnóstico de mayo de 2026 para la fuga de tarifas Stripe: compare los perfiles de pago SaaS seguros con los perfiles globales, de bajo costo y con muchos reembolsos que deberían auditar las tarifas ahora.",
+      "title": "Stripe Informe de fuga de tarifas: ¿Quién está a salvo?",
+      "readTime": "9 min",
+      "publishedAt": null,
+      "updatedAt": null,
+      "faq": [
+        {
+          "question": "¿Qué es la fuga de tarifas Stripe?",
+          "answer": "Stripe fuga de tarifas es la brecha entre la tasa de pago principal que espera y el costo total real creado por tarifas fijas, tarjetas internacionales, conversión de moneda, reembolsos, disputas y productos complementarios."
+        },
+        {
+          "question": "¿Qué empresas están más expuestas a la fuga de tarifas Stripe?",
+          "answer": "Las suscripciones de bajo costo, SaaS global, productos con muchos reembolsos y facturas B2B pagadas con tarjeta son los perfiles más expuestos. El SaaS B2B nacional de alto precio suele ser más seguro."
+        },
+        {
+          "question": "¿Cómo mido la fuga de tarifas a partir de los datos Stripe?",
+          "answer": "Exporte un Stripe Saldo CSV detallado, calcule la tasa de procesamiento de cargos y el costo total Stripe por separado, luego inspeccione cargos pequeños, tarjetas internacionales, reembolsos, disputas y filas de tarifas sin cargos."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe precios"
+        },
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe informa documentación"
+        },
+        {
+          "href": "https://docs.stripe.com/disputes",
+          "title": "Stripe disputa documentación"
+        }
+      ]
+    },
+    "stripe-alternatives-2026": {
+      "metaTitle": "Stripe Alternativas en 2026: verifique las tarifas antes de cambiar",
+      "metaDescription": "¿Busca alternativas Stripe en 2026? Antes de cambiar de procesador, audite su tasa efectiva real Stripe e identifique si las tarifas, la combinación de pagos o la estrategia de pago son el verdadero problema.",
+      "title": "Stripe Alternativas en 2026: verifique las tarifas antes de cambiar",
+      "readTime": "8 min",
+      "publishedAt": "2026-06-25",
+      "updatedAt": null,
+      "faq": [],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe precios"
+        },
+        {
+          "href": "https://www.paypal.com/us/business/paypal-business-fees",
+          "title": "PayPal tarifas comerciales"
+        },
+        {
+          "href": "https://squareup.com/us/en/payments/our-fees",
+          "title": "Tarifas de procesamiento de pagos de Square"
+        },
+        {
+          "href": "https://gocardless.com/pricing/",
+          "title": "Precios de GoCardless"
+        },
+        {
+          "href": "https://www.adyen.com/pricing",
+          "title": "Precios de Adyen"
+        }
+      ]
+    },
+    "stripe-credit-card-processing-fees": {
+      "metaTitle": "Stripe Tarifas de procesamiento: tarifas de tarjeta versus costo real",
+      "metaDescription": "Las tarifas de procesamiento de Stripe comienzan con la tasa de tarjeta publicada (a menudo 2,9% + $0.30), pero su costo real depende de tarifas fijas, tarjetas internacionales, reembolsos, disputas y complementos.",
+      "title": "Stripe Tarifas de procesamiento: tarifas de tarjeta versus costo real",
+      "readTime": "6 min",
+      "publishedAt": "2026-06-25",
+      "updatedAt": "2026-07-16",
+      "faq": [],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe precios"
+        },
+        {
+          "href": "https://docs.stripe.com/reports/balance-transaction-types",
+          "title": "Stripe tipos de transacciones de saldo"
+        },
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe informa documentación"
+        }
+      ]
+    },
+    "stripe-vs-paypal-fees": {
+      "metaTitle": "Tarifas Stripe vs PayPal: Comparación real",
+      "metaDescription": "Las tarifas de Stripe frente a PayPal son similares en papel, pero su costo real depende de la combinación de pagos, el tamaño promedio del cargo, los clientes internacionales, los reembolsos, las disputas y los métodos de pago.",
+      "title": "Tarifas Stripe vs PayPal: Comparación real",
+      "readTime": "7 min",
+      "publishedAt": "2026-06-25",
+      "updatedAt": null,
+      "faq": [],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe precios"
+        },
+        {
+          "href": "https://www.paypal.com/us/business/paypal-business-fees",
+          "title": "PayPal tarifas comerciales"
+        },
+        {
+          "href": "https://developer.paypal.com/braintree/articles/guides/payment-methods/paypal",
+          "title": "Braintree PayPal documentos"
+        }
+      ]
+    },
+    "stripe-international-card-fees": {
+      "metaTitle": "Stripe Tarifas de tarjetas internacionales: por qué su tarifa es más alta",
+      "metaDescription": "Stripe las tarifas de las tarjetas internacionales agregan aproximadamente un 1,5 % en las tarjetas transfronterizas, una razón común por la que su tasa efectiva y su pago son peores que el 2,9 %. Cómo encontrarlo en tu Saldo CSV.",
+      "title": "Stripe Tarifas de tarjetas internacionales: por qué su tarifa es más alta",
+      "readTime": "6 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-07-19",
+      "faq": [
+        {
+          "question": "¿Cuál es la tarifa de la tarjeta internacional de Stripe?",
+          "answer": "La tarifa de la tarjeta internacional de Stripe es una tarifa transfronteriza adicional que se cobra cuando la tarjeta se emitió fuera del país de su cuenta Stripe. Para muchos escenarios de precios en EE. UU., esto suele ser 1,5 puntos porcentuales además del procesamiento de tarjetas estándar."
+        },
+        {
+          "question": "¿La moneda o el país de la tarjeta deciden la tarifa internacional?",
+          "answer": "La tarifa de la tarjeta internacional depende del país emisor de la tarjeta en relación con el país de su cuenta Stripe. La conversión de moneda es independiente y se puede acumular cuando las monedas de cargo y liquidación difieren."
+        },
+        {
+          "question": "¿Cómo encuentro cargos de tarjetas internacionales en los datos Stripe?",
+          "answer": "Exporte un Stripe Saldo CSV detallado y busque indicadores de tarjetas internacionales en filas de cargos, descripciones o patrones de tarifas. Luego compare esas filas con los cargos de tarjetas nacionales durante el mismo período."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe precios"
+        },
+        {
+          "href": "https://docs.stripe.com/payments/payment-methods",
+          "title": "Stripe métodos de pago"
+        },
+        {
+          "href": "https://docs.stripe.com/reports/balance-transaction-types",
+          "title": "Stripe tipos de transacciones de saldo"
+        }
+      ]
+    },
+    "stripe-ach-vs-credit-card-fees": {
+      "metaTitle": "Stripe ACH frente a tarifas de tarjeta de crédito: cuando ACH ahorra dinero",
+      "metaDescription": "Compare Stripe ACH y las tarifas de las tarjetas de crédito. Vea cuándo ACH ahorra dinero, dónde es importante el límite de $5 y cómo B2B SaaS puede reducir los costos de pago.",
+      "title": "Stripe ACH frente a tarifas de tarjeta de crédito: cuando ACH ahorra dinero",
+      "readTime": "7 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-06-25",
+      "faq": [
+        {
+          "question": "¿Es Stripe ACH más barata que las tarjetas de crédito?",
+          "answer": "Para muchos pagos B2B importantes en EE. UU., ACH es más barato que las tarjetas porque ACH tiene una tarifa porcentual y un límite más bajos. Las tarjetas aún pueden ser mejores en cuanto a velocidad, conversión y expectativas de pago de los consumidores."
+        },
+        {
+          "question": "¿Cuándo debería una empresa SaaS ofrecer ACH?",
+          "answer": "ACH es más útil para facturas grandes, planes anuales y clientes B2B que se sienten cómodos con los pagos bancarios. Es menos ideal para compras instantáneas de los consumidores o flujos de pago de alta fricción."
+        },
+        {
+          "question": "¿Cuál es la compensación entre ACH y los pagos con tarjeta?",
+          "answer": "ACH generalmente cuesta menos, pero puede asentarse más lentamente, fallar de manera diferente y crear más fricción en la incorporación. Los pagos con tarjeta cuestan más, pero son más rápidos y familiares para muchos compradores."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe precios"
+        },
+        {
+          "href": "https://docs.stripe.com/payments/ach-debit",
+          "title": "Stripe ACH Documentación de domiciliación bancaria"
+        },
+        {
+          "href": "https://docs.stripe.com/payments/payment-methods",
+          "title": "Stripe métodos de pago"
+        }
+      ]
+    },
+    "stripe-fees-small-transactions": {
+      "metaTitle": "Stripe Tarifas por transacciones pequeñas: por qué su tarifa es más alta",
+      "metaDescription": "La tarifa fija de $0.30 Stripe afecta mucho a las transacciones pequeñas: un cargo de $5 puede costar alrededor del 9%. Vea los cálculos, el impacto en los márgenes y las formas de reducir la resistencia de los micropagos.",
+      "title": "Stripe Tarifas por transacciones pequeñas: por qué su tarifa es más alta",
+      "readTime": "5 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-07-19",
+      "faq": [
+        {
+          "question": "¿Por qué las tarifas de Stripe son tan altas en transacciones pequeñas?",
+          "answer": "La tarifa fija por transacción de Stripe es la misma ya sea que el cargo sea $5 o $100.. En un cargo de $5, una tarifa fija de $0.30 ya es del 6% antes de que se agregue la tarifa porcentual."
+        },
+        {
+          "question": "¿Cuál es la tarifa de Stripe sobre un pago $5?",
+          "answer": "Usando 2,9% + $0.30 como tasa de ejemplo, un pago de $5 cuesta alrededor de $0.45 en tarifas: $0.145 de la tarifa porcentual más $0.30 fijos. Esa es aproximadamente una tasa efectiva del 9%."
+        },
+        {
+          "question": "¿Cómo puedo reducir las tarifas de Stripe para productos de bajo precio?",
+          "answer": "Agrupe compras pequeñas, aumente el tamaño mínimo del cargo, mueva los microplanes mensuales a facturación anual o agrupe los cargos basados ​​en el uso en menos facturas cuando la experiencia del cliente lo permita."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe precios"
+        },
+        {
+          "href": "https://docs.stripe.com/billing",
+          "title": "Stripe Documentación de facturación"
+        },
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe informa documentación"
+        }
+      ]
+    },
+    "stripe-blended-rate-calculator": {
+      "metaTitle": "Stripe Calculadora de tarifa combinada: encuentre su tarifa real",
+      "metaDescription": "¿Cuál es su tasa combinada real de Stripe? Conozca la fórmula, utilice nuestra calculadora y descubra qué está impulsando su tasa efectiva por encima del 2,9%.",
+      "title": "Stripe Calculadora de tarifa combinada: encuentre su tarifa real",
+      "readTime": "6 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-06-25",
+      "faq": [
+        {
+          "question": "¿Qué es una tarifa combinada Stripe?",
+          "answer": "Una tarifa combinada de Stripe es el total de tarifas de Stripe divididas por el volumen total de cargos durante un período. Combina diferentes tipos de pago, tarifas fijas, tarjetas internacionales, reembolsos y tarifas adicionales en un porcentaje real."
+        },
+        {
+          "question": "¿Por qué mi tasa combinada es superior al 2,9%?",
+          "answer": "Su tasa combinada puede ser superior al 2,9% porque la tarifa fija $0.30 es alta en cargos pequeños, las tarjetas internacionales agregan tarifas transfronterizas, la conversión de moneda puede agregar costos y los reembolsos o disputas pueden aumentar las tarifas totales."
+        },
+        {
+          "question": "¿Debo utilizar tarifas de cargo o todas las tarifas Stripe?",
+          "answer": "Utilice tarifas de cargo para medir la tasa de procesamiento de la tarjeta. Utilice todas las tarifas de Stripe para medir el costo total de Stripe. Ambos son útiles, pero responden a preguntas diferentes."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe precios"
+        },
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe informa documentación"
+        },
+        {
+          "href": "https://docs.stripe.com/reports/balance-transaction-types",
+          "title": "Stripe tipos de transacciones de saldo"
+        }
+      ]
+    },
+    "how-to-export-stripe-balance-csv": {
+      "metaTitle": "Cómo exportar Stripe saldo CSV: guía paso a paso",
+      "metaDescription": "Paso a paso: exporte el saldo Stripe detallado CSV, evite errores de resumen y pago, obtenga las columnas correctas y verifique su tarifa real.",
+      "title": "Cómo exportar Stripe saldo CSV: guía paso a paso",
+      "readTime": "4 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-07-19",
+      "faq": [
+        {
+          "question": "¿Qué exportación Stripe CSV debo utilizar para el análisis de tarifas?",
+          "answer": "Utilice la exportación de Saldo detallado CSV o Transacciones de saldo. Las exportaciones resumidas son útiles para los totales, pero no contienen suficientes detalles de tarifas a nivel de transacción para una auditoría de tarifas real."
+        },
+        {
+          "question": "¿Dónde exporto un Stripe Saldo CSV?",
+          "answer": "En el Panel de control Stripe, vaya a Informes o Informes, abra Resumen de saldo o Transacciones de saldo, establezca el rango de fechas, elija Exportar, luego elija Detallado y descargue el CSV."
+        },
+        {
+          "question": "¿Cuántos datos Stripe debo exportar?",
+          "answer": "Exportar al menos un mes completo. De tres a seis meses es mejor para diagnosticar tendencias de tarifas, combinación de tarjetas internacionales, fugas de reembolsos y cambios de tarifas mes a mes."
+        },
+        {
+          "question": "¿Es suficiente un informe de pago Stripe para la conciliación de tarifas?",
+          "answer": "No. Un informe de pagos es útil para la conciliación bancaria, pero agrupa el movimiento de dinero. Utilice la exportación de Saldo detallado CSV o Transacciones de saldo cuando necesite filas de tarifas a nivel de transacción."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe informa documentación"
+        },
+        {
+          "href": "https://docs.stripe.com/reports/balance-transaction-types",
+          "title": "Stripe tipos de transacciones de saldo"
+        },
+        {
+          "href": "https://dashboard.stripe.com/reports",
+          "title": "Stripe Informes del panel"
+        }
+      ]
+    },
+    "why-stripe-effective-rate-jumped-this-month": {
+      "metaTitle": "¿Por qué mi tasa efectiva Stripe aumentó este mes?",
+      "metaDescription": "Su tarifa combinada Stripe cambió mes tras mes y no sabe por qué. Estas son las 6 causas más comunes y cómo encontrar cuál le afecta.",
+      "title": "¿Por qué mi tasa efectiva Stripe aumentó este mes?",
+      "readTime": "8 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-06-25",
+      "faq": [
+        {
+          "question": "¿Por qué mi tasa efectiva Stripe aumentó este mes?",
+          "answer": "Las causas más comunes son más tarjetas internacionales, un tamaño promedio de transacción más bajo, reembolsos de un mes anterior, nueva conversión de moneda, tarifas adicionales Stripe o tarifas de disputa."
+        },
+        {
+          "question": "¿Qué cambio de tarifa de Stripe mes a mes es normal?",
+          "answer": "Un movimiento de aproximadamente 0,2 puntos porcentuales puede ser normal para un negocio SaaS mixto. Un salto por encima de 0,5 puntos porcentuales suele tener una causa específica que vale la pena investigar en el Balance CSV."
+        },
+        {
+          "question": "¿Qué filas Stripe CSV debo verificar primero?",
+          "answer": "Comience con las filas de cargos por mes, luego verifique las descripciones de las tarjetas internacionales, los grupos de cargos de bajo costo, las filas de reembolsos, las filas de disputas y las filas de tarifas sin cargos, como Facturación, Radar, Impuestos u otras tarifas Stripe."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe precios"
+        },
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe informa documentación"
+        },
+        {
+          "href": "https://docs.stripe.com/disputes",
+          "title": "Stripe disputa documentación"
+        }
+      ]
+    },
+    "why-stripe-fees-increase": {
+      "metaTitle": "¿Por qué aumentaron mis tarifas de Stripe este mes?",
+      "metaDescription": "¿Pago de Stripe menor de lo esperado o tarifas más altas que el mes pasado? Diagnostica tarjetas internacionales, cargos por reembolso no devueltos, FX y cambios combinados de tu Saldo CSV.",
+      "title": "¿Por qué aumentaron mis tarifas de Stripe este mes?",
+      "readTime": "5 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-07-19",
+      "faq": [
+        {
+          "question": "¿Por qué aumentaron mis tarifas de Stripe?",
+          "answer": "Las tarifas de Stripe generalmente aumentan porque su combinación de pagos cambió: más tarjetas internacionales, menor tamaño de cargo promedio, conversión de moneda, disputas, reembolsos o productos Stripe adicionales como Facturación, Radar o Impuestos."
+        },
+        {
+          "question": "¿Cómo puedo saber qué causó el aumento?",
+          "answer": "Exporte su saldo Stripe detallado CSV y compare este mes con los meses anteriores. Verifique el porcentaje de tarjetas internacionales, el tamaño promedio de las transacciones, las filas de reembolso, las filas de disputas y las filas de tarifas Stripe sin cargo."
+        },
+        {
+          "question": "¿Pueden aumentar las tarifas de Stripe incluso si mi precio no cambió?",
+          "answer": "Sí. Su precio de Stripe puede permanecer igual mientras su tarifa efectiva aumenta porque la geografía del cliente, el tamaño de la transacción, los reembolsos, las disputas o el uso de complementos cambiaron."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe precios"
+        },
+        {
+          "href": "https://docs.stripe.com/disputes",
+          "title": "Stripe disputa documentación"
+        },
+        {
+          "href": "https://docs.stripe.com/reports/balance-transaction-types",
+          "title": "Stripe tipos de transacciones de saldo"
+        }
+      ],
+      "table": {
+        "headers": [
+          "Cause",
+          "Impacto de la tarifa",
+          "señal CSV"
+        ],
+        "rows": [
+          [
+            "Más tarjetas internacionales",
+            "+1,5% en cargos de tarjetas afectadas",
+            "Filtrar por filas de tarjetas internacionales"
+          ],
+          [
+            "Conversión de moneda",
+            "A menudo alrededor de +1% cuando se aplica la conversión",
+            "Comparar monedas de cargo y liquidación"
+          ],
+          [
+            "Transacciones más pequeñas",
+            "$0.30 tarifa fija se convierte en una parte mayor",
+            "Cargos grupales por grupo de montos"
+          ],
+          [
+            "Disputas",
+            "Las tarifas fijas de disputa pueden aumentar el costo total",
+            "Filtrar filas de disputas"
+          ],
+          [
+            "Facturación, Radar, Impuestos, complementos",
+            "Las líneas de tarifas separadas aumentan el costo total Stripe",
+            "Sumar filas de tarifas sin cargo"
+          ],
+          [
+            "Reembolsos",
+            "Las tarifas de procesamiento originales generalmente no se devuelven.",
+            "Revisar las filas de reembolso y las tarifas retenidas"
+          ]
+        ]
+      }
+    },
+    "how-to-reduce-stripe-fees": {
+      "metaTitle": "Cómo reducir sus tarifas de Stripe",
+      "metaDescription": "Tácticas prácticas para reducir su tasa de tarifa efectiva Stripe: negocie precios personalizados, reduzca las disputas, optimice la configuración de moneda y más.",
+      "title": "Cómo reducir sus tarifas de Stripe",
+      "readTime": "7 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-06-25",
+      "intro": [
+        "La tasa estándar de Stripe es 2,9% + $0.30 por transacción, pero su tasa efectiva (lo que realmente paga) puede ser significativamente mayor. A continuación se explica cómo reducirlo."
+      ],
+      "sections": [
+        {
+          "type": "gritar",
+          "title": "respuesta corta",
+          "body": "La mejor manera de reducir las tarifas de Stripe es hacer coincidir la solución con el factor: ACH para facturas grandes, facturación anual para cargos recurrentes pequeños, métodos de pago locales para clientes internacionales y reducción de disputas /refund cuando esas filas dominan."
+        },
+        {
+          "type": "sección",
+          "heading": "respuesta corta",
+          "paragraphs": [
+            "La mejor manera de reducir las tarifas de Stripe es hacer coincidir la solución con el factor: ACH para facturas grandes, facturación anual para cargos recurrentes pequeños, métodos de pago locales para clientes internacionales y reducción de disputas /refund cuando esas filas dominan."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "1. Negociar precios personalizados",
+          "paragraphs": [
+            "Una vez que esté procesando $80,000/month, Stripe analizará las tarifas personalizadas. Comuníquese con su administrador de cuentas o comuníquese con stripe.com/contact/sales. Incluso una reducción del 0,2 % en $100K/month ahorra $200 cada mes."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "2. Aumentar el valor promedio de las transacciones",
+          "paragraphs": [
+            "El componente fijo $0.30 perjudica más a las transacciones pequeñas. Considere agrupar productos, ofrecer planes anuales en lugar de mensuales o establecer un valor mínimo de pedido."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "3. Reducir las disputas",
+          "paragraphs": [
+            "Habilite las reglas de radar Stripe para bloquear transacciones sospechosas antes de que se conviertan en disputas. Utilice descriptores de facturación claros. Cada disputa evitada ahorra $15 + posibles costos de reembolso."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "4. Optimice la configuración de moneda",
+          "paragraphs": [
+            "Si vende en varios países, considere habilitar los métodos de pago locales a través de Stripe para evitar tarifas de conversión de moneda (1% por transacción)."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "5. Utilice ACH para pagos B2B de alto valor",
+          "paragraphs": [
+            "Las transferencias bancarias ACH a través de Stripe cuestan 0,8% (con un límite de $5). Para facturas superiores a $1,000,, esto es entre un 70 % y un 80 % más barato que el procesamiento de tarjetas."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Primero: conozca su punto de partida",
+          "paragraphs": [
+            "Antes de optimizar, necesita conocer su tasa efectiva actual y qué transacciones cuestan más. Cargue su Stripe Saldo CSV a Fee Auditor para obtener un desglose con contexto de referencia, fugas de reembolso e ideas de ahorro vinculadas a su exportación."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "¿Cuál es la forma más rápida de reducir las tarifas de Stripe?",
+          "answer": "El camino más rápido depende de su conductor de pago. Para facturas B2B grandes, ACH puede ser la mayor ganancia. Para cargos pequeños, la agrupación o la facturación anual suele ser más útil. Para los clientes internacionales, los métodos de pago locales pueden reducir los recargos de la tarjeta."
+        },
+        {
+          "question": "¿Puedo negociar tarifas de Stripe?",
+          "answer": "Stripe puede discutir precios personalizados para empresas con un volumen de procesamiento significativo o necesidades de pago específicas. Antes de negociar, mida su tasa efectiva actual y los controladores de tarifas de su Saldo CSV."
+        },
+        {
+          "question": "¿Debo dejar de usar Stripe para reducir las tarifas?",
+          "answer": "No siempre. Primero identifique si su costo proviene del precio base de Stripe, tarjetas internacionales, cargos pequeños, reembolsos, disputas o complementos. Algunos problemas se pueden solucionar dentro de Stripe cambiando la combinación de pagos."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe precios"
+        },
+        {
+          "href": "https://docs.stripe.com/payments/payment-methods",
+          "title": "Stripe métodos de pago"
+        },
+        {
+          "href": "https://docs.stripe.com/disputes",
+          "title": "Stripe disputa documentación"
+        }
+      ],
+      "table": {
+        "headers": [
+          "Táctica",
+          "Potencial",
+          "Mejor ajuste"
+        ],
+        "rows": [
+          [
+            "Agregue ACH para facturas B2B grandes",
+            "High",
+            "Lo mejor para facturas B2B y planes anuales de EE. UU."
+          ],
+          [
+            "Aumentar el tamaño promedio de las transacciones",
+            "High",
+            "Lo mejor para suscripciones o complementos de bajo costo"
+          ],
+          [
+            "Ofrecer métodos de pago locales",
+            "Medio-alto",
+            "Lo mejor para bases de clientes internacionales"
+          ],
+          [
+            "Reducir disputas y reembolsos",
+            "Medio",
+            "Mejor cuando las filas de reembolso/dispute son visibles en CSV"
+          ],
+          [
+            "Negociar precios personalizados",
+            "Medio",
+            "Mejor después de un volumen de procesamiento mensual significativo"
+          ],
+          [
+            "Revisar los complementos de facturación/radar/impuestos",
+            "Caso por caso",
+            "Es mejor cuando crecen las filas de tarifas sin cargo"
+          ]
+        ]
+      }
+    },
+    "stripe-effective-fee-rate-explained": {
+      "metaTitle": "¿Cuál es su tarifa efectiva Stripe?",
+      "metaDescription": "Su tarifa efectiva de Stripe es el porcentaje real de los ingresos que paga a Stripe. Aprenda cómo calcularlo y cómo es una buena tarifa.",
+      "title": "¿Cuál es su tarifa efectiva Stripe?",
+      "readTime": "4 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-06-25",
+      "intro": [
+        "Stripe anuncia 2,9% + $0.30 por transacción. Pero lo que realmente paga (su tasa de tarifa efectiva) casi siempre es diferente y, por lo general, más alta."
+      ],
+      "sections": [
+        {
+          "type": "sección",
+          "heading": "Definición: Stripe tasa de tarifa efectiva",
+          "paragraphs": [
+            "Stripe tasa de tarifa efectiva es el monto total que pagó en tarifas Stripe dividido por el volumen total de cargos procesados ​​para el mismo período. Es la respuesta práctica a \"¿qué porcentaje se llevó realmente Stripe?\""
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Cómo calcularlo",
+          "paragraphs": [
+            "Tasa de tarifa efectiva = tarifas totales pagadas ÷ volumen total de cargos × 100",
+            "Volumen total: $38,500",
+            "Tasa efectiva: $1,240 / $38,500 = 3,22%"
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "¿Qué es una buena tasa efectiva?",
+          "paragraphs": [
+            "Para las transacciones nacionales exclusivas de EE. UU. con un valor de pedido promedio de $50+, una tasa típica es de 3,0 a 3,3%. Más del 3,5% generalmente significa que hay algo que investigar: tarjetas internacionales, disputas o transacciones pequeñas."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Por qué es superior al 2,9%",
+          "paragraphs": [
+            "Varios factores empujan la tasa por encima del 2,9% anunciado:"
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Seguimiento mensual",
+          "paragraphs": [
+            "La tarifa efectiva puede variar de un mes a otro según su combinación de clientes. Su seguimiento le ayuda a detectar problemas a tiempo, como una afluencia repentina de tráfico internacional o un lote de transacciones en disputa."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "¿Cuál es la tasa de tarifa efectiva Stripe?",
+          "answer": "Stripe tasa de tarifa efectiva es el total de Stripe tarifas divididas por el volumen total de cargos procesados ​​para el mismo período. Muestra el porcentaje real de ingresos pagados a Stripe después de tarifas fijas, tarjetas internacionales, reembolsos, disputas y complementos."
+        },
+        {
+          "question": "¿La tasa de comisión efectiva es la misma que la tasa del 2,9 % de Stripe?",
+          "answer": "No. El 2,9% + $0.30 de Stripe es una tasa publicada para un escenario de tarjeta común. Su tasa efectiva utiliza su combinación de transacciones real, por lo que puede ser más alta cuando tiene cargos pequeños, clientes internacionales o actividad de reembolso/dispute."
+        },
+        {
+          "question": "¿Cuál es una buena tasa de tarifa efectiva Stripe?",
+          "answer": "Para los pagos con tarjeta nacionales de EE. UU. con un tamaño de transacción promedio saludable, aproximadamente entre el 3,0% y el 3,3% puede ser normal. Una tasa superior al 3,5% suele merecer una investigación, especialmente para SaaS con tarjetas internacionales o planes económicos."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe precios"
+        },
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe informa documentación"
+        },
+        {
+          "href": "https://docs.stripe.com/reports/balance-transaction-types",
+          "title": "Stripe tipos de transacciones de saldo"
+        }
+      ]
+    },
+    "why-stripe-effective-rate-higher-than-2-9-percent": {
+      "metaTitle": null,
+      "metaDescription": null,
+      "title": null,
+      "readTime": "5 min",
+      "publishedAt": null,
+      "updatedAt": null,
+      "faq": [],
+      "sources": []
+    }
+  },
+  "privacy": {
+    "why-i-wont-connect-my-stripe-account-to-third-party-tools": {
+      "metaTitle": "Por qué no conectaría mi cuenta Stripe a todas las herramientas de terceros",
+      "metaDescription": "Stripe OAuth / el acceso de solo lectura es una decisión de confianza, no un botón de inicio de sesión. Cuando solo necesita una auditoría de tarifas, un Saldo detallado CSV es suficiente: no hay conexión persistente.",
+      "title": "Por qué no conectaría mi cuenta Stripe a todas las herramientas de terceros",
+      "shortTitle": "Por qué no conectaría mi cuenta Stripe a todas las herramientas",
+      "readTime": "7 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-08-04",
+      "intro": [
+        "Conectar una herramienta a Stripe es fácil. Una pantalla OAuth, un clic y, de repente, la herramienta puede comenzar a crear gráficos, paneles, alertas y pronósticos a partir de sus datos de pago.",
+        "Esa comodidad es real. Pero también lo es la compensación. Su cuenta Stripe contiene registros de clientes, pagos, reembolsos, facturas, pagos, disputas y un historial de cómo se mueve el dinero a través de su negocio. Incluso el acceso de lectura puede ser una decisión de confianza más importante de lo que parece.",
+        "Es por eso que prefiero un flujo de trabajo CSV primero para auditorías de pago único: exportar los datos que necesito, analizar esa instantánea y evitar otorgar una conexión persistente a mi cuenta Stripe real."
+      ],
+      "sections": [
+        {
+          "type": "sección",
+          "heading": "El problema no es que OAuth sea malo",
+          "paragraphs": [
+            "OAuth es una forma legítima de conectar software. Si necesita un panel de suscripción en vivo, reconocimiento automatizado de ingresos o sincronizaciones operativas recurrentes, una conexión API puede tener sentido.",
+            "El problema es que muchos fundadores tratan el mensaje Stripe OAuth como un botón de inicio de sesión inofensivo. No lo es. Es una decisión de permiso en torno a algunos de los datos operativos más confidenciales del negocio."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Lo que puede exponer el acceso de lectura amplio",
+          "paragraphs": [
+            "Stripe tiene más de un modelo de integración, incluidos los permisos de aplicaciones Connect OAuth, Stripe y claves API. Los datos exactos dependen del modelo y los permisos otorgados. Pero el acceso de lectura amplio puede exponer categorías como estas:"
+          ],
+          "bullets": [
+            "Registros de clientes como nombres, direcciones de correo electrónico, detalles de facturación e identificadores fiscales cuando se concede acceso al cliente.",
+            "Cargos, reembolsos, intentos de pago, facturas, suscripciones, precios, cupones e historial de facturación.",
+            "Transacciones de saldo, registros de tarifas, transferencias, pagos y movimiento de efectivo a través de la cuenta Stripe.",
+            "Disputas, advertencias de fraude, eventos, archivos y otros registros operativos según los permisos solicitados."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Sólo lectura todavía significa datos copiables",
+          "paragraphs": [
+            "Normalmente, solo lectura significa que la herramienta no debe crear reembolsos, actualizar suscripciones ni cambiar la configuración de Stripe. Está bien. Pero los datos de solo lectura aún se pueden copiar, procesar, almacenar, exportar, unir con otros conjuntos de datos y exponer si el proveedor sufre una vulneración.",
+            "En otras palabras, la pregunta importante no es sólo \"¿Puede esta aplicación cambiar mi cuenta?\" También es \"¿Qué puede aprender esta aplicación sobre mis clientes y mi negocio, y durante cuánto tiempo conservará esos datos?\""
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "El acceso persistente es la parte oculta.",
+          "paragraphs": [
+            "Una exportación CSV es una instantánea. Una conexión OAuth o API puede continuar hasta que la integración la revoque o la limite de otro modo. Si deja de usar una herramienta pero olvida desconectarla, esa conexión puede seguir siendo parte de su superficie de seguridad.",
+            "Eso no significa que todas las herramientas conectadas sean inseguras. Significa que cada conexión merece el mismo escrutinio que le daría a cualquier proveedor que maneje datos financieros o de clientes."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "La primera alternativa CSV",
+          "paragraphs": [
+            "Para una auditoría de honorarios, el acceso en tiempo real suele ser innecesario. No necesita una conexión permanente para responder preguntas como: ¿Cuál es mi tarifa efectiva? ¿Qué transacciones son caras? ¿Los reembolsos están perdiendo margen? ¿Mi tasa del 4,5% es normal para mi combinación?",
+            "Fee Auditor utiliza este enfoque. Exporta una Stripe Transacciones de saldo CSV detalladas, la carga para su análisis y obtiene un informe sin conectar su cuenta Stripe. El CSV sin formato no se almacena como un archivo sin formato; la aplicación mantiene un resultado del análisis derivado para que pueda volver a abrir el enlace. Durante la versión beta promocional, el acceso a los informes completos puede ser gratuito hasta por 30 días; después de la versión beta, las vistas previas no pagas son más cortas a menos que compre un desbloqueo del informe completo; consulte la Política de privacidad."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "¿Conectar una herramienta Stripe siempre es inseguro?",
+          "answer": "No. Las herramientas API pueden ser valiosas cuando necesita paneles de control o automatización en tiempo real. El punto es tratar el acceso a Stripe como una decisión de confianza del proveedor, no como un paso de inicio de sesión casual."
+        },
+        {
+          "question": "¿Por qué CSV es suficiente para una auditoría de tarifas?",
+          "answer": "Una auditoría de tarifas suele ser retrospectiva. Una Transacciones de saldo detalladas CSV contiene los montos, tarifas, tipos, monedas y marcas de tiempo necesarios para calcular su tasa de tarifa efectiva y encontrar transacciones costosas."
+        }
+      ],
+      "related": [
+        {
+          "href": "/blog/what-does-stripe-oauth-read-only-access-actually-see",
+          "title": "Stripe OAuth acceso de solo lectura: qué aplicaciones pueden ver"
+        },
+        {
+          "href": "/blog/how-to-audit-stripe-fees-without-connecting-your-account",
+          "title": "Cómo auditar las tarifas de Stripe sin conectar su cuenta"
+        },
+        {
+          "href": "/blog/csv-vs-api-stripe-fee-analysis",
+          "title": "CSV vs API para el análisis de tarifas Stripe"
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/connect/oauth-reference",
+          "title": "Stripe Conectar referencia OAuth"
+        },
+        {
+          "href": "https://docs.stripe.com/stripe-apps/reference/permissions",
+          "title": "Stripe Referencia de permisos de aplicaciones"
+        }
+      ]
+    },
+    "what-does-stripe-oauth-read-only-access-actually-see": {
+      "metaTitle": "Stripe OAuth Acceso de solo lectura: lo que pueden ver las aplicaciones de terceros",
+      "metaDescription": "Lo que Stripe OAuth de “solo lectura” aún puede exponer, y cuándo una verificación de tarifa de Saldo CSV es suficiente sin conectar su cuenta.",
+      "title": "Stripe OAuth Acceso de solo lectura: lo que pueden ver las aplicaciones de terceros",
+      "shortTitle": "Stripe OAuth Acceso de solo lectura: qué pueden ver las aplicaciones",
+      "readTime": "8 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-08-04",
+      "intro": [
+        "La frase de sólo lectura suena segura. Para Stripe, aún puede significar una amplia visibilidad de su negocio: clientes, pagos, reembolsos, suscripciones, disputas y metadatos según la aplicación y los permisos.",
+        "Eso importa cuando sólo necesitas una auditoría de tarifas. Un flujo de trabajo basado en CSV le brinda una instantánea única en lugar de una conexión Stripe persistente, por lo que la desventaja es la fricción de acceso frente a la exposición continua de los datos."
+      ],
+      "sections": [
+        {
+          "type": "sección",
+          "heading": "Primero, separe los modelos de acceso.",
+          "table": {
+            "headers": [
+              "Model",
+              "lo que significa",
+              "Por qué debería importarles a los fundadores"
+            ],
+            "rows": [
+              [
+                "Conectar OAuth",
+                "Una aplicación conectada recibe acceso según el flujo OAuth y el alcance seleccionado.",
+                "Útil para servicios de terceros, pero el acceso puede persistir hasta que se revoque."
+              ],
+              [
+                "Aplicaciones Stripe",
+                "Las aplicaciones declaran permisos granulares como customer_read, charge_read, payout_read y event_read.",
+                "La lista de permisos muestra el tipo de categorías de datos que puede solicitar una aplicación."
+              ],
+              [
+                "Claves API",
+                "Una empresa o un desarrollador crea claves para el acceso directo a la API, a veces restringido.",
+                "Potente, pero peligroso si las claves son demasiado amplias o se filtran."
+              ]
+            ]
+          }
+        },
+        {
+          "type": "sección",
+          "heading": "Las categorías de datos que el acceso de lectura amplio puede incluir",
+          "paragraphs": [
+            "No todas las herramientas solicitan todas las categorías. Una integración responsable debería pedir sólo lo que necesita. Pero al evaluar una herramienta, estas son las categorías que vale la pena comprobar en la pantalla de consentimiento, el manifiesto de la aplicación, la documentación y la política de privacidad."
+          ],
+          "table": {
+            "headers": [
+              "Categoría",
+              "Ejemplos",
+              "Por qué es importante"
+            ],
+            "rows": [
+              [
+                "Clientes",
+                "Nombres, correos electrónicos, detalles de facturación, metadatos del cliente.",
+                "Esto puede identificar quién le compra y qué tan valiosos son."
+              ],
+              [
+                "Pagos",
+                "Cargos, reembolsos, intenciones de pago, facturas",
+                "Esto revela el historial de ingresos y el comportamiento a nivel de transacciones."
+              ],
+              [
+                "Saldo y pagos",
+                "Transacciones de saldo, transferencias, plazos de pago",
+                "Esto muestra el movimiento de efectivo y los datos financieros operativos."
+              ],
+              [
+                "Suscripciones",
+                "Planes, precios, cupones, estado de renovación.",
+                "Esto expone su modelo de precios y el ciclo de vida del cliente."
+              ],
+              [
+                "Riesgos y disputas",
+                "Disputas, devoluciones de cargo, advertencias de fraude",
+                "Esto puede revelar debilidades operativas y conflictos con los clientes."
+              ],
+              [
+                "Eventos y archivos",
+                "Eventos de cuenta, archivos cargados según permisos",
+                "Esto puede ampliar la huella de datos más allá de los pagos."
+              ]
+            ]
+          }
+        },
+        {
+          "type": "sección",
+          "heading": "Lo que normalmente no puede hacer el modo de solo lectura",
+          "paragraphs": [
+            "El acceso de solo lectura no debería permitir que una aplicación emita reembolsos, actualice suscripciones, cree pagos, cambie la configuración de la cuenta o modifique objetos activos. Esa es una protección importante.",
+            "Pero aún puede permitir que un proveedor lea y procese datos comerciales confidenciales. El riesgo es la exposición de los datos, el almacenamiento del proveedor, el impacto de las violaciones y el acceso de larga duración, no necesariamente escrituras no autorizadas."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Preguntas que debe hacer antes de otorgar acceso",
+          "bullets": [
+            "¿Qué permisos o alcances Stripe exactos solicita la herramienta?",
+            "¿Necesita acceso en vivo o un CSV exportado respondería la pregunta?",
+            "¿Almacena datos a nivel de cliente, datos a nivel de transacción o solo métricas agregadas?",
+            "¿Cómo revoco el acceso y qué sucede con los datos históricos almacenados después de la revocación?",
+            "¿Existe una política de privacidad, una página de seguridad y una explicación clara sobre la retención de datos?"
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Cómo Fee Auditor evita esta clase de acceso",
+          "paragraphs": [
+            "Fee Auditor no le pide que conecte Stripe. Analiza unas Stripe transacciones de saldo detalladas CSV. Eso significa que no puede seguir sondeando su cuenta Stripe, no puede leer la actividad de nuevos clientes después de la exportación y no puede cambiar nada en Stripe.",
+            "Para una auditoría de tarifas periódica, esto suele ser suficiente: el Saldo CSV contiene el monto del cargo, la tarifa, el monto neto, la moneda, el tipo y la marca de tiempo necesarios para calcular la tasa de tarifa efectiva real."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "¿Es seguro el acceso de solo lectura a Stripe OAuth?",
+          "answer": "Es más seguro que el acceso de escritura porque no debería permitir que una aplicación cambie su cuenta Stripe, pero aún así puede exponer datos comerciales confidenciales según los alcances y permisos solicitados. Verifique los permisos exactos y si una exportación CSV es suficiente para el trabajo."
+        },
+        {
+          "question": "¿El acceso de sólo lectura incluye números de tarjeta?",
+          "answer": "Stripe no expone números de tarjetas sin procesar a través del acceso API normal. Sin embargo, el acceso de lectura aún puede exponer registros de clientes, pagos, suscripciones, reembolsos, pagos y disputas según los permisos de integración."
+        },
+        {
+          "question": "¿Puedo revocar el acceso a la aplicación Stripe más tarde?",
+          "answer": "Sí, las aplicaciones conectadas generalmente se pueden revisar y revocar desde el Panel de control Stripe. La revocación detiene el acceso futuro, pero aun así debes consultar la política de cada proveedor para los datos ya almacenados."
+        }
+      ],
+      "related": [
+        {
+          "href": "/blog/why-i-wont-connect-my-stripe-account-to-third-party-tools",
+          "title": "Por qué no conectaría mi cuenta Stripe a todas las herramientas"
+        },
+        {
+          "href": "/blog/the-stripe-data-you-share-with-analytics-tools",
+          "title": "Los Stripe datos que comparte con herramientas de análisis"
+        },
+        {
+          "href": "/blog/csv-vs-api-stripe-fee-analysis",
+          "title": "CSV vs API para el análisis de tarifas Stripe"
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/connect/oauth-reference",
+          "title": "Stripe Conectar referencia OAuth"
+        },
+        {
+          "href": "https://docs.stripe.com/stripe-apps/reference/permissions",
+          "title": "Stripe Referencia de permisos de aplicaciones"
+        }
+      ]
+    },
+    "how-to-audit-stripe-fees-without-connecting-your-account": {
+      "metaTitle": "Cómo auditar sus tarifas de Stripe sin conectar su cuenta",
+      "metaDescription": "Una guía práctica para auditar las tarifas de Stripe a partir de transacciones de saldo detalladas CSV: fórmula de tasa combinada, impulsores de tarifas, reembolsos, cargos con tarifas elevadas y análisis sin OAuth.",
+      "title": "Cómo auditar sus tarifas de Stripe sin conectar su cuenta",
+      "shortTitle": "Auditar tarifas de Stripe sin conectar su cuenta",
+      "readTime": "9 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-05-16",
+      "intro": [
+        "Si solo observa la tasa principal de la tarjeta de Stripe, es fácil asumir que su costo es aproximadamente del 2,9% más 30 centavos. El número real puede ser mayor una vez que aparece su combinación real de clientes: tarjetas internacionales, pequeños cargos, reembolsos, disputas, Radar y costos relacionados con la moneda.",
+        "No es necesario que conecte su cuenta Stripe para comprender esto. Puede auditar las tarifas a partir de transacciones de saldo detalladas CSV y calcular su tasa de tarifa efectiva real a partir de los datos que Stripe ya le proporciona."
+      ],
+      "sections": [
+        {
+          "type": "sección",
+          "heading": "Paso 1: exportar el Stripe CSV correcto",
+          "paragraphs": [
+            "Utilice la exportación detallada de Transacciones de saldo, no un resumen de pagos. En el Panel de control Stripe, vaya a Informes, abra Transacciones de saldo, elija el período que desea auditar y exporte el CSV detallado.",
+            "Para obtener un informe significativo, utilice al menos tres meses de datos si es posible. Para la detección de cargos elevados y el análisis de tendencias, es mejor entre seis y doce meses."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Paso 2: confirme las columnas requeridas",
+          "paragraphs": [
+            "Para una auditoría de tarifas básica, necesita filas a nivel de transacción con las columnas principales Fee Auditor que también espera:"
+          ],
+          "bullets": [
+            "id: el identificador de la transacción del saldo Stripe.",
+            "tipo: por ejemplo, cargo, reembolso, pago, tarifa o ajuste.",
+            "importe: importe bruto, normalmente almacenado en la unidad monetaria más pequeña en el CSV.",
+            "tarifa: la tarifa asociada con la fila.",
+            "neto: monto después de las tarifas.",
+            "moneda - por ejemplo usd.",
+            "creado: marca de tiempo o fecha.",
+            "descripción: opcional, pero útil para clasificar tarjetas internacionales y otros contextos."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Paso 3: calcule su tasa de tarifa efectiva",
+          "paragraphs": [
+            "El cálculo más claro de la tarifa se basa en las filas de cargos, porque compara las tarifas de procesamiento de la tarjeta con el volumen de cargos procesados ​​para el mismo conjunto de transacciones."
+          ],
+          "table": {
+            "headers": [
+              "Métrico",
+              "como calcularlo"
+            ],
+            "rows": [
+              [
+                "Volumen de carga",
+                "Tipo de filtro = cargo, luego monto de suma."
+              ],
+              [
+                "Cobrar tarifas",
+                "En esas mismas filas de cargos, suma la tarifa."
+              ],
+              [
+                "Tasa de tarifa efectiva",
+                "Tarifas de cargo divididas por el volumen de cargo, multiplicadas por 100."
+              ],
+              [
+                "Otras tarifas",
+                "Suma la tarifa en las filas sin cargos por separado para que las disputas, ajustes y complementos no se oculten dentro de la tarifa de la tarjeta."
+              ]
+            ]
+          }
+        },
+        {
+          "type": "sección",
+          "heading": "Paso 4: encuentre qué está haciendo subir la tasa",
+          "bullets": [
+            "Las tarjetas internacionales y transfronterizas pueden agregar un recargo significativo a los cargos normales.",
+            "Las transacciones pequeñas pueden tener una tasa efectiva muy alta porque la tarifa fija de 30 centavos domina el pago.",
+            "Las grandes facturas con tarjeta B2B pueden resultar más económicas mediante ACH o transferencia bancaria si los clientes están dispuestos a utilizarla.",
+            "Los reembolsos pueden perder margen porque Stripe generalmente no devuelve la tarifa de procesamiento original.",
+            "Las transacciones únicas con tarifas altas pueden revelar problemas de combinación de tarjetas, disputas, radar o clasificación que vale la pena revisar."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Paso 5: compare el resultado",
+          "paragraphs": [
+            "Una tasa efectiva del 4,5% no es automáticamente buena o mala. Depende de tu mezcla. Una empresa SaaS exclusiva de EE. UU. con mayores pagos con tarjetas nacionales normalmente debería verse diferente de una empresa global que vende suscripciones de bajo costo a clientes en muchos países.",
+            "Es por eso que un informe útil no debería decir sólo \"su tasa es del 4,5%\". Debería responder: ¿es esto normal para esta mezcla, qué lo impulsa y qué debo mirar primero?"
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Cómo Fee Auditor automatiza la auditoría",
+          "paragraphs": [
+            "Fee Auditor sigue el enfoque CSV. Usted exporta las transacciones de saldo detalladas CSV, las carga y obtiene un informe que muestra la tasa de tarifa efectiva real, el veredicto de referencia, los principales impulsores de las tarifas, la fuga de reembolsos, los cargos con tarifas altas, las tendencias mensuales y las oportunidades de ahorro.",
+            "No se conecta a su cuenta Stripe ni solicita acceso a OAuth. El CSV sin formato se analiza para su análisis y no se almacena como un archivo sin formato; se conserva un resultado derivado para que pueda volver a abrir el enlace. Durante la versión beta promocional, el acceso a los informes completos puede ser gratuito hasta por 30 días; después de la versión beta, el acceso sigue la Política de privacidad (vista previa corta no paga versus desbloqueo pago)."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "¿Puedo calcular las tarifas de Stripe manualmente desde CSV?",
+          "answer": "Sí. Filtre las filas de cargos, el monto de la suma, la tarifa de la suma en esas mismas filas y luego divida las tarifas por volumen. Para un análisis más profundo, agrupe por mes, tamaño de transacción, filas de reembolso y valores atípicos de tarifas altas."
+        },
+        {
+          "question": "¿Necesito conectar mi cuenta Stripe para usar Fee Auditor?",
+          "answer": "No. Fee Auditor utiliza Stripe transacciones de saldo exportadas CSV. No solicita Stripe OAuth ni acceso API. El tiempo que el enlace de su informe permanece disponible depende del modo beta o estándar; consulte nuestra Política de privacidad."
+        }
+      ],
+      "related": [
+        {
+          "href": "/stripe-balance-csv",
+          "title": "Paso a paso Stripe Balanza CSV guía de exportación"
+        },
+        {
+          "href": "/blog/stripe-blended-rate-calculator",
+          "title": "Stripe calculadora de tasa combinada"
+        },
+        {
+          "href": "/blog/stripe-fees-small-transactions",
+          "title": "Stripe tarifas para transacciones pequeñas"
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe informa documentación"
+        },
+        {
+          "href": "https://docs.stripe.com/connect/oauth-reference",
+          "title": "Stripe Conectar referencia OAuth"
+        }
+      ]
+    },
+    "the-stripe-data-you-share-with-analytics-tools": {
+      "metaTitle": "Los datos Stripe que comparte con cada herramienta de análisis que conecta",
+      "metaDescription": "Una lista de verificación práctica para fundadores que conectan Stripe herramientas de análisis: datos de clientes, pagos, suscripciones, pagos, disputas, políticas de privacidad, retención y alternativas.",
+      "title": "Los datos Stripe que comparte con cada herramienta de análisis que conecta",
+      "shortTitle": "Los datos Stripe que comparte con las herramientas de análisis",
+      "readTime": "8 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-05-16",
+      "intro": [
+        "Los fundadores conectan Stripe con herramientas de análisis por buenas razones: MRR, abandono, cohortes, pagos fallidos, previsión de ingresos y segmentación de clientes. Esas ideas pueden ser valiosas.",
+        "Pero cada conexión también crea una relación de intercambio de datos. Dependiendo de la herramienta y los permisos, es posible que esté compartiendo registros de clientes, transacciones, facturas, suscripciones, reembolsos, historial de pagos y datos de disputas. Esto no es automáticamente incorrecto, pero debería ser intencional."
+      ],
+      "sections": [
+        {
+          "type": "sección",
+          "heading": "Lo que suelen necesitar las herramientas de análisis",
+          "paragraphs": [
+            "Las herramientas de análisis de ingresos suelen necesitar más de un total. Para calcular el MRR, la deserción, el valor de vida del cliente, los reembolsos, los ingresos de expansión y las cohortes, necesitan un contexto a nivel de transacción y de cliente."
+          ],
+          "bullets": [
+            "Identificadores de clientes y campos de contacto para informes a nivel de cuenta.",
+            "Suscripciones, precios, facturas, cupones y estado de facturas para métricas de ingresos recurrentes.",
+            "Cargos, reembolsos, disputas y fallas de pago para informes de ingresos y riesgos.",
+            "Saldo de transacciones y pagos para vistas de conciliación y flujo de efectivo."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "El riesgo acumulativo de muchas conexiones",
+          "paragraphs": [
+            "Una herramienta confiable puede ser razonable. Cinco herramientas con acceso Stripe superpuesto representan una superficie mayor. Cada proveedor tiene su propia infraestructura, empleados, registros, copias de seguridad, subprocesadores y política de retención de datos.",
+            "Por eso la pregunta no es \"¿Son malas las herramientas de análisis?\" La mejor pregunta es: \"¿Qué herramientas necesitan acceso en vivo, cuáles sólo necesitan instantáneas y cuáles deben eliminarse?\""
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Una lista de verificación del fundador antes de hacer clic en conectar",
+          "bullets": [
+            "¿Qué datos Stripe exactos necesita la herramienta para ofrecer la función que deseo?",
+            "¿Puedo obtener la respuesta a partir de una exportación CSV en lugar de un acceso API en vivo?",
+            "¿El proveedor almacena datos sin procesar a nivel de transacción o solo métricas derivadas?",
+            "¿Cuánto tiempo se conservan los datos después de desconectarme?",
+            "¿Puedo revocar el acceso fácilmente desde Stripe Dashboard?",
+            "¿La política de privacidad menciona subprocesadores, manejo de violaciones y eliminación de datos?"
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Cuando los análisis en vivo valen la pena",
+          "paragraphs": [
+            "Si dirige un negocio de suscripción maduro y necesita métricas diarias, automatización del ciclo de vida o alertas en tiempo real, una plataforma de análisis conectada puede ser la compensación adecuada. La cuestión no es evitar todas las integraciones. El punto es hacer coincidir el nivel de acceso con el trabajo."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Cuando una auditoría CSV es suficiente",
+          "paragraphs": [
+            "Si la pregunta es periódica y retrospectiva, por ejemplo, \"¿Cuál fue mi tarifa real de Stripe el último trimestre?\" - una exportación CSV suele ser suficiente. Puede analizar el período exacto que le interesa sin otorgarle a un proveedor acceso continuo a su cuenta Stripe.",
+            "Fee Auditor está diseñado para ese caso de uso. No intenta reemplazar los análisis de suscripción en vivo. Es una herramienta de auditoría enfocada en la visibilidad de las tarifas Stripe, el contexto de referencia, la fuga de tarifas de reembolso y los factores determinantes de las tarifas a nivel de transacción."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "¿Debo evitar herramientas como Baremetrics o ChartMogul?",
+          "answer": "No necesariamente. Resuelven problemas reales de análisis de ingresos. El punto es comprender qué datos comparte, por qué la herramienta los necesita y si un flujo de trabajo de menor acceso sería suficiente para la tarea específica."
+        },
+        {
+          "question": "¿Cuál es una forma de menor acceso para analizar las tarifas de Stripe?",
+          "answer": "Exporte una Stripe Transacciones de saldo CSV detalladas y analice esa instantánea. Esto evita el acceso persistente a la cuenta Stripe y al mismo tiempo proporciona suficientes datos para el análisis de tarifas."
+        }
+      ],
+      "related": [
+        {
+          "href": "/blog/why-i-wont-connect-my-stripe-account-to-third-party-tools",
+          "title": "Por qué no conectaría mi cuenta Stripe a todas las herramientas"
+        },
+        {
+          "href": "/blog/what-does-stripe-oauth-read-only-access-actually-see",
+          "title": "Qué puede ver el acceso de solo lectura Stripe"
+        },
+        {
+          "href": "/blog/how-to-audit-stripe-fees-without-connecting-your-account",
+          "title": "Audite las tarifas de Stripe sin conectar su cuenta"
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/stripe-apps/reference/permissions",
+          "title": "Stripe Referencia de permisos de aplicaciones"
+        },
+        {
+          "href": "https://docs.stripe.com/connect/oauth-reference",
+          "title": "Stripe Conectar referencia OAuth"
+        }
+      ]
+    },
+    "csv-vs-api-stripe-fee-analysis": {
+      "metaTitle": "CSV vs API: dos formas de analizar las tarifas de Stripe y cuándo cada una tiene sentido",
+      "metaDescription": "Una comparación equilibrada de las exportaciones CSV y las integraciones API Stripe para el análisis de tarifas, incluida la privacidad, la automatización, la precisión, los puntos de referencia y cuándo utilizar cada enfoque.",
+      "title": "CSV vs API: dos formas de analizar las tarifas de Stripe y cuándo cada una tiene sentido",
+      "shortTitle": "CSV vs API para Stripe Análisis de tarifas",
+      "readTime": "8 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-05-16",
+      "intro": [
+        "Hay dos formas honestas de analizar las tarifas de Stripe: conectarse a la API o exportar datos de CSV y analizar una instantánea. Ninguno de los dos es universalmente mejor. Optimizan para diferentes cosas.",
+        "El enfoque API gana cuando se necesita automatización y paneles de control en vivo. El enfoque CSV gana cuando necesita una auditoría enfocada, un flujo de trabajo de menor acceso y una respuesta clara sin mantener una conexión persistente con Stripe."
+      ],
+      "sections": [
+        {
+          "type": "sección",
+          "heading": "Comparación rápida",
+          "table": {
+            "headers": [
+              "Pregunta",
+              "enfoque CSV",
+              "Enfoque API"
+            ],
+            "rows": [
+              [
+                "¿Necesita acceso en vivo a Stripe?",
+                "No",
+                "Yes"
+              ],
+              [
+                "Lo mejor para",
+                "Auditorías de tarifas mensuales o trimestrales",
+                "Paneles de control continuos y automatización"
+              ],
+              [
+                "Esfuerzo de configuración",
+                "Exportar y cargar un archivo",
+                "Conecte la aplicación o cree la integración"
+              ],
+              [
+                "Superficie de privacidad",
+                "Instantánea del período seleccionado",
+                "Acceso persistente a la cuenta dependiendo de los permisos"
+              ],
+              [
+                "Informes en tiempo real",
+                "No",
+                "Yes"
+              ],
+              [
+                "Bueno para fugas de índices de referencia y tarifas",
+                "Yes",
+                "Sí, si se implementa cuidadosamente"
+              ]
+            ]
+          }
+        },
+        {
+          "type": "sección",
+          "heading": "Cuando la API tiene sentido",
+          "bullets": [
+            "Necesita paneles de control diarios o en tiempo real para ingresos, abandono, pagos fallidos o suscripciones.",
+            "Necesita alertas y automatización que reaccionen a eventos Stripe.",
+            "Tiene un equipo interno que puede administrar el acceso con privilegios mínimos, el registro, la eliminación y la revisión de proveedores.",
+            "Se siente cómodo con que un servicio de terceros tenga acceso continuo a los datos Stripe que necesita."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Cuando CSV tiene sentido",
+          "bullets": [
+            "Quiere responder una pregunta periódica como \"¿Cuál fue mi tasa de tarifa efectiva real el último trimestre?\"",
+            "No desea conectar su cuenta real Stripe a otro proveedor.",
+            "Sólo necesita un período de tiempo seleccionado, no una encuesta continua.",
+            "Quiere un flujo de trabajo basado en archivos que pueda explicar a finanzas, operaciones o a un cofundador."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "La precisión depende de los datos de origen.",
+          "paragraphs": [
+            "Para el análisis de tarifas, las Transacciones de saldo detalladas CSV son una fuente sólida porque contiene montos a nivel de transacción, tarifas, montos netos, tipos, monedas y marcas de tiempo. Esto es suficiente para calcular la tasa de cargo, otras tarifas, las tendencias mensuales, los principales impulsores y el impacto de la tarifa de reembolso.",
+            "Una integración de API puede acceder a datos similares o más completos, pero aún tiene que tomar las mismas decisiones de modelado: qué filas cuentan como volumen de cargos, qué tarifas están separadas, cómo se tratan los reembolsos y cómo clasificar los cargos con tarifas elevadas."
+          ]
+        },
+        {
+          "type": "sección",
+          "heading": "Por qué Fee Auditor usa CSV primero",
+          "paragraphs": [
+            "Fee Auditor está diseñado para un solo trabajo: ayudar a los fundadores a comprender sus tarifas reales de Stripe sin otorgar acceso a la cuenta. Para ese trabajo, CSV es el punto de partida correcto. Es explícito, limitado al período exportado y fácil de revocar porque no existe ninguna conexión para revocar.",
+            "El resultado no es un conjunto de análisis de ingresos en vivo. Es una auditoría de tarifas enfocada: tasa efectiva real, veredicto de referencia, fuga de reembolsos, impulsores de tarifas principales, cargos de tarifas altas, tendencias mensuales y oportunidades de ahorro a partir de los datos de su Saldo exportado. Durante la versión beta promocional, las cargas pueden recibir acceso completo al informe sin pago por hasta 30 días; después de la versión beta, el acceso sigue la Política de privacidad (vista previa corta no paga versus desbloqueo pago único)."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "¿Es CSV menos precisa que la API Stripe?",
+          "answer": "No necesariamente. Para el análisis de tarifas retrospectivo, una Transacciones de saldo detalladas CSV puede contener los campos exactos necesarios. El acceso a la API es más útil cuando necesita informes en vivo o automatizados."
+        },
+        {
+          "question": "¿Puede Fee Auditor reemplazar una plataforma de análisis de suscripciones?",
+          "answer": "No. Fee Auditor se centra en el análisis de tarifas de Stripe, no en el análisis completo de ingresos. Está diseñado para auditorías, puntos de referencia, fugas de reembolsos y visibilidad de los controladores de tarifas de las exportaciones CSV."
+        }
+      ],
+      "related": [
+        {
+          "href": "/blog/how-to-audit-stripe-fees-without-connecting-your-account",
+          "title": "Cómo auditar las tarifas de Stripe sin conectar su cuenta"
+        },
+        {
+          "href": "/stripe-fee-calculator",
+          "title": "Stripe calculadora de tasa de tarifa efectiva"
+        },
+        {
+          "href": "/analyze?sample=1",
+          "title": "Pruebe un informe de muestra Fee Auditor"
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe informa documentación"
+        },
+        {
+          "href": "https://docs.stripe.com/connect/oauth-reference",
+          "title": "Stripe Conectar referencia OAuth"
+        }
+      ]
+    }
+  }
+}

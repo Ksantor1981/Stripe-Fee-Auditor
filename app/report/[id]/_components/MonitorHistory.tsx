@@ -1,7 +1,10 @@
+"use client";
+
 import type { MonitorHistoryPoint } from "@/lib/db";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { fmt$, fmtPct } from "@/lib/format";
 import { compareMonitorHistory } from "@/lib/monitor-history";
+import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 function periodLabel(point: MonitorHistoryPoint): string {
   if (!point.periodStart) return new Date(point.createdAt).toLocaleDateString("en-US");
@@ -28,6 +31,7 @@ export function MonitorHistory({
   current: AnalysisResult;
   history: MonitorHistoryPoint[];
 }) {
+  const { t, tc } = useReportTranslations();
   const comparison = compareMonitorHistory(current, history);
   const points = [comparison.current, ...history].slice(0, 6);
 
@@ -35,42 +39,41 @@ export function MonitorHistory({
     <section className="mb-6 rounded-2xl border border-emerald-100 bg-white p-5 shadow-sm">
       <div>
         <p className="text-xs font-semibold uppercase tracking-widest text-emerald-700">
-          Fee Monitor history
+          {t("monitorHistory.eyebrow")}
         </p>
-        <h2 className="mt-1 text-lg font-bold text-slate-950">Rate drift across your uploads</h2>
+        <h2 className="mt-1 text-lg font-bold text-slate-950">{t("monitorHistory.title")}</h2>
         <p className="mt-1 text-xs leading-relaxed text-slate-500">
-          Private summary history linked to the subscriber email. Active Monitor reports are retained for up to 13 months.
+          {t("monitorHistory.subtitle")}
         </p>
       </div>
 
       {!comparison.prior ? (
         <div className="mt-4 rounded-xl bg-emerald-50 px-4 py-4 text-sm text-emerald-900">
-          This is your baseline report. Upload the next period with the same subscriber email to unlock
-          month-over-month rate and fee deltas.
+          {t("monitorHistory.baselineMessage")}
         </div>
       ) : (
         <>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-xl bg-slate-50 px-4 py-3">
-              <p className="text-xs text-slate-500">Processing-rate drift</p>
+              <p className="text-xs text-slate-500">{t("monitorHistory.processingRateDrift")}</p>
               <p className={`mt-1 text-base font-bold ${deltaTone(comparison.chargeRateDeltaBps)}`}>
                 {deltaLabel(comparison.chargeRateDeltaBps, " bps")}
               </p>
             </div>
             <div className="rounded-xl bg-slate-50 px-4 py-3">
-              <p className="text-xs text-slate-500">All-in-rate drift</p>
+              <p className="text-xs text-slate-500">{t("monitorHistory.allInRateDrift")}</p>
               <p className={`mt-1 text-base font-bold ${deltaTone(comparison.allInRateDeltaBps)}`}>
                 {deltaLabel(comparison.allInRateDeltaBps, " bps")}
               </p>
             </div>
             <div className="rounded-xl bg-slate-50 px-4 py-3">
-              <p className="text-xs text-slate-500">Fee change</p>
+              <p className="text-xs text-slate-500">{t("monitorHistory.feeChange")}</p>
               <p className={`mt-1 text-base font-bold ${deltaTone(comparison.feeDelta)}`}>
                 {comparison.feeDelta === null ? "—" : `${comparison.feeDelta > 0 ? "+" : ""}${fmt$(comparison.feeDelta)}`}
               </p>
             </div>
             <div className="rounded-xl bg-slate-50 px-4 py-3">
-              <p className="text-xs text-slate-500">Volume change</p>
+              <p className="text-xs text-slate-500">{t("monitorHistory.volumeChange")}</p>
               <p className={`mt-1 text-base font-bold ${deltaTone(comparison.volumeDeltaPct, true)}`}>
                 {deltaLabel(comparison.volumeDeltaPct, "%")}
               </p>
@@ -78,7 +81,7 @@ export function MonitorHistory({
           </div>
 
           <p className="mt-3 text-xs text-slate-500">
-            Deltas compare whole uploaded periods. Use similar date ranges for a clean month-over-month comparison.
+            {t("monitorHistory.deltaFootnote")}
           </p>
         </>
       )}
@@ -87,18 +90,18 @@ export function MonitorHistory({
         <table className="w-full min-w-[620px] text-left text-xs">
           <thead className="bg-slate-50 text-slate-500">
             <tr>
-              <th className="px-3 py-2 font-semibold">Period</th>
-              <th className="px-3 py-2 font-semibold">Volume</th>
-              <th className="px-3 py-2 font-semibold">Processing rate</th>
-              <th className="px-3 py-2 font-semibold">All-in rate</th>
-              <th className="px-3 py-2 font-semibold">Fees</th>
-              <th className="px-3 py-2 font-semibold">Grade</th>
+              <th className="px-3 py-2 font-semibold">{t("monitorHistory.period")}</th>
+              <th className="px-3 py-2 font-semibold">{tc("volume")}</th>
+              <th className="px-3 py-2 font-semibold">{t("monitorHistory.processingRate")}</th>
+              <th className="px-3 py-2 font-semibold">{t("monitorHistory.allInRate")}</th>
+              <th className="px-3 py-2 font-semibold">{tc("fees")}</th>
+              <th className="px-3 py-2 font-semibold">{t("monitorHistory.grade")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 text-slate-700">
             {points.map((point, index) => (
               <tr key={index} className={index === 0 ? "bg-emerald-50/50 font-semibold" : ""}>
-                <td className="px-3 py-2">{index === 0 ? "Current · " : ""}{periodLabel(point)}</td>
+                <td className="px-3 py-2">{index === 0 ? t("monitorHistory.currentPrefix") : ""}{periodLabel(point)}</td>
                 <td className="px-3 py-2">{fmt$(point.chargeVolume)}</td>
                 <td className="px-3 py-2">{fmtPct(point.chargeRate)}</td>
                 <td className="px-3 py-2">{fmtPct(point.allInRate)}</td>

@@ -5,11 +5,11 @@ import { fmt$ } from "@/lib/format";
 import { resolvePaywallImpact } from "@/lib/paywall-impact";
 import type { FreeDiagnosis } from "@/lib/free-diagnosis";
 import { PaywallBanner } from "./PaywallBanner";
+import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 interface Props {
   reportId: string;
   savings?: SavingsOpportunity;
-  /** Fallback when no savings opportunity — annual fee run-rate for context. */
   yearlyFeesAtThisRate?: number;
   highFeeCount?: number;
   chargeRate?: number;
@@ -18,10 +18,6 @@ interface Props {
   diagnosis?: FreeDiagnosis;
 }
 
-/**
- * Money-first free-preview block: lead with directional annual impact, then unlock CTA.
- * Avoids claiming "overpaying" — uses potential / directional language only.
- */
 export function MoneyFirstImpact({
   reportId,
   savings,
@@ -32,6 +28,7 @@ export function MoneyFirstImpact({
   monthCount,
   diagnosis,
 }: Props) {
+  const { t, tc } = useReportTranslations();
   const impact = resolvePaywallImpact({
     savingsAnnual: savings?.annualSavings,
     savingsTitle: savings?.title,
@@ -41,16 +38,15 @@ export function MoneyFirstImpact({
     yearlyFeesAtThisRate,
   });
 
-  const headline =
-    diagnosis
-      ? "We found a concrete fee driver"
-      : impact?.source === "savings"
-      ? "Potential annual impact found"
+  const headline = diagnosis
+    ? t("moneyFirstImpact.headlineDiagnosis")
+    : impact?.source === "savings"
+      ? t("moneyFirstImpact.headlineSavings")
       : impact?.source === "rate_gap"
-        ? "Rate gap vs advertised pricing"
+        ? t("moneyFirstImpact.headlineRateGap")
         : impact
-          ? "Your fee run-rate"
-          : "Your fee snapshot";
+          ? t("moneyFirstImpact.headlineRunrate")
+          : t("moneyFirstImpact.headlineSnapshot");
 
   return (
     <div className="space-y-4">
@@ -63,8 +59,7 @@ export function MoneyFirstImpact({
               {diagnosis.title}
             </p>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-gray-700">
-              {diagnosis.body} Unlock the full report to see every affected row, the caveats, and
-              what to inspect first.
+              {t("moneyFirstImpact.diagnosisUnlock", { body: diagnosis.body })}
             </p>
             {diagnosis.disclaimer && (
               <p className="mt-3 text-xs leading-relaxed text-emerald-900/70">
@@ -75,48 +70,40 @@ export function MoneyFirstImpact({
         ) : impact ? (
           <>
             <p className="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              {impact.source === "fee_runrate" ? "~" : "up to ~"}
+              {impact.source === "fee_runrate" ? t("moneyFirstImpact.approxPrefix") : t("moneyFirstImpact.upToPrefix")}
               {fmt$(impact.amount)}
-              <span className="text-xl font-bold text-gray-500">/yr</span>
+              <span className="text-xl font-bold text-gray-500">{tc("yearSuffix")}</span>
             </p>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-gray-700">
               {impact.source === "savings" ? (
-                <>
-                  Your first directional opportunity appears to be{" "}
-                  <span className="font-semibold text-gray-900">{impact.label}</span>
-                  {savings?.confidence ? (
-                    <span className="text-gray-500"> · {savings.confidence} confidence</span>
-                  ) : null}
-                  . Unlock the full report to see the affected rows, caveats, and next actions.
-                </>
+                t("moneyFirstImpact.savingsBody", {
+                  label: impact.label ?? "",
+                  confidence: savings?.confidence ? ` · ${tc("confidence", { level: savings.confidence })}` : "",
+                })
               ) : impact.source === "rate_gap" ? (
-                <>
-                  Your processing rate sits {impact.label}. Unlock the full report to see which
-                  charges and fee drivers create that gap — and what to check in Stripe.
-                </>
+                t("moneyFirstImpact.rateGapBody", { label: impact.label ?? "" })
               ) : (
-                <>
-                  You&apos;re on track for ~{fmt$(impact.amount)}/yr in Stripe fees at this rate.
-                  Unlock to see high-fee rows, drivers, and directional savings actions.
-                </>
+                t("moneyFirstImpact.runrateBody", { amount: fmt$(impact.amount) })
               )}
             </p>
           </>
         ) : (
           <>
             <p className="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              Full details gated
+              {t("moneyFirstImpact.gatedTitle")}
             </p>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-gray-700">
               {highFeeCount > 0
-                ? `${highFeeCount} high-fee charge${highFeeCount === 1 ? "" : "s"} cleared above your baseline. Unlock to see why and what to inspect.`
-                : "Unlock the full report for high-fee rows, savings opportunities with caveats, and exportable detail."}
+                ? highFeeCount === 1
+                  ? t("moneyFirstImpact.gatedHighFeeSingular", { count: highFeeCount })
+                  : t("moneyFirstImpact.gatedHighFeePlural", { count: highFeeCount })
+                : t("moneyFirstImpact.gatedDefault")}
             </p>
           </>
         )}
 
         <p className="mt-3 text-xs leading-relaxed text-emerald-900/70">
-          Estimates are directional and calculated from this upload — not guaranteed savings.
+          {t("moneyFirstImpact.disclaimer")}
         </p>
       </div>
 

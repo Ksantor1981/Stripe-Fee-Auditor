@@ -1,7 +1,18 @@
-import { redirect } from "next/navigation";
-import { PILLAR_EFFECTIVE_RATE_PATH } from "../_data/blogIndex";
+import type { Metadata } from "next";
+import { blogPageMetadata } from "@/lib/i18n/page-helpers";
+import { BlogArticleContent } from "@/components/marketing/BlogArticleContent";
 
-/** Legacy URL — consolidated into SEO pillar to avoid duplicate intent. */
-export default function LegacyEffectiveRateBlogRedirect() {
-  redirect(PILLAR_EFFECTIVE_RATE_PATH);
+const pagePath = "/blog/why-stripe-effective-rate-higher-than-2-9-percent";
+const contentKey = "whyStripeEffectiveRateHigherThan29Percent";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return blogPageMetadata(contentKey, pagePath);
+}
+
+export default function Page() {
+  return (
+    <main className="min-h-screen bg-white">
+      <BlogArticleContent contentKey={contentKey} path={pagePath} />
+    </main>
+  );
 }

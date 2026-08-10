@@ -1,0 +1,3085 @@
+{
+  "seo": {
+    "stripeFeesReport": {
+      "metaTitle": "Stripe Fees Report: What to Include Beyond Dashboard Totals",
+      "metaDescription": "A useful Stripe fees report shows processing rate, all-in cost, refund drag, international uplift, and high-fee rows — not just a CSV sum. Export Balance transactions, then audit.",
+      "breadcrumb": "Stripe fees report",
+      "eyebrow": "Stripe fees report",
+      "heroTitle": "Stripe Fees Report: What to Include Beyond Dashboard Totals",
+      "heroDescription": "A useful Stripe fees report shows processing rate, all-in cost, refund drag, international uplift, and high-fee rows — not just a CSV sum. Export Balance transactions, then audit.",
+      "dashboardTitle": "Dashboard export",
+      "dashboardItems": [
+        "Fee rows per Balance transaction",
+        "Payout totals and net amounts",
+        "Raw export for spreadsheets"
+      ],
+      "reportAddsTitle": "Fees report should add",
+      "reportAddsItems": [
+        {
+          "title": "Processing rate vs all-in cost",
+          "body": "Separate card processing from refunds, disputes, Radar, Billing, and FX lines so the headline 2.9% is not mistaken for total Stripe drag."
+        },
+        {
+          "title": "Ranked fee drivers",
+          "body": "International cards, micro-transactions, refund fee leakage, and one-off spikes — with dollar impact, not only percentages."
+        },
+        {
+          "title": "High-fee transaction evidence",
+          "body": "Row-level charges you can match back to Stripe Dashboard, useful for finance reviews and CFO client packs."
+        },
+        {
+          "title": "Directional savings checks",
+          "body": "What to verify first (billing cadence, local methods, interchange-plus eligibility) — estimates, not guaranteed savings."
+        }
+      ],
+      "stepsTitle": "Build the report in three steps",
+      "step1Label": "1. Export",
+      "step1BeforeLink": "",
+      "step1LinkText": "Stripe Balance CSV",
+      "step1LinkHref": "/stripe-balance-csv",
+      "step1AfterLink": " (itemized, 1–3 months).",
+      "step2Label": "2. Estimate",
+      "step2BeforeLink": "optional ",
+      "step2LinkText": "published-rate calculator",
+      "step2LinkHref": "/stripe-fee-calculator",
+      "step2AfterLink": " to set expectations.",
+      "step3Label": "3. Audit",
+      "step3Body": "upload the CSV for processing vs all-in rate, drivers, and high-fee rows.",
+      "faqTitle": "Common questions",
+      "faq": [
+        {
+          "q": "Is a Stripe fees report the same as the Balance CSV?",
+          "a": "The CSV is the source. A fees report is the interpreted view: effective rate, drivers, and actionable rows — without rebuilding pivot tables every month."
+        },
+        {
+          "q": "Where do I export Stripe transactions for a fee report?",
+          "a": "Stripe Dashboard → Reports → Balance → Balance change from activity → Itemized export. See the step-by-step Balance CSV guide linked below."
+        },
+        {
+          "q": "Can Stripe Dashboard show my effective rate?",
+          "a": "You can sum fees manually, but Dashboard does not rank drivers or separate recurring leakage from one-off spikes the way a focused fee audit does."
+        }
+      ],
+      "ctaTitle": "Turn your export into a fees report",
+      "ctaDescription": "Free preview from your Balance CSV — full report adds high-fee rows, savings checks, and exports.",
+      "ctaPrimary": "Upload Balance CSV →"
+    },
+    "stripeFeeCalculator": {
+      "metaTitle": "Stripe Fee Calculator: Estimate Fees, Then Verify Your Real Rate",
+      "metaDescription": "Free Stripe fee calculator for monthly volume, average charge size, and reverse fee math. Estimate costs, then verify your real effective rate from a Balance CSV.",
+      "breadcrumb": "Stripe Fee Calculator: Estimate Fees, Then Verify Your Real Rate",
+      "eyebrow": "Stripe fees calculator",
+      "heroTitle": "Stripe Fee Calculator: Estimate Fees, Then Verify Your Real Rate",
+      "heroDescription": "Estimate monthly Stripe fees, effective rate, and how much to charge if you want to receive a target amount after fees. Then compare that estimate with your actual effective rate from a Balance CSV, where international cards, refunds, small charges, and add-ons can push the real number higher.",
+      "sections": [
+        {
+          "type": "note",
+          "body": "Estimates below use Stripe's published rates by region (2025–2026). Your account may differ if you have custom or interchange-plus pricing — confirm in Dashboard → Settings → Plans and fees. Add-ons (Billing 0.7%, disputes, refunds) are not included in the card-fee math."
+        },
+        {
+          "type": "audience",
+          "body": "Stripe Fee Auditor is built for SaaS, ecommerce, subscription, and marketplace teams that need a Stripe fee calculator based on actual Balance CSV exports instead of averages."
+        },
+        {
+          "type": "rateCards",
+          "heading": "Why the difference matters",
+          "items": [
+            {
+              "label": "Published rate",
+              "rate": "2.9%",
+              "note": "Stripe's standard US rate",
+              "highlight": false
+            },
+            {
+              "label": "Typical effective rate",
+              "rate": "3.1–3.4%",
+              "note": "After international cards + refunds",
+              "highlight": false
+            },
+            {
+              "label": "With high intl. volume",
+              "rate": "3.5–4.2%",
+              "note": "30%+ international customers",
+              "highlight": true
+            }
+          ]
+        },
+        {
+          "type": "example",
+          "body": "At $50,000/month in revenue, a 3.3% effective rate vs 2.9% published rate is $200/month extra — $2,400/year. Knowing what's driving it tells you what to actually do about it."
+        },
+        {
+          "type": "comparison",
+          "heading": "Estimator vs real data analysis",
+          "left": {
+            "title": "Fee Estimator",
+            "items": [
+              "Enter a transaction amount",
+              "Get Stripe's published fee",
+              "Assumes standard rate",
+              "No history or trends"
+            ]
+          },
+          "right": {
+            "title": "Stripe-Gebührenprüfer",
+            "items": [
+              "Upload your real Balance CSV",
+              "Actual rate from real transactions",
+              "Monthly trend and MoM change",
+              "Specific transactions driving costs"
+            ]
+          }
+        },
+        {
+          "type": "features",
+          "heading": "What you get from the analysis",
+          "items": [
+            {
+              "title": "Effective rate for the period",
+              "description": "Your actual fee rate across all charges — not an estimate based on inputs."
+            },
+            {
+              "title": "Month-over-month change",
+              "description": "See if your rate went up, down, or stayed flat. In dollars, not just percentages."
+            },
+            {
+              "title": "Top fee drivers",
+              "description": "Which specific transactions had the highest fee rate and why (international card, micro-transaction, etc)."
+            },
+            {
+              "title": "Charge fees vs other fees",
+              "description": "Processing fees separated from Radar, dispute fees, and refund-related costs."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "How much does Stripe charge per transaction?",
+          "a": "For many US online card payments, Stripe's published rate is 2.9% + $0.30 per successful charge. On a $100 domestic card payment that is about $3.20 (3.2% effective). International cards, currency conversion, refunds, and small tickets can push the blended rate higher — use the calculator above for your mix, then upload a Balance CSV to see your real rate."
+        },
+        {
+          "q": "Is this calculator using my actual Stripe rates?",
+          "a": "No. This page uses Stripe's published list pricing by region. Custom or interchange-plus accounts may differ — check Dashboard → Settings → Plans and fees. Upload a Balance CSV to see your real effective rate."
+        },
+        {
+          "q": "Does Stripe return fees when I refund a payment?",
+          "a": "No. Per Stripe's pricing FAQ, when you issue a refund Stripe does not return the processing fees, Connect fees, or currency conversion fees from the original transaction."
+        },
+        {
+          "q": "What do Stripe disputes cost?",
+          "a": "Stripe charges a $15 fee when a dispute is received (refunded if you win). Smart Disputes, when enabled, adds 30% of the disputed amount when you win — on top of card processing fees."
+        },
+        {
+          "q": "Does Stripe Billing add fees on top of card processing?",
+          "a": "Yes. Stripe Billing is 0.7% of billing volume on top of standard card processing fees. See stripe.com/billing/pricing."
+        },
+        {
+          "q": "Is this a Stripe fee estimator or a real calculator?",
+          "a": "The on-page Stripe fees calculator estimates fees from public pricing. Stripe Fee Auditor calculates your real effective Stripe fee rate from your Balance Transactions CSV, so you can compare the estimate with actual numbers."
+        },
+        {
+          "q": "How do I estimate monthly Stripe fees?",
+          "a": "Enter your monthly card volume and average charge amount to estimate monthly fees. Use the reverse calculator when you know the net amount you want to receive and need the gross amount to charge."
+        },
+        {
+          "q": "What file do I need to calculate my Stripe effective fee rate?",
+          "a": "You need the Stripe Balance Transactions CSV export. It includes the transaction amount, fee, net amount, currency, type, and timestamp needed for an accurate fee analysis."
+        },
+        {
+          "q": "Why can my effective Stripe rate be higher than the published rate?",
+          "a": "International cards, currency conversion, refunds (fees not returned), Stripe Billing (0.7%), Radar, disputes ($15 + Smart Disputes 30% on win), and micro-transactions can all push your blended effective rate above Stripe's standard published rate."
+        }
+      ],
+      "cta": {
+        "title": "Done estimating? This was only published pricing",
+        "description": "Your real effective rate depends on card mix, refunds, and FX in your Balance CSV. Run the free sample first, or upload your own file — no OAuth.",
+        "primaryLabel": "Upload my Balance CSV →"
+      }
+    },
+    "stripeBalanceCsv": {
+      "metaTitle": "Export Stripe Balance CSV & Transactions | Fee Auditor",
+      "metaDescription": "Export Stripe Balance transactions (itemized CSV) in ~5 minutes: Dashboard → Reports → Balance → Export. Check effective rate, refund leakage, and international card mix.",
+      "breadcrumb": "Export Stripe Balance CSV & Transactions for Fee Audit",
+      "eyebrow": "Quick export guide · ~5 minutes",
+      "heroTitle": "Export Stripe Balance CSV & Transactions for Fee Audit",
+      "heroDescription": "This guide is for Stripe users who want to understand their real processing costs: effective rate, payout differences, refund fee leakage, and international card mix. It is not for developers building data pipelines to Tableau, PostgreSQL, Qlik, Power BI, or JSON warehouses.",
+      "sections": [
+        {
+          "type": "badge",
+          "text": "Not for BI tools or data pipelines"
+        },
+        {
+          "type": "crossLink",
+          "text": "Looking for a broader Stripe data export path instead?",
+          "linkLabel": "Stripe exports for JSON, Tableau, Power BI, and PostgreSQL",
+          "linkHref": "/stripe-data-export"
+        },
+        {
+          "type": "steps",
+          "heading": "Export steps",
+          "steps": [
+            {
+              "number": "1",
+              "title": "Open Stripe Dashboard",
+              "body": "Go to dashboard.stripe.com and log in to your Stripe account."
+            },
+            {
+              "number": "2",
+              "title": "Click \"Reports\" in the left sidebar",
+              "body": "Find the Reports section in the left navigation menu. If you do not see it, look under \"Balance\" or use the Dashboard search."
+            },
+            {
+              "number": "3",
+              "title": "Select \"Balance\" → \"Balance transactions\"",
+              "body": "Choose \"Balance transactions\" instead of a summary report so the CSV includes one row per transaction with fee detail."
+            },
+            {
+              "number": "4",
+              "title": "Set your date range",
+              "body": "Choose at least one month of data. Three or more months is better for trend analysis and month-over-month comparison."
+            },
+            {
+              "number": "5",
+              "title": "Export as CSV",
+              "body": "Click Export, select CSV format, and download the Balance Transactions file."
+            }
+          ]
+        },
+        {
+          "type": "columns",
+          "heading": "Key columns in the file",
+          "columns": [
+            {
+              "name": "balance_transaction_id",
+              "description": "Unique balance transaction identifier"
+            },
+            {
+              "name": "reporting_category",
+              "description": "charge, refund, dispute, payout, fee, adjustment"
+            },
+            {
+              "name": "gross",
+              "description": "Gross transaction amount in normal currency units"
+            },
+            {
+              "name": "fee",
+              "description": "Stripe fee amount in normal currency units"
+            },
+            {
+              "name": "net",
+              "description": "Gross amount minus fees in normal currency units"
+            },
+            {
+              "name": "currency",
+              "description": "ISO 4217 currency code (usd, eur, gbp)"
+            },
+            {
+              "name": "created",
+              "description": "Transaction timestamp (created or created_utc)"
+            },
+            {
+              "name": "description",
+              "description": "Optional payment description or customer info"
+            }
+          ],
+          "footnote": "Stripe Dashboard Balance exports usually show amounts in normal currency units (for example, 49.00 USD). API-style cent columns are also accepted when you provide amount / fee / net."
+        }
+      ],
+      "faq": [
+        {
+          "q": "I do not see \"Balance transactions\" in Reports",
+          "a": "Try navigating to Reports -> Balance and look for an \"Export\" button in the top right. The UI varies slightly by account type. Some accounts see it under Payments -> All transactions."
+        },
+        {
+          "q": "What is the difference between Balance and Payout reports?",
+          "a": "Balance transactions include individual charges, refunds, and fees. Payout reports are grouped summaries of what Stripe sent to your bank. Use Balance transactions for fee analysis."
+        },
+        {
+          "q": "How much data should I export?",
+          "a": "Export at least one month of data. Three or more months gives better trend data and month-over-month comparison. Stripe Fee Auditor supports files up to 4MB."
+        }
+      ],
+      "cta": {
+        "title": "Got your CSV? Upload it now.",
+        "description": "Drop your Balance CSV and get your real effective rate, monthly breakdown, and top fee drivers, usually in under 30 seconds.",
+        "primaryLabel": "Analyze my CSV →",
+        "secondaryLabel": "See sample report →"
+      }
+    },
+    "whyHigher": {
+      "metaTitle": "Why Is My Stripe Effective Rate Higher Than Expected?",
+      "metaDescription": "Fee Auditor (feeauditor.com) — independent CSV tool, not affiliated with Stripe. See why effective rate and payout often run above 2.9% + $0.30: international cards, refund fees, FX, small tickets.",
+      "breadcrumb": "Why Is My Stripe Effective Rate Higher Than Expected?",
+      "eyebrow": "Fee Auditor · Independent fee education",
+      "heroTitle": "Why Is My Stripe Effective Rate Higher Than Expected?",
+      "heroDescription": "Stripe advertises 2.9% + $0.30. Your effective rate — and sometimes your payout vs volume — often lands at 3.2–3.8% because of international cards, refund fees that are not returned, FX, and small tickets. Here are the five drivers — with real numbers. Fee Auditor helps you check your own Balance CSV; we are not Stripe support.",
+      "sections": [
+        {
+          "type": "reasons",
+          "items": [
+            {
+              "number": "01",
+              "title": "International Cards",
+              "description": "When your customer's card is issued outside your country, Stripe adds a cross-border fee of +1.5%. If 20% of your customers are international, this alone adds ~0.3% to your effective rate.",
+              "example": "20% international customers × 1.5% = +0.30% on your effective rate"
+            },
+            {
+              "number": "02",
+              "title": "Currency Conversion",
+              "description": "If you charge in USD but your customer's bank settles in EUR or GBP, Stripe applies an FX markup on top of the base rate. This is separate from the cross-border fee and often invisible in the Dashboard.",
+              "example": "FX markup is embedded in the exchange rate — not shown as a separate line item"
+            },
+            {
+              "number": "03",
+              "title": "Refunds",
+              "description": "Per Stripe's pricing FAQ, when you issue a refund Stripe does not return the processing fees, Connect fees, or currency conversion fees from the original transaction. A 5% refund rate adds meaningful cost across large volumes.",
+              "example": "5% refund rate on $100k revenue = $145 in non-refundable fees"
+            },
+            {
+              "number": "04",
+              "title": "Disputes",
+              "description": "Each dispute carries a $15 received fee (refunded if you win). Smart Disputes adds 30% of the disputed amount when you win — on top of card processing.",
+              "example": "$100 disputed charge won with Smart Disputes: $15 fee refunded + $30 Smart Disputes fee"
+            },
+            {
+              "number": "05",
+              "title": "Stripe Radar",
+              "description": "If you use Radar for fraud protection beyond the basic included tier, there's an additional $0.02–$0.07 per transaction. This shows up as a separate line in your Balance report.",
+              "example": "1,000 transactions × $0.05 Radar fee = $50/month extra"
+            },
+            {
+              "number": "06",
+              "title": "Micro-Transactions",
+              "description": "On small charges, the fixed $0.30 component dominates. A $2.00 charge has an effective rate of 17.9% — this drags up your average significantly if you have many small payments.",
+              "example": "$2.00 charge: 2.9% ($0.06) + $0.30 = $0.36 total = 17.9% effective rate"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Why is my Stripe fee rate higher than 2.9%?",
+          "a": "Your effective Stripe fee rate can be higher than the published 2.9% + $0.30 because of international card fees, currency conversion, non-refundable fees on refunds, Radar charges, disputes, and small transactions where the fixed fee is a large share of the payment."
+        },
+        {
+          "q": "Does Stripe return processing fees when I refund a payment?",
+          "a": "No. Per Stripe's pricing FAQ, when you issue a refund Stripe does not return the processing fees, Connect fees, or currency conversion fees from the original transaction. This can increase your effective fee rate if your business has a meaningful refund rate."
+        },
+        {
+          "q": "What do Stripe disputes and Smart Disputes cost?",
+          "a": "Stripe charges a $15 fee when a dispute is received (refunded if you win). Smart Disputes, when enabled, adds 30% of the disputed amount when you win."
+        },
+        {
+          "q": "How can I calculate my real Stripe effective fee rate?",
+          "a": "Export your Stripe Balance Transactions CSV and divide total Stripe fees by total processed charge volume for the same period. Fee Auditor (feeauditor.com) does this from your real CSV and shows the transactions driving the rate up."
+        },
+        {
+          "q": "Is Fee Auditor part of Stripe?",
+          "a": "No. Fee Auditor is an independent tool at feeauditor.com. It is not affiliated with, endorsed by, or part of Stripe, Inc. We do not provide Stripe customer support and do not connect to your Stripe account via OAuth."
+        }
+      ],
+      "cta": {
+        "title": "Find your specific fee driver with Fee Auditor — free",
+        "description": "Independent tool at feeauditor.com — not affiliated with Stripe. Upload your Balance CSV to see the rate you actually paid and one concrete driver. No OAuth. Raw CSV is not stored.",
+        "primaryLabel": "Analyze my Balance CSV →"
+      }
+    },
+    "whatPercent": {
+      "metaTitle": "How Much Does Stripe Charge Per Transaction?",
+      "metaDescription": "How much does Stripe charge per transaction? For many US online cards it starts at 2.9% + $0.30. Calculate the published percentage, then check your real blended rate from a Balance CSV.",
+      "breadcrumb": "How Much Does Stripe Charge Per Transaction?",
+      "eyebrow": "How much does Stripe charge",
+      "heroTitle": "How Much Does Stripe Charge Per Transaction?",
+      "heroDescription": "Short answer: for many US online cards Stripe starts at 2.9% + $0.30 per successful charge (about $3.20 on $100). The real percentage you pay can be higher once small charges, international cards, currency conversion, refunds, and other Stripe fee lines show up.",
+      "sections": [
+        {
+          "type": "note",
+          "body": "Published list rates only — custom or interchange-plus pricing may differ. Confirm yours in Dashboard → Settings → Plans and fees."
+        },
+        {
+          "type": "rateCards",
+          "heading": "The answer depends on the payment mix",
+          "items": [
+            {
+              "label": "Standard US online card",
+              "rate": "2.9% + $0.30",
+              "note": "The common headline rate for many US online card payments."
+            },
+            {
+              "label": "Small payments",
+              "rate": "Often 4%+",
+              "note": "The fixed $0.30 fee can dominate $5-10 subscriptions or add-ons."
+            },
+            {
+              "label": "International card",
+              "rate": "Often 4.4%+",
+              "note": "International cards can add 1.5 percentage points before FX."
+            },
+            {
+              "label": "International + Devisen",
+              "rate": "Often 5%+",
+              "note": "Currency conversion can add roughly another percentage point."
+            }
+          ]
+        },
+        {
+          "type": "formula",
+          "heading": "How to calculate the actual percentage",
+          "formula": "Real Stripe percentage = total Stripe fees / total processed charge volume",
+          "paragraphs": [
+            "For one transaction, divide the Stripe fee by the charge amount. For your business, use the blended rate across a full period.",
+            "That is the number that tells you what Stripe actually took from your revenue. A single $100 domestic card charge may look close to 3.2%, but a real month can land at 3.8%, 4.2%, or higher depending on customer geography and transaction size."
+          ]
+        },
+        {
+          "type": "ctaBlock",
+          "title": "Check your real Stripe percentage from CSV",
+          "description": "A public calculator can estimate one charge. Your Stripe Balance CSV shows what happened across all charges, refunds, and fee lines. Upload it to see your processing rate, all-in Stripe cost, monthly trend, and top fee drivers.",
+          "primaryLabel": "Analyze My Stripe CSV",
+          "secondaryLabel": "Open Stripe fees calculator"
+        }
+      ],
+      "faq": [
+        {
+          "q": "How much does Stripe charge per transaction?",
+          "a": "For many US online card payments, Stripe charges 2.9% + $0.30 per successful domestic card transaction. On $100 that is about $3.20. International cards often add about 1.5 percentage points, and currency conversion can add roughly another 1%. Rates vary by country — check Dashboard → Settings → Plans and fees for your account."
+        },
+        {
+          "q": "What percentage does Stripe take from a payment?",
+          "a": "For many US online card payments, Stripe's published rate starts at 2.9% plus $0.30 per successful charge. The effective percentage on a single charge depends on the charge amount because the fixed $0.30 fee is larger on small payments."
+        },
+        {
+          "q": "Does Stripe return fees when I refund a payment?",
+          "a": "No. Per Stripe's pricing FAQ, when you issue a refund Stripe does not return the processing fees, Connect fees, or currency conversion fees from the original transaction."
+        },
+        {
+          "q": "Why is my real Stripe rate higher than 2.9%?",
+          "a": "International cards, currency conversion, Stripe Billing (0.7% on billing volume), refunds (fees not returned), disputes ($15 + Smart Disputes 30% on win), Radar, and small transaction sizes can all push your real blended Stripe rate above the headline percentage."
+        },
+        {
+          "q": "How do I check the actual percentage Stripe took?",
+          "a": "Export your itemized Stripe Balance CSV, sum charge volume, sum Stripe fees, and divide fees by volume. Stripe Fee Auditor does this from your Balance CSV and separates processing rate from all-in Stripe cost. You can also start with the free Stripe fees calculator for a published-rate estimate."
+        }
+      ],
+      "cta": {
+        "title": "Check your real Stripe percentage from CSV",
+        "description": "Upload your Balance CSV to see processing rate, all-in cost, monthly trend, and top fee drivers.",
+        "primaryLabel": "Analyze My Stripe CSV"
+      }
+    },
+    "dataExport": {
+      "metaTitle": "Stripe Export Paths: CSV vs JSON, Tableau, Postgres | Fee Auditor",
+      "metaDescription": "Pick the right Stripe export for the job. Fee reconciliation needs an itemized Balance CSV — Fee Auditor is not a JSON/Tableau/PostgreSQL connector. BI and warehouse paths use API or ETL.",
+      "breadcrumb": "Stripe Data Export: Balance CSV vs JSON, Tableau, PostgreSQL",
+      "eyebrow": "Stripe data export",
+      "heroTitle": "Stripe Data Export: Balance CSV vs JSON, Tableau, PostgreSQL",
+      "heroDescription": "The right Stripe export depends on the job. JSON, Tableau, Power BI, and PostgreSQL usually mean an API or data-pipeline workflow. Fee reconciliation is different: use the itemized Stripe Balance CSV so you can see transaction-level fees, refunds, and payout differences.",
+      "sections": [
+        {
+          "type": "callout",
+          "title": "Quick answer",
+          "body": "If you need a database or BI dashboard, use the Stripe API, webhooks, or an ETL connector. If you need to understand why Stripe fees or payouts look wrong, export the itemized Balance CSV and audit the fee rows directly."
+        },
+        {
+          "type": "table",
+          "heading": "Choose the Stripe export path for your goal",
+          "headers": [
+            "Goal",
+            "Best path",
+            "Watch out for"
+          ],
+          "rows": [
+            [
+              "Export Stripe to JSON",
+              "Stripe API or an ETL connector",
+              "Use this for app integrations, data warehouses, or custom dashboards."
+            ],
+            [
+              "Export Stripe to Tableau or Power BI",
+              "CSV import, connector, or warehouse sync",
+              "Useful for reporting, but you still need the right fee rows for reconciliation."
+            ],
+            [
+              "Export Stripe to PostgreSQL",
+              "Stripe API, webhooks, or a managed pipeline",
+              "Best when you need ongoing sync, joins, and custom internal analytics."
+            ],
+            [
+              "Reconcile Stripe fees",
+              "Itemized Stripe Balance CSV",
+              "Best for effective rate, payout differences, refund fee leakage, and fee drivers."
+            ]
+          ]
+        },
+        {
+          "type": "twoColumn",
+          "left": {
+            "title": "When you need JSON, BI, or SQL",
+            "body": "Use this route when you want ongoing sync, dashboards, joins with product data, or finance reporting across many sources. You will usually care about charges, customers, invoices, subscriptions, refunds, disputes, and payouts."
+          },
+          "right": {
+            "title": "When you need your real Stripe rate",
+            "body": "Use this route when payout is lower than expected, fees jumped this month, or you want to compare your real effective rate against Stripe's published pricing. Start with the itemized Balance CSV."
+          }
+        },
+        {
+          "type": "columns",
+          "heading": "Columns that matter for Stripe fee analysis",
+          "body": "BI exports can include dozens of objects. For a Stripe fee audit, the important part is much smaller: each row needs enough data to separate charge volume from fee dollars.",
+          "columns": [
+            {
+              "name": "reporting_category",
+              "description": "reporting_category"
+            },
+            {
+              "name": "gross",
+              "description": "gross"
+            },
+            {
+              "name": "fee",
+              "description": "fee"
+            },
+            {
+              "name": "net",
+              "description": "net"
+            },
+            {
+              "name": "currency",
+              "description": "currency"
+            },
+            {
+              "name": "created",
+              "description": "created"
+            },
+            {
+              "name": "balance_transaction_id",
+              "description": "balance_transaction_id"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Can I export Stripe directly to JSON?",
+          "a": "Yes, but JSON export is normally an API or connector workflow, not a Dashboard CSV workflow. If your goal is fee reconciliation, the itemized Balance CSV is usually faster than building a full API pipeline."
+        },
+        {
+          "q": "Can I use Stripe data in Tableau or Power BI?",
+          "a": "Yes. You can import CSV exports or sync Stripe into a warehouse first. For fee analysis, make sure your dataset includes balance transaction rows with gross, fee, net, currency, created date, and reporting category."
+        },
+        {
+          "q": "Is Fee Auditor a Stripe data warehouse connector?",
+          "a": "No. Fee Auditor is a Stripe fee analysis tool. It does not sync your Stripe account to PostgreSQL, Tableau, Power BI, or JSON. It analyzes an itemized Balance CSV to calculate your real effective rate and fee drivers."
+        },
+        {
+          "q": "Which Stripe export should I use for fee reconciliation?",
+          "a": "Use the itemized Balance CSV or Balance transactions export. Payment CSVs and payout summaries can be useful, but they usually do not contain enough transaction-level fee detail for a reliable fee audit."
+        }
+      ],
+      "cta": {
+        "title": "Looking for fee reconciliation?",
+        "description": "Fee Auditor is not a Tableau, Power BI, JSON, or PostgreSQL connector. It is a focused Stripe Balance CSV auditor: upload the itemized export, see your processing rate, all-in cost, refund leakage, international card drag, and top fee drivers.",
+        "primaryLabel": "Analyze My Stripe CSV"
+      }
+    },
+    "comparePaypal": {
+      "metaTitle": "Stripe vs PayPal vs Wise Fees: Compare Before Switching | Fee Auditor",
+      "metaDescription": "Compare Stripe, PayPal, and Wise fees by payment use case, then audit your real Stripe Balance CSV before moving checkout volume.",
+      "breadcrumb": "Stripe vs PayPal vs Wise Fees: Compare Before Switching",
+      "eyebrow": "Payment fee comparison",
+      "heroTitle": "Stripe vs PayPal vs Wise fees: compare the use case first.",
+      "heroDescription": "A single $100-fee calculator is not enough. The real winner depends on card mix, average charge size, international customers, refunds, conversion lift, and whether you are solving checkout or money movement.",
+      "sections": [
+        {
+          "type": "heroCard",
+          "title": "Find the driver in your existing Stripe data.",
+          "body": "If your issue is small charges, international cards, refunds, or card-funded B2B invoices, the fix may be payment mix rather than a full processor migration.",
+          "metrics": [
+            "Processing rate",
+            "All-in cost",
+            "Fee drivers"
+          ]
+        },
+        {
+          "type": "platforms",
+          "heading": "Which payment option fits which problem?",
+          "items": [
+            {
+              "name": "Stripe",
+              "bestFor": "SaaS checkout, subscriptions, marketplaces, custom payment flows",
+              "watch": "International cards, fixed per-charge fees, refunds, disputes, Billing/Radar/add-on fee lines",
+              "auditQuestion": "Is your actual all-in Stripe cost higher than the published card rate?"
+            },
+            {
+              "name": "PayPal",
+              "bestFor": "Wallet checkout, buyers who prefer PayPal, markets where PayPal trust can lift conversion",
+              "watch": "Cross-border rules, currency conversion, product-specific fees, checkout mix",
+              "auditQuestion": "Will PayPal lift conversion enough to justify any fee difference?"
+            },
+            {
+              "name": "Wise",
+              "bestFor": "International bank transfers, supplier payments, multi-currency business operations",
+              "watch": "Transfer fees, conversion fees, payout workflow, not a direct card-checkout replacement",
+              "auditQuestion": "Are you solving payment processing, or international money movement?"
+            }
+          ]
+        },
+        {
+          "type": "useCaseTable",
+          "heading": "Compare by real payment scenario",
+          "headers": [
+            "Use case",
+            "Stripe",
+            "PayPal",
+            "Wise"
+          ],
+          "rows": [
+            {
+              "useCase": "SaaS card subscriptions",
+              "stripe": "Usually the default because subscriptions, invoices, and developer control are strong.",
+              "paypal": "Useful as an extra wallet option if customers ask for it.",
+              "wise": "Not usually a card-subscription checkout replacement."
+            },
+            {
+              "useCase": "Low-ticket products",
+              "stripe": "Fixed per-charge fees can dominate $5-20 transactions.",
+              "paypal": "Fixed fees can also dominate low-ticket transactions.",
+              "wise": "May fit invoices or transfers, not impulse card checkout."
+            },
+            {
+              "useCase": "International customers",
+              "stripe": "Card country and FX mix can push the effective rate above the headline rate.",
+              "paypal": "Can help where buyers trust PayPal, but cross-border pricing still matters.",
+              "wise": "Strong fit for international transfers and currency conversion workflows."
+            },
+            {
+              "useCase": "B2B invoices",
+              "stripe": "Cards can be expensive for large invoices; ACH/bank methods may help.",
+              "paypal": "Can work, but measure buyer preference against fees.",
+              "wise": "Often relevant for bank transfers and international vendor/customer payments."
+            }
+          ]
+        },
+        {
+          "type": "checklist",
+          "heading": "Do this before moving payment volume.",
+          "items": [
+            "Export 3-6 months of Stripe Balance data.",
+            "Separate card processing rate from all-in Stripe cost.",
+            "Check whether international cards, refunds, disputes, and small charges are the real driver.",
+            "Estimate whether a payment-method change fixes the driver before migrating platforms.",
+            "Compare official pricing pages for your country and product before changing checkout."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Is PayPal cheaper than Stripe?",
+          "a": "Sometimes, but not universally. The right comparison depends on payment method, country, checkout product, cross-border mix, currency conversion, refunds, and conversion lift."
+        },
+        {
+          "q": "Is Wise a Stripe alternative?",
+          "a": "Wise can be useful for international transfers and currency conversion workflows, but it is not a direct replacement for every Stripe card checkout or subscription use case."
+        },
+        {
+          "q": "What should I check before switching payment processors?",
+          "a": "Audit your actual Stripe Balance CSV first. Find whether the real driver is international cards, small transactions, refunds, disputes, add-ons, or checkout conversion before changing providers."
+        }
+      ],
+      "cta": {
+        "title": "Know your real Stripe baseline before comparing providers.",
+        "description": "Upload the itemized Stripe Balance CSV and see your actual processing rate, all-in cost, monthly drift, high-fee charges, and savings ideas.",
+        "primaryLabel": "Analyze my CSV"
+      }
+    },
+    "shouldSwitch": {
+      "metaTitle": "Should I Switch From Stripe? Audit Fees First | Fee Auditor",
+      "metaDescription": "Before switching from Stripe, audit your real fee driver: international cards, small charges, refunds, ACH opportunities, checkout conversion, or tax operations.",
+      "breadcrumb": "Should I Switch From Stripe? Audit Fees First",
+      "eyebrow": "Payment decision guide",
+      "heroTitle": "Should you switch from Stripe? Audit the fee driver first.",
+      "heroDescription": "If Stripe feels expensive, the answer is not always \"move processors.\" Your best fix may be ACH, annual billing, local payment methods, refund cleanup, or a merchant-of-record platform for tax operations.",
+      "sections": [
+        {
+          "type": "heroCard",
+          "title": "Switch only after you know why the rate is high.",
+          "body": "A 4%+ all-in Stripe cost can mean several different things. The right next step depends on whether the driver is payment method, geography, refunds, disputes, add-ons, or checkout strategy."
+        },
+        {
+          "type": "decisionTable",
+          "heading": "Decision guide: symptom to first move",
+          "rows": [
+            {
+              "symptom": "Your rate is high because many cards are international",
+              "inspect": "International card share, country mix, currency conversion, local payment method fit",
+              "firstMove": "Test local payment methods or local-currency pricing before changing processors",
+              "compare": "GoCardless, local bank debit, PayPal wallet, Stripe local methods"
+            },
+            {
+              "symptom": "Small subscriptions make your rate look extreme",
+              "inspect": "Average charge size, number of sub-$20 charges, fixed-fee drag",
+              "firstMove": "Bundle usage, move tiny monthly plans to annual, or set a minimum charge",
+              "compare": "A processor switch rarely fixes fixed-fee economics by itself"
+            },
+            {
+              "symptom": "Large B2B invoices are paid by card",
+              "inspect": "Card-funded invoices above $500, annual-plan charges, buyer type",
+              "firstMove": "Offer ACH or bank debit for large invoices while keeping card fallback",
+              "compare": "Stripe ACH, GoCardless, bank transfer workflows"
+            },
+            {
+              "symptom": "Refunds are leaking margin",
+              "inspect": "Refund count, retained processing fees, refund reasons, plan renewals",
+              "firstMove": "Fix trial gates, billing copy, cancellation UX, and annual-plan expectations",
+              "compare": "Do not switch until refund causes are understood"
+            },
+            {
+              "symptom": "Tax and compliance are the real pain",
+              "inspect": "VAT/GST/sales tax ops, invoices, country coverage, support burden",
+              "firstMove": "Compare merchant-of-record value, not only processing rate",
+              "compare": "Paddle, Lemon Squeezy, MoR platforms"
+            },
+            {
+              "symptom": "In-person payments matter",
+              "inspect": "POS workflow, card reader needs, staff workflow, local-service operations",
+              "firstMove": "Compare operational fit, not only online card fees",
+              "compare": "Square, Stripe Terminal, POS-first tools"
+            }
+          ]
+        },
+        {
+          "type": "checklist",
+          "heading": "A processor switch is the last step, not the first.",
+          "body": "You can often get most of the benefit with a smaller change: payment method, plan structure, refund flow, or local checkout option.",
+          "items": [
+            "Export 3-6 months of itemized Stripe Balance data.",
+            "Separate processing rate from all-in Stripe cost.",
+            "Identify the top driver: international cards, fixed fees, refunds, disputes, add-ons, or large invoices.",
+            "Try the cheapest operational fix first: ACH, local payment methods, annual billing, better refund flow, or pricing changes.",
+            "Only compare providers against the specific driver you found."
+          ]
+        },
+        {
+          "type": "comparisonLinks",
+          "heading": "Compare the right alternative for the problem",
+          "items": [
+            {
+              "href": "/stripe-vs-gocardless",
+              "title": "Stripe vs GoCardless",
+              "desc": "Cards vs bank debit for recurring and B2B payments."
+            },
+            {
+              "href": "/stripe-vs-square-fees",
+              "title": "Stripe vs Square",
+              "desc": "Online SaaS checkout vs POS and local-business workflows."
+            },
+            {
+              "href": "/stripe-vs-paddle-fees",
+              "title": "Stripe vs Paddle",
+              "desc": "Payment processor vs merchant-of-record operations."
+            },
+            {
+              "href": "/compare-stripe-paypal-wise",
+              "title": "Stripe vs PayPal vs Wise",
+              "desc": "Checkout, wallet preference, and money movement use cases."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Should I switch away from Stripe to reduce fees?",
+          "a": "Not before auditing the actual fee driver. Many Stripe fee issues are caused by card mix, small charges, refunds, disputes, or payment method selection rather than Stripe itself."
+        },
+        {
+          "q": "What should I do before comparing Stripe alternatives?",
+          "a": "Export your itemized Stripe Balance CSV, calculate processing and all-in rates, identify the top fee driver, then compare alternatives only against that driver."
+        }
+      ],
+      "cta": {
+        "title": "Your Stripe CSV tells you which alternative is worth testing.",
+        "description": "Fee Auditor turns the Balance CSV into processing rate, all-in rate, high-fee charges, refund impact, and savings opportunities. Start there before rebuilding checkout.",
+        "primaryLabel": "Analyze my Stripe CSV"
+      }
+    },
+    "analysisTools": {
+      "metaTitle": "Best Stripe Fee Analysis Tools for Effective Rate Audits",
+      "metaDescription": "Compare Stripe fee calculators, Balance CSV exports, accounting tools, SaaS analytics, and Stripe Fee Auditor for checking your real effective Stripe rate.",
+      "breadcrumb": "Stripe fee analysis tools",
+      "eyebrow": "Tool comparison",
+      "heroTitle": "Best Stripe fee analysis tools for checking your real effective rate",
+      "heroDescription": "If you only need the published fee for one transaction, a calculator is enough. If you want to know why your actual Stripe rate is higher than expected, you need your itemized Balance CSV and a fee-driver audit.",
+      "sections": [
+        {
+          "type": "pillars",
+          "items": [
+            {
+              "title": "Before selling",
+              "body": "Use a calculator to estimate a future Stripe fee."
+            },
+            {
+              "title": "After selling",
+              "body": "Use a Balance CSV to calculate what Stripe actually took."
+            },
+            {
+              "title": "When rates drift",
+              "body": "Look for international cards, refunds, small charges, and add-ons."
+            }
+          ]
+        },
+        {
+          "type": "toolsTable",
+          "heading": "Which Stripe fee tool fits the job?",
+          "items": [
+            {
+              "name": "Stripe pricing docs",
+              "bestFor": "Official published rates and country-specific fee rules",
+              "limitation": "They do not calculate your actual blended rate from your transactions.",
+              "verdict": "Start here for official rates, then audit your own CSV."
+            },
+            {
+              "name": "Stripe fee calculators",
+              "bestFor": "Estimating the fee on a single future transaction",
+              "limitation": "They miss card mix, refunds, disputes, FX, add-ons, and month-to-month drift.",
+              "verdict": "Useful before charging a customer; weak for diagnosing real fees."
+            },
+            {
+              "name": "Stripe Balance CSV plus spreadsheet",
+              "bestFor": "Manual reconciliation with exact exported rows",
+              "limitation": "Accurate but slow; you still need to group fee drivers and spot outliers.",
+              "verdict": "Best DIY path if you like spreadsheets."
+            },
+            {
+              "name": "Accounting or BI exports",
+              "bestFor": "Bookkeeping, payout reconciliation, dashboards, and warehouse pipelines",
+              "limitation": "They usually answer where money went, not why your effective rate is high.",
+              "verdict": "Good for finance operations; not a focused fee-leak diagnosis."
+            },
+            {
+              "name": "SaaS analytics tools",
+              "bestFor": "MRR, churn, cohorts, revenue metrics, and subscription analytics",
+              "limitation": "Stripe fees are usually a side metric, and many tools require OAuth access.",
+              "verdict": "Great for SaaS metrics; less direct for fee-driver audits."
+            },
+            {
+              "name": "Stripe-Gebührenprüfer",
+              "bestFor": "CSV-based effective rate audit, fee drivers, refund leakage, and savings actions",
+              "limitation": "It is not accounting software, tax advice, or a live Stripe sync.",
+              "verdict": "Best fit when you want a fast fee audit without Stripe OAuth or API keys."
+            }
+          ]
+        },
+        {
+          "type": "whenToUse",
+          "useAuditor": [
+            "You already process payments with Stripe and want the actual rate, not a published estimate.",
+            "Your payout looks lower than expected and you want to separate fees from volume.",
+            "You want to inspect international card fees, refund fee leakage, and high-fee charges.",
+            "You prefer CSV-based analysis without Stripe OAuth or API keys."
+          ],
+          "useOther": [
+            "You need official Stripe policy details. Use Stripe documentation first.",
+            "You need accounting, tax, or bookkeeping advice. Use your accountant or finance system.",
+            "You are building a data warehouse export to Tableau, Qlik, Power BI, PostgreSQL, or JSON.",
+            "You need live transaction sync or payment processing alternatives."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "What is the best tool to analyze Stripe fees?",
+          "a": "It depends on the job. Stripe docs are best for official published pricing, calculators are best for single-transaction estimates, accounting tools are best for reconciliation, and Stripe Fee Auditor is built for checking your real effective Stripe rate from a Balance CSV."
+        },
+        {
+          "q": "Is a Stripe fee calculator enough?",
+          "a": "A calculator is enough before you charge a customer. It is not enough to explain your real monthly rate because it cannot see international cards, refunds, disputes, currency conversion, Stripe add-ons, or your actual transaction mix."
+        },
+        {
+          "q": "Does Stripe Fee Auditor need Stripe OAuth?",
+          "a": "No. Stripe Fee Auditor uses an itemized Stripe Balance CSV export. You do not connect Stripe OAuth and you do not share Stripe API keys."
+        },
+        {
+          "q": "Does Stripe Fee Auditor replace accounting software?",
+          "a": "No. It is a fee-analysis tool, not an accounting system. Use it to understand effective rate, high-fee charges, refund fee leakage, and savings opportunities, then reconcile official totals in Stripe or your accounting workflow."
+        }
+      ],
+      "cta": {
+        "title": "Check your actual Stripe rate from a Balance CSV",
+        "description": "Free preview first. No Stripe OAuth, no API keys, and raw CSV files are not stored as files.",
+        "primaryLabel": "Analyze My CSV"
+      }
+    },
+    "howItWorks": {
+      "metaTitle": "How Stripe Fee Auditor Handles Your CSV",
+      "metaDescription": "A transparent look at what happens when you upload a Stripe Balance CSV: server analysis, raw file handling, stored report data, retention, and open-source core logic.",
+      "breadcrumb": "How it works",
+      "eyebrow": "Data handling",
+      "heroTitle": "What happens when you upload a Stripe CSV",
+      "heroDescription": "Fee Auditor is intentionally not an OAuth app. You export a Stripe Balance CSV, upload it once, and get a report. The honest version: the CSV does leave your laptop for server-side analysis, but the raw file is not stored as a file, and the stored report is derived from the CSV.",
+      "sections": [
+        {
+          "type": "flow",
+          "heading": "The upload flow",
+          "steps": [
+            {
+              "step": "1",
+              "title": "You upload a Stripe Balance CSV",
+              "body": "The CSV is sent to Fee Auditor over HTTPS so the server can analyze it. There is no Stripe OAuth connection, no API key, and no ongoing access to your Stripe account."
+            },
+            {
+              "step": "2",
+              "title": "We parse it for fee analysis",
+              "body": "The analyzer extracts the fields needed for totals, rates, dates, transaction types, and fee categories. It does not need live customer records or account-wide Stripe permissions."
+            },
+            {
+              "step": "3",
+              "title": "We store a computed report, not the raw file",
+              "body": "The raw CSV is not stored as a file. The report stores derived numbers and categorized rows so your private report link can reopen."
+            },
+            {
+              "step": "4",
+              "title": "Reports expire automatically",
+              "body": "Unpaid previews are short-lived outside beta, paid reports remain available for up to 30 days, and expired report rows are removed by cleanup jobs."
+            }
+          ]
+        },
+        {
+          "type": "storage",
+          "stored": [
+            "Processing rate and all-in Stripe cost rate",
+            "Monthly totals, trends, and benchmark verdicts",
+            "Grouped fee categories and high-fee charge flags",
+            "Private report ID and access state",
+            "Email only if you provide it for report access or checkout"
+          ],
+          "notStored": [
+            "Raw CSV as an uploaded file",
+            "Stripe API keys or OAuth tokens",
+            "Permanent access to your Stripe account",
+            "Data for ads, profiling, or resale",
+            "Free-text descriptions where they are not needed after analysis"
+          ]
+        },
+        {
+          "type": "openSource",
+          "heading": "You can inspect how the analysis works",
+          "body": "The useful trust signal is transparency: you can see the parser, analyzer, and request flow. The repository is public, including the core CSV and fee logic.",
+          "links": [
+            {
+              "label": "CSV parser",
+              "href": "https://github.com/Ksantor1981/Stripe-Fee-Auditor/blob/master/lib/csv-parser.ts",
+              "desc": "Column mapping, amount normalization, and row parsing."
+            },
+            {
+              "label": "Fee analyzer",
+              "href": "https://github.com/Ksantor1981/Stripe-Fee-Auditor/blob/master/lib/fee-analyzer.ts",
+              "desc": "Effective rate, high-fee charge detection, savings estimates, and storage redaction."
+            },
+            {
+              "label": "Analyze API route",
+              "href": "https://github.com/Ksantor1981/Stripe-Fee-Auditor/blob/master/app/api/analyze/route.ts",
+              "desc": "Server endpoint that receives the CSV, runs analysis, and saves the derived report."
+            }
+          ]
+        },
+        {
+          "type": "privacy",
+          "heading": "Plain-English privacy summary",
+          "paragraphs": [
+            "Fee Auditor uses your CSV to produce the report you asked for. It does not sell financial data, does not use it for advertising profiles, and does not connect to your Stripe account.",
+            "Infrastructure providers still exist: Vercel hosts the app, Neon stores derived reports, Polar handles checkout, Resend may send transactional email, and Plausible measures aggregate traffic. The detailed version is in the Privacy Policy.",
+            "If your policy requires fully local processing, use the public code as a reference or wait for a browser-only preview mode. The current production app uses server-side analysis."
+          ]
+        },
+        {
+          "type": "exportGuide",
+          "title": "Need the CSV export first?",
+          "body": "Use the Stripe Balance CSV guide, then come back and upload the Itemized export.",
+          "primaryLabel": "CSV export guide",
+          "secondaryLabel": "Upload CSV"
+        }
+      ],
+      "faq": [],
+      "cta": {
+        "title": "Analyze my CSV",
+        "description": "Upload your Stripe Balance CSV for a fee audit.",
+        "primaryLabel": "Analyze my CSV"
+      }
+    },
+    "monitor": {
+      "metaTitle": "Fee Monitor — Catch Stripe Rate Drift Before It Becomes Normal",
+      "metaDescription": "Catch rate drift, refund leakage, and one-off anomalies before they become normal. Monthly CSV reminders — no permanent Stripe OAuth. $9/month.",
+      "breadcrumb": "Fee Monitor",
+      "eyebrow": "Fee Monitor · $9/mo",
+      "heroTitle": "Build a monthly Stripe fee-check habit before drift becomes invisible.",
+      "heroDescription": "$12 = one CSV check (this export, 30 days). $9/mo = a monthly reminder + fresh full report. It is a manual check today; report history and automatic drift alerts come only after they ship. No permanent Stripe OAuth — you stay in control of every export.",
+      "sections": [
+        {
+          "type": "pricingCard",
+          "price": "$9",
+          "period": "/ month",
+          "body": "Compared to a one-time $12 investigation: Monitor is for founders who want a reminder to repeat the check. It is not yet automatic monitoring or a historical dashboard.",
+          "included": [
+            "Monthly reminder to upload the latest Stripe Balance CSV",
+            "A fresh full report for each monthly CSV upload",
+            "A manual monthly check for refund leakage, high-fee charges, and one-off anomalies",
+            "Processing rate vs all-in Stripe cost for each report",
+            "Early access to report history and automatic drift alerts when they ship"
+          ]
+        },
+        {
+          "type": "highlights",
+          "items": [
+            {
+              "title": "No OAuth first",
+              "body": "You stay in control of every CSV export."
+            },
+            {
+              "title": "History",
+              "body": "Report history is planned; today, save each private report link."
+            },
+            {
+              "title": "Alerts later",
+              "body": "Monthly reminders now; automatic drift alerts later if demand is real."
+            }
+          ]
+        },
+        {
+          "type": "why",
+          "heading": "Die nützliche Frage lautet nicht nur: „Wie hoch ist mein Tarif?“",
+          "body": "It is \"did my rate get worse, why, and what should I inspect first?\" Today Monitor creates the recurring check-in habit; comparison history and automatic drift detection are future functionality, not a promise already delivered.",
+          "steps": [
+            [
+              "1",
+              "Upload each month",
+              "Verwenden Sie denselben Balance CSV-Export-Workflow, dem Sie bereits vertrauen."
+            ],
+            [
+              "2",
+              "Behalten Sie Ihre Berichtslinks",
+              "Vergleichen Sie den neuen Bericht manuell mit Ihrem vorherigen Export, bis die Produkthistorie versendet wird."
+            ],
+            [
+              "3",
+              "Holen Sie sich einen monatlichen Anstoß",
+              "Eine Erinnerung bringt Sie zurück, bevor Gebührendrift unsichtbar wird."
+            ]
+          ]
+        },
+        {
+          "type": "enthaltenNoch nicht enthalten",
+          "included": [
+            "Monthly reminder to upload the latest Stripe Balance CSV",
+            "A fresh full report for each monthly CSV upload",
+            "A manual monthly check for refund leakage, high-fee charges, and one-off anomalies",
+            "Processing rate vs all-in Stripe cost for each report",
+            "Early access to report history and automatic drift alerts when they ship"
+          ],
+          "notYet": [
+            "Keine Live-Stripe-OAuth-Verbindung in der ersten Version",
+            "Keine automatische Synchronisierung, bis Benutzer danach fragen",
+            "Noch kein automatischer monatsübergreifender Vergleich oder Abweichungsalarm",
+            "Keine Buchhaltungs-, Steuer- oder Buchhaltungsberatung"
+          ]
+        },
+        {
+          "type": "newsletter",
+          "title": "Möchten Sie Tipps zu den monatlichen Gebühren, bevor Sie ein Abonnement abschließen?",
+          "body": "Treten Sie der kostenlosen Liste bei, wenn Sie nur gelegentliche Stripe-Gebührennotizen und Produktaktualisierungen wünschen. Abonnieren Sie, wenn Sie die monatliche CSV-Erinnerungsgewohnheit wünschen."
+        }
+      ],
+      "faq": [],
+      "cta": {
+        "title": "Startgebührenmonitor – 9 $/Monat",
+        "description": "Monatliche CSV-Erinnerung + neuer vollständiger Bericht. Kein permanentes Stripe-OAuth.",
+        "primaryLabel": "Startgebührenmonitor – 9 $/Monat"
+      }
+    },
+    "about": {
+      "metaTitle": "Über den Gründer und Datenverarbeitung | Stripe-Gebührenprüfer",
+      "metaDescription": "Wer hat Stripe Fee Auditor entwickelt, warum existiert es und welche Daten wir speichern (und welche nicht speichern), wenn Sie eine Stripe-Balance-CSV hochladen.",
+      "breadcrumb": "About",
+      "eyebrow": "About",
+      "heroTitle": "Über Stripe Fee Auditor",
+      "heroDescription": "Stripe Fee Auditor ist ein unabhängiges Tool, das Gründern und Finanzteams hilft, ihre tatsächlichen Stripe-Verarbeitungs- und Gesamtkostensätze aus einer Balance Transactions CSV zu verstehen – ohne Stripe OAuth zu verbinden oder API-Schlüssel zu teilen.",
+      "sections": [
+        {
+          "type": "founder",
+          "heading": "Über den Gründer",
+          "paragraphs": [
+            "Built by Konstantin Starkov, an indie SaaS founder. I built Stripe Fee Auditor after seeing how quickly the real Stripe cost can drift away from the headline 2.9% rate: one sample export showed a 3.82% card processing rate and a 4.02% all-in Stripe cost.",
+            "Das Produkt ist bewusst eng gefasst: ein CSV-Export, eine Frage, ein Bericht, der erklärt, ob Gebühren normal sind oder eine Untersuchung wert sind."
+          ],
+          "links": [
+            {
+              "label": "GitHub",
+              "href": "https://github.com/Ksantor1981"
+            },
+            {
+              "label": "Product Hunt",
+              "href": "https://www.producthunt.com/products/stripe-fee-auditor?launch=stripe-fee-auditor"
+            },
+            {
+              "label": "Indie-Hacker",
+              "href": "https://www.indiehackers.com/product/stripe-fee-auditor-2"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Warum es existiert",
+          "paragraphs": [
+            "Stripe's advertised 2.9% + $0.30 is only part of the story. International cards, small charges, refunds, disputes, and add-on services push the blended rate higher — often without a clear dashboard view. This tool turns your exported Balance data into a readable audit: processing rate, all-in cost, monthly trends, high-fee charges, and directional savings ideas."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Datenschutz und Datenverarbeitung",
+          "bullets": [
+            "Kein Zugriff auf die Stripe-API. Sie exportieren CSV aus dem Stripe Dashboard und laden es einmal zur Analyse hoch.",
+            "Roh-CSV wird nicht als Datei gespeichert. Wir analysieren es im Speicher, berechnen Aggregate und verwerfen den Upload-Text.",
+            "Der berechnete JSON-Bericht (Summen, Raten, kategorisierte Zeilen) wird gespeichert, sodass Sie Ihren privaten Link erneut öffnen können. Kundenbeschreibungsfelder werden vor der Speicherung geschwärzt.",
+            "USD-Konten zuerst. Beta unterstützt Exporte von USD-Guthaben; Die Unterstützung mehrerer Währungen ist geplant."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Independence",
+          "paragraphs": [
+            "Stripe Fee Auditor ist nicht mit Stripe, Inc. verbunden. Wir erhalten von Stripe keine Empfehlungsgebühren für Empfehlungen in Berichten. Aktionslinks verweisen auf Stripe-Dashboard-Seiten, sodass Sie die Einstellungen selbst überprüfen können."
+          ]
+        }
+      ],
+      "faq": [],
+      "cta": {
+        "title": "Analysieren Sie meine Gebühren",
+        "description": "Upload your Stripe Balance CSV for a fee audit.",
+        "primaryLabel": "Analysieren Sie meine Gebühren →"
+      }
+    },
+    "chromeExtension": {
+      "metaTitle": "Stripe Fee Auditor – CSV-Gebührenprüfungs-Helfer",
+      "metaDescription": "Installieren Sie den kostenlosen Chrome-Helfer: Öffnen Sie den Stripe-Balance-Export, prüfen Sie Ihren tatsächlichen Gebührensatz auf FeeAuditor.com, optionale monatliche CSV-Erinnerung. Keine OAuth- oder API-Schlüssel. Liest keine Stripe-Seiten.",
+      "breadcrumb": "Stripe Fee Auditor – CSV-Gebührenprüfungs-Helfer",
+      "eyebrow": "Chrome-Helfer · kostenlos im Web Store",
+      "heroTitle": "Stripe Fee Auditor – CSV-Hilfsprogramm für Ihren tatsächlichen Gebührensatz",
+      "heroDescription": "Schätzen Sie die veröffentlichten Gebühren im Popup, springen Sie zum Stripe-Balance-Export und überprüfen Sie Ihre CSV-Datei auf FeeAuditor.com – kein OAuth, keine API-Schlüssel, kein Lesen von Stripe-Dashboard-Seiten.",
+      "sections": [
+        {
+          "type": "callout",
+          "title": "Verfügbar im Chrome Web Store für alle.",
+          "body": "Ein-Klick-Installation. Der Hauptproduktpfad ist immer noch der Beispielbericht auf feeauditor.com – der Helfer ist eine Abkürzung und ein monatlicher Anstoß, kein zweites Produkt."
+        },
+        {
+          "type": "benefits",
+          "heading": "Was Sie nach der Installation erhalten",
+          "items": [
+            "Öffnen Sie den Stripe-Export: Springen Sie direkt zum Balance-Export-Workflow von Stripe, anstatt jeden Monat Berichte durchzugehen.",
+            "CSV analysieren: Öffnen Sie Fee Auditor und laden Sie die Balance-CSV hoch, um die Verarbeitungsrate, die Gesamtkosten und die Gebührentreiber zu überprüfen.",
+            "Monatliche Erinnerung: Verwenden Sie eine lokale Browser-Erinnerung, um die Prüfung zu wiederholen, bevor Gebührenabweichungen unsichtbar werden.",
+            "Optionale lokale monatliche Erinnerung (kein OAuth)",
+            "Scrapt keine Stripe-Seiten und fordert keine Host-Berechtigungen an"
+          ]
+        },
+        {
+          "type": "workflow",
+          "heading": "What it does",
+          "steps": [
+            {
+              "step": "1",
+              "title": "Öffnen Sie den Stripe-Export",
+              "body": "Springen Sie direkt zum Balance-Export-Workflow von Stripe, anstatt jeden Monat Berichte durchzugehen."
+            },
+            {
+              "step": "2",
+              "title": "Analyze CSV",
+              "body": "Öffnen Sie Fee Auditor und laden Sie die Balance-CSV hoch, um die Verarbeitungsrate, die Gesamtkosten und die Gebührentreiber zu überprüfen."
+            },
+            {
+              "step": "3",
+              "title": "Monatliche Erinnerung",
+              "body": "Verwenden Sie eine lokale Browser-Erinnerung, um die Prüfung zu wiederholen, bevor Gebührenabweichungen unsichtbar werden."
+            }
+          ]
+        },
+        {
+          "type": "privacy",
+          "heading": "Datenschutzhaltung",
+          "items": [
+            "Kein Stripe OAuth und keine API-Schlüssel",
+            "Keine Hostberechtigungen für Stripe.com",
+            "Stripe-Dashboard-Seiten werden nicht gelesen",
+            "Speichert nur die Erinnerungseinstellung im Chrome-Speicher",
+            "Die CSV-Analyse erfolgt weiterhin nur, wenn Sie sich für den Upload auf feeauditor.com entscheiden"
+          ]
+        },
+        {
+          "type": "webApp",
+          "heading": "Bevorzugen Sie die Web-App?",
+          "body": "Laden Sie direkt eine Balance-CSV-Datei hoch – dieselbe Diagnose, keine Erweiterung erforderlich."
+        }
+      ],
+      "faq": [],
+      "cta": {
+        "title": "Installieren Sie den Helper · Audit zu Ihren Bedingungen",
+        "description": "Kostenlose Verlängerung. Die Gebührenanalyse bleibt auf feeauditor.com, wenn Sie sich zum Hochladen entscheiden.",
+        "primaryLabel": "Vom Chrome Web Store installieren"
+      }
+    },
+    "vsSquare": {
+      "metaTitle": "Square- oder Stripe-Gebühren: Was ist günstiger?",
+      "metaDescription": "Square- und Stripe-Gebühren im Vergleich nach Anwendungsfall (SaaS, POS, Low-Ticket). Headline-Preise führen in die Irre – überprüfen Sie Ihren tatsächlichen Stripe-Tarif, bevor Sie wechseln.",
+      "breadcrumb": "Square- oder Stripe-Gebühren: Was ist günstiger?",
+      "eyebrow": "Stripe vs Square",
+      "heroTitle": "Square- oder Stripe-Gebühren: Vergleichen Sie das Modell, bevor Sie wechseln.",
+      "heroDescription": "Stripe and Square can both process payments, but they often fit different jobs. Stripe is strong for online SaaS and custom checkout. Square is often strongest when in-person payments, POS, appointments, or local services matter. Published rates alone rarely answer “which is cheaper?”",
+      "sections": [
+        {
+          "type": "heroCard",
+          "title": "Square ist nicht nur ein billigerer Stripe.",
+          "body": "Wenn es bei Ihrem Stripe-Problem um internationale Karten, Rückerstattungen oder geringe Abonnementgebühren geht, kann ein Wechsel zu Square die Ursache möglicherweise nicht beheben. Messen Sie zunächst, was Ihre tatsächliche Stripe-Rate antreibt."
+        },
+        {
+          "type": "scenarios",
+          "heading": "Compare by real payment scenario",
+          "rows": [
+            {
+              "useCase": "SaaS-Abonnements",
+              "stripe": "Normalerweise die Standardeinstellung für Abonnementlogik, Rechnungen, APIs und benutzerdefinierte Checkout-Abläufe.",
+              "alternative": "Kann für einfachere Online-Zahlungen funktionieren, ist aber normalerweise weniger SaaS-nativ als Stripe.",
+              "decision": "Überprüfen Sie zuerst Stripe. Wenn die Gebühren aufgrund des Kartenmixes hoch sind, ändern Sie die Zahlungsmethoden, bevor Sie die Plattform wechseln."
+            },
+            {
+              "useCase": "Persönliche Dienstleistungen",
+              "stripe": "Funktioniert online, ist jedoch möglicherweise nicht die einfachste Option für POS-First-Unternehmen.",
+              "alternative": "Oft besser geeignet für Kartenleser, POS, Termine und lokale Service-Workflows.",
+              "decision": "Wenn die meisten Zahlungen persönlich erfolgen, vergleichen Sie den Checkout-Workflow und die Gebührensätze."
+            },
+            {
+              "useCase": "Niedrige Ticketpreise",
+              "stripe": "Feste Gebühren pro Ladung können bei kleinen Transaktionen dominieren und den effektiven Zinssatz in die Höhe treiben.",
+              "alternative": "Hat auch Ökonomie pro Transaktion; Low-Ticket-Mathematik muss noch überprüft werden.",
+              "decision": "Versuchen Sie es mit Bündelung, Mindestgebühren oder monatlichen Rechnungen, bevor Sie davon ausgehen, dass der Prozessor das Problem ist."
+            },
+            {
+              "useCase": "Internationale Online-Kunden",
+              "stripe": "Internationale Karten, Währungsumrechnung und Kartenmix können dazu führen, dass die tatsächlichen Kosten über die Gesamtpreise hinausgehen.",
+              "alternative": "Möglicherweise weniger relevant, wenn das Kernproblem der grenzüberschreitende Online-SaaS-Checkout ist.",
+              "decision": "Überprüfen Sie zunächst die Optionen für internationale Kartenfreigabe und lokale Zahlungsmethoden."
+            },
+            {
+              "useCase": "Einzelhandel plus Online",
+              "stripe": "Starker Online-Stack, aber POS-Tools erfordern möglicherweise eine zusätzliche Einrichtung.",
+              "alternative": "Oft attraktiv für einheitliche POS-, Inventar- und lokale Geschäftsabläufe.",
+              "decision": "Wählen Sie basierend auf Vorgängen und Abstimmungen, nicht nur auf veröffentlichten Bearbeitungsgebühren."
+            }
+          ]
+        },
+        {
+          "type": "fitCards",
+          "goodFit": [
+            {
+              "title": "Sie verkaufen persönlich",
+              "body": "POS-Hardware, Personalabläufe und Zahlungen vor Ort sind Teil der Kaufentscheidung."
+            },
+            {
+              "title": "Sie möchten einfachere lokale Vorgänge",
+              "body": "Termine, Kartenleser, Inventar und einfache Online-Zahlungen können wichtiger sein als die Flexibilität der Entwickler."
+            },
+            {
+              "title": "Ihr Team ist nicht technisch versiert",
+              "body": "Für lokale Unternehmen, die keine benutzerdefinierten Zahlungsströme aufbauen möchten, ist Square möglicherweise einfacher."
+            }
+          ],
+          "badFit": [
+            {
+              "title": "Ihr Problem ist ein Kartenmix",
+              "body": "Internationale Karten, Rückerstattungen und kleine Gebühren können Ihnen zu jedem Kartenprozessor folgen."
+            },
+            {
+              "title": "Sie benötigen eine komplexe SaaS-Abrechnung",
+              "body": "Abonnements, Upgrades, Rechnungen, Testversionen und API-intensive Abläufe können Stripe weiterhin begünstigen."
+            },
+            {
+              "title": "Sie haben den echten Fahrer nicht gemessen",
+              "body": "Eine niedrigere Schlagzeilenrate hilft nicht, wenn es um Rückerstattungen, Streitigkeiten oder den Transaktionsumfang geht."
+            }
+          ]
+        },
+        {
+          "type": "checklist",
+          "heading": "Checkliste vor dem Wechsel",
+          "items": [
+            "Exportieren Sie das aufgeschlüsselte Stripe-Guthaben im CSV-Format für die letzten 3–6 Monate.",
+            "Vergleichen Sie die Verarbeitungsrate mit den Stripe-Gesamtkosten.",
+            "Messen Sie, wie viel aus internationalen Karten, Rückerstattungen, Streitigkeiten und kleinen Gebühren stammt.",
+            "Vergleichen Sie Square nur mit dem spezifischen Treiber, den Sie gefunden haben.",
+            "Wenn die meisten Zahlungen persönlich erfolgen, vergleichen Sie auch den POS-Workflow und den Abgleich."
+          ]
+        },
+        {
+          "type": "sources",
+          "heading": "Offizielle Preisquellen",
+          "items": [
+            {
+              "title": "Stripe-Preise",
+              "href": "https://stripe.com/pricing"
+            },
+            {
+              "title": "Quadratische Bearbeitungsgebühren",
+              "href": "https://squareup.com/us/en/payments/our-fees"
+            }
+          ]
+        },
+        {
+          "type": "related",
+          "heading": "Verwandte Leitfäden",
+          "items": [
+            {
+              "title": "Sollte ich von Stripe wechseln?",
+              "href": "/should-i-switch-from-stripe"
+            },
+            {
+              "title": "Stripe-Alternativen im Jahr 2026",
+              "href": "/blog/stripe-alternatives-2026"
+            },
+            {
+              "title": "Stripe-Gebührenrechner",
+              "href": "/stripe-fee-calculator"
+            },
+            {
+              "title": "So reduzieren Sie die Stripe-Gebühren",
+              "href": "/blog/how-to-reduce-stripe-fees"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Ist Square günstiger als Stripe?",
+          "a": "Nicht allgemein. Die Antwort hängt vom Land, der Zahlungsmethode, der Transaktionsgröße, dem Kartenmix, den Rückerstattungen, den persönlichen Bedürfnissen und der von Ihnen verwendeten Produktstufe ab."
+        },
+        {
+          "q": "Sollte ein SaaS-Unternehmen von Stripe zu Square wechseln?",
+          "a": "Normalerweise erst nach Prüfung des eigentlichen Stripe-Gebührentreibers. Bei SaaS-Abonnements kann eine Änderung des Abrechnungsmodells, des ACH, lokaler Zahlungsmethoden oder der Preise das Problem lösen, bevor ein vollständiger Prozessorwechsel erfolgt."
+        }
+      ],
+      "cta": {
+        "title": "Know your real Stripe baseline before comparing providers.",
+        "description": "Upload the itemized Stripe Balance CSV and see your actual processing rate, all-in cost, monthly drift, high-fee charges, and savings ideas.",
+        "primaryLabel": "Analyze my CSV"
+      }
+    },
+    "vsPaddle": {
+      "metaTitle": "Stripe- vs. Paddle-Gebühren: Prozessor vs. eingetragener Händler",
+      "metaDescription": "Vergleichen Sie Stripe und Paddle für SaaS: Zahlungsabwicklung, Handhabung von Merchant-of-Record-Steuern, internationale Verkäufe, Checkout-Kontrolle und was vor dem Wechsel zu prüfen ist.",
+      "breadcrumb": "Stripe- vs. Paddle-Gebühren: Prozessor vs. eingetragener Händler",
+      "eyebrow": "Stripe vs Paddle",
+      "heroTitle": "Stripe- und Paddle-Gebühren: Vergleichen Sie die Zahlungsabwicklung mit der Abdeckung durch den Händler.",
+      "heroDescription": "Paddle ist nicht nur ein weiterer Prozessor. Es kann als eingetragener Händler fungieren, was sich auf Steuern, Compliance, Checkout, Rückbuchungen und Berichterstattung auswirkt. Das kann sich für manche SaaS-Teams lohnen, ist aber nicht automatisch günstiger als Stripe.",
+      "sections": [
+        {
+          "type": "heroCard",
+          "title": "Beim MoR-Wert geht es um den Betrieb, nicht nur um den Gebührensatz.",
+          "body": "Wenn es bei Ihrem Stripe-Problem um Steuerkomplexität, internationale Compliance oder Merchant-of-Record-Anforderungen geht, könnte Paddle relevant sein. Wenn Ihr Problem ein Kartenmix oder geringe Gebühren sind, überprüfen Sie zuerst den Stripe-Gebührentreiber."
+        },
+        {
+          "type": "scenarios",
+          "heading": "Compare by real payment scenario",
+          "rows": [
+            {
+              "useCase": "Globale SaaS-Steuerabwicklung",
+              "stripe": "Sie behalten mehr Kontrolle über den Checkout, aber für die Einrichtung von Steuern/Compliance sind möglicherweise zusätzliche Tools und Vorgänge erforderlich.",
+              "alternative": "Das Merchant-of-Record-Modell kann mehr Steuer- und Compliance-Workflows für unterstützte Regionen abwickeln.",
+              "decision": "Wenn Steueroperationen das Problem darstellen, vergleichen Sie die gesamten Betriebskosten und nicht nur die Bearbeitungsrate."
+            },
+            {
+              "useCase": "Einfache SaaS-Abonnements",
+              "stripe": "Starke Entwicklerkontrolle, umfassende Integrationen und flexible Abonnementlogik.",
+              "alternative": "Kann die Abrechnungsvorgänge vereinfachen, kann jedoch die Flexibilität beim Auschecken/Kontrollen beeinträchtigen.",
+              "decision": "Verwenden Sie Paddle, wenn die betriebliche Vereinfachung die Plattformflexibilität überwiegt."
+            },
+            {
+              "useCase": "Hoher internationaler Kartenanteil",
+              "stripe": "Internationale Karten und Devisen können den effektiven Zinssatz über die veröffentlichten inländischen Preise hinaus erhöhen.",
+              "alternative": "Kann bei der lokalisierten Zahlungserfahrung hilfreich sein, aber die gesamten MoR-Preise müssen noch überprüft werden.",
+              "decision": "Messen Sie zuerst den internationalen Aufschwung; Lokale Methoden können ohne einen vollständigen MoR-Switch ausreichen."
+            },
+            {
+              "useCase": "Low-Ticket-Pläne",
+              "stripe": "Feste Gebühren und Zusatzleistungen können günstige Abonnements teuer machen.",
+              "alternative": "Auch die MoR-Preise können bei Low-Ticket-Plänen hoch sein.",
+              "decision": "Probieren Sie vor der Migration eine jährliche Abrechnung, Bündelung oder Änderungen des Mindestplans aus."
+            },
+            {
+              "useCase": "Benutzerdefinierte Checkout- und Marktplatzlogik",
+              "stripe": "In der Regel stärker für benutzerdefinierte Abläufe, Plattformzahlungen und einen tief integrierten Checkout.",
+              "alternative": "Besser, wenn Sie eine verpackte SaaS-Commerce-Ebene und keine maximale Checkout-Kontrolle wünschen.",
+              "decision": "Verzichten Sie nicht auf Produktflexibilität, es sei denn, der betriebliche Nutzen ist klar."
+            }
+          ]
+        },
+        {
+          "type": "fitCards",
+          "goodFit": [
+            {
+              "title": "Steuern und Compliance sind der eigentliche Engpass",
+              "body": "Der Wert eines Merchant-of-Record ist dann am größten, wenn globale Vertriebsaktivitäten Gründer- oder Finanzzeit verschlingen."
+            },
+            {
+              "title": "Sie möchten eine SaaS-Commerce-Ebene",
+              "body": "Abrechnung, Checkout, Steuern, Abonnements und Händlervorgänge können in einem Workflow gebündelt werden."
+            },
+            {
+              "title": "Sie verkaufen international",
+              "body": "Lokalisierung und MoR-Handhabung können wichtiger sein als die Einsparung eines kleinen Prozentsatzes bei der Verarbeitung."
+            }
+          ],
+          "badFit": [
+            {
+              "title": "Sie möchten nur niedrigere Kartengebühren",
+              "body": "Eine MoR-Plattform kann auf dem Papier mehr kosten; Vergleichen Sie den Gesamtwert, nicht nur die Verarbeitungsrate von Stripe."
+            },
+            {
+              "title": "Ihr Checkout benötigt umfassende Kontrolle",
+              "body": "Stripe bleibt möglicherweise besser, wenn benutzerdefinierte Abläufe, Marktplatzlogik oder Abrechnungsrandfälle im Mittelpunkt des Produkts stehen."
+            },
+            {
+              "title": "Ihre CSV-Datei zeigt einfache Korrekturen",
+              "body": "Internationale Erhöhung, jährliche Abrechnung, ACH und Rückerstattungsbereinigung können das Problem lösen, ohne dass die Plattform gewechselt werden muss."
+            }
+          ]
+        },
+        {
+          "type": "checklist",
+          "heading": "Checkliste vor dem Wechsel",
+          "items": [
+            "Prüfen Sie die aktuelle Stripe-Verarbeitungsrate und die Gesamtkosten.",
+            "Trennen Sie die Kosten für Zahlungsgebühren von den Kosten für Steuern/Compliance/Betrieb.",
+            "Schätzen Sie den Wert der MoR-Abdeckung in eingesparten Stunden und reduziertem Risiko.",
+            "Prüfen Sie zunächst, ob lokale Zahlungsmethoden oder Planänderungen den Gebührentreiber beheben.",
+            "Vergleichen Sie die offiziellen Stripe- und Paddle-Preise für Ihr Land, Ihr Produkt und Ihr Volumen."
+          ]
+        },
+        {
+          "type": "sources",
+          "heading": "Offizielle Preisquellen",
+          "items": [
+            {
+              "title": "Stripe-Preise",
+              "href": "https://stripe.com/pricing"
+            },
+            {
+              "title": "Preise für Paddel",
+              "href": "https://www.paddle.com/pricing"
+            }
+          ]
+        },
+        {
+          "type": "related",
+          "heading": "Verwandte Leitfäden",
+          "items": [
+            {
+              "title": "Sollte ich von Stripe wechseln?",
+              "href": "/should-i-switch-from-stripe"
+            },
+            {
+              "title": "Stripe-Alternativen im Jahr 2026",
+              "href": "/blog/stripe-alternatives-2026"
+            },
+            {
+              "title": "Stripe vs. PayPal vs. Wise-Gebühren",
+              "href": "/compare-stripe-paypal-wise"
+            },
+            {
+              "title": "Wie ich versteckte Stripe-Gebührenmöglichkeiten im Wert von 1.400 US-Dollar gefunden habe",
+              "href": "/blog/how-i-found-1400-in-hidden-stripe-fees"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Ist Paddle günstiger als Stripe?",
+          "a": "Nicht unbedingt. Das Merchant-of-Record-Modell von Paddle kann den Betriebs- und Compliance-Wert berücksichtigen. Vergleichen Sie daher die Gesamtkosten und den Wert und nicht nur die Kartenverarbeitungsrate."
+        },
+        {
+          "q": "Wann sollte SaaS Paddle anstelle von Stripe in Betracht ziehen?",
+          "a": "Paddle kann sinnvoll sein, wenn Steuern, Compliance, internationale SaaS-Verkäufe und Merchant-of-Record-Operationen wichtiger sind als maximale Checkout-Kontrolle."
+        }
+      ],
+      "cta": {
+        "title": "Know your real Stripe baseline before comparing providers.",
+        "description": "Upload the itemized Stripe Balance CSV and see your actual processing rate, all-in cost, monthly drift, high-fee charges, and savings ideas.",
+        "primaryLabel": "Analyze my CSV"
+      }
+    },
+    "vsGocardless": {
+      "metaTitle": "Stripe vs. GoCardless: Kartengebühren vs. Bankeinzug",
+      "metaDescription": "Vergleichen Sie Stripe und GoCardless für wiederkehrende Zahlungen, ACH-, SEPA-, B2B-Rechnungen, Kartenzahlungen und wenn Bankeinzüge die Zahlungskosten senken können.",
+      "breadcrumb": "Stripe vs. GoCardless: Kartengebühren vs. Bankeinzug",
+      "eyebrow": "Stripe vs GoCardless",
+      "heroTitle": "Stripe vs. GoCardless: Vergleichen Sie die Kartenzahlung mit der Bankabbuchung.",
+      "heroDescription": "GoCardless ist kein Ersatz für eine Drop-in-Kartenkasse. Am interessantesten ist es, wenn wiederkehrende Bankeinzugs-, SEPA-, ACH-, Bacs- oder Rechnungszahlungen teure kartenfinanzierte Zahlungen ersetzen können.",
+      "sections": [
+        {
+          "type": "heroCard",
+          "title": "Bankeinzug kann günstiger sein, aber nur für die richtigen Zahlungen.",
+          "body": "Bei B2B-SaaS, Jahresrechnungen und wiederkehrenden Abonnements kann die Bankabbuchung den Aufwand für die Kartenverarbeitung verringern. Beim Bezahlvorgang für Endverbraucher sind Karten möglicherweise immer noch besser konvertierbar."
+        },
+        {
+          "type": "scenarios",
+          "heading": "Compare by real payment scenario",
+          "rows": [
+            {
+              "useCase": "Wiederkehrendes SaaS",
+              "stripe": "Stark für Kartenabonnements, Rechnungen, Upgrades, Testversionen und Online-Checkout.",
+              "alternative": "Stark, wenn Kunden Lastschrift oder Bankeinzug als wiederkehrende Zahlungsmethode akzeptieren.",
+              "decision": "Segmentieren Sie zunächst B2B- und Jahresplankunden; Zwingen Sie nicht jeden Käufer dazu, sich von Karten fernzuhalten."
+            },
+            {
+              "useCase": "Große B2B-Rechnungen",
+              "stripe": "Kartenfinanzierte Rechnungen können bei hohen Ticketgrößen teuer werden.",
+              "alternative": "Bankeinzug oder Konto-zu-Konto-Zahlungen könnten für Finanzteams geeignet sein, die bereits Bankzahlungen bevorzugen.",
+              "decision": "Bieten Sie für große Rechnungen eine Bankabbuchung an und behalten Sie gleichzeitig die Kartenlösung bei, um die Geschwindigkeit zu erhöhen."
+            },
+            {
+              "useCase": "Sofortige Kaufabwicklung für Verbraucher",
+              "stripe": "Karten und Geldbörsen sind vertraut und können schnell sein.",
+              "alternative": "Eine Bankabbuchung kann zu Reibungsverlusten führen und ist möglicherweise nicht ideal für einmalige Impulskäufe.",
+              "decision": "Optimieren Sie Gebühren nicht auf Kosten der Konvertierung ohne Tests."
+            },
+            {
+              "useCase": "EU-/UK-Abonnements",
+              "stripe": "Bei Karten können grenzüberschreitende oder internationale Mixkosten anfallen.",
+              "alternative": "SEPA/Bacs/Lastschrift kann eine ernstzunehmende Option für wiederkehrende Zahlungen sein.",
+              "decision": "Überprüfen Sie, wie hoch der internationale Kartenaufschlag ist, bevor Sie lokale Bankmethoden hinzufügen."
+            },
+            {
+              "useCase": "Rückerstattungsintensive Ströme",
+              "stripe": "Der Verlust von Rückerstattungsgebühren kann ein Margenproblem bei den Kartendaten sein.",
+              "alternative": "Bei der Bankabbuchung gibt es eigene Fehler-, Wiederholungs- und Mandatsmechanismen.",
+              "decision": "Überprüfen Sie Rückerstattungsgründe und Zahlungsausfallkosten, nicht nur die Hauptgebühren."
+            }
+          ]
+        },
+        {
+          "type": "fitCards",
+          "goodFit": [
+            {
+              "title": "Sie haben B2B-Rechnungen",
+              "body": "Kunden sind möglicherweise bereits mit Bankzahlungen vertraut, insbesondere bei jährlichen oder größeren Rechnungen."
+            },
+            {
+              "title": "Sie verkaufen wiederkehrende Pläne",
+              "body": "Ein monatlicher oder jährlicher Zahlungsrhythmus gibt Kunden Zeit, eine Bankabbuchung zu akzeptieren."
+            },
+            {
+              "title": "Der Anstieg bei internationalen Karten ist erheblich",
+              "body": "Wenn in Ihrer CSV-Datei internationale Kartenbelastung angezeigt wird, kann es sich lohnen, die Methoden lokaler Banken zu testen."
+            }
+          ],
+          "badFit": [
+            {
+              "title": "Die Konvertierung an der Kasse ist fragil",
+              "body": "Eine günstigere Zahlungsmethode kann immer noch Geld verlieren, wenn sie die Konvertierung verringert oder den Support erhöht."
+            },
+            {
+              "title": "Sie benötigen eine sofortige, einmalige Kartenzahlung",
+              "body": "Karten und Geldbörsen sind möglicherweise besser für Geschwindigkeit, Käufervertrautheit und reibungslose Einkäufe."
+            },
+            {
+              "title": "Sie haben Karte und All-in-Kosten nicht getrennt",
+              "body": "Durch die Bankabbuchung werden nicht zusammenhängende Gebührenzeilen, Streitigkeiten oder Abonnementzusätze nicht behoben."
+            }
+          ]
+        },
+        {
+          "type": "checklist",
+          "heading": "Checkliste vor dem Wechsel",
+          "items": [
+            "Finden Sie in Ihrem Stripe-Export große, kartenfinanzierte Rechnungen und Jahresplangebühren.",
+            "Prüfen Sie, wie viel internationale Kartenaufschläge zu den Gebühren beitragen.",
+            "Schätzen Sie die Einsparungen per Bankeinzug nur für Kunden, die dies wahrscheinlich akzeptieren.",
+            "Behalten Sie den Karten-Fallback für Kunden bei, bei denen Reibungsverluste beim Bezahlvorgang der Konvertierung schaden würden.",
+            "Testen Sie die Bankabbuchung auf einem Segment, bevor Sie die gesamte Kasse ändern."
+          ]
+        },
+        {
+          "type": "sources",
+          "heading": "Offizielle Preisquellen",
+          "items": [
+            {
+              "title": "Stripe-Preise",
+              "href": "https://stripe.com/pricing"
+            },
+            {
+              "title": "GoCardless-Preise",
+              "href": "https://gocardless.com/pricing/"
+            },
+            {
+              "title": "Leitfaden Stripe ACH vs. Kreditkarte",
+              "href": "/blog/stripe-ach-vs-credit-card-fees"
+            }
+          ]
+        },
+        {
+          "type": "related",
+          "heading": "Verwandte Leitfäden",
+          "items": [
+            {
+              "title": "ACH vs. Kreditkartengebühren",
+              "href": "/blog/stripe-ach-vs-credit-card-fees"
+            },
+            {
+              "title": "Gebühren für internationale Stripe-Karten",
+              "href": "/blog/stripe-international-card-fees"
+            },
+            {
+              "title": "Sollte ich von Stripe wechseln?",
+              "href": "/should-i-switch-from-stripe"
+            },
+            {
+              "title": "Stripe-Alternativen im Jahr 2026",
+              "href": "/blog/stripe-alternatives-2026"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Ist GoCardless günstiger als Stripe?",
+          "a": "Es kann für bestimmte Banklastschrift- oder Konto-zu-Konto-Zahlungsströme günstiger sein, insbesondere für wiederkehrende Zahlungen oder B2B-Zahlungen, es ist jedoch kein universeller Ersatz für das Bezahlen mit Karte."
+        },
+        {
+          "q": "Wann sollte SaaS Bankdebit statt Karten verwenden?",
+          "a": "Banklastschriften sind in der Regel am relevantesten für große B2B-Rechnungen, Jahrespläne oder wiederkehrende Zahlungen, bei denen Kunden Bankzahlungsabläufe akzeptieren."
+        }
+      ],
+      "cta": {
+        "title": "Know your real Stripe baseline before comparing providers.",
+        "description": "Upload the itemized Stripe Balance CSV and see your actual processing rate, all-in cost, monthly drift, high-fee charges, and savings ideas.",
+        "primaryLabel": "Analyze my CSV"
+      }
+    }
+  },
+  "blog": {
+    "how-i-found-1400-in-hidden-stripe-fees": {
+      "metaTitle": "Wie ich etwa 1.400 $/Jahr an versteckten Stripe-Gebührenmöglichkeiten gefunden habe",
+      "metaDescription": "Eine echte Stripe Balance CSV-Fallstudie: 3.597,77 USD an Gebühren über vier Monate, eine Verarbeitungsrate von 3,82 %, Stripe-Gesamtkosten von 4,02 % und die Gebührentreiber, die es wert sind, überprüft zu werden.",
+      "title": "Wie ich etwa 1.400 $/Jahr an versteckten Stripe-Gebührenmöglichkeiten gefunden habe",
+      "readTime": "6 min",
+      "publishedAt": "2026-06-25",
+      "updatedAt": null,
+      "faq": [
+        {
+          "question": "Ist die Ersparnis von ca. 1.400 $/Jahr garantiert?",
+          "answer": "Nein. Es handelt sich um eine gezielte Einsparmöglichkeit gegenüber dem Musterexport. Der eigentliche nächste Schritt besteht darin, zu prüfen, welche Zeilen die hohen Gebühren verursacht haben, und dann zu entscheiden, ob ACH, lokale Zahlungsmethoden, jährliche Abrechnung oder Preisänderungen realistisch sind."
+        },
+        {
+          "question": "Warum gibt es zwei Sätze: 3,82 % und 4,02 %?",
+          "answer": "Bei der Bearbeitungsrate von 3,82 % werden die Gebühren für die Gebührenbearbeitung durch das Gebührenvolumen dividiert. Die pauschalierten Stripe-Kosten von 4,02 % beinhalten auch andere Stripe-Gebührenlinien. Wenn Sie diese getrennt halten, vermeiden Sie, dass für jede Gebühr die Kartenpreise verantwortlich gemacht werden."
+        },
+        {
+          "question": "Kann ich das manuell in Stripe finden?",
+          "answer": "Ja. Exportieren Sie eine CSV-Datei mit detaillierten Salden, filtern Sie Gebührenzeilen, summieren Sie das Gebührenvolumen und die Gebühren und vergleichen Sie diese dann mit allen anderen Gebührenzeilen im Zeitraum. Fee Auditor automatisiert die Gruppierung, Zeitleiste, Hochgebührenzeilen und Sparaufforderungen."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe-Preise"
+        },
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe-Berichtsdokumentation"
+        },
+        {
+          "href": "https://docs.stripe.com/reports/balance-transaction-types",
+          "title": "Stripe-Saldo-Transaktionsarten"
+        }
+      ]
+    },
+    "cross-border-stripe-fees-migration-2026": {
+      "metaTitle": "Grenzüberschreitende Stripe-Gebühren: Warum Ihr Tarif steigt",
+      "metaDescription": "Wie internationale Kunden, Migrationstrends und der Währungsmix die Stripe-Gebühren im Jahr 2026 auf über 2,9 % steigern können, und wie Sie die Änderung in Ihrer Balance-CSV erkennen.",
+      "title": "Grenzüberschreitende Stripe-Gebühren: Warum Ihr Tarif steigt",
+      "readTime": "10 min",
+      "publishedAt": "2026-06-22",
+      "updatedAt": null,
+      "faq": [],
+      "sources": []
+    },
+    "stripe-fee-audit-checklist-for-saas-founders": {
+      "metaTitle": "Stripe-Gebührenprüfungs-Checkliste für SaaS-Gründer",
+      "metaDescription": "Eine praktische Checkliste für die monatliche Stripe-Gebührenprüfung für SaaS-Gründer: effektiver Tarif, Balance CSV, internationale Karten, Rückerstattungen, kleine Gebühren, ACH und monatliche Überwachung.",
+      "title": "Stripe-Gebührenprüfungs-Checkliste für SaaS-Gründer",
+      "readTime": "8 min",
+      "publishedAt": null,
+      "updatedAt": null,
+      "faq": [
+        {
+          "question": "Wie oft sollte ich Stripe-Gebühren prüfen?",
+          "answer": "Für ein SaaS-Unternehmen mit bedeutendem Stripe-Volumen reicht eine monatliche Gebührenprüfung. Vergleichen Sie die Bearbeitungsrate, die Stripe-Gesamtkosten, die Anzahl der Rückerstattungen, den internationalen Anteil und die Gebührentreiber für hohe Gebühren mit dem Vormonat."
+        },
+        {
+          "question": "Was ist die wichtigste zu verfolgende Stripe-Gebührenmetrik?",
+          "answer": "Verfolgen Sie sowohl die Verarbeitungsrate als auch die Stripe-Gesamtkosten. Die Bearbeitungsrate isoliert die Gebühren, während die Gesamtkosten andere Stripe-Gebührenzeilen wie Streitigkeiten, Abrechnung, Steuern, Radar und erstattungsbezogene Auswirkungen umfassen."
+        },
+        {
+          "question": "Welchen Stripe-Export benötige ich für eine Gebührenprüfung?",
+          "answer": "Verwenden Sie einen aufgeschlüsselten Stripe-Guthaben-CSV- oder Saldo-Transaktionsexport. Zusammenfassende Exporte sind zu aggregiert für eine Gebührenanalyse auf Gebührenebene."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe-Berichtsdokumentation"
+        },
+        {
+          "href": "https://docs.stripe.com/reports/balance-transaction-types",
+          "title": "Stripe-Saldo-Transaktionsarten"
+        },
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe-Preise"
+        }
+      ]
+    },
+    "stripe-fee-leakage-report-may-2026": {
+      "metaTitle": "Bericht über Stripe-Gebührenlecks: Wer ist sicher?",
+      "metaDescription": "Ein Diagnosemodell vom Mai 2026 für Stripe-Gebührenlecks: Vergleichen Sie sichere SaaS-Zahlungsprofile mit den günstigen, globalen Profilen mit hohen Rückerstattungen, die jetzt Gebühren prüfen sollten.",
+      "title": "Bericht über Stripe-Gebührenlecks: Wer ist sicher?",
+      "readTime": "9 min",
+      "publishedAt": null,
+      "updatedAt": null,
+      "faq": [
+        {
+          "question": "Was ist ein Stripe-Gebührenleck?",
+          "answer": "Unter Stripe-Gebührenverlust versteht man die Lücke zwischen der von Ihnen erwarteten Hauptzahlungsrate und den tatsächlichen Gesamtkosten, die durch feste Gebühren, internationale Karten, Währungsumrechnung, Rückerstattungen, Streitigkeiten und Zusatzprodukte entstehen."
+        },
+        {
+          "question": "Welche Unternehmen sind am stärksten von Stripe-Gebührenverlusten betroffen?",
+          "answer": "Niedrigpreisige Abonnements, globales SaaS, erstattungsintensive Produkte und per Karte bezahlte B2B-Rechnungen sind die am stärksten exponierten Profile. Inländisches B2B-SaaS mit hohem Preis ist in der Regel sicherer."
+        },
+        {
+          "question": "Wie messe ich Gebührenlecks aus Stripe-Daten?",
+          "answer": "Exportieren Sie ein detailliertes Stripe-Guthaben im CSV-Format, berechnen Sie die Gebührenbearbeitungsrate und die Stripe-Gesamtkosten separat und überprüfen Sie dann die Zeilen für kleine Gebühren, internationale Karten, Rückerstattungen, Streitigkeiten und Gebühren ohne Gebühren."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe-Preise"
+        },
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe-Berichtsdokumentation"
+        },
+        {
+          "href": "https://docs.stripe.com/disputes",
+          "title": "Dokumentation von Stripe-Streitigkeiten"
+        }
+      ]
+    },
+    "stripe-alternatives-2026": {
+      "metaTitle": "Stripe-Alternativen im Jahr 2026: Überprüfen Sie die Gebühren vor dem Wechsel",
+      "metaDescription": "Suchen Sie nach Stripe-Alternativen im Jahr 2026? Bevor Sie den Anbieter wechseln, überprüfen Sie Ihren tatsächlichen effektiven Stripe-Tarif und ermitteln Sie, ob Gebühren, Zahlungsmix oder Checkout-Strategie das eigentliche Problem sind.",
+      "title": "Stripe-Alternativen im Jahr 2026: Überprüfen Sie die Gebühren vor dem Wechsel",
+      "readTime": "8 min",
+      "publishedAt": "2026-06-25",
+      "updatedAt": null,
+      "faq": [],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe-Preise"
+        },
+        {
+          "href": "https://www.paypal.com/us/business/paypal-business-fees",
+          "title": "PayPal-Händlergebühren"
+        },
+        {
+          "href": "https://squareup.com/us/en/payments/our-fees",
+          "title": "Square-Zahlungsabwicklungsgebühren"
+        },
+        {
+          "href": "https://gocardless.com/pricing/",
+          "title": "GoCardless-Preise"
+        },
+        {
+          "href": "https://www.adyen.com/pricing",
+          "title": "Adyen-Preise"
+        }
+      ]
+    },
+    "stripe-credit-card-processing-fees": {
+      "metaTitle": "Stripe-Bearbeitungsgebühren: Kartentarife im Vergleich zu tatsächlichen Kosten",
+      "metaDescription": "Die Gebühren für die Stripe-Bearbeitung beginnen beim veröffentlichten Kartentarif (oft 2,9 % + 0,30 $), aber Ihre tatsächlichen Kosten hängen von festen Gebühren, internationalen Karten, Rückerstattungen, Streitfällen und Add-ons ab.",
+      "title": "Stripe-Bearbeitungsgebühren: Kartentarife im Vergleich zu tatsächlichen Kosten",
+      "readTime": "6 min",
+      "publishedAt": "2026-06-25",
+      "updatedAt": "2026-07-16",
+      "faq": [],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe-Preise"
+        },
+        {
+          "href": "https://docs.stripe.com/reports/balance-transaction-types",
+          "title": "Stripe-Saldo-Transaktionsarten"
+        },
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe-Berichtsdokumentation"
+        }
+      ]
+    },
+    "stripe-vs-paypal-fees": {
+      "metaTitle": "Stripe vs. PayPal-Gebühren: Echter Vergleich",
+      "metaDescription": "Die Gebühren für Stripe und PayPal liegen auf dem Papier nahe beieinander, aber Ihre tatsächlichen Kosten hängen vom Checkout-Mix, der durchschnittlichen Gebührenhöhe, internationalen Kunden, Rückerstattungen, Streitigkeiten und Zahlungsmethoden ab.",
+      "title": "Stripe vs. PayPal-Gebühren: Echter Vergleich",
+      "readTime": "7 min",
+      "publishedAt": "2026-06-25",
+      "updatedAt": null,
+      "faq": [],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe-Preise"
+        },
+        {
+          "href": "https://www.paypal.com/us/business/paypal-business-fees",
+          "title": "PayPal-Händlergebühren"
+        },
+        {
+          "href": "https://developer.paypal.com/braintree/articles/guides/payment-methods/paypal",
+          "title": "Braintree PayPal-Dokumente"
+        }
+      ]
+    },
+    "stripe-international-card-fees": {
+      "metaTitle": "Gebühren für Stripe International-Karten: Warum Ihr Tarif höher ist",
+      "metaDescription": "Die Gebühren für internationale Stripe-Karten erhöhen sich bei grenzüberschreitenden Karten um etwa 1,5 % – ein häufiger Grund dafür, dass sich Ihr effektiver Zinssatz und Ihre Auszahlung schlechter als 2,9 % anfühlen. So finden Sie es in Ihrer Balance-CSV-Datei.",
+      "title": "Gebühren für Stripe International-Karten: Warum Ihr Tarif höher ist",
+      "readTime": "6 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-07-19",
+      "faq": [
+        {
+          "question": "Wie hoch ist die internationale Kartengebühr von Stripe?",
+          "answer": "Bei der internationalen Kartengebühr von Stripe handelt es sich um eine zusätzliche grenzüberschreitende Gebühr, die erhoben wird, wenn die Karte außerhalb Ihres Stripe-Kontolandes ausgestellt wurde. Bei vielen Preisszenarien in den USA beträgt dieser üblicherweise 1,5 Prozentpunkte zusätzlich zur Standardkartenverarbeitung."
+        },
+        {
+          "question": "Entscheidet die Kartenwährung oder das Kartenland über die internationale Gebühr?",
+          "answer": "Die internationale Kartengebühr richtet sich nach dem Land des Kartenausstellers im Verhältnis zum Land Ihres Stripe-Kontos. Die Währungsumrechnung erfolgt separat und kann zusätzlich erfolgen, wenn die Gebühren- und Abrechnungswährung unterschiedlich sind."
+        },
+        {
+          "question": "Wie finde ich internationale Kartengebühren in Stripe-Daten?",
+          "answer": "Exportieren Sie ein detailliertes Stripe-Guthaben im CSV-Format und suchen Sie nach internationalen Kartenindikatoren in Gebührenzeilen, Beschreibungen oder Gebührenmustern. Vergleichen Sie diese Zeilen dann mit den inländischen Kartengebühren für denselben Zeitraum."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe-Preise"
+        },
+        {
+          "href": "https://docs.stripe.com/payments/payment-methods",
+          "title": "Stripe-Zahlungsmethoden"
+        },
+        {
+          "href": "https://docs.stripe.com/reports/balance-transaction-types",
+          "title": "Stripe-Saldo-Transaktionsarten"
+        }
+      ]
+    },
+    "stripe-ach-vs-credit-card-fees": {
+      "metaTitle": "Stripe ACH vs. Kreditkartengebühren: Wenn ACH Geld spart",
+      "metaDescription": "Vergleichen Sie Stripe ACH- und Kreditkartengebühren. Erfahren Sie, wann ACH Geld spart, wo die 5-Dollar-Obergrenze wichtig ist und wie B2B-SaaS die Zahlungskosten senken kann.",
+      "title": "Stripe ACH vs. Kreditkartengebühren: Wenn ACH Geld spart",
+      "readTime": "7 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-06-25",
+      "faq": [
+        {
+          "question": "Ist Stripe ACH günstiger als Kreditkarten?",
+          "answer": "Bei vielen großen B2B-Zahlungen in den USA ist ACH günstiger als Kartenzahlungen, da für ACH eine niedrigere prozentuale Gebühr und eine Obergrenze gelten. Karten können im Hinblick auf Geschwindigkeit, Konvertierung und die Erwartungen der Verbraucher an den Checkout immer noch besser sein."
+        },
+        {
+          "question": "Wann sollte ein SaaS-Unternehmen ACH anbieten?",
+          "answer": "ACH ist am nützlichsten für große Rechnungen, Jahrespläne und B2B-Kunden, die mit Bankzahlungen vertraut sind. Es ist weniger ideal für Sofortkäufe oder reibungslose Abläufe beim Bezahlen."
+        },
+        {
+          "question": "Was ist der Kompromiss zwischen ACH und Kartenzahlungen?",
+          "answer": "ACH kostet in der Regel weniger, kann aber langsamer ablaufen, anders scheitern und zu mehr Onboarding-Reibungen führen. Kartenzahlungen kosten mehr, sind aber für viele Käufer schneller und vertrauter."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe-Preise"
+        },
+        {
+          "href": "https://docs.stripe.com/payments/ach-debit",
+          "title": "Stripe ACH-Lastschriftdokumentation"
+        },
+        {
+          "href": "https://docs.stripe.com/payments/payment-methods",
+          "title": "Stripe-Zahlungsmethoden"
+        }
+      ]
+    },
+    "stripe-fees-small-transactions": {
+      "metaTitle": "Stripe-Gebühren für kleine Transaktionen: Warum Ihr Tarif höher ist",
+      "metaDescription": "Die feste Stripe-Gebühr von 0,30 US-Dollar trifft kleine Transaktionen hart: Eine Gebühr von 5 US-Dollar kann etwa 9 % kosten. Sehen Sie sich die Berechnungen, die Auswirkungen auf die Marge und Möglichkeiten zur Reduzierung der Belastung durch Mikrozahlungen an.",
+      "title": "Stripe-Gebühren für kleine Transaktionen: Warum Ihr Tarif höher ist",
+      "readTime": "5 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-07-19",
+      "faq": [
+        {
+          "question": "Warum sind die Stripe-Gebühren bei kleinen Transaktionen so hoch?",
+          "answer": "Die feste Gebühr pro Transaktion von Stripe ist dieselbe, unabhängig davon, ob die Gebühr 5 $ oder 100 $ beträgt. Bei einer Gebühr von 5 $ beträgt die feste Gebühr von 0,30 $ bereits 6 %, bevor die prozentuale Gebühr hinzukommt."
+        },
+        {
+          "question": "Wie hoch ist die Stripe-Gebühr bei einer Zahlung von 5 $?",
+          "answer": "Bei einem Beispielsatz von 2,9 % + 0,30 $ kostet eine Zahlung von 5 $ etwa 0,45 $ an Gebühren: 0,145 $ aus der prozentualen Gebühr plus 0,30 $ Festpreis. Das entspricht ungefähr einer effektiven Rate von 9 %."
+        },
+        {
+          "question": "Wie kann ich Stripe-Gebühren für preisgünstige Produkte reduzieren?",
+          "answer": "Bündeln Sie kleine Einkäufe, erhöhen Sie die Mindestgebühr, stellen Sie monatliche Mikropläne auf jährliche Abrechnung um oder bündeln Sie nutzungsbasierte Gebühren in weniger Rechnungen, wenn das Kundenerlebnis dies zulässt."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe-Preise"
+        },
+        {
+          "href": "https://docs.stripe.com/billing",
+          "title": "Dokumentation zur Stripe-Abrechnung"
+        },
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe-Berichtsdokumentation"
+        }
+      ]
+    },
+    "stripe-blended-rate-calculator": {
+      "metaTitle": "Stripe Blended Rate Calculator: Finden Sie Ihren wahren Gebührensatz",
+      "metaDescription": "Wie hoch ist Ihr tatsächlicher Stripe-Mischpreis? Lernen Sie die Formel kennen, verwenden Sie unseren Rechner und finden Sie heraus, was Ihren effektiven Zinssatz auf über 2,9 % treibt.",
+      "title": "Stripe Blended Rate Calculator: Finden Sie Ihren wahren Gebührensatz",
+      "readTime": "6 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-06-25",
+      "faq": [
+        {
+          "question": "Was ist ein Stripe-Mischpreis?",
+          "answer": "Bei einem Stripe-Mischpreis handelt es sich um die gesamten Stripe-Gebühren geteilt durch das Gesamtgebührenvolumen über einen Zeitraum. Es vereint verschiedene Zahlungsarten, feste Gebühren, internationale Karten, Rückerstattungen und Zusatzgebühren zu einem realen Prozentsatz."
+        },
+        {
+          "question": "Warum ist mein Pauschalsatz höher als 2,9 %?",
+          "answer": "Ihr Pauschalpreis kann höher als 2,9 % sein, da die feste Gebühr von 0,30 $ bei kleinen Gebühren hoch ist, bei internationalen Karten grenzüberschreitende Gebühren anfallen, bei der Währungsumrechnung zusätzliche Kosten anfallen und bei Rückerstattungen oder Streitfällen Pauschalgebühren anfallen können."
+        },
+        {
+          "question": "Sollte ich Gebühren oder alle Stripe-Gebühren verwenden?",
+          "answer": "Verwenden Sie Gebühren, um die Kartenverarbeitungsrate zu messen. Verwenden Sie alle Stripe-Gebühren, um die Stripe-Gesamtkosten zu messen. Beide sind nützlich, beantworten aber unterschiedliche Fragen."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe-Preise"
+        },
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe-Berichtsdokumentation"
+        },
+        {
+          "href": "https://docs.stripe.com/reports/balance-transaction-types",
+          "title": "Stripe-Saldo-Transaktionsarten"
+        }
+      ]
+    },
+    "how-to-export-stripe-balance-csv": {
+      "metaTitle": "Exportieren Sie das Stripe-Guthaben als CSV-Datei für die Gebührenanalyse",
+      "metaDescription": "Detaillierte Anleitung mit Screenshots: Einzelbilanz-CSV (keine Zusammenfassung), Datumsbereich, häufige Exportfehler, dann eine kostenlose Gebührendiagnose. Benötigen Sie die Kurzversion? Verwenden Sie die CSV-Kurzanleitung für Balance.",
+      "title": "Exportieren Sie das Stripe-Guthaben als CSV-Datei für die Gebührenanalyse",
+      "readTime": "4 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-08-04",
+      "faq": [
+        {
+          "question": "Welchen Stripe-CSV-Export sollte ich für die Gebührenanalyse verwenden?",
+          "answer": "Verwenden Sie den CSV-Export für Einzelsalden oder Saldentransaktionen. Zusammenfassende Exporte sind für Gesamtsummen nützlich, enthalten jedoch nicht genügend Gebührendetails auf Transaktionsebene für eine echte Gebührenprüfung."
+        },
+        {
+          "question": "Wohin exportiere ich eine Stripe-Balance-CSV-Datei?",
+          "answer": "Gehen Sie im Stripe-Dashboard zu „Berichte“ oder „Berichte“, öffnen Sie „Saldenzusammenfassung“ oder „Saldentransaktionen“, legen Sie den Datumsbereich fest, wählen Sie „Exportieren“ und dann „Aufgeschlüsselt“ und laden Sie die CSV-Datei herunter."
+        },
+        {
+          "question": "Wie viele Stripe-Daten sollte ich exportieren?",
+          "answer": "Exportieren Sie mindestens einen ganzen Monat. Drei bis sechs Monate eignen sich besser für die Diagnose von Gebührentrends, internationalem Kartenmix, Rückerstattungsverlusten und monatlichen Tarifänderungen."
+        },
+        {
+          "question": "Reicht ein Stripe-Auszahlungsbericht für den Gebührenabgleich?",
+          "answer": "Nein. Ein Auszahlungsbericht ist für den Bankabgleich nützlich, aber er gruppiert die Geldbewegungen. Verwenden Sie den CSV-Export für Einzelsalden oder Saldentransaktionen, wenn Sie Gebührenzeilen auf Transaktionsebene benötigen."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe-Berichtsdokumentation"
+        },
+        {
+          "href": "https://docs.stripe.com/reports/balance-transaction-types",
+          "title": "Stripe-Saldo-Transaktionsarten"
+        },
+        {
+          "href": "https://dashboard.stripe.com/reports",
+          "title": "Stripe-Dashboard-Berichte"
+        }
+      ]
+    },
+    "why-stripe-effective-rate-jumped-this-month": {
+      "metaTitle": "Warum ist meine Stripe-Effektivrate diesen Monat gestiegen?",
+      "metaDescription": "Ihr Stripe-Mischpreis hat sich von Monat zu Monat geändert, und Sie wissen nicht, warum. Hier sind die 6 häufigsten Ursachen – und wie Sie herausfinden, welche Sie betroffen haben.",
+      "title": "Warum ist meine Stripe-Effektivrate diesen Monat gestiegen?",
+      "readTime": "8 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-06-25",
+      "faq": [
+        {
+          "question": "Warum ist mein effektiver Stripe-Tarif diesen Monat gestiegen?",
+          "answer": "Die häufigsten Ursachen sind mehr internationale Karten, ein geringerer durchschnittlicher Transaktionsumfang, Rückerstattungen aus einem Vormonat, neue Währungsumrechnungen, Stripe-Zusatzgebühren oder Streitbeilegungsgebühren."
+        },
+        {
+          "question": "Welche monatliche Änderung der Stripe-Gebühr ist normal?",
+          "answer": "Eine Bewegung von etwa 0,2 Prozentpunkten kann für ein gemischtes SaaS-Geschäft normal sein. Ein Sprung über 0,5 Prozentpunkte hat normalerweise eine bestimmte Ursache, die es wert ist, in der Balance-CSV untersucht zu werden."
+        },
+        {
+          "question": "Welche Stripe-CSV-Zeilen sollte ich zuerst überprüfen?",
+          "answer": "Beginnen Sie mit den monatlichen Gebührenzeilen und überprüfen Sie dann die Beschreibungen internationaler Karten, Gebührengruppen für niedrige Beträge, Rückerstattungszeilen, Streitigkeitenzeilen und Gebührenzeilen ohne Gebühren wie Abrechnung, Radar, Steuern oder andere Stripe-Gebühren."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe-Preise"
+        },
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe-Berichtsdokumentation"
+        },
+        {
+          "href": "https://docs.stripe.com/disputes",
+          "title": "Dokumentation von Stripe-Streitigkeiten"
+        }
+      ]
+    },
+    "why-stripe-fees-increase": {
+      "metaTitle": "Warum sind meine Stripe-Gebühren diesen Monat gestiegen?",
+      "metaDescription": "Gebühren höher oder Auszahlung niedriger als im letzten Monat? Sehen Sie sich die üblichen Treiber an – internationale Karten, nicht erstattete Rückerstattungsgebühren, FX, Radar/Add-ons – und prüfen Sie dann, welche Zeile in Ihrer Balance-CSV verschoben wurde. Kostenlose Diagnose zu Fee Auditor.",
+      "title": "Warum sind meine Stripe-Gebühren diesen Monat gestiegen?",
+      "readTime": "5 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-08-05",
+      "intro": [
+        "If your Stripe effective fee rate has climbed over the past few months — or your payout looks lighter than volume suggests — you're not alone. Many teams notice a gradual increase without a clear Dashboard explanation. Here are the most common causes and how to confirm which one moved."
+      ],
+      "sections": [
+        {
+          "type": "callout",
+          "title": "Short answer",
+          "body": "Ihre Stripe-Gebühren steigen normalerweise, weil sich Ihr Transaktionsmix geändert hat, und nicht, weil sich eine offensichtliche Einstellung geändert hat. Internationale Karten, kleinere Gebühren, Rückerstattungen, Streitfälle, Währungsumrechnungen und Zusatzprodukte können den effektiven Tarif erhöhen."
+        },
+        {
+          "type": "section",
+          "heading": "Short answer",
+          "paragraphs": [
+            "Ihre Stripe-Gebühren steigen normalerweise, weil sich Ihr Transaktionsmix geändert hat, und nicht, weil sich eine offensichtliche Einstellung geändert hat. Internationale Karten, kleinere Gebühren, Rückerstattungen, Streitfälle, Währungsumrechnungen und Zusatzprodukte können den effektiven Tarif erhöhen."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "1. Weitere internationale Karten",
+          "paragraphs": [
+            "Stripe charges an additional 1.5% for international cards (cards issued outside your country). If the charge currency differs from your settlement currency, conversion fees (often around 1%) stack on top — a common worst-case mix can approach ~5.7% of the charge before fixed fees on a $100 example (see our international fees guide and the cross-border fee migration briefing ). If your customer mix has shifted toward international buyers, your effective rate rises."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "2. Mehr American Express-Transaktionen",
+          "paragraphs": [
+            "Bei Amex-Karten fallen höhere Umtauschgebühren an. Der Standard-Stripe-Tarif für Amex beträgt 2,9 % + 0,30 $, genau wie bei Visa/Mastercard – der zugrunde liegende Wechselkurs ist jedoch höher, was sich auf Ihre Kosten auswirken kann, wenn Sie einen benutzerdefinierten Preisplan haben."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "3. Kleinere durchschnittliche Transaktionsgröße",
+          "paragraphs": [
+            "The fixed $0.30 per transaction matters more for small payments. A $5 charge has an effective rate of 8.9% (2.9% + $0.30 = $0.445 on $5.00), while a $100 charge is just 3.2%. If your average order value dropped, your effective rate went up. Details: small-transaction fee drag ."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "4. Erhöhte Streitrate",
+          "paragraphs": [
+            "Jeder Streit kostet 15 US-Dollar. Selbst eine geringfügige Erhöhung der Streithäufigkeit kann die Gesamtgebühren erheblich erhöhen, insbesondere wenn die durchschnittliche Transaktionsgröße moderat ist."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "5. Währungsumrechnung",
+          "paragraphs": [
+            "Stripe erhebt eine Umrechnungsgebühr von etwa 1 %, wenn in einer anderen Währung als Ihrer Abrechnungswährung abgerechnet wird. Wenn Sie kürzlich mit dem weltweiten Verkauf begonnen haben, trägt dies wahrscheinlich dazu bei – insbesondere neben internationalen Karten."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "6. Rückerstattungen (Gebühren werden in der Regel nicht erstattet)",
+          "paragraphs": [
+            "When you issue a refund, Stripe generally keeps the original processing fee. A quiet rise in refund rate can lift your all-in cost even when card pricing is unchanged. This is one of the most common \"payout feels light\" explanations alongside international mix."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "7. Stripe Billing, Radar, Steuern",
+          "paragraphs": [
+            "If you use Stripe's Billing product for subscriptions and invoicing, pay-as-you-go pricing commonly adds about 0.7% of billing volume on top of card or ACH processing. Fixed annual Billing plans start around $620/month instead of that percentage. Radar and Tax add separate fee lines — including when a Radar trial later rolls into a paid tier. Sum non-charge fee rows in the Balance CSV to see whether add-ons, not cards, moved the needle.",
+            "Sehen Sie, welcher Treiber umgezogen ist – zuerst durch Ausprobieren oder in Ihrer CSV-Datei"
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "So diagnostizieren Sie Ihre Gebühren",
+          "paragraphs": [
+            "Der schnellste Weg, die Ursache zu finden, ist die Analyse Ihrer Stripe Balance CSV. Exportieren Sie es aus Stripe → Berichte → Saldo (einzeln aufgeführt) und laden Sie es dann in Fee Auditor hoch, um eine Aufschlüsselung Ihres effektiven Tarifs und der wichtigsten Kostenfaktoren zu erhalten.",
+            "Wenn Sie die Datei noch nicht haben, verwenden Sie die Kurzanleitung zum CSV-Export von Balance (oder die detaillierte Screenshot-Komplettlösung), kehren Sie dann zurück und führen Sie die Prüfung durch. Bevorzugen Sie zuerst eine Demo? Öffnen Sie den Beispielbericht.",
+            "Verwandte Leitfäden: Warum die Gebühren höher als 2,9 % sind. Internationale Kartengebühren. Der effektive Tarif ist diesen Monat sprunghaft gestiegen. Veröffentlichter Tarifrechner"
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "Warum sind meine Stripe-Gebühren gestiegen?",
+          "answer": "Stripe fees usually increase because your payment mix changed: more international cards, lower average charge size, currency conversion, disputes, refunds, or extra Stripe products such as Billing, Radar, or Tax — not because the homepage 2.9% rate quietly changed overnight."
+        },
+        {
+          "question": "Warum sind meine Stripe-Gebühren im Vergleich zu 2,9 % so hoch?",
+          "answer": "The published 2.9% + $0.30 is a domestic card starting point. Your effective rate is total fees ÷ charge volume. International cards, FX, fixed fees on small tickets, refund fee retention, disputes, and add-ons can push the blended number well above 2.9%."
+        },
+        {
+          "question": "Warum ist meine Stripe-Auszahlung niedriger als erwartet?",
+          "answer": "Payouts settle net of fees, refunds, disputes, and other Balance lines. If volume looks fine but cash is light, check whether fees rose, refunds increased, or non-charge fee rows (Radar, Billing, Tax) grew. Compare month-over-month in an itemized Balance CSV."
+        },
+        {
+          "question": "Werden Stripe-Rückerstattungsgebühren erstattet?",
+          "answer": "Normalerweise nein. Wenn Sie eine Gebühr erstatten, behält Stripe im Allgemeinen die ursprüngliche Bearbeitungsgebühr ein. Eine höhere Rückerstattungsrate kann Ihre Gesamtkosten erhöhen, selbst wenn sich die Kartenpreise nicht geändert haben. Achten Sie in Ihrem Guthabenexport auf Rückerstattungszeilen und Auswirkungen auf die einbehaltene Gebühr."
+        },
+        {
+          "question": "Können Radar oder Billing meinen effektiven Tarif diesen Monat erhöhen?",
+          "answer": "Ja. Bezahlte Radarprüfungen, prozentuale Abrechnungsgebühren, Steuern und ähnliche Produkte werden als separate Gebührenzeilen angezeigt. Eine neue Radar-Testversion, die in die kostenpflichtige Standardversion oder ein höheres Abrechnungsvolumen übergeht, kann den All-in-Tarif verschieben, ohne Ihren Basiskartentarif zu ändern."
+        },
+        {
+          "question": "Wie kann ich feststellen, was den Anstieg verursacht hat?",
+          "answer": "Export your itemized Stripe Balance CSV and compare this month to prior months. Check international card share, average transaction size, refund rows, dispute rows, and non-charge Stripe fee rows — or run a free diagnosis that surfaces one concrete driver."
+        },
+        {
+          "question": "Können sich die Stripe-Gebühren erhöhen, auch wenn sich meine Preise nicht geändert haben?",
+          "answer": "Ja. Ihre Stripe-Preise können gleich bleiben, während Ihr effektiver Tarif steigt, weil sich die Kundenregion, die Transaktionsgröße, Rückerstattungen, Streitigkeiten oder die Add-on-Nutzung geändert haben."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe-Preise"
+        },
+        {
+          "href": "https://docs.stripe.com/disputes",
+          "title": "Dokumentation von Stripe-Streitigkeiten"
+        },
+        {
+          "href": "https://docs.stripe.com/reports/balance-transaction-types",
+          "title": "Stripe-Saldo-Transaktionsarten"
+        },
+        {
+          "href": "https://support.stripe.com/questions/updates-to-radar-pricing-(january-2027)",
+          "title": "Preisaktualisierungen für Stripe Radar"
+        }
+      ],
+      "table": {
+        "headers": [
+          "Cause",
+          "Fee impact",
+          "CSV signal"
+        ],
+        "rows": [
+          [
+            "Weitere internationale Karten",
+            "+1,5 % auf die Gebühren der betroffenen Karte",
+            "Filtern Sie nach internationalen Kartenreihen"
+          ],
+          [
+            "Währungsumrechnung",
+            "Oftmals etwa +1 %, wenn eine Umrechnung erfolgt",
+            "Vergleichen Sie Gebühren- und Abrechnungswährungen"
+          ],
+          [
+            "Kleinere Transaktionen",
+            "Die feste Gebühr von 0,30 $ wird zu einem größeren Anteil",
+            "Gruppieren Sie Gebühren nach Betragsgruppe"
+          ],
+          [
+            "Disputes",
+            "Pauschale Streitbeilegungsgebühren können die Gesamtkosten in die Höhe treiben",
+            "Streitigkeitenzeilen filtern"
+          ],
+          [
+            "Abrechnung, Radar, Steuern, Add-ons",
+            "Separate Gebührenlinien erhöhen die Stripe-Gesamtkosten",
+            "Summe der Zeilen mit gebührenfreien Gebühren"
+          ],
+          [
+            "Refunds",
+            "Ursprüngliche Bearbeitungsgebühren werden grundsätzlich nicht zurückerstattet",
+            "Überprüfen Sie Rückerstattungszeilen und einbehaltene Gebühren"
+          ]
+        ]
+      }
+    },
+    "how-to-reduce-stripe-fees": {
+      "metaTitle": "So reduzieren Sie Ihre Stripe-Gebühren",
+      "metaDescription": "Praktische Taktiken zur Senkung Ihres effektiven Stripe-Gebührensatzes: Verhandeln Sie individuelle Preise, reduzieren Sie Streitigkeiten, optimieren Sie die Währungseinstellungen und mehr.",
+      "title": "So reduzieren Sie Ihre Stripe-Gebühren",
+      "readTime": "7 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-06-25",
+      "intro": [
+        "Der Standardtarif von Stripe beträgt 2,9 % + 0,30 $ pro Transaktion, aber Ihr effektiver Tarif – also das, was Sie tatsächlich zahlen – kann deutlich höher sein. Hier erfahren Sie, wie Sie es herunterfahren."
+      ],
+      "sections": [
+        {
+          "type": "callout",
+          "title": "Short answer",
+          "body": "Der beste Weg, die Stripe-Gebühren zu senken, besteht darin, den Fix auf den Treiber abzustimmen: ACH für große Rechnungen, jährliche Abrechnung für kleine wiederkehrende Gebühren, lokale Zahlungsmethoden für internationale Kunden und Reduzierung von Streitigkeiten/Rückerstattungen, wenn diese Zeilen dominieren."
+        },
+        {
+          "type": "section",
+          "heading": "Short answer",
+          "paragraphs": [
+            "Der beste Weg, die Stripe-Gebühren zu senken, besteht darin, den Fix auf den Treiber abzustimmen: ACH für große Rechnungen, jährliche Abrechnung für kleine wiederkehrende Gebühren, lokale Zahlungsmethoden für internationale Kunden und Reduzierung von Streitigkeiten/Rückerstattungen, wenn diese Zeilen dominieren."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "1. Verhandeln Sie individuelle Preise",
+          "paragraphs": [
+            "Sobald Sie mehr als 80.000 US-Dollar pro Monat verarbeiten, bespricht Stripe individuelle Tarife. Kontaktieren Sie Ihren Account Manager oder kontaktieren Sie uns unter stripe.com/contact/sales. Selbst eine Reduzierung um 0,2 % auf 100.000 $/Monat spart jeden Monat 200 $."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "2. Erhöhen Sie den durchschnittlichen Transaktionswert",
+          "paragraphs": [
+            "Die feste Komponente von 0,30 $ schadet kleinen Transaktionen am meisten. Erwägen Sie, Produkte zu bündeln, Jahrespläne statt Monatsplänen anzubieten oder einen Mindestbestellwert festzulegen."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "3. Streitigkeiten reduzieren",
+          "paragraphs": [
+            "Aktivieren Sie Stripe Radar-Regeln, um verdächtige Transaktionen zu blockieren, bevor sie zu Streitigkeiten werden. Verwenden Sie klare Abrechnungsbeschreibungen. Jeder vermiedene Streitfall spart 15 $ + potenzielle Rückerstattungskosten."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "4. Optimieren Sie die Währungseinstellungen",
+          "paragraphs": [
+            "Wenn Sie in mehreren Ländern verkaufen, sollten Sie erwägen, lokale Zahlungsmethoden über Stripe zu aktivieren, um Währungsumrechnungsgebühren (1 % pro Transaktion) zu vermeiden."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "5. Nutzen Sie ACH für hochwertige B2B-Zahlungen",
+          "paragraphs": [
+            "ACH-Banküberweisungen über Stripe kosten 0,8 % (maximal 5 $). Bei Rechnungen über 1.000 US-Dollar ist dies 70–80 % günstiger als die Kartenbearbeitung."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Erstens: Kennen Sie Ihre Ausgangslage",
+          "paragraphs": [
+            "Vor der Optimierung müssen Sie Ihren aktuellen effektiven Zinssatz kennen und wissen, welche Transaktionen am meisten kosten. Laden Sie Ihr Stripe-Guthaben im CSV-Format auf Fee Auditor hoch, um eine Aufschlüsselung mit Benchmark-Kontext, Rückerstattungsverlusten und Sparideen im Zusammenhang mit Ihrem Export zu erhalten."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "Was ist der schnellste Weg, die Stripe-Gebühren zu senken?",
+          "answer": "Der schnellste Weg hängt von Ihrem Gebührentreiber ab. Bei großen B2B-Rechnungen kann ACH der größte Gewinn sein. Bei kleinen Beträgen hilft meist eine Bündelung oder eine jährliche Abrechnung mehr. Für internationale Kunden können lokale Zahlungsmethoden die Kartenzuschläge reduzieren."
+        },
+        {
+          "question": "Kann ich Stripe-Gebühren aushandeln?",
+          "answer": "Stripe kann individuelle Preise für Unternehmen mit bedeutendem Verarbeitungsvolumen oder spezifischen Zahlungsanforderungen besprechen. Messen Sie vor Verhandlungen Ihre aktuellen effektiven Tarif- und Gebührenfaktoren anhand Ihrer Balance-CSV-Datei."
+        },
+        {
+          "question": "Should I switch away from Stripe to reduce fees?",
+          "answer": "Nicht immer. Ermitteln Sie zunächst, ob sich Ihre Kosten aus den Grundpreisen von Stripe, internationalen Karten, kleinen Gebühren, Rückerstattungen, Streitfällen oder Add-ons ergeben. Einige Probleme können innerhalb von Stripe durch eine Änderung des Zahlungsmixes behoben werden."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe-Preise"
+        },
+        {
+          "href": "https://docs.stripe.com/payments/payment-methods",
+          "title": "Stripe-Zahlungsmethoden"
+        },
+        {
+          "href": "https://docs.stripe.com/disputes",
+          "title": "Dokumentation von Stripe-Streitigkeiten"
+        }
+      ],
+      "table": {
+        "headers": [
+          "Tactic",
+          "Potential",
+          "Best fit"
+        ],
+        "rows": [
+          [
+            "Fügen Sie ACH für große B2B-Rechnungen hinzu",
+            "High",
+            "Am besten für US-B2B-Rechnungen und Jahrespläne geeignet"
+          ],
+          [
+            "Erhöhen Sie die durchschnittliche Transaktionsgröße",
+            "High",
+            "Am besten für günstige Abonnements oder Add-ons geeignet"
+          ],
+          [
+            "Bieten Sie lokale Zahlungsmethoden an",
+            "Medium-high",
+            "Am besten für internationale Kundenstämme"
+          ],
+          [
+            "Reduzieren Sie Streitigkeiten und Rückerstattungen",
+            "Medium",
+            "Am besten, wenn Erstattungs-/Anfechtungszeilen in der CSV-Datei sichtbar sind"
+          ],
+          [
+            "Verhandeln Sie individuelle Preise",
+            "Medium",
+            "Am besten nach einem sinnvollen monatlichen Verarbeitungsvolumen"
+          ],
+          [
+            "Überprüfen Sie die Abrechnungs-/Radar-/Steuer-Add-ons",
+            "Case-by-case",
+            "Am besten, wenn die Anzahl der Gebührenzeilen wächst"
+          ]
+        ]
+      }
+    },
+    "stripe-effective-fee-rate-explained": {
+      "metaTitle": "Wie hoch ist Ihr effektiver Stripe-Gebührensatz?",
+      "metaDescription": "Ihr effektiver Stripe-Gebührensatz ist der tatsächliche Prozentsatz des Umsatzes, den Sie an Stripe zahlen. Erfahren Sie, wie Sie ihn berechnen und wie ein guter Tarif aussieht.",
+      "title": "Wie hoch ist Ihr effektiver Stripe-Gebührensatz?",
+      "readTime": "4 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-06-25",
+      "intro": [
+        "Stripe wirbt mit 2,9 % + 0,30 $ pro Transaktion. Aber was Sie tatsächlich zahlen – Ihr effektiver Honorarsatz – ist fast immer anders und normalerweise höher."
+      ],
+      "sections": [
+        {
+          "type": "section",
+          "heading": "Definition: Effektiver Stripe-Gebührensatz",
+          "paragraphs": [
+            "Der effektive Stripe-Gebührensatz ist der Gesamtbetrag, den Sie an Stripe-Gebühren gezahlt haben, geteilt durch Ihr gesamtes verarbeitetes Gebührenvolumen für denselben Zeitraum. Es ist die praktische Antwort auf die Frage „Wie viel Prozent hat Stripe tatsächlich eingenommen?“"
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "So berechnen Sie es",
+          "paragraphs": [
+            "Effektiver Gebührensatz = insgesamt gezahlte Gebühren ÷ Gesamtgebührenvolumen × 100",
+            "Gesamtvolumen: 38.500 $",
+            "Effektiver Zinssatz: 1.240 $ / 38.500 $ = 3,22 %"
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Was ist ein guter effektiver Zinssatz?",
+          "paragraphs": [
+            "Für Inlandstransaktionen nur in den USA mit einem durchschnittlichen Bestellwert von 50 USD und mehr ist ein Satz von 3,0–3,3 % typisch. Ein Wert von mehr als 3,5 % bedeutet in der Regel, dass etwas untersucht werden muss – internationale Karten, Streitigkeiten oder kleine Transaktionsgrößen."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Warum es höher als 2,9 % ist",
+          "paragraphs": [
+            "Mehrere Faktoren führen dazu, dass der Satz über den angekündigten 2,9 % liegt:"
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Verfolgen Sie es monatlich",
+          "paragraphs": [
+            "Der effektive Tarif kann sich je nach Kundenstamm von Monat zu Monat ändern. Durch die Nachverfolgung können Sie Probleme frühzeitig erkennen – etwa einen plötzlichen Zustrom von internationalem Datenverkehr oder eine umstrittene Reihe von Transaktionen."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "Was ist der effektive Stripe-Gebührensatz?",
+          "answer": "Der effektive Stripe-Gebührensatz entspricht den gesamten Stripe-Gebühren geteilt durch das gesamte verarbeitete Gebührenvolumen für denselben Zeitraum. Es zeigt den tatsächlichen Prozentsatz des an Stripe gezahlten Umsatzes nach festen Gebühren, internationalen Karten, Rückerstattungen, Streitigkeiten und Add-ons."
+        },
+        {
+          "question": "Entspricht der effektive Gebührensatz dem 2,9 %-Satz von Stripe?",
+          "answer": "Nein. Stripes 2,9 % + 0,30 $ ist ein veröffentlichter Satz für ein gängiges Kartenszenario. Ihr effektiver Tarif basiert auf Ihrem tatsächlichen Transaktionsmix und kann daher höher sein, wenn Sie geringe Gebühren, internationale Kunden oder Rückerstattungs-/Streitbeilegungsaktivitäten haben."
+        },
+        {
+          "question": "Was ist ein guter effektiver Stripe-Gebührensatz?",
+          "answer": "Für inländische US-Kartenzahlungen mit einem gesunden durchschnittlichen Transaktionsvolumen können etwa 3,0 % bis 3,3 % normal sein. Ein Satz über 3,5 % ist in der Regel eine Untersuchung wert, insbesondere bei SaaS mit internationalen Karten oder Low-Ticket-Plänen."
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://stripe.com/pricing",
+          "title": "Stripe-Preise"
+        },
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe-Berichtsdokumentation"
+        },
+        {
+          "href": "https://docs.stripe.com/reports/balance-transaction-types",
+          "title": "Stripe-Saldo-Transaktionsarten"
+        }
+      ]
+    },
+    "why-stripe-effective-rate-higher-than-2-9-percent": {
+      "metaTitle": null,
+      "metaDescription": null,
+      "title": null,
+      "readTime": "5 min",
+      "publishedAt": null,
+      "updatedAt": null,
+      "faq": [],
+      "sources": []
+    }
+  },
+  "privacy": {
+    "why-i-wont-connect-my-stripe-account-to-third-party-tools": {
+      "metaTitle": "Why I Wouldn't Connect My Stripe Account to Every Third-Party Tool",
+      "metaDescription": "Stripe OAuth / read-only access is a trust decision, not a login button. When you only need a fee audit, an itemized Balance CSV is enough — no persistent connection.",
+      "title": "Why I Wouldn't Connect My Stripe Account to Every Third-Party Tool",
+      "shortTitle": "Why I Wouldn't Connect My Stripe Account to Every Tool",
+      "readTime": "7 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-08-04",
+      "intro": [
+        "Connecting a tool to Stripe is easy. One OAuth screen, one click, and suddenly the tool can start building charts, dashboards, alerts, and forecasts from your payment data.",
+        "That convenience is real. But so is the tradeoff. Your Stripe account contains customer records, payments, refunds, invoices, payouts, disputes, and a history of how money moves through your business. Even read access can be a bigger trust decision than it sounds.",
+        "This is why I prefer a CSV-first workflow for one-off fee audits: export the data I need, analyze that snapshot, and avoid granting a persistent connection to my live Stripe account."
+      ],
+      "sections": [
+        {
+          "type": "section",
+          "heading": "The problem is not that OAuth is bad",
+          "paragraphs": [
+            "OAuth is a legitimate way to connect software. If you need a live subscription dashboard, automated revenue recognition, or recurring operational syncs, an API connection can make sense.",
+            "The problem is that many founders treat a Stripe OAuth prompt like a harmless login button. It is not. It is a permission decision around some of the most sensitive operating data in the business."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "What broad read access can expose",
+          "paragraphs": [
+            "Stripe has more than one integration model, including Connect OAuth, Stripe Apps permissions, and API keys. The exact data depends on the model and permissions granted. But broad read access can expose categories like these:"
+          ],
+          "bullets": [
+            "Customer records such as names, email addresses, billing details, and tax identifiers when customer access is granted.",
+            "Charges, refunds, payment attempts, invoices, subscriptions, prices, coupons, and billing history.",
+            "Balance transactions, fee records, transfers, payouts, and cash movement through the Stripe account.",
+            "Disputes, fraud warnings, events, files, and other operational records depending on requested permissions."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Read-only still means copyable data",
+          "paragraphs": [
+            "Read-only normally means the tool should not create refunds, update subscriptions, or change your Stripe settings. That is good. But read-only data can still be copied, processed, stored, exported, joined with other datasets, and exposed if the vendor is breached.",
+            "In other words, the important question is not only 'Can this app change my account?' It is also 'What can this app learn about my customers and business, and how long will it keep that data?'"
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Persistent access is the hidden part",
+          "paragraphs": [
+            "A CSV export is a snapshot. An OAuth or API connection can be ongoing until it is revoked or otherwise limited by the integration. If you stop using a tool but forget to disconnect it, that connection may remain part of your security surface.",
+            "That does not mean every connected tool is unsafe. It means every connection deserves the same scrutiny you would give any vendor that handles customer or financial data."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "The CSV-first alternative",
+          "paragraphs": [
+            "For a fee audit, real-time access is usually unnecessary. You do not need a permanent connection to answer questions like: What is my effective fee rate? Which transactions are expensive? Are refunds leaking margin? Is my 4.5% rate normal for my mix?",
+            "Fee Auditor uses this approach. You export an itemized Stripe Balance Transactions CSV, upload it for analysis, and get a report without connecting your Stripe account. The raw CSV is not stored as a raw file; the app keeps a derived analysis result so you can reopen the link. During the promotional beta, full-report access may be free for up to 30 days; after beta, unpaid previews are shorter unless you purchase a full-report unlock — see the Privacy Policy."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "Is connecting a Stripe tool always unsafe?",
+          "answer": "No. API tools can be valuable when you need real-time dashboards or automation. The point is to treat Stripe access as a vendor trust decision, not a casual login step."
+        },
+        {
+          "question": "Why is CSV enough for a fee audit?",
+          "answer": "A fee audit is usually retrospective. An itemized Balance Transactions CSV contains the amounts, fees, types, currencies, and timestamps needed to calculate your effective fee rate and find expensive transactions."
+        }
+      ],
+      "related": [
+        {
+          "href": "/blog/what-does-stripe-oauth-read-only-access-actually-see",
+          "title": "Stripe OAuth read-only access: what apps can see"
+        },
+        {
+          "href": "/blog/how-to-audit-stripe-fees-without-connecting-your-account",
+          "title": "How to audit Stripe fees without connecting your account"
+        },
+        {
+          "href": "/blog/csv-vs-api-stripe-fee-analysis",
+          "title": "CSV vs API for Stripe fee analysis"
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/connect/oauth-reference",
+          "title": "Stripe Connect OAuth reference"
+        },
+        {
+          "href": "https://docs.stripe.com/stripe-apps/reference/permissions",
+          "title": "Stripe Apps permissions reference"
+        }
+      ]
+    },
+    "what-does-stripe-oauth-read-only-access-actually-see": {
+      "metaTitle": "Stripe OAuth Read-Only Access: What Third-Party Apps Can See",
+      "metaDescription": "What “read-only” Stripe OAuth can still expose — and when a Balance CSV fee check is enough without connecting your account.",
+      "title": "Stripe OAuth Read-Only Access: What Third-Party Apps Can See",
+      "shortTitle": "Stripe OAuth Read-Only Access: What Apps Can See",
+      "readTime": "8 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-08-04",
+      "intro": [
+        "The phrase read-only sounds safe. For Stripe, it can still mean broad visibility into your business: customers, payments, payouts, refunds, subscriptions, disputes, and metadata depending on the app and permissions.",
+        "That matters when you only need a fee audit. A CSV-based workflow gives you a one-time snapshot instead of a persistent Stripe connection, so the tradeoff is access friction versus ongoing data exposure."
+      ],
+      "sections": [
+        {
+          "type": "section",
+          "heading": "First, separate the access models",
+          "table": {
+            "headers": [
+              "Model",
+              "What it means",
+              "Why founders should care"
+            ],
+            "rows": [
+              [
+                "Connect OAuth",
+                "A connected app receives access according to the OAuth flow and selected scope.",
+                "Useful for third-party services, but access can persist until revoked."
+              ],
+              [
+                "Stripe Apps",
+                "Apps declare granular permissions such as customer_read, charge_read, payout_read, and event_read.",
+                "The permission list shows the kind of data categories an app may request."
+              ],
+              [
+                "API keys",
+                "A business or developer creates keys for direct API access, sometimes restricted.",
+                "Powerful, but dangerous if keys are overbroad or leaked."
+              ]
+            ]
+          }
+        },
+        {
+          "type": "section",
+          "heading": "Data categories broad read access can include",
+          "paragraphs": [
+            "Not every tool requests every category. A responsible integration should ask for only what it needs. But when evaluating a tool, these are the categories worth checking on the consent screen, app manifest, documentation, and privacy policy."
+          ],
+          "table": {
+            "headers": [
+              "Category",
+              "Examples",
+              "Why it matters"
+            ],
+            "rows": [
+              [
+                "Customers",
+                "Names, emails, billing details, customer metadata",
+                "This can identify who buys from you and how valuable they are."
+              ],
+              [
+                "Payments",
+                "Charges, refunds, payment intents, invoices",
+                "This reveals revenue history and transaction-level behavior."
+              ],
+              [
+                "Balance and payouts",
+                "Balance transactions, transfers, payout timing",
+                "This shows cash movement and operational finance data."
+              ],
+              [
+                "Subscriptions",
+                "Plans, prices, coupons, renewal status",
+                "This exposes your pricing model and customer lifecycle."
+              ],
+              [
+                "Risk and disputes",
+                "Disputes, chargebacks, fraud warnings",
+                "This can reveal operational weaknesses and customer conflicts."
+              ],
+              [
+                "Events and files",
+                "Account events, uploaded files depending on permissions",
+                "This can broaden the data footprint beyond payments."
+              ]
+            ]
+          }
+        },
+        {
+          "type": "section",
+          "heading": "What read-only usually cannot do",
+          "paragraphs": [
+            "Read-only access should not let an app issue refunds, update subscriptions, create payouts, change account settings, or modify live objects. That is an important protection.",
+            "But it can still let a vendor read and process sensitive business data. The risk is data exposure, vendor storage, breach impact, and long-lived access - not necessarily unauthorized writes."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Questions to ask before granting access",
+          "bullets": [
+            "Which exact Stripe permissions or scopes does the tool request?",
+            "Does it need live access, or would an exported CSV answer the question?",
+            "Does it store customer-level data, transaction-level data, or only aggregated metrics?",
+            "How do I revoke access, and what happens to stored historical data after revocation?",
+            "Is there a clear privacy policy, security page, and data retention explanation?"
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "How Fee Auditor avoids this class of access",
+          "paragraphs": [
+            "Fee Auditor does not ask you to connect Stripe. It analyzes an itemized Stripe Balance Transactions CSV. That means it cannot keep polling your Stripe account, cannot read new customer activity after the export, and cannot change anything in Stripe.",
+            "For a periodic fee audit, this is usually enough: the Balance CSV contains the charge amount, fee, net amount, currency, type, and timestamp needed to calculate the real effective fee rate."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "Is Stripe OAuth read-only access safe?",
+          "answer": "It is safer than write access because it should not let an app change your Stripe account, but it can still expose sensitive business data depending on the scopes and permissions requested. Check the exact permissions and whether a CSV export is enough for the job."
+        },
+        {
+          "question": "Does read-only access include card numbers?",
+          "answer": "Stripe does not expose raw card numbers through normal API access. However, read access can still expose customer, payment, subscription, refund, payout, and dispute records depending on the integration permissions."
+        },
+        {
+          "question": "Can I revoke Stripe app access later?",
+          "answer": "Yes, connected apps can generally be reviewed and revoked from the Stripe Dashboard. Revocation stops future access, but you should still check each vendor's policy for data already stored."
+        }
+      ],
+      "related": [
+        {
+          "href": "/blog/why-i-wont-connect-my-stripe-account-to-third-party-tools",
+          "title": "Why I would not connect my Stripe account to every tool"
+        },
+        {
+          "href": "/blog/the-stripe-data-you-share-with-analytics-tools",
+          "title": "The Stripe data you share with analytics tools"
+        },
+        {
+          "href": "/blog/csv-vs-api-stripe-fee-analysis",
+          "title": "CSV vs API for Stripe fee analysis"
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/connect/oauth-reference",
+          "title": "Stripe Connect OAuth reference"
+        },
+        {
+          "href": "https://docs.stripe.com/stripe-apps/reference/permissions",
+          "title": "Stripe Apps permissions reference"
+        }
+      ]
+    },
+    "how-to-audit-stripe-fees-without-connecting-your-account": {
+      "metaTitle": "How to Audit Your Stripe Fees Without Connecting Your Account",
+      "metaDescription": "A practical guide to auditing Stripe fees from an itemized Balance Transactions CSV: blended rate formula, fee drivers, refunds, high-fee charges, and no-OAuth analysis.",
+      "title": "How to Audit Your Stripe Fees Without Connecting Your Account",
+      "shortTitle": "Audit Stripe Fees Without Connecting Your Account",
+      "readTime": "9 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-05-16",
+      "intro": [
+        "If you only look at Stripe's headline card rate, it is easy to assume your cost is roughly 2.9% plus 30 cents. The real number can be higher once your actual customer mix shows up: international cards, small charges, refunds, disputes, Radar, and currency-related costs.",
+        "You do not need to connect your Stripe account to understand this. You can audit fees from an itemized Balance Transactions CSV and calculate your real effective fee rate from the data Stripe already gives you."
+      ],
+      "sections": [
+        {
+          "type": "section",
+          "heading": "Step 1: export the right Stripe CSV",
+          "paragraphs": [
+            "Use the itemized Balance Transactions export, not a payout summary. In Stripe Dashboard, go to Reports, open Balance transactions, choose the period you want to audit, and export the itemized CSV.",
+            "For a meaningful report, use at least three months of data if possible. For high-fee charge detection and trend analysis, six to twelve months is better."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Step 2: confirm the required columns",
+          "paragraphs": [
+            "For a basic fee audit, you need transaction-level rows with the core columns Fee Auditor also expects:"
+          ],
+          "bullets": [
+            "id - the Stripe balance transaction identifier.",
+            "type - for example charge, refund, payout, fee, or adjustment.",
+            "amount - gross amount, usually stored in the smallest currency unit in the CSV.",
+            "fee - the fee associated with the row.",
+            "net - amount after fees.",
+            "currency - for example usd.",
+            "created - timestamp or date.",
+            "description - optional, but helpful for classifying international cards and other context."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Step 3: calculate your effective fee rate",
+          "paragraphs": [
+            "The cleanest fee-rate calculation is based on charge rows, because that compares card processing fees to processed charge volume for the same set of transactions."
+          ],
+          "table": {
+            "headers": [
+              "Metric",
+              "How to calculate it"
+            ],
+            "rows": [
+              [
+                "Charge volume",
+                "Filter type = charge, then sum amount."
+              ],
+              [
+                "Charge fees",
+                "On those same charge rows, sum fee."
+              ],
+              [
+                "Effective fee rate",
+                "Charge fees divided by charge volume, multiplied by 100."
+              ],
+              [
+                "Other fees",
+                "Sum fee on non-charge rows separately so disputes, adjustments, and add-ons do not hide inside the card rate."
+              ]
+            ]
+          }
+        },
+        {
+          "type": "section",
+          "heading": "Step 4: find what is pushing the rate up",
+          "bullets": [
+            "International and cross-border cards can add a meaningful surcharge to otherwise normal charges.",
+            "Small transactions can have a very high effective rate because the fixed 30 cent fee dominates the payment.",
+            "Large B2B card invoices may be cheaper through ACH or bank transfer if customers are willing to use it.",
+            "Refunds can leak margin because Stripe generally does not return the original processing fee.",
+            "One-off high-fee transactions can reveal card mix, disputes, Radar, or classification issues worth reviewing."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Step 5: benchmark the result",
+          "paragraphs": [
+            "A 4.5% effective rate is not automatically good or bad. It depends on your mix. A US-only SaaS business with larger domestic card payments should usually look different from a global business selling low-ticket subscriptions to customers across many countries.",
+            "That is why a useful report should not only say 'your rate is 4.5%.' It should answer: is this normal for this mix, what is driving it, and what should I look at first?"
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "How Fee Auditor automates the audit",
+          "paragraphs": [
+            "Fee Auditor follows the CSV approach. You export the itemized Balance Transactions CSV, upload it, and get a report showing real effective fee rate, benchmark verdict, top fee drivers, refund leakage, high-fee charges, monthly trends, and savings opportunities.",
+            "It does not connect to your Stripe account or request OAuth access. The raw CSV is parsed for analysis and not stored as a raw file; a derived result is retained so you can reopen your link. During the promotional beta, full-report access may be free for up to 30 days; after beta, access follows the Privacy Policy (short unpaid preview vs paid unlock)."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "Can I calculate Stripe fees manually from CSV?",
+          "answer": "Yes. Filter charge rows, sum amount, sum fee on those same rows, then divide fees by volume. For deeper analysis, group by month, transaction size, refund rows, and high-fee outliers."
+        },
+        {
+          "question": "Do I need to connect my Stripe account to use Fee Auditor?",
+          "answer": "No. Fee Auditor uses an exported Stripe Balance Transactions CSV. It does not request Stripe OAuth or API access. How long your report link stays available depends on beta vs standard mode — see our Privacy Policy."
+        }
+      ],
+      "related": [
+        {
+          "href": "/stripe-balance-csv",
+          "title": "Step-by-step Stripe Balance CSV export guide"
+        },
+        {
+          "href": "/blog/stripe-blended-rate-calculator",
+          "title": "Stripe blended rate calculator"
+        },
+        {
+          "href": "/blog/stripe-fees-small-transactions",
+          "title": "Stripe fees for small transactions"
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe reports documentation"
+        },
+        {
+          "href": "https://docs.stripe.com/connect/oauth-reference",
+          "title": "Stripe Connect OAuth reference"
+        }
+      ]
+    },
+    "the-stripe-data-you-share-with-analytics-tools": {
+      "metaTitle": "The Stripe Data You're Sharing With Every Analytics Tool You Connect",
+      "metaDescription": "A practical checklist for founders connecting Stripe analytics tools: customer data, payments, subscriptions, payouts, disputes, privacy policies, retention, and alternatives.",
+      "title": "The Stripe Data You're Sharing With Every Analytics Tool You Connect",
+      "shortTitle": "The Stripe Data You Share With Analytics Tools",
+      "readTime": "8 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-05-16",
+      "intro": [
+        "Founders connect Stripe to analytics tools for good reasons: MRR, churn, cohorts, failed payments, revenue forecasting, and customer segmentation. Those insights can be valuable.",
+        "But each connection also creates a data-sharing relationship. Depending on the tool and permissions, you may be sharing customer records, transactions, invoices, subscriptions, refunds, payout history, and dispute data. That is not automatically wrong, but it should be intentional."
+      ],
+      "sections": [
+        {
+          "type": "section",
+          "heading": "What analytics tools often need",
+          "paragraphs": [
+            "Revenue analytics tools usually need more than a single total. To calculate MRR, churn, customer lifetime value, refunds, expansion revenue, and cohorts, they need transaction-level and customer-level context."
+          ],
+          "bullets": [
+            "Customer identifiers and contact fields for account-level reporting.",
+            "Subscriptions, prices, invoices, coupons, and invoice status for recurring revenue metrics.",
+            "Charges, refunds, disputes, and payment failures for revenue and risk reporting.",
+            "Balance transactions and payouts for reconciliation and cash flow views."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "The cumulative risk of many connections",
+          "paragraphs": [
+            "One trusted tool may be reasonable. Five tools with overlapping Stripe access are a larger surface area. Each vendor has its own infrastructure, employees, logs, backups, subprocessors, and data retention policy.",
+            "This is why the question is not 'Are analytics tools bad?' The better question is 'Which tools need live access, which only need snapshots, and which should be removed?'"
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "A founder checklist before clicking connect",
+          "bullets": [
+            "What exact Stripe data does the tool need to deliver the feature I want?",
+            "Can I get the answer from a CSV export instead of live API access?",
+            "Does the vendor store raw transaction-level data or only derived metrics?",
+            "How long is the data retained after I disconnect?",
+            "Can I revoke access easily from Stripe Dashboard?",
+            "Does the privacy policy mention subprocessors, breach handling, and data deletion?"
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "When live analytics are worth it",
+          "paragraphs": [
+            "If you run a mature subscription business and need daily metrics, lifecycle automation, or real-time alerts, a connected analytics platform may be the right tradeoff. The point is not to avoid every integration. The point is to match the access level to the job."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "When a CSV audit is enough",
+          "paragraphs": [
+            "If the question is periodic and retrospective - for example, 'What was my real Stripe fee rate last quarter?' - a CSV export is often enough. You can analyze the exact period you care about without granting a vendor ongoing access to your Stripe account.",
+            "Fee Auditor is built for that use case. It is not trying to replace live subscription analytics. It is a focused audit tool for Stripe fee visibility, benchmark context, refund fee leakage, and transaction-level fee drivers."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "Should I avoid tools like Baremetrics or ChartMogul?",
+          "answer": "Not necessarily. They solve real revenue analytics problems. The point is to understand what data you share, why the tool needs it, and whether a lower-access workflow would be enough for the specific task."
+        },
+        {
+          "question": "What is a lower-access way to analyze Stripe fees?",
+          "answer": "Export an itemized Stripe Balance Transactions CSV and analyze that snapshot. This avoids persistent Stripe account access while still giving enough data for fee-rate analysis."
+        }
+      ],
+      "related": [
+        {
+          "href": "/blog/why-i-wont-connect-my-stripe-account-to-third-party-tools",
+          "title": "Why I would not connect my Stripe account to every tool"
+        },
+        {
+          "href": "/blog/what-does-stripe-oauth-read-only-access-actually-see",
+          "title": "What Stripe read-only access can see"
+        },
+        {
+          "href": "/blog/how-to-audit-stripe-fees-without-connecting-your-account",
+          "title": "Audit Stripe fees without connecting your account"
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/stripe-apps/reference/permissions",
+          "title": "Stripe Apps permissions reference"
+        },
+        {
+          "href": "https://docs.stripe.com/connect/oauth-reference",
+          "title": "Stripe Connect OAuth reference"
+        }
+      ]
+    },
+    "csv-vs-api-stripe-fee-analysis": {
+      "metaTitle": "CSV vs API: Two Ways to Analyze Stripe Fees, and When Each Makes Sense",
+      "metaDescription": "A balanced comparison of CSV exports and Stripe API integrations for fee analysis, including privacy, automation, accuracy, benchmarks, and when to use each approach.",
+      "title": "CSV vs API: Two Ways to Analyze Stripe Fees, and When Each Makes Sense",
+      "shortTitle": "CSV vs API for Stripe Fee Analysis",
+      "readTime": "8 min",
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-05-16",
+      "intro": [
+        "There are two honest ways to analyze Stripe fees: connect to the API, or export CSV data and analyze a snapshot. Neither is universally better. They optimize for different things.",
+        "The API approach wins when you need automation and live dashboards. The CSV approach wins when you need a focused audit, a lower-access workflow, and a clear answer without maintaining a persistent connection to Stripe."
+      ],
+      "sections": [
+        {
+          "type": "section",
+          "heading": "Quick comparison",
+          "table": {
+            "headers": [
+              "Question",
+              "CSV approach",
+              "API approach"
+            ],
+            "rows": [
+              [
+                "Needs live Stripe access?",
+                "No",
+                "Yes"
+              ],
+              [
+                "Best for",
+                "Monthly or quarterly fee audits",
+                "Continuous dashboards and automation"
+              ],
+              [
+                "Setup effort",
+                "Export and upload a file",
+                "Connect app or build integration"
+              ],
+              [
+                "Privacy surface",
+                "Snapshot of selected period",
+                "Persistent account access depending on permissions"
+              ],
+              [
+                "Real-time reporting",
+                "No",
+                "Yes"
+              ],
+              [
+                "Good for benchmark and fee leakage",
+                "Yes",
+                "Yes, if implemented carefully"
+              ]
+            ]
+          }
+        },
+        {
+          "type": "section",
+          "heading": "When the API makes sense",
+          "bullets": [
+            "You need daily or real-time dashboards for revenue, churn, failed payments, or subscriptions.",
+            "You need alerts and automation that react to Stripe events.",
+            "You have an internal team that can manage least-privilege access, logging, deletion, and vendor review.",
+            "You are comfortable with a third-party service having ongoing access to the Stripe data it needs."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "When CSV makes sense",
+          "bullets": [
+            "You want to answer a periodic question like 'What was my real effective fee rate last quarter?'",
+            "You do not want to connect your live Stripe account to another vendor.",
+            "You only need a selected time period, not ongoing polling.",
+            "You want a file-based workflow you can explain to finance, operations, or a cofounder."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Accuracy depends on the source data",
+          "paragraphs": [
+            "For fee analysis, the itemized Balance Transactions CSV is a strong source because it contains transaction-level amounts, fees, net amounts, types, currencies, and timestamps. That is enough to calculate charge fee rate, other fees, monthly trends, top drivers, and refund fee impact.",
+            "An API integration can access similar or richer data, but it still has to make the same modeling decisions: which rows count as charge volume, which fees are separate, how refunds are treated, and how to classify high-fee charges."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Why Fee Auditor uses CSV first",
+          "paragraphs": [
+            "Fee Auditor is built for one job: help founders understand their actual Stripe fees without granting account access. For that job, CSV is the right starting point. It is explicit, limited to the exported period, and easy to revoke because there is no connection to revoke.",
+            "The result is not a live revenue analytics suite. It is a focused fee audit: real effective rate, benchmark verdict, refund leakage, top fee drivers, high-fee charges, monthly trends, and savings opportunities from your exported Balance data. During the promotional beta, uploads may receive full-report access without payment for up to 30 days; after beta, access follows the Privacy Policy (short unpaid preview vs one-time paid unlock)."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "Is CSV less accurate than the Stripe API?",
+          "answer": "Not necessarily. For retrospective fee analysis, an itemized Balance Transactions CSV can contain the exact fields needed. API access is more useful when you need live or automated reporting."
+        },
+        {
+          "question": "Can Fee Auditor replace a subscription analytics platform?",
+          "answer": "No. Fee Auditor is focused on Stripe fee analysis, not full revenue analytics. It is designed for audits, benchmarks, refund leakage, and fee-driver visibility from CSV exports."
+        }
+      ],
+      "related": [
+        {
+          "href": "/blog/how-to-audit-stripe-fees-without-connecting-your-account",
+          "title": "How to audit Stripe fees without connecting your account"
+        },
+        {
+          "href": "/stripe-fee-calculator",
+          "title": "Stripe effective fee rate calculator"
+        },
+        {
+          "href": "/analyze?sample=1",
+          "title": "Try a sample Fee Auditor report"
+        }
+      ],
+      "sources": [
+        {
+          "href": "https://docs.stripe.com/reports",
+          "title": "Stripe reports documentation"
+        },
+        {
+          "href": "https://docs.stripe.com/connect/oauth-reference",
+          "title": "Stripe Connect OAuth reference"
+        }
+      ]
+    }
+  }
+}

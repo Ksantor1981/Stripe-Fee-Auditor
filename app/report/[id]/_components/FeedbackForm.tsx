@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 export function FeedbackForm({ reportId }: { reportId: string }) {
+  const { t } = useReportTranslations();
   const [useful, setUseful] = useState<"yes" | "no" | null>(null);
   const [discrepancy, setDiscrepancy] = useState("");
   const [missing, setMissing] = useState("");
@@ -21,7 +23,6 @@ export function FeedbackForm({ reportId }: { reportId: string }) {
       });
       setSubmitted(true);
     } catch {
-      // fail silently — feedback is non-critical
       setSubmitted(true);
     } finally {
       setLoading(false);
@@ -32,9 +33,9 @@ export function FeedbackForm({ reportId }: { reportId: string }) {
     return (
       <div className="rounded-2xl border border-gray-100 bg-gray-50 p-6 text-center">
         <p className="text-2xl mb-2">🙏</p>
-        <p className="font-semibold text-gray-900">Thank you!</p>
+        <p className="font-semibold text-gray-900">{t("feedbackForm.thankYou")}</p>
         <p className="text-sm text-gray-500 mt-1">
-          Your feedback helps make the tool better.
+          {t("feedbackForm.thankYouBody")}
         </p>
       </div>
     );
@@ -43,13 +44,12 @@ export function FeedbackForm({ reportId }: { reportId: string }) {
   return (
     <div className="rounded-2xl border border-gray-100 bg-white shadow-sm p-6">
       <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">
-        Quick feedback
+        {t("feedbackForm.eyebrow")}
       </p>
       <h3 className="text-base font-bold text-gray-900 mb-4">
-        Was this report useful?
+        {t("feedbackForm.title")}
       </h3>
 
-      {/* Was it useful */}
       <div className="flex gap-3 mb-5">
         {(["yes", "no"] as const).map((val) => (
           <button
@@ -65,47 +65,45 @@ export function FeedbackForm({ reportId }: { reportId: string }) {
                 : "border-gray-200 text-gray-500 hover:border-gray-300",
             ].join(" ")}
           >
-            {val === "yes" ? "👍 Yes, useful" : "👎 Not really"}
+            {val === "yes" ? t("feedbackForm.yesUseful") : t("feedbackForm.notReally")}
           </button>
         ))}
       </div>
 
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 mb-1.5">
-          What specific fee discrepancy made you upload the CSV?
+          {t("feedbackForm.discrepancyLabel")}
         </label>
         <textarea
           value={discrepancy}
           onChange={(e) => setDiscrepancy(e.target.value)}
-          placeholder="E.g. payout looked low, international cards, refund fees, or general curiosity"
+          placeholder={t("feedbackForm.discrepancyPlaceholder")}
           rows={2}
           className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:border-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-200 resize-none"
         />
       </div>
 
-      {/* What's missing */}
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 mb-1.5">
-          What&apos;s missing or could be better?
+          {t("feedbackForm.missingLabel")}
         </label>
         <textarea
           value={missing}
           onChange={(e) => setMissing(e.target.value)}
-          placeholder="E.g. I wanted to see... / It was confusing when..."
+          placeholder={t("feedbackForm.missingPlaceholder")}
           rows={3}
           className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:border-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-200 resize-none"
         />
       </div>
 
-      {/* Would you pay */}
       <div className="mb-5">
         <label className="block text-sm font-medium text-gray-700 mb-1.5">
-          Would you pay for this? If yes — how much feels fair?
+          {t("feedbackForm.willPayLabel")}
         </label>
         <input
           value={willPay}
           onChange={(e) => setWillPay(e.target.value)}
-          placeholder="E.g. $5 one-time / $10/month / No"
+          placeholder={t("feedbackForm.willPayPlaceholder")}
           className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:border-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-200"
         />
       </div>
@@ -116,7 +114,7 @@ export function FeedbackForm({ reportId }: { reportId: string }) {
         disabled={!useful || loading}
         className="w-full rounded-xl bg-blue-600 hover:bg-blue-700 disabled:bg-gray-200 disabled:text-gray-400 text-white font-semibold py-2.5 text-sm transition-colors"
       >
-        {loading ? "Sending..." : "Send Feedback"}
+        {loading ? t("feedbackForm.sending") : t("feedbackForm.sendFeedback")}
       </button>
     </div>
   );

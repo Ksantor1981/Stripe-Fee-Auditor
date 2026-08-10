@@ -1,0 +1,66 @@
+{
+  "chromeExtension": {
+    "metaTitle": "Stripe Fee Auditor — CSV शुल्क जाँच सहायक",
+    "metaDescription": "मुफ़्त Chrome सहायक इंस्टॉल करें: Stripe Balance निर्यात खोलें, FeeAuditor.com पर अपनी वास्तविक शुल्क दर ऑडिट करें, वैकल्पिक मासिक CSV अनुस्मारक। OAuth या API कुंजी नहीं। Stripe पृष्ठ नहीं पढ़ता।",
+    "ogAlt": "Stripe Fee Auditor Chrome एक्सटेंशन",
+    "eyebrow": "Chrome सहायक · Web Store पर मुफ़्त",
+    "heroTitle": "Stripe Fee Auditor — CSV शुल्क जाँच सहायक",
+    "heroDescription": "Balance CSV निर्यात से Stripe शुल्क जाँचने वाले संस्थापकों के लिए मुफ़्त Chrome सहायक। सही निर्यात फ़्लो खोलता है, Fee Auditor पर वापस भेजता है और मासिक अनुस्मारक दे सकता है। Stripe पृष्ठ नहीं पढ़ता। OAuth या API कुंजी नहीं।",
+    "calloutTitle": "Chrome Web Store पर सभी के लिए उपलब्ध।",
+    "calloutBody": "एक-क्लिक इंस्टॉल। मुख्य उत्पाद पथ अभी भी feeauditor.com पर sample रिपोर्ट है — सहायक एक शॉर्टकट और मासिक nudge है, दूसरा उत्पाद नहीं।",
+    "installCta": "Chrome Web Store से इंस्टॉल करें",
+    "trySampleFirstCta": "पहले sample रिपोर्ट आज़माएँ",
+    "searchFallbackPrefix": "\"Stripe Fee Auditor\" के लिए Chrome Web Store खोज खोलता है। सटीक लिस्टिंग लिंक चाहिए? इसमें सेट करें",
+    "searchFallbackCodeHint": "lib/chrome-extension.ts",
+    "benefitsHeading": "इंस्टॉल के बाद आपको क्या मिलता है",
+    "benefits": [
+      "पॉपअप में त्वरित Stripe शुल्क अनुमान (देश के अनुसार प्रकाशित दरें)",
+      "एक क्लिक में Stripe Balance निर्यात खोलें",
+      "CSV अपलोड या sample देखने के लिए Fee Auditor पर जाएँ",
+      "वैकल्पिक स्थानीय मासिक अनुस्मारक (OAuth नहीं)",
+      "Stripe पृष्ठ scrape नहीं करता और host अनुमति नहीं माँगता"
+    ],
+    "addToChromeCta": "Chrome में जोड़ें →",
+    "benefitsFooter": "मुफ़्त · Stripe कनेक्शन नहीं · विश्लेषण feeauditor.com पर रहता है",
+    "workflowEyebrow": "वर्कफ़्लो",
+    "workflowHeading": "मासिक CSV ऑडिट आदत के लिए बनाया गया",
+    "features": [
+      {
+        "step": "1",
+        "title": "Stripe निर्यात खोलें",
+        "body": "हर महीने रिपोर्ट में खोजने के बजाय सीधे Stripe Balance निर्यात वर्कफ़्लो पर जाएँ।"
+      },
+      {
+        "step": "2",
+        "title": "CSV विश्लेषण",
+        "body": "Fee Auditor खोलें और Balance CSV अपलोड करके processing rate, all-in cost और fee drivers जाँचें।"
+      },
+      {
+        "step": "3",
+        "title": "मासिक अनुस्मारक",
+        "body": "शुल्क drift अदृश्य होने से पहले जाँच दोहराने के लिए स्थानीय ब्राउज़र अनुस्मारक उपयोग करें।"
+      }
+    ],
+    "privacyEyebrow": "गोपनीयता दृष्टिकोण",
+    "privacyHeading": "कोई पृष्ठ पढ़ना नहीं। कोई API कुंजी नहीं।",
+    "privacyPoints": [
+      "Stripe OAuth और API कुंजी नहीं",
+      "stripe.com के लिए host अनुमति नहीं",
+      "Stripe Dashboard पृष्ठ नहीं पढ़ता",
+      "Chrome storage में केवल अनुस्मारक सेटिंग संग्रहीत",
+      "CSV विश्लेषण केवल जब आप feeauditor.com पर अपलोड चुनें"
+    ],
+    "webAppEyebrow": "वेब ऐप पसंद?",
+    "webAppHeading": "शुल्क ऑडिट के लिए एक्सटेंशन ज़रूरी नहीं",
+    "webAppBody": "Balance CSV निर्यात करें, Fee Auditor पर अपलोड करें या sample रिपोर्ट से शुरू करें। Chrome सहायक केवल निर्यात तेज़ करता है और जाँच दोहराने की याद दिलाता है।",
+    "trySample10sCta": "10 सेकंड में sample आज़माएँ",
+    "csvGuideCta": "CSV निर्यात गाइड",
+    "bottomEyebrow": "इंस्टॉल · फिर निदान",
+    "bottomHeading": "सहायक जोड़ें, या sample रिपोर्ट से शुरू करें।",
+    "bottomBody": "अनुशंसित पथ: पहले sample रिपोर्ट → मासिक अनुस्मारक के लिए Chrome सहायक इंस्टॉल → तैयार होने पर अपना Balance CSV अपलोड।",
+    "trySampleReportCta": "Sample रिपोर्ट आज़माएँ",
+    "developerNotePrefix": "डेवलपर्स: स्रोत यहाँ है",
+    "githubLinkLabel": "GitHub",
+    "developerNoteSuffix": "। सामान्य उपयोगकर्ता Web Store से इंस्टॉल करें, Load unpacked नहीं।"
+  }
+}

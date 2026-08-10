@@ -25,12 +25,13 @@ async function readReminderState() {
 }
 
 async function renderReminder() {
+  const msg = globalThis.extMsg;
   const enabled = await readReminderState();
   const status = document.getElementById("reminder-status");
   const toggle = document.getElementById("reminder-toggle");
 
-  status.textContent = enabled ? "On - opens Fee Auditor monthly" : "Off";
-  toggle.textContent = enabled ? "Turn off" : "Turn on";
+    status.textContent = enabled ? msg("reminderOn") : msg("reminderOff");
+  toggle.textContent = enabled ? msg("reminderTurnOff") : msg("reminderTurnOn");
   toggle.classList.toggle("off", enabled);
 }
 
@@ -66,6 +67,7 @@ function renderCalculatorResults() {
   const results = document.getElementById("calc-results");
   if (!results || !globalThis.FeeCalculator) return;
 
+  const msg = globalThis.extMsg;
   const estimate = globalThis.FeeCalculator.computeStripeFeeEstimate(getCalcInputs());
   const { formatMoney, formatRate } = globalThis.FeeCalculator;
   const profile = estimate.profile;
@@ -74,41 +76,42 @@ function renderCalculatorResults() {
   const fixedFee = formatMoney(profile.domesticFixed, currency);
 
   if (estimate.monthlyVolume <= 0) {
-    results.innerHTML = `<p class="calc-empty">Enter monthly volume to see an estimate.</p>`;
+    results.innerHTML = `<p class="calc-empty">${msg("calcEmpty")}</p>`;
     return;
   }
 
   const gapText =
     estimate.gapVsPublished > 0
-      ? `${formatMoney(estimate.gapVsPublished, currency)} above published`
-      : "Close to published mix";
+      ? msg("calcAbovePublished", formatMoney(estimate.gapVsPublished, currency))
+      : msg("calcClosePublished");
 
   const reverseBlock =
     estimate.targetNet > 0
-      ? `<p class="calc-reverse">
-          To receive ${formatMoney(estimate.targetNet, currency)} on one charge → ask for
-          <strong>${formatMoney(estimate.reverseGross, currency)}</strong>
-          (fee ~${formatMoney(estimate.reverseFee, currency)})
-        </p>`
+      ? `<p class="calc-reverse">${msg(
+          "calcReverse",
+          formatMoney(estimate.targetNet, currency),
+          formatMoney(estimate.reverseGross, currency),
+          formatMoney(estimate.reverseFee, currency)
+        )}</p>`
       : "";
 
   results.innerHTML = `
     <div class="calc-rate-row">
-      <p class="calc-rate-label">Likely all-in rate</p>
+      <p class="calc-rate-label">${msg("calcLikelyRate")}</p>
       <p class="calc-rate-value">${formatRate(estimate.lowRate)}–${formatRate(estimate.highRate)}</p>
     </div>
     <div class="calc-stats">
       <div>
-        <p class="calc-stat-label">Published ${domesticPct}% + ${fixedFee}</p>
-        <p class="calc-stat-value">${formatMoney(estimate.publishedFee, currency)}<span>/mo</span></p>
+        <p class="calc-stat-label">${msg("calcPublished", domesticPct, fixedFee)}</p>
+        <p class="calc-stat-value">${formatMoney(estimate.publishedFee, currency)}<span>${msg("calcPerMonth")}</span></p>
       </div>
       <div class="calc-stat-highlight">
-        <p class="calc-stat-label">Mid estimate</p>
-        <p class="calc-stat-value">${formatMoney(estimate.midFee, currency)}<span>/mo</span></p>
+        <p class="calc-stat-label">${msg("calcMidEstimate")}</p>
+        <p class="calc-stat-value">${formatMoney(estimate.midFee, currency)}<span>${msg("calcPerMonth")}</span></p>
         <p class="calc-stat-sub">${gapText}</p>
       </div>
     </div>
-    <p class="calc-meta">~${estimate.chargeCount.toLocaleString("en-US")} charges/mo at your average.</p>
+    <p class="calc-meta">${msg("calcChargesMeta", estimate.chargeCount.toLocaleString(chrome.i18n.getUILanguage()))}</p>
     ${reverseBlock}
   `;
 }

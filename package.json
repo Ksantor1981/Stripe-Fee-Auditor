@@ -15,6 +15,8 @@
     "lint": "eslint app components lib scripts tests next.config.ts --max-warnings 0",
     "test": "tsx tests/test-algorithm.ts && tsx tests/test-integration.ts && tsx tests/test-preview-gate.ts && tsx tests/test-time-since-load.ts && tsx tests/security-input.ts",
     "validate:seo": "node scripts/seo-validate.mjs",
+    "i18n:pages:extract": "node scripts/extract-pages-en.mjs",
+    "i18n:pages:translate": "python scripts/translate-pages-locales.py",
     "check:prod": "node scripts/check-production.mjs",
     "check:health": "node scripts/check-health.mjs",
     "check:post-beta": "node scripts/check-post-beta-smoke.mjs",

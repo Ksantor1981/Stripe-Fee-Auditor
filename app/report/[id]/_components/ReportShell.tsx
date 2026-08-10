@@ -19,6 +19,7 @@ import { LowVolumeReport } from "./LowVolumeReport";
 import { ShareEmbedBenchmark } from "./ShareEmbedBenchmark";
 import { ReportReconciliation } from "./ReportReconciliation";
 import { MonitorHistory } from "./MonitorHistory";
+import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 interface Props {
   reportId: string;
@@ -55,6 +56,7 @@ export function ReportShell({
   monitorHistory = [],
   previewAnomalyCount,
 }: Props) {
+  const { t, tc } = useReportTranslations();
   const router = useRouter();
   // Paid users skip EmailGate entirely — they already provided email at checkout.
   // Demo sample links skip the gate and show full sample insights without enabling exports.
@@ -188,7 +190,7 @@ export function ReportShell({
         toolbar={
           <>
             <Link href={`/report/${reportId}`} className="text-sm font-semibold text-gray-900 shrink-0">
-              {demoFullAccess ? "Sample report" : "Your report"}
+              {demoFullAccess ? t("reportShell.sampleReport") : t("reportShell.yourReport")}
             </Link>
             <div className="flex flex-wrap items-center gap-2 sm:justify-end sm:gap-3">
               {exportsEnabled && (
@@ -197,7 +199,7 @@ export function ReportShell({
                     href={`/api/export/csv?reportId=${reportId}`}
                     className="text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5 hover:border-gray-300 transition-colors bg-white"
                   >
-                    ↓ CSV
+                    {tc("exportCsv")}
                   </a>
                   <a
                     href={`/report/${reportId}/print`}
@@ -205,12 +207,12 @@ export function ReportShell({
                     rel="noopener noreferrer"
                     className="text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5 hover:border-gray-300 transition-colors bg-white"
                   >
-                    ↓ Print PDF
+                    {tc("exportPrintPdf")}
                   </a>
                 </>
               )}
               <Link href="/analyze" className="text-sm font-medium text-blue-600 hover:underline">
-                {demoFullAccess ? "Upload your CSV →" : "Analyze another file →"}
+                {demoFullAccess ? t("reportShell.uploadYourCsv") : t("reportShell.analyzeAnotherFile")}
               </Link>
             </div>
           </>
@@ -220,16 +222,15 @@ export function ReportShell({
       <div className="mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-10">
         {demoFullAccess && (
           <div className="mb-6 rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm text-indigo-900">
-            <strong>Sample report.</strong> Illustrative Balance CSV — not your Stripe account. Numbers
-            match the homepage example so you can see how a full diagnosis looks.{" "}
+            <strong>{t("reportShell.sampleBannerTitle")}</strong> {t("reportShell.sampleBannerBody")}{" "}
             <Link href="/analyze" className="font-semibold text-indigo-950 underline underline-offset-2">
-              Upload your CSV for real rates →
+              {t("reportShell.sampleBannerCta")}
             </Link>
           </div>
         )}
         {paymentPending && !isPaid && (
           <div className="mb-6 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800">
-            Payment received. We&apos;re unlocking your report now. This page will refresh automatically.
+            {t("reportShell.paymentPending")}
           </div>
         )}
         {/* Save link reminder */}
@@ -237,20 +238,18 @@ export function ReportShell({
           <div className="mb-6 rounded-xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm text-amber-800 flex items-start gap-2">
             <span className="flex-shrink-0">🔗</span>
             <span>
-              <strong>Save this page link</strong> — your private report is available for 30 days.{" "}
-              We also sent it to your email if delivery is configured.
+              <strong>{t("reportShell.saveLinkTitle")}</strong> {t("reportShell.saveLinkBody")}
             </span>
           </div>
         )}
         {monitorFullAccess && (
           <div className="mb-6 rounded-xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
-            <strong>Fee Monitor is active.</strong> This report is unlocked by your subscription. Upload a fresh
-            Stripe Balance CSV next month to compare rate drift and fee drivers.
+            <strong>{t("reportShell.monitorActiveBanner")}</strong> {t("reportShell.monitorActiveBody")}
           </div>
         )}
         {betaFullAccess && !isPaid && (
           <div className="mb-6 rounded-xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
-            Full report is free during beta. Save this private link — it stays available for up to 30 days.
+            {t("reportShell.betaFreeBanner")}
           </div>
         )}
         {/* Multi-currency warning */}
@@ -258,9 +257,9 @@ export function ReportShell({
           <div className="mb-6 rounded-xl border border-yellow-100 bg-yellow-50 px-4 py-3 text-sm text-yellow-800 flex items-start gap-2">
             <span className="flex-shrink-0">⚠️</span>
             <span>
-              Your export contains multiple currencies ({result.currencies.join(", ").toUpperCase()}).
-              Amounts are shown as-is without conversion — totals may not be directly comparable.
-              For best results, export a single-currency period.
+              {t("reportShell.multiCurrencyWarning", {
+                currencies: result.currencies.join(", ").toUpperCase(),
+              })}
             </span>
           </div>
         )}
@@ -288,20 +287,19 @@ export function ReportShell({
           {monitorFullAccess ? (
             <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-6 text-center shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-widest text-emerald-700">
-                Fee Monitor active
+                {t("reportShell.monitorActiveEyebrow")}
               </p>
               <h3 className="mt-2 text-base font-bold text-emerald-950">
-                Monthly tracking is connected to this email
+                {t("reportShell.monitorActiveTitle")}
               </h3>
               <p className="mx-auto mt-2 max-w-2xl text-sm text-emerald-800/80">
-                Your current report is unlocked. Upload the next Stripe Balance CSV when the month closes to compare
-                rate drift and fee drivers.
+                {t("reportShell.monitorActiveDescription")}
               </p>
               <a
                 href="/monitor"
                 className="mt-4 inline-flex h-11 items-center justify-center rounded-xl bg-emerald-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700"
               >
-                View Monitor workflow →
+                {t("reportShell.viewMonitorWorkflow")}
               </a>
             </div>
           ) : (
@@ -316,22 +314,22 @@ export function ReportShell({
       </div>
 
       <footer className="border-t px-4 py-6 text-center text-xs text-gray-400 space-y-1">
-        <p>Stripe Fee Auditor · Not affiliated with Stripe, Inc.</p>
+        <p>{tc("notAffiliated")}</p>
         <p className="flex justify-center gap-3 flex-wrap">
-          <a href="/about" className="hover:underline">About</a>
+          <a href="/about" className="hover:underline">{tc("about")}</a>
           <span>·</span>
-          <a href="/privacy" className="hover:underline">Privacy Policy</a>
+          <a href="/privacy" className="hover:underline">{tc("privacyPolicy")}</a>
           <span>·</span>
-          <a href="/terms" className="hover:underline">Terms of Service</a>
+          <a href="/terms" className="hover:underline">{tc("termsOfService")}</a>
           <span>·</span>
-          <a href="/refund" className="hover:underline">Refund Policy</a>
+          <a href="/refund" className="hover:underline">{tc("refundPolicy")}</a>
         </p>
         <p className="flex justify-center gap-3 flex-wrap">
-          <a href="/blog/why-stripe-fees-increase" className="hover:underline">Why fees increase</a>
+          <a href="/blog/why-stripe-fees-increase" className="hover:underline">{tc("whyFeesIncrease")}</a>
           <span>·</span>
-          <a href="/blog/how-to-reduce-stripe-fees" className="hover:underline">Reduce Stripe fees</a>
+          <a href="/blog/how-to-reduce-stripe-fees" className="hover:underline">{tc("reduceStripeFees")}</a>
           <span>·</span>
-          <a href="/blog/stripe-effective-fee-rate-explained" className="hover:underline">Fee rate explained</a>
+          <a href="/blog/stripe-effective-fee-rate-explained" className="hover:underline">{tc("feeRateExplained")}</a>
         </p>
       </footer>
     </main>

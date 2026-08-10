@@ -21,8 +21,10 @@ export default getRequestConfig(async () => {
     if (detected) locale = detected;
   }
 
+  const { loadMessagesForLocale } = await import("../lib/i18n/load-messages");
+
   return {
     locale,
-    messages: (await import(`../messages/${locale}.json`)).default,
+    messages: await loadMessagesForLocale(locale),
   };
 });

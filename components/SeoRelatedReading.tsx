@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
 export type SeoRelatedLink = {
   context: string;
@@ -12,15 +13,12 @@ type Props = {
   className?: string;
 };
 
-/** Context + link rows — same pattern on money-intent SEO landings. */
-export function SeoRelatedReading({
-  title = "Related reading",
-  links,
-  className = "",
-}: Props) {
+export async function SeoRelatedReading({ title, links, className = "" }: Props) {
+  const t = await getTranslations("seoShell");
+
   return (
     <div className={`mt-8 pt-8 border-t border-gray-100 space-y-4 ${className}`}>
-      <h2 className="text-sm font-semibold text-gray-700">{title}</h2>
+      <h2 className="text-sm font-semibold text-gray-700">{title ?? t("relatedReading")}</h2>
       {links.map((item) => (
         <div
           key={item.href}

@@ -12,6 +12,7 @@ import type { NormalizedRow } from "@/lib/csv-parser";
 import type { FeeGrade } from "@/lib/fee-grade";
 import type { FreeDiagnosis, FreeDiagnosisKind } from "@/lib/free-diagnosis";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
+import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 export interface ReportHeadline {
   chargeVolume: number;
@@ -32,16 +33,15 @@ interface Props {
   onUnlock: () => void;
 }
 
-const DRIVER_CATEGORY_LABELS: Record<FreeDiagnosisKind, string> = {
-  international_card_uplift: "International cards",
-  refund_fee_leakage: "Refund fee retention",
-  small_ticket_drag: "Small-ticket fixed fees",
-  other_fee_lines: "Other Stripe fee lines",
-  above_benchmark_rate: "Rate above mix benchmark",
-  unusual_charge: "Unusual high-fee charge",
+const DRIVER_CATEGORY_KEYS: Record<FreeDiagnosisKind, "driverInternationalCards" | "driverRefundRetention" | "driverSmallTicket" | "driverOtherFeeLines" | "driverAboveBenchmark" | "driverUnusualCharge"> = {
+  international_card_uplift: "driverInternationalCards",
+  refund_fee_leakage: "driverRefundRetention",
+  small_ticket_drag: "driverSmallTicket",
+  other_fee_lines: "driverOtherFeeLines",
+  above_benchmark_rate: "driverAboveBenchmark",
+  unusual_charge: "driverUnusualCharge",
 };
 
-/** First sentence only; strip dollar amounts so stage A stays headline-level. */
 function diagnosisGateTeaser(body: string): string {
   const first = (body.split(/(?<=[.!?])\s+/)[0] ?? body).trim();
   const redacted = first.replace(/\$[\d,]+(?:\.\d{1,2})?/g, "…");
@@ -50,6 +50,7 @@ function diagnosisGateTeaser(body: string): string {
 }
 
 export function EmailGate({ reportId, headline, onUnlock }: Props) {
+  const { t, tc } = useReportTranslations();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -61,7 +62,9 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
     (headline.chargeVolume > 0 ? (periodFees / headline.chargeVolume) * 100 : 0);
   const yearlyAtThisRate = annualRunRate(periodFees, headline.monthCount);
   const driverCategory =
-    headline.diagnosis != null ? DRIVER_CATEGORY_LABELS[headline.diagnosis.kind] : undefined;
+    headline.diagnosis != null
+      ? t(`emailGate.${DRIVER_CATEGORY_KEYS[headline.diagnosis.kind]}`)
+      : undefined;
 
   useEffect(() => {
     trackEvent("funnel_email_gate_view");
@@ -81,7 +84,7 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!isValidEmail(email)) {
-      setError("Please enter a valid email address.");
+      setError(t("emailGate.invalidEmail"));
       return;
     }
     if (headline.diagnosis) {
@@ -97,14 +100,14 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
       });
       if (!res.ok) {
         const body = await res.json().catch(() => null);
-        throw new Error(body?.error ?? "Could not open this report.");
+        throw new Error(body?.error ?? t("emailGate.couldNotOpen"));
       }
       const body = await res.json().catch(() => null);
       if (body?.monitorFullAccess) {
         router.refresh();
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not open this report.");
+      setError(err instanceof Error ? err.message : t("emailGate.couldNotOpen"));
       setLoading(false);
       return;
     }
@@ -120,19 +123,21 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
   return (
     <main className="min-h-screen bg-gray-50 px-4 py-10">
       <div className="mx-auto w-full max-w-lg space-y-5">
-        {/* Headline — stage A: rates + hook, no $ driver breakdown */}
         <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
           <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">
-            {headline.monthCount > 1 ? `${headline.monthCount}-month analysis` : "Your Stripe fees"}
+            {headline.monthCount > 1
+              ? t("emailGate.monthAnalysisEyebrow", { count: headline.monthCount })
+              : t("emailGate.yourStripeFees")}
           </p>
           <h1 className="text-2xl font-bold text-gray-900 leading-snug">
-            You paid <span className="text-blue-600">{fmt$(periodFees)}</span> in Stripe fees{" "}
+            {tc("youPaid")}{" "}
+            <span className="text-blue-600">{fmt$(periodFees)}</span> {tc("inStripeFees")}{" "}
             {stripeFeesPeriodTail(headline.monthCount)}
           </h1>
           <p className="mt-2 text-sm text-gray-600">
-            That&apos;s{" "}
+            {tc("thats")}{" "}
             <span className="font-semibold text-gray-900">{fmt$(yearlyAtThisRate)}</span>
-            /year at this rate.
+            {tc("yearSuffix")} {tc("atThisRate")}.
           </p>
 
           {headline.feeGrade && (
@@ -143,11 +148,11 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
 
           <div className="mt-5 grid grid-cols-2 gap-3">
             <div className="rounded-xl bg-gray-50 px-4 py-3">
-              <p className="text-xs text-gray-400">Processing rate</p>
+              <p className="text-xs text-gray-400">{tc("processingRate")}</p>
               <p className="text-xl font-bold text-gray-900">{fmtPct(headline.chargeRate)}</p>
             </div>
             <div className="rounded-xl bg-gray-50 px-4 py-3">
-              <p className="text-xs text-gray-400">All-in cost rate</p>
+              <p className="text-xs text-gray-400">{tc("allInCostRate")}</p>
               <p className="text-xl font-bold text-gray-900">{fmtPct(displayAllInRate)}</p>
             </div>
           </div>
@@ -155,39 +160,36 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
           {headline.diagnosis && (
             <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50/80 px-4 py-3">
               <p className="text-xs font-semibold uppercase tracking-widest text-emerald-700 mb-1">
-                Free diagnosis
+                {t("emailGate.freeDiagnosis")}
               </p>
               <h2 className="text-sm font-bold text-emerald-950">{headline.diagnosis.title}</h2>
               {driverCategory && (
                 <p className="mt-1 text-xs font-medium text-emerald-800/90">
-                  Likely driver category: {driverCategory}
+                  {t("emailGate.likelyDriverCategory", { category: driverCategory })}
                 </p>
               )}
               <p className="mt-1 text-sm leading-relaxed text-emerald-900/85">
                 {diagnosisGateTeaser(headline.diagnosis.body)}
               </p>
               <p className="mt-2 text-xs leading-relaxed text-emerald-800/75">
-                Enter your email to see dollar amounts by driver and open the preview — still free, no
-                card.
+                {t("emailGate.emailUnlockHint")}
               </p>
             </div>
           )}
         </div>
 
-        {/* Email — unlock stage B preview (drivers with $, charts) */}
         <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
           <h2 className="text-base font-bold text-gray-900 mb-1">
-            See driver amounts &amp; save your link
+            {t("emailGate.formTitle")}
           </h2>
           <p className="text-sm text-gray-500 mb-5">
-            Get dollar amounts for your top fee drivers, charts, and a private link you can return to —
-            no credit card. Full charge rows and actions unlock for $12.
+            {t("emailGate.formBody")}
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-3">
             <Input
               type="email"
-              placeholder="you@company.com"
+              placeholder={t("emailGate.emailPlaceholder")}
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -202,7 +204,7 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
               disabled={loading}
               className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-semibold"
             >
-              {loading ? "Opening preview…" : "Open preview with driver amounts →"}
+              {loading ? t("emailGate.openingPreview") : t("emailGate.openPreview")}
             </Button>
           </form>
 
@@ -219,25 +221,22 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
               onUnlock();
             }}
           >
-            Continue without email →
+            {t("emailGate.continueWithoutEmail")}
           </button>
 
           <p className="mt-4 text-xs text-gray-400 text-center leading-relaxed">
-            Email is optional. Submitting it asks us to store the address for a private report link
-            (and transactional delivery if configured) and extends unpaid retention to about{" "}
-            <strong>72 hours</strong>. Without email, preview expires in about <strong>1 hour</strong>.
-            See{" "}
+            {t("emailGate.privacyNote", { hours72: "72 hours", hours1: "1 hour" })}{" "}
             <Link href="/privacy" className="underline hover:text-gray-500">
-              Privacy
+              {t("emailGate.privacyLink")}
             </Link>
             .
           </p>
         </div>
 
         <div className="flex justify-center gap-6 text-xs text-gray-400">
-          <span>🔒 No credit card</span>
-          <span>⚡ Instant results</span>
-          <span>🗑️ Auto-deleted</span>
+          <span>{t("emailGate.noCreditCard")}</span>
+          <span>{t("emailGate.instantResults")}</span>
+          <span>{t("emailGate.autoDeleted")}</span>
         </div>
       </div>
     </main>

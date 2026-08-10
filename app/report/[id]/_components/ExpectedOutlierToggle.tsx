@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 type Props = {
   chargeId: string;
@@ -10,6 +11,8 @@ type Props = {
 };
 
 export function ExpectedOutlierToggle({ chargeId, marked, disabled, onToggle }: Props) {
+  const { t } = useReportTranslations();
+
   return (
     <Button
       type="button"
@@ -19,7 +22,7 @@ export function ExpectedOutlierToggle({ chargeId, marked, disabled, onToggle }: 
       className="h-8 text-xs shrink-0"
       onClick={() => onToggle(chargeId)}
     >
-      {marked ? "Excluded from adjusted rate ✓" : "Mark as expected one-off"}
+      {marked ? t("expectedOutlierToggle.excluded") : t("expectedOutlierToggle.markExpected")}
     </Button>
   );
 }

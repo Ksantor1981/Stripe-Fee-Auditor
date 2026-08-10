@@ -1,0 +1,277 @@
+{
+  "legal": {
+    "privacy": {
+      "title": "Privacy Policy",
+      "metaDescription": "Privacy Policy for Stripe Fee Auditor — how we handle your data.",
+      "updated": "Last updated: July 19, 2026",
+      "sections": [
+        {
+          "heading": "1. Overview",
+          "paragraphs": [
+            "Stripe Fee Auditor (\"we\", \"our\", \"the Service\") is a tool that analyzes Stripe Balance CSV exports to help you understand your fee structure. We are committed to handling your data with care and transparency. The data controller for the personal data described in this policy is {operatorName}{operatorJurisdictionPart}{operatorAddressPart}. You can contact the operator at {contactEmail}.",
+            "Fee analysis is produced by a deterministic algorithm (not a generative AI / LLM model). We do not send your CSV to third-party AI providers for analysis."
+          ]
+        },
+        {
+          "heading": "2. Data We Collect",
+          "paragraphs": [
+            "CSV file content (processed, not retained as a file): When you upload a Stripe Balance CSV, the file is transmitted to our server over an encrypted HTTPS connection, processed in memory for that request to generate your analysis, and is not stored as a raw CSV file on disk, object storage, or a durable blob. We store only the computed analysis result (JSON aggregates such as totals, rates, fee mix, and selected charge-level fields needed for the report). A Stripe Balance export typically contains transaction amounts and fees — not full card numbers — and is not treated as cardholder data under PCI DSS card storage rules; still, we minimize what we keep after analysis (including stripping free-text descriptions where they are not needed).",
+            "Computed analysis result: The computed analysis (fee totals, rates, high-fee charge flags, monthly breakdowns, etc.) is stored in our database and linked to a random report ID plus a private access token. Retention depends on whether the report is an unpaid preview, you save an email link, beta full access applies, or you pay — see section 6.",
+            "Email address: Email is optional for viewing a preview (you can continue without it). If you choose to submit your email (report gate, checkout, Fee Monitor, waitlist, or monthly tips), you are requesting that we store it for the purpose you selected: private report link / transactional messages, payment follow-up, monthly CSV reminders, waitlist updates, or the newsletter. Marketing or newsletter emails are sent only when you explicitly subscribe. We do not sell your email or personal information.",
+            "UTM and attribution parameters: When present, we may store campaign attribution with the report row — for example utm_source, utm_medium, utm_campaign, utm_content, landing path, and HTTP referrer — to understand which pages or campaigns led to an upload. These are marketing analytics fields, not the contents of your CSV.",
+            "IP address: We log your IP address for rate limiting (to prevent abuse). Rate limit records are deleted after approximately 2 days.",
+            "Operational logs: Our hosting and infrastructure providers may process limited technical logs such as request timestamps, IP addresses, URLs, error traces, and user-agent data so the Service can run securely and reliably.",
+            "Analytics: We use Plausible Analytics (EU-hosted, privacy-focused, no cookies by default) to measure aggregate traffic. First-party funnel events may also be logged server-side without raw CSV or full report payloads. If Google Analytics 4 is configured, it is used for product analytics, not advertising retargeting. We do not use third-party cookie-based behavioural advertising."
+          ]
+        },
+        {
+          "heading": "3. How We Use Your Data",
+          "paragraphs": [
+            "We do not use your financial data for advertising, profiling, or any purpose beyond providing the Service."
+          ],
+          "bullets": [
+            "To generate your fee analysis report",
+            "To send transactional messages about your report (when email is provided and a mail provider is configured)",
+            "To provide Fee Monitor reminders and subscription-related messages when you subscribe",
+            "To send monthly Stripe fee tips only when you explicitly subscribe",
+            "To enforce rate limits and prevent abuse",
+            "To operate payments and unlock paid features",
+            "To understand aggregate traffic and improve the Service (via Plausible Analytics — see section 2)"
+          ]
+        },
+        {
+          "heading": "4. Legal Bases",
+          "paragraphs": [
+            "Where data protection law requires a legal basis, we rely on:"
+          ],
+          "bullets": [
+            "Contract — to process your CSV, generate reports, unlock paid access, and send transactional report messages.",
+            "Legitimate interests — to prevent abuse, secure the Service, debug errors, keep minimal operational logs, and measure aggregate website usage.",
+            "Legal obligations — where payment, tax, accounting, dispute, or consumer-protection records must be retained.",
+            "Consent — where we specifically ask for it (for example optional marketing)."
+          ]
+        },
+        {
+          "heading": "5. Third-Party Services",
+          "paragraphs": [
+            "We use the following infrastructure and service providers (their own policies apply):",
+            "We only share with them what is needed to run the Service (for example payment receipts, report identifiers needed for checkout, or an email address you give us). These providers may process data in countries outside your own. Where required, we rely on their published transfer safeguards and data processing terms."
+          ],
+          "bullets": [
+            "Vercel — hosting and edge infrastructure (vercel.com/legal/privacy-policy)",
+            "Neon — PostgreSQL for report metadata and analysis results (neon.com/privacy-policy)",
+            "Polar — checkout, payment processing, receipts, and order-related records as our payment provider / merchant of record where applicable (polar.sh/legal/privacy)",
+            "Resend — transactional email delivery when enabled (resend.com/legal/privacy-policy)",
+            "Plausible Analytics — privacy-oriented, aggregate traffic metrics (plausible.io/privacy)",
+            "Google Analytics 4 — product analytics only when configured (policies.google.com/privacy)"
+          ]
+        },
+        {
+          "heading": "6. Data Retention",
+          "bullets": [
+            "Raw CSV file — Not stored as a file; processed in memory for the request only",
+            "Computed result (unpaid preview, no email) — About 1 hour after creation (may be briefly extended during checkout)",
+            "Computed result (unpaid, after you save an email) — Extended to about 72 hours from when the email is saved, so you can reopen the private link",
+            "Computed result (after successful payment) — Up to 30 days from payment, then deleted automatically",
+            "Computed result (beta full access) — Up to 30 days from report creation while the beta flag is enabled",
+            "UTM / attribution fields — Deleted with the report row when it expires or on a verified deletion request",
+            "Checkout session link state — Short-lived server-side checkout state expires after about 24 hours",
+            "Payment webhook event IDs — Kept for up to 90 days to prevent duplicate payment processing",
+            "Fee Monitor subscription email — Kept while the subscription is active or until deletion request where legally possible; payment records are retained by Polar under their policy",
+            "Email address (report / lists) — Report emails are kept while the corresponding report row exists; newsletter and waitlist emails are kept until unsubscribe, deletion request, or list cleanup",
+            "IP address (rate limit) — Deleted after about 2 days",
+            "Site analytics (Plausible) — Processed by Plausible under their retention policy; we do not send raw CSV or report contents there"
+          ]
+        },
+        {
+          "heading": "7. Security",
+          "paragraphs": [
+            "Data is transmitted over HTTPS. CSV content is processed on the server for analysis and is not written to a public bucket. Report access uses a secret token in addition to the report ID. We use rate limiting and other controls to reduce abuse."
+          ],
+          "bullets": [
+            "No OAuth, no API keys — you export a CSV yourself; we never get ongoing access to your Stripe account.",
+            "In-memory processing — the raw CSV file is not stored as a blob; we keep computed aggregates for your report link (see section 2).",
+            "Descriptions stripped before storage — free-text Stripe descriptions are used only during analysis, then removed from persisted report JSON where possible.",
+            "Deterministic math, not LLM — fee logic is open for review; we do not send your CSV to third-party AI providers (see section 1)."
+          ]
+        },
+        {
+          "heading": "8. Your Rights (GDPR / CCPA and similar laws)",
+          "paragraphs": [
+            "Deletion / erasure: email {contactEmail} with subject \"Data deletion request\" and your report ID (and any access details we need to verify the request). We will delete the stored analysis and related personal data we hold for that report where legally possible. Rows are also removed automatically when they expire. We do not operate a user account system, so there is no separate \"profile\" beyond what is tied to an active report or subscription row.",
+            "Access / know: you may ask what personal data we hold about you in connection with a report or email you provided (subject to verification).",
+            "Do not sell / share for ads: we do not sell personal information and we do not share it for cross-context behavioural advertising. If you are a California resident, you may still contact us to exercise CCPA rights that apply to you.",
+            "Depending on where you live, you may also have rights to correct, restrict, object to, or receive a copy of your personal data, and to complain to a local data protection authority. We will not discriminate against you for exercising privacy rights that apply to you."
+          ]
+        },
+        {
+          "heading": "9. Automated Analysis",
+          "paragraphs": [
+            "Reports are generated automatically from the CSV data you provide using deterministic fee calculations — not a machine-learning model that profiles you. The report is informational only and does not make legal, financial, credit, employment, or other similarly significant decisions about you."
+          ]
+        },
+        {
+          "heading": "10. Children",
+          "paragraphs": [
+            "The Service is not directed at children. We do not knowingly collect data from children under 13, or under the higher age threshold that may apply in your country."
+          ]
+        },
+        {
+          "heading": "11. Changes",
+          "paragraphs": [
+            "We may update this Privacy Policy. Material changes will be reflected in the \"Last updated\" date above. Continued use of the Service after changes constitutes acceptance where permitted by law."
+          ]
+        },
+        {
+          "heading": "12. Contact",
+          "paragraphs": [
+            "For privacy-related questions or data requests, contact us at: {contactEmail}"
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "metaDescription": "Terms of Service for Stripe Fee Auditor.",
+      "updated": "Last updated: May 11, 2026",
+      "sections": [
+        {
+          "heading": "1. Acceptance of Terms",
+          "paragraphs": [
+            "By accessing or using Stripe Fee Auditor (\"the Service\"), you agree to be bound by these Terms of Service. If you do not agree, do not use the Service. These Terms apply to all users."
+          ]
+        },
+        {
+          "heading": "2. Description of Service",
+          "paragraphs": [
+            "Stripe Fee Auditor is an automated data analysis tool that processes Stripe Balance CSV exports to provide fee analysis reports. The Service is for informational purposes only and does not constitute financial, accounting, legal, or tax advice. How we collect and use information when you browse the site — including aggregate analytics — is described in our Privacy Policy."
+          ]
+        },
+        {
+          "heading": "3. Not Affiliated with Stripe",
+          "paragraphs": [
+            "Stripe Fee Auditor is an independent tool and is not affiliated with, endorsed by, or sponsored by Stripe, Inc. \"Stripe\" is a trademark of Stripe, Inc. We reference Stripe solely to describe the data format our tool accepts."
+          ]
+        },
+        {
+          "heading": "4. No Warranty — Accuracy Disclaimer",
+          "paragraphs": [
+            "THE SERVICE IS PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.",
+            "We do not guarantee that the analysis results are complete, accurate, or error-free. Results depend on the data in your CSV export. Fee rates vary by card type, country, payment method, and your agreement with Stripe. Verify results in your Stripe Dashboard or with a qualified professional before making decisions."
+          ]
+        },
+        {
+          "heading": "5. Limitation of Liability",
+          "paragraphs": [
+            "TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, STRIPE FEE AUDITOR AND ITS OPERATORS SHALL NOT BE LIABLE FOR ANY:",
+            "Our total liability to you for claims arising from use of the Service shall not exceed the greater of $100 USD or the amount you paid for the Service in the 30 days preceding the claim.",
+            "Nothing in these Terms excludes or limits liability that cannot be excluded or limited by law, including statutory consumer rights, fraud, wilful misconduct, gross negligence, or liability for death or personal injury where such limits are not allowed."
+          ],
+          "bullets": [
+            "Financial losses or decisions based on analysis results",
+            "Indirect, incidental, special, or consequential damages",
+            "Loss of profits, revenue, data, or business opportunities",
+            "Errors, inaccuracies, or omissions in the analysis",
+            "Unauthorized access to your data despite our security measures"
+          ]
+        },
+        {
+          "heading": "6. Your Responsibilities",
+          "paragraphs": [
+            "By using the Service, you confirm that:"
+          ],
+          "bullets": [
+            "You have the right to upload and process the CSV data you provide",
+            "You will not upload others' data without authorization",
+            "You will not reverse-engineer, abuse, or circumvent the Service",
+            "You will not use the Service for unlawful purposes",
+            "You understand results are automated estimates, not professional advice"
+          ]
+        },
+        {
+          "heading": "7. Payments and Refunds",
+          "paragraphs": [
+            "Paid reports and Fee Monitor subscriptions are processed through Polar, which may act as payment provider, reseller, or merchant of record depending on the checkout configuration and your location. During a promotional beta, we may provide full report access without charge on terms described in our Privacy Policy. Digital delivery for a purchased report unlock is considered complete when your report is unlocked. Fee Monitor is a monthly subscription for reminders, product access, and monitoring workflow updates; cancellation and billing management are handled through Polar where available. If the Service fails to deliver unlock or access due to an error on our side, contact us within 7 days; we will work with you in good faith (including refunds where appropriate). Other refund requests are evaluated case by case and may be subject to Polar's policies. Nothing in these Terms limits mandatory consumer rights that apply to you."
+          ]
+        },
+        {
+          "heading": "8. Acceptable Use",
+          "paragraphs": [
+            "You may not use the Service to upload malicious files, access other users' reports, run automated scraping or excessive requests in a way that harms the Service, or interfere with its operation. We may block access for abuse without notice."
+          ]
+        },
+        {
+          "heading": "9. Intellectual Property",
+          "paragraphs": [
+            "The Service, including its design, algorithms, and code, is owned by the operator of Stripe Fee Auditor. The report generated from your data is for your use. You retain rights to your underlying business data."
+          ]
+        },
+        {
+          "heading": "10. Governing Law",
+          "paragraphs": [
+            "These Terms are governed by applicable law, excluding conflict-of-law rules. The operator is {operatorName}{operatorJurisdictionPart}. Disputes shall be brought before the competent courts of the jurisdiction where the operator is established or legally resident, unless mandatory consumer protection laws in your country provide otherwise."
+          ]
+        },
+        {
+          "heading": "11. Changes to Terms",
+          "paragraphs": [
+            "We may modify these Terms. The \"Last updated\" date will change when we do. Continued use after changes may constitute acceptance where permitted by law."
+          ]
+        },
+        {
+          "heading": "12. Contact",
+          "paragraphs": [
+            "For questions about these Terms, contact us at: {contactEmail}"
+          ]
+        }
+      ]
+    },
+    "refund": {
+      "title": "Refund Policy",
+      "metaDescription": "Refund Policy for Stripe Fee Auditor paid reports.",
+      "updated": "Last updated: May 11, 2026",
+      "sections": [
+        {
+          "heading": "1. What you're buying",
+          "paragraphs": [
+            "Stripe Fee Auditor sells one-time digital access to an automated fee analysis based on the Stripe Balance CSV you upload, when you purchase a full-report unlock after beta or whenever checkout is offered. During our promotional beta, the same analysis may be provided without payment on the terms in our Privacy Policy. For paid unlocks, delivery is complete when your report is unlocked in the product (including CSV export / print view where applicable)."
+          ]
+        },
+        {
+          "heading": "2. Refunds — general",
+          "paragraphs": [
+            "Because the deliverable is digital and produced instantly after payment, all sales are generally final after access begins except where mandatory consumer law requires otherwise or where we approve a refund in our discretion (for example duplicate charges or a verified failure on our side to unlock your report). If the law where you live gives you withdrawal or refund rights that cannot be waived, this policy does not limit those rights."
+          ]
+        },
+        {
+          "heading": "3. When we will refund",
+          "bullets": [
+            "You were charged more than once for the same unlock attempt.",
+            "Payment succeeded but the report did not unlock due to a technical error attributable to us — contact us within 7 days of payment with your order/receipt reference.",
+            "Your statutory rights (for example under EU/UK consumer law for faulty digital content) are not limited by this policy."
+          ]
+        },
+        {
+          "heading": "4. When we typically do not refund",
+          "bullets": [
+            "You are dissatisfied with the substance of the analysis (figures depend on your CSV; see Terms — no warranty on accuracy).",
+            "You uploaded the wrong file, exceeded retention windows, or lost your report link.",
+            "You filed a chargeback instead of contacting us first — we may dispute invalid claims."
+          ]
+        },
+        {
+          "heading": "5. How to request a refund",
+          "paragraphs": [
+            "Email {contactEmail} with your order or receipt reference (from your payment confirmation), the email used at checkout, and a short description of the issue. We aim to respond within 3 business days. Approved refunds are processed through Polar or the applicable payment provider according to its standard timelines."
+          ]
+        },
+        {
+          "heading": "6. Related policies",
+          "paragraphs": [
+            "Checkout pages may be branded by us or by third-party payment services we use. For broader terms, see our Terms of Service and Privacy Policy."
+          ]
+        }
+      ]
+    }
+  }
+}
