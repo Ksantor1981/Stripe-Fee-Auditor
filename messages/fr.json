@@ -94,7 +94,11 @@
     "errorNoColumns": "Colonnes non détectées. CSV valide ?",
     "errorParseFailed": "Impossible de lire le fichier. Réessayez.",
     "errorAnalysisFailed": "Analyse échouée",
-    "errorGeneric": "Une erreur s'est produite"
+    "errorGeneric": "Une erreur s'est produite",
+    "accountCountryLabel": "Pays du compte Stripe",
+    "accountCountryHint": "Pour classer cartes domestiques vs internationales et le benchmark tarifaire.",
+    "accountCountryFallback": "Région absente ? Choisissez la plus proche — le CSV prime ; ceci fixe seulement le benchmark.",
+    "accountCountryUsdNote": "Rapports actuels : règlement USD uniquement. Tarifs custom et FX = estimations."
   },
   "pricing": {
     "title": "Tarifs",

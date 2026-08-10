@@ -94,7 +94,11 @@
     "errorNoColumns": "Could not detect columns. Is this a valid CSV?",
     "errorParseFailed": "Failed to parse the file. Please try again.",
     "errorAnalysisFailed": "Analysis failed",
-    "errorGeneric": "Something went wrong"
+    "errorGeneric": "Something went wrong",
+    "accountCountryLabel": "Stripe account country",
+    "accountCountryHint": "Used to classify domestic vs international cards and select the directional standard-pricing benchmark.",
+    "accountCountryFallback": "Don't see your region? Pick the closest match — your CSV drives the audit; this only sets the pricing benchmark.",
+    "accountCountryUsdNote": "Current upload reports accept USD settlement only. Custom pricing and FX are estimates, not direct Stripe fee details."
   },
   "pricing": {
     "title": "Pricing",

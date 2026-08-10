@@ -203,24 +203,25 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD).replace(/</g, "\\u003c") }}
       />
 
-      <div
-        id={LANDING_NAV_ROOT_ID}
-        className="fixed inset-x-0 top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm"
-      >
-        <LandingNavShell />
-      </div>
-
-      <div className="pt-14">
-      {FULL_REPORTS_FREE_DURING_BETA ? (
-        <div className="bg-emerald-600 px-4 py-2.5 text-center text-sm font-medium text-white">
-          {tc("freeDiagnosis")}
+      <header className="fixed inset-x-0 top-0 z-50">
+        <div
+          id={LANDING_NAV_ROOT_ID}
+          className="border-b border-gray-200 bg-white/95 backdrop-blur-sm"
+        >
+          <LandingNavShell />
         </div>
-      ) : (
-        <div className="bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white">
-          {tc("freeDiagnosis")}
-        </div>
-      )}
+        {FULL_REPORTS_FREE_DURING_BETA ? (
+          <div className="bg-emerald-600 px-4 py-3 text-center text-sm font-medium leading-normal text-white">
+            {tc("freeDiagnosis")}
+          </div>
+        ) : (
+          <div className="bg-blue-600 px-4 py-3 text-center text-sm font-medium leading-normal text-white">
+            {tc("freeDiagnosis")}
+          </div>
+        )}
+      </header>
 
+      <div className="pt-[7.25rem]">
       {/* Hero — H1 paints from static HTML; nav shell is fixed above, JS hydrates on idle */}
       <section id="problem" className="flex flex-col items-center justify-center px-4 py-10 sm:py-14 text-center scroll-mt-28">
         <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">

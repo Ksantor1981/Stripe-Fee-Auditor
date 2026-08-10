@@ -94,7 +94,11 @@
     "errorNoColumns": "No se detectaron columnas. ¿Es un CSV válido?",
     "errorParseFailed": "No se pudo leer el archivo. Inténtalo de nuevo.",
     "errorAnalysisFailed": "Análisis fallido",
-    "errorGeneric": "Algo salió mal"
+    "errorGeneric": "Algo salió mal",
+    "accountCountryLabel": "País de la cuenta Stripe",
+    "accountCountryHint": "Clasifica tarjetas nacionales vs internacionales y el benchmark de precios estándar.",
+    "accountCountryFallback": "¿No ves tu región? Elige la más cercana — el CSV manda; esto solo fija el benchmark.",
+    "accountCountryUsdNote": "Los informes actuales aceptan solo liquidación en USD. Precios personalizados y FX son estimaciones."
   },
   "pricing": {
     "title": "Precios",

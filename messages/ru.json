@@ -94,7 +94,11 @@
     "errorNoColumns": "Не удалось определить колонки. Это корректный CSV?",
     "errorParseFailed": "Не удалось прочитать файл. Попробуйте снова.",
     "errorAnalysisFailed": "Анализ не выполнен",
-    "errorGeneric": "Что-то пошло не так"
+    "errorGeneric": "Что-то пошло не так",
+    "accountCountryLabel": "Страна аккаунта Stripe",
+    "accountCountryHint": "Для классификации domestic/international карт и pricing-benchmark.",
+    "accountCountryFallback": "Нет вашего региона? Выберите ближайший — аудит идёт по CSV; здесь только benchmark.",
+    "accountCountryUsdNote": "Сейчас принимается только USD settlement. Custom pricing и FX — оценки."
   },
   "pricing": {
     "title": "Цены",

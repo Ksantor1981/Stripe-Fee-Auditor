@@ -94,7 +94,11 @@
     "errorNoColumns": "Spalten nicht erkannt. Gültige CSV?",
     "errorParseFailed": "Datei konnte nicht gelesen werden. Bitte erneut versuchen.",
     "errorAnalysisFailed": "Analyse fehlgeschlagen",
-    "errorGeneric": "Etwas ist schiefgelaufen"
+    "errorGeneric": "Etwas ist schiefgelaufen",
+    "accountCountryLabel": "Stripe-Kontoland",
+    "accountCountryHint": "Für Inlands- vs. Auslandskarten und den Richtpreis-Benchmark.",
+    "accountCountryFallback": "Region nicht dabei? Nächstes Match wählen — die CSV zählt; dies setzt nur den Benchmark.",
+    "accountCountryUsdNote": "Aktuell nur USD-Abrechnung. Individuelle Preise und FX sind Schätzungen."
   },
   "pricing": {
     "title": "Preise",

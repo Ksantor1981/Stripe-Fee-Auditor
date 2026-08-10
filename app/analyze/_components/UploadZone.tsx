@@ -331,9 +331,9 @@ export function UploadZone({ autoLoadSample }: Props) {
 
       {!autoLoadSample && (
         <label className="block rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-          <span className="text-sm font-semibold text-gray-900">Stripe account country</span>
+          <span className="text-sm font-semibold text-gray-900">{t("accountCountryLabel")}</span>
           <span className="mt-1 block text-xs leading-relaxed text-gray-500">
-            Used to classify domestic vs international cards and select the directional standard-pricing benchmark.
+            {t("accountCountryHint")}
           </span>
           <select
             value={accountCountry}
@@ -347,9 +347,8 @@ export function UploadZone({ autoLoadSample }: Props) {
               </option>
             ))}
           </select>
-          <span className="mt-2 block text-xs text-amber-700">
-            Current upload reports accept USD settlement only. Custom pricing and FX are estimates, not direct Stripe fee details.
-          </span>
+          <span className="mt-2 block text-xs text-gray-500">{t("accountCountryFallback")}</span>
+          <span className="mt-1 block text-xs text-amber-700">{t("accountCountryUsdNote")}</span>
         </label>
       )}
       {/* Drop zone */}

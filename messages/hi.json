@@ -94,7 +94,11 @@
     "errorNoColumns": "Columns detect नहीं हुए। Valid CSV है?",
     "errorParseFailed": "File parse नहीं हुई। फिर कोशिश करें।",
     "errorAnalysisFailed": "Analysis fail",
-    "errorGeneric": "कुछ गलत हो गया"
+    "errorGeneric": "कुछ गलत हो गया",
+    "accountCountryLabel": "Stripe खाता देश",
+    "accountCountryHint": "Domestic vs international कार्ड और pricing benchmark के लिए।",
+    "accountCountryFallback": "आपका क्षेत्र नहीं? नज़दीकी विकल्प चुनें — CSV मुख्य है; यह सिर्फ benchmark सेट करता है।",
+    "accountCountryUsdNote": "अभी केवल USD settlement। Custom pricing और FX अनुमान हैं।"
   },
   "pricing": {
     "title": "Pricing",
