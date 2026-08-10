@@ -6,9 +6,8 @@ const checks = [
     containsAny: [
       ["Audit my Stripe fees", "no OAuth", "Free diagnosis"],
       ["Upload CSV", "Analyze my CSV"],
-      ["Sample report from a Stripe export", "What one real export showed"],
-      "Three steps",
-      "effective rate often",
+      "Three scenarios",
+      ["real all-in rate", "effective rate"],
     ],
   },
   {

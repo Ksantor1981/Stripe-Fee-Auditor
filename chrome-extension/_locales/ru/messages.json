@@ -124,5 +124,8 @@
   },
   "calcReverse": {
     "message": "Чтобы получить $1 с одного платежа → запросите $2 (комиссия ~$3)"
-  }
+  },
+  "notificationTitle": { "message": "Пора проверить комиссии Stripe" },
+  "notificationMessage": { "message": "Экспортируйте свежий Balance CSV и сравните реальную ставку комиссий." },
+  "notificationButton": { "message": "Анализировать CSV" }
 }

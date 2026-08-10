@@ -979,19 +979,19 @@
       "breadcrumb": "Monitor de tarifas",
       "eyebrow": "Monitor de tarifas · $9/mes",
       "heroTitle": "Desarrolle un hábito de verificación de tarifas mensual en Stripe antes de que la deriva se vuelva invisible.",
-      "heroDescription": "$12 = un cheque CSV (esta exportación, 30 días). $9/mes = un recordatorio mensual + informe completo nuevo. Hoy es una verificación manual; El historial de informes y las alertas automáticas de deriva llegan solo después de su envío. Sin Stripe OAuth permanente: usted mantiene el control de cada exportación.",
+      "heroDescription": "$12 = una auditoría CSV con enlace durante 30 días. $9/mes = recordatorio mensual, informe completo nuevo e historial privado de cambios de tarifa. Sin Stripe OAuth permanente; no incluye sincronización automática ni alertas proactivas.",
       "sections": [
         {
           "type": "pricingCard",
           "price": "$9",
           "period": "/ month",
-          "body": "En comparación con una investigación única de $12: Monitor es para fundadores que desean un recordatorio para repetir la verificación. Aún no se trata de un seguimiento automático ni de un panel histórico.",
+          "body": "Para fundadores que quieren una revisión mensual repetible: cada carga se convierte en un informe completo y entra en un historial privado de 13 meses. La carga sigue siendo manual; no hay sincronización en vivo con Stripe.",
           "included": [
             "Monthly reminder to upload the latest Stripe Balance CSV",
             "Catch rate drift before a bad month becomes your new baseline",
             "Refund leakage and high-fee / one-off anomaly prompts",
             "Tasa de procesamiento versus costo total de Stripe cada mes",
-            "Primer acceso al historial de informes privados a medida que se envía"
+            "Historial privado con cambios de processing rate y all-in rate"
           ]
         },
         {
@@ -1003,7 +1003,7 @@
             },
             {
               "title": "Historia",
-              "body": "Report history is planned; today, save each private report link."
+              "body": "El historial privado ya funciona: compare processing rate, coste total, volumen y comisiones entre cargas."
             },
             {
               "title": "Alertas más tarde",
@@ -1014,7 +1014,7 @@
         {
           "type": "why",
           "heading": "La pregunta útil no es simplemente \"¿cuál es mi tarifa?\"",
-          "body": "Es \"¿empeoró mi tarifa? ¿Por qué? ¿Qué debo inspeccionar primero?\". Today Monitor crea el hábito de check-in recurrente; El historial de comparación y la detección automática de deriva son funciones futuras, no una promesa ya cumplida.",
+          "body": "La pregunta útil es: \"¿empeoró mi tarifa, por qué y qué debo revisar primero?\" Monitor ya conserva un historial privado de comparaciones. La sincronización automática con Stripe y las alertas proactivas aún no están incluidas.",
           "steps": [
             [
               "1",
@@ -1023,8 +1023,8 @@
             ],
             [
               "2",
-              "Mantenga los enlaces de sus informes",
-              "Compare manualmente el nuevo informe con su exportación anterior hasta que se envíe el historial del producto."
+              "Compare el cambio",
+              "Vea processing rate, coste total, volumen y comisiones frente a sus cargas anteriores."
             ],
             [
               "3",
@@ -1040,7 +1040,7 @@
             "Catch rate drift before a bad month becomes your new baseline",
             "Refund leakage and high-fee / one-off anomaly prompts",
             "Tasa de procesamiento versus costo total de Stripe cada mes",
-            "Primer acceso al historial de informes privados a medida que se envía"
+            "Historial privado con cambios de processing rate y all-in rate"
           ],
           "notYet": [
             "No live Stripe OAuth connection in the first version",

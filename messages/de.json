@@ -114,7 +114,7 @@
     "auditRefund": "Erstattung, wenn bezahlt aber Bericht nicht freigeschaltet.",
     "monitorLabel": "Optional · $9/Monat",
     "monitorTitle": "Fee Monitor",
-    "monitorBody": "Monatliche CSV-Erinnerung und neuer Vollbericht. Verlauf und Drift-Alerts folgen später.",
+    "monitorBody": "Monatliche CSV-Erinnerung, neuer Vollbericht und privater Verlauf der Gebührenentwicklung. Manueller Upload, kein permanentes Stripe OAuth.",
     "monitorLink": "Fee Monitor →",
     "uploadCta": "CSV hochladen",
     "estimateLink": "Schätzung ohne CSV",

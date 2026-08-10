@@ -7,7 +7,12 @@ import { compareMonitorHistory } from "@/lib/monitor-history";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 function periodLabel(point: MonitorHistoryPoint): string {
-  if (!point.periodStart) return new Date(point.createdAt).toLocaleDateString("en-US");
+  if (!point.periodStart) {
+    const createdAt = new Date(point.createdAt);
+    return Number.isNaN(createdAt.getTime())
+      ? "Current upload"
+      : createdAt.toLocaleDateString("en-US");
+  }
   if (!point.periodEnd || point.periodEnd === point.periodStart) return point.periodStart;
   return `${point.periodStart} – ${point.periodEnd}`;
 }

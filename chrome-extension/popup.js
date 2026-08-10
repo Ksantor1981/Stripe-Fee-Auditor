@@ -30,7 +30,7 @@ async function renderReminder() {
   const status = document.getElementById("reminder-status");
   const toggle = document.getElementById("reminder-toggle");
 
-    status.textContent = enabled ? msg("reminderOn") : msg("reminderOff");
+  status.textContent = enabled ? msg("reminderOn") : msg("reminderOff");
   toggle.textContent = enabled ? msg("reminderTurnOff") : msg("reminderTurnOn");
   toggle.classList.toggle("off", enabled);
 }
@@ -170,5 +170,6 @@ document.querySelectorAll("[data-open]").forEach((button) => {
 
 document.getElementById("reminder-toggle").addEventListener("click", toggleReminder);
 
+globalThis.applyStaticI18n();
 initCalculator();
 renderReminder();

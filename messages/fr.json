@@ -114,7 +114,7 @@
     "auditRefund": "Remboursement si paiement OK mais rapport non débloqué.",
     "monitorLabel": "Optionnel · $9/mois",
     "monitorTitle": "Fee Monitor",
-    "monitorBody": "Rappel CSV mensuel et nouveau rapport complet. Historique et alertes de dérive — plus tard.",
+    "monitorBody": "Rappel CSV mensuel, nouveau rapport complet et historique privé de l'évolution des taux. Import manuel, sans OAuth Stripe permanent.",
     "monitorLink": "Fee Monitor →",
     "uploadCta": "Importer CSV",
     "estimateLink": "Estimer sans CSV",

@@ -114,7 +114,7 @@
     "auditRefund": "Refund, если оплата прошла, а отчёт не открылся.",
     "monitorLabel": "Опционально · $9/мес",
     "monitorTitle": "Fee Monitor",
-    "monitorBody": "Ежемесячное напоминание и новый полный отчёт. История отчётов и auto drift alerts — позже, не отдельный dashboard.",
+    "monitorBody": "Ежемесячное напоминание, новый полный отчёт и приватная история изменения ставки. Ручная загрузка, без постоянного Stripe OAuth.",
     "monitorLink": "Fee Monitor →",
     "uploadCta": "Загрузить CSV",
     "estimateLink": "Оценка без CSV",

@@ -2,7 +2,7 @@
   "legal": {
     "privacy": {
       "title": "Politique de confidentialité",
-      "updated": "Dernière mise à jour : 19 juillet 2026",
+      "updated": "Dernière mise à jour : 10 août 2026",
       "sections": [
         {
           "heading": "1. Aperçu",
@@ -72,6 +72,7 @@
             "Résultat calculé (aperçu non payé, sans e-mail) — Environ 1 heure après création (peut être brièvement prolongé pendant le checkout)",
             "Résultat calculé (non payé, après enregistrement d'un e-mail) — Prolongé à environ 72 heures à partir de l'enregistrement de l'e-mail, pour rouvrir le lien privé",
             "Résultat calculé (après paiement réussi) — Jusqu'à 30 jours après paiement, puis supprimé automatiquement",
+            "Résultat calculé (abonnement Fee Monitor actif) — Jusqu'à 400 jours après le dernier import associé pour un historique privé de comparaison sur 13 mois ; supprimé plus tôt sur demande vérifiée lorsque la loi le permet",
             "Résultat calculé (accès complet bêta) — Jusqu'à 30 jours après création du rapport tant que le flag bêta est activé",
             "Champs UTM / attribution — Supprimés avec la ligne du rapport à expiration ou sur demande de suppression vérifiée",
             "État du lien de session checkout — État checkout côté serveur de courte durée expire après environ 24 heures",

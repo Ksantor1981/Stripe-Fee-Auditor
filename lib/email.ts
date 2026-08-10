@@ -237,19 +237,19 @@ export async function sendWaitlistConfirmationEmail(params: {
     to: params.email,
     replyTo: process.env.EMAIL_REPLY_TO,
     subject: isDuplicate
-      ? "You're already on the Fee Monitor early list · feeauditor.com"
-      : "You're on the Fee Monitor early list · feeauditor.com",
+      ? "You're already on the Fee Monitor updates list · feeauditor.com"
+      : "You're on the Fee Monitor updates list · feeauditor.com",
     html: `
       <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px">
         <h1 style="font-size:20px;color:#111;margin:0 0 12px">
-          ${isDuplicate ? "You're already on the Fee Monitor early list." : "You're on the Fee Monitor early list."}
+          ${isDuplicate ? "You're already on the Fee Monitor updates list." : "You're on the Fee Monitor updates list."}
         </h1>
         <p style="color:#555;font-size:14px;line-height:1.6;margin:0 0 16px">
-          Fee Monitor is the next step for Stripe Fee Auditor: private report history,
-          month-over-month comparisons, and monthly reminders without permanent Stripe OAuth access.
+          Fee Monitor combines private report history, month-over-month comparisons,
+          and monthly reminders without permanent Stripe OAuth access.
         </p>
         <p style="color:#555;font-size:14px;line-height:1.6;margin:0 0 16px">
-          We'll email you again when early access opens. Until then, you can still run a
+          We'll send occasional fee tips and material product updates. You can run a
           one-time Stripe Balance CSV audit whenever you need it.
         </p>
         <a href="${analyzeUrl.toString()}"

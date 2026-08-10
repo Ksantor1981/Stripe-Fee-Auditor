@@ -124,5 +124,8 @@
   },
   "calcReverse": {
     "message": "Para recibir $1 en un cargo → pide $2 (comisión ~$3)"
-  }
+  },
+  "notificationTitle": { "message": "Es hora de revisar tus comisiones de Stripe" },
+  "notificationMessage": { "message": "Exporta el Balance CSV más reciente y compara tu tasa real de comisiones." },
+  "notificationButton": { "message": "Analizar CSV" }
 }

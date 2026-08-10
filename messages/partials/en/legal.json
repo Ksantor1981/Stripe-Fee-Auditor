@@ -3,7 +3,7 @@
     "privacy": {
       "title": "Privacy Policy",
       "metaDescription": "Privacy Policy for Stripe Fee Auditor — how we handle your data.",
-      "updated": "Last updated: July 19, 2026",
+      "updated": "Last updated: August 10, 2026",
       "sections": [
         {
           "heading": "1. Overview",
@@ -73,6 +73,7 @@
             "Computed result (unpaid preview, no email) — About 1 hour after creation (may be briefly extended during checkout)",
             "Computed result (unpaid, after you save an email) — Extended to about 72 hours from when the email is saved, so you can reopen the private link",
             "Computed result (after successful payment) — Up to 30 days from payment, then deleted automatically",
+            "Computed result (active Fee Monitor subscriber) — Up to 400 days from the latest linked upload, enabling a private 13-month comparison history; deleted sooner on a verified deletion request where legally possible",
             "Computed result (beta full access) — Up to 30 days from report creation while the beta flag is enabled",
             "UTM / attribution fields — Deleted with the report row when it expires or on a verified deletion request",
             "Checkout session link state — Short-lived server-side checkout state expires after about 24 hours",

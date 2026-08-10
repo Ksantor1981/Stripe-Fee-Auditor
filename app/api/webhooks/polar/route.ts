@@ -7,6 +7,7 @@ import {
   verifyPolarWebhook,
 } from "@/lib/polar";
 import {
+  extendReportForMonitor,
   getCheckoutSession,
   processPaidWebhook,
   syncMonitorSubscriberFromSubscription,
@@ -253,6 +254,9 @@ export async function POST(req: NextRequest) {
             eventId: shortId(eventId) ?? "unknown",
             reportId: reportId.slice(0, 8),
           });
+        }
+        if (status !== "report_not_found") {
+          await extendReportForMonitor(reportId, accessToken);
         }
       } catch (err) {
         logOpsError("polar_webhook_monitor_report_unlock_error", {

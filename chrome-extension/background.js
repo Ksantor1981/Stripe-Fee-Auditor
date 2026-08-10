@@ -19,9 +19,9 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   chrome.notifications.create({
     type: "basic",
     iconUrl: "icons/icon128.png",
-    title: "Time to check your Stripe fees",
-    message: "Export your latest Balance CSV and compare your real fee rate.",
-    buttons: [{ title: "Analyze CSV" }],
+    title: chrome.i18n.getMessage("notificationTitle"),
+    message: chrome.i18n.getMessage("notificationMessage"),
+    buttons: [{ title: chrome.i18n.getMessage("notificationButton") }],
     priority: 0,
   });
 });

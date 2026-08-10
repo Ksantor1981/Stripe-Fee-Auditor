@@ -979,19 +979,19 @@
       "breadcrumb": "Fee Monitor",
       "eyebrow": "Fee Monitor · $9/mo",
       "heroTitle": "Build a monthly Stripe fee-check habit before drift becomes invisible.",
-      "heroDescription": "$12 = one CSV check (this export, 30 days). $9/mo = a monthly reminder + fresh full report. It is a manual check today; report history and automatic drift alerts come only after they ship. No permanent Stripe OAuth — you stay in control of every export.",
+      "heroDescription": "$12 = one CSV audit with a 30-day link. $9/mo = a monthly reminder, fresh full report, and private rate-drift history across uploads. No permanent Stripe OAuth; automatic sync and proactive alerts are not included.",
       "sections": [
         {
           "type": "pricingCard",
           "price": "$9",
           "period": "/ month",
-          "body": "Compared to a one-time $12 investigation: Monitor is for founders who want a reminder to repeat the check. It is not yet automatic monitoring or a historical dashboard.",
+          "body": "For founders who want a repeatable monthly check: each upload becomes a full report and joins a private 13-month comparison history. Upload remains manual; there is no live Stripe sync.",
           "included": [
             "Monthly reminder to upload the latest Stripe Balance CSV",
             "Catch rate drift before a bad month becomes your new baseline",
             "Refund leakage and high-fee / one-off anomaly prompts",
             "Processing rate vs all-in Stripe cost every month",
-            "First access to private report history as it ships"
+            "Private report history with processing-rate and all-in-rate deltas"
           ]
         },
         {
@@ -1003,7 +1003,7 @@
             },
             {
               "title": "History",
-              "body": "Report history is planned; today, save each private report link."
+              "body": "Private history is live: compare processing rate, all-in cost, volume, and fees across uploads."
             },
             {
               "title": "Alerts later",
@@ -1014,7 +1014,7 @@
         {
           "type": "why",
           "heading": "The useful question is not just \"what is my rate?\"",
-          "body": "It is \"did my rate get worse, why, and what should I inspect first?\" Today Monitor creates the recurring check-in habit; comparison history and automatic drift detection are future functionality, not a promise already delivered.",
+          "body": "It is \"did my rate get worse, why, and what should I inspect first?\" Monitor now keeps a private comparison history for your uploads. Automatic Stripe sync and proactive alerts are still not included.",
           "steps": [
             [
               "1",
@@ -1023,8 +1023,8 @@
             ],
             [
               "2",
-              "Keep your report links",
-              "Compare the new report with your prior export manually until in-product history ships."
+              "Compare the change",
+              "See processing rate, all-in cost, volume, and fees against your previous uploads."
             ],
             [
               "3",
@@ -1040,7 +1040,7 @@
             "Catch rate drift before a bad month becomes your new baseline",
             "Refund leakage and high-fee / one-off anomaly prompts",
             "Processing rate vs all-in Stripe cost every month",
-            "First access to private report history as it ships"
+            "Private report history with processing-rate and all-in-rate deltas"
           ],
           "notYet": [
             "No live Stripe OAuth connection in the first version",

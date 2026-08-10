@@ -18,7 +18,7 @@ function round(value: number, digits = 2): number {
 export function currentMonitorPoint(result: AnalysisResult): MonitorHistoryPoint {
   const months = result.monthly ?? [];
   return {
-    createdAt: new Date().toISOString(),
+    createdAt: "",
     periodStart: months[0]?.month ?? null,
     periodEnd: months.at(-1)?.month ?? null,
     chargeVolume: result.chargeVolume,

@@ -114,7 +114,7 @@
     "auditRefund": "Payment success पर भी report unlock न हो तो refund।",
     "monitorLabel": "Optional · $9/mo",
     "monitorTitle": "Fee Monitor",
-    "monitorBody": "Monthly CSV reminder और fresh full report। History और drift alerts — बाद में।",
+    "monitorBody": "मासिक CSV reminder, नई पूरी report और निजी rate-drift history। Manual upload, स्थायी Stripe OAuth नहीं।",
     "monitorLink": "Fee Monitor →",
     "uploadCta": "CSV upload",
     "estimateLink": "CSV के बिना estimate",

@@ -15,10 +15,10 @@ Logic lives in `fee-calculator.js` (mirrors `lib/stripe-country-fees.ts` + `comp
 ## Post-test backlog (after upload funnel eval ~2026-08-12)
 
 1. **Copy align (cheap):** ✅ done 2026-08-04; refreshed 2026-08-05 — Store title/summary, popup UTMs (`popup` medium), sample link, site install CTAs
-2. **Quick estimate in popup:** ✅ **0.1.3** — published-rate calculator + link to verify with CSV
+2. **Quick estimate in popup:** ✅ **0.1.4** — published-rate calculator + link to verify with CSV; MV3-safe localization
 3. **Optional friction cut (only if installs matter):** CSV drop in popup → open `/analyze` (pass file or deep-link; no full MV3 offline parser)
 
-Store listing copy: `STORE_LISTING.md`. Zip and upload **0.1.3** to the existing listing (do not create a new product).
+Store listing copy: `STORE_LISTING.md`. Zip and upload **0.1.4** to the existing listing (do not create a new product).
 
 Ops reminder: `docs/ops/WEDNESDAY_MANUAL_STEPS.md` §6.
 

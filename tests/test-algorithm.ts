@@ -18,6 +18,7 @@ import { applyExpectedOutlierExclusions } from "../lib/expected-outliers";
 import { selectFreeDiagnosis } from "../lib/free-diagnosis";
 import { resolvePaywallImpact } from "../lib/paywall-impact";
 import { estimateCountryStripeFee, getCountryFeeProfile } from "../lib/stripe-country-fees";
+import { compareMonitorHistory } from "../lib/monitor-history";
 
 // ─── Test runner ──────────────────────────────────────────────────────────────
 
@@ -952,6 +953,29 @@ test("applyExpectedOutlierExclusions removes excluded from anomalies", () => {
   assert(base.anomalies.some((row) => row.id === "ch_spike"), "spike should be anomaly");
   const adjusted = applyExpectedOutlierExclusions(base, ["ch_spike"]);
   assert(!adjusted.anomalies.some((row) => row.id === "ch_spike"), "excluded anomaly should drop from list");
+});
+
+test("monitor history computes deterministic basis-point and fee deltas", () => {
+  const current = analyze(makeCharges(60, "2024-02", 3));
+  const comparison = compareMonitorHistory(current, [{
+    createdAt: "2024-01-31T00:00:00.000Z",
+    periodStart: "2024-01",
+    periodEnd: "2024-01",
+    chargeVolume: 6000,
+    chargeFees: 168,
+    otherFees: 0,
+    allInFees: 168,
+    chargeRate: 2.8,
+    allInRate: 2.8,
+    feeGrade: "A",
+  }]);
+
+  assert(comparison.prior !== null, "prior report should be selected");
+  assert(comparison.current.createdAt === "", "comparison output should not depend on wall-clock time");
+  assert(comparison.chargeRateDeltaBps === 20, "3.0% vs 2.8% should equal +20 bps");
+  assert(comparison.allInRateDeltaBps === 20, "all-in rate should use the same basis-point math");
+  assertClose(comparison.feeDelta ?? 0, 12, 0.01, "fee delta");
+  assert(comparison.volumeDeltaPct === 0, "equal volume should have zero delta");
 });
 
 // ─── Summary ──────────────────────────────────────────────────────────────────

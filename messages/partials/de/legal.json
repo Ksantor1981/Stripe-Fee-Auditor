@@ -2,7 +2,7 @@
   "legal": {
     "privacy": {
       "title": "Datenschutzerklärung",
-      "updated": "Zuletzt aktualisiert: 19. Juli 2026",
+      "updated": "Zuletzt aktualisiert: 10. August 2026",
       "sections": [
         {
           "heading": "1. Überblick",
@@ -72,6 +72,7 @@
             "Berechnetes Ergebnis (unbezahlte Vorschau, keine E-Mail) — Etwa 1 Stunde nach Erstellung (kann während Checkout kurz verlängert werden)",
             "Berechnetes Ergebnis (unbezahlt, nach E-Mail-Speicherung) — Verlängert auf etwa 72 Stunden ab E-Mail-Speicherung, damit Sie den privaten Link wieder öffnen können",
             "Berechnetes Ergebnis (nach erfolgreicher Zahlung) — Bis zu 30 Tage ab Zahlung, dann automatisch gelöscht",
+            "Berechnetes Ergebnis (aktives Fee-Monitor-Abonnement) — Bis zu 400 Tage ab dem letzten verknüpften Upload für einen privaten 13-Monats-Vergleich; auf verifizierte Anfrage früher gelöscht, soweit rechtlich möglich",
             "Berechnetes Ergebnis (Beta-Vollzugriff) — Bis zu 30 Tage ab Berichtserstellung solange Beta-Flag aktiv ist",
             "UTM-/Attributionsfelder — Mit der Berichtszeile gelöscht bei Ablauf oder auf verifizierte Löschanfrage",
             "Checkout-Sitzungs-Link-Status — Kurzlebig serverseitiger Checkout-Status läuft nach etwa 24 Stunden ab",

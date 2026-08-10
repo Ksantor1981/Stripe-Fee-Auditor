@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   consumeIpRequest,
+  extendReportForMonitor,
   getCheckoutSession,
   processPaidWebhook,
   upsertMonitorSubscriberFromPayment,
@@ -110,6 +111,8 @@ export async function GET(req: NextRequest) {
           checkoutId: checkoutId.slice(0, 16),
           reportId: reportSession.reportId.slice(0, 8),
         });
+      } else {
+        await extendReportForMonitor(reportSession.reportId, reportSession.accessToken);
       }
     }
 

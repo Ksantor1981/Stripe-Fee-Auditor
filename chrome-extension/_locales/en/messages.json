@@ -124,5 +124,8 @@
   },
   "calcReverse": {
     "message": "To receive $1 on one charge → ask for $2 (fee ~$3)"
-  }
+  },
+  "notificationTitle": { "message": "Time to check your Stripe fees" },
+  "notificationMessage": { "message": "Export your latest Balance CSV and compare your real fee rate." },
+  "notificationButton": { "message": "Analyze CSV" }
 }

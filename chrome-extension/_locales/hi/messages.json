@@ -124,5 +124,8 @@
   },
   "calcReverse": {
     "message": "एक चार्ज पर $1 प्राप्त करने के लिए → $2 माँगें (शुल्क ~$3)"
-  }
+  },
+  "notificationTitle": { "message": "Stripe fees जाँचने का समय" },
+  "notificationMessage": { "message": "नवीनतम Balance CSV export करें और अपनी वास्तविक fee rate की तुलना करें।" },
+  "notificationButton": { "message": "CSV विश्लेषण करें" }
 }

@@ -2,7 +2,7 @@
   "legal": {
     "privacy": {
       "title": "Política de privacidad",
-      "updated": "Última actualización: 19 de julio de 2026",
+      "updated": "Última actualización: 10 de agosto de 2026",
       "sections": [
         {
           "heading": "1. Resumen",
@@ -72,6 +72,7 @@
             "Resultado calculado (vista previa no pagada, sin correo) — Aproximadamente 1 hora tras la creación (puede extenderse brevemente durante el checkout)",
             "Resultado calculado (no pagado, tras guardar un correo) — Extendido a aproximadamente 72 horas desde que se guarda el correo, para poder reabrir el enlace privado",
             "Resultado calculado (tras pago exitoso) — Hasta 30 días desde el pago, luego eliminado automáticamente",
+            "Resultado calculado (suscripción Fee Monitor activa) — Hasta 400 días desde la última carga vinculada para un historial privado de comparación de 13 meses; se elimina antes mediante solicitud verificada cuando sea legalmente posible",
             "Resultado calculado (acceso completo beta) — Hasta 30 días desde la creación del informe mientras la bandera beta esté activa",
             "Campos UTM / atribución — Eliminados con la fila del informe cuando expira o mediante solicitud de eliminación verificada",
             "Estado del enlace de sesión de checkout — Estado de checkout en servidor de corta duración expira tras aproximadamente 24 horas",

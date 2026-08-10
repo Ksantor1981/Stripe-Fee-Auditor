@@ -180,12 +180,6 @@ const ORGANIZATION_JSON_LD = {
 export default async function HomePage() {
   const t = await getTranslations("home");
 
-  const howItWorks = [
-    { step: "1", title: t("step1Title"), body: t("step1Body") },
-    { step: "2", title: t("step2Title"), body: t("step2Body") },
-    { step: "3", title: t("step3Title"), body: t("step3Body") },
-  ];
-
   return (
     <main className="min-h-screen bg-white">
       <script
@@ -210,10 +204,10 @@ export default async function HomePage() {
 
       <div className="pt-16">
       {/* Hero — H1 paints from static HTML; nav shell is fixed above, JS hydrates on idle */}
-      <section id="problem" className="flex flex-col items-center justify-center px-4 py-10 sm:py-14 text-center scroll-mt-28">
+      <section id="problem" className="flex flex-col items-center justify-center bg-[radial-gradient(circle_at_top,_#eff6ff_0,_#ffffff_58%)] px-4 py-10 text-center scroll-mt-28 sm:py-16">
         <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">
           {t("heroTitleBefore")}{" "}
-          <span className="text-blue-600">{t("heroTitleHighlight")}</span>
+          <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">{t("heroTitleHighlight")}</span>
         </h1>
         <p className="mt-4 max-w-xl text-xl font-semibold text-gray-800 sm:text-2xl">
           {t("heroSubtitle")}
@@ -283,39 +277,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Interaction — How we find them */}
-      <section id="steps" className="bg-white px-4 py-10 scroll-mt-24">
-        <div className="mx-auto max-w-3xl">
-          <h2 className="text-center text-xl font-bold text-gray-900">{t("stepsHeading")}</h2>
-          <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            {howItWorks.map(({ step, title, body }) => (
-              <div key={step} className="rounded-xl border border-gray-100 bg-gray-50 px-4 py-4 text-center">
-                <div className="mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">
-                  {step}
-                </div>
-                <h3 className="font-semibold text-gray-900">{title}</h3>
-                <p className="mt-1 text-sm text-gray-600">{body}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-5 text-center text-sm text-gray-500">
-            <Link href="/stripe-balance-csv" className="font-medium text-blue-700 underline hover:text-blue-800">
-              {t("exportGuide")}
-            </Link>
-            {" · "}
-            <Link href="/stripe-fee-calculator" className="font-medium text-blue-700 underline hover:text-blue-800">
-              {t("feeCalculator")}
-            </Link>
-            {" · "}
-            <Link href="/stripe-fees-report" className="font-medium text-blue-700 underline hover:text-blue-800">
-              {t("feesReport")}
-            </Link>
-          </p>
-        </div>
-      </section>
-
       {/* FAQ + final CTA */}
-      <section id="faq" className="bg-gray-50 px-4 py-10 scroll-mt-24">
+      <section id="faq" className="bg-white px-4 py-12 scroll-mt-24">
         <div className="mx-auto max-w-3xl">
           <h2 className="text-center text-xl font-bold text-gray-900 mb-6">{t("trustHeading")}</h2>
           <LandingFaq itemIds={LANDING_FAQ_HOME_IDS} />

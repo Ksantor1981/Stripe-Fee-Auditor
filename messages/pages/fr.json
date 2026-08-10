@@ -979,19 +979,19 @@
       "breadcrumb": "Moniteur de frais",
       "eyebrow": "Moniteur de frais · 9 $/mois",
       "heroTitle": "Créez une habitude mensuelle de vérification des frais Stripe avant que la dérive ne devienne invisible.",
-      "heroDescription": "$12 = one CSV check (this export, 30 days). $9/mo = a monthly reminder + fresh full report. It is a manual check today; l'historique des rapports et les alertes automatiques de dérive ne surviennent qu'après leur expédition. Pas de Stripe OAuth permanent : vous gardez le contrôle de chaque exportation.",
+      "heroDescription": "12 $ = un audit CSV avec lien pendant 30 jours. 9 $/mois = rappel mensuel, nouveau rapport complet et historique privé de l'évolution des taux. Sans OAuth Stripe permanent ; la synchronisation automatique et les alertes proactives ne sont pas incluses.",
       "sections": [
         {
           "type": "pricingCard",
           "price": "$9",
           "period": "/ mois",
-          "body": "Par rapport à une enquête unique de 12 $ : Monitor est destiné aux fondateurs qui souhaitent un rappel pour répéter le contrôle. Il ne s’agit pas encore d’un suivi automatique ni d’un tableau de bord historique.",
+          "body": "Pour les fondateurs qui veulent un contrôle mensuel reproductible : chaque import devient un rapport complet et rejoint un historique privé sur 13 mois. L'import reste manuel ; il n'y a pas de synchronisation Stripe en direct.",
           "included": [
             "Rappel mensuel pour télécharger le dernier CSV Stripe Balance",
             "Catch rate drift before a bad month becomes your new baseline",
             "Refund leakage and high-fee / one-off anomaly prompts",
             "Processing rate vs all-in Stripe cost every month",
-            "First access to private report history as it ships"
+            "Historique privé avec évolution du processing rate et du all-in rate"
           ]
         },
         {
@@ -1003,7 +1003,7 @@
             },
             {
               "title": "Histoire",
-              "body": "L'historique des rapports est planifié ; aujourd'hui, enregistrez chaque lien de rapport privé."
+              "body": "L'historique privé est disponible : comparez processing rate, coût total, volume et frais entre les imports."
             },
             {
               "title": "Alertes plus tard",
@@ -1014,7 +1014,7 @@
         {
           "type": "why",
           "heading": "La question utile n’est pas simplement « quel est mon tarif ? »",
-          "body": "Il s'agit de « mon taux a-t-il empiré, pourquoi et que dois-je inspecter en premier ? » Today Monitor crée l'habitude d'enregistrement récurrente ; l'historique de comparaison et la détection automatique des dérives sont des fonctionnalités futures et non une promesse déjà tenue.",
+          "body": "La question utile est : « mon taux s'est-il dégradé, pourquoi et que dois-je vérifier en premier ? » Monitor conserve désormais un historique privé des comparaisons. La synchronisation Stripe automatique et les alertes proactives ne sont pas encore incluses.",
           "steps": [
             [
               "1",
@@ -1023,8 +1023,8 @@
             ],
             [
               "2",
-              "Conservez les liens de votre rapport",
-              "Compare the new report with your prior export manually until in-product history ships."
+              "Comparez l'évolution",
+              "Comparez processing rate, coût total, volume et frais avec vos imports précédents."
             ],
             [
               "3",
@@ -1040,7 +1040,7 @@
             "Catch rate drift before a bad month becomes your new baseline",
             "Refund leakage and high-fee / one-off anomaly prompts",
             "Processing rate vs all-in Stripe cost every month",
-            "First access to private report history as it ships"
+            "Historique privé avec évolution du processing rate et du all-in rate"
           ],
           "notYet": [
             "Pas de connexion Stripe OAuth en direct dans la première version",

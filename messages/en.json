@@ -114,7 +114,7 @@
     "auditRefund": "Refund if payment succeeds but the report does not unlock.",
     "monitorLabel": "Optional · $9/mo",
     "monitorTitle": "Fee Monitor",
-    "monitorBody": "Monthly CSV reminder and a fresh full report each month. Report history and automatic drift alerts are coming later — not another dashboard.",
+    "monitorBody": "Monthly CSV reminder, a fresh full report, and private rate-drift history across uploads. Manual upload, no permanent Stripe OAuth.",
     "monitorLink": "Fee Monitor →",
     "uploadCta": "Upload CSV",
     "estimateLink": "Estimate without CSV",

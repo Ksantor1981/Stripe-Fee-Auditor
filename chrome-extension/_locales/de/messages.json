@@ -124,5 +124,8 @@
   },
   "calcReverse": {
     "message": "Um $1 bei einer Zahlung zu erhalten → $2 verlangen (Gebühr ~$3)"
-  }
+  },
+  "notificationTitle": { "message": "Zeit, Ihre Stripe-Gebühren zu prüfen" },
+  "notificationMessage": { "message": "Exportieren Sie die aktuelle Balance-CSV und vergleichen Sie Ihre tatsächliche Gebührenrate." },
+  "notificationButton": { "message": "CSV analysieren" }
 }

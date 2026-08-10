@@ -124,5 +124,8 @@
   },
   "calcReverse": {
     "message": "Pour recevoir $1 sur un paiement → demander $2 (frais ~$3)"
-  }
+  },
+  "notificationTitle": { "message": "Il est temps de vérifier vos frais Stripe" },
+  "notificationMessage": { "message": "Exportez le dernier Balance CSV et comparez votre taux de frais réel." },
+  "notificationButton": { "message": "Analyser le CSV" }
 }

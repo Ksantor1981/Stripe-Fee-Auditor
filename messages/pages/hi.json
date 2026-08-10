@@ -979,19 +979,19 @@
       "breadcrumb": "Fee Monitor",
       "eyebrow": "Fee Monitor · $9/mo",
       "heroTitle": "Build a monthly Stripe fee-check habit before drift becomes invisible.",
-      "heroDescription": "$12 = one CSV check (this export, 30 days). $9/mo = a monthly reminder + fresh full report. It is a manual check today; report history and automatic drift alerts come only after they ship. No permanent Stripe OAuth — you stay in control of every export.",
+      "heroDescription": "$12 = 30-दिन के लिंक वाला एक CSV ऑडिट। $9/माह = मासिक रिमाइंडर, नई पूरी रिपोर्ट और अपलोड के बीच निजी rate-drift इतिहास। स्थायी Stripe OAuth नहीं; स्वचालित sync और सक्रिय alerts शामिल नहीं हैं।",
       "sections": [
         {
           "type": "pricingCard",
           "price": "$9",
           "period": "/ month",
-          "body": "Compared to a one-time $12 investigation: Monitor is for founders who want a reminder to repeat the check. It is not yet automatic monitoring or a historical dashboard.",
+          "body": "उन founders के लिए जिन्हें दोहराने योग्य मासिक जाँच चाहिए: हर अपलोड पूरी रिपोर्ट बनता है और 13-महीने के निजी तुलना इतिहास में जुड़ता है। अपलोड मैनुअल रहता है; Stripe के साथ live sync नहीं है।",
           "included": [
             "Monthly reminder to upload the latest Stripe Balance CSV",
             "A fresh full report for each monthly CSV upload",
             "A manual monthly check for refund leakage, high-fee charges, and one-off anomalies",
             "Processing rate vs all-in Stripe cost for each report",
-            "Early access to report history and automatic drift alerts when they ship"
+            "Processing rate और all-in rate बदलावों वाला निजी रिपोर्ट इतिहास"
           ]
         },
         {
@@ -1003,7 +1003,7 @@
             },
             {
               "title": "History",
-              "body": "Report history is planned; today, save each private report link."
+              "body": "निजी इतिहास उपलब्ध है: अपलोड के बीच processing rate, all-in cost, volume और fees की तुलना करें।"
             },
             {
               "title": "Alerts later",
@@ -1014,7 +1014,7 @@
         {
           "type": "why",
           "heading": "The useful question is not just \"what is my rate?\"",
-          "body": "It is \"did my rate get worse, why, and what should I inspect first?\" Today Monitor creates the recurring check-in habit; comparison history and automatic drift detection are future functionality, not a promise already delivered.",
+          "body": "मुख्य सवाल है: \"क्या मेरी rate खराब हुई, क्यों, और पहले क्या जाँचूँ?\" Monitor अब अपलोड का निजी तुलना इतिहास रखता है। स्वचालित Stripe sync और सक्रिय alerts अभी शामिल नहीं हैं।",
           "steps": [
             [
               "1",
@@ -1023,8 +1023,8 @@
             ],
             [
               "2",
-              "Keep your report links",
-              "Compare the new report with your prior export manually until in-product history ships."
+              "बदलाव की तुलना करें",
+              "Processing rate, all-in cost, volume और fees को पिछले अपलोड से तुलना करें।"
             ],
             [
               "3",
@@ -1040,7 +1040,7 @@
             "A fresh full report for each monthly CSV upload",
             "A manual monthly check for refund leakage, high-fee charges, and one-off anomalies",
             "Processing rate vs all-in Stripe cost for each report",
-            "Early access to report history and automatic drift alerts when they ship"
+            "Processing rate और all-in rate बदलावों वाला निजी रिपोर्ट इतिहास"
           ],
           "notYet": [
             "No live Stripe OAuth connection in the first version",

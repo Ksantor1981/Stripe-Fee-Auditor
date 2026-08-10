@@ -114,7 +114,7 @@
     "auditRefund": "Reembolso si pagaste pero el informe no se desbloqueó.",
     "monitorLabel": "Opcional · $9/mes",
     "monitorTitle": "Fee Monitor",
-    "monitorBody": "Recordatorio mensual CSV e informe completo nuevo. Historial y alertas de drift — más adelante.",
+    "monitorBody": "Recordatorio mensual, informe completo nuevo e historial privado de cambios de tarifa. Carga manual, sin Stripe OAuth permanente.",
     "monitorLink": "Fee Monitor →",
     "uploadCta": "Subir CSV",
     "estimateLink": "Estimar sin CSV",
