@@ -23,6 +23,9 @@
     "check:post-beta": "node scripts/check-post-beta-smoke.mjs",
     "seed:stripe-test": "node scripts/generate_stripe_test_data_v1.mjs",
     "seed:stripe-test:dry": "node scripts/generate_stripe_test_data_v1.mjs --dry-run",
+    "seed:stripe-enterprise": "node scripts/generate_stripe_test_data_enterprise_v1.mjs --mode=pm --currency=all",
+    "seed:stripe-enterprise:dry": "node scripts/generate_stripe_test_data_enterprise_v1.mjs --dry-run --mode=pm --currency=all",
+    "seed:stripe-enterprise:quick": "node scripts/generate_stripe_test_data_enterprise_v1.mjs --mode=pm --currency=usd --quick",
     "seed:founder-july": "node scripts/generate_founder_july_csv_v1.mjs",
     "convert:payments": "tsx scripts/convert_payments_csv_v1.ts"
   },

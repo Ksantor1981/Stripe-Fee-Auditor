@@ -5,10 +5,13 @@ out/
 dist/
 coverage/
 
-# Env
+# Env — never commit secrets (incl. .env.code)
 .env
 .env.local
 .env.*.local
+.env.code
+.env.*
+!.env.example
 
 # Logs
 logs/

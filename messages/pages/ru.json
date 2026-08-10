@@ -1062,19 +1062,19 @@
       }
     },
     "about": {
-      "metaTitle": "About the Founder & Data Handling | Stripe Fee Auditor",
-      "metaDescription": "Who built Stripe Fee Auditor, why it exists, and what data we store (and do not store) when you upload a Stripe Balance CSV.",
-      "breadcrumb": "About",
-      "eyebrow": "About",
-      "heroTitle": "About Stripe Fee Auditor",
-      "heroDescription": "Stripe Fee Auditor is an independent tool that helps founders and finance teams understand their real Stripe processing and all-in cost rates from a Balance Transactions CSV — without connecting Stripe OAuth or sharing API keys.",
+      "metaTitle": "О создателе и обработке данных | Stripe Fee Auditor",
+      "metaDescription": "Кто создал Stripe Fee Auditor, зачем он нужен и какие данные мы храним (и не храним), когда вы загружаете CSV баланса Stripe.",
+      "breadcrumb": "О продукте",
+      "eyebrow": "О продукте",
+      "heroTitle": "О Stripe Fee Auditor",
+      "heroDescription": "Stripe Fee Auditor — независимый инструмент, который помогает основателям и финансовым командам понять реальную ставку обработки Stripe и полную стоимость комиссий из CSV транзакций баланса — без подключения Stripe OAuth и без передачи API-ключей.",
       "sections": [
         {
           "type": "founder",
-          "heading": "About the founder",
+          "heading": "О создателе",
           "paragraphs": [
-            "Built by Konstantin Starkov, an indie SaaS founder. I built Stripe Fee Auditor after seeing how quickly the real Stripe cost can drift away from the headline 2.9% rate: one sample export showed a 3.82% card processing rate and a 4.02% all-in Stripe cost.",
-            "The product is intentionally narrow: one CSV export, one question, one report that explains whether fees are normal or worth investigating."
+            "Создано Константином Старковым, indie-основателем SaaS. Я сделал Stripe Fee Auditor после того, как увидел, как быстро реальная стоимость Stripe уходит от заявленных 2,9%: в одном экспорте ставка обработки карт была 3,82%, а полная стоимость Stripe — 4,02%.",
+            "Продукт намеренно узкий: один CSV-экспорт, один вопрос, один отчёт — нормальны ли комиссии или стоит копать глубже."
           ],
           "links": [
             {
@@ -1093,34 +1093,34 @@
         },
         {
           "type": "section",
-          "heading": "Why it exists",
+          "heading": "Зачем это нужно",
           "paragraphs": [
-            "Stripe's advertised 2.9% + $0.30 is only part of the story. International cards, small charges, refunds, disputes, and add-on services push the blended rate higher — often without a clear dashboard view. This tool turns your exported Balance data into a readable audit: processing rate, all-in cost, monthly trends, high-fee charges, and directional savings ideas."
+            "Заявленные Stripe 2,9% + $0,30 — лишь часть картины. Международные карты, мелкие платежи, возвраты, споры и дополнительные сервисы поднимают blended-ставку — часто без наглядного вида в дашборде. Этот инструмент превращает экспортированные данные баланса в читаемый аудит: ставка обработки, полная стоимость, помесячная динамика, транзакции с высокой комиссией и идеи для экономии."
           ]
         },
         {
           "type": "section",
-          "heading": "Privacy & data handling",
+          "heading": "Конфиденциальность и данные",
           "bullets": [
-            "No Stripe API access. You export CSV from the Stripe Dashboard and upload it once for analysis.",
-            "Raw CSV is not stored as a file. We parse it in memory, compute aggregates, and discard the upload body.",
-            "Computed report JSON (totals, rates, categorized rows) is stored so you can reopen your private link. Customer description fields are redacted before storage.",
-            "USD accounts first. Beta supports USD Balance exports; multi-currency support is on the roadmap."
+            "Без доступа к Stripe API. Вы экспортируете CSV из Stripe Dashboard и загружаете его один раз для анализа.",
+            "Исходный CSV не сохраняется как файл. Мы парсим его в памяти, считаем агрегаты и отбрасываем тело загрузки.",
+            "Вычисленный JSON отчёта (итоги, ставки, категоризированные строки) сохраняется, чтобы вы могли открыть приватную ссылку снова. Поля описания клиента редактируются перед сохранением.",
+            "Сначала USD. Бета поддерживает экспорт баланса в USD; мультивалютность — в roadmap."
           ]
         },
         {
           "type": "section",
-          "heading": "Independence",
+          "heading": "Независимость",
           "paragraphs": [
-            "Stripe Fee Auditor is not affiliated with Stripe, Inc. We do not receive referral fees from Stripe for recommendations in reports. Action links point to Stripe Dashboard pages so you can verify settings yourself."
+            "Stripe Fee Auditor не связан со Stripe, Inc. Мы не получаем реферальных выплат от Stripe за рекомендации в отчётах. Ссылки на действия ведут на страницы Stripe Dashboard, чтобы вы могли проверить настройки сами."
           ]
         }
       ],
       "faq": [],
       "cta": {
-        "title": "Analyze my fees",
-        "description": "Upload your Stripe Balance CSV for a fee audit.",
-        "primaryLabel": "Analyze my fees →"
+        "title": "Проанализировать мои комиссии",
+        "description": "Загрузите CSV баланса Stripe для аудита комиссий.",
+        "primaryLabel": "Проанализировать комиссии →"
       }
     },
     "chromeExtension": {
