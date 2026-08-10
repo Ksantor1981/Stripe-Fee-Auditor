@@ -70,7 +70,10 @@
       "monitorActiveEyebrow": "Fee Monitor active",
       "monitorActiveTitle": "Monthly tracking is connected to this email",
       "monitorActiveDescription": "Your current report is unlocked. Upload the next Stripe Balance CSV when the month closes to compare rate drift and fee drivers.",
-      "viewMonitorWorkflow": "View Monitor workflow →"
+      "viewMonitorWorkflow": "View Monitor workflow →",
+      "unlockToolbarCta": "Unlock full report — $12",
+      "unlockToolbarCtaImpact": "Unlock ~{amount}/yr — $12",
+      "unlockToolbarDetails": "What's included?"
     },
     "singleMonthReport": {
       "eyebrow": "Single-month analysis",
@@ -357,6 +360,59 @@
       "upToPerYear": "up to ~{amount}/yr",
       "periodCost": "~{amount} potential cost in this export",
       "notGuaranteed": "Not guaranteed savings · scenarios may overlap"
+    },
+    "diagnosisKinds": {
+      "internationalCardUplift": {
+        "title": "International cards are lifting your rate",
+        "body": "{count, plural, one {# international-looking charge paid} other {# international-looking charges paid}} above your domestic mix. That is about {amount} of directional cross-border/card-mix uplift in this export.",
+        "disclaimer": "Estimate compares visible international-looking charges with your domestic mix."
+      },
+      "refundFeeLeakage": {
+        "title": "Refunds left processing fees behind",
+        "body": "{count, plural, one {# refund left} other {# refunds left}} an estimated {amount} in retained processing fees in this export.",
+        "disclaimer": "Stripe commonly does not return the original processing fee after a refund."
+      },
+      "smallTicketDrag": {
+        "title": "Small charges are amplifying fixed fees",
+        "body": "{count, plural, one {# charge under $20 paid} other {# charges under $20 paid}} {rate} on average. Fixed per-charge fees account for about {amount} across this export.",
+        "disclaimer": "This is the fixed-fee component of your card charges, not a claim that it is avoidable."
+      },
+      "otherFeeLines": {
+        "title": "Non-processing Stripe fee lines showed up",
+        "body": "{amount} in non-charge Stripe fee lines appears in this export, separate from card processing fees."
+      },
+      "aboveBenchmarkRate": {
+        "title": "Your processing rate is above this mix's benchmark",
+        "body": "Your {chargeRate} processing rate is {rateGap} percentage points above the rough {expectedRate} benchmark for this mix — about {amount} across this export.",
+        "disclaimer": "This is a directional benchmark, not proof that the difference is avoidable."
+      },
+      "unusualCharge": {
+        "title": "One charge deserves a closer look",
+        "body": "We found an unusually high-fee charge with {amount} in Stripe fees. The full report explains the pattern and shows the affected rows."
+      }
+    },
+    "savingsKinds": {
+      "internationalCardFees": {
+        "tip": "Cross-border cards can add ~{crossBorderPercent}% on top of standard domestic pricing. Local payment methods can reduce that in supported markets.",
+        "step1": "Enable SEPA Direct Debit (EU) or iDEAL (Netherlands)",
+        "step2": "Offer local methods at checkout for EU/UK customers"
+      },
+      "smallTransactions": {
+        "tip": "{count} charges under {currency} 20 (avg {currency} {avgAmount}). Bundling or monthly billing cuts repeated fixed fees.",
+        "step1": "Set a minimum charge in checkout where it fits your model",
+        "step2": "Move sub-$10 subs to one monthly invoice"
+      },
+      "achLargeInvoices": {
+        "tip": "{count} charges over $500 on cards. ACH is ~0.8% (max $5) vs card pricing. Annual figure uses a conservative switching share, not a full migration.",
+        "periodLossNote": "if every eligible invoice moved from card to ACH this period",
+        "annualSavingsNote": "if ~{share}% of eligible large invoices switch",
+        "step1": "Enable ACH Direct Debit under Payment methods",
+        "step2": "Offer bank transfer on $500+ invoices"
+      }
+    },
+    "paywallImpactLabels": {
+      "rateGap": "above the {benchmark}% directional benchmark",
+      "feeRunrate": "Stripe fees at this rate"
     },
     "expectedOutlierToggle": {
       "excluded": "Excluded from adjusted rate ✓",

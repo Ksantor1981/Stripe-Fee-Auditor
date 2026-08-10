@@ -13,6 +13,7 @@ import type { FeeGrade } from "@/lib/fee-grade";
 import type { FreeDiagnosis, FreeDiagnosisKind } from "@/lib/free-diagnosis";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
+import { useTranslatedDiagnosis } from "@/lib/i18n/report-insights";
 
 export interface ReportHeadline {
   chargeVolume: number;
@@ -51,6 +52,7 @@ function diagnosisGateTeaser(body: string): string {
 
 export function EmailGate({ reportId, headline, onUnlock }: Props) {
   const { t, tc } = useReportTranslations();
+  const translatedDiagnosis = useTranslatedDiagnosis(headline.diagnosis);
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -162,14 +164,16 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
               <p className="text-xs font-semibold uppercase tracking-widest text-emerald-700 mb-1">
                 {t("emailGate.freeDiagnosis")}
               </p>
-              <h2 className="text-sm font-bold text-emerald-950">{headline.diagnosis.title}</h2>
+              <h2 className="text-sm font-bold text-emerald-950">
+                {translatedDiagnosis?.title ?? headline.diagnosis.title}
+              </h2>
               {driverCategory && (
                 <p className="mt-1 text-xs font-medium text-emerald-800/90">
                   {t("emailGate.likelyDriverCategory", { category: driverCategory })}
                 </p>
               )}
               <p className="mt-1 text-sm leading-relaxed text-emerald-900/85">
-                {diagnosisGateTeaser(headline.diagnosis.body)}
+                {diagnosisGateTeaser(translatedDiagnosis?.body ?? headline.diagnosis.body)}
               </p>
               <p className="mt-2 text-xs leading-relaxed text-emerald-800/75">
                 {t("emailGate.emailUnlockHint")}

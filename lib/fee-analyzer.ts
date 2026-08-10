@@ -73,7 +73,14 @@ export interface AnnotatedRow extends NormalizedRow {
   explanation?: AnomalyExplanation;
 }
 
+export type SavingsOpportunityKind =
+  | "international_card_fees"
+  | "small_transactions"
+  | "ach_large_invoices";
+
 export interface SavingsOpportunity {
+  /** Stable key for localized copy; older stored JSON may omit. */
+  kind?: SavingsOpportunityKind;
   title: string;
   annualSavings: number;
   tip: string;
@@ -89,6 +96,18 @@ export interface SavingsOpportunity {
   periodLossNote?: string;
   /** Optional scope label for annualSavings (e.g. switching share assumption). */
   annualSavingsNote?: string;
+  /** Structured values for localized copy. */
+  params?: SavingsOpportunityParams;
+}
+
+export interface SavingsOpportunityParams {
+  crossBorderPercent?: number;
+  smallChargeCount?: number;
+  avgSmallAmount?: number;
+  currency?: string;
+  fixedFee?: number;
+  largeChargeCount?: number;
+  switchingSharePercent?: number;
 }
 
 /** Pre-aggregated domestic vs international charge mix for report UI (no raw rows). */
@@ -533,6 +552,7 @@ function buildSavingsOpportunities(
     if (excessFees > 0) {
       const annualSavings = Math.round(((excessFees * 12) / months) / 10) * 10;
       opportunities.push({
+        kind: "international_card_fees",
         title: "High international card fees",
         periodLoss: roundMoney(excessFees),
         annualSavings,
@@ -544,6 +564,7 @@ function buildSavingsOpportunities(
           "Enable SEPA Direct Debit (EU) or iDEAL (Netherlands)",
           "Offer local methods at checkout for EU/UK customers",
         ],
+        params: { crossBorderPercent: profile.crossBorderPercent * 100 },
       });
     }
   }
@@ -556,6 +577,7 @@ function buildSavingsOpportunities(
     const annualSavings = Math.round(((assumedAvoidableFixedFees * 12) / months) / 10) * 10;
     if (annualSavings > 0) {
       opportunities.push({
+        kind: "small_transactions",
         title: `Small transactions — fixed ${profile.currency} ${profile.domesticFixed.toFixed(2)} dominates`,
         periodLoss: roundMoney(assumedAvoidableFixedFees),
         annualSavings,
@@ -567,6 +589,12 @@ function buildSavingsOpportunities(
           "Set a minimum charge in checkout where it fits your model",
           "Move sub-$10 subs to one monthly invoice",
         ],
+        params: {
+          smallChargeCount: smallCharges.length,
+          avgSmallAmount,
+          currency: profile.currency,
+          fixedFee: profile.domesticFixed,
+        },
       });
     }
   }
@@ -588,6 +616,7 @@ function buildSavingsOpportunities(
       const rawAnnualIfFullSwitch = ((savings * 12) / months) * ACH_SWITCHING_SHARE_ASSUMPTION;
       const annualSavings = Math.round(rawAnnualIfFullSwitch / 10) * 10;
       opportunities.push({
+        kind: "ach_large_invoices",
         title: "Large invoices still on cards — ACH is cheaper",
         periodLoss: roundMoney(savings),
         periodLossNote: "if every eligible invoice moved from card to ACH this period",
@@ -601,6 +630,10 @@ function buildSavingsOpportunities(
           "Enable ACH Direct Debit under Payment methods",
           "Offer bank transfer on $500+ invoices",
         ],
+        params: {
+          largeChargeCount: largeCardCharges.length,
+          switchingSharePercent: Math.round(ACH_SWITCHING_SHARE_ASSUMPTION * 100),
+        },
       });
     }
   }

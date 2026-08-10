@@ -7,6 +7,8 @@ import type { AnalysisResult } from "@/lib/fee-analyzer";
 import type { MonitorHistoryPoint } from "@/lib/db";
 import { applyExpectedOutlierExclusions } from "@/lib/expected-outliers";
 import { selectFreeDiagnosis } from "@/lib/free-diagnosis";
+import { resolvePaywallImpact } from "@/lib/paywall-impact";
+import { annualRunRate, periodTotalFees } from "@/lib/fee-period-copy";
 import { ChromeWebStoreReviewAsk } from "@/components/ChromeWebStoreReviewAsk";
 import { AppShellHeader } from "@/components/AppShellHeader";
 import { trackEvent } from "@/lib/analytics";
@@ -19,7 +21,12 @@ import { LowVolumeReport } from "./LowVolumeReport";
 import { ShareEmbedBenchmark } from "./ShareEmbedBenchmark";
 import { ReportReconciliation } from "./ReportReconciliation";
 import { MonitorHistory } from "./MonitorHistory";
+import { ReportUnlockToolbarCta } from "./ReportUnlockToolbarCta";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
+import {
+  useTranslatedPaywallLabel,
+  useTranslatedSavingsOpportunity,
+} from "@/lib/i18n/report-insights";
 
 interface Props {
   reportId: string;
@@ -79,6 +86,30 @@ export function ReportShell({
     [baseResult, expectedOutlierIds]
   );
   const freeDiagnosis = useMemo(() => selectFreeDiagnosis(baseResult), [baseResult]);
+  const translatedTopSavings = useTranslatedSavingsOpportunity(baseResult.savingsOpportunities?.[0]);
+  const paywallImpact = useMemo(() => {
+    const savings = baseResult.savingsOpportunities?.[0];
+    const monthCount = Math.max(1, baseResult.monthly.length);
+    const periodFees =
+      baseResult.allInFees ?? periodTotalFees(baseResult.chargeFees, baseResult.otherFees ?? 0);
+    const yearlyAtThisRate = annualRunRate(periodFees, monthCount);
+    return resolvePaywallImpact({
+      savingsAnnual: savings?.annualSavings,
+      savingsTitle: translatedTopSavings?.title ?? savings?.title,
+      chargeRate: baseResult.chargeRate,
+      chargeVolume: baseResult.chargeVolume,
+      monthCount,
+      yearlyFeesAtThisRate: yearlyAtThisRate,
+      baselineRate: baseResult.benchmark?.expectedRate,
+    });
+  }, [baseResult, translatedTopSavings?.title]);
+  const paywallOpportunityLabel = useTranslatedPaywallLabel(
+    paywallImpact?.source,
+    paywallImpact?.source === "savings" ? translatedTopSavings?.title : paywallImpact?.label,
+    baseResult.benchmark?.expectedRate
+  );
+  const showUnlockToolbar =
+    unlocked && !hasFullAccess && !monitorFullAccess && !demoFullAccess && !betaFullAccess;
   const canMarkExpectedOutliers = Boolean(baseResult.chargeLedger?.length) && hasFullAccess;
 
   const toggleExpectedOutlier = useCallback(
@@ -193,6 +224,16 @@ export function ReportShell({
               {demoFullAccess ? t("reportShell.sampleReport") : t("reportShell.yourReport")}
             </Link>
             <div className="flex flex-wrap items-center gap-2 sm:justify-end sm:gap-3">
+              {showUnlockToolbar && (
+                <ReportUnlockToolbarCta
+                  reportId={reportId}
+                  annualImpact={paywallImpact?.amount}
+                  impactSource={paywallImpact?.source}
+                  firstOpportunity={paywallOpportunityLabel}
+                  diagnosis={freeDiagnosis}
+                  disabled={paymentPending}
+                />
+              )}
               {exportsEnabled && (
                 <>
                   <a
@@ -305,7 +346,7 @@ export function ReportShell({
           ) : (
             <MonitorWaitlistForm reportId={reportId} />
           )}
-          <FeedbackForm reportId={reportId} />
+          {isPaid && <FeedbackForm reportId={reportId} />}
           <ChromeWebStoreReviewAsk
             placement={hasFullAccess ? "full_report" : "sample_or_preview"}
             className="text-center"

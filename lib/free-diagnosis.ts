@@ -8,6 +8,15 @@ export type FreeDiagnosisKind =
   | "above_benchmark_rate"
   | "unusual_charge";
 
+/** Structured values for localized diagnosis copy. */
+export interface FreeDiagnosisParams {
+  count?: number;
+  chargeRate?: number;
+  rateGap?: number;
+  expectedRate?: number;
+  smallTicketRate?: number;
+}
+
 export interface FreeDiagnosis {
   kind: FreeDiagnosisKind;
   title: string;
@@ -15,6 +24,8 @@ export interface FreeDiagnosis {
   amount: number;
   body: string;
   disclaimer?: string;
+  /** Values for i18n interpolation; English title/body kept for tests and stored JSON. */
+  params?: FreeDiagnosisParams;
 }
 
 const MIN_DIAGNOSIS_AMOUNT = 0.01;
@@ -40,6 +51,7 @@ export function selectFreeDiagnosis(result: AnalysisResult): FreeDiagnosis | und
       amount: international.amount,
       body: `${count} international-looking charge${count === 1 ? "" : "s"} paid above your domestic mix. That is about $${international.amount.toFixed(2)} of directional cross-border/card-mix uplift in this export.`,
       disclaimer: "Estimate compares visible international-looking charges with your domestic mix.",
+      params: { count },
     };
   }
 
@@ -52,6 +64,7 @@ export function selectFreeDiagnosis(result: AnalysisResult): FreeDiagnosis | und
       amount: refunds.amount,
       body: `${count} refund${count === 1 ? "" : "s"} left an estimated $${refunds.amount.toFixed(2)} in retained processing fees in this export.`,
       disclaimer: "Stripe commonly does not return the original processing fee after a refund.",
+      params: { count },
     };
   }
 
@@ -65,6 +78,7 @@ export function selectFreeDiagnosis(result: AnalysisResult): FreeDiagnosis | und
         amount: smallTickets.amount,
         body: `${smallBucket.count} charge${smallBucket.count === 1 ? "" : "s"} under $20 paid ${smallBucket.rate.toFixed(2)}% on average. Fixed per-charge fees account for about $${smallTickets.amount.toFixed(2)} across this export.`,
         disclaimer: "This is the fixed-fee component of your card charges, not a claim that it is avoidable.",
+        params: { count: smallBucket.count, smallTicketRate: smallBucket.rate },
       };
     }
   }
@@ -76,6 +90,7 @@ export function selectFreeDiagnosis(result: AnalysisResult): FreeDiagnosis | und
       title: "Non-processing Stripe fee lines showed up",
       amount: otherFees.amount,
       body: `$${otherFees.amount.toFixed(2)} in non-charge Stripe fee lines appears in this export, separate from card processing fees.`,
+      params: {},
     };
   }
 
@@ -89,6 +104,11 @@ export function selectFreeDiagnosis(result: AnalysisResult): FreeDiagnosis | und
       amount,
       body: `Your ${result.chargeRate.toFixed(2)}% processing rate is ${rateGap.toFixed(2)} percentage points above the rough ${expectedRate.toFixed(2)}% benchmark for this mix — about $${amount.toFixed(2)} across this export.`,
       disclaimer: "This is a directional benchmark, not proof that the difference is avoidable.",
+      params: {
+        chargeRate: result.chargeRate,
+        rateGap,
+        expectedRate,
+      },
     };
   }
 
@@ -101,6 +121,7 @@ export function selectFreeDiagnosis(result: AnalysisResult): FreeDiagnosis | und
       title: "One charge deserves a closer look",
       amount: unusual.fee,
       body: `We found an unusually high-fee charge with $${unusual.fee.toFixed(2)} in Stripe fees. The full report explains the pattern and shows the affected rows.`,
+      params: {},
     };
   }
 

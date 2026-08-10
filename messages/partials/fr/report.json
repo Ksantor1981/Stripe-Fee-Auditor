@@ -70,7 +70,10 @@
       "monitorActiveEyebrow": "Fee Monitor actif",
       "monitorActiveTitle": "Le suivi mensuel est lié à cet e-mail",
       "monitorActiveDescription": "Votre rapport actuel est déverrouillé. Téléversez le prochain CSV Balance Stripe à la clôture du mois pour comparer la dérive des taux et les moteurs de frais.",
-      "viewMonitorWorkflow": "Voir le flux Monitor →"
+      "viewMonitorWorkflow": "Voir le flux Monitor →",
+      "unlockToolbarCta": "Débloquer le rapport complet — 12 $",
+      "unlockToolbarCtaImpact": "Débloquer ~{amount}/an — 12 $",
+      "unlockToolbarDetails": "Qu'est-ce qui est inclus ?"
     },
     "singleMonthReport": {
       "eyebrow": "Analyse sur un mois",
@@ -357,6 +360,59 @@
       "upToPerYear": "jusqu'à ~{amount}/an",
       "periodCost": "~{amount} coût potentiel dans cet export",
       "notGuaranteed": "Pas des économies garanties · scénarios peuvent se chevaucher"
+    },
+    "diagnosisKinds": {
+      "internationalCardUplift": {
+        "title": "Les cartes internationales font monter votre taux",
+        "body": "{count, plural, one {# paiement à allure internationale} other {# paiements à allure internationale}} au-dessus de votre mix domestique. Environ {amount} d'uplift cross-border/mix cartes dans cet export.",
+        "disclaimer": "Estimation comparant les paiements internationaux visibles à votre mix domestique."
+      },
+      "refundFeeLeakage": {
+        "title": "Les remboursements ont laissé des frais de traitement",
+        "body": "{count, plural, one {# remboursement a laissé} other {# remboursements ont laissé}} environ {amount} de frais de traitement retenus dans cet export.",
+        "disclaimer": "Stripe ne rembourse généralement pas les frais de traitement initiaux après un remboursement."
+      },
+      "smallTicketDrag": {
+        "title": "Les petits paiements amplifient les frais fixes",
+        "body": "{count, plural, one {# paiement sous 20 $ à} other {# paiements sous 20 $ à}} {rate} en moyenne. Les frais fixes par paiement représentent environ {amount} dans cet export.",
+        "disclaimer": "Composante frais fixes de vos paiements carte — pas une affirmation qu'elle est évitable."
+      },
+      "otherFeeLines": {
+        "title": "Des lignes de frais Stripe hors traitement sont apparues",
+        "body": "{amount} en lignes de frais Stripe hors paiements dans cet export, séparés des frais carte."
+      },
+      "aboveBenchmarkRate": {
+        "title": "Votre taux de traitement dépasse le benchmark de ce mix",
+        "body": "Votre taux {chargeRate} est {rateGap} points au-dessus du repère {expectedRate} pour ce mix — environ {amount} dans cet export.",
+        "disclaimer": "Benchmark indicatif, pas une preuve que l'écart est évitable."
+      },
+      "unusualCharge": {
+        "title": "Un paiement mérite un examen plus attentif",
+        "body": "Paiement avec des frais Stripe anormalement élevés : {amount}. Le rapport complet explique le motif et les lignes concernées."
+      }
+    },
+    "savingsKinds": {
+      "internationalCardFees": {
+        "tip": "Les cartes cross-border peuvent ajouter ~{crossBorderPercent}% aux tarifs domestiques. Les moyens de paiement locaux réduisent cela sur les marchés pris en charge.",
+        "step1": "Activer SEPA Direct Debit (UE) ou iDEAL (Pays-Bas)",
+        "step2": "Proposer des moyens locaux au checkout pour les clients UE/RU"
+      },
+      "smallTransactions": {
+        "tip": "{count} paiements sous {currency} 20 (moy. {currency} {avgAmount}). Regroupement ou facturation mensuelle réduit les frais fixes répétés.",
+        "step1": "Définir un montant minimum au checkout si pertinent",
+        "step2": "Regrouper les abos sub-10 $ sur une facture mensuelle"
+      },
+      "achLargeInvoices": {
+        "tip": "{count} paiements de plus de 500 $ par carte. ACH ~0,8 % (max 5 $) vs tarifs carte. Chiffre annuel avec part de bascule conservative, pas migration totale.",
+        "periodLossNote": "si chaque facture éligible passait de carte à ACH sur cette période",
+        "annualSavingsNote": "si ~{share} % des grosses factures éligibles basculent",
+        "step1": "Activer ACH Direct Debit dans Moyens de paiement",
+        "step2": "Proposer virement bancaire pour factures 500 $+"
+      }
+    },
+    "paywallImpactLabels": {
+      "rateGap": "au-dessus du benchmark indicatif {benchmark} %",
+      "feeRunrate": "frais Stripe à ce taux"
     },
     "expectedOutlierToggle": {
       "excluded": "Exclu du taux ajusté ✓",

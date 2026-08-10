@@ -6,6 +6,11 @@ import { resolvePaywallImpact } from "@/lib/paywall-impact";
 import type { FreeDiagnosis } from "@/lib/free-diagnosis";
 import { PaywallBanner } from "./PaywallBanner";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
+import {
+  useTranslatedDiagnosis,
+  useTranslatedPaywallLabel,
+  useTranslatedSavingsOpportunity,
+} from "@/lib/i18n/report-insights";
 
 interface Props {
   reportId: string;
@@ -29,14 +34,17 @@ export function MoneyFirstImpact({
   diagnosis,
 }: Props) {
   const { t, tc } = useReportTranslations();
+  const translatedSavings = useTranslatedSavingsOpportunity(savings);
+  const translatedDiagnosis = useTranslatedDiagnosis(diagnosis);
   const impact = resolvePaywallImpact({
     savingsAnnual: savings?.annualSavings,
-    savingsTitle: savings?.title,
+    savingsTitle: translatedSavings?.title ?? savings?.title,
     chargeRate,
     chargeVolume,
     monthCount,
     yearlyFeesAtThisRate,
   });
+  const paywallLabel = useTranslatedPaywallLabel(impact?.source, translatedSavings?.title ?? impact?.label);
 
   const headline = diagnosis
     ? t("moneyFirstImpact.headlineDiagnosis")
@@ -56,14 +64,16 @@ export function MoneyFirstImpact({
         {diagnosis ? (
           <>
             <p className="mt-2 text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">
-              {diagnosis.title}
+              {translatedDiagnosis?.title ?? diagnosis.title}
             </p>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-gray-700">
-              {t("moneyFirstImpact.diagnosisUnlock", { body: diagnosis.body })}
+              {t("moneyFirstImpact.diagnosisUnlock", {
+                body: translatedDiagnosis?.body ?? diagnosis.body,
+              })}
             </p>
-            {diagnosis.disclaimer && (
+            {(translatedDiagnosis?.disclaimer ?? diagnosis.disclaimer) && (
               <p className="mt-3 text-xs leading-relaxed text-emerald-900/70">
-                {diagnosis.disclaimer}
+                {translatedDiagnosis?.disclaimer ?? diagnosis.disclaimer}
               </p>
             )}
           </>
@@ -77,11 +87,11 @@ export function MoneyFirstImpact({
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-gray-700">
               {impact.source === "savings" ? (
                 t("moneyFirstImpact.savingsBody", {
-                  label: impact.label ?? "",
+                  label: paywallLabel ?? "",
                   confidence: savings?.confidence ? ` · ${tc("confidence", { level: savings.confidence })}` : "",
                 })
               ) : impact.source === "rate_gap" ? (
-                t("moneyFirstImpact.rateGapBody", { label: impact.label ?? "" })
+                t("moneyFirstImpact.rateGapBody", { label: paywallLabel ?? "" })
               ) : (
                 t("moneyFirstImpact.runrateBody", { amount: fmt$(impact.amount) })
               )}
@@ -111,7 +121,7 @@ export function MoneyFirstImpact({
         reportId={reportId}
         annualImpact={impact?.amount}
         impactSource={impact?.source}
-        firstOpportunity={impact?.label}
+        firstOpportunity={paywallLabel}
         diagnosis={diagnosis}
       />
     </div>

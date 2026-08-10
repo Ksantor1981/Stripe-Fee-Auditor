@@ -70,7 +70,10 @@
       "monitorActiveEyebrow": "Fee Monitor активен",
       "monitorActiveTitle": "Ежемесячный мониторинг привязан к этому email",
       "monitorActiveDescription": "Текущий отчёт разблокирован. Загрузите следующий Balance CSV в конце месяца для сравнения drift и fee drivers.",
-      "viewMonitorWorkflow": "Workflow Monitor →"
+      "viewMonitorWorkflow": "Workflow Monitor →",
+      "unlockToolbarCta": "Разблокировать отчёт — $12",
+      "unlockToolbarCtaImpact": "Разблокировать ~{amount}/год — $12",
+      "unlockToolbarDetails": "Что входит?"
     },
     "singleMonthReport": {
       "eyebrow": "Анализ одного месяца",
@@ -353,10 +356,63 @@
       "chargeRows": "Charge rows"
     },
     "firstActionCallout": {
-      "eyebrow": "First action to inspect",
+      "eyebrow": "Первое действие для проверки",
       "upToPerYear": "до ~{amount}/год",
-      "periodCost": "~{amount} potential cost в этом export",
-      "notGuaranteed": "Не guaranteed savings · scenarios могут overlap"
+      "periodCost": "~{amount} потенциальные потери в этом export",
+      "notGuaranteed": "Не гарантированная экономия · сценарии могут пересекаться"
+    },
+    "diagnosisKinds": {
+      "internationalCardUplift": {
+        "title": "Международные карты повышают вашу ставку",
+        "body": "{count, plural, one {# международный платёж} few {# международных платежа} many {# международных платежей} other {# международных платежей}} выше вашего domestic mix. Это около {amount} directional cross-border/card-mix uplift в этом export.",
+        "disclaimer": "Оценка сравнивает видимые международные платежи с вашим domestic mix."
+      },
+      "refundFeeLeakage": {
+        "title": "Возвраты оставили processing fees",
+        "body": "{count, plural, one {# возврат оставил} few {# возврата оставили} many {# возвратов оставили} other {# возвратов оставили}} оценочно {amount} удержанных processing fees в этом export.",
+        "disclaimer": "Stripe обычно не возвращает исходную processing fee после refund."
+      },
+      "smallTicketDrag": {
+        "title": "Мелкие платежи усиливают fixed fees",
+        "body": "{count, plural, one {# платёж до $20 с} few {# платежа до $20 со} many {# платежей до $20 со} other {# платежей до $20 со}} средней ставкой {rate}. Fixed per-charge fees — около {amount} в этом export.",
+        "disclaimer": "Это компонент fixed fees по картам, а не утверждение, что его можно избежать."
+      },
+      "otherFeeLines": {
+        "title": "Появились non-processing строки комиссий Stripe",
+        "body": "{amount} в non-charge строках комиссий Stripe в этом export, отдельно от card processing fees."
+      },
+      "aboveBenchmarkRate": {
+        "title": "Ваша processing rate выше directional benchmark для mix",
+        "body": "Ваша processing rate {chargeRate} на {rateGap} п.п. выше ориентира {expectedRate} для этого mix — около {amount} в этом export.",
+        "disclaimer": "Directional benchmark, а не доказательство, что разница avoidable."
+      },
+      "unusualCharge": {
+        "title": "Один платёж стоит проверить отдельно",
+        "body": "Нашли необычно высокую комиссию Stripe — {amount}. Полный отчёт покажет паттерн и затронутые строки."
+      }
+    },
+    "savingsKinds": {
+      "internationalCardFees": {
+        "tip": "Cross-border карты могут добавить ~{crossBorderPercent}% к domestic pricing. Local payment methods снижают это в поддерживаемых рынках.",
+        "step1": "Включите SEPA Direct Debit (EU) или iDEAL (Netherlands)",
+        "step2": "Предложите local methods на checkout для EU/UK клиентов"
+      },
+      "smallTransactions": {
+        "tip": "{count} платежей до {currency} 20 (средн. {currency} {avgAmount}). Bundling или monthly billing снижает повторяющиеся fixed fees.",
+        "step1": "Установите minimum charge на checkout, где это уместно",
+        "step2": "Перенесите sub-$10 подписки на один monthly invoice"
+      },
+      "achLargeInvoices": {
+        "tip": "{count} платежей свыше $500 на картах. ACH ~0.8% (max $5) vs card pricing. Годовая цифра — conservative switching share, не full migration.",
+        "periodLossNote": "если каждый eligible invoice перейдёт с card на ACH за этот период",
+        "annualSavingsNote": "если ~{share}% eligible large invoices переключатся",
+        "step1": "Включите ACH Direct Debit в Payment methods",
+        "step2": "Предложите bank transfer на invoice $500+"
+      }
+    },
+    "paywallImpactLabels": {
+      "rateGap": "выше directional benchmark {benchmark}%",
+      "feeRunrate": "комиссии Stripe при такой ставке"
     },
     "expectedOutlierToggle": {
       "excluded": "Исключено из adjusted rate ✓",

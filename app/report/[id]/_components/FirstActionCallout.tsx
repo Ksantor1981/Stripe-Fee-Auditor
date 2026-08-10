@@ -3,6 +3,7 @@
 import type { SavingsOpportunity } from "@/lib/fee-analyzer";
 import { fmt$ } from "@/lib/format";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
+import { useTranslatedSavingsOpportunity } from "@/lib/i18n/report-insights";
 
 interface Props {
   opportunity?: SavingsOpportunity;
@@ -10,8 +11,15 @@ interface Props {
 
 export function FirstActionCallout({ opportunity }: Props) {
   const { t, tc } = useReportTranslations();
+  const localized = useTranslatedSavingsOpportunity(opportunity);
 
   if (!opportunity) return null;
+
+  const title = localized?.title ?? opportunity.title;
+  const tip = localized?.tip ?? opportunity.tip;
+  const actionLabel = localized?.actionLabel ?? opportunity.actionLabel;
+  const periodLossNote = localized?.periodLossNote ?? opportunity.periodLossNote;
+  const annualSavingsNote = localized?.annualSavingsNote ?? opportunity.annualSavingsNote;
 
   return (
     <div className="rounded-2xl border border-emerald-100 bg-emerald-50/70 p-5 shadow-sm">
@@ -21,10 +29,10 @@ export function FirstActionCallout({ opportunity }: Props) {
             {t("firstActionCallout.eyebrow")}
           </p>
           <h2 className="mt-1 text-base font-bold text-gray-950">
-            {opportunity.title}
+            {title}
           </h2>
           <p className="mt-2 text-sm leading-relaxed text-gray-700">
-            {opportunity.tip}
+            {tip}
           </p>
         </div>
 
@@ -34,7 +42,7 @@ export function FirstActionCallout({ opportunity }: Props) {
               {t("firstActionCallout.upToPerYear", { amount: fmt$(opportunity.annualSavings) })}
             </p>
             <p className="text-xs text-gray-400">
-              {opportunity.annualSavingsNote ?? tc("directionalEstimate")}
+              {annualSavingsNote ?? tc("directionalEstimate")}
             </p>
           </div>
         )}
@@ -44,20 +52,20 @@ export function FirstActionCallout({ opportunity }: Props) {
         {opportunity.periodLoss != null && opportunity.periodLoss > 0 && (
           <span className="rounded-full bg-white px-3 py-1 text-xs font-medium text-amber-800">
             {t("firstActionCallout.periodCost", { amount: fmt$(opportunity.periodLoss) })}
-            {opportunity.periodLossNote ? ` (${opportunity.periodLossNote})` : ""}
+            {periodLossNote ? ` (${periodLossNote})` : ""}
           </span>
         )}
         <span className="rounded-full bg-white px-3 py-1 text-xs font-medium text-gray-500">
           {t("firstActionCallout.notGuaranteed")}
         </span>
-        {opportunity.actionUrl && opportunity.actionLabel && (
+        {opportunity.actionUrl && actionLabel && (
           <a
             href={opportunity.actionUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs font-semibold text-blue-600 hover:text-blue-800 hover:underline"
           >
-            {opportunity.actionLabel} →
+            {actionLabel} →
           </a>
         )}
       </div>

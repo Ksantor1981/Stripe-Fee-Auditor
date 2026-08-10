@@ -70,7 +70,10 @@
       "monitorActiveEyebrow": "Fee Monitor aktiv",
       "monitorActiveTitle": "Monatliches Tracking ist mit dieser E-Mail verbunden",
       "monitorActiveDescription": "Ihr aktueller Bericht ist freigeschaltet. Laden Sie am Monatsende die nächste Stripe-Balance-CSV hoch, um Ratenabweichungen und Gebührentreiber zu vergleichen.",
-      "viewMonitorWorkflow": "Monitor-Ablauf ansehen →"
+      "viewMonitorWorkflow": "Monitor-Ablauf ansehen →",
+      "unlockToolbarCta": "Vollbericht freischalten — $12",
+      "unlockToolbarCtaImpact": "~{amount}/Jahr freischalten — $12",
+      "unlockToolbarDetails": "Was ist enthalten?"
     },
     "singleMonthReport": {
       "eyebrow": "Ein-Monats-Analyse",
@@ -357,6 +360,59 @@
       "upToPerYear": "bis ~{amount}/Jahr",
       "periodCost": "~{amount} potenzielle Kosten in diesem Export",
       "notGuaranteed": "Keine garantierte Einsparung · Szenarien können überlappen"
+    },
+    "diagnosisKinds": {
+      "internationalCardUplift": {
+        "title": "Internationale Karten heben Ihre Rate an",
+        "body": "{count, plural, one {# international aussehende Zahlung} other {# international aussehende Zahlungen}} über Ihrem Inland-Mix. Das sind etwa {amount} Richtwert cross-border/card-mix uplift in diesem Export.",
+        "disclaimer": "Schätzung vergleicht sichtbare international aussehende Zahlungen mit Ihrem Inland-Mix."
+      },
+      "refundFeeLeakage": {
+        "title": "Erstattungen ließen Verarbeitungsgebühren zurück",
+        "body": "{count, plural, one {# Erstattung hinterließ} other {# Erstattungen hinterließen}} geschätzte {amount} einbehaltene Verarbeitungsgebühren in diesem Export.",
+        "disclaimer": "Stripe erstattet die ursprüngliche Verarbeitungsgebühr nach Erstattung üblicherweise nicht."
+      },
+      "smallTicketDrag": {
+        "title": "Kleine Zahlungen verstärken Fixgebühren",
+        "body": "{count, plural, one {# Zahlung unter $20 mit} other {# Zahlungen unter $20 mit}} durchschnittlich {rate}. Fixgebühren pro Zahlung: etwa {amount} in diesem Export.",
+        "disclaimer": "Fixgebühren-Komponente Ihrer Kartenzahlungen — keine Behauptung, dass sie vermeidbar ist."
+      },
+      "otherFeeLines": {
+        "title": "Nicht-Verarbeitungs-Stripe-Gebührenzeilen aufgetaucht",
+        "body": "{amount} in Nicht-Zahlungs-Stripe-Gebührenzeilen in diesem Export, getrennt von Kartengebühren."
+      },
+      "aboveBenchmarkRate": {
+        "title": "Ihre Verarbeitungsrate liegt über dem Mix-Benchmark",
+        "body": "Ihre Verarbeitungsrate {chargeRate} liegt {rateGap} Prozentpunkte über dem Richtwert {expectedRate} für diesen Mix — etwa {amount} in diesem Export.",
+        "disclaimer": "Richtwert-Benchmark, kein Beweis, dass die Differenz vermeidbar ist."
+      },
+      "unusualCharge": {
+        "title": "Eine Zahlung verdient genauere Prüfung",
+        "body": "Ungewöhnlich hohe Stripe-Gebühr: {amount}. Der Vollbericht erklärt das Muster und zeigt betroffene Zeilen."
+      }
+    },
+    "savingsKinds": {
+      "internationalCardFees": {
+        "tip": "Cross-border-Karten können ~{crossBorderPercent}% zusätzlich zu Inlandstarifen addieren. Lokale Zahlungsmethoden reduzieren das in unterstützten Märkten.",
+        "step1": "SEPA Direct Debit (EU) oder iDEAL (Niederlande) aktivieren",
+        "step2": "Lokale Methoden am Checkout für EU/UK-Kunden anbieten"
+      },
+      "smallTransactions": {
+        "tip": "{count} Zahlungen unter {currency} 20 (Ø {currency} {avgAmount}). Bündelung oder monatliche Abrechnung reduziert wiederholte Fixgebühren.",
+        "step1": "Mindestbetrag am Checkout setzen, wo es passt",
+        "step2": "Sub-$10-Abos auf eine monatliche Rechnung verschieben"
+      },
+      "achLargeInvoices": {
+        "tip": "{count} Zahlungen über $500 per Karte. ACH ~0,8% (max $5) vs Kartentarife. Jahreswert nutzt konservativen Wechselanteil, keine Vollmigration.",
+        "periodLossNote": "wenn jede geeignete Rechnung in dieser Periode von Karte auf ACH wechselt",
+        "annualSavingsNote": "wenn ~{share}% geeigneter Großrechnungen wechseln",
+        "step1": "ACH Direct Debit unter Zahlungsmethoden aktivieren",
+        "step2": "Banküberweisung für Rechnungen $500+ anbieten"
+      }
+    },
+    "paywallImpactLabels": {
+      "rateGap": "über dem Richtwert-Benchmark {benchmark}%",
+      "feeRunrate": "Stripe-Gebühren bei dieser Rate"
     },
     "expectedOutlierToggle": {
       "excluded": "Von angepasster Rate ausgeschlossen ✓",
