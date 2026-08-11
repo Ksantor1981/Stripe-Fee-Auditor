@@ -132,7 +132,7 @@ export async function BlogHubContent() {
   );
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen page-canvas">
       <div className="mx-auto max-w-4xl px-4 py-16">
         <Breadcrumbs items={[{ label: tb("home"), href: "/" }, { label: nav("blog") }]} />
         <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-tight text-gray-900">{t("pageTitle")}</h1>

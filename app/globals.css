@@ -30,7 +30,7 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
+  --background: oklch(0.973 0.004 95);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -54,6 +54,11 @@
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
+  --page-canvas: #f6f6f3;
+  --page-band: #ebece8;
+  --page-surface: #ffffff;
+  --page-surface-muted: #f0f1ee;
+  --page-line: #dfe2e0;
 }
 
 .dark {
@@ -82,7 +87,54 @@
     border-color: var(--border);
   }
   body {
-    background-color: var(--background);
+    background-color: var(--page-canvas);
     color: var(--foreground);
+  }
+}
+
+@layer components {
+  .page-canvas {
+    background-color: var(--page-canvas);
+  }
+
+  .page-band {
+    background-color: var(--page-band);
+  }
+
+  .page-surface-muted {
+    background-color: var(--page-surface-muted);
+  }
+
+  .ledger-grid {
+    background-color: var(--page-canvas);
+    background-image:
+      linear-gradient(rgb(17 24 39 / 0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(17 24 39 / 0.018) 1px, transparent 1px);
+    background-size: 36px 36px;
+  }
+
+  .interactive-lift {
+    transition:
+      transform 160ms ease,
+      box-shadow 160ms ease,
+      border-color 160ms ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .interactive-lift:hover {
+      transform: translateY(-2px) scale(1.01);
+      border-color: rgb(147 197 253);
+      box-shadow: 0 12px 28px rgb(15 23 42 / 0.09);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .interactive-lift {
+      transition: none;
+    }
+
+    .interactive-lift:hover {
+      transform: none;
+    }
   }
 }

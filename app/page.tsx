@@ -10,6 +10,7 @@ import { FunnelAnchor } from "@/components/FunnelAnchor";
 import { FunnelClickDelegate } from "@/components/FunnelClickDelegate";
 import { QuoteFooterStrip } from "@/components/QuoteFooterStrip";
 import { SiteFooter } from "@/components/SiteFooter";
+import { ChromeExtensionInstallCta } from "@/components/ChromeExtensionInstallCta";
 import { buildOgImageUrl } from "@/lib/seo-og";
 import { absoluteUrl } from "@/lib/site-url";
 
@@ -181,7 +182,7 @@ export default async function HomePage() {
   const t = await getTranslations("home");
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen page-canvas">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD).replace(/</g, "\\u003c") }}
@@ -197,14 +198,14 @@ export default async function HomePage() {
 
       <div
         id={LANDING_NAV_ROOT_ID}
-        className="fixed inset-x-0 top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm"
+        className="fixed inset-x-0 top-0 z-50 border-b border-gray-200 bg-[#fbfbf8]/95 backdrop-blur-sm"
       >
         <LandingNavShell />
       </div>
 
       <div className="pt-16">
       {/* Hero — H1 paints from static HTML; nav shell is fixed above, JS hydrates on idle */}
-      <section id="problem" className="flex flex-col items-center justify-center bg-[radial-gradient(circle_at_top,_#eff6ff_0,_#ffffff_58%)] px-4 py-10 text-center scroll-mt-28 sm:py-16">
+      <section id="problem" className="flex flex-col items-center justify-center bg-[radial-gradient(circle_at_top,_#ffffff_0,_#f6f6f3_64%)] px-4 py-10 text-center scroll-mt-28 sm:py-16">
         <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl leading-tight max-w-3xl">
           {t("heroTitleBefore")}{" "}
           <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">{t("heroTitleHighlight")}</span>
@@ -223,7 +224,7 @@ export default async function HomePage() {
             utm={{ source: "landing", medium: "cta", campaign: "hero_primary" }}
             funnelEvent="funnel_landing_cta"
             funnelProps={{ placement: "hero_primary" }}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-3.5 sm:py-4 text-sm sm:text-base font-semibold text-white shadow-md hover:bg-blue-700 active:scale-95 transition-all"
+            className="interactive-lift inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-3.5 sm:py-4 text-sm sm:text-base font-semibold text-white shadow-md hover:bg-blue-700 active:scale-95 transition-all"
           >
             {t("heroCta")}
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
@@ -254,7 +255,7 @@ export default async function HomePage() {
       </section>
 
       {/* Sample report */}
-      <section id="sample" className="bg-gray-50 px-4 py-10 scroll-mt-24" aria-labelledby="sample-heading">
+      <section id="sample" className="page-band px-4 py-10 scroll-mt-24" aria-labelledby="sample-heading">
         <div className="mx-auto max-w-5xl">
           <h2 id="sample-heading" className="text-center text-2xl font-bold text-gray-900">
             {t("sampleHeading")}
@@ -278,7 +279,7 @@ export default async function HomePage() {
       </section>
 
       {/* FAQ + final CTA */}
-      <section id="faq" className="bg-white px-4 py-12 scroll-mt-24">
+      <section id="faq" className="bg-[#f9f9f6] px-4 py-12 scroll-mt-24">
         <div className="mx-auto max-w-3xl">
           <h2 className="text-center text-xl font-bold text-gray-900 mb-6">{t("trustHeading")}</h2>
           <LandingFaq itemIds={LANDING_FAQ_HOME_IDS} />
@@ -289,10 +290,16 @@ export default async function HomePage() {
             utm={{ source: "landing", medium: "cta", campaign: "footer" }}
             funnelEvent="funnel_landing_cta"
             funnelProps={{ placement: "footer" }}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-3.5 text-base font-semibold text-white shadow hover:bg-blue-700 transition-colors"
+            className="interactive-lift inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-3.5 text-base font-semibold text-white shadow hover:bg-blue-700 transition-colors"
           >
             {t("footerCta")}
           </FunnelAnchor>
+        </div>
+      </section>
+
+      <section className="page-canvas px-4 py-10">
+        <div className="mx-auto max-w-3xl">
+          <ChromeExtensionInstallCta placement="home_footer" variant="card" />
         </div>
       </section>
 

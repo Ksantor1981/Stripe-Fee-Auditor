@@ -10,7 +10,7 @@ export async function QuoteFooterStrip() {
   ];
 
   return (
-    <div className="border-t border-gray-100 bg-gray-50/80 px-4 py-6">
+    <div className="border-t border-gray-100 bg-[#f0f1ee]/90 px-4 py-6">
       <div className="mx-auto flex max-w-4xl flex-col gap-3 sm:flex-row sm:gap-8">
         {quotes.map((item) => (
           <figure key={item.name} className="flex-1 text-center sm:text-left">

@@ -125,7 +125,7 @@ export function EmailGate({ reportId, headline, onUnlock }: Props) {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-10">
+    <main className="min-h-screen page-canvas px-4 py-10">
       <div className="mx-auto w-full max-w-lg space-y-5">
         <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
           <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">

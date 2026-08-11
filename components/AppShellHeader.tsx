@@ -9,10 +9,10 @@ type Props = {
 
 export function AppShellHeader({ toolbar }: Props) {
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm shadow-gray-100/80">
+    <header className="sticky top-0 z-50 bg-[#fbfbf8]/95 backdrop-blur-sm border-b border-gray-200 shadow-sm shadow-gray-100/80">
       <LandingNav />
       {toolbar ? (
-        <div className="border-t border-gray-100 bg-gray-50/80 px-4 py-2.5 sm:px-6">
+        <div className="border-t border-gray-100 bg-[#f0f1ee]/90 px-4 py-2.5 sm:px-6">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2">
             {toolbar}
           </div>

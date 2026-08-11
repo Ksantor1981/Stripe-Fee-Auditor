@@ -228,7 +228,7 @@ export function ReportShell({
 
   return (
     <ReportCurrencyProvider currency={reportCurrency}>
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen page-canvas">
       <AppShellHeader
         toolbar={
           <>

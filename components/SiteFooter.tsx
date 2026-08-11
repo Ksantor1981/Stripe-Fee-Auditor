@@ -10,7 +10,7 @@ export async function SiteFooter() {
   const blogLinks = t.raw("blogLinks") as { href: string; label: string }[];
 
   return (
-    <footer className="border-t px-4 py-8 text-center text-xs text-gray-600 space-y-2">
+    <footer className="border-t bg-[var(--page-band)]/60 px-4 py-8 text-center text-xs text-gray-600 space-y-2">
       <p>{t("updated")}</p>
       <p>
         {t("disclaimer")}{" "}

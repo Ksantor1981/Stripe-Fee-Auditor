@@ -27,7 +27,7 @@ export default async function PrivacyArticlePage({ params }: Props) {
   if (!contentKey) notFound();
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen page-canvas">
       <BlogArticleContent contentKey={contentKey} path={"/blog/" + slug} namespace="privacy" />
     </main>
   );

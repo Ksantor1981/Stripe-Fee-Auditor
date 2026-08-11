@@ -190,7 +190,7 @@ export function ShareEmbedBenchmark({ embedShareUrl, result }: Props) {
         {t("shareEmbedBenchmark.twitterHint")}
       </p>
 
-      <div className="rounded-xl border border-gray-100 bg-gray-50/80 px-4 py-4">
+      <div className="rounded-xl border border-gray-100 bg-[#f0f1ee]/90 px-4 py-4">
         <p className="text-sm font-semibold text-gray-800 mb-1">{t("shareEmbedBenchmark.embedTitle")}</p>
         <p className="text-xs text-gray-500 mb-3">
           {t("shareEmbedBenchmark.embedBody")}

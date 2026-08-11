@@ -12,6 +12,7 @@ import { ReportTrustChecklist } from "./ReportTrustChecklist";
 import { SavingsOpportunities } from "./SavingsOpportunities";
 import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
+import { ReportMainFinding } from "./ReportMainFinding";
 import { MoneyFirstImpact } from "./MoneyFirstImpact";
 import { PaywallBanner } from "./PaywallBanner";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
@@ -66,7 +67,7 @@ export function LowVolumeReport({
   return (
     <div className="space-y-6">
       {/* Hero */}
-      <div id="report-share-snapshot" className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
+      <div id="report-share-snapshot" className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
         {result.feeGrade && (
           <div className="mb-4">
             <FeeGradeBadge grade={result.feeGrade} size="sm" showSummary />
@@ -91,9 +92,7 @@ export function LowVolumeReport({
           <span className="font-semibold text-gray-900">{fmt$(yearlyAtThisRate)}</span>
           {tc("yearSuffix")} {tc("atThisRate")}.
         </p>
-        <p className="mt-2 max-w-2xl text-sm font-medium text-gray-800">
-          {diagnosis}
-        </p>
+        <ReportMainFinding diagnosis={freeDiagnosis} fallback={diagnosis} />
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
@@ -102,7 +101,7 @@ export function LowVolumeReport({
             { label: tc("chargeVolume"), value: fmt$(chargeVolume) },
             { label: tc("allInFees"), value: fmt$(periodFees) },
           ].map(({ label, value, accent }) => (
-            <div key={label} className={`rounded-xl px-4 py-3 ${accent ? "bg-blue-50 border border-blue-100" : "bg-gray-50"}`}>
+            <div key={label} className={`rounded-xl px-4 py-3 ${accent ? "border border-blue-100 bg-blue-50" : "border border-gray-200 bg-[#f0f1ee]"}`}>
               <p className={`text-xs mb-0.5 ${accent ? "text-blue-500 font-semibold" : "text-gray-400"}`}>{label}</p>
               <p className={`text-xl font-bold ${accent ? "text-blue-700" : "text-gray-900"}`}>{value}</p>
             </div>

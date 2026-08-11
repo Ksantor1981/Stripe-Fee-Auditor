@@ -11,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function Page() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen page-canvas">
       <BlogArticleContent contentKey={contentKey} path={pagePath} />
     </main>
   );

@@ -17,6 +17,7 @@ import { ReportDashboardCharts } from "./ReportDashboardCharts";
 import { ReportTrustChecklist } from "./ReportTrustChecklist";
 import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
+import { ReportMainFinding } from "./ReportMainFinding";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 import { resolvePaywallImpact } from "@/lib/paywall-impact";
 import { selectFreeDiagnosis } from "@/lib/free-diagnosis";
@@ -159,7 +160,7 @@ export function MultiMonthReport({
   return (
     <div className="space-y-8">
       {/* Hero */}
-      <div id="report-share-snapshot" className="rounded-2xl bg-white border border-gray-100 shadow-sm p-4 sm:p-6">
+      <div id="report-share-snapshot" className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
         {result.feeGrade && (
           <div className="mb-4">
             <FeeGradeBadge grade={result.feeGrade} size="lg" />
@@ -180,9 +181,7 @@ export function MultiMonthReport({
               <span className="font-semibold text-gray-900">{fmt$(yearlyAtThisRate)}</span>
               {tc("yearSuffix")} {tc("atThisRate")}.
             </p>
-            <p className="mt-2 max-w-2xl text-sm font-medium text-gray-800">
-              {diagnosis}
-            </p>
+            <ReportMainFinding diagnosis={freeDiagnosis} fallback={diagnosis} />
             {periodDelta !== null && (
               <p className={`mt-1 text-sm font-medium ${deltaPositive ? "text-red-600" : "text-green-600"}`}>
                 {deltaPositive ? "▲" : "▼"} {fmt$(Math.abs(periodDelta))} {tc("vsPreviousPeriod")}
@@ -205,7 +204,7 @@ export function MultiMonthReport({
             { label: tc("allInFees"), value: fmt$(periodFees) },
             { label: tc("highFeeCharges"), value: String(anomalyUiCount) },
           ].map(({ label, value }) => (
-            <div key={label} className="rounded-xl bg-gray-50 px-4 py-3">
+            <div key={label} className="rounded-xl border border-gray-200 bg-[#f0f1ee] px-4 py-3">
               <p className="text-xs text-gray-400 mb-0.5">{label}</p>
               <p className="text-lg font-bold text-gray-900">{value}</p>
             </div>
@@ -377,7 +376,7 @@ export function MultiMonthReport({
                           <p className="text-sm font-medium text-gray-800 truncate">{transactionPrimaryLabel(row)}</p>
                           <p className="text-xs text-gray-400 truncate">{transactionSecondaryLine(row)}</p>
                           {row.explanation && (
-                            <div className="mt-3 rounded-lg border border-gray-100 bg-gray-50/80 px-3 py-2.5 space-y-1.5">
+                            <div className="mt-3 rounded-lg border border-gray-100 bg-[#f0f1ee]/90 px-3 py-2.5 space-y-1.5">
                               <Badge variant="outline" className="text-[10px] font-medium text-gray-700 border-gray-200">
                                 {translateFeeLabel(row.explanation.label)}
                               </Badge>
