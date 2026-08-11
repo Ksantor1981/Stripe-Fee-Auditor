@@ -4,24 +4,8 @@
     "disclaimer": "Fee Auditor (feeauditor.com) is an independent SaaS tool. Not affiliated with, endorsed by, or part of Stripe, Inc. \"Stripe\" is a trademark of Stripe, Inc.",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
-    "refundPolicy": "Refund Policy",
-    "seoLinks": [
-      { "href": "/monitor", "label": "Fee Monitor" },
-      { "href": "/chrome-extension", "label": "Chrome helper" },
-      { "href": "/stripe-fee-calculator", "label": "Stripe fee calculator" },
-      { "href": "/should-i-switch-from-stripe", "label": "Should I switch from Stripe?" },
-      { "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" },
-      { "href": "/stripe-vs-square-fees", "label": "Stripe vs Square" },
-      { "href": "/what-percent-does-stripe-take", "label": "What percent Stripe takes" },
-      { "href": "/stripe-balance-csv", "label": "Stripe Balance CSV" },
-      { "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Why fees exceed 2.9%" }
-    ],
-    "blogLinks": [
-      { "href": "/blog/why-stripe-fees-increase", "label": "Why Stripe fees increase" },
-      { "href": "/blog/how-to-reduce-stripe-fees", "label": "How to reduce fees" },
-      { "href": "/blog/stripe-effective-fee-rate-explained", "label": "Fee rate explained" }
-    ]
-  },
+    "refundPolicy": "Refund Policy"
+},
   "breadcrumbs": {
     "home": "Home"
   },

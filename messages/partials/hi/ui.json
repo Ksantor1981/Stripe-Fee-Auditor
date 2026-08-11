@@ -4,24 +4,8 @@
     "disclaimer": "Fee Auditor (feeauditor.com) एक स्वतंत्र SaaS टूल है। Stripe, Inc. से संबद्ध, समर्थित या उसका हिस्सा नहीं है। \"Stripe\" Stripe, Inc. का ट्रेडमार्क है।",
     "privacyPolicy": "गोपनीयता नीति",
     "termsOfService": "सेवा की शर्तें",
-    "refundPolicy": "रिफंड नीति",
-    "seoLinks": [
-      { "href": "/monitor", "label": "फी मॉनिटर" },
-      { "href": "/chrome-extension", "label": "Chrome सहायक" },
-      { "href": "/stripe-fee-calculator", "label": "Stripe फी कैलकुलेटर" },
-      { "href": "/should-i-switch-from-stripe", "label": "क्या Stripe छोड़ना चाहिए?" },
-      { "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" },
-      { "href": "/stripe-vs-square-fees", "label": "Stripe vs Square" },
-      { "href": "/what-percent-does-stripe-take", "label": "Stripe कितना प्रतिशत लेता है" },
-      { "href": "/stripe-balance-csv", "label": "Stripe बैलेंस CSV" },
-      { "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "फी 2.9% से अधिक क्यों" }
-    ],
-    "blogLinks": [
-      { "href": "/blog/why-stripe-fees-increase", "label": "Stripe फी क्यों बढ़ती हैं" },
-      { "href": "/blog/how-to-reduce-stripe-fees", "label": "फी कैसे कम करें" },
-      { "href": "/blog/stripe-effective-fee-rate-explained", "label": "प्रभावी फी दर समझाई" }
-    ]
-  },
+    "refundPolicy": "रिफंड नीति"
+},
   "breadcrumbs": {
     "home": "होम"
   },

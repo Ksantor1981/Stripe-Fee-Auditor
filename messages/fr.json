@@ -102,8 +102,7 @@
     "noOAuth": "Pas d'OAuth Stripe",
     "rawCsvNotStored": "CSV brut non stocké",
     "deterministic": "Déterministe — pas de LLM",
-    "logicOnGitHub": "Logique sur GitHub",
-    "pricingLine": "Aperçu gratuit · audit $12 · Monitor $9/mois"
+    "logicOnGitHub": "Logique sur GitHub"
   },
   "analyze": {
     "metaTrust": "Sans OAuth · CSV non stocké · outil indépendant",

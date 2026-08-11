@@ -4,24 +4,8 @@
     "disclaimer": "Fee Auditor (feeauditor.com) es una herramienta SaaS independiente. No está afiliada, respaldada ni forma parte de Stripe, Inc. «Stripe» es una marca registrada de Stripe, Inc.",
     "privacyPolicy": "Política de privacidad",
     "termsOfService": "Términos del servicio",
-    "refundPolicy": "Política de reembolsos",
-    "seoLinks": [
-      { "href": "/monitor", "label": "Monitor de comisiones" },
-      { "href": "/chrome-extension", "label": "Extensión para Chrome" },
-      { "href": "/stripe-fee-calculator", "label": "Calculadora de comisiones de Stripe" },
-      { "href": "/should-i-switch-from-stripe", "label": "¿Debería cambiar de Stripe?" },
-      { "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" },
-      { "href": "/stripe-vs-square-fees", "label": "Stripe vs Square" },
-      { "href": "/what-percent-does-stripe-take", "label": "Qué porcentaje cobra Stripe" },
-      { "href": "/stripe-balance-csv", "label": "CSV de saldo de Stripe" },
-      { "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Por qué las comisiones superan el 2,9 %" }
-    ],
-    "blogLinks": [
-      { "href": "/blog/why-stripe-fees-increase", "label": "Por qué suben las comisiones de Stripe" },
-      { "href": "/blog/how-to-reduce-stripe-fees", "label": "Cómo reducir las comisiones" },
-      { "href": "/blog/stripe-effective-fee-rate-explained", "label": "Tasa de comisión explicada" }
-    ]
-  },
+    "refundPolicy": "Política de reembolsos"
+},
   "breadcrumbs": {
     "home": "Inicio"
   },

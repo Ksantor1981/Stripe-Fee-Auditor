@@ -4,24 +4,8 @@
     "disclaimer": "Fee Auditor (feeauditor.com) est un outil SaaS indépendant. Non affilié, approuvé ni partie de Stripe, Inc. « Stripe » est une marque de Stripe, Inc.",
     "privacyPolicy": "Politique de confidentialité",
     "termsOfService": "Conditions d'utilisation",
-    "refundPolicy": "Politique de remboursement",
-    "seoLinks": [
-      { "href": "/monitor", "label": "Surveillance des frais" },
-      { "href": "/chrome-extension", "label": "Extension Chrome" },
-      { "href": "/stripe-fee-calculator", "label": "Calculateur de frais Stripe" },
-      { "href": "/should-i-switch-from-stripe", "label": "Faut-il quitter Stripe ?" },
-      { "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" },
-      { "href": "/stripe-vs-square-fees", "label": "Stripe vs Square" },
-      { "href": "/what-percent-does-stripe-take", "label": "Quel pourcentage Stripe prélève" },
-      { "href": "/stripe-balance-csv", "label": "CSV de solde Stripe" },
-      { "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Pourquoi les frais dépassent 2,9 %" }
-    ],
-    "blogLinks": [
-      { "href": "/blog/why-stripe-fees-increase", "label": "Pourquoi les frais Stripe augmentent" },
-      { "href": "/blog/how-to-reduce-stripe-fees", "label": "Comment réduire les frais" },
-      { "href": "/blog/stripe-effective-fee-rate-explained", "label": "Taux effectif expliqué" }
-    ]
-  },
+    "refundPolicy": "Politique de remboursement"
+},
   "breadcrumbs": {
     "home": "Accueil"
   },

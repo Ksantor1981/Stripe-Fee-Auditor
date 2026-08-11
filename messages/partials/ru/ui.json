@@ -4,24 +4,8 @@
     "disclaimer": "Fee Auditor (feeauditor.com) — независимый SaaS-инструмент. Не аффилирован со Stripe, Inc., не одобрен им и не является его частью. «Stripe» — товарный знак Stripe, Inc.",
     "privacyPolicy": "Политика конфиденциальности",
     "termsOfService": "Условия использования",
-    "refundPolicy": "Политика возвратов",
-    "seoLinks": [
-      { "href": "/monitor", "label": "Монитор комиссий" },
-      { "href": "/chrome-extension", "label": "Расширение для Chrome" },
-      { "href": "/stripe-fee-calculator", "label": "Калькулятор комиссий Stripe" },
-      { "href": "/should-i-switch-from-stripe", "label": "Стоит ли уходить со Stripe?" },
-      { "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" },
-      { "href": "/stripe-vs-square-fees", "label": "Stripe vs Square" },
-      { "href": "/what-percent-does-stripe-take", "label": "Какой процент берёт Stripe" },
-      { "href": "/stripe-balance-csv", "label": "CSV баланса Stripe" },
-      { "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Почему комиссии выше 2,9%" }
-    ],
-    "blogLinks": [
-      { "href": "/blog/why-stripe-fees-increase", "label": "Почему растут комиссии Stripe" },
-      { "href": "/blog/how-to-reduce-stripe-fees", "label": "Как снизить комиссии" },
-      { "href": "/blog/stripe-effective-fee-rate-explained", "label": "Эффективная ставка объяснена" }
-    ]
-  },
+    "refundPolicy": "Политика возвратов"
+},
   "breadcrumbs": {
     "home": "Главная"
   },

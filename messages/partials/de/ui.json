@@ -4,24 +4,8 @@
     "disclaimer": "Fee Auditor (feeauditor.com) ist ein unabhängiges SaaS-Tool. Nicht verbunden mit, unterstützt von oder Teil von Stripe, Inc. „Stripe“ ist eine Marke von Stripe, Inc.",
     "privacyPolicy": "Datenschutzrichtlinie",
     "termsOfService": "Nutzungsbedingungen",
-    "refundPolicy": "Rückerstattungsrichtlinie",
-    "seoLinks": [
-      { "href": "/monitor", "label": "Gebühren-Monitor" },
-      { "href": "/chrome-extension", "label": "Chrome-Helfer" },
-      { "href": "/stripe-fee-calculator", "label": "Stripe-Gebührenrechner" },
-      { "href": "/should-i-switch-from-stripe", "label": "Von Stripe wechseln?" },
-      { "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" },
-      { "href": "/stripe-vs-square-fees", "label": "Stripe vs Square" },
-      { "href": "/what-percent-does-stripe-take", "label": "Welchen Prozentsatz Stripe nimmt" },
-      { "href": "/stripe-balance-csv", "label": "Stripe-Saldo-CSV" },
-      { "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Warum Gebühren über 2,9 % liegen" }
-    ],
-    "blogLinks": [
-      { "href": "/blog/why-stripe-fees-increase", "label": "Warum Stripe-Gebühren steigen" },
-      { "href": "/blog/how-to-reduce-stripe-fees", "label": "Gebühren senken" },
-      { "href": "/blog/stripe-effective-fee-rate-explained", "label": "Effektive Gebührenrate erklärt" }
-    ]
-  },
+    "refundPolicy": "Rückerstattungsrichtlinie"
+},
   "breadcrumbs": {
     "home": "Startseite"
   },
