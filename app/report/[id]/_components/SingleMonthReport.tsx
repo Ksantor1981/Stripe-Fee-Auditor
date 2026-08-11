@@ -14,6 +14,7 @@ import { SavingsOpportunities } from "./SavingsOpportunities";
 import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
 import { ReportMainFinding } from "./ReportMainFinding";
+import { ReportWorkspace, ReportWorkspacePanel } from "./ReportWorkspaceNav";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 import { OutlierRateComparison } from "./OutlierRateComparison";
 import { ExpectedOutlierToggle } from "./ExpectedOutlierToggle";
@@ -80,7 +81,8 @@ export function SingleMonthReport({
       : t("singleMonthReport.diagnosisNearBenchmark");
 
   return (
-    <div id="report-overview" className="scroll-mt-32 space-y-6">
+    <ReportWorkspace transactionCount={result.anomalyCount ?? result.anomalies?.length ?? 0}>
+      <ReportWorkspacePanel value="overview">
       {/* Hero */}
       <div id="report-share-snapshot" className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
         {result.feeGrade && (
@@ -159,15 +161,17 @@ export function SingleMonthReport({
       {isPaid && <FirstActionCallout opportunity={savings[0]} />}
 
       <ReportTrustChecklist result={result} />
+      </ReportWorkspacePanel>
 
-      <div id="report-drivers" className="scroll-mt-32">
+      <ReportWorkspacePanel value="drivers">
         <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
-      </div>
+      </ReportWorkspacePanel>
 
-      <div id="report-trends" className="scroll-mt-32">
+      <ReportWorkspacePanel value="trends">
         <ReportDashboardCharts result={result} />
-      </div>
+      </ReportWorkspacePanel>
 
+      <ReportWorkspacePanel value="drivers">
       {isPaid && <FeeLeakBreakdown items={result.feeLeakBreakdown} />}
 
       {isPaid && savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
@@ -192,9 +196,11 @@ export function SingleMonthReport({
           </p>
         </div>
       </div>
+      </ReportWorkspacePanel>
 
       {/* Top drivers */}
-      <div id="report-transactions" className="scroll-mt-32 rounded-2xl bg-white border border-gray-100 shadow-sm">
+      <ReportWorkspacePanel value="transactions">
+      <div className="rounded-2xl bg-white border border-gray-100 shadow-sm">
         <div className="px-5 py-4 border-b border-gray-50 flex items-center justify-between">
           <h2 className="text-sm font-semibold text-gray-700">{tc("topFeeDrivers")}</h2>
           <span className="text-xs text-gray-400">
@@ -259,7 +265,9 @@ export function SingleMonthReport({
           </div>
         )}
       </div>
+      </ReportWorkspacePanel>
 
+      <ReportWorkspacePanel value="trends">
       {/* Upload more CTA */}
       <div className="rounded-2xl bg-blue-50 border border-blue-100 p-5 text-center">
         <p className="text-sm font-semibold text-blue-800 mb-1">{t("singleMonthReport.trendCtaTitle")}</p>
@@ -271,7 +279,8 @@ export function SingleMonthReport({
           {t("singleMonthReport.trendCtaLink")}
         </a>
       </div>
-    </div>
+      </ReportWorkspacePanel>
+    </ReportWorkspace>
   );
 }
 

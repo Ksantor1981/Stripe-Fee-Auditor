@@ -18,6 +18,7 @@ import { ReportTrustChecklist } from "./ReportTrustChecklist";
 import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
 import { ReportMainFinding } from "./ReportMainFinding";
+import { ReportWorkspace, ReportWorkspacePanel } from "./ReportWorkspaceNav";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 import { resolvePaywallImpact } from "@/lib/paywall-impact";
 import { selectFreeDiagnosis } from "@/lib/free-diagnosis";
@@ -158,7 +159,8 @@ export function MultiMonthReport({
   };
 
   return (
-    <div id="report-overview" className="scroll-mt-32 space-y-8">
+    <ReportWorkspace transactionCount={anomalyUiCount}>
+      <ReportWorkspacePanel value="overview">
       {/* Hero */}
       <div id="report-share-snapshot" className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
         {result.feeGrade && (
@@ -257,16 +259,18 @@ export function MultiMonthReport({
       {isPaid && <FirstActionCallout opportunity={teaserSavings} />}
 
       <ReportTrustChecklist result={result} />
+      </ReportWorkspacePanel>
 
-      <div id="report-drivers" className="scroll-mt-32">
+      <ReportWorkspacePanel value="drivers">
         <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
-      </div>
+      </ReportWorkspacePanel>
 
-      <div id="report-trends" className="scroll-mt-32">
+      <ReportWorkspacePanel value="trends">
         <ReportDashboardCharts result={result} />
-      </div>
+      </ReportWorkspacePanel>
 
-      {isPaid && <FeeLeakBreakdown items={result.feeLeakBreakdown} />}
+      <ReportWorkspacePanel value="drivers">
+        {isPaid && <FeeLeakBreakdown items={result.feeLeakBreakdown} />}
 
       {isPaid && savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
 
@@ -277,9 +281,11 @@ export function MultiMonthReport({
       {isPaid && result.geographySummary && (
         <GeographyBreakdown summary={result.geographySummary} />
       )}
+      </ReportWorkspacePanel>
 
-      {/* Tabs */}
-      <Tabs id="report-transactions" defaultValue="overview" className="scroll-mt-32">
+      <ReportWorkspacePanel value="transactions">
+      {/* Transaction detail tabs */}
+      <Tabs defaultValue="anomalies">
         <TabsList className="h-auto min-h-10 w-full">
           <TabsTrigger value="overview" className="flex-1 px-2 text-xs sm:px-3 sm:text-sm">{t("multiMonthReport.tabOverview")}</TabsTrigger>
           <TabsTrigger value="anomalies" className="flex-1 px-2 text-xs sm:px-3 sm:text-sm">
@@ -480,7 +486,8 @@ export function MultiMonthReport({
           )}
         </TabsContent>
       </Tabs>
-    </div>
+      </ReportWorkspacePanel>
+    </ReportWorkspace>
   );
 }
 

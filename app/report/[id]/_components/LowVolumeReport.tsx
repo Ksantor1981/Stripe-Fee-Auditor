@@ -13,6 +13,7 @@ import { SavingsOpportunities } from "./SavingsOpportunities";
 import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
 import { ReportMainFinding } from "./ReportMainFinding";
+import { ReportWorkspace, ReportWorkspacePanel } from "./ReportWorkspaceNav";
 import { MoneyFirstImpact } from "./MoneyFirstImpact";
 import { PaywallBanner } from "./PaywallBanner";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
@@ -65,7 +66,8 @@ export function LowVolumeReport({
       : t("lowVolumeReport.diagnosisTooSmall");
 
   return (
-    <div id="report-overview" className="scroll-mt-32 space-y-6">
+    <ReportWorkspace transactionCount={result.anomalyCount ?? result.anomalies?.length ?? 0}>
+      <ReportWorkspacePanel value="overview">
       {/* Hero */}
       <div id="report-share-snapshot" className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
         {result.feeGrade && (
@@ -137,21 +139,25 @@ export function LowVolumeReport({
       {isPaid && <FirstActionCallout opportunity={savings[0]} />}
 
       <ReportTrustChecklist result={result} />
+      </ReportWorkspacePanel>
 
-      <div id="report-drivers" className="scroll-mt-32">
+      <ReportWorkspacePanel value="drivers">
         <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
-      </div>
+      </ReportWorkspacePanel>
 
-      <div id="report-trends" className="scroll-mt-32">
+      <ReportWorkspacePanel value="trends">
         <ReportDashboardCharts result={result} />
-      </div>
+      </ReportWorkspacePanel>
 
+      <ReportWorkspacePanel value="drivers">
       {isPaid && <FeeLeakBreakdown items={result.feeLeakBreakdown} />}
 
       {isPaid && savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
+      </ReportWorkspacePanel>
 
       {/* Top 5 highest-fee transactions */}
-      <div id="report-transactions" className="scroll-mt-32 rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden">
+      <ReportWorkspacePanel value="transactions">
+      <div className="rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden">
         <div className="px-5 py-4 border-b border-gray-50">
           <h2 className="text-sm font-semibold text-gray-700">{t("lowVolumeReport.top5Title")}</h2>
           <p className="text-xs text-gray-400 mt-0.5">{t("lowVolumeReport.top5Subtitle")}</p>
@@ -206,14 +212,18 @@ export function LowVolumeReport({
           </div>
         )}
       </div>
+      </ReportWorkspacePanel>
 
+      <ReportWorkspacePanel value="overview">
       {/* No stats disclaimer */}
       <div className="rounded-xl bg-gray-50 border border-gray-100 px-5 py-4">
         <p className="text-xs text-gray-500">
           <strong>{t("lowVolumeReport.noteTitle")}</strong> {t("lowVolumeReport.noteBody")}
         </p>
       </div>
+      </ReportWorkspacePanel>
 
+      <ReportWorkspacePanel value="trends">
       {/* Upload more */}
       <div className="rounded-2xl bg-blue-50 border border-blue-100 p-5 text-center">
         <p className="text-sm font-semibold text-blue-800 mb-1">{t("lowVolumeReport.deeperAnalysisTitle")}</p>
@@ -225,7 +235,8 @@ export function LowVolumeReport({
           {t("lowVolumeReport.deeperAnalysisLink")}
         </a>
       </div>
-    </div>
+      </ReportWorkspacePanel>
+    </ReportWorkspace>
   );
 }
 

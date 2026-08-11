@@ -23,7 +23,6 @@ import { ReportReconciliation } from "./ReportReconciliation";
 import { ClientManager } from "./ClientManager";
 import { MonitorHistory } from "./MonitorHistory";
 import { ReportUnlockToolbarCta } from "./ReportUnlockToolbarCta";
-import { ReportWorkspaceNav } from "./ReportWorkspaceNav";
 import { ReportCurrencyProvider } from "@/lib/report-currency";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 import {
@@ -317,7 +316,6 @@ export function ReportShell({
             </span>
           </div>
         )}
-        <ReportWorkspaceNav />
         <ReportReconciliation result={adjustedResult} />
         {monitorFullAccess && ownerEmail && (
           <ClientManager
