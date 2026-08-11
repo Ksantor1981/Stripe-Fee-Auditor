@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale } from "next-intl";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { fmtPct, fmtDate } from "@/lib/format";
 import { useFmtMoney } from "@/lib/report-currency";
@@ -14,6 +15,8 @@ import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
 import { ReportMainFinding } from "./ReportMainFinding";
 import { ReportWorkspace, ReportWorkspacePanel } from "./ReportWorkspaceNav";
+import { ReportReconciliation } from "./ReportReconciliation";
+import { LockedReportPreview } from "./LockedReportPreview";
 import { MoneyFirstImpact } from "./MoneyFirstImpact";
 import { PaywallBanner } from "./PaywallBanner";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
@@ -35,6 +38,7 @@ export function LowVolumeReport({
   isSampleReport = false,
 }: Props) {
   const fmt$ = useFmtMoney();
+  const locale = useLocale();
   const { t, tc } = useReportTranslations();
   const { chargeFees, chargeRate, chargeVolume, otherFees, topDrivers, monthly, savingsOpportunities } =
     result;
@@ -139,10 +143,12 @@ export function LowVolumeReport({
       {isPaid && <FirstActionCallout opportunity={savings[0]} />}
 
       <ReportTrustChecklist result={result} />
+      <ReportReconciliation result={result} />
       </ReportWorkspacePanel>
 
       <ReportWorkspacePanel value="drivers">
         <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
+        {!isPaid && <LockedReportPreview kind="drivers" />}
       </ReportWorkspacePanel>
 
       <ReportWorkspacePanel value="trends">
@@ -187,7 +193,7 @@ export function LowVolumeReport({
                           `Ref ${row.id.slice(0, 18)}…`}
                     </div>
                   </td>
-                  <td className="px-5 py-3 text-xs text-gray-500 whitespace-nowrap">{fmtDate(row.date)}</td>
+                  <td className="px-5 py-3 text-xs text-gray-500 whitespace-nowrap">{fmtDate(row.date, locale)}</td>
                   <td className="px-5 py-3 text-right text-gray-700 whitespace-nowrap">{fmt$(row.amount)}</td>
                   <td className="px-5 py-3 text-right font-semibold text-gray-900 whitespace-nowrap">{fmt$(row.fee)}</td>
                   <td className="px-5 py-3 text-right whitespace-nowrap">
@@ -200,6 +206,8 @@ export function LowVolumeReport({
             </tbody>
           </table>
         </div>
+        {!isPaid && <div className="p-5"><LockedReportPreview kind="transactions" /></div>}
+
         {!isPaid && (
           <div className="p-5 border-t border-gray-50">
             <PaywallBanner

@@ -1,11 +1,8 @@
 "use client";
 
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
 import type { AnalysisResult, AnnotatedRow } from "@/lib/fee-analyzer";
-import { fmtPct, fmtMonth } from "@/lib/format";
+import { fmtPct } from "@/lib/format";
 import { useFmtMoney } from "@/lib/report-currency";
-import { transactionPrimaryLabel, transactionSecondaryLine } from "@/lib/transaction-display";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
 import { PaywallBanner } from "./PaywallBanner";
 import { MoneyFirstImpact } from "./MoneyFirstImpact";
@@ -19,11 +16,14 @@ import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
 import { ReportMainFinding } from "./ReportMainFinding";
 import { ReportWorkspace, ReportWorkspacePanel } from "./ReportWorkspaceNav";
+import { ReportReconciliation } from "./ReportReconciliation";
+import { LockedReportPreview } from "./LockedReportPreview";
+import { MonthlyDetailPanel } from "./MonthlyDetailPanel";
+import { MultiMonthTransactionsPanel } from "./MultiMonthTransactionsPanel";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 import { resolvePaywallImpact } from "@/lib/paywall-impact";
 import { selectFreeDiagnosis } from "@/lib/free-diagnosis";
 import { OutlierRateComparison } from "./OutlierRateComparison";
-import { ExpectedOutlierToggle } from "./ExpectedOutlierToggle";
 import { useReportTranslations, useFeeLabelTranslator } from "@/lib/i18n/use-report-translations";
 
 function anomalyExplainerText(
@@ -259,235 +259,52 @@ export function MultiMonthReport({
       {isPaid && <FirstActionCallout opportunity={teaserSavings} />}
 
       <ReportTrustChecklist result={result} />
+      <ReportReconciliation result={result} />
       </ReportWorkspacePanel>
 
       <ReportWorkspacePanel value="drivers">
-        <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
+        {isPaid ? (
+          <>
+            <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
+            <FeeLeakBreakdown items={result.feeLeakBreakdown} />
+            {savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
+            {result.transactionBuckets && result.transactionBuckets.length > 0 && (
+              <TransactionBuckets buckets={result.transactionBuckets} baselineRate={chargeRate} />
+            )}
+            {result.geographySummary && <GeographyBreakdown summary={result.geographySummary} />}
+          </>
+        ) : (
+          <>
+            <LockedReportPreview kind="drivers" />
+            <PaywallBanner {...paywallProps} />
+          </>
+        )}
       </ReportWorkspacePanel>
 
       <ReportWorkspacePanel value="trends">
         <ReportDashboardCharts result={result} />
-      </ReportWorkspacePanel>
-
-      <ReportWorkspacePanel value="drivers">
-        {isPaid && <FeeLeakBreakdown items={result.feeLeakBreakdown} />}
-
-      {isPaid && savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
-
-      {result.transactionBuckets && result.transactionBuckets.length > 0 && (
-        <TransactionBuckets buckets={result.transactionBuckets} baselineRate={chargeRate} />
-      )}
-
-      {isPaid && result.geographySummary && (
-        <GeographyBreakdown summary={result.geographySummary} />
-      )}
+        <MonthlyDetailPanel
+          monthly={monthly}
+          isPaid={isPaid}
+          paywall={<PaywallBanner {...paywallProps} />}
+        />
       </ReportWorkspacePanel>
 
       <ReportWorkspacePanel value="transactions">
-      {/* Transaction detail tabs */}
-      <Tabs defaultValue="anomalies">
-        <TabsList className="h-auto min-h-10 w-full">
-          <TabsTrigger value="overview" className="flex-1 px-2 text-xs sm:px-3 sm:text-sm">{t("multiMonthReport.tabOverview")}</TabsTrigger>
-          <TabsTrigger value="anomalies" className="flex-1 px-2 text-xs sm:px-3 sm:text-sm">
-            {t("multiMonthReport.tabHighFee")}
-            {anomalyUiCount > 0 && (
-              <Badge className="ml-1 bg-red-100 text-red-700 text-[10px] sm:ml-1.5 sm:text-xs">{anomalyUiCount}</Badge>
-            )}
-          </TabsTrigger>
-          <TabsTrigger value="monthly" className="flex-1 px-2 text-xs sm:px-3 sm:text-sm">{t("multiMonthReport.tabMonthlyDetail")}</TabsTrigger>
-        </TabsList>
-
-        {/* Overview tab — Top 3 summary */}
-        <TabsContent value="overview">
-          <div className="rounded-2xl bg-white border border-gray-100 shadow-sm mt-3 divide-y divide-gray-50">
-            <div className="px-5 py-4 flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-gray-700">{tc("topFeeDrivers")}</h3>
-              <Badge variant="outline" className="text-xs">
-                {isSampleReport
-                  ? tc("sampleReportTop3")
-                  : isPaid
-                    ? tc("fullReportTop3")
-                    : tc("freePreviewTop3")}
-              </Badge>
-            </div>
-            {topDrivers.slice(0, 3).map((row, i) => (
-              <div key={row.id} className="flex items-center justify-between px-5 py-3.5 gap-4">
-                <div className="flex items-center gap-3 min-w-0">
-                  <span className="text-xs font-bold text-gray-300 w-4">{i + 1}</span>
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-gray-800 truncate">{transactionPrimaryLabel(row)}</p>
-                    <p className="text-xs text-gray-400 truncate">{transactionSecondaryLine(row)}</p>
-                  </div>
-                </div>
-                <div className="text-right flex-shrink-0">
-                  <p className="text-sm font-semibold text-gray-900">{fmt$(row.fee)}</p>
-                  <p className="text-xs text-gray-400">
-                    {row.amount > 0 ? fmtPct((row.fee / row.amount) * 100) : "—"} {tc("rate")}
-                  </p>
-                </div>
-              </div>
-            ))}
-
-            {/* Paywall blur for rows 4+ */}
-            {!isPaid && topDrivers.length > 3 && (
-              <div className="relative">
-                {topDrivers.slice(3, 6).map((row) => (
-                  <div key={row.id} className="flex items-center justify-between px-5 py-3.5 gap-4 select-none pointer-events-none blur-sm opacity-60">
-                    <p className="text-sm text-gray-800 truncate">{transactionPrimaryLabel(row)}</p>
-                    <p className="text-sm font-semibold">{fmt$(row.fee)}</p>
-                  </div>
-                ))}
-                <div className="absolute inset-0 flex items-center justify-center bg-white/60" />
-              </div>
-            )}
-          </div>
-          {!isPaid && (
-            <div className="mt-4">
-              <PaywallBanner {...paywallProps} />
-            </div>
-          )}
-        </TabsContent>
-
-        {/* Anomalies tab */}
-        <TabsContent value="anomalies">
-          <div className="rounded-2xl bg-white border border-gray-100 shadow-sm mt-3">
-            <div className="px-5 py-4 border-b border-gray-50">
-              <h3 className="text-sm font-semibold text-gray-700">
-                {t("multiMonthReport.chargesAboveBaseline")}
-              </h3>
-              <p className="text-xs text-gray-400 mt-0.5">
-                {t("multiMonthReport.chargesAboveBaselineSubtitle")}
-              </p>
-              {anomalyExplainer && (
-                <p className="text-xs text-gray-500 mt-2 leading-relaxed max-w-3xl">{anomalyExplainer}</p>
-              )}
-            </div>
-
-            {isPaid ? (
-              paidAnomalyRows.length === 0 ? (
-                <p className="px-5 py-8 text-sm text-center text-gray-400">
-                  {t("multiMonthReport.noHighFeeCharges")}
-                </p>
-              ) : (
-                <div className="divide-y divide-gray-50">
-                  {canMarkExpectedOutliers && (
-                    <p className="px-5 py-3 text-xs text-gray-500 border-b border-gray-50 bg-gray-50/50">
-                      {t("multiMonthReport.markOneOffHint")}
-                    </p>
-                  )}
-                  {paidAnomalyRows.map((row) => {
-                    const marked = expectedOutlierIds.includes(row.id);
-                    return (
-                      <div
-                        key={row.id}
-                        className={`flex flex-col gap-2 px-5 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-4 ${marked ? "bg-emerald-50/40" : ""}`}
-                      >
-                        <div className="min-w-0 flex-1">
-                          <p className="text-sm font-medium text-gray-800 truncate">{transactionPrimaryLabel(row)}</p>
-                          <p className="text-xs text-gray-400 truncate">{transactionSecondaryLine(row)}</p>
-                          {row.explanation && (
-                            <div className="mt-3 rounded-lg border border-gray-100 bg-[#f0f1ee]/90 px-3 py-2.5 space-y-1.5">
-                              <Badge variant="outline" className="text-[10px] font-medium text-gray-700 border-gray-200">
-                                {translateFeeLabel(row.explanation.label)}
-                              </Badge>
-                              <p className="text-xs text-gray-600 leading-relaxed">{row.explanation.detail}</p>
-                              <p className="text-xs text-emerald-800 leading-relaxed">
-                                <span className="font-medium">{tc("tip")}:</span> {row.explanation.savingsTip}
-                              </p>
-                            </div>
-                          )}
-                          {canMarkExpectedOutliers && onToggleExpectedOutlier && (
-                            <div className="mt-3">
-                              <ExpectedOutlierToggle
-                                chargeId={row.id}
-                                marked={marked}
-                                disabled={outlierSaving}
-                                onToggle={onToggleExpectedOutlier}
-                              />
-                            </div>
-                          )}
-                        </div>
-                        <div className="text-left sm:text-right flex-shrink-0">
-                          <p className={`text-sm font-semibold ${marked ? "text-emerald-700" : "text-red-600"}`}>
-                            {fmt$(row.fee)}
-                          </p>
-                          <Badge
-                            className={`text-xs mt-1 ${marked ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-700"}`}
-                          >
-                            {fmtPct((row.fee / row.amount) * 100)} {tc("rate")}
-                          </Badge>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )
-            ) : (
-              <div className="px-5 py-10 text-center">
-                <p className="text-2xl mb-2">🔒</p>
-                <p className="text-sm font-semibold text-gray-700 mb-1">
-                  {anomalyUiCount === 1
-                    ? t("multiMonthReport.highFeeFound", { count: anomalyUiCount })
-                    : t("multiMonthReport.highFeeFoundPlural", { count: anomalyUiCount })}
-                </p>
-                <p className="text-xs text-gray-400 mb-4">{t("multiMonthReport.unlockHighFeeHint")}</p>
-                <PaywallBanner {...paywallProps} />
-              </div>
-            )}
-          </div>
-        </TabsContent>
-
-        {/* Monthly detail tab */}
-        <TabsContent value="monthly">
-          {isPaid ? (
-            <div className="mt-3 overflow-x-auto rounded-2xl border border-gray-100 bg-white shadow-sm sm:overflow-visible">
-              <table className="min-w-full text-sm">
-                <thead>
-                  <tr className="bg-gray-50 border-b border-gray-100">
-                    <th className="px-3 py-2.5 text-left text-xs font-medium text-gray-500 sm:px-5 sm:py-3">{tc("month")}</th>
-                    <th className="px-3 py-2.5 text-right text-xs font-medium text-gray-500 sm:px-5 sm:py-3">{tc("volume")}</th>
-                    <th className="px-3 py-2.5 text-right text-xs font-medium text-gray-500 sm:px-5 sm:py-3">{tc("fees")}</th>
-                    <th className="px-3 py-2.5 text-right text-xs font-medium text-gray-500 sm:px-5 sm:py-3">{tc("rate")}</th>
-                    <th className="hidden px-3 py-2.5 text-right text-xs font-medium text-gray-500 sm:table-cell sm:px-5 sm:py-3">{tc("charges")}</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-50">
-                  {monthly.map((m, i) => {
-                    const prev = monthly[i - 1];
-                    const delta = prev ? m.fees - prev.fees : null;
-                    return (
-                      <tr key={m.month} className="hover:bg-gray-50/50">
-                        <td className="px-3 py-2.5 font-medium text-gray-800 sm:px-5 sm:py-3">{fmtMonth(m.month)}</td>
-                        <td className="px-3 py-2.5 text-right text-gray-600 sm:px-5 sm:py-3">{fmt$(m.volume)}</td>
-                        <td className="px-3 py-2.5 text-right sm:px-5 sm:py-3">
-                          <span className="font-semibold text-gray-900">{fmt$(m.fees)}</span>
-                          {delta !== null && (
-                            <span className={`ml-1 text-[10px] sm:ml-1.5 sm:text-xs ${delta > 0 ? "text-red-500" : "text-green-500"}`}>
-                              {delta > 0 ? "▲" : "▼"}{fmt$(Math.abs(delta))}
-                            </span>
-                          )}
-                        </td>
-                        <td className="px-3 py-2.5 text-right text-gray-600 sm:px-5 sm:py-3">{fmtPct(m.rate)}</td>
-                        <td className="hidden px-3 py-2.5 text-right text-gray-500 sm:table-cell sm:px-5 sm:py-3">{m.count}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div className="rounded-2xl bg-white border border-gray-100 shadow-sm mt-3 px-5 py-10 text-center">
-              <p className="text-2xl mb-2">🔒</p>
-              <p className="text-sm font-semibold text-gray-700 mb-4">
-                {t("multiMonthReport.monthlyBreakdownLocked")}
-              </p>
-              <PaywallBanner {...paywallProps} />
-            </div>
-          )}
-        </TabsContent>
-      </Tabs>
-      </ReportWorkspacePanel>
-    </ReportWorkspace>
+        <MultiMonthTransactionsPanel
+          topDrivers={topDrivers}
+          anomalyRows={paidAnomalyRows}
+          anomalyCount={anomalyUiCount}
+          isPaid={isPaid}
+          isSampleReport={isSampleReport}
+          explainer={anomalyExplainer}
+          expectedOutlierIds={expectedOutlierIds}
+          canMarkExpectedOutliers={canMarkExpectedOutliers}
+          onToggleExpectedOutlier={onToggleExpectedOutlier}
+          outlierSaving={outlierSaving}
+          paywall={<PaywallBanner {...paywallProps} />}
+        />
+      </ReportWorkspacePanel>    </ReportWorkspace>
   );
 }
 

@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { getReportWithAccess, isActiveMonitorSubscriber } from "@/lib/db";
 import { resolveReportAccessToken } from "@/lib/report-access-cookie";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
@@ -21,6 +21,7 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
 
   if (!UUID_V4.test(id)) notFound();
 
+  const locale = await getLocale();
   const t = await getTranslations("report");
   const tc = await getTranslations("report.common");
 
@@ -39,7 +40,7 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
   const periodFees = periodTotalFees(chargeFees, otherFees);
   const monthCount = monthly.length;
   const yearlyAtThisRate = annualRunRate(periodFees, Math.max(1, monthCount));
-  const generatedDate = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+  const generatedDate = new Date().toLocaleDateString(locale, { year: "numeric", month: "long", day: "numeric" });
 
   return (
     <>
@@ -165,7 +166,7 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
             <span className={periodDelta > 0 ? "delta-pos" : "delta-neg"}>
               {periodDelta > 0 ? "▲" : "▼"} {fmt$(Math.abs(periodDelta))}
             </span>{" "}
-            {tc("vsPreviousPeriod")} ({fmtMonth(monthly[monthly.length - 2]?.month ?? "")})
+            {tc("vsPreviousPeriod")} ({fmtMonth(monthly[monthly.length - 2]?.month ?? "", locale)})
           </div>
         )}
 
@@ -217,7 +218,7 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
                   const delta = prev ? m.fees - prev.fees : null;
                   return (
                     <tr key={m.month}>
-                      <td style={{ fontWeight: 600 }}>{fmtMonth(m.month)}</td>
+                      <td style={{ fontWeight: 600 }}>{fmtMonth(m.month, locale)}</td>
                       <td style={{ textAlign: "right" }}>{fmt$(m.volume)}</td>
                       <td style={{ textAlign: "right" }}>
                         {fmt$(m.fees)}
@@ -254,7 +255,7 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
                 {anomalies.slice(0, 30).map((r) => (
                   <tr key={r.id}>
                     <td style={{ fontFamily: "monospace", fontSize: 11 }}>{r.id}</td>
-                    <td>{fmtDate(r.date)}</td>
+                    <td>{fmtDate(r.date, locale)}</td>
                     <td style={{ textAlign: "right" }}>{fmt$(r.amount)}</td>
                     <td style={{ textAlign: "right", fontWeight: 600 }}>{fmt$(r.fee)}</td>
                     <td style={{ textAlign: "right" }}>
@@ -288,7 +289,7 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
                   <tr key={r.id}>
                     <td style={{ color: "#d1d5db", fontWeight: 700, fontSize: 11 }}>{i + 1}</td>
                     <td style={{ fontFamily: "monospace", fontSize: 11 }}>{r.id}</td>
-                    <td>{fmtDate(r.date)}</td>
+                    <td>{fmtDate(r.date, locale)}</td>
                     <td style={{ textAlign: "right" }}>{fmt$(r.amount)}</td>
                     <td style={{ textAlign: "right", fontWeight: 600 }}>{fmt$(r.fee)}</td>
                     <td style={{ textAlign: "right", color: "#6b7280" }}>

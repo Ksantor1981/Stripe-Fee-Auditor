@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { useLocale } from "next-intl";
 import {
   ResponsiveContainer,
   BarChart,
@@ -99,6 +100,7 @@ function RateTooltip({
 
 export function ReportDashboardCharts({ result }: Props) {
   const fmt$ = useFmtMoney();
+  const locale = useLocale();
   const { t, tc } = useReportTranslations();
   const translateFeeLabel = useFeeLabelTranslator();
   const [range, setRange] = useState<"all" | "1" | "3" | "6" | "12">("all");
@@ -122,8 +124,8 @@ export function ReportDashboardCharts({ result }: Props) {
   const timelineData = visibleMonthly.map((m, index) => ({
     key: m.month,
     index,
-    name: fmtMonth(m.month),
-    short: fmtMonth(m.month).replace(/ .*/, ""),
+    name: fmtMonth(m.month, locale),
+    short: fmtMonth(m.month, locale).replace(/ .*/, ""),
     fees: Number(m.fees.toFixed(2)),
     rate: Number(m.rate.toFixed(3)),
     volume: Number(m.volume.toFixed(2)),

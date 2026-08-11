@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ChromeExtensionInstallCta } from "@/components/ChromeExtensionInstallCta";
 import { trackEvent } from "@/lib/analytics";
 
 import { useFmtMoney } from "@/lib/report-currency";
@@ -101,14 +100,6 @@ export function PaywallBanner({
             {t("paywallBanner.whatsIncluded")}
           </button>
         </p>
-        <p className="mt-2 text-xs text-gray-500">
-          {t("paywallBanner.monitorUpsell")}{" "}
-          <a href="/monitor" className="font-medium text-blue-600 hover:underline">
-            {t("paywallBanner.monitorLink")}
-          </a>
-          {t("paywallBanner.monitorSuffix")}
-        </p>
-        <ChromeExtensionInstallCta placement="paywall_banner" variant="quiet" className="mt-3" />
       </div>
 
       <PaywallDetailsModal

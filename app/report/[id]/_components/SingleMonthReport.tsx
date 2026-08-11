@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale } from "next-intl";
 import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { fmtPct, fmtMonth } from "@/lib/format";
 import { useFmtMoney } from "@/lib/report-currency";
@@ -15,6 +16,8 @@ import { FeeLeakBreakdown } from "./FeeLeakBreakdown";
 import { FirstActionCallout } from "./FirstActionCallout";
 import { ReportMainFinding } from "./ReportMainFinding";
 import { ReportWorkspace, ReportWorkspacePanel } from "./ReportWorkspaceNav";
+import { ReportReconciliation } from "./ReportReconciliation";
+import { LockedReportPreview } from "./LockedReportPreview";
 import { FeeGradeBadge } from "@/components/FeeGradeBadge";
 import { OutlierRateComparison } from "./OutlierRateComparison";
 import { ExpectedOutlierToggle } from "./ExpectedOutlierToggle";
@@ -46,6 +49,7 @@ export function SingleMonthReport({
   canMarkExpectedOutliers = false,
 }: Props) {
   const fmt$ = useFmtMoney();
+  const locale = useLocale();
   const { t, tc } = useReportTranslations();
   const { chargeRate, chargeVolume, monthly, topDrivers, savingsOpportunities } = result;
   const {
@@ -95,7 +99,7 @@ export function SingleMonthReport({
         </p>
         <h1 className="text-2xl font-bold text-gray-900">
           {isSampleReport ? t("singleMonthReport.titleSample") : t("singleMonthReport.titleYour")}
-          <span className="text-blue-600">{month ? fmtMonth(month.month) : t("singleMonthReport.thisPeriod")}</span>
+          <span className="text-blue-600">{month ? fmtMonth(month.month, locale) : t("singleMonthReport.thisPeriod")}</span>
         </h1>
         <p className="mt-2 text-sm text-gray-700 leading-snug">
           {isSampleReport ? tc("thisSampleShows") : tc("youPaid")}{" "}
@@ -161,10 +165,12 @@ export function SingleMonthReport({
       {isPaid && <FirstActionCallout opportunity={savings[0]} />}
 
       <ReportTrustChecklist result={result} />
+      <ReportReconciliation result={result} />
       </ReportWorkspacePanel>
 
       <ReportWorkspacePanel value="drivers">
         <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
+        {!isPaid && <LockedReportPreview kind="drivers" />}
       </ReportWorkspacePanel>
 
       <ReportWorkspacePanel value="trends">
@@ -253,6 +259,8 @@ export function SingleMonthReport({
             );
           })}
         </div>
+        {!isPaid && <div className="p-5"><LockedReportPreview kind="transactions" /></div>}
+
         {!isPaid && (
           <div className="p-5">
             <PaywallBanner

@@ -19,7 +19,7 @@ import { MultiMonthReport } from "./MultiMonthReport";
 import { SingleMonthReport } from "./SingleMonthReport";
 import { LowVolumeReport } from "./LowVolumeReport";
 import { ShareEmbedBenchmark } from "./ShareEmbedBenchmark";
-import { ReportReconciliation } from "./ReportReconciliation";
+import { LockedExportButtons } from "./LockedExportButtons";
 import { ClientManager } from "./ClientManager";
 import { MonitorHistory } from "./MonitorHistory";
 import { ReportUnlockToolbarCta } from "./ReportUnlockToolbarCta";
@@ -264,7 +264,16 @@ export function ReportShell({
                   </a>
                 </>
               )}
-              <Link href="/analyze" className="text-sm font-medium text-blue-600 hover:underline">
+              {!exportsEnabled && (
+                <LockedExportButtons
+                  reportId={reportId}
+                  email={ownerEmail}
+                  annualImpact={paywallImpact?.amount}
+                  impactSource={paywallImpact?.source}
+                  firstOpportunity={paywallOpportunityLabel}
+                  diagnosis={freeDiagnosis}
+                />
+              )}              <Link href="/analyze" className="text-sm font-medium text-blue-600 hover:underline">
                 {demoFullAccess ? t("reportShell.uploadYourCsv") : t("reportShell.analyzeAnotherFile")}
               </Link>
             </div>
@@ -316,7 +325,6 @@ export function ReportShell({
             </span>
           </div>
         )}
-        <ReportReconciliation result={adjustedResult} />
         {monitorFullAccess && ownerEmail && (
           <ClientManager
             reportId={reportId}
@@ -373,10 +381,9 @@ export function ReportShell({
             <MonitorWaitlistForm reportId={reportId} showWaitlist={!isPaid} />
           )}
           {isPaid && <FeedbackForm reportId={reportId} />}
-          <ChromeWebStoreReviewAsk
-            placement={hasFullAccess ? "full_report" : "sample_or_preview"}
-            className="text-center"
-          />
+          {hasFullAccess && !demoFullAccess && (
+            <ChromeWebStoreReviewAsk placement="full_report" className="text-center" />
+          )}
         </div>
       </div>
 
@@ -391,13 +398,7 @@ export function ReportShell({
           <span>·</span>
           <a href="/refund" className="hover:underline">{tc("refundPolicy")}</a>
         </p>
-        <p className="flex justify-center gap-3 flex-wrap">
-          <a href="/blog/why-stripe-fees-increase" className="hover:underline">{tc("whyFeesIncrease")}</a>
-          <span>·</span>
-          <a href="/blog/how-to-reduce-stripe-fees" className="hover:underline">{tc("reduceStripeFees")}</a>
-          <span>·</span>
-          <a href="/blog/stripe-effective-fee-rate-explained" className="hover:underline">{tc("feeRateExplained")}</a>
-        </p>
+
       </footer>
     </main>
     </ReportCurrencyProvider>

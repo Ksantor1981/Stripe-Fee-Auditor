@@ -30,16 +30,16 @@ export function fmtPct(value: number, decimals = 2): string {
   return `${value.toFixed(decimals)}%`;
 }
 
-export function fmtMonth(yyyyMM: string): string {
+export function fmtMonth(yyyyMM: string, locale = "en-US"): string {
   const [y, m] = yyyyMM.split("-");
-  return new Date(Number(y), Number(m) - 1, 1).toLocaleString("en-US", {
+  return new Date(Number(y), Number(m) - 1, 1).toLocaleString(locale, {
     month: "short",
     year: "numeric",
   });
 }
 
-export function fmtDate(isoDate: string): string {
-  return new Date(isoDate).toLocaleDateString("en-US", {
+export function fmtDate(isoDate: string, locale = "en-US"): string {
+  return new Date(isoDate).toLocaleDateString(locale, {
     month: "short",
     day: "numeric",
     year: "numeric",
