@@ -8,7 +8,6 @@ import { LandingNavShell } from "@/components/LandingNavShell";
 import { LandingTrustStrip } from "@/components/LandingTrustStrip";
 import { FunnelAnchor } from "@/components/FunnelAnchor";
 import { FunnelClickDelegate } from "@/components/FunnelClickDelegate";
-import { QuoteFooterStrip } from "@/components/QuoteFooterStrip";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ChromeExtensionInstallCta } from "@/components/ChromeExtensionInstallCta";
 import { buildOgImageUrl } from "@/lib/seo-og";
@@ -278,32 +277,19 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* FAQ + final CTA */}
+      {/* FAQ */}
       <section id="faq" className="bg-[#f9f9f6] px-4 py-12 scroll-mt-24">
         <div className="mx-auto max-w-3xl">
           <h2 className="text-center text-xl font-bold text-gray-900 mb-6">{t("trustHeading")}</h2>
           <LandingFaq itemIds={LANDING_FAQ_HOME_IDS} />
         </div>
-        <div className="mx-auto mt-10 max-w-md text-center">
-          <FunnelAnchor
-            href="/analyze"
-            utm={{ source: "landing", medium: "cta", campaign: "footer" }}
-            funnelEvent="funnel_landing_cta"
-            funnelProps={{ placement: "footer" }}
-            className="interactive-lift inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-3.5 text-base font-semibold text-white shadow hover:bg-blue-700 transition-colors"
-          >
-            {t("footerCta")}
-          </FunnelAnchor>
-        </div>
       </section>
 
-      <section className="page-canvas px-4 py-10">
+      <section className="page-canvas px-4 py-5">
         <div className="mx-auto max-w-3xl">
           <ChromeExtensionInstallCta placement="home_footer" variant="card" />
         </div>
       </section>
-
-      <QuoteFooterStrip />
 
       <SiteFooter />
       </div>

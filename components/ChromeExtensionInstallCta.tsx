@@ -43,18 +43,23 @@ export function ChromeExtensionInstallCta({
   if (variant === "card") {
     return (
       <div
-        className={`rounded-xl border border-gray-200 bg-white px-5 py-4 ${className}`.trim()}
+        className={`flex flex-col gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between ${className}`.trim()}
       >
-        <p className="text-sm font-semibold text-gray-900">{t("installCta")}</p>
-        <p className="mt-1 text-sm text-gray-500 leading-relaxed">
-          {t("heroDescription")}
-        </p>
+        <div className="flex min-w-0 items-center gap-3">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gray-900 text-xs font-bold text-white">
+            CH
+          </span>
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-gray-900">Stripe Fee Auditor · Chrome</p>
+            <p className="truncate text-xs text-gray-500">CSV helper · no OAuth · no API keys</p>
+          </div>
+        </div>
         <a
           href={href}
           target="_blank"
           rel="noopener noreferrer"
           onClick={onClick}
-          className="interactive-lift mt-3 inline-flex rounded-lg border border-gray-200 bg-[#f0f1ee] px-4 py-2 text-sm font-semibold text-gray-800 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+          className="interactive-lift inline-flex shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-[#f0f1ee] px-3 py-2 text-xs font-semibold text-gray-800 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
         >
           {t("installCta")} →
         </a>

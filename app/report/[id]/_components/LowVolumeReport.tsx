@@ -65,7 +65,7 @@ export function LowVolumeReport({
       : t("lowVolumeReport.diagnosisTooSmall");
 
   return (
-    <div className="space-y-6">
+    <div id="report-overview" className="scroll-mt-32 space-y-6">
       {/* Hero */}
       <div id="report-share-snapshot" className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
         {result.feeGrade && (
@@ -138,16 +138,20 @@ export function LowVolumeReport({
 
       <ReportTrustChecklist result={result} />
 
-      <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
+      <div id="report-drivers" className="scroll-mt-32">
+        <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
+      </div>
 
-      <ReportDashboardCharts result={result} />
+      <div id="report-trends" className="scroll-mt-32">
+        <ReportDashboardCharts result={result} />
+      </div>
 
       {isPaid && <FeeLeakBreakdown items={result.feeLeakBreakdown} />}
 
       {isPaid && savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
 
       {/* Top 5 highest-fee transactions */}
-      <div className="rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden">
+      <div id="report-transactions" className="scroll-mt-32 rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden">
         <div className="px-5 py-4 border-b border-gray-50">
           <h2 className="text-sm font-semibold text-gray-700">{t("lowVolumeReport.top5Title")}</h2>
           <p className="text-xs text-gray-400 mt-0.5">{t("lowVolumeReport.top5Subtitle")}</p>

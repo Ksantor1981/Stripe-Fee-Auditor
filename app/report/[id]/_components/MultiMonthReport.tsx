@@ -158,7 +158,7 @@ export function MultiMonthReport({
   };
 
   return (
-    <div className="space-y-8">
+    <div id="report-overview" className="scroll-mt-32 space-y-8">
       {/* Hero */}
       <div id="report-share-snapshot" className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
         {result.feeGrade && (
@@ -258,9 +258,13 @@ export function MultiMonthReport({
 
       <ReportTrustChecklist result={result} />
 
-      <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
+      <div id="report-drivers" className="scroll-mt-32">
+        <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
+      </div>
 
-      <ReportDashboardCharts result={result} />
+      <div id="report-trends" className="scroll-mt-32">
+        <ReportDashboardCharts result={result} />
+      </div>
 
       {isPaid && <FeeLeakBreakdown items={result.feeLeakBreakdown} />}
 
@@ -275,7 +279,7 @@ export function MultiMonthReport({
       )}
 
       {/* Tabs */}
-      <Tabs defaultValue="overview">
+      <Tabs id="report-transactions" defaultValue="overview" className="scroll-mt-32">
         <TabsList className="h-auto min-h-10 w-full">
           <TabsTrigger value="overview" className="flex-1 px-2 text-xs sm:px-3 sm:text-sm">{t("multiMonthReport.tabOverview")}</TabsTrigger>
           <TabsTrigger value="anomalies" className="flex-1 px-2 text-xs sm:px-3 sm:text-sm">

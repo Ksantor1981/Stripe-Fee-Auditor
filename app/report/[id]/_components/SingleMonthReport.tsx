@@ -80,7 +80,7 @@ export function SingleMonthReport({
       : t("singleMonthReport.diagnosisNearBenchmark");
 
   return (
-    <div className="space-y-6">
+    <div id="report-overview" className="scroll-mt-32 space-y-6">
       {/* Hero */}
       <div id="report-share-snapshot" className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
         {result.feeGrade && (
@@ -160,9 +160,13 @@ export function SingleMonthReport({
 
       <ReportTrustChecklist result={result} />
 
-      <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
+      <div id="report-drivers" className="scroll-mt-32">
+        <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
+      </div>
 
-      <ReportDashboardCharts result={result} />
+      <div id="report-trends" className="scroll-mt-32">
+        <ReportDashboardCharts result={result} />
+      </div>
 
       {isPaid && <FeeLeakBreakdown items={result.feeLeakBreakdown} />}
 
@@ -190,7 +194,7 @@ export function SingleMonthReport({
       </div>
 
       {/* Top drivers */}
-      <div className="rounded-2xl bg-white border border-gray-100 shadow-sm">
+      <div id="report-transactions" className="scroll-mt-32 rounded-2xl bg-white border border-gray-100 shadow-sm">
         <div className="px-5 py-4 border-b border-gray-50 flex items-center justify-between">
           <h2 className="text-sm font-semibold text-gray-700">{tc("topFeeDrivers")}</h2>
           <span className="text-xs text-gray-400">

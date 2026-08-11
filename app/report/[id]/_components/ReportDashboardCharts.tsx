@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -101,6 +101,7 @@ export function ReportDashboardCharts({ result }: Props) {
   const fmt$ = useFmtMoney();
   const { t, tc } = useReportTranslations();
   const translateFeeLabel = useFeeLabelTranslator();
+  const [range, setRange] = useState<"all" | "1" | "3" | "6" | "12">("all");
   const {
     feeMix,
     monthly,
@@ -117,7 +118,8 @@ export function ReportDashboardCharts({ result }: Props) {
       .filter((s) => s.value > 0)
       .sort((a, b) => b.value - a.value) ?? [];
 
-  const timelineData = monthly.map((m, index) => ({
+  const visibleMonthly = range === "all" ? monthly : monthly.slice(-Number(range));
+  const timelineData = visibleMonthly.map((m, index) => ({
     key: m.month,
     index,
     name: fmtMonth(m.month),
@@ -238,11 +240,32 @@ export function ReportDashboardCharts({ result }: Props) {
             </p>
           )}
         </div>
-        <div className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-left sm:w-auto sm:text-right">
-          <p className="text-[10px] font-medium uppercase tracking-wider text-slate-400">{tc("baseline")}</p>
-          <p className="text-2xl font-semibold tabular-nums tracking-tight text-slate-950">
-            {fmtPct(chargeRate)}
-          </p>
+        <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:justify-end">
+          {monthly.length > 3 && (
+            <div className="flex rounded-lg border border-slate-200 bg-white p-1" aria-label="Chart period">
+            {(["all", "1", "3", "6", "12"] as const).map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => setRange(value)}
+                  disabled={value !== "all" && monthly.length < Number(value)}
+                  className={`rounded-md px-2.5 py-1.5 text-xs font-semibold transition-colors ${
+                    range === value
+                      ? "bg-slate-900 text-white"
+                      : "text-slate-500 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-35"
+                  }`}
+                >
+                  {value === "all" ? "All" : `${value}M`}
+                </button>
+              ))}
+            </div>
+          )}
+          <div className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-right">
+            <p className="text-[10px] font-medium uppercase tracking-wider text-slate-400">{tc("baseline")}</p>
+            <p className="text-2xl font-semibold tabular-nums tracking-tight text-slate-950">
+              {fmtPct(chargeRate)}
+            </p>
+          </div>
         </div>
       </div>
 
