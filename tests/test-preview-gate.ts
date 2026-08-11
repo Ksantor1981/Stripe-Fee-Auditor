@@ -7,7 +7,7 @@ import Papa from "papaparse";
 import { validateColumns, normalizeRow, type RawRow } from "../lib/csv-parser";
 import { analyze } from "../lib/fee-analyzer";
 import { toPreviewResult, PREVIEW_STRIPPED_KEYS } from "../lib/report-preview";
-import { isBetaFlagEnabled } from "../lib/beta-access";
+import { isBetaFlagEnabled, isBetaFullAccessEnabled } from "../lib/beta-access";
 
 let passed = 0;
 let failed = 0;
@@ -145,6 +145,12 @@ console.log("\n📋 beta-access / post-beta default");
 test("FULL_REPORTS_FREE_DURING_BETA defaults closed", () => {
   assert(isBetaFlagEnabled(undefined) === false, "unset = false");
   assert(isBetaFlagEnabled("false") === false, "false = false");
+});
+
+test("production cannot enable beta full access", () => {
+  assert(isBetaFullAccessEnabled("true", "production") === false, "production must stay closed");
+  assert(isBetaFullAccessEnabled("1", "production") === false, "production aliases must stay closed");
+  assert(isBetaFullAccessEnabled("true", "development") === true, "development may opt in");
 });
 
 console.log(
