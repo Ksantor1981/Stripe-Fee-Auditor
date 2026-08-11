@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import type { ClientRow } from "@/lib/db";
+import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 const CLIENT_STORAGE_KEY = "feeauditor_client_id";
 
@@ -31,6 +32,7 @@ export function ClientManager({
   clients: initialClients,
   monitorFullAccess,
 }: Props) {
+  const { t } = useReportTranslations();
   const [clients, setClients] = useState(initialClients);
   const [clientId, setClientId] = useState(initialClientId ?? readStoredClientId());
   const [newClientName, setNewClientName] = useState("");
@@ -53,17 +55,17 @@ export function ClientManager({
           body: JSON.stringify({ clientId: nextClientId, email: ownerEmail }),
         });
         if (!res.ok) {
-          setMessage("Could not update client profile.");
+          setMessage(t("clientManager.updateFailed"));
           return;
         }
         setClientId(nextClientId);
         storeClientId(nextClientId);
-        setMessage(nextClientId ? "Client profile linked." : "Client profile cleared.");
+        setMessage(nextClientId ? t("clientManager.linked") : t("clientManager.cleared"));
       } finally {
         setBusy(false);
       }
     },
-    [ownerEmail, reportId]
+    [ownerEmail, reportId, t]
   );
 
   const createClient = useCallback(async () => {
@@ -80,7 +82,7 @@ export function ClientManager({
       });
       const data = (await res.json()) as { client?: ClientRow; error?: string };
       if (!res.ok || !data.client) {
-        setMessage(data.error ?? "Could not create client profile.");
+        setMessage(t("clientManager.createFailed"));
         return;
       }
       setClients((prev) => [...prev, data.client!].sort((a, b) => a.name.localeCompare(b.name)));
@@ -89,21 +91,21 @@ export function ClientManager({
     } finally {
       setBusy(false);
     }
-  }, [assignClient, newClientName, ownerEmail]);
+  }, [assignClient, newClientName, ownerEmail, t]);
 
   if (!monitorFullAccess || !ownerEmail) return null;
 
   return (
     <section className="mb-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">Client workspace</p>
-      <h2 className="mt-1 text-lg font-bold text-slate-950">Track reports per client</h2>
+      <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">{t("clientManager.eyebrow")}</p>
+      <h2 className="mt-1 text-lg font-bold text-slate-950">{t("clientManager.title")}</h2>
       <p className="mt-1 text-xs text-slate-500">
-        Link this upload to a client profile so Fee Monitor history stays separated for fractional CFO workflows.
+        {t("clientManager.body")}
       </p>
 
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
         <label className="flex-1 text-sm">
-          <span className="mb-1 block font-medium text-slate-700">Active client</span>
+          <span className="mb-1 block font-medium text-slate-700">{t("clientManager.activeClient")}</span>
           <select
             className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
             value={clientId ?? ""}
@@ -113,7 +115,7 @@ export function ClientManager({
               void assignClient(value || null);
             }}
           >
-            <option value="">No client (personal account)</option>
+            <option value="">{t("clientManager.noClient")}</option>
             {clients.map((client) => (
               <option key={client.id} value={client.id}>
                 {client.name}
@@ -127,7 +129,7 @@ export function ClientManager({
             type="text"
             value={newClientName}
             onChange={(event) => setNewClientName(event.target.value)}
-            placeholder="New client name"
+            placeholder={t("clientManager.newClientPlaceholder")}
             className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
             disabled={busy}
           />
@@ -137,7 +139,7 @@ export function ClientManager({
             disabled={busy || newClientName.trim().length < 2}
             className="shrink-0 rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
           >
-            Add
+            {t("clientManager.add")}
           </button>
         </div>
       </div>

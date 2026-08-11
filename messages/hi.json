@@ -49,60 +49,96 @@
     "stepsHeading": "तीन कदम",
     "step1Title": "CSV export",
     "step1Body": "Balance summary → Stripe Dashboard से itemized export।",
-    "step2Title": "Upload",
+    "step2Title": "अपलोड",
     "step2Body": "एक फ़ाइल, no OAuth। Raw CSV store नहीं होता।",
     "step3Title": "Drivers देखें",
     "step3Body": "Ranked fee drivers, high-fee rows, Stripe Dashboard links।",
-    "feesReport": "Fees report",
+    "feesReport": "शुल्क रिपोर्ट",
     "trustHeading": "विश्वास",
     "footerCta": "Stripe fees audit — मुफ़्त"
   },
   "landingSampleTabs": {
-    "tablistAria": "Sample report scenarios",
+    "tablistAria": "नमूना रिपोर्ट परिदृश्य",
     "footnote": "Same report UI — stats ऊपर हर scenario से match करते हैं।",
     "openSampleCta": "Live sample report खोलें →",
     "caseStudyLink": "$1,400/yr case study पढ़ें",
     "scenarios": {
       "typical": {
-        "label": "Typical SaaS",
+        "label": "सामान्य SaaS",
         "blurb": "Real export pattern: mixed US + कुछ international — जो कई founders देखते हैं।",
         "imageAlt": "Fee Auditor report UI: effective rate, fee drivers — typical SaaS mix ~4% all-in",
         "stats": {
-          "volume4mo": { "label": "Volume (4 mo)", "value": "$89,490" },
-          "processingRate": { "label": "Processing rate", "value": "3.82%" },
-          "allInCost": { "label": "All-in cost", "value": "4.02%" },
-          "directionalOpportunity": { "label": "Directional opportunity", "value": "~$1,400/yr" }
+          "volume4mo": {
+            "label": "वॉल्यूम (4 माह)",
+            "value": "$89,490"
+          },
+          "processingRate": {
+            "label": "प्रोसेसिंग दर",
+            "value": "3.82%"
+          },
+          "allInCost": {
+            "label": "कुल लागत",
+            "value": "4.02%"
+          },
+          "directionalOpportunity": {
+            "label": "संभावित बचत",
+            "value": "~$1,400/yr"
+          }
         }
       },
       "intl": {
-        "label": "High international",
+        "label": "अधिक अंतरराष्ट्रीय भुगतान",
         "blurb": "Heavy cross-border mix — intl uplift और refund drag साफ दिखता है (edge case)।",
         "imageAlt": "Fee Auditor UI with elevated all-in from international mix and refund leakage",
         "stats": {
-          "stripeFeesQuarter": { "label": "Stripe fees (quarter)", "value": "$498.76" },
-          "processingRate": { "label": "Processing rate", "value": "6.33%" },
-          "allInCost": { "label": "All-in cost", "value": "6.67%" },
-          "extraVsHeadline": { "label": "Extra vs 2.9% headline", "value": "~$270/qtr" }
+          "stripeFeesQuarter": {
+            "label": "Stripe शुल्क (तिमाही)",
+            "value": "$498.76"
+          },
+          "processingRate": {
+            "label": "प्रोसेसिंग दर",
+            "value": "6.33%"
+          },
+          "allInCost": {
+            "label": "कुल लागत",
+            "value": "6.67%"
+          },
+          "extraVsHeadline": {
+            "label": "घोषित 2.9% से अतिरिक्त",
+            "value": "लगभग $270/तिमाही"
+          }
         }
       },
       "micro": {
-        "label": "Micro-transactions",
+        "label": "सूक्ष्म लेन-देन",
         "blurb": "Low-ticket subs — fixed $0.30 dominates; छोटे charges पर effective rate spike।",
         "imageAlt": "Fee Auditor UI: small-ticket charges where fixed fees push rate above 8%",
         "stats": {
-          "avgChargeSize": { "label": "Avg charge size", "value": "~$12" },
-          "processingRate": { "label": "Processing rate", "value": "8.4%" },
-          "allInCost": { "label": "All-in cost", "value": "8.9%" },
-          "highFeeRows": { "label": "High-fee rows flagged", "value": "847" }
+          "avgChargeSize": {
+            "label": "औसत भुगतान",
+            "value": "~$12"
+          },
+          "processingRate": {
+            "label": "प्रोसेसिंग दर",
+            "value": "8.4%"
+          },
+          "allInCost": {
+            "label": "कुल लागत",
+            "value": "8.9%"
+          },
+          "highFeeRows": {
+            "label": "अधिक शुल्क वाली पंक्तियाँ",
+            "value": "847"
+          }
         }
       }
     }
   },
   "trust": {
-    "noOAuth": "No Stripe OAuth",
+    "noOAuth": "Stripe OAuth नहीं",
     "rawCsvNotStored": "Raw CSV store नहीं",
     "deterministic": "Deterministic — LLM नहीं",
-    "logicOnGitHub": "Logic on GitHub"
+    "logicOnGitHub": "GitHub पर गणना का स्रोत"
   },
   "analyze": {
     "metaTrust": "No OAuth · raw CSV store नहीं · independent tool",
@@ -112,7 +148,7 @@
     "sampleSubtitle": "Illustrative Balance CSV — आपका account नहीं। कभी भी अपनी file upload करें।",
     "sampleBanner": "केवल sample।",
     "sampleBannerRest": "नीचे की रिपोर्ट homepage जैसे demo data use करती है।",
-    "badgeSample": "Sample",
+    "badgeSample": "नमूना",
     "badgeYourFile": "आपकी file",
     "headingSampleLoading": "Sample diagnosis चल रहा है…",
     "headingUpload": "Stripe CSV upload करें",
@@ -120,7 +156,7 @@
     "hintUpload": "Stripe Balance या Payments export (.csv, max 4 MB)। Format auto-detect।",
     "dropActive": "यहाँ drop करें!",
     "dropIdle": "Stripe CSV drag & drop",
-    "samplePrefix": "Sample data · ",
+    "samplePrefix": "नमूना डेटा · ",
     "readyAnalyze": "Stripe CSV पहचाना — analyze के लिए तैयार।",
     "privacySample": "यह demo data है।",
     "privacyUpload": "File सिर्फ memory में process। Report links auto-expire।",
@@ -138,21 +174,22 @@
     "accountCountryLabel": "Stripe खाता देश",
     "accountCountryHint": "Domestic vs international कार्ड और pricing benchmark के लिए।",
     "accountCountryFallback": "आपका क्षेत्र नहीं? नज़दीकी विकल्प चुनें — CSV मुख्य है; यह सिर्फ benchmark सेट करता है।",
-    "accountCountryUsdNote": "अभी केवल USD settlement। Custom pricing और FX अनुमान हैं।"
+    "accountCountryUsdNote": "अभी केवल USD settlement। Custom pricing और FX अनुमान हैं।",
+    "accountCountryCurrencyNote": "हर फ़ाइल में केवल एक सेटलमेंट मुद्रा अपलोड करें; यह चुने गए Stripe खाता देश से मेल खानी चाहिए (USD, GBP, EUR, CAD या AUD)। कस्टम मूल्य और मुद्रा रूपांतरण अनुमानित रहेंगे।"
   },
   "pricing": {
-    "title": "Pricing",
+    "title": "मूल्य",
     "intro": "$12 = एक CSV audit। पहले preview — full rows, exports और 30-day private link के लिए एक बार pay।",
     "introBeta": " Beta में full report मुफ़्त।",
     "sub": "CSV summary नहीं — ranked savings, high-fee rows, Stripe dashboard links।",
-    "auditLabel": "One audit · $12",
+    "auditLabel": "एक ऑडिट · $12",
     "auditTitle": "यह CSV, एक बार",
     "auditFeature1": "Full high-fee rows और savings ideas",
-    "auditFeature2": "CSV + print export",
-    "auditFeature3": "Private link · 30 days",
+    "auditFeature2": "CSV निर्यात और प्रिंट रिपोर्ट",
+    "auditFeature3": "निजी लिंक · 30 दिन",
     "auditBetaFree": "अभी beta में मुफ़्त।",
     "auditRefund": "Payment success पर भी report unlock न हो तो refund।",
-    "monitorLabel": "Optional · $9/mo",
+    "monitorLabel": "वैकल्पिक · $9/माह",
     "monitorTitle": "Fee Monitor",
     "monitorBody": "मासिक CSV reminder, नई पूरी report और निजी rate-drift history। Manual upload, स्थायी Stripe OAuth नहीं।",
     "monitorLink": "Fee Monitor →",

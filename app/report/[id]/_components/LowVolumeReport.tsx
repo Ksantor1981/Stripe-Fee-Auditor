@@ -5,7 +5,7 @@ import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { fmtPct, fmtDate } from "@/lib/format";
 import { useFmtMoney } from "@/lib/report-currency";
 import { transactionPrimaryLabel } from "@/lib/transaction-display";
-import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
+import { annualRunRate, periodTotalFees } from "@/lib/fee-period-copy";
 import { Badge } from "@/components/ui/badge";
 import { FeeInsightCards } from "./FeeInsightCards";
 import { ReportDashboardCharts } from "./ReportDashboardCharts";
@@ -46,6 +46,14 @@ export function LowVolumeReport({
   const freeDiagnosis = selectFreeDiagnosis(result);
   const totalCharges = monthly.reduce((a, m) => a + m.count, 0);
   const monthCount = monthly.length;
+  const periodTail =
+    monthCount <= 1
+      ? tc("periodThisMonth")
+      : monthCount === 3
+        ? tc("periodThisQuarter")
+        : monthCount === 12
+          ? tc("periodThisYear")
+          : tc("periodLastMonths", { count: monthCount });
   const periodFees = result.allInFees ?? periodTotalFees(chargeFees, otherFees);
   const allInRate = result.allInRate ?? (chargeVolume > 0 ? (periodFees / chargeVolume) * 100 : 0);
   const yearlyAtThisRate = annualRunRate(periodFees, monthCount);
@@ -61,7 +69,7 @@ export function LowVolumeReport({
   const benchmarkRate = result.benchmark?.expectedRate ?? (result.pricingProfile?.domesticPercent ?? 0.029) * 100;
   const rateGap = chargeRate - benchmarkRate;
   const rateGapText = tc("rateGapVsBenchmark", {
-    gap: `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp`,
+    gap: `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}${tc("percentagePointsShort")}`,
     benchmark: benchmarkRate.toFixed(2),
   });
   const diagnosis =
@@ -91,7 +99,7 @@ export function LowVolumeReport({
         <p className="mt-3 text-sm text-gray-700 leading-snug">
           {isSampleReport ? tc("thisSampleShows") : tc("youPaid")}{" "}
           <span className="font-semibold text-gray-900">{fmt$(periodFees)}</span> {tc("inStripeFees")}{" "}
-          {stripeFeesPeriodTail(Math.max(1, monthCount))}
+          {periodTail}
         </p>
         <p className="mt-1 text-sm text-gray-600">
           {tc("thats")}{" "}
@@ -147,7 +155,7 @@ export function LowVolumeReport({
       </ReportWorkspacePanel>
 
       <ReportWorkspacePanel value="drivers">
-        <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
+        <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} chargeRate={result.chargeRate} />
         {!isPaid && <LockedReportPreview kind="drivers" />}
       </ReportWorkspacePanel>
 
@@ -185,12 +193,12 @@ export function LowVolumeReport({
                 <tr key={row.id} className="hover:bg-gray-50/50">
                   <td className="px-5 py-3 text-xs font-bold text-gray-300">{i + 1}</td>
                   <td className="px-5 py-3 text-xs text-gray-600 max-w-[180px]">
-                    <div className="truncate font-medium text-gray-800">{transactionPrimaryLabel(row)}</div>
+                    <div className="truncate font-medium text-gray-800">{transactionPrimaryLabel(row, tc("charge"))}</div>
                     <div className="truncate text-[11px] text-gray-400">
                       {row.description?.trim()
                         ? row.id
                         : [row.reportingCategory, row.paymentMethodType].filter(Boolean).join(" · ") ||
-                          `Ref ${row.id.slice(0, 18)}…`}
+                          `${tc("reference")} ${row.id.slice(0, 18)}…`}
                     </div>
                   </td>
                   <td className="px-5 py-3 text-xs text-gray-500 whitespace-nowrap">{fmtDate(row.date, locale)}</td>

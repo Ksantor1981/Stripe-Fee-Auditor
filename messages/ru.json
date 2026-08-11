@@ -13,18 +13,18 @@
     "pricing": "Цены",
     "uploadCsv": "Загрузить CSV",
     "seeSampleReport": "Пример отчёта",
-    "uploadCsvDesc": "Balance export — бесплатная диагностика, без регистрации",
-    "seeSampleDesc": "Демо CSV — полный пример отчёта за ~10 сек",
+    "uploadCsvDesc": "Экспорт Balance — бесплатная диагностика без регистрации",
+    "seeSampleDesc": "Демонстрационный CSV — полный пример отчёта примерно за 10 секунд",
     "everyReportIncludes": "В каждом отчёте",
     "rateAnalysis": "Анализ ставки",
-    "rateAnalysisDesc": "Реальная all-in ставка vs 2.9% в дашборде",
+    "rateAnalysisDesc": "Фактическая полная ставка против 2,9% из панели Stripe",
     "feeBreakdown": "Разбор комиссий",
     "feeBreakdownDesc": "Международные карты, возвраты, фикс. сбор",
     "savingsFinder": "Идеи экономии",
     "savingsFinderDesc": "Приоритетные действия со ссылками в Stripe",
-    "benchmarking": "Бенчмарк",
-    "benchmarkingDesc": "Сравнение с вашим mix транзакций",
-    "balanceCsvGuide": "Гайд по Balance CSV",
+    "benchmarking": "Сравнение",
+    "benchmarkingDesc": "Сравнение с вашим составом транзакций",
+    "balanceCsvGuide": "Инструкция по Balance CSV",
     "feeCalculator": "Калькулятор комиссий",
     "chromeHelper": "Chrome-расширение",
     "blog": "Блог",
@@ -32,68 +32,104 @@
     "openMenu": "Открыть меню"
   },
   "home": {
-    "heroTitleBefore": "Stripe пишет 2.9%. Ваша реальная all-in ставка часто",
+    "heroTitleBefore": "Stripe заявляет 2,9%. Ваша фактическая полная ставка часто",
     "heroTitleHighlight": "значительно выше.",
     "heroSubtitle": "Узнайте, какие списания, возвраты и международные платежи подняли ставку.",
-    "heroMeta": "Balance CSV · без OAuth · 0.5 п.п. на $1M/год ≈ $5 000 лишних",
+    "heroMeta": "Balance CSV · без OAuth · 0,5 п.п. на $1 млн в год ≈ $5 000 переплаты",
     "heroCta": "Проверить комиссии Stripe — бесплатно",
     "previewScenarios": "Сначала сценарии",
     "exportGuide": "Гайд по экспорту",
     "feeCalculator": "Калькулятор комиссий",
-    "uploadLimit": "до 4 МБ (~75k строк)",
-    "reportsAnalyzedBeta": "{count} отчётов в beta",
+    "uploadLimit": "до 4 МБ (примерно 75 тыс. строк)",
+    "reportsAnalyzedBeta": "Проанализировано отчётов: {count}",
     "sampleHeading": "Три сценария — выберите свой",
-    "sampleSub": "Иллюстративные mix. Одна кнопка ниже открывает живой отчёт.",
-    "cfoLine": "Для fractional CFO: доказательства по транзакциям, CSV/print export, ежемесячный drift через",
+    "sampleSub": "Иллюстративные примеры. Кнопка ниже открывает интерактивный отчёт.",
+    "cfoLine": "Для финансовых консультантов: данные по транзакциям, экспорт CSV и печать, ежемесячное отслеживание через",
     "feeMonitor": "Fee Monitor",
     "stepsHeading": "Три шага",
     "step1Title": "Экспорт CSV",
-    "step1Body": "Balance summary → Itemized export в Stripe Dashboard.",
+    "step1Body": "Сводка Balance → детализированный экспорт в панели Stripe.",
     "step2Title": "Загрузка",
     "step2Body": "Один файл, без OAuth. Исходный CSV не хранится.",
-    "step3Title": "Драйверы",
-    "step3Body": "Ранжированные драйверы, high-fee строки и ссылки в Stripe Dashboard.",
+    "step3Title": "Причины комиссий",
+    "step3Body": "Причины комиссий по приоритету, дорогие транзакции и ссылки на настройки Stripe.",
     "feesReport": "Отчёт по комиссиям",
     "trustHeading": "Доверие",
     "footerCta": "Проверить комиссии Stripe — бесплатно"
   },
   "landingSampleTabs": {
-    "tablistAria": "Примеры сценариев отчёта",
-    "footnote": "Тот же UI отчёта — цифры выше соответствуют каждому сценарию.",
-    "openSampleCta": "Открыть живой sample-отчёт →",
-    "caseStudyLink": "Кейс: ~$1 400/год",
+    "tablistAria": "Сценарии демонстрационного отчёта",
+    "footnote": "Тот же интерфейс отчёта — показатели выше соответствуют выбранному сценарию.",
+    "openSampleCta": "Открыть интерактивный пример отчёта →",
+    "caseStudyLink": "Кейс: около $1 400 в год",
     "scenarios": {
       "typical": {
         "label": "Типичный SaaS",
-        "blurb": "Реальный паттерн export: US + часть international — близко к тому, что видят многие founders.",
-        "imageAlt": "UI Fee Auditor: effective rate, fee drivers, high-fee charges — типичный SaaS mix около 4% all-in",
+        "blurb": "Типичная выгрузка: платежи из США и немного международных — близко к ситуации многих компаний.",
+        "imageAlt": "Отчёт Fee Auditor: фактическая ставка, причины комиссий и дорогие транзакции — типичный SaaS около 4%",
         "stats": {
-          "volume4mo": { "label": "Объём (4 мес)", "value": "$89,490" },
-          "processingRate": { "label": "Processing rate", "value": "3.82%" },
-          "allInCost": { "label": "All-in cost", "value": "4.02%" },
-          "directionalOpportunity": { "label": "Directional opportunity", "value": "~$1,400/год" }
+          "volume4mo": {
+            "label": "Объём (4 мес)",
+            "value": "$89,490"
+          },
+          "processingRate": {
+            "label": "Ставка обработки",
+            "value": "3.82%"
+          },
+          "allInCost": {
+            "label": "Полная ставка расходов",
+            "value": "4.02%"
+          },
+          "directionalOpportunity": {
+            "label": "Возможная экономия",
+            "value": "~$1,400/год"
+          }
         }
       },
       "intl": {
-        "label": "Много international",
-        "blurb": "Тяжёлый cross-border card mix — intl uplift и refund drag видны явно (edge case).",
-        "imageAlt": "UI Fee Auditor с повышенной all-in rate из-за international mix и refund fee leakage",
+        "label": "Много международных платежей",
+        "blurb": "Большая доля трансграничных карт — хорошо видны международные надбавки и потери на возвратах.",
+        "imageAlt": "Отчёт Fee Auditor с повышенной полной ставкой из-за международных карт и комиссий при возвратах",
         "stats": {
-          "stripeFeesQuarter": { "label": "Комиссии Stripe (квартал)", "value": "$498.76" },
-          "processingRate": { "label": "Processing rate", "value": "6.33%" },
-          "allInCost": { "label": "All-in cost", "value": "6.67%" },
-          "extraVsHeadline": { "label": "Сверх headline 2.9%", "value": "~$270/кв" }
+          "stripeFeesQuarter": {
+            "label": "Комиссии Stripe (квартал)",
+            "value": "$498.76"
+          },
+          "processingRate": {
+            "label": "Ставка обработки",
+            "value": "6.33%"
+          },
+          "allInCost": {
+            "label": "Полная ставка расходов",
+            "value": "6.67%"
+          },
+          "extraVsHeadline": {
+            "label": "Сверх заявленных 2,9%",
+            "value": "~$270/кв"
+          }
         }
       },
       "micro": {
         "label": "Микроплатежи",
-        "blurb": "Низкочековые подписки — fixed $0.30 доминирует; effective rate взлетает на мелких charges.",
-        "imageAlt": "UI Fee Auditor: мелкие Stripe charges, где fixed fees толкают effective rate выше 8%",
+        "blurb": "Подписки с небольшим чеком — фиксированные $0,30 заметно повышают фактическую ставку.",
+        "imageAlt": "Отчёт Fee Auditor: небольшие платежи Stripe, где фиксированная комиссия поднимает ставку выше 8%",
         "stats": {
-          "avgChargeSize": { "label": "Средний чек", "value": "~$12" },
-          "processingRate": { "label": "Processing rate", "value": "8.4%" },
-          "allInCost": { "label": "All-in cost", "value": "8.9%" },
-          "highFeeRows": { "label": "High-fee строк", "value": "847" }
+          "avgChargeSize": {
+            "label": "Средний чек",
+            "value": "~$12"
+          },
+          "processingRate": {
+            "label": "Ставка обработки",
+            "value": "8.4%"
+          },
+          "allInCost": {
+            "label": "Полная ставка расходов",
+            "value": "8.9%"
+          },
+          "highFeeRows": {
+            "label": "Дорогие транзакции",
+            "value": "847"
+          }
         }
       }
     }
@@ -101,26 +137,26 @@
   "trust": {
     "noOAuth": "Без OAuth Stripe",
     "rawCsvNotStored": "Исходный CSV не хранится",
-    "deterministic": "Детерминированно — не LLM",
+    "deterministic": "Расчёт по формулам, без генеративного ИИ",
     "logicOnGitHub": "Логика на GitHub"
   },
   "analyze": {
     "metaTrust": "Без OAuth · CSV не хранится · независимый инструмент",
     "title": "Узнайте реальную ставку Stripe",
-    "subtitle": "Загрузите Balance CSV или сначала откройте sample-отчёт.",
+    "subtitle": "Загрузите Balance CSV или сначала откройте пример отчёта.",
     "sampleTitle": "Пример отчёта по комиссиям Stripe",
-    "sampleSubtitle": "Иллюстративный Balance CSV — не ваш аккаунт. Свой файл можно загрузить в любой момент.",
-    "sampleBanner": "Только sample.",
+    "sampleSubtitle": "Иллюстративный Balance CSV — не данные вашего аккаунта. Свой файл можно загрузить в любой момент.",
+    "sampleBanner": "Демонстрационные данные.",
     "sampleBannerRest": "Отчёт ниже использует демо-данные с главной страницы.",
-    "badgeSample": "Sample",
+    "badgeSample": "Пример",
     "badgeYourFile": "Ваш файл",
-    "headingSampleLoading": "Запуск sample-диагностики…",
+    "headingSampleLoading": "Запускаем демонстрационный анализ…",
     "headingUpload": "Загрузите Stripe CSV",
-    "hintSample": "Sample загружается автоматически. Можно также перетащить свой CSV.",
-    "hintUpload": "Stripe Balance или Payments export (.csv, до 4 МБ). Формат определяется автоматически.",
+    "hintSample": "Пример загружается автоматически. Вместо него можно перетащить свой CSV.",
+    "hintUpload": "Экспорт Stripe Balance или Payments (.csv, до 4 МБ). Формат определяется автоматически.",
     "dropActive": "Отпустите файл!",
     "dropIdle": "Перетащите Stripe CSV",
-    "samplePrefix": "Sample · ",
+    "samplePrefix": "Пример · ",
     "readyAnalyze": "Stripe CSV распознан — готов к анализу.",
     "privacySample": "Это демо-данные для примера.",
     "privacyUpload": "Файл обрабатывается только в памяти. Ссылки на отчёт истекают автоматически.",
@@ -136,25 +172,26 @@
     "errorAnalysisFailed": "Анализ не выполнен",
     "errorGeneric": "Что-то пошло не так",
     "accountCountryLabel": "Страна аккаунта Stripe",
-    "accountCountryHint": "Для классификации domestic/international карт и pricing-benchmark.",
-    "accountCountryFallback": "Нет вашего региона? Выберите ближайший — аудит идёт по CSV; здесь только benchmark.",
-    "accountCountryUsdNote": "Сейчас принимается только USD settlement. Custom pricing и FX — оценки."
+    "accountCountryHint": "Нужно для классификации внутренних и международных карт и ориентировочного сравнения.",
+    "accountCountryFallback": "Нет вашего региона? Выберите ближайший: аудит рассчитывается по CSV, а страна влияет только на ориентир.",
+    "accountCountryUsdNote": "Сейчас поддерживаются выплаты только в USD. Индивидуальные тарифы и конвертация валют оцениваются ориентировочно.",
+    "accountCountryCurrencyNote": "Загружайте в одном файле только одну валюту выплат — она должна соответствовать выбранной стране аккаунта Stripe (USD, GBP, EUR, CAD или AUD). Индивидуальные тарифы и конвертация валют остаются ориентировочными."
   },
   "pricing": {
     "title": "Цены",
-    "intro": "$12 = один аудит CSV. Сначала preview — одна оплата за полные строки, экспорт и приватную ссылку на 30 дней.",
-    "introBeta": " Полный отчёт бесплатен в beta.",
-    "sub": "Не summary CSV — ranked savings actions, high-fee строки и ссылки в Stripe Dashboard из вашего export.",
+    "intro": "$12 за один аудит CSV. Сначала бесплатный просмотр, затем одна оплата за детализацию, экспорт и приватную ссылку на 30 дней.",
+    "introBeta": " Полный отчёт бесплатен во время тестирования.",
+    "sub": "Не просто сводка CSV: приоритетные способы экономии, дорогие транзакции и ссылки на настройки Stripe.",
     "auditLabel": "Один аудит · $12",
     "auditTitle": "Этот CSV, один раз",
-    "auditFeature1": "Полные high-fee строки и идеи экономии",
-    "auditFeature2": "CSV + print export",
-    "auditFeature3": "Приватная ссылка · 30 дней",
-    "auditBetaFree": "Сейчас бесплатно в beta.",
-    "auditRefund": "Refund, если оплата прошла, а отчёт не открылся.",
+    "auditFeature1": "Полный список дорогих транзакций и способы экономии",
+    "auditFeature2": "Экспорт CSV и версия для печати",
+    "auditFeature3": "Приватная ссылка на 30 дней",
+    "auditBetaFree": "Сейчас бесплатно во время тестирования.",
+    "auditRefund": "Вернём деньги, если платёж прошёл, а отчёт не открылся.",
     "monitorLabel": "Опционально · $9/мес",
     "monitorTitle": "Fee Monitor",
-    "monitorBody": "Ежемесячное напоминание, новый полный отчёт и приватная история изменения ставки. Ручная загрузка, без постоянного Stripe OAuth.",
+    "monitorBody": "Ежемесячное напоминание, новый полный отчёт и приватная история изменения ставки. Ручная загрузка без постоянного доступа к Stripe.",
     "monitorLink": "Fee Monitor →",
     "uploadCta": "Загрузить CSV",
     "estimateLink": "Оценка без CSV",

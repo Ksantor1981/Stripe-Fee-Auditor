@@ -50,7 +50,15 @@
       "medium": "मध्यम",
       "low": "निम्न",
       "normal": "सामान्य",
-      "watch": "निगरानी"
+      "watch": "निगरानी",
+      "percentagePointsShort": " प्रतिशत अंक",
+      "periodThisMonth": "इस महीने।",
+      "periodThisQuarter": "इस तिमाही।",
+      "periodThisYear": "इस वर्ष।",
+      "periodLastMonths": "पिछले {count} महीनों में।",
+      "charge": "भुगतान",
+      "reference": "संदर्भ",
+      "workspaceAria": "रिपोर्ट के भाग"
     },
     "reportShell": {
       "sampleReport": "Sample रिपोर्ट",
@@ -70,7 +78,10 @@
       "monitorActiveEyebrow": "Fee Monitor सक्रिय",
       "monitorActiveTitle": "मासिक ट्रैकिंग इस ईमेल से जुड़ी",
       "monitorActiveDescription": "वर्तमान रिपोर्ट अनलॉक। महीने के अंत में अगला Balance CSV अपलोड कर drift तुलना करें।",
-      "viewMonitorWorkflow": "Monitor workflow →"
+      "viewMonitorWorkflow": "Monitor workflow →",
+      "unlockToolbarCta": "पूरी रिपोर्ट खोलें — $12",
+      "unlockToolbarCtaImpact": "लगभग {amount}/वर्ष का विश्लेषण खोलें — $12",
+      "unlockToolbarDetails": "इसमें क्या शामिल है?"
     },
     "singleMonthReport": {
       "eyebrow": "एक-महीने का विश्लेषण",
@@ -386,7 +397,10 @@
       "atThisPace": "At this pace",
       "directRefundFees": "Includes {amount} direct refund-row fees in CSV.",
       "noRefundLeakage": "No refund leakage",
-      "noRefundBody": "No refund rows. Export longer period if refunds outside range."
+      "noRefundBody": "No refund rows. Export longer period if refunds outside range.",
+      "benchmarkSummaryNormal": "आपकी {rate} मिश्रित दर इस लेन-देन मिश्रण की अनुमानित सीमा के भीतर है।",
+      "benchmarkSummaryWatch": "आपकी {rate} मिश्रित दर अनुमानित सीमा से थोड़ी ऊपर है।",
+      "benchmarkSummaryHigh": "आपकी {rate} मिश्रित दर अनुमानित सीमा से काफी ऊपर है।"
     },
     "geographyBreakdown": {
       "eyebrow": "Domestic vs international",
@@ -471,6 +485,93 @@
       "legendAboveBaseline": "Above baseline (+0.5pp)",
       "legendYourBaseline": "Your baseline",
       "smallTicketInsight": "💡 Small (<$20) rate {rate} — fixed $0.30 large. Consider bundling."
+    },
+    "feeGrade": {
+      "title": "Stripe शुल्क ग्रेड · {label}",
+      "labelA": "कुशल",
+      "labelB": "स्वस्थ",
+      "labelC": "जाँचें",
+      "labelD": "रिसाव",
+      "labelF": "गंभीर",
+      "summaryLowHealthy": "छोटे नमूने पर दिशात्मक ग्रेड — पुष्टि के लिए अधिक महीनों का डेटा अपलोड करें।",
+      "summaryLowElevated": "यह केवल शुरुआती संकेत है: इस छोटे निर्यात में शुल्क कारक अधिक दिख रहे हैं।",
+      "summaryA": "आपके लेन-देन मिश्रण के लिए Stripe शुल्क संरचना कुशल दिखती है।",
+      "summaryB": "कुल मिलाकर स्वस्थ, लेकिन कुछ शुल्क कारकों पर नज़र रखें।",
+      "summaryC": "ध्यान देने योग्य शुल्क रिसाव — अंतरराष्ट्रीय कार्ड और अतिरिक्त शुल्क जाँचें।",
+      "summaryD": "काफी शुल्क रिसाव — कई कारक आपकी कुल लागत बढ़ा रहे हैं।",
+      "summaryF": "बहुत अधिक शुल्क रिसाव — आपकी कुल Stripe लागत सामान्य मिश्रण से काफी ऊपर है।",
+      "topDriver": "मुख्य कारक: {driver}"
+    },
+    "diagnosisKinds": {
+      "internationalCardUplift": {
+        "title": "अंतरराष्ट्रीय कार्ड आपकी दर बढ़ा रहे हैं",
+        "body": "{count, plural, one {# अंतरराष्ट्रीय दिखने वाला भुगतान} other {# अंतरराष्ट्रीय दिखने वाले भुगतान}} आपके घरेलू मिश्रण से ऊपर रहे। इस निर्यात में अनुमानित अंतरराष्ट्रीय कार्ड बढ़ोतरी लगभग {amount} है।",
+        "disclaimer": "अनुमान दिखने वाले अंतरराष्ट्रीय भुगतानों की तुलना आपके घरेलू मिश्रण से करता है।"
+      },
+      "refundFeeLeakage": {
+        "title": "रिफंड के बाद प्रोसेसिंग शुल्क बचा रहा",
+        "body": "{count, plural, one {# रिफंड ने} other {# रिफंड ने}} इस निर्यात में लगभग {amount} प्रोसेसिंग शुल्क रोका।",
+        "disclaimer": "Stripe आमतौर पर रिफंड के बाद मूल प्रोसेसिंग शुल्क वापस नहीं करता।"
+      },
+      "smallTicketDrag": {
+        "title": "छोटे भुगतान निश्चित शुल्क बढ़ा रहे हैं",
+        "body": "{count, plural, one {$20 से कम # भुगतान ने} other {$20 से कम # भुगतानों ने}} औसतन {rate} चुकाया। इस निर्यात में निश्चित शुल्क लगभग {amount} है।",
+        "disclaimer": "यह कार्ड शुल्क का निश्चित हिस्सा है; इसका अर्थ यह नहीं कि पूरा शुल्क टाला जा सकता है।"
+      },
+      "otherFeeLines": {
+        "title": "प्रोसेसिंग से अलग Stripe शुल्क मिले",
+        "body": "इस निर्यात में कार्ड प्रोसेसिंग से अलग {amount} गैर-भुगतान Stripe शुल्क है।"
+      },
+      "aboveBenchmarkRate": {
+        "title": "आपकी प्रोसेसिंग दर इस मिश्रण के मानक से ऊपर है",
+        "body": "आपकी {chargeRate} प्रोसेसिंग दर {expectedRate} के अनुमानित मानक से {rateGap} प्रतिशत अंक ऊपर है — इस निर्यात में लगभग {amount}।",
+        "disclaimer": "यह दिशात्मक मानक है, पूरी अंतर राशि बचाई जा सकती है इसका प्रमाण नहीं।"
+      },
+      "unusualCharge": {
+        "title": "एक भुगतान की जाँच जरूरी है",
+        "body": "हमें {amount} Stripe शुल्क वाला असामान्य रूप से महँगा भुगतान मिला। पूरी रिपोर्ट कारण और प्रभावित पंक्तियाँ दिखाती है।"
+      }
+    },
+    "savingsKinds": {
+      "internationalCardFees": {
+        "tip": "अंतरराष्ट्रीय कार्ड घरेलू मूल्य के ऊपर लगभग {crossBorderPercent}% जोड़ सकते हैं। समर्थित बाज़ारों में स्थानीय भुगतान विधियाँ इसे घटा सकती हैं।",
+        "step1": "SEPA Direct Debit (EU) या iDEAL (नीदरलैंड) चालू करें",
+        "step2": "EU/UK ग्राहकों को स्थानीय भुगतान विधियाँ दें"
+      },
+      "smallTransactions": {
+        "tip": "{currency} 20 से कम {count} भुगतान (औसत {currency} {avgAmount})। भुगतान जोड़ने या मासिक बिलिंग से बार-बार लगने वाला निश्चित शुल्क घटता है।",
+        "step1": "जहाँ उपयुक्त हो, न्यूनतम भुगतान राशि तय करें",
+        "step2": "$10 से कम सदस्यताओं को एक मासिक चालान में जोड़ें"
+      },
+      "achLargeInvoices": {
+        "tip": "$500 से अधिक के {count} भुगतान कार्ड पर हैं। ACH लगभग 0.8% (अधिकतम $5) है। वार्षिक आँकड़ा सीमित बदलाव मानता है, पूरा स्थानांतरण नहीं।",
+        "periodLossNote": "यदि इस अवधि की सभी योग्य चालान कार्ड से ACH पर जाएँ",
+        "annualSavingsNote": "यदि लगभग {share}% योग्य बड़े चालान बदलें",
+        "step1": "Payment methods में ACH Direct Debit चालू करें",
+        "step2": "$500 से अधिक चालान पर बैंक ट्रांसफर दें"
+      }
+    },
+    "paywallImpactLabels": {
+      "rateGap": "{benchmark}% के दिशात्मक मानक से ऊपर",
+      "feeRunrate": "इस दर पर Stripe शुल्क"
+    },
+    "clientManager": {
+      "eyebrow": "क्लाइंट कार्यक्षेत्र",
+      "title": "हर क्लाइंट की रिपोर्ट अलग रखें",
+      "body": "इस अपलोड को क्लाइंट प्रोफ़ाइल से जोड़ें ताकि Fee Monitor इतिहास अलग रहे।",
+      "activeClient": "सक्रिय क्लाइंट",
+      "noClient": "कोई क्लाइंट नहीं (व्यक्तिगत खाता)",
+      "newClientPlaceholder": "नए क्लाइंट का नाम",
+      "add": "जोड़ें",
+      "updateFailed": "क्लाइंट प्रोफ़ाइल अपडेट नहीं हो सकी।",
+      "linked": "क्लाइंट प्रोफ़ाइल जुड़ गई।",
+      "cleared": "क्लाइंट प्रोफ़ाइल हट गई।",
+      "createFailed": "क्लाइंट प्रोफ़ाइल नहीं बन सकी।"
+    },
+    "embed": {
+      "allInRate": "इस निर्यात की कुल लागत दर",
+      "disclaimer": "यह केवल सारांश है, वित्तीय सलाह नहीं। वेबसाइट पर पूरा निर्यात देखें।",
+      "cta": "अपना शुल्क ऑडिट करें →"
     }
   },
   "feeLabels": {
@@ -508,6 +609,15 @@
     "driverSmallCharges": "छोटे charges जहाँ fixed {currency} {amount} matter",
     "driverRefundsRetained": "retained processing fees वाले refunds",
     "driverPremiumCards": "premium cards, disputes, Radar/add-ons",
-    "driverDomesticMix": "domestic card mix और fixed per-transaction fees"
+    "driverDomesticMix": "domestic card mix और fixed per-transaction fees",
+    "gradeIssueRateFarAbove": "कुल दर अपेक्षित मिश्रण से बहुत ऊपर है",
+    "gradeIssueRateMateriallyAbove": "कुल दर अपेक्षित मिश्रण से काफी ऊपर है",
+    "gradeIssueRateSlightlyAbove": "कुल दर अपेक्षित मिश्रण से थोड़ी ऊपर है",
+    "gradeIssueNonChargeLargeShare": "गैर-भुगतान Stripe शुल्क कुल शुल्क का बड़ा हिस्सा हैं",
+    "gradeIssueAddOnFees": "अतिरिक्त शुल्क कुल लागत बढ़ा रहे हैं",
+    "gradeIssueInternationalShare": "अंतरराष्ट्रीय कार्ड वॉल्यूम का बड़ा हिस्सा हैं",
+    "gradeIssueRefundVolume": "रिफंड से रोकी गई प्रोसेसिंग फीस बढ़ रही है",
+    "gradeIssueHighFeeCharges": "कई लेन-देन आपकी आधार दर से अधिक शुल्क वाले हैं",
+    "gradeIssueMultipleLeaks": "कई गंभीर शुल्क रिसाव कारक"
   }
 }

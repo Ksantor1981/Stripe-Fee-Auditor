@@ -61,6 +61,8 @@
     "trySampleReportCta": "Sample-отчёт",
     "developerNotePrefix": "Разработчикам: исходники на",
     "githubLinkLabel": "GitHub",
-    "developerNoteSuffix": ". Обычным пользователям — установка из Web Store, не Load unpacked."
+    "developerNoteSuffix": ". Обычным пользователям — установка из Web Store, не Load unpacked.",
+    "cardTitle": "Stripe Fee Auditor · Chrome",
+    "cardSubtitle": "CSV-помощник · без OAuth и API-ключей"
   }
 }

@@ -68,10 +68,22 @@
         "blurb": "Motif d'export réel : US + un peu d'international — proche de ce que voient beaucoup de fondateurs.",
         "imageAlt": "UI Fee Auditor : taux effectif, drivers, lignes high-fee — mix SaaS typique ~4 % all-in",
         "stats": {
-          "volume4mo": { "label": "Volume (4 mois)", "value": "$89,490" },
-          "processingRate": { "label": "Taux de traitement", "value": "3.82 %" },
-          "allInCost": { "label": "Coût all-in", "value": "4.02 %" },
-          "directionalOpportunity": { "label": "Potentiel indicatif", "value": "~1 400 $/an" }
+          "volume4mo": {
+            "label": "Volume (4 mois)",
+            "value": "$89,490"
+          },
+          "processingRate": {
+            "label": "Taux de traitement",
+            "value": "3.82 %"
+          },
+          "allInCost": {
+            "label": "Coût all-in",
+            "value": "4.02 %"
+          },
+          "directionalOpportunity": {
+            "label": "Potentiel indicatif",
+            "value": "~1 400 $/an"
+          }
         }
       },
       "intl": {
@@ -79,10 +91,22 @@
         "blurb": "Mix cross-border lourd — uplift intl et traînée remboursements bien visibles (cas limite).",
         "imageAlt": "UI Fee Auditor avec all-in élevé par mix international et fuite de frais remboursements",
         "stats": {
-          "stripeFeesQuarter": { "label": "Frais Stripe (trimestre)", "value": "$498.76" },
-          "processingRate": { "label": "Taux de traitement", "value": "6.33 %" },
-          "allInCost": { "label": "Coût all-in", "value": "6.67 %" },
-          "extraVsHeadline": { "label": "Extra vs headline 2,9 %", "value": "~270 $/trim." }
+          "stripeFeesQuarter": {
+            "label": "Frais Stripe (trimestre)",
+            "value": "$498.76"
+          },
+          "processingRate": {
+            "label": "Taux de traitement",
+            "value": "6.33 %"
+          },
+          "allInCost": {
+            "label": "Coût all-in",
+            "value": "6.67 %"
+          },
+          "extraVsHeadline": {
+            "label": "Extra vs headline 2,9 %",
+            "value": "~270 $/trim."
+          }
         }
       },
       "micro": {
@@ -90,10 +114,22 @@
         "blurb": "Abos petit ticket — le fixe 0,30 $ domine ; le taux effectif grimpe sur petits paiements.",
         "imageAlt": "UI Fee Auditor : petits charges où les frais fixes poussent le taux au-dessus de 8 %",
         "stats": {
-          "avgChargeSize": { "label": "Taille moyenne", "value": "~12 $" },
-          "processingRate": { "label": "Taux de traitement", "value": "8.4 %" },
-          "allInCost": { "label": "Coût all-in", "value": "8.9 %" },
-          "highFeeRows": { "label": "Lignes high-fee", "value": "847" }
+          "avgChargeSize": {
+            "label": "Taille moyenne",
+            "value": "~12 $"
+          },
+          "processingRate": {
+            "label": "Taux de traitement",
+            "value": "8.4 %"
+          },
+          "allInCost": {
+            "label": "Coût all-in",
+            "value": "8.9 %"
+          },
+          "highFeeRows": {
+            "label": "Lignes high-fee",
+            "value": "847"
+          }
         }
       }
     }
@@ -138,7 +174,8 @@
     "accountCountryLabel": "Pays du compte Stripe",
     "accountCountryHint": "Pour classer cartes domestiques vs internationales et le benchmark tarifaire.",
     "accountCountryFallback": "Région absente ? Choisissez la plus proche — le CSV prime ; ceci fixe seulement le benchmark.",
-    "accountCountryUsdNote": "Rapports actuels : règlement USD uniquement. Tarifs custom et FX = estimations."
+    "accountCountryUsdNote": "Rapports actuels : règlement USD uniquement. Tarifs custom et FX = estimations.",
+    "accountCountryCurrencyNote": "Importez une seule devise de règlement par fichier ; elle doit correspondre au pays du compte Stripe sélectionné (USD, GBP, EUR, CAD ou AUD). Les tarifs personnalisés et la conversion restent des estimations."
   },
   "pricing": {
     "title": "Tarifs",

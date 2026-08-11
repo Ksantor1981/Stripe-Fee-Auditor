@@ -25,6 +25,8 @@
     "webAppCta": "Audit my Stripe fees — free",
     "finalCtaTitle": "Install the helper · audit on your terms",
     "finalCtaBody": "Free extension. Fee analysis stays on feeauditor.com when you choose to upload.",
-    "githubNote": "Extension source is public on GitHub for review."
+    "githubNote": "Extension source is public on GitHub for review.",
+    "cardTitle": "Stripe Fee Auditor · Chrome",
+    "cardSubtitle": "CSV helper · no OAuth · no API keys"
   }
 }

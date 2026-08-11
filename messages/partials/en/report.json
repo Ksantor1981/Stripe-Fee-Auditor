@@ -50,7 +50,15 @@
       "medium": "medium",
       "low": "low",
       "normal": "normal",
-      "watch": "watch"
+      "watch": "watch",
+      "percentagePointsShort": " pp",
+      "periodThisMonth": "this month.",
+      "periodThisQuarter": "this quarter.",
+      "periodThisYear": "this year.",
+      "periodLastMonths": "over the last {count} months.",
+      "charge": "charge",
+      "reference": "Ref",
+      "workspaceAria": "Report sections"
     },
     "reportShell": {
       "sampleReport": "Sample report",
@@ -442,7 +450,10 @@
       "atThisPace": "At this pace",
       "directRefundFees": "Includes {amount} of direct refund-row fees found in the CSV.",
       "noRefundLeakage": "No refund leakage found",
-      "noRefundBody": "No refund rows were detected in this export. If refunds happen outside this date range, export a longer period to measure their fee impact."
+      "noRefundBody": "No refund rows were detected in this export. If refunds happen outside this date range, export a longer period to measure their fee impact.",
+      "benchmarkSummaryNormal": "Your {rate} blended rate is inside the rough range expected for this transaction mix.",
+      "benchmarkSummaryWatch": "Your {rate} blended rate is slightly above the rough expected range for this mix.",
+      "benchmarkSummaryHigh": "Your {rate} blended rate is materially above the rough expected range for this mix."
     },
     "geographyBreakdown": {
       "eyebrow": "Domestic vs international",
@@ -527,6 +538,40 @@
       "legendAboveBaseline": "Above baseline (+0.5pp)",
       "legendYourBaseline": "Your baseline",
       "smallTicketInsight": "💡 Your small transactions (<$20) have a {rate} effective rate — the fixed $0.30 fee is disproportionately large. Consider bundling or minimum charge limits."
+    },
+    "feeGrade": {
+      "title": "Stripe fee grade · {label}",
+      "labelA": "Efficient",
+      "labelB": "Healthy",
+      "labelC": "Review",
+      "labelD": "Leaking",
+      "labelF": "Critical",
+      "summaryLowHealthy": "Directional grade from a small sample — upload more months to confirm.",
+      "summaryLowElevated": "Early signal only: fee drivers look elevated for this small export.",
+      "summaryA": "Stripe fee setup looks efficient for your transaction mix.",
+      "summaryB": "Mostly healthy, with a few fee drivers worth watching.",
+      "summaryC": "Noticeable fee leakage — review international cards and add-on fee lines.",
+      "summaryD": "Material fee leakage — several drivers are pushing your all-in cost up.",
+      "summaryF": "High fee leakage — your all-in Stripe cost is well above a typical mix.",
+      "topDriver": "Top driver: {driver}"
+    },
+    "clientManager": {
+      "eyebrow": "Client workspace",
+      "title": "Track reports per client",
+      "body": "Link this upload to a client profile so Fee Monitor history stays separated for fractional CFO workflows.",
+      "activeClient": "Active client",
+      "noClient": "No client (personal account)",
+      "newClientPlaceholder": "New client name",
+      "add": "Add",
+      "updateFailed": "Could not update client profile.",
+      "linked": "Client profile linked.",
+      "cleared": "Client profile cleared.",
+      "createFailed": "Could not create client profile."
+    },
+    "embed": {
+      "allInRate": "All-in cost rate (this export)",
+      "disclaimer": "Snapshot only — not financial advice. Compare your full export on the site.",
+      "cta": "Run your own audit →"
     }
   },
   "feeLabels": {
@@ -564,6 +609,15 @@
     "driverSmallCharges": "small charges where the fixed {currency} {amount} fee matters",
     "driverRefundsRetained": "refunds with retained processing fees",
     "driverPremiumCards": "premium cards, disputes, Radar/add-on fees, or plan-specific pricing",
-    "driverDomesticMix": "domestic card mix and fixed per-transaction fees"
+    "driverDomesticMix": "domestic card mix and fixed per-transaction fees",
+    "gradeIssueRateFarAbove": "all-in rate is far above the expected mix",
+    "gradeIssueRateMateriallyAbove": "all-in rate is materially above the expected mix",
+    "gradeIssueRateSlightlyAbove": "all-in rate is slightly above the expected mix",
+    "gradeIssueNonChargeLargeShare": "non-charge Stripe fee lines are a large share of total fees",
+    "gradeIssueAddOnFees": "add-on or non-charge fee lines are adding to all-in cost",
+    "gradeIssueInternationalShare": "international cards are a large share of volume",
+    "gradeIssueRefundVolume": "refund volume is increasing retained processing fees",
+    "gradeIssueHighFeeCharges": "many high-fee charges vs your baseline",
+    "gradeIssueMultipleLeaks": "multiple high-severity fee leak drivers"
   }
 }

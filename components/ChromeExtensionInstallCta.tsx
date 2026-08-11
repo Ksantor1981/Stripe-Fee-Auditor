@@ -50,8 +50,8 @@ export function ChromeExtensionInstallCta({
             CH
           </span>
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-gray-900">Stripe Fee Auditor · Chrome</p>
-            <p className="truncate text-xs text-gray-500">CSV helper · no OAuth · no API keys</p>
+            <p className="text-sm font-semibold text-gray-900">{t("cardTitle")}</p>
+            <p className="truncate text-xs text-gray-500">{t("cardSubtitle")}</p>
           </div>
         </div>
         <a

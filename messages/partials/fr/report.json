@@ -50,7 +50,15 @@
       "medium": "moyenne",
       "low": "faible",
       "normal": "normal",
-      "watch": "à surveiller"
+      "watch": "à surveiller",
+      "percentagePointsShort": " pt",
+      "periodThisMonth": "ce mois-ci.",
+      "periodThisQuarter": "ce trimestre.",
+      "periodThisYear": "cette année.",
+      "periodLastMonths": "sur les {count} derniers mois.",
+      "charge": "paiement",
+      "reference": "Réf.",
+      "workspaceAria": "Sections du rapport"
     },
     "reportShell": {
       "sampleReport": "Rapport exemple",
@@ -442,7 +450,10 @@
       "atThisPace": "À ce rythme",
       "directRefundFees": "Inclut {amount} de frais directs sur lignes de remboursement du CSV.",
       "noRefundLeakage": "Aucune fuite de remboursement détectée",
-      "noRefundBody": "Aucune ligne de remboursement dans cet export. Si des remboursements ont lieu hors de cette période, exportez une période plus longue pour mesurer leur impact sur les frais."
+      "noRefundBody": "Aucune ligne de remboursement dans cet export. Si des remboursements ont lieu hors de cette période, exportez une période plus longue pour mesurer leur impact sur les frais.",
+      "benchmarkSummaryNormal": "Votre taux moyen de {rate} se situe dans la fourchette indicative attendue pour cette répartition.",
+      "benchmarkSummaryWatch": "Votre taux moyen de {rate} dépasse légèrement la fourchette indicative attendue.",
+      "benchmarkSummaryHigh": "Votre taux moyen de {rate} dépasse nettement la fourchette indicative attendue."
     },
     "geographyBreakdown": {
       "eyebrow": "Domestique vs international",
@@ -527,6 +538,40 @@
       "legendAboveBaseline": "Au-dessus de la référence (+0,5 pp)",
       "legendYourBaseline": "Votre référence",
       "smallTicketInsight": "💡 Vos petites transactions (<20 $) ont un taux effectif de {rate} — le frais fixe de 0,30 $ est disproportionné. Envisagez le regroupement ou un montant minimum."
+    },
+    "feeGrade": {
+      "title": "Note des frais Stripe · {label}",
+      "labelA": "Efficace",
+      "labelB": "Sain",
+      "labelC": "À vérifier",
+      "labelD": "Fuites",
+      "labelF": "Critique",
+      "summaryLowHealthy": "Note indicative sur un petit échantillon — importez davantage de mois pour confirmer.",
+      "summaryLowElevated": "Signal préliminaire uniquement : les facteurs de frais semblent élevés pour ce petit export.",
+      "summaryA": "La structure de vos frais Stripe semble efficace pour cette répartition de transactions.",
+      "summaryB": "Ensemble plutôt sain, avec quelques facteurs à surveiller.",
+      "summaryC": "Fuite de frais notable — vérifiez les cartes internationales et les frais additionnels.",
+      "summaryD": "Fuite de frais importante — plusieurs facteurs augmentent votre coût total.",
+      "summaryF": "Fuite de frais élevée — votre coût Stripe total dépasse nettement une répartition habituelle.",
+      "topDriver": "Facteur principal : {driver}"
+    },
+    "clientManager": {
+      "eyebrow": "Espace clients",
+      "title": "Suivre les rapports par client",
+      "body": "Associez cet import à un profil client afin de séparer les historiques Fee Monitor.",
+      "activeClient": "Client actif",
+      "noClient": "Aucun client (compte personnel)",
+      "newClientPlaceholder": "Nom du nouveau client",
+      "add": "Ajouter",
+      "updateFailed": "Impossible de mettre à jour le profil client.",
+      "linked": "Profil client associé.",
+      "cleared": "Profil client dissocié.",
+      "createFailed": "Impossible de créer le profil client."
+    },
+    "embed": {
+      "allInRate": "Taux de coût total de cet export",
+      "disclaimer": "Aperçu uniquement, pas un conseil financier. Comparez votre export complet sur le site.",
+      "cta": "Analyser mes frais →"
     }
   },
   "feeLabels": {
@@ -564,6 +609,15 @@
     "driverSmallCharges": "petits paiements où le fixe de {currency} {amount} compte",
     "driverRefundsRetained": "remboursements avec frais de traitement retenus",
     "driverPremiumCards": "cartes premium, litiges, Radar/add-ons ou tarifs spécifiques au plan",
-    "driverDomesticMix": "mix de cartes domestiques et frais fixes par transaction"
+    "driverDomesticMix": "mix de cartes domestiques et frais fixes par transaction",
+    "gradeIssueRateFarAbove": "le taux total dépasse largement la répartition attendue",
+    "gradeIssueRateMateriallyAbove": "le taux total dépasse nettement la répartition attendue",
+    "gradeIssueRateSlightlyAbove": "le taux total dépasse légèrement la répartition attendue",
+    "gradeIssueNonChargeLargeShare": "les frais hors paiements représentent une grande part du total",
+    "gradeIssueAddOnFees": "les frais additionnels augmentent le coût total",
+    "gradeIssueInternationalShare": "les cartes internationales représentent une grande part du volume",
+    "gradeIssueRefundVolume": "les remboursements augmentent les frais de traitement conservés",
+    "gradeIssueHighFeeCharges": "de nombreuses transactions dépassent votre référence",
+    "gradeIssueMultipleLeaks": "plusieurs facteurs importants de fuite de frais"
   }
 }

@@ -137,8 +137,8 @@ export function ReportDashboardCharts({ result }: Props) {
     .slice(0, 6)
     .map((row, i) => ({
       id: row.id,
-      label: truncate(transactionPrimaryLabel(row), 28),
-      fullLabel: transactionPrimaryLabel(row),
+      label: truncate(transactionPrimaryLabel(row, tc("charge")), 28),
+      fullLabel: transactionPrimaryLabel(row, tc("charge")),
       fee: Number(row.fee.toFixed(2)),
       rate: Number(((row.fee / row.amount) * 100).toFixed(2)),
       rank: i + 1,
@@ -192,7 +192,7 @@ export function ReportDashboardCharts({ result }: Props) {
       t("reportDashboardCharts.insightPeakRate", {
         month: peakRate.name,
         rate: fmtPct(peakRate.rate),
-        delta: `${peakRate.rate - chargeRate >= 0 ? "+" : ""}${(peakRate.rate - chargeRate).toFixed(2)}pp`,
+        delta: `${peakRate.rate - chargeRate >= 0 ? "+" : ""}${(peakRate.rate - chargeRate).toFixed(2)}${tc("percentagePointsShort")}`,
       })
     );
   } else if (peakFees) {

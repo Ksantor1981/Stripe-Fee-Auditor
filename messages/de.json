@@ -68,10 +68,22 @@
         "blurb": "Reales Export-Muster: US + etwas International — nah an dem, was viele Gründer sehen.",
         "imageAlt": "Fee Auditor UI: Effektivrate, Gebührentreiber, High-fee-Zeilen — typischer SaaS-Mix ~4% all-in",
         "stats": {
-          "volume4mo": { "label": "Volumen (4 Mon.)", "value": "$89,490" },
-          "processingRate": { "label": "Verarbeitungsrate", "value": "3.82%" },
-          "allInCost": { "label": "All-in-Kosten", "value": "4.02%" },
-          "directionalOpportunity": { "label": "Richtwert-Potenzial", "value": "~$1.400/Jahr" }
+          "volume4mo": {
+            "label": "Volumen (4 Mon.)",
+            "value": "$89,490"
+          },
+          "processingRate": {
+            "label": "Verarbeitungsrate",
+            "value": "3.82%"
+          },
+          "allInCost": {
+            "label": "All-in-Kosten",
+            "value": "4.02%"
+          },
+          "directionalOpportunity": {
+            "label": "Richtwert-Potenzial",
+            "value": "~$1.400/Jahr"
+          }
         }
       },
       "intl": {
@@ -79,10 +91,22 @@
         "blurb": "Starker Cross-border-Mix — Intl-Uplift und Refund-Drag deutlich sichtbar (Randfall).",
         "imageAlt": "Fee Auditor UI mit erhöhter All-in-Rate durch internationalen Mix und Refund-Gebühren",
         "stats": {
-          "stripeFeesQuarter": { "label": "Stripe-Gebühren (Quartal)", "value": "$498.76" },
-          "processingRate": { "label": "Verarbeitungsrate", "value": "6.33%" },
-          "allInCost": { "label": "All-in-Kosten", "value": "6.67%" },
-          "extraVsHeadline": { "label": "Extra vs. 2,9%-Headline", "value": "~$270/Q" }
+          "stripeFeesQuarter": {
+            "label": "Stripe-Gebühren (Quartal)",
+            "value": "$498.76"
+          },
+          "processingRate": {
+            "label": "Verarbeitungsrate",
+            "value": "6.33%"
+          },
+          "allInCost": {
+            "label": "All-in-Kosten",
+            "value": "6.67%"
+          },
+          "extraVsHeadline": {
+            "label": "Extra vs. 2,9%-Headline",
+            "value": "~$270/Q"
+          }
         }
       },
       "micro": {
@@ -90,10 +114,22 @@
         "blurb": "Kleine Abos — Fix $0,30 dominiert; Effektivrate steigt bei kleinen Charges.",
         "imageAlt": "Fee Auditor UI: Kleinstcharges, bei denen Fixgebühren die Rate über 8% treiben",
         "stats": {
-          "avgChargeSize": { "label": "Ø Charge-Größe", "value": "~$12" },
-          "processingRate": { "label": "Verarbeitungsrate", "value": "8.4%" },
-          "allInCost": { "label": "All-in-Kosten", "value": "8.9%" },
-          "highFeeRows": { "label": "High-fee-Zeilen", "value": "847" }
+          "avgChargeSize": {
+            "label": "Ø Charge-Größe",
+            "value": "~$12"
+          },
+          "processingRate": {
+            "label": "Verarbeitungsrate",
+            "value": "8.4%"
+          },
+          "allInCost": {
+            "label": "All-in-Kosten",
+            "value": "8.9%"
+          },
+          "highFeeRows": {
+            "label": "High-fee-Zeilen",
+            "value": "847"
+          }
         }
       }
     }
@@ -138,7 +174,8 @@
     "accountCountryLabel": "Stripe-Kontoland",
     "accountCountryHint": "Für Inlands- vs. Auslandskarten und den Richtpreis-Benchmark.",
     "accountCountryFallback": "Region nicht dabei? Nächstes Match wählen — die CSV zählt; dies setzt nur den Benchmark.",
-    "accountCountryUsdNote": "Aktuell nur USD-Abrechnung. Individuelle Preise und FX sind Schätzungen."
+    "accountCountryUsdNote": "Aktuell nur USD-Abrechnung. Individuelle Preise und FX sind Schätzungen.",
+    "accountCountryCurrencyNote": "Laden Sie pro Datei nur eine Auszahlungswährung hoch. Sie muss zum gewählten Stripe-Kontoland passen (USD, GBP, EUR, CAD oder AUD). Individuelle Tarife und Währungsumrechnung bleiben Schätzwerte."
   },
   "pricing": {
     "title": "Preise",

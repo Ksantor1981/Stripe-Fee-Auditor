@@ -61,6 +61,8 @@
     "trySampleReportCta": "Beispielbericht testen",
     "developerNotePrefix": "Entwickler: Quellcode auf",
     "githubLinkLabel": "GitHub",
-    "developerNoteSuffix": ". Normale Nutzer sollten aus dem Web Store installieren, nicht Load unpacked."
+    "developerNoteSuffix": ". Normale Nutzer sollten aus dem Web Store installieren, nicht Load unpacked.",
+    "cardTitle": "Stripe Fee Auditor · Chrome",
+    "cardSubtitle": "CSV-Helfer · ohne OAuth und API-Schlüssel"
   }
 }

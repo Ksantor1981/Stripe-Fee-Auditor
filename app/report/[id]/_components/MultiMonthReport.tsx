@@ -110,7 +110,7 @@ export function MultiMonthReport({
   const benchmarkRate = result.benchmark?.expectedRate ?? (result.pricingProfile?.domesticPercent ?? 0.029) * 100;
   const rateGap = chargeRate - benchmarkRate;
   const rateGapText = tc("rateGapVsBenchmark", {
-    gap: `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp`,
+    gap: `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}${tc("percentagePointsShort")}`,
     benchmark: benchmarkRate.toFixed(2),
   });
   const diagnosis =
@@ -265,7 +265,7 @@ export function MultiMonthReport({
       <ReportWorkspacePanel value="drivers">
         {isPaid ? (
           <>
-            <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
+            <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} chargeRate={result.chargeRate} />
             <FeeLeakBreakdown items={result.feeLeakBreakdown} />
             {savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
             {result.transactionBuckets && result.transactionBuckets.length > 0 && (

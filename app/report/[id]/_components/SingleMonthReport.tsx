@@ -76,7 +76,7 @@ export function SingleMonthReport({
   const benchmarkRate = result.benchmark?.expectedRate ?? (result.pricingProfile?.domesticPercent ?? 0.029) * 100;
   const rateGap = chargeRate - benchmarkRate;
   const rateGapText = tc("rateGapVsBenchmark", {
-    gap: `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}pp`,
+    gap: `${rateGap >= 0 ? "+" : ""}${rateGap.toFixed(2)}${tc("percentagePointsShort")}`,
     benchmark: benchmarkRate.toFixed(2),
   });
   const diagnosis =
@@ -169,7 +169,7 @@ export function SingleMonthReport({
       </ReportWorkspacePanel>
 
       <ReportWorkspacePanel value="drivers">
-        <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} />
+        <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} chargeRate={result.chargeRate} />
         {!isPaid && <LockedReportPreview kind="drivers" />}
       </ReportWorkspacePanel>
 
@@ -233,7 +233,7 @@ export function SingleMonthReport({
                 <div className="flex min-w-0 gap-3">
                   <span className="text-xs font-bold text-gray-300 w-4 pt-0.5">{i + 1}</span>
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-gray-800 truncate">{transactionPrimaryLabel(row)}</p>
+                    <p className="text-sm font-medium text-gray-800 truncate">{transactionPrimaryLabel(row, tc("charge"))}</p>
                     <p className="text-xs text-gray-400 truncate">{transactionSecondaryLine(row)}</p>
                     {canMarkExpectedOutliers && onToggleExpectedOutlier && (
                       <div className="mt-3">

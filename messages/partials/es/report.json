@@ -50,7 +50,15 @@
       "medium": "media",
       "low": "baja",
       "normal": "normal",
-      "watch": "revisar"
+      "watch": "revisar",
+      "percentagePointsShort": " pp",
+      "periodThisMonth": "este mes.",
+      "periodThisQuarter": "este trimestre.",
+      "periodThisYear": "este año.",
+      "periodLastMonths": "durante los últimos {count} meses.",
+      "charge": "cargo",
+      "reference": "Ref.",
+      "workspaceAria": "Secciones del informe"
     },
     "reportShell": {
       "sampleReport": "Informe de ejemplo",
@@ -70,7 +78,10 @@
       "monitorActiveEyebrow": "Fee Monitor activo",
       "monitorActiveTitle": "El seguimiento mensual está vinculado a este correo",
       "monitorActiveDescription": "Tu informe actual está desbloqueado. Sube el próximo CSV de Balance de Stripe al cerrar el mes para comparar la deriva de tasas e impulsores de comisiones.",
-      "viewMonitorWorkflow": "Ver flujo de Monitor →"
+      "viewMonitorWorkflow": "Ver flujo de Monitor →",
+      "unlockToolbarCta": "Desbloquear informe completo — $12",
+      "unlockToolbarCtaImpact": "Desbloquear ~{amount}/año — $12",
+      "unlockToolbarDetails": "¿Qué incluye?"
     },
     "singleMonthReport": {
       "eyebrow": "Análisis de un mes",
@@ -386,7 +397,10 @@
       "atThisPace": "A este ritmo",
       "directRefundFees": "Incluye {amount} de comisiones directas en filas de reembolso del CSV.",
       "noRefundLeakage": "No se detectó fuga por reembolsos",
-      "noRefundBody": "No se detectaron filas de reembolso en esta exportación. Si los reembolsos ocurren fuera de este rango de fechas, exporta un periodo más largo para medir su impacto en comisiones."
+      "noRefundBody": "No se detectaron filas de reembolso en esta exportación. Si los reembolsos ocurren fuera de este rango de fechas, exporta un periodo más largo para medir su impacto en comisiones.",
+      "benchmarkSummaryNormal": "Tu tasa combinada del {rate} está dentro del rango orientativo esperado para esta mezcla.",
+      "benchmarkSummaryWatch": "Tu tasa combinada del {rate} está ligeramente por encima del rango orientativo esperado.",
+      "benchmarkSummaryHigh": "Tu tasa combinada del {rate} está claramente por encima del rango orientativo esperado."
     },
     "geographyBreakdown": {
       "eyebrow": "Nacional vs internacional",
@@ -471,6 +485,93 @@
       "legendAboveBaseline": "Por encima de la referencia (+0,5 pp)",
       "legendYourBaseline": "Tu referencia",
       "smallTicketInsight": "💡 Tus transacciones pequeñas (<20 $) tienen una tasa efectiva de {rate} — la comisión fija de 0,30 $ pesa desproporcionadamente. Considera agrupar o establecer un cargo mínimo."
+    },
+    "feeGrade": {
+      "title": "Calificación de comisiones Stripe · {label}",
+      "labelA": "Eficiente",
+      "labelB": "Saludable",
+      "labelC": "Revisar",
+      "labelD": "Con fugas",
+      "labelF": "Crítico",
+      "summaryLowHealthy": "Calificación orientativa con una muestra pequeña: sube más meses para confirmarla.",
+      "summaryLowElevated": "Solo es una señal inicial: los factores de coste parecen altos en esta pequeña exportación.",
+      "summaryA": "La estructura de comisiones Stripe parece eficiente para tu mezcla de transacciones.",
+      "summaryB": "En general saludable, con algunos factores que conviene vigilar.",
+      "summaryC": "Hay una fuga de comisiones apreciable: revisa tarjetas internacionales y cargos adicionales.",
+      "summaryD": "Hay una fuga de comisiones importante: varios factores elevan el coste total.",
+      "summaryF": "La fuga de comisiones es alta: tu coste total de Stripe supera ampliamente una mezcla típica.",
+      "topDriver": "Factor principal: {driver}"
+    },
+    "diagnosisKinds": {
+      "internationalCardUplift": {
+        "title": "Las tarjetas internacionales están elevando tu tasa",
+        "body": "{count, plural, one {# cargo aparentemente internacional quedó} other {# cargos aparentemente internacionales quedaron}} por encima de tu mezcla nacional. La subida orientativa por tarjetas internacionales en esta exportación es de unos {amount}.",
+        "disclaimer": "La estimación compara los cargos aparentemente internacionales visibles con tu mezcla nacional."
+      },
+      "refundFeeLeakage": {
+        "title": "Los reembolsos dejaron comisiones de procesamiento",
+        "body": "{count, plural, one {# reembolso dejó} other {# reembolsos dejaron}} aproximadamente {amount} en comisiones de procesamiento retenidas en esta exportación.",
+        "disclaimer": "Stripe normalmente no devuelve la comisión de procesamiento original después de un reembolso."
+      },
+      "smallTicketDrag": {
+        "title": "Los cargos pequeños amplifican las comisiones fijas",
+        "body": "{count, plural, one {# cargo inferior a $20 pagó} other {# cargos inferiores a $20 pagaron}} una media del {rate}. Las comisiones fijas suman unos {amount} en esta exportación.",
+        "disclaimer": "Es la parte fija de las comisiones de tarjeta, no una afirmación de que pueda evitarse."
+      },
+      "otherFeeLines": {
+        "title": "Aparecieron comisiones Stripe ajenas al procesamiento",
+        "body": "Esta exportación incluye {amount} en comisiones Stripe ajenas a los cargos, separadas de las comisiones de procesamiento."
+      },
+      "aboveBenchmarkRate": {
+        "title": "Tu tasa de procesamiento supera la referencia de esta mezcla",
+        "body": "Tu tasa de procesamiento del {chargeRate} está {rateGap} puntos porcentuales por encima de la referencia orientativa del {expectedRate}: unos {amount} en esta exportación.",
+        "disclaimer": "Es una referencia orientativa, no una prueba de que toda la diferencia sea evitable."
+      },
+      "unusualCharge": {
+        "title": "Conviene revisar un cargo",
+        "body": "Encontramos un cargo inusualmente caro con {amount} en comisiones Stripe. El informe completo explica el patrón y muestra las filas afectadas."
+      }
+    },
+    "savingsKinds": {
+      "internationalCardFees": {
+        "tip": "Las tarjetas internacionales pueden añadir alrededor de un {crossBorderPercent}% al precio nacional. Los métodos de pago locales pueden reducirlo en mercados compatibles.",
+        "step1": "Activa SEPA Direct Debit (UE) o iDEAL (Países Bajos)",
+        "step2": "Ofrece métodos locales a clientes de la UE y Reino Unido"
+      },
+      "smallTransactions": {
+        "tip": "{count} cargos inferiores a {currency} 20 (media: {currency} {avgAmount}). Agrupar cobros o facturar mensualmente reduce comisiones fijas repetidas.",
+        "step1": "Establece un cargo mínimo cuando encaje con tu modelo",
+        "step2": "Agrupa las suscripciones inferiores a $10 en una factura mensual"
+      },
+      "achLargeInvoices": {
+        "tip": "{count} cargos de más de $500 siguen en tarjeta. ACH cuesta cerca del 0,8% (máximo $5), frente al precio de tarjeta. La cifra anual usa una adopción conservadora.",
+        "periodLossNote": "si todas las facturas aptas pasaran de tarjeta a ACH este periodo",
+        "annualSavingsNote": "si cambia aproximadamente el {share}% de las facturas grandes aptas",
+        "step1": "Activa ACH Direct Debit en Métodos de pago",
+        "step2": "Ofrece transferencia bancaria para facturas superiores a $500"
+      }
+    },
+    "paywallImpactLabels": {
+      "rateGap": "por encima de la referencia orientativa del {benchmark}%",
+      "feeRunrate": "comisiones Stripe a esta tasa"
+    },
+    "clientManager": {
+      "eyebrow": "Espacio de clientes",
+      "title": "Organiza informes por cliente",
+      "body": "Vincula esta carga a un perfil para mantener separado el historial de Fee Monitor de cada cliente.",
+      "activeClient": "Cliente activo",
+      "noClient": "Sin cliente (cuenta personal)",
+      "newClientPlaceholder": "Nombre del nuevo cliente",
+      "add": "Añadir",
+      "updateFailed": "No se pudo actualizar el perfil.",
+      "linked": "Perfil de cliente vinculado.",
+      "cleared": "Perfil de cliente eliminado.",
+      "createFailed": "No se pudo crear el perfil."
+    },
+    "embed": {
+      "allInRate": "Tasa de coste total de esta exportación",
+      "disclaimer": "Solo es un resumen, no asesoramiento financiero. Compara la exportación completa en el sitio.",
+      "cta": "Analizar mis comisiones →"
     }
   },
   "feeLabels": {
@@ -508,6 +609,15 @@
     "driverSmallCharges": "cargos pequeños donde importa la comisión fija de {currency} {amount}",
     "driverRefundsRetained": "reembolsos con comisiones de procesamiento retenidas",
     "driverPremiumCards": "tarjetas premium, disputas, Radar/complementos o precios específicos del plan",
-    "driverDomesticMix": "mix de tarjetas nacionales y comisiones fijas por transacción"
+    "driverDomesticMix": "mix de tarjetas nacionales y comisiones fijas por transacción",
+    "gradeIssueRateFarAbove": "la tasa total está muy por encima de la mezcla esperada",
+    "gradeIssueRateMateriallyAbove": "la tasa total está claramente por encima de la mezcla esperada",
+    "gradeIssueRateSlightlyAbove": "la tasa total está ligeramente por encima de la mezcla esperada",
+    "gradeIssueNonChargeLargeShare": "los cargos ajenos a pagos son una gran parte del total",
+    "gradeIssueAddOnFees": "los cargos adicionales elevan el coste total",
+    "gradeIssueInternationalShare": "las tarjetas internacionales representan gran parte del volumen",
+    "gradeIssueRefundVolume": "los reembolsos aumentan las comisiones de procesamiento retenidas",
+    "gradeIssueHighFeeCharges": "muchos cargos superan tu referencia de comisiones",
+    "gradeIssueMultipleLeaks": "varios factores graves de fuga de comisiones"
   }
 }

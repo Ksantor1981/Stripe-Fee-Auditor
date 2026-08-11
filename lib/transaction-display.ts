@@ -2,10 +2,10 @@ import type { NormalizedRow } from "./csv-parser";
 import { fmt$, fmtDate } from "./format";
 
 /** Primary line for lists when description may be redacted in stored reports. */
-export function transactionPrimaryLabel(row: NormalizedRow): string {
+export function transactionPrimaryLabel(row: NormalizedRow, chargeLabel = "charge"): string {
   const d = row.description?.trim();
   if (d) return d;
-  const bits: string[] = [`${fmt$(row.amount)} charge`];
+  const bits: string[] = [`${fmt$(row.amount)} ${chargeLabel}`];
   if (row.reportingCategory?.trim()) bits.push(row.reportingCategory.trim());
   return bits.join(" · ");
 }

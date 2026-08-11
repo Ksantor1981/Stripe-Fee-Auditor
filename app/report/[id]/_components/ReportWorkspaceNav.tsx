@@ -37,7 +37,7 @@ export function ReportWorkspace({ children, transactionCount = 0 }: WorkspacePro
     <WorkspaceContext.Provider value={active}>
       <div ref={workspaceRef} className="scroll-mt-20 space-y-6">
         <nav
-          aria-label="Report sections"
+          aria-label={tc("workspaceAria")}
           className="sticky top-16 z-30 overflow-x-auto rounded-xl border border-gray-200 bg-[#fbfbf8]/95 p-1.5 shadow-sm backdrop-blur"
         >
           <div className="flex min-w-max gap-1 sm:min-w-0">

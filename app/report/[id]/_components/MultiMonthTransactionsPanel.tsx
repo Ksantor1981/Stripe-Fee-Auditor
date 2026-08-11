@@ -59,7 +59,7 @@ export function MultiMonthTransactionsPanel({
             <div className="flex min-w-0 items-center gap-3">
               <span className="w-4 text-xs font-bold text-gray-300">{index + 1}</span>
               <div className="min-w-0">
-                <p className="truncate text-sm font-medium text-gray-800">{transactionPrimaryLabel(row)}</p>
+                <p className="truncate text-sm font-medium text-gray-800">{transactionPrimaryLabel(row, tc("charge"))}</p>
                 <p className="truncate text-xs text-gray-400">{transactionSecondaryLine(row)}</p>
               </div>
             </div>
@@ -95,7 +95,7 @@ export function MultiMonthTransactionsPanel({
                 return (
                   <div key={row.id} className={rowClass}>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium text-gray-800">{transactionPrimaryLabel(row)}</p>
+                      <p className="truncate text-sm font-medium text-gray-800">{transactionPrimaryLabel(row, tc("charge"))}</p>
                       <p className="truncate text-xs text-gray-400">{transactionSecondaryLine(row)}</p>
                       {row.explanation && (
                         <div className="mt-3 space-y-1.5 rounded-lg border border-gray-100 bg-[#f0f1ee]/90 px-3 py-2.5">

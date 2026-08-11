@@ -50,7 +50,15 @@
       "medium": "mittel",
       "low": "niedrig",
       "normal": "normal",
-      "watch": "prüfen"
+      "watch": "prüfen",
+      "percentagePointsShort": " Pp.",
+      "periodThisMonth": "in diesem Monat.",
+      "periodThisQuarter": "in diesem Quartal.",
+      "periodThisYear": "in diesem Jahr.",
+      "periodLastMonths": "in den letzten {count} Monaten.",
+      "charge": "Zahlung",
+      "reference": "Ref.",
+      "workspaceAria": "Berichtsbereiche"
     },
     "reportShell": {
       "sampleReport": "Beispielbericht",
@@ -442,7 +450,10 @@
       "atThisPace": "Bei diesem Tempo",
       "directRefundFees": "Enthält {amount} direkter Erstattungszeilen-Gebühren aus der CSV.",
       "noRefundLeakage": "Kein Erstattungsleck gefunden",
-      "noRefundBody": "Keine Erstattungszeilen in diesem Export. Bei Erstattungen außerhalb des Zeitraums längeren Export für Gebührenimpact nutzen."
+      "noRefundBody": "Keine Erstattungszeilen in diesem Export. Bei Erstattungen außerhalb des Zeitraums längeren Export für Gebührenimpact nutzen.",
+      "benchmarkSummaryNormal": "Ihre Mischrate von {rate} liegt im groben Erwartungsbereich für diesen Transaktionsmix.",
+      "benchmarkSummaryWatch": "Ihre Mischrate von {rate} liegt leicht über dem groben Erwartungsbereich für diesen Mix.",
+      "benchmarkSummaryHigh": "Ihre Mischrate von {rate} liegt deutlich über dem groben Erwartungsbereich für diesen Mix."
     },
     "geographyBreakdown": {
       "eyebrow": "Inland vs. international",
@@ -527,6 +538,40 @@
       "legendAboveBaseline": "Über Referenz (+0,5 pp)",
       "legendYourBaseline": "Ihre Referenz",
       "smallTicketInsight": "💡 Ihre Kleinsttransaktionen (<20 $) haben eine effektive Rate von {rate} — die Fixgebühr von 0,30 $ ist unverhältnismäßig hoch. Bündelung oder Mindestbetrag erwägen."
+    },
+    "feeGrade": {
+      "title": "Stripe-Gebührennote · {label}",
+      "labelA": "Effizient",
+      "labelB": "Solide",
+      "labelC": "Prüfen",
+      "labelD": "Verluste",
+      "labelF": "Kritisch",
+      "summaryLowHealthy": "Vorläufige Note aus einer kleinen Stichprobe — laden Sie mehr Monate zur Bestätigung hoch.",
+      "summaryLowElevated": "Nur ein frühes Signal: Die Kostentreiber wirken für diesen kleinen Export erhöht.",
+      "summaryA": "Ihre Stripe-Gebühren wirken für diesen Transaktionsmix effizient.",
+      "summaryB": "Überwiegend solide, mit einigen Kostentreibern, die Sie beobachten sollten.",
+      "summaryC": "Spürbare Gebührenverluste — prüfen Sie internationale Karten und Zusatzgebühren.",
+      "summaryD": "Deutliche Gebührenverluste — mehrere Faktoren erhöhen Ihre Gesamtkosten.",
+      "summaryF": "Hohe Gebührenverluste — Ihre gesamten Stripe-Kosten liegen deutlich über einem typischen Mix.",
+      "topDriver": "Wichtigster Faktor: {driver}"
+    },
+    "clientManager": {
+      "eyebrow": "Mandantenbereich",
+      "title": "Berichte je Mandant verfolgen",
+      "body": "Verknüpfen Sie diesen Upload mit einem Mandantenprofil, damit der Fee-Monitor-Verlauf getrennt bleibt.",
+      "activeClient": "Aktiver Mandant",
+      "noClient": "Kein Mandant (persönliches Konto)",
+      "newClientPlaceholder": "Name des neuen Mandanten",
+      "add": "Hinzufügen",
+      "updateFailed": "Mandantenprofil konnte nicht aktualisiert werden.",
+      "linked": "Mandantenprofil verknüpft.",
+      "cleared": "Mandantenprofil entfernt.",
+      "createFailed": "Mandantenprofil konnte nicht erstellt werden."
+    },
+    "embed": {
+      "allInRate": "Gesamtkostenrate dieses Exports",
+      "disclaimer": "Nur eine Momentaufnahme, keine Finanzberatung. Vergleichen Sie den vollständigen Export auf der Website.",
+      "cta": "Eigenes Audit starten →"
     }
   },
   "feeLabels": {
@@ -564,6 +609,15 @@
     "driverSmallCharges": "kleine Beträge, wo Fixgebühr {currency} {amount} zählt",
     "driverRefundsRetained": "Erstattungen mit einbehaltenen Verarbeitungsgebühren",
     "driverPremiumCards": "Premium-Karten, Disputes, Radar/Add-ons oder planspezifische Preise",
-    "driverDomesticMix": "Inlandskartenmix und Fixgebühren pro Transaktion"
+    "driverDomesticMix": "Inlandskartenmix und Fixgebühren pro Transaktion",
+    "gradeIssueRateFarAbove": "Gesamtrate liegt weit über dem erwarteten Mix",
+    "gradeIssueRateMateriallyAbove": "Gesamtrate liegt deutlich über dem erwarteten Mix",
+    "gradeIssueRateSlightlyAbove": "Gesamtrate liegt leicht über dem erwarteten Mix",
+    "gradeIssueNonChargeLargeShare": "Nicht-Transaktionsgebühren machen einen großen Anteil aus",
+    "gradeIssueAddOnFees": "Zusatz- und Nicht-Transaktionsgebühren erhöhen die Gesamtkosten",
+    "gradeIssueInternationalShare": "Internationale Karten haben einen großen Volumenanteil",
+    "gradeIssueRefundVolume": "Erstattungen erhöhen einbehaltene Bearbeitungsgebühren",
+    "gradeIssueHighFeeCharges": "Viele Transaktionen liegen über Ihrer Gebührenbasis",
+    "gradeIssueMultipleLeaks": "Mehrere schwerwiegende Gebührenleck-Treiber"
   }
 }
