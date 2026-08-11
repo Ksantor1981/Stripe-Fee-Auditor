@@ -137,6 +137,30 @@ test("encrypt/decrypt roundtrip", () => {
   assert(decryptSecretPayload(sealed) === plain, "roundtrip");
 });
 
+test("token crypto falls back to DATABASE_URL when dedicated secrets are absent", () => {
+  const previousCheckoutKey = process.env.CHECKOUT_TOKEN_ENCRYPTION_KEY;
+  const previousReportSalt = process.env.REPORT_TOKEN_SALT;
+  const previousDatabaseUrl = process.env.DATABASE_URL;
+
+  try {
+    delete process.env.CHECKOUT_TOKEN_ENCRYPTION_KEY;
+    delete process.env.REPORT_TOKEN_SALT;
+    process.env.DATABASE_URL =
+      "postgresql://fallback-user:fallback-password@db.example.com/fee_auditor";
+
+    const plain = "database-fallback-payload";
+    const sealed = encryptSecretPayload(plain);
+    assert(decryptSecretPayload(sealed) === plain, "database fallback roundtrip");
+  } finally {
+    if (previousCheckoutKey === undefined) delete process.env.CHECKOUT_TOKEN_ENCRYPTION_KEY;
+    else process.env.CHECKOUT_TOKEN_ENCRYPTION_KEY = previousCheckoutKey;
+    if (previousReportSalt === undefined) delete process.env.REPORT_TOKEN_SALT;
+    else process.env.REPORT_TOKEN_SALT = previousReportSalt;
+    if (previousDatabaseUrl === undefined) delete process.env.DATABASE_URL;
+    else process.env.DATABASE_URL = previousDatabaseUrl;
+  }
+});
+
 test("resolveReportAccessToken prefers query when no cookie", () => {
   const id = "a1b2c3d4-e5f6-4789-a012-3456789abcde";
   const token = resolveReportAccessToken(id, { queryToken: "abc", bodyToken: "def" });

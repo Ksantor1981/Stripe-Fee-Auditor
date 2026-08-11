@@ -117,7 +117,7 @@ Copy `.env.example` to `.env.local` and fill values (see repo root — ignored p
 | `POLAR_WEBHOOK_SECRET` | Webhook signature verification |
 | `POLAR_PRODUCT_PRO` | Allowed product UUID at checkout/webhook |
 | `POLAR_ACCESS_TOKEN` | Dynamic checkout URLs + checkout metadata recovery |
-| `CHECKOUT_TOKEN_ENCRYPTION_KEY` | **Required in production.** Encrypts checkout-session tokens and httpOnly report-access cookies. At least 32 random characters. If unset, `REPORT_TOKEN_SALT` (also ≥32 chars) is used as fallback — set one of them on Vercel or checkout/cookies will fail at runtime. |
+| `CHECKOUT_TOKEN_ENCRYPTION_KEY` | **Recommended in production.** Encrypts checkout-session tokens and httpOnly report-access cookies. At least 32 random characters. If unset, `REPORT_TOKEN_SALT` is used; `DATABASE_URL` is the final availability fallback so report creation does not fail during a secret rollout. |
 | `CRON_SECRET` | Bearer secret for `/api/cron/cleanup` |
 | `NEXT_PUBLIC_BASE_URL` | Canonical URL (sitemap, metadata, email links) — e.g. `http://localhost:3000` locally |
 

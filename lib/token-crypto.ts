@@ -3,11 +3,12 @@ import crypto from "crypto";
 function getTokenEncryptionKey(): Buffer {
   const secret =
     process.env.CHECKOUT_TOKEN_ENCRYPTION_KEY?.trim() ||
-    process.env.REPORT_TOKEN_SALT?.trim();
+    process.env.REPORT_TOKEN_SALT?.trim() ||
+    process.env.DATABASE_URL?.trim();
 
   if (!secret || secret.length < 32) {
     throw new Error(
-      "CHECKOUT_TOKEN_ENCRYPTION_KEY or REPORT_TOKEN_SALT must be set to at least 32 characters for checkout token encryption"
+      "CHECKOUT_TOKEN_ENCRYPTION_KEY, REPORT_TOKEN_SALT, or DATABASE_URL must be set to at least 32 characters for checkout token encryption"
     );
   }
 
