@@ -1,12 +1,15 @@
 import crypto from "crypto";
 
 function getTokenEncryptionKey(): Buffer {
-  const secret =
-    process.env.CHECKOUT_TOKEN_ENCRYPTION_KEY?.trim() ||
-    process.env.REPORT_TOKEN_SALT?.trim() ||
-    process.env.DATABASE_URL?.trim();
+  const secret = [
+    process.env.CHECKOUT_TOKEN_ENCRYPTION_KEY,
+    process.env.REPORT_TOKEN_SALT,
+    process.env.DATABASE_URL,
+  ]
+    .map((value) => value?.trim())
+    .find((value): value is string => Boolean(value && value.length >= 32));
 
-  if (!secret || secret.length < 32) {
+  if (!secret) {
     throw new Error(
       "CHECKOUT_TOKEN_ENCRYPTION_KEY, REPORT_TOKEN_SALT, or DATABASE_URL must be set to at least 32 characters for checkout token encryption"
     );

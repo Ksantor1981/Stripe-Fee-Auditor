@@ -143,8 +143,8 @@ test("token crypto falls back to DATABASE_URL when dedicated secrets are absent"
   const previousDatabaseUrl = process.env.DATABASE_URL;
 
   try {
-    delete process.env.CHECKOUT_TOKEN_ENCRYPTION_KEY;
-    delete process.env.REPORT_TOKEN_SALT;
+    process.env.CHECKOUT_TOKEN_ENCRYPTION_KEY = "short";
+    process.env.REPORT_TOKEN_SALT = "also-too-short";
     process.env.DATABASE_URL =
       "postgresql://fallback-user:fallback-password@db.example.com/fee_auditor";
 
