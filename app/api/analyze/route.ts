@@ -54,6 +54,8 @@ function isSampleCsv(csvText: string): boolean {
 }
 
 export async function POST(req: NextRequest) {
+  let failureStage = "request";
+
   try {
     const contentType = req.headers.get("content-type") ?? "";
     if (!contentType.includes("application/json")) {
@@ -75,6 +77,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    failureStage = "request_rate_limit";
     const requestAllowed = await consumeIpRequest(
       `analyze_request:${ip}`,
       ANALYZE_REQUEST_LIMIT_PER_IP_PER_DAY
@@ -229,18 +232,22 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Analyze ────────────────────────────────────────────────────────────────
+    failureStage = "calculation";
     const result = analyze(normalized, { accountCountry });
     const storedResult = redactAnalysisResultForStorage(result);
     const accessToken = createReportAccessToken();
+    failureStage = "token_encryption";
+    const accessTokenCiphertext = encryptSecretPayload(accessToken);
 
     let reportId: string;
     try {
+      failureStage = "report_storage";
       reportId = await createReport({
         sessionId: isDemo ? "demo-sample" : crypto.randomUUID(),
         blobUrl: null,
         result: storedResult,
         accessTokenHash: hashReportAccessToken(accessToken),
-        accessTokenCiphertext: encryptSecretPayload(accessToken),
+        accessTokenCiphertext,
         retention: FULL_REPORTS_FREE_DURING_BETA && !isDemo ? "beta_full_access" : "free_preview",
         attribution: isDemo ? undefined : readAttributionFromRequest(req),
         clientId: typeof body.clientId === "string" ? body.clientId : null,
@@ -275,12 +282,16 @@ export async function POST(req: NextRequest) {
         anomalyCount: result.anomalyCount ?? result.anomalies.length,
       },
     });
+    failureStage = "access_cookie";
     appendReportAccessCookie(res, reportId, accessToken);
     return res;
   } catch (err) {
     logOpsError("analyze_failed", {
       message: err instanceof Error ? err.message.slice(0, 200) : "unknown",
     });
-    return NextResponse.json({ error: "Analysis failed" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Analysis failed", code: `ANALYZE_${failureStage.toUpperCase()}_FAILED` },
+      { status: 500 }
+    );
   }
 }
