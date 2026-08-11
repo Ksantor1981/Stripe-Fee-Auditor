@@ -32,7 +32,13 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
 
   const report = await getReportWithAccess(id, token);
   const monitorFullAccess = await isActiveMonitorSubscriber(report?.email);
-  if (!report?.result || (!report.is_paid && !monitorFullAccess && !FULL_REPORTS_FREE_DURING_BETA)) notFound();
+  const isDemoSample = report?.session_id === "demo-sample";
+  if (
+    !report?.result ||
+    (!report.is_paid && !monitorFullAccess && !FULL_REPORTS_FREE_DURING_BETA && !isDemoSample)
+  ) {
+    notFound();
+  }
 
   const { chargeVolume, chargeFees, chargeRate, otherFees, monthly, anomalies, anomalyCount, topDrivers, mode, periodDelta, benchmark, refundSummary, feeLeakBreakdown } = report.result;
   const highFeeCount = anomalyCount ?? anomalies.length;

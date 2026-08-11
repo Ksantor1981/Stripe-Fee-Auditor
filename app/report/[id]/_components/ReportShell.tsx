@@ -265,14 +265,27 @@ export function ReportShell({
                 </>
               )}
               {!exportsEnabled && (
-                <LockedExportButtons
-                  reportId={reportId}
-                  email={ownerEmail}
-                  annualImpact={paywallImpact?.amount}
-                  impactSource={paywallImpact?.source}
-                  firstOpportunity={paywallOpportunityLabel}
-                  diagnosis={freeDiagnosis}
-                />
+                <>
+                  {demoFullAccess ? (
+                    <a
+                      href={`/report/${reportId}/print`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5 hover:border-gray-300 transition-colors bg-white"
+                    >
+                      {tc("exportPrintPdf")}
+                    </a>
+                  ) : null}
+                  <LockedExportButtons
+                    reportId={reportId}
+                    email={ownerEmail}
+                    annualImpact={paywallImpact?.amount}
+                    impactSource={paywallImpact?.source}
+                    firstOpportunity={paywallOpportunityLabel}
+                    diagnosis={freeDiagnosis}
+                    hidePdf={demoFullAccess}
+                  />
+                </>
               )}              <Link href="/analyze" className="text-sm font-medium text-blue-600 hover:underline">
                 {demoFullAccess ? t("reportShell.uploadYourCsv") : t("reportShell.analyzeAnotherFile")}
               </Link>

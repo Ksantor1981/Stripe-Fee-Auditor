@@ -152,21 +152,32 @@ export function LowVolumeReport({
 
       <ReportTrustChecklist result={result} />
       <ReportReconciliation result={result} />
+      <div className="rounded-xl bg-gray-50 border border-gray-100 px-5 py-4">
+        <p className="text-xs text-gray-500">
+          <strong>{t("lowVolumeReport.noteTitle")}</strong> {t("lowVolumeReport.noteBody")}
+        </p>
+      </div>
       </ReportWorkspacePanel>
 
       <ReportWorkspacePanel value="drivers">
         <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} chargeRate={result.chargeRate} />
         {!isPaid && <LockedReportPreview kind="drivers" />}
+        {isPaid && <FeeLeakBreakdown items={result.feeLeakBreakdown} />}
+        {isPaid && savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
       </ReportWorkspacePanel>
 
       <ReportWorkspacePanel value="trends">
         <ReportDashboardCharts result={result} />
-      </ReportWorkspacePanel>
-
-      <ReportWorkspacePanel value="drivers">
-      {isPaid && <FeeLeakBreakdown items={result.feeLeakBreakdown} />}
-
-      {isPaid && savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
+        <div className="rounded-2xl bg-blue-50 border border-blue-100 p-5 text-center">
+          <p className="text-sm font-semibold text-blue-800 mb-1">{t("lowVolumeReport.deeperAnalysisTitle")}</p>
+          <p className="text-xs text-blue-600 mb-3">{t("lowVolumeReport.deeperAnalysisBody")}</p>
+          <a
+            href="/analyze"
+            className="inline-block text-sm font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900"
+          >
+            {t("lowVolumeReport.deeperAnalysisLink")}
+          </a>
+        </div>
       </ReportWorkspacePanel>
 
       {/* Top 5 highest-fee transactions */}
@@ -227,29 +238,6 @@ export function LowVolumeReport({
             />
           </div>
         )}
-      </div>
-      </ReportWorkspacePanel>
-
-      <ReportWorkspacePanel value="overview">
-      {/* No stats disclaimer */}
-      <div className="rounded-xl bg-gray-50 border border-gray-100 px-5 py-4">
-        <p className="text-xs text-gray-500">
-          <strong>{t("lowVolumeReport.noteTitle")}</strong> {t("lowVolumeReport.noteBody")}
-        </p>
-      </div>
-      </ReportWorkspacePanel>
-
-      <ReportWorkspacePanel value="trends">
-      {/* Upload more */}
-      <div className="rounded-2xl bg-blue-50 border border-blue-100 p-5 text-center">
-        <p className="text-sm font-semibold text-blue-800 mb-1">{t("lowVolumeReport.deeperAnalysisTitle")}</p>
-        <p className="text-xs text-blue-600 mb-3">{t("lowVolumeReport.deeperAnalysisBody")}</p>
-        <a
-          href="/analyze"
-          className="inline-block text-sm font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900"
-        >
-          {t("lowVolumeReport.deeperAnalysisLink")}
-        </a>
       </div>
       </ReportWorkspacePanel>
     </ReportWorkspace>

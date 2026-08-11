@@ -171,19 +171,9 @@ export function SingleMonthReport({
       <ReportWorkspacePanel value="drivers">
         <FeeInsightCards benchmark={result.benchmark} refundSummary={result.refundSummary} chargeRate={result.chargeRate} />
         {!isPaid && <LockedReportPreview kind="drivers" />}
-      </ReportWorkspacePanel>
-
-      <ReportWorkspacePanel value="trends">
-        <ReportDashboardCharts result={result} />
-      </ReportWorkspacePanel>
-
-      <ReportWorkspacePanel value="drivers">
-      {isPaid && <FeeLeakBreakdown items={result.feeLeakBreakdown} />}
-
-      {isPaid && savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
-
-      {/* Fee blocks */}
-      <div className="grid gap-4 sm:grid-cols-2">
+        {isPaid && <FeeLeakBreakdown items={result.feeLeakBreakdown} />}
+        {isPaid && savings.length > 0 && <SavingsOpportunities opportunities={savings} />}
+        <div className="grid gap-4 sm:grid-cols-2">
         <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-5">
           <h2 className="text-sm font-semibold text-gray-700 mb-3">{tc("chargeFees")}</h2>
           <p className="text-3xl font-bold text-gray-900">{fmt$(actualChargeFees)}</p>
@@ -202,6 +192,20 @@ export function SingleMonthReport({
           </p>
         </div>
       </div>
+      </ReportWorkspacePanel>
+
+      <ReportWorkspacePanel value="trends">
+        <ReportDashboardCharts result={result} />
+        <div className="rounded-2xl bg-blue-50 border border-blue-100 p-5 text-center">
+          <p className="text-sm font-semibold text-blue-800 mb-1">{t("singleMonthReport.trendCtaTitle")}</p>
+          <p className="text-xs text-blue-600 mb-3">{t("singleMonthReport.trendCtaBody")}</p>
+          <a
+            href="/analyze"
+            className="inline-block text-sm font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900"
+          >
+            {t("singleMonthReport.trendCtaLink")}
+          </a>
+        </div>
       </ReportWorkspacePanel>
 
       {/* Top drivers */}
@@ -272,20 +276,6 @@ export function SingleMonthReport({
             />
           </div>
         )}
-      </div>
-      </ReportWorkspacePanel>
-
-      <ReportWorkspacePanel value="trends">
-      {/* Upload more CTA */}
-      <div className="rounded-2xl bg-blue-50 border border-blue-100 p-5 text-center">
-        <p className="text-sm font-semibold text-blue-800 mb-1">{t("singleMonthReport.trendCtaTitle")}</p>
-        <p className="text-xs text-blue-600 mb-3">{t("singleMonthReport.trendCtaBody")}</p>
-        <a
-          href="/analyze"
-          className="inline-block text-sm font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900"
-        >
-          {t("singleMonthReport.trendCtaLink")}
-        </a>
       </div>
       </ReportWorkspacePanel>
     </ReportWorkspace>

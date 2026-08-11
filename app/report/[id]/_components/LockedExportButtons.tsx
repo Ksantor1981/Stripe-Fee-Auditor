@@ -15,6 +15,8 @@ interface Props {
   impactSource?: PaywallImpactSource;
   firstOpportunity?: string;
   diagnosis?: FreeDiagnosis;
+  /** Sample reports expose print/PDF; hide the locked PDF affordance. */
+  hidePdf?: boolean;
 }
 
 export function LockedExportButtons({
@@ -24,6 +26,7 @@ export function LockedExportButtons({
   impactSource,
   firstOpportunity,
   diagnosis,
+  hidePdf = false,
 }: Props) {
   const { tc } = useReportTranslations();
   const { unlock } = usePaywallCheckout(reportId, email);
@@ -44,13 +47,15 @@ export function LockedExportButtons({
         >
           🔒 {tc("exportCsv")}
         </button>
-        <button
-          type="button"
-          onClick={() => showDetails("pdf")}
-          className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-600 transition hover:border-gray-300 hover:text-gray-950"
-        >
-          🔒 {tc("exportPrintPdf")}
-        </button>
+        {!hidePdf ? (
+          <button
+            type="button"
+            onClick={() => showDetails("pdf")}
+            className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-600 transition hover:border-gray-300 hover:text-gray-950"
+          >
+            🔒 {tc("exportPrintPdf")}
+          </button>
+        ) : null}
       </div>
       <PaywallDetailsModal
         open={open}

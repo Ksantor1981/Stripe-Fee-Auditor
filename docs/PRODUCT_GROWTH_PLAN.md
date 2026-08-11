@@ -19,7 +19,8 @@
 - SEO long-tails (Jul 2026): calculator, what-percent, pillar effective rate, intl/refund/reconciliation harvest
 - Отчёт: benchmark, refund leakage, fee mix, geography, savings; **Normal vs outlier-adjusted rate** блок + mark one-offs
 - Conversion sprint (sample CTA, money-first paywall, email skip)
-- Beta flag: на проде обычно paid; ops: `/api/health`, CI, structured `ops_event` logs
+- **Report workspace** (Aug 12): Overview / Drivers / Trends / Transactions; safe blurred free preview; locked CSV + sample PDF; paywall без Chrome/Monitor; reconciliation compact; prod paywall gate (`4902819`)
+- Beta flag: **не обходит paywall в production** (`lib/beta-access.ts`); ops: `/api/health`, CI, structured `ops_event` logs
 - Plausible goals + funnel (ручная настройка)
 
 ## Фазы
@@ -72,13 +73,32 @@
 | L.21 | Anti–CSV-summary + deterministic line («not an AI estimate») под hero CTA | P1 | **done** (Aug 9) | Зеркало pricing copy |
 | L.22 | CFO block под sample: founders + fractional CFOs, Monitor/Pricing links | P1 | **done** (Aug 9) | Не отдельный `/for-cfo` (L.9) |
 | L.23 | Sample: dollar payoff (~$270/qtr vs 2.9%), единый range 3.5–4.2% + edge-case disclaimer | P1 | **done** (Aug 9) | **M.6** — sync `llms.txt` |
-| L.24 | Trust strip: OAuth / not stored / deterministic / GitHub (1 row) | P1 | **done** (Aug 9) | `LandingTrustStrip` |
-| L.25 | Pricing line on hero: Free preview · $12 · $9/mo | P1 | **done** (Aug 9) | — |
+| L.24 | Trust strip: OAuth / not stored / deterministic (3 пункта + data handling link) | P1 | **done** (Aug 9, refined Aug 11) | GitHub — в footer, не в strip |
+| L.25 | Pricing line on hero: Free preview · $12 · $9/mo | P1 | **removed** (Aug 11 `fb9573a`) | Цена только на `/pricing`; laconic hero (L.29) |
 | L.26 | Case study stats in sample (Typical SaaS tab, 4.02%) | P1 | **done** (Aug 9) | `LandingSampleTabs` |
-| L.27 | Founder one-liner → `/about` | P1 | **done** (Aug 9) | In trust strip |
+| L.27 | Founder one-liner → `/about` | P1 | **removed** (Aug 11 laconic pass) | About — через footer/nav |
 | L.28 | $1M × 0.5pp math + 4 MB limit (1 line hero) | P1 | **done** (Aug 9) | — |
 | L.29 | Laconic pass: убрать дубли CTA/links под hero и footer | P1 | **done** (Aug 9) | Footer = 1 CTA |
-| L.30 | Interactive sample tabs (3 scenarios, shared screenshot) | P1 | **partial** | Tabs live; per-scenario PNG → backlog **L.30b** |
+| L.30 | Interactive sample tabs (3 scenarios, shared screenshot) | P1 | **done** (Aug 9) | Per-scenario PNG → backlog **L.30b** |
+
+### Report UX — Aug 12 2026 (paywall + workspace)
+
+Источник: user testing free preview + Codex pass. **Не возвращать** pricing/Chrome/Monitor на paywall; **не** раздувать hero мелким шрифтом.
+
+| # | Задача | Статус | Коммит / примечание |
+|---|--------|--------|---------------------|
+| R.1 | Report workspace: 4 вкладки, одна навигация | **done** | `24858ab`, `87f8fc0` |
+| R.2 | Free preview: находка + агрегаты + **безопасный** blur (placeholder, не real rows) | **done** | `LockedReportPreview`, `lib/report-preview.ts` |
+| R.3 | Export CSV/PDF видимы; free → unlock modal; **sample → PDF открыт** | **done** | `LockedExportButtons`, print gate для `demo-sample` |
+| R.4 | Убрать Chrome + Monitor из paywall; review только после full report | **done** | `87f8fc0`, `feaf9f3` |
+| R.5 | Reconciliation compact в Overview | **done** | `87f8fc0` |
+| R.6 | Report footer: legal links only (без SEO blog strip) | **done** | `87f8fc0` |
+| R.7 | Prod: `FULL_REPORTS_FREE_DURING_BETA` не обходит gate | **done** | `4902819` + test |
+| R.8 | i18n: fee grade, feeLabels, RU report UI, 6 locales | **done** | `d4ad18a` |
+| R.9 | Merge duplicate workspace panels (low/single volume) | **done** | follow-up Aug 12 |
+| R.10 | SEO `messages/pages/*` (~1248 EN strings) | backlog | **не** bulk autotranslate |
+
+**Следующий приоритет (не landing-decor):** post-beta smoke (#9), validation sprint (10–15 audits), M.1 PSI после деплоя.
 
 ### Периодический мониторинг — не срочно, но обязательно
 
@@ -100,7 +120,7 @@
 | **M.6** | `public/llms.txt` + positioning vs hero/H1 | после смены первого экрана / **1×/кв** | Agent browsing PSI 3/3; дата в файле актуальна |
 | **M.7** | Prod vs local: L.19 (nav hydrate, GA off `/`) | **сразу после деплоя** L.19 | View-source `/`: nav shell в начале `<main>`; на `/` нет `googletagmanager.com` в Network до навигации |
 
-**Статус на 2026-08-09:** Wave H (L.24–L.30) — trust strip, pricing, interactive sample tabs, laconic hero. Wave G done. **Следующий P1:** L.4 side-by-side. **Ops:** M.1–M.2, M.6–M.7 после деплоя.
+**Статус на 2026-08-12:** Report workspace + paywall pass (**R.1–R.9**) в prod. Landing laconic (**L.29**, pricing off hero). **Следующий P1:** post-beta smoke, validation sprint, L.4 side-by-side. **Ops:** M.1–M.2, M.6–M.7 после деплоя.
 
 ### Фаза 2 — Снижение барьера CSV (2–4 недели)
 
@@ -150,6 +170,7 @@
 ## Не делаем сейчас
 
 - OAuth (конкурирует с privacy-USP)
+- **Landing re-expansion:** pricing line на hero, testimonial strip, FAQ default-open — откат L.29
 - Полная мультивалюта mixed-CSV
 - Sentry (по желанию позже)
 - **AI-кластер `/ai/*`, `/tools` hub, AI Spend Advisor** — отложено (решение Jul 2026). IA «tools не в `/blog`» верна **на потом**; сейчас opportunity cost &gt; SEO-опцион. Устаревшие LLM-цены хуже отсутствия страниц.
