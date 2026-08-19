@@ -356,16 +356,16 @@
       }
     },
     "whatPercent": {
-      "metaTitle": "How Much Does Stripe Charge Per Transaction?",
-      "metaDescription": "For many US online cards, Stripe starts at 2.9% + $0.30 per transaction. Calculate the published fee, then verify your real blended rate from a Balance CSV.",
-      "breadcrumb": "How Much Does Stripe Charge Per Transaction?",
-      "eyebrow": "How much does Stripe charge",
-      "heroTitle": "How Much Does Stripe Charge Per Transaction?",
-      "heroDescription": "Short answer: for many US online cards Stripe starts at 2.9% + $0.30 per successful charge (about $3.20 on $100). The real percentage you pay can be higher once small charges, international cards, currency conversion, refunds, and other Stripe fee lines show up.",
+      "metaTitle": "What Percentage Does Stripe Take? Fees Explained",
+      "metaDescription": "Stripe often charges 2.9% + $0.30 for US online cards. See the effective percentage by transaction size and calculate the real rate from your Balance CSV.",
+      "breadcrumb": "What Percentage Does Stripe Take?",
+      "eyebrow": "Stripe percentage fee",
+      "heroTitle": "What Percentage Does Stripe Take?",
+      "heroDescription": "For many US online card payments, Stripe starts at 2.9% + $0.30. That equals 3.2% on a $100 charge, 3.5% on $50, and 5.9% on $10. Your monthly effective percentage can be higher because of international cards, currency conversion, refunds, disputes, and other fee lines.",
       "sections": [
         {
           "type": "note",
-          "body": "Published list rates only — custom or interchange-plus pricing may differ. Confirm yours in Dashboard → Settings → Plans and fees."
+          "body": "Quick answer: the common US online-card price is 2.9% + $0.30 per successful payment. The fixed $0.30 means the effective percentage changes with transaction size. Published list rates only; custom and interchange-plus pricing may differ."
         },
         {
           "type": "rateCards",
@@ -401,6 +401,43 @@
             "For one transaction, divide the Stripe fee by the charge amount. For your business, use the blended rate across a full period.",
             "That is the number that tells you what Stripe actually took from your revenue. A single $100 domestic card charge may look close to 3.2%, but a real month can land at 3.8%, 4.2%, or higher depending on customer geography and transaction size."
           ]
+        },
+        {
+          "type": "table",
+          "heading": "Stripe fee percentage by transaction size",
+          "headers": [
+            "Charge amount",
+            "Fee at 2.9% + $0.30",
+            "Effective percentage"
+          ],
+          "rows": [
+            [
+              "$10",
+              "$0.59",
+              "5.90%"
+            ],
+            [
+              "$25",
+              "$1.03",
+              "4.10%"
+            ],
+            [
+              "$50",
+              "$1.75",
+              "3.50%"
+            ],
+            [
+              "$100",
+              "$3.20",
+              "3.20%"
+            ],
+            [
+              "$500",
+              "$14.80",
+              "2.96%"
+            ]
+          ],
+          "footnote": "Examples use the common US online domestic-card list rate. Verify the current rate for your country, payment method, and Stripe plan."
         },
         {
           "type": "ctaBlock",
@@ -730,6 +767,11 @@
           "type": "comparisonLinks",
           "heading": "Compare the right alternative for the problem",
           "items": [
+            {
+              "href": "/blog/stripe-alternatives-2026",
+              "title": "Best Stripe Alternatives in 2026",
+              "desc": "Compare eight options by SaaS, POS, bank debit, tax, enterprise, and fee use case."
+            },
             {
               "href": "/stripe-vs-gocardless",
               "title": "Stripe vs GoCardless",
@@ -1968,58 +2010,167 @@
       ]
     },
     "stripe-alternatives-2026": {
-      "metaTitle": "Stripe Alternatives in 2026: Check Fees Before Switching",
-      "metaDescription": "Compare Stripe alternatives only after auditing your real effective rate, payment mix, and checkout costs, so you switch for the right reason.",
-      "title": "Stripe Alternatives in 2026: Check Fees Before Switching",
-      "readTime": "8 min",
+      "metaTitle": "Best Stripe Alternatives 2026: Fees & Use Cases",
+      "metaDescription": "Compare the best Stripe alternatives in 2026 for SaaS, ecommerce, POS, bank debit, global tax, enterprise payments, and lower processing costs.",
+      "title": "Best Stripe Alternatives in 2026: Compare Fees and Fit",
+      "shortTitle": "Best Stripe Alternatives in 2026",
+      "readTime": "11 min",
       "publishedAt": "2026-06-25",
-      "updatedAt": "2026-06-25",
+      "updatedAt": "2026-08-19",
+      "intro": [
+        "The best Stripe alternative depends on what you are trying to fix. PayPal is strongest when wallet familiarity matters, Square for in-person selling, Paddle or Lemon Squeezy for merchant-of-record tax operations, GoCardless for recurring bank debit, Adyen for enterprise payment infrastructure, and Helcim for businesses considering interchange-plus pricing.",
+        "If the only complaint is a high effective fee rate, audit the cause before migrating. International cards, small charges, refunds, disputes, currency conversion, and paid Stripe products can follow you—or be fixed without replacing Stripe."
+      ],
+      "table": {
+        "headers": [
+          "Alternative",
+          "Best for",
+          "Pricing model to compare",
+          "Main trade-off"
+        ],
+        "rows": [
+          [
+            "PayPal",
+            "Recognizable wallet checkout and broad buyer familiarity",
+            "Wallet and card transaction pricing",
+            "Merchant fees and dispute workflow vary by payment type"
+          ],
+          [
+            "Square",
+            "Retail, appointments, restaurants, and online plus in-person sales",
+            "Flat-rate online and POS processing",
+            "Less focused on complex SaaS billing"
+          ],
+          [
+            "Paddle",
+            "Global SaaS that wants a merchant of record",
+            "Revenue-share checkout pricing",
+            "Higher headline rate in exchange for tax and compliance handling"
+          ],
+          [
+            "Lemon Squeezy",
+            "Indie software and digital products needing merchant-of-record coverage",
+            "Revenue-share checkout pricing",
+            "Less checkout and billing control than a direct processor"
+          ],
+          [
+            "GoCardless",
+            "Recurring bank debit and larger B2B invoices",
+            "Bank-debit pricing with country-specific rules",
+            "Not a universal replacement for instant card checkout"
+          ],
+          [
+            "Adyen",
+            "High-volume global and enterprise payment operations",
+            "Processing plus payment-method or interchange pricing",
+            "Implementation and commercial setup suit larger teams"
+          ],
+          [
+            "Helcim",
+            "Established North American businesses evaluating interchange-plus",
+            "Interchange-plus with volume-based margins",
+            "Underwriting and statements are less plug-and-play"
+          ],
+          [
+            "Shopify Payments",
+            "Ecommerce stores already running on Shopify",
+            "Store-plan and card-processing pricing",
+            "Tied to the Shopify commerce stack"
+          ]
+        ]
+      },
       "sections": [
         {
           "type": "section",
-          "heading": "The best Stripe alternative depends on the problem",
+          "heading": "Which Stripe alternative is best?",
           "paragraphs": [
-            "\"Stripe alternative\" is too broad. A founder leaving because of card fees needs a different answer than a founder leaving because of tax compliance, fraud, chargebacks, payout timing, or in-person payments.",
-            "Start by separating your complaint into two buckets: payment cost and payment operations. Fee Auditor helps with the first bucket by showing your actual processing rate and all-in Stripe cost from the Balance CSV."
+            "There is no universal winner. For SaaS tax and compliance, start with Paddle or Lemon Squeezy. For physical retail, start with Square. For recurring bank payments, compare GoCardless. For a familiar wallet alongside cards, consider PayPal. For enterprise acquiring and local payment methods, evaluate Adyen. For interchange-plus pricing in North America, compare Helcim.",
+            "Stripe can still be the best fit when API flexibility, subscriptions, Connect, marketplace payments, and checkout control matter more than replacing one fee line."
           ]
         },
         {
           "type": "section",
-          "heading": "Common alternatives and the real question",
-          "paragraphs": []
+          "heading": "Compare the problem, not just the headline rate",
+          "paragraphs": [
+            "A processor with a lower advertised percentage is not automatically cheaper for your business. Compare fixed fees, international and FX costs, refund treatment, dispute fees, subscription tooling, tax operations, payout timing, engineering work, and the conversion impact of changing checkout.",
+            "Build a baseline from three to six months of Stripe Balance data. Separate charge-processing fees from all other Stripe fee lines, then compare each alternative against the driver that actually costs money."
+          ],
+          "bullets": [
+            "High international-card share: compare local payment methods, local acquiring, and currency strategy.",
+            "Many large B2B invoices: test ACH or bank debit before rebuilding card checkout.",
+            "Tax and compliance burden: compare merchant-of-record value, not only processing price.",
+            "Mostly in-person sales: compare POS hardware, staff workflow, inventory, and reconciliation.",
+            "Low-ticket subscriptions: model the fixed fee at your real average charge size."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Best alternatives by business model",
+          "paragraphs": [
+            "SaaS and digital products often split into two groups. Teams that want maximum billing and API control may stay with Stripe or evaluate Adyen at enterprise scale. Teams that want a merchant of record to handle more tax and compliance work commonly compare Paddle and Lemon Squeezy.",
+            "Retail and service businesses should give more weight to POS, card readers, appointments, staff permissions, and inventory. That is where Square can be a more natural operational fit. B2B companies with predictable recurring invoices should model bank debit through Stripe ACH or GoCardless before assuming another card processor is the answer."
+          ]
         },
         {
           "type": "section",
           "heading": "When switching may make sense",
-          "paragraphs": []
+          "paragraphs": [
+            "A migration is easier to justify when the current platform does not support the operating model you need: merchant-of-record coverage, high-volume enterprise acquiring, integrated POS, specialized high-risk underwriting, or a bank-debit-first customer journey.",
+            "It can also make sense when a documented comparison using your actual volume, countries, payment methods, refunds, and average ticket shows material savings after implementation and conversion costs."
+          ]
         },
         {
           "type": "section",
           "heading": "When switching probably will not fix the issue",
           "paragraphs": [
-            "If your problem is low-ticket card payments, any provider with a fixed per-transaction fee can still produce a high effective rate. If your problem is international buyers, another card processor may still charge cross-border or FX costs. If your problem is refunds, payment processors often still keep some fees.",
-            "In those cases, the better move may be changing plan structure, offering annual billing, adding ACH or local payment methods, or adjusting checkout defaults."
+            "If your problem is low-ticket card payments, any provider with a fixed per-transaction fee can still produce a high effective rate. If your problem is international buyers, another card processor may still charge cross-border or FX costs. If your problem is refunds, the original processing cost may still be retained.",
+            "The better first move may be annual billing, bundled usage, ACH for large invoices, local payment methods, better refund prevention, or a pricing change. These are smaller experiments than a full checkout migration."
           ]
         },
         {
           "type": "section",
-          "heading": "A simple pre-switch checklist",
-          "paragraphs": []
-        },
-        {
-          "type": "section",
-          "heading": "Official pricing sources",
+          "heading": "How we evaluated these Stripe alternatives",
           "paragraphs": [
-            "Pricing changes by country, product, and plan. Use these official pages as the current reference before changing processors."
+            "This comparison groups providers by payment model and operating fit rather than declaring the lowest advertised rate the winner. We reviewed official pricing pages and compared online payments, recurring billing, POS, bank debit, merchant-of-record coverage, international operations, implementation complexity, and the fee driver each option can realistically solve.",
+            "Pricing changes by country, product, volume, and negotiated plan. Use the linked official pages as the current source, then model the decision with your own payment mix."
           ]
         },
         {
           "type": "section",
-          "heading": "Related guides",
+          "heading": "Pre-switch checklist",
+          "bullets": [
+            "Export three to six months of itemized Stripe Balance transactions.",
+            "Calculate both processing rate and all-in Stripe cost.",
+            "Identify the top driver instead of comparing only one $100 payment.",
+            "Estimate migration, engineering, tax, support, and conversion costs.",
+            "Run a limited payment-method or checkout test before moving all volume.",
+            "Confirm current pricing and availability directly with each provider."
+          ],
           "paragraphs": []
         }
       ],
-      "faq": [],
+      "faq": [
+        {
+          "question": "What is the best Stripe alternative in 2026?",
+          "answer": "The best option depends on the job. PayPal fits familiar wallet checkout, Square fits POS and local retail, Paddle or Lemon Squeezy fit SaaS merchant-of-record needs, GoCardless fits recurring bank debit, and Adyen fits larger global payment operations."
+        },
+        {
+          "question": "What is the cheapest alternative to Stripe?",
+          "answer": "There is no cheapest provider for every payment mix. Compare the total cost at your actual average charge size, card geography, refund rate, payment methods, monthly volume, and required software or tax operations."
+        },
+        {
+          "question": "What is the best Stripe alternative for SaaS?",
+          "answer": "Stripe remains strong when billing flexibility and API control matter. Paddle and Lemon Squeezy are common comparisons when a SaaS company wants merchant-of-record tax handling, while Adyen is more relevant to high-volume enterprise teams."
+        },
+        {
+          "question": "Should I leave Stripe because my effective rate is above 2.9%?",
+          "answer": "Not before identifying the cause. International cards, currency conversion, small charges, refunds, disputes, Billing, Radar, and other fee lines can push the effective rate higher. Some of those drivers can be reduced without switching processors."
+        },
+        {
+          "question": "How should I compare Stripe alternatives?",
+          "answer": "Use three to six months of actual transaction data. Compare processing fees, all-in cost, international and FX charges, refund treatment, disputes, payout timing, tax operations, checkout conversion, and migration effort."
+        }
+      ],
       "sources": [
         {
           "href": "https://stripe.com/pricing",
@@ -2034,87 +2185,176 @@
           "title": "Square payment processing fees"
         },
         {
+          "href": "https://www.paddle.com/pricing",
+          "title": "Paddle pricing"
+        },
+        {
+          "href": "https://www.lemonsqueezy.com/pricing",
+          "title": "Lemon Squeezy pricing"
+        },
+        {
           "href": "https://gocardless.com/pricing/",
           "title": "GoCardless pricing"
         },
         {
           "href": "https://www.adyen.com/pricing",
           "title": "Adyen pricing"
+        },
+        {
+          "href": "https://www.helcim.com/pricing/",
+          "title": "Helcim pricing"
         }
       ],
       "related": [
         {
-          "href": "/blog/stripe-credit-card-processing-fees",
-          "title": "Stripe Processing Fees: Card Rates vs Real Cost"
+          "href": "/should-i-switch-from-stripe",
+          "title": "Should I Switch From Stripe? Audit the Driver First"
         },
         {
-          "href": "/blog/stripe-vs-paypal-fees",
-          "title": "Stripe vs PayPal Fees: Real Comparison"
+          "href": "/compare-stripe-paypal-wise",
+          "title": "Stripe vs PayPal vs Wise Fees"
         },
         {
-          "href": "/blog/stripe-international-card-fees",
-          "title": "Stripe International Card Fees: Why Your Rate Is Higher"
+          "href": "/stripe-vs-paddle-fees",
+          "title": "Stripe vs Paddle Fees"
+        },
+        {
+          "href": "/stripe-vs-square-fees",
+          "title": "Stripe vs Square Fees"
         }
       ]
     },
     "stripe-credit-card-processing-fees": {
-      "metaTitle": "Stripe Processing Fees: Card Rates vs Real Cost",
-      "metaDescription": "Stripe processing fees start at the published card rate (often 2.9% + $0.30), but your real cost depends on fixed fees, international cards, refunds, disputes, and add-ons.",
-      "title": "Stripe Processing Fees: Card Rates vs Real Cost",
-      "readTime": "6 min",
+      "metaTitle": "Stripe Credit Card Processing Fees: Rates & Real Cost",
+      "metaDescription": "Stripe credit card processing fees often start at 2.9% + $0.30 in the US. See examples, effective percentages, extra costs, and how to audit your real rate.",
+      "title": "Stripe Credit Card Processing Fees: Rates and Real Cost",
+      "shortTitle": "Stripe Credit Card Processing Fees",
+      "readTime": "8 min",
       "publishedAt": "2026-06-25",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-08-19",
       "intro": [
-        "Stripe's published card rate is a useful starting point, but it is not the same as the effective rate on your account. Fixed fees, card geography, currency conversion, refunds, disputes, and paid Stripe products can change the amount you actually lose to processing costs.",
-        "Use the published price to estimate a transaction, then use an itemized Balance CSV to measure the period as a whole. That comparison separates normal card processing from other Stripe fee lines and shows which cost driver is worth investigating first."
+        "For many US online domestic card payments, Stripe credit card processing fees start at 2.9% + $0.30 per successful charge. That is $3.20 on $100, or an effective 3.2%. The percentage is higher on small payments because the fixed $0.30 represents more of the sale.",
+        "Your real monthly cost can exceed the headline card rate when the mix includes international cards, currency conversion, refunds, disputes, Stripe Billing, Radar, payout fees, or other products. The useful comparison is published price versus the processing and all-in rates calculated from your Balance CSV."
       ],
+      "table": {
+        "headers": [
+          "Charge",
+          "Fee at 2.9% + $0.30",
+          "Effective rate"
+        ],
+        "rows": [
+          [
+            "$10",
+            "$0.59",
+            "5.90%"
+          ],
+          [
+            "$25",
+            "$1.03",
+            "4.10%"
+          ],
+          [
+            "$50",
+            "$1.75",
+            "3.50%"
+          ],
+          [
+            "$100",
+            "$3.20",
+            "3.20%"
+          ],
+          [
+            "$500",
+            "$14.80",
+            "2.96%"
+          ]
+        ]
+      },
       "sections": [
         {
           "type": "section",
-          "heading": "Published card pricing vs your real Stripe cost",
+          "heading": "What are Stripe credit card processing fees?",
           "paragraphs": [
-            "For a single charge, the fixed component matters more as the ticket gets smaller. Across a month, the mix matters too: international cards, conversion, refunds, disputes, Billing, Radar, and other products can move the all-in rate away from the headline card price.",
-            "A useful fee review keeps two numbers separate: charge processing fees divided by charge volume, and all Stripe fee lines divided by the same volume. The gap between them is evidence, not noise - it points to costs outside ordinary card processing."
+            "Stripe charges a per-transaction fee based on the payment method, country, and pricing plan. For a business on common US standard online-card pricing, the starting point is often 2.9% of the charge plus $0.30. Custom and interchange-plus plans can differ.",
+            "The formula for one domestic card payment is: Stripe fee = charge amount × 2.9% + $0.30. The effective percentage is Stripe fee ÷ charge amount × 100."
           ]
         },
         {
           "type": "section",
-          "heading": "The simple formula",
+          "heading": "Why the effective percentage changes with charge size",
           "paragraphs": [
-            "This is different from your all-in Stripe cost rate. All-in cost can include other fee lines such as dispute fees, payout fees, Billing, Radar, currency conversion, and refund-related leakage."
+            "The percentage component stays proportional, but the fixed fee does not. On a $10 payment, $0.30 alone is 3% of the sale before the 2.9% variable fee is added. On $500, the same $0.30 contributes only 0.06%.",
+            "This is why low-ticket subscriptions, usage add-ons, and frequent small invoices can show a much higher effective Stripe credit card fee than the advertised percentage suggests."
           ]
         },
         {
           "type": "section",
-          "heading": "What pushes the rate higher?",
-          "paragraphs": []
-        },
-        {
-          "type": "section",
-          "heading": "Estimate vs actual",
-          "paragraphs": []
-        },
-        {
-          "type": "section",
-          "heading": "How to check your Stripe card fees",
+          "heading": "What can increase Stripe card processing costs?",
+          "bullets": [
+            "International cards can add a cross-border surcharge to standard card pricing.",
+            "Currency conversion can add another fee when charge and settlement currencies differ.",
+            "Refunding a payment may not return the original processing and conversion fees.",
+            "Disputes can create separate fee lines and operational costs.",
+            "Billing, Radar, Connect, Instant Payouts, and other Stripe products can add charges outside basic card processing.",
+            "Custom pricing, regional pricing, and alternative payment methods follow different schedules."
+          ],
           "paragraphs": [
-            "Pricing changes. Always verify current rates on the official Stripe pricing page and in your own Stripe Dashboard before making pricing or migration decisions."
+            "Keep processing rate separate from all-in cost. Processing rate measures fees tied to successful card charges. All-in Stripe cost includes the other fee lines paid during the period."
           ]
         },
         {
           "type": "section",
-          "heading": "Official Stripe sources",
+          "heading": "Stripe card fee estimate vs actual monthly cost",
           "paragraphs": [
-            "Use Stripe's current pricing and report documentation as the source of truth, then compare those public rates with your own Balance CSV."
+            "A calculator estimates a clean transaction. A real month includes a distribution of ticket sizes, card countries, refunds, disputes, and product fees. Sum the actual charge volume and fee lines from an itemized Stripe Balance export instead of multiplying revenue by one headline percentage.",
+            "For a defensible audit, report both processing fees divided by charge volume and all Stripe fee lines divided by the same charge volume. The gap tells you whether the issue is basic card economics or costs outside ordinary processing."
           ]
         },
         {
           "type": "section",
-          "heading": "Related guides",
-          "paragraphs": []
+          "heading": "How to lower Stripe credit card processing fees",
+          "bullets": [
+            "Offer ACH or bank debit for large B2B invoices and annual plans.",
+            "Bundle very small charges or move low-ticket monthly plans to annual billing.",
+            "Use local payment methods and local-currency pricing where they improve the international mix.",
+            "Reduce avoidable refunds and disputes through clearer billing and cancellation flows.",
+            "Ask Stripe about custom pricing when volume and payment history justify a review."
+          ],
+          "paragraphs": [
+            "Prioritize the largest measured driver. A migration is rarely the first or cheapest answer when payment method, ticket size, or refund behavior explains most of the gap."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "How to check your actual Stripe card fees",
+          "paragraphs": [
+            "Export the itemized Balance transactions CSV for a representative three- to six-month period. Include charge volume, fee, net, currency, reporting category, and transaction date. Calculate fees by month and separate charge-processing rows from refunds, disputes, payouts, and product fees.",
+            "Pricing changes. Verify the current schedule for your country and plan in Stripe before making pricing or migration decisions."
+          ]
         }
       ],
-      "faq": [],
+      "faq": [
+        {
+          "question": "What are Stripe credit card processing fees?",
+          "answer": "For many US online domestic cards on standard pricing, Stripe starts at 2.9% + $0.30 per successful charge. Rates differ by country, payment method, and custom pricing plan."
+        },
+        {
+          "question": "How much is the Stripe fee on $100?",
+          "answer": "At 2.9% + $0.30, the fee on a $100 domestic online card charge is $3.20, which is an effective rate of 3.2%."
+        },
+        {
+          "question": "Why is my Stripe credit card fee higher than 2.9%?",
+          "answer": "The fixed $0.30 raises the effective percentage, especially on small payments. International cards, currency conversion, refunds, disputes, and additional Stripe products can increase the monthly all-in rate further."
+        },
+        {
+          "question": "Does Stripe return credit card processing fees after a refund?",
+          "answer": "Stripe says the original payment processing, Connect, and currency-conversion fees are generally not returned on standard pricing, although refund rules and custom plans can differ."
+        },
+        {
+          "question": "How can I calculate my real Stripe processing rate?",
+          "answer": "Divide charge-processing fees by processed charge volume for the same period. Then calculate a separate all-in rate using every Stripe fee line so you can see costs outside ordinary card processing."
+        }
+      ],
       "sources": [
         {
           "href": "https://stripe.com/pricing",
@@ -2131,16 +2371,20 @@
       ],
       "related": [
         {
-          "href": "/blog/stripe-vs-paypal-fees",
-          "title": "Stripe vs PayPal Fees: Real Comparison"
+          "href": "/what-percent-does-stripe-take",
+          "title": "What Percentage Does Stripe Take?"
+        },
+        {
+          "href": "/stripe-fee-calculator",
+          "title": "Stripe Fee Calculator"
         },
         {
           "href": "/blog/stripe-international-card-fees",
-          "title": "Stripe International Card Fees: Why Your Rate Is Higher"
+          "title": "Stripe International Card Fees"
         },
         {
           "href": "/blog/stripe-ach-vs-credit-card-fees",
-          "title": "Stripe ACH vs Credit Card Fees: When ACH Saves Money"
+          "title": "Stripe ACH vs Credit Card Fees"
         }
       ]
     },
