@@ -33,24 +33,9 @@ export const SEO_RELATED_FEES_REPORT: SeoRelatedLink[] = [
 
 export const SEO_RELATED_FEE_CALCULATOR: SeoRelatedLink[] = [
   {
-    context: "What should the report include?",
-    href: "/stripe-fees-report",
-    label: "Stripe fees report guide",
-  },
-  {
-    context: "Don't have the CSV yet?",
-    href: "/stripe-balance-csv",
-    label: "CSV Export Guide",
-  },
-  {
-    context: "Fees up vs last month?",
-    href: "/blog/why-stripe-fees-increase",
-    label: "Why Stripe fees increase",
-  },
-  {
-    context: "Want to understand the fee drivers?",
-    href: "/why-stripe-fee-rate-higher-than-2-9",
-    label: "Why fees run higher",
+    context: "Need actual fees, not an estimate?",
+    href: "/analyze",
+    label: "Analyze Stripe fees from Balance CSV",
   },
   {
     context: "Need the short percentage answer?",
@@ -58,9 +43,24 @@ export const SEO_RELATED_FEE_CALCULATOR: SeoRelatedLink[] = [
     label: "What percent Stripe takes",
   },
   {
-    context: "Comparing payment options?",
-    href: "/compare-stripe-paypal-wise",
-    label: "Stripe vs PayPal vs Wise",
+    context: "Want the processing-fees explainer?",
+    href: "/blog/stripe-credit-card-processing-fees",
+    label: "Stripe credit card processing fees",
+  },
+  {
+    context: "Don't have the CSV yet?",
+    href: "/stripe-balance-csv",
+    label: "CSV Export Guide",
+  },
+  {
+    context: "Want to understand the fee drivers?",
+    href: "/why-stripe-fee-rate-higher-than-2-9",
+    label: "Why fees run higher",
+  },
+  {
+    context: "Fees up vs last month?",
+    href: "/blog/why-stripe-fees-increase",
+    label: "Why Stripe fees increase",
   },
 ];
 
@@ -163,12 +163,46 @@ export const SEO_RELATED_DATA_EXPORT: SeoRelatedLink[] = [
   },
 ];
 
+export const SEO_RELATED_PERCENT_TAKE: SeoRelatedLink[] = [
+  {
+    context: "Need a published-price estimate?",
+    href: "/stripe-fee-calculator",
+    label: "Calculate Stripe fees",
+  },
+  {
+    context: "Need actual fees from your export?",
+    href: "/analyze",
+    label: "Analyze Stripe fees from Balance CSV",
+  },
+  {
+    context: "Want the full processing-fees guide?",
+    href: "/blog/stripe-credit-card-processing-fees",
+    label: "Stripe credit card processing fees",
+  },
+  {
+    context: "Why can the rate exceed 2.9%?",
+    href: "/why-stripe-fee-rate-higher-than-2-9",
+    label: "Why fees run higher",
+  },
+  {
+    context: "Comparing Square?",
+    href: "/stripe-vs-square-fees",
+    label: "Stripe vs Square fees",
+  },
+  {
+    context: "Need the export steps?",
+    href: "/stripe-balance-csv",
+    label: "Export Stripe Balance CSV",
+  },
+];
+
 const SEO_RELATED_FALLBACKS = {
   feesReport: SEO_RELATED_FEES_REPORT,
   feeCalculator: SEO_RELATED_FEE_CALCULATOR,
   whyHigher: SEO_RELATED_WHY_HIGHER,
   balanceCsv: SEO_RELATED_BALANCE_CSV,
   dataExport: SEO_RELATED_DATA_EXPORT,
+  percentTake: SEO_RELATED_PERCENT_TAKE,
 } as const;
 
 export type SeoRelatedKey = keyof typeof SEO_RELATED_FALLBACKS;

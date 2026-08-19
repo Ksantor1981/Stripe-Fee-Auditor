@@ -65,114 +65,174 @@
       "ctaPrimary": "Upload Balance CSV →"
     },
     "stripeFeeCalculator": {
-      "metaTitle": "Stripe Fee Calculator: Estimate and Verify Your Rate",
-      "metaDescription": "Free Stripe fee calculator for monthly volume, average charge size, and reverse fee math. Estimate costs, then verify your real effective rate from a Balance CSV.",
-      "breadcrumb": "Stripe Fee Calculator: Estimate Fees, Then Verify Your Real Rate",
+      "metaTitle": "Stripe Fee Calculator (2026) — Calculate Processing Fees",
+      "metaDescription": "Calculate Stripe processing fees, net payout, and effective rate using published pricing. Include international cards, currency conversion, and fixed fees.",
+      "breadcrumb": "Stripe Fee Calculator: Calculate Processing Fees",
       "eyebrow": "Stripe fees calculator",
-      "heroTitle": "Stripe Fee Calculator: Estimate Fees, Then Verify Your Real Rate",
-      "heroDescription": "Estimate monthly Stripe fees, effective rate, and how much to charge if you want to receive a target amount after fees. Then compare that estimate with your actual effective rate from a Balance CSV, where international cards, refunds, small charges, and add-ons can push the real number higher.",
+      "heroTitle": "Stripe Fee Calculator: Calculate Processing Fees",
+      "heroDescription": "Estimate Stripe processing fees before a payment using published card pricing, fixed fees, international-card share, and currency conversion. For fees Stripe already charged, use the separate Balance CSV audit.",
       "sections": [
         {
           "type": "note",
-          "body": "Estimates below use Stripe's published rates by region (2025–2026). Your account may differ if you have custom or interchange-plus pricing — confirm in Dashboard → Settings → Plans and fees. Add-ons (Billing 0.7%, disputes, refunds) are not included in the card-fee math."
+          "body": "Rates checked August 19, 2026 against [Stripe's official pricing](https://stripe.com/pricing). Published list pricing only; your country, payment method, custom agreement, or interchange-plus plan may differ."
         },
         {
           "type": "audience",
-          "body": "Stripe Fee Auditor is built for SaaS, ecommerce, subscription, and marketplace teams that need a Stripe fee calculator based on actual Balance CSV exports instead of averages."
+          "body": "This page answers the planning question: “What should Stripe charge for this payment or monthly mix?” It does not infer what Stripe already charged. For actual fees, use the [Stripe Balance CSV audit](/analyze)."
         },
         {
           "type": "rateCards",
-          "heading": "Why the difference matters",
+          "heading": "US domestic card examples at 2.9% + $0.30",
           "items": [
             {
-              "label": "Published rate",
-              "rate": "2.9%",
-              "note": "Stripe's standard US rate",
+              "label": "$10 charge",
+              "rate": "$0.59",
+              "note": "5.90% effective",
               "highlight": false
             },
             {
-              "label": "Typical effective rate",
-              "rate": "3.1–3.4%",
-              "note": "After international cards + refunds",
+              "label": "$50 charge",
+              "rate": "$1.75",
+              "note": "3.50% effective",
               "highlight": false
             },
             {
-              "label": "With high intl. volume",
-              "rate": "3.5–4.2%",
-              "note": "30%+ international customers",
+              "label": "$100 charge",
+              "rate": "$3.20",
+              "note": "3.20% effective",
               "highlight": true
             }
           ]
         },
         {
-          "type": "example",
-          "body": "At $50,000/month in revenue, a 3.3% effective rate vs 2.9% published rate is $200/month extra — $2,400/year. Knowing what's driving it tells you what to actually do about it."
+          "type": "formula",
+          "heading": "Stripe fee calculation formula",
+          "formula": "Estimated fee = charge amount × percentage rate + fixed fee + applicable international and conversion fees",
+          "paragraphs": [
+            "For the common US domestic online-card rate, a $100 charge is $100 × 2.9% + $0.30 = $3.20. The effective rate is $3.20 ÷ $100 = 3.2%.",
+            "Use the interactive calculator above for monthly volume and average charge size. Fixed fees matter more when transactions are small."
+          ]
+        },
+        {
+          "type": "checklist",
+          "heading": "How to calculate Stripe fees",
+          "body": "This is a published-price estimate. No Stripe login or CSV is required.",
+          "items": [
+            "Choose the Stripe account country that matches your Dashboard pricing.",
+            "Enter monthly card volume and average charge size.",
+            "Add international-card and currency-conversion shares if they apply.",
+            "Read the estimated processing fee, effective rate, and reverse charge amount.",
+            "To measure fees Stripe already charged, use the Balance CSV audit instead of this calculator."
+          ]
         },
         {
           "type": "comparison",
-          "heading": "Estimator vs real data analysis",
+          "heading": "Published-price calculator vs actual fee audit",
           "left": {
-            "title": "Fee Estimator",
+            "title": "Stripe Fee Calculator",
             "items": [
-              "Enter a transaction amount",
-              "Get Stripe's published fee",
-              "Assumes standard rate",
-              "No history or trends"
+              "Estimates before a payment",
+              "Uses published pricing inputs",
+              "Includes international and conversion shares",
+              "Does not read Stripe data"
             ]
           },
           "right": {
-            "title": "Stripe Fee Auditor",
+            "title": "Stripe Balance CSV Audit",
             "items": [
-              "Upload your real Balance CSV",
-              "Actual rate from real transactions",
-              "Monthly trend and MoM change",
-              "Specific transactions driving costs"
+              "Analyzes fees already charged",
+              "Uses your itemized Balance export",
+              "Separates processing rate from all-in cost",
+              "Shows fee drivers and costly rows"
             ]
           }
         },
         {
           "type": "features",
-          "heading": "What you get from the analysis",
+          "heading": "What changes the estimate",
           "items": [
             {
-              "title": "Effective rate for the period",
-              "description": "Your actual fee rate across all charges — not an estimate based on inputs."
+              "title": "International cards",
+              "description": "Cross-border pricing can add an uplift when the card was issued outside your Stripe account country."
             },
             {
-              "title": "Month-over-month change",
-              "description": "See if your rate went up, down, or stayed flat. In dollars, not just percentages."
+              "title": "Currency conversion",
+              "description": "Conversion pricing can apply when the charge currency differs from your settlement currency."
             },
             {
-              "title": "Top fee drivers",
-              "description": "Which specific transactions had the highest fee rate and why (international card, micro-transaction, etc)."
+              "title": "Refunds and other Stripe products",
+              "description": "Refund effects, disputes, Billing, Radar, and other product fees are excluded from this published card-processing estimate."
             },
             {
-              "title": "Charge fees vs other fees",
-              "description": "Processing fees separated from Radar, dispute fees, and refund-related costs."
+              "title": "Custom pricing",
+              "description": "Custom and interchange-plus agreements can differ from list pricing; verify your contract in Stripe Dashboard."
             }
+          ]
+        },
+        {
+          "type": "related",
+          "heading": "Next steps",
+          "items": [
+            { "title": "Analyze your actual Stripe fees from Balance CSV", "href": "/analyze" },
+            { "title": "What percent does Stripe take?", "href": "/what-percent-does-stripe-take" },
+            { "title": "Stripe processing fees and real cost", "href": "/blog/stripe-credit-card-processing-fees" },
+            { "title": "Export Stripe Balance transactions", "href": "/stripe-balance-csv" },
+            { "title": "Compare Stripe and Square fees", "href": "/stripe-vs-square-fees" }
+          ]
+        },
+        {
+          "type": "sources",
+          "heading": "Official Stripe source",
+          "items": [
+            { "title": "Stripe pricing — rates checked August 19, 2026", "href": "https://stripe.com/pricing" }
           ]
         }
       ],
+      "howto": {
+        "name": "How to calculate Stripe fees",
+        "steps": [
+          {
+            "name": "Enter monthly volume and average charge",
+            "text": "Use expected card volume and typical charge size. The Stripe fees calculator applies published percentage and fixed fees to that mix."
+          },
+          {
+            "name": "Add international and conversion shares",
+            "text": "If some cards are issued abroad or settle in another currency, enter those shares so the processing fee calculator can apply published uplifts."
+          },
+          {
+            "name": "Review estimated fees and effective rate",
+            "text": "The result is a published-price estimate, including reverse-fee math when you need to charge enough to receive a target net amount."
+          },
+          {
+            "name": "Measure actual fees separately",
+            "text": "After Stripe has charged fees, upload an itemized Balance CSV on the analyzer. Do not use this calculator to infer fees already taken."
+          }
+        ]
+      },
       "faq": [
         {
-          "q": "How much does Stripe charge per transaction?",
-          "a": "For many US online card payments, Stripe's published rate is 2.9% + $0.30 per successful charge. On a $100 domestic card payment that is about $3.20 (3.2% effective). International cards, currency conversion, refunds, and small tickets can push the blended rate higher — use the calculator above for your mix, then upload a Balance CSV to see your real rate."
+          "q": "How do I calculate Stripe fees?",
+          "a": "Use the Stripe fees calculator on this page: enter monthly card volume, average charge size, and optional international or conversion shares. The estimate uses published Stripe card pricing. It does not read your Stripe account or a CSV."
         },
         {
-          "q": "Is this a Stripe fee estimator or a real calculator?",
-          "a": "The on-page Stripe fees calculator estimates fees from public pricing. Stripe Fee Auditor calculates your real effective Stripe fee rate from your Balance Transactions CSV, so you can compare the estimate with actual numbers."
+          "q": "Is this a Stripe processing fee calculator?",
+          "a": "Yes. It estimates Stripe processing fees before a payment from published list pricing, including fixed fees and the international or conversion shares you enter. For fees Stripe already charged, use the separate Balance CSV audit."
+        },
+        {
+          "q": "How much does Stripe charge per transaction?",
+          "a": "For many US online card payments, Stripe's published rate is 2.9% + $0.30 per successful charge. On a $100 domestic card payment that is about $3.20 (3.2% effective). See the percentage page for ticket-size examples; use this calculator for a volume mix."
         },
         {
           "q": "How do I estimate monthly Stripe fees?",
-          "a": "Enter your monthly card volume and average charge amount to estimate monthly fees. Use the reverse calculator when you know the net amount you want to receive and need the gross amount to charge."
+          "a": "Enter monthly card volume and average charge amount. Use the reverse calculator when you know the net amount you want to receive and need the gross amount to charge."
         },
         {
-          "q": "What file do I need to calculate my Stripe effective fee rate?",
-          "a": "You need the Stripe Balance Transactions CSV export. It includes the transaction amount, fee, net amount, currency, type, and timestamp needed for an accurate fee analysis."
+          "q": "Does the Stripe fee calculator include international cards and currency conversion?",
+          "a": "Yes. Enter the share of international card volume and the share requiring currency conversion. The estimate applies the published uplifts for the selected account region. Refunds, disputes, Billing, Radar, and custom pricing are not included."
         },
         {
-          "q": "Why can my effective Stripe rate be higher than the published rate?",
-          "a": "International cards, currency conversion, refunds, Radar charges, disputes, and micro-transactions can all push your blended effective rate above Stripe's standard published rate."
+          "q": "How do I check actual Stripe fees after they were charged?",
+          "a": "Export an itemized Stripe Balance Transactions CSV and upload it on the analyzer. That audit measures fees already charged. This calculator is only a published-price estimate."
         }
       ],
       "cta": {
@@ -356,16 +416,16 @@
       }
     },
     "whatPercent": {
-      "metaTitle": "What Percentage Does Stripe Take? Fees Explained",
-      "metaDescription": "Stripe often charges 2.9% + $0.30 for US online cards. See the effective percentage by transaction size and calculate the real rate from your Balance CSV.",
-      "breadcrumb": "What Percentage Does Stripe Take?",
+      "metaTitle": "What Percent Does Stripe Take? (2026 Rates)",
+      "metaDescription": "What percent does Stripe take? For many US online cards it starts at 2.9% + $0.30. See the effective percentage by ticket size, then audit actual fees from CSV.",
+      "breadcrumb": "What Percent Does Stripe Take?",
       "eyebrow": "Stripe percentage fee",
-      "heroTitle": "What Percentage Does Stripe Take?",
-      "heroDescription": "For many US online card payments, Stripe starts at 2.9% + $0.30. That equals 3.2% on a $100 charge, 3.5% on $50, and 5.9% on $10. Your monthly effective percentage can be higher because of international cards, currency conversion, refunds, disputes, and other fee lines.",
+      "heroTitle": "What Percent Does Stripe Take?",
+      "heroDescription": "Short answer: for many US online cards Stripe takes 2.9% + $0.30 per successful charge. That is 3.2% on $100, 3.5% on $50, and 5.9% on $10. The percentage you actually pay can be higher once international cards, conversion, refunds, and other fee lines appear.",
       "sections": [
         {
           "type": "note",
-          "body": "Quick answer: the common US online-card price is 2.9% + $0.30 per successful payment. The fixed $0.30 means the effective percentage changes with transaction size. Published list rates only; custom and interchange-plus pricing may differ."
+          "body": "Quick answer: the common US online-card price is 2.9% + $0.30 per successful payment. Rates checked August 19, 2026 against [Stripe's official pricing](https://stripe.com/pricing). Published list rates only; country, payment method, custom, and interchange-plus pricing may differ."
         },
         {
           "type": "rateCards",
@@ -398,7 +458,7 @@
           "heading": "How to calculate the actual percentage",
           "formula": "Real Stripe percentage = total Stripe fees / total processed charge volume",
           "paragraphs": [
-            "For one transaction, divide the Stripe fee by the charge amount. For your business, use the blended rate across a full period.",
+            "For one transaction, divide the Stripe fee by the charge amount. For your business, use the blended rate across a full period. [Calculate Stripe fees](/stripe-fee-calculator) for a published-price estimate; do not treat that estimate as the amount Stripe already took.",
             "That is the number that tells you what Stripe actually took from your revenue. A single $100 domestic card charge may look close to 3.2%, but a real month can land at 3.8%, 4.2%, or higher depending on customer geography and transaction size."
           ]
         },
@@ -445,16 +505,38 @@
           "description": "A public calculator can estimate one charge. Your Stripe Balance CSV shows what happened across all charges, refunds, and fee lines. Upload it to see your processing rate, all-in Stripe cost, monthly trend, and top fee drivers.",
           "primaryLabel": "Analyze My Stripe CSV",
           "secondaryLabel": "Open Stripe fees calculator"
+        },
+        {
+          "type": "related",
+          "heading": "Related Stripe fee guides",
+          "items": [
+            { "title": "Calculate Stripe processing fees before a payment", "href": "/stripe-fee-calculator" },
+            { "title": "Analyze your actual Stripe fees from Balance CSV", "href": "/analyze" },
+            { "title": "Stripe processing fees: rates and real cost", "href": "/blog/stripe-credit-card-processing-fees" },
+            { "title": "Why Stripe fees can be higher than 2.9%", "href": "/why-stripe-fee-rate-higher-than-2-9" },
+            { "title": "Compare Stripe and Square fees", "href": "/stripe-vs-square-fees" }
+          ]
+        },
+        {
+          "type": "sources",
+          "heading": "Official Stripe source",
+          "items": [
+            { "title": "Stripe pricing — rates checked August 19, 2026", "href": "https://stripe.com/pricing" }
+          ]
         }
       ],
       "faq": [
         {
-          "q": "How much does Stripe charge per transaction?",
-          "a": "For many US online card payments, Stripe charges 2.9% + $0.30 per successful domestic card transaction. On $100 that is about $3.20. International cards often add about 1.5 percentage points, and currency conversion can add roughly another 1%. Your blended rate across a month is usually higher than any single published line — check it from your Balance CSV."
+          "q": "What percent does Stripe take?",
+          "a": "For many US online cards, Stripe takes 2.9% plus $0.30 per successful charge. That is 3.2% on $100, 3.5% on $50, and 5.9% on $10 because the fixed $0.30 is a larger share of small payments. Rates checked August 19, 2026 against Stripe's official pricing."
         },
         {
           "q": "What percentage does Stripe take from a payment?",
-          "a": "For many US online card payments, Stripe's published rate starts at 2.9% plus $0.30 per successful charge. The effective percentage on a single charge depends on the charge amount because the fixed $0.30 fee is larger on small payments."
+          "a": "The published US online-card percentage starts at 2.9%, plus a $0.30 fixed fee. The effective percentage on one charge depends on ticket size. Custom and interchange-plus plans can differ — confirm in Stripe Dashboard."
+        },
+        {
+          "q": "How much does Stripe charge per transaction?",
+          "a": "For many US online card payments, Stripe charges 2.9% + $0.30 per successful domestic card transaction. On $100 that is about $3.20. International cards often add about 1.5 percentage points, and currency conversion can add roughly another 1%."
         },
         {
           "q": "Why is my real Stripe rate higher than 2.9%?",
@@ -462,7 +544,7 @@
         },
         {
           "q": "How do I check the actual percentage Stripe took?",
-          "a": "Export your itemized Stripe Balance CSV, sum charge volume, sum Stripe fees, and divide fees by volume. Stripe Fee Auditor does this from your Balance CSV and separates processing rate from all-in Stripe cost. You can also start with the free Stripe fees calculator for a published-rate estimate."
+          "a": "Export an itemized Stripe Balance CSV and divide total Stripe fees by processed charge volume. That audit lives on the analyzer. Use the Stripe fee calculator only for a published-price estimate before a payment."
         }
       ],
       "cta": {
@@ -2233,8 +2315,8 @@
       "publishedAt": "2026-06-25",
       "updatedAt": "2026-08-19",
       "intro": [
-        "For many US online domestic card payments, Stripe credit card processing fees start at 2.9% + $0.30 per successful charge. That is $3.20 on $100, or an effective 3.2%. The percentage is higher on small payments because the fixed $0.30 represents more of the sale.",
-        "Your real monthly cost can exceed the headline card rate when the mix includes international cards, currency conversion, refunds, disputes, Stripe Billing, Radar, payout fees, or other products. The useful comparison is published price versus the processing and all-in rates calculated from your Balance CSV."
+        "For many US online domestic card payments, Stripe credit card processing fees start at 2.9% + $0.30 per successful charge. That is $3.20 on $100, or an effective 3.2%. The percentage is higher on small payments because the fixed $0.30 represents more of the sale. Rates checked August 19, 2026 against [Stripe's official pricing](https://stripe.com/pricing).",
+        "Your real monthly cost can exceed the headline card rate when the mix includes international cards, currency conversion, refunds, disputes, Stripe Billing, Radar, payout fees, or other products. [Calculate Stripe fees](/stripe-fee-calculator) from published pricing first. Then [analyze actual fees from a Balance CSV](/analyze) instead of multiplying revenue by one headline percentage."
       ],
       "table": {
         "headers": [
@@ -2306,7 +2388,7 @@
           "type": "section",
           "heading": "Stripe card fee estimate vs actual monthly cost",
           "paragraphs": [
-            "A calculator estimates a clean transaction. A real month includes a distribution of ticket sizes, card countries, refunds, disputes, and product fees. Sum the actual charge volume and fee lines from an itemized Stripe Balance export instead of multiplying revenue by one headline percentage.",
+            "A calculator estimates a clean transaction. A real month includes a distribution of ticket sizes, card countries, refunds, disputes, and product fees. Use the [Stripe fee calculator](/stripe-fee-calculator) for a published-price estimate, then [analyze actual Stripe fees from a Balance CSV](/analyze) instead of multiplying revenue by one headline percentage.",
             "For a defensible audit, report both processing fees divided by charge volume and all Stripe fee lines divided by the same charge volume. The gap tells you whether the issue is basic card economics or costs outside ordinary processing."
           ]
         },
@@ -2328,7 +2410,7 @@
           "type": "section",
           "heading": "How to check your actual Stripe card fees",
           "paragraphs": [
-            "Export the itemized Balance transactions CSV for a representative three- to six-month period. Include charge volume, fee, net, currency, reporting category, and transaction date. Calculate fees by month and separate charge-processing rows from refunds, disputes, payouts, and product fees.",
+            "Export the itemized Balance transactions CSV for a representative three- to six-month period. Include charge volume, fee, net, currency, reporting category, and transaction date. Then [analyze the CSV](/analyze) to calculate fees by month and separate charge-processing rows from refunds, disputes, payouts, and product fees.",
             "Pricing changes. Verify the current schedule for your country and plan in Stripe before making pricing or migration decisions."
           ]
         }
@@ -2352,7 +2434,7 @@
         },
         {
           "question": "How can I calculate my real Stripe processing rate?",
-          "answer": "Divide charge-processing fees by processed charge volume for the same period. Then calculate a separate all-in rate using every Stripe fee line so you can see costs outside ordinary card processing."
+          "answer": "Divide charge-processing fees by processed charge volume for the same period. Then calculate a separate all-in rate using every Stripe fee line so you can see costs outside ordinary card processing. Use the Stripe fee calculator for a published-price estimate and the Balance CSV analyzer for actual fees."
         }
       ],
       "sources": [
@@ -2372,11 +2454,15 @@
       "related": [
         {
           "href": "/what-percent-does-stripe-take",
-          "title": "What Percentage Does Stripe Take?"
+          "title": "What percent does Stripe take?"
         },
         {
           "href": "/stripe-fee-calculator",
-          "title": "Stripe Fee Calculator"
+          "title": "Stripe fee calculator"
+        },
+        {
+          "href": "/analyze",
+          "title": "Analyze actual Stripe fees from Balance CSV"
         },
         {
           "href": "/blog/stripe-international-card-fees",

@@ -8,10 +8,6 @@ import {
   type StripeAccountCountry,
 } from "@/lib/stripe-country-fees";
 
-/** Extra buffer for refunds, disputes, Radar/Billing add-ons (all-in vs processing). */
-const ALL_IN_BUFFER_LOW = 0.002;
-const ALL_IN_BUFFER_HIGH = 0.006;
-
 function parseUsd(raw: string) {
   const value = Number.parseFloat(raw.replace(/,/g, "").trim());
   return Number.isFinite(value) && value >= 0 ? value : 0;
@@ -45,6 +41,7 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
   const [volumeRaw, setVolumeRaw] = useState("50000");
   const [averageChargeRaw, setAverageChargeRaw] = useState("50");
   const [intlShareRaw, setIntlShareRaw] = useState("15");
+  const [fxShareRaw, setFxShareRaw] = useState("5");
   const [targetNetRaw, setTargetNetRaw] = useState("100");
   const [accountCountry, setAccountCountry] = useState<StripeAccountCountry>("US");
 
@@ -52,12 +49,15 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
     const monthlyVolume = parseUsd(volumeRaw);
     const averageCharge = Math.max(parseUsd(averageChargeRaw), 0.01);
     const intlShare = parsePct(intlShareRaw) / 100;
+    const fxShare = parsePct(fxShareRaw) / 100;
     const targetNet = Math.max(parseUsd(targetNetRaw), 0);
     const chargeCount = monthlyVolume > 0 ? Math.max(1, Math.round(monthlyVolume / averageCharge)) : 0;
     const countryEstimate = estimateCountryStripeFee({
       amount: monthlyVolume,
       accountCountry,
       internationalShare: intlShare,
+      fxShare,
+      chargeCount,
     });
     const profile = countryEstimate.profile;
     const publishedFee =
@@ -65,12 +65,9 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
         ? monthlyVolume * profile.domesticPercent + chargeCount * profile.domesticFixed
         : 0;
     const publishedRate = monthlyVolume > 0 ? publishedFee / monthlyVolume : 0;
-    const midRate = countryEstimate.effectiveRate;
-    const lowRate = midRate + ALL_IN_BUFFER_LOW;
-    const highRate = midRate + ALL_IN_BUFFER_HIGH + intlShare * 0.002;
-    const midFee = monthlyVolume * midRate;
-    const highFee = monthlyVolume * highRate;
-    const gapVsPublished = Math.max(0, midFee - publishedFee);
+    const estimatedRate = countryEstimate.effectiveRate;
+    const estimatedFee = countryEstimate.estimatedFee;
+    const gapVsPublished = Math.max(0, estimatedFee - publishedFee);
     const reverseGross =
       targetNet > 0 && profile.domesticPercent < 1
         ? (targetNet + profile.domesticFixed) / (1 - profile.domesticPercent)
@@ -83,21 +80,19 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
       averageCharge,
       chargeCount,
       intlShare,
+      fxShare,
       targetNet,
       profile,
       publishedFee,
       publishedRate,
-      midRate,
-      lowRate,
-      highRate,
-      midFee,
-      highFee,
+      estimatedRate,
+      estimatedFee,
       gapVsPublished,
       reverseGross,
       reverseFee,
       reverseEffectiveRate,
     };
-  }, [accountCountry, averageChargeRaw, intlShareRaw, targetNetRaw, volumeRaw]);
+  }, [accountCountry, averageChargeRaw, fxShareRaw, intlShareRaw, targetNetRaw, volumeRaw]);
 
   const shellClass = compact
     ? "rounded-2xl border border-blue-100 bg-blue-50/40 p-5 sm:p-6"
@@ -109,11 +104,11 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
   return (
     <section className={shellClass} id="instant-estimate">
       <h2 className="text-lg font-semibold text-gray-900 mb-1">
-        Monthly Stripe fee estimate + reverse fee calculator
+        Calculate Stripe processing fees
       </h2>
       <p className="text-sm text-gray-500 mb-5">
-        No file needed. Estimate monthly Stripe fees, see a likely all-in range, or calculate how much
-        to charge when you want to receive a specific net amount.
+        No CSV required. This Stripe fees calculator uses published pricing. For fees Stripe already
+        charged, use the Balance CSV audit.
       </p>
 
       <div className="grid gap-4 md:grid-cols-[1fr_1.2fr]">
@@ -177,6 +172,18 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
               className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
             />
           </label>
+          <label className="block">
+            <span className="text-xs font-medium text-gray-600">Volume requiring currency conversion (%)</span>
+            <input
+              type="number"
+              min={0}
+              max={100}
+              step="1"
+              value={fxShareRaw}
+              onChange={(event) => setFxShareRaw(event.target.value)}
+              className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
+            />
+          </label>
           <p className="text-xs leading-relaxed text-gray-500">
             ~{estimate.chargeCount.toLocaleString("en-US")} charges/month. Smaller averages make the
             fixed fee matter more; international share adds ~{(estimate.profile.crossBorderPercent * 100).toFixed(1)}% uplift on that volume.
@@ -185,16 +192,14 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
 
         <div className="rounded-xl border border-gray-200 bg-white p-4">
           <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
-            Your likely all-in rate
+            Estimated card-processing rate
           </p>
           <p className="mt-2 text-3xl font-extrabold tracking-tight text-gray-900">
-            {estimate.monthlyVolume > 0
-              ? `${formatRate(estimate.lowRate)}–${formatRate(estimate.highRate)}`
-              : "—"}
+            {estimate.monthlyVolume > 0 ? formatRate(estimate.estimatedRate) : "—"}
           </p>
           <p className="mt-1 text-sm text-gray-500">
-            Directional range for {estimate.profile.label}: domestic card pricing, international
-            uplift, and a small buffer for refunds / add-ons.
+            Published pricing estimate for {estimate.profile.label}, including the international-card and
+            currency-conversion shares entered above.
           </p>
 
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -203,7 +208,7 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
                 Published {domesticPct}% + {fixedFee}
               </p>
               <p className="text-lg font-bold text-gray-900">
-                {estimate.monthlyVolume > 0 ? formatMoney(estimate.publishedFee) : "-"}
+                {estimate.monthlyVolume > 0 ? formatMoney(estimate.publishedFee, estimate.profile.currency) : "-"}
                 <span className="ml-1 text-xs font-medium text-gray-400">/mo</span>
               </p>
               <p className="mt-0.5 text-xs text-gray-500">
@@ -211,9 +216,9 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
               </p>
             </div>
             <div className="rounded-lg bg-blue-50 px-3 py-3">
-              <p className="text-xs text-blue-700">At mid of your range</p>
+              <p className="text-xs text-blue-700">Estimated processing fees</p>
               <p className="text-lg font-bold text-blue-950">
-                {estimate.monthlyVolume > 0 ? formatMoney(estimate.midFee) : "-"}
+                {estimate.monthlyVolume > 0 ? formatMoney(estimate.estimatedFee, estimate.profile.currency) : "-"}
                 <span className="ml-1 text-xs font-medium text-blue-700/70">/mo</span>
               </p>
               <p className="mt-0.5 text-xs text-blue-700">
@@ -238,12 +243,22 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
           </div>
 
           <p className="mt-4 text-xs leading-relaxed text-gray-500">
-            {estimate.monthlyVolume > 0 && estimate.midRate > estimate.publishedRate
-              ? `Your rough estimate (${formatRate(estimate.lowRate)}–${formatRate(estimate.highRate)}) sits above the headline domestic rate (${(estimate.publishedRate * 100).toFixed(2)}% effective on this mix). `
+            {estimate.monthlyVolume > 0 && estimate.estimatedRate > estimate.publishedRate
+              ? `Your estimate (${formatRate(estimate.estimatedRate)}) is above the domestic-only rate (${(estimate.publishedRate * 100).toFixed(2)}%) because of the international and conversion shares entered. `
               : "Published list pricing only — confirm your contract in Dashboard → Settings → Plans and fees. "}
-            Refund fees are not returned; Billing adds 0.7% on subscription volume; disputes are $15 (refunded if won)
-            plus Smart Disputes 30% on win. The exact gap depends on international cards, refunds, small charges, and
-            other fee lines — not this form.
+            Refunds, disputes, Billing, Radar, and other Stripe products are not added to this estimate.
+          </p>
+          <p className="mt-3 text-xs leading-relaxed text-gray-500">
+            Rates checked August 19, 2026. Verify the current schedule on{" "}
+            <a
+              href="https://stripe.com/pricing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 underline hover:text-blue-800"
+            >
+              Stripe&apos;s official pricing page
+            </a>
+            .
           </p>
         </div>
       </div>

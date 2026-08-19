@@ -108,6 +108,8 @@ export function estimateCountryStripeFee(params: {
   internationalShare: number;
   /** Share of charges needing currency conversion (0–1). */
   fxShare?: number;
+  /** Number of successful charges represented by amount. Defaults to amount / 50. */
+  chargeCount?: number;
 }): {
   publishedFee: number;
   estimatedFee: number;
@@ -118,7 +120,10 @@ export function estimateCountryStripeFee(params: {
   const amount = Math.max(params.amount, 0);
   const intlShare = Math.min(1, Math.max(0, params.internationalShare));
   const fxShare = Math.min(1, Math.max(0, params.fxShare ?? intlShare * 0.35));
-  const chargeCount = amount > 0 ? Math.max(1, Math.round(amount / 50)) : 0;
+  const chargeCount =
+    amount > 0
+      ? Math.max(1, Math.round(params.chargeCount ?? amount / 50))
+      : 0;
 
   const base = amount * profile.domesticPercent + chargeCount * profile.domesticFixed;
   const intlExtra = amount * intlShare * profile.crossBorderPercent;

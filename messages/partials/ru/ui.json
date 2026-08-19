@@ -89,12 +89,20 @@
       { "context": "Готовы запустить аудит?", "href": "/analyze", "label": "Анализировать мой CSV" }
     ],
     "feeCalculator": [
-      { "context": "Что должно быть в отчёте?", "href": "/stripe-fees-report", "label": "Руководство по отчёту о комиссиях Stripe" },
-      { "context": "CSV ещё нет?", "href": "/stripe-balance-csv", "label": "Руководство по экспорту CSV" },
-      { "context": "Комиссии выросли по сравнению с прошлым месяцем?", "href": "/blog/why-stripe-fees-increase", "label": "Почему растут комиссии Stripe" },
-      { "context": "Хотите понять драйверы комиссий?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Почему комиссии выше" },
+      { "context": "Нужны фактические комиссии, не оценка?", "href": "/analyze", "label": "Анализ комиссий Stripe из Balance CSV" },
       { "context": "Нужен краткий ответ в процентах?", "href": "/what-percent-does-stripe-take", "label": "Какой процент берёт Stripe" },
-      { "context": "Сравниваете варианты оплаты?", "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" }
+      { "context": "Гид по комиссиям карт?", "href": "/blog/stripe-credit-card-processing-fees", "label": "Комиссии Stripe за карты" },
+      { "context": "CSV ещё нет?", "href": "/stripe-balance-csv", "label": "Руководство по экспорту CSV" },
+      { "context": "Хотите понять драйверы комиссий?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Почему комиссии выше" },
+      { "context": "Комиссии выросли по сравнению с прошлым месяцем?", "href": "/blog/why-stripe-fees-increase", "label": "Почему растут комиссии Stripe" }
+    ],
+    "percentTake": [
+      { "context": "Оценка по опубликованному тарифу?", "href": "/stripe-fee-calculator", "label": "Рассчитать комиссии Stripe" },
+      { "context": "Фактические комиссии из экспорта?", "href": "/analyze", "label": "Анализ комиссий Stripe из Balance CSV" },
+      { "context": "Полный гид по комиссиям карт?", "href": "/blog/stripe-credit-card-processing-fees", "label": "Комиссии Stripe за карты" },
+      { "context": "Почему ставка может быть выше 2,9%?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Почему комиссии выше" },
+      { "context": "Сравнение с Square?", "href": "/stripe-vs-square-fees", "label": "Stripe vs Square" },
+      { "context": "Шаги экспорта?", "href": "/stripe-balance-csv", "label": "Экспорт Stripe Balance CSV" }
     ],
     "whyHigher": [
       { "context": "Собрать полный отчёт о комиссиях", "href": "/stripe-fees-report", "label": "Отчёт о комиссиях Stripe" },

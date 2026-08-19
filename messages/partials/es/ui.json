@@ -89,12 +89,20 @@
       { "context": "¿Listo para ejecutar la auditoría?", "href": "/analyze", "label": "Analizar mi CSV" }
     ],
     "feeCalculator": [
-      { "context": "¿Qué debe incluir el informe?", "href": "/stripe-fees-report", "label": "Guía del informe de comisiones de Stripe" },
-      { "context": "¿Aún no tienes el CSV?", "href": "/stripe-balance-csv", "label": "Guía de exportación CSV" },
-      { "context": "¿Comisiones al alza respecto al mes pasado?", "href": "/blog/why-stripe-fees-increase", "label": "Por qué suben las comisiones de Stripe" },
-      { "context": "¿Quieres entender los factores de comisión?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Por qué las comisiones son más altas" },
+      { "context": "¿Comisiones reales, no una estimación?", "href": "/analyze", "label": "Analizar comisiones de Stripe desde el CSV" },
       { "context": "¿Necesitas la respuesta breve en porcentaje?", "href": "/what-percent-does-stripe-take", "label": "Qué porcentaje cobra Stripe" },
-      { "context": "¿Comparando opciones de pago?", "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" }
+      { "context": "¿Guía de comisiones de tarjeta?", "href": "/blog/stripe-credit-card-processing-fees", "label": "Comisiones de tarjeta de Stripe" },
+      { "context": "¿Aún no tienes el CSV?", "href": "/stripe-balance-csv", "label": "Guía de exportación CSV" },
+      { "context": "¿Quieres entender los factores de comisión?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Por qué las comisiones son más altas" },
+      { "context": "¿Comisiones al alza respecto al mes pasado?", "href": "/blog/why-stripe-fees-increase", "label": "Por qué suben las comisiones de Stripe" }
+    ],
+    "percentTake": [
+      { "context": "¿Estimación a precio publicado?", "href": "/stripe-fee-calculator", "label": "Calcular comisiones de Stripe" },
+      { "context": "¿Comisiones reales de tu exportación?", "href": "/analyze", "label": "Analizar comisiones de Stripe desde el CSV" },
+      { "context": "¿Guía completa de comisiones de tarjeta?", "href": "/blog/stripe-credit-card-processing-fees", "label": "Comisiones de tarjeta de Stripe" },
+      { "context": "¿Por qué la tasa puede superar el 2,9 %?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Por qué las comisiones son más altas" },
+      { "context": "¿Comparar con Square?", "href": "/stripe-vs-square-fees", "label": "Stripe vs Square" },
+      { "context": "¿Pasos de exportación?", "href": "/stripe-balance-csv", "label": "Exportar CSV de saldo de Stripe" }
     ],
     "whyHigher": [
       { "context": "Crea un informe completo de comisiones", "href": "/stripe-fees-report", "label": "Informe de comisiones de Stripe" },

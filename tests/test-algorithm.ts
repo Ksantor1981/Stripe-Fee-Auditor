@@ -784,6 +784,20 @@ test("estimateCountryStripeFee adds international uplift", () => {
   assert(intl.estimatedFee > domestic.estimatedFee, "intl share should increase estimated fee");
 });
 
+test("estimateCountryStripeFee uses supplied charge count and FX share", () => {
+  const estimate = estimateCountryStripeFee({
+    amount: 1000,
+    accountCountry: "US",
+    internationalShare: 0.2,
+    fxShare: 0.1,
+    chargeCount: 100,
+  });
+  // $29 percentage + $30 fixed + $3 international + $1 conversion.
+  assertClose(estimate.publishedFee, 59, 0.001, "published fee");
+  assertClose(estimate.estimatedFee, 63, 0.001, "estimated fee");
+  assertClose(estimate.effectiveRate, 0.063, 0.0001, "effective rate");
+});
+
 test("CA profile uses 0.8% international uplift per stripe.com/ca/pricing", () => {
   const profile = getCountryFeeProfile("CA");
   assertClose(profile.crossBorderPercent, 0.008, 0.0001, "CA intl uplift");

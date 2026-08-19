@@ -89,12 +89,20 @@
       { "context": "ऑडिट चलाने के लिए तैयार?", "href": "/analyze", "label": "मेरा CSV विश्लेषण करें" }
     ],
     "feeCalculator": [
-      { "context": "रिपोर्ट में क्या होना चाहिए?", "href": "/stripe-fees-report", "label": "Stripe फी रिपोर्ट गाइड" },
-      { "context": "अभी CSV नहीं है?", "href": "/stripe-balance-csv", "label": "CSV एक्सपोर्ट गाइड" },
-      { "context": "पिछले महीने से फी बढ़ी?", "href": "/blog/why-stripe-fees-increase", "label": "Stripe फी क्यों बढ़ती हैं" },
-      { "context": "फी कारकों को समझना है?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "फी अधिक क्यों" },
+      { "context": "अनुमान नहीं, वास्तविक शुल्क चाहिए?", "href": "/analyze", "label": "Balance CSV से Stripe शुल्क विश्लेषण" },
       { "context": "संक्षिप्त प्रतिशत उत्तर चाहिए?", "href": "/what-percent-does-stripe-take", "label": "Stripe कितना प्रतिशत लेता है" },
-      { "context": "भुगतान विकल्प तुलना?", "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" }
+      { "context": "कार्ड प्रोसेसिंग फी गाइड?", "href": "/blog/stripe-credit-card-processing-fees", "label": "Stripe क्रेडिट कार्ड शुल्क" },
+      { "context": "अभी CSV नहीं है?", "href": "/stripe-balance-csv", "label": "CSV एक्सपोर्ट गाइड" },
+      { "context": "फी कारकों को समझना है?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "फी अधिक क्यों" },
+      { "context": "पिछले महीने से फी बढ़ी?", "href": "/blog/why-stripe-fees-increase", "label": "Stripe फी क्यों बढ़ती हैं" }
+    ],
+    "percentTake": [
+      { "context": "प्रकाशित दर का अनुमान?", "href": "/stripe-fee-calculator", "label": "Stripe शुल्क की गणना करें" },
+      { "context": "एक्सपोर्ट से वास्तविक शुल्क?", "href": "/analyze", "label": "Balance CSV से Stripe शुल्क विश्लेषण" },
+      { "context": "पूर्ण प्रोसेसिंग फी गाइड?", "href": "/blog/stripe-credit-card-processing-fees", "label": "Stripe क्रेडिट कार्ड शुल्क" },
+      { "context": "दर 2.9% से ऊपर क्यों?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "फी अधिक क्यों" },
+      { "context": "Square से तुलना?", "href": "/stripe-vs-square-fees", "label": "Stripe vs Square फी" },
+      { "context": "एक्सपोर्ट के चरण?", "href": "/stripe-balance-csv", "label": "Stripe Balance CSV निर्यात" }
     ],
     "whyHigher": [
       { "context": "पूर्ण फी रिपोर्ट बनाएं", "href": "/stripe-fees-report", "label": "Stripe फी रिपोर्ट" },

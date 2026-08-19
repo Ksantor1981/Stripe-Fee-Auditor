@@ -65,12 +65,12 @@
       "ctaPrimary": "Télécharger le solde CSV →"
     },
     "stripeFeeCalculator": {
-      "metaTitle": "Calculateur de frais Stripe : estimez les frais, puis vérifiez votre taux réel",
-      "metaDescription": "Calculateur de frais Stripe gratuit pour le volume mensuel, le montant moyen des frais et le calcul des frais inversés. Estimez les coûts, puis vérifiez votre taux effectif réel à partir d’un solde CSV.",
-      "breadcrumb": "Calculateur de frais Stripe : estimez les frais, puis vérifiez votre taux réel",
+      "metaTitle": "Calculateur de frais Stripe (2026) — Frais de traitement",
+      "metaDescription": "Calculez les frais de traitement Stripe, le versement net et le taux effectif à partir des tarifs publiés. Inclut cartes internationales, conversion et frais fixes.",
+      "breadcrumb": "Calculateur de frais Stripe : calculer les frais de traitement",
       "eyebrow": "Calculateur de frais Stripe",
-      "heroTitle": "Calculateur de frais Stripe : estimez les frais, puis vérifiez votre taux réel",
-      "heroDescription": "Estimez les frais mensuels Stripe, le taux effectif et le montant à facturer si vous souhaitez recevoir un montant cible après frais. Comparez ensuite cette estimation avec votre taux effectif réel à partir d'un solde CSV, où les cartes internationales, les remboursements, les petits frais et les modules complémentaires peuvent faire augmenter le nombre réel.",
+      "heroTitle": "Calculateur de frais Stripe : calculer les frais de traitement",
+      "heroDescription": "Estimez les frais Stripe avant un paiement à partir des tarifs carte publiés, des frais fixes, de la part internationale et de la conversion. Pour les frais déjà facturés, utilisez l'audit CSV Balance.",
       "sections": [
         {
           "type": "note",
@@ -356,11 +356,11 @@
       }
     },
     "whatPercent": {
-      "metaTitle": "Combien Stripe facture-t-il par transaction ?",
-      "metaDescription": "Combien Stripe facture-t-il par transaction ? Pour de nombreuses cartes en ligne américaines, cela commence à 2,9 % + 0,30 $. Calculez le pourcentage publié, puis vérifiez votre taux mixte réel à partir d'un solde CSV.",
-      "breadcrumb": "Combien Stripe facture-t-il par transaction ?",
-      "eyebrow": "Combien Stripe facture-t-il",
-      "heroTitle": "Combien Stripe facture-t-il par transaction ?",
+      "metaTitle": "Quel pourcentage prend Stripe ? (2026)",
+      "metaDescription": "Quel pourcentage prend Stripe ? Pour beaucoup de cartes en ligne US, cela commence à 2,9 % + 0,30 $. Voir le pourcentage effectif par montant, puis auditer les frais réels via CSV.",
+      "breadcrumb": "Quel pourcentage prend Stripe ?",
+      "eyebrow": "Pourcentage Stripe",
+      "heroTitle": "Quel pourcentage prend Stripe ?",
       "heroDescription": "Réponse courte : pour de nombreuses cartes en ligne américaines, Stripe commence à 2,9 % + 0,30 $ par prélèvement réussi (environ 3,20 $ sur 100 $). Le pourcentage réel que vous payez peut être plus élevé une fois que de petits frais, des cartes internationales, des conversions de devises, des remboursements et d'autres lignes de frais Stripe apparaissent.",
       "sections": [
         {

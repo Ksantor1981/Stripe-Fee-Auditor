@@ -89,12 +89,20 @@
       { "context": "Bereit für das Audit?", "href": "/analyze", "label": "Meine CSV analysieren" }
     ],
     "feeCalculator": [
-      { "context": "Was soll der Bericht enthalten?", "href": "/stripe-fees-report", "label": "Leitfaden Stripe-Gebührenbericht" },
-      { "context": "Noch keine CSV?", "href": "/stripe-balance-csv", "label": "CSV-Export-Leitfaden" },
-      { "context": "Gebühren höher als im Vormonat?", "href": "/blog/why-stripe-fees-increase", "label": "Warum Stripe-Gebühren steigen" },
-      { "context": "Gebührentreiber verstehen?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Warum Gebühren höher ausfallen" },
+      { "context": "Tatsächliche Gebühren statt Schätzung?", "href": "/analyze", "label": "Stripe-Gebühren aus Balance-CSV analysieren" },
       { "context": "Kurze Prozent-Antwort benötigt?", "href": "/what-percent-does-stripe-take", "label": "Welchen Prozentsatz Stripe nimmt" },
-      { "context": "Zahlungsoptionen vergleichen?", "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" }
+      { "context": "Erklärung der Kartengebühren?", "href": "/blog/stripe-credit-card-processing-fees", "label": "Stripe-Kreditkartengebühren" },
+      { "context": "Noch keine CSV?", "href": "/stripe-balance-csv", "label": "CSV-Export-Leitfaden" },
+      { "context": "Gebührentreiber verstehen?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Warum Gebühren höher ausfallen" },
+      { "context": "Gebühren höher als im Vormonat?", "href": "/blog/why-stripe-fees-increase", "label": "Warum Stripe-Gebühren steigen" }
+    ],
+    "percentTake": [
+      { "context": "Schätzung nach Listenpreis?", "href": "/stripe-fee-calculator", "label": "Stripe-Gebühren berechnen" },
+      { "context": "Tatsächliche Gebühren aus dem Export?", "href": "/analyze", "label": "Stripe-Gebühren aus Balance-CSV analysieren" },
+      { "context": "Vollständiger Leitfaden zu Kartengebühren?", "href": "/blog/stripe-credit-card-processing-fees", "label": "Stripe-Kreditkartengebühren" },
+      { "context": "Warum kann die Rate über 2,9 % liegen?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Warum Gebühren höher ausfallen" },
+      { "context": "Vergleich mit Square?", "href": "/stripe-vs-square-fees", "label": "Stripe vs Square Gebühren" },
+      { "context": "Schritte zum Export?", "href": "/stripe-balance-csv", "label": "Stripe Balance CSV exportieren" }
     ],
     "whyHigher": [
       { "context": "Vollständigen Gebührenbericht erstellen", "href": "/stripe-fees-report", "label": "Stripe-Gebührenbericht" },

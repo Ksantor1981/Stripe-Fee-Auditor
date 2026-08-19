@@ -32,6 +32,8 @@ export const SEO_RELATED_KEYS = {
   feeCalculator: "feeCalculator",
   whyHigher: "whyHigher",
   balanceCsv: "balanceCsv",
+  dataExport: "dataExport",
+  percentTake: "percentTake",
 } as const;
 
 export type SeoRelatedKey = (typeof SEO_RELATED_KEYS)[keyof typeof SEO_RELATED_KEYS];

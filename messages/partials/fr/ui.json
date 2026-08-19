@@ -89,12 +89,20 @@
       { "context": "Prêt à lancer l'audit ?", "href": "/analyze", "label": "Analyser mon CSV" }
     ],
     "feeCalculator": [
-      { "context": "Que doit contenir le rapport ?", "href": "/stripe-fees-report", "label": "Guide du rapport de frais Stripe" },
-      { "context": "Pas encore de CSV ?", "href": "/stripe-balance-csv", "label": "Guide d'export CSV" },
-      { "context": "Frais en hausse vs le mois dernier ?", "href": "/blog/why-stripe-fees-increase", "label": "Pourquoi les frais Stripe augmentent" },
-      { "context": "Comprendre les facteurs de frais ?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Pourquoi les frais sont plus élevés" },
+      { "context": "Frais réels, pas une estimation ?", "href": "/analyze", "label": "Analyser les frais Stripe depuis le CSV" },
       { "context": "Besoin de la réponse courte en pourcentage ?", "href": "/what-percent-does-stripe-take", "label": "Quel pourcentage Stripe prélève" },
-      { "context": "Comparer les options de paiement ?", "href": "/compare-stripe-paypal-wise", "label": "Stripe vs PayPal vs Wise" }
+      { "context": "Guide des frais carte ?", "href": "/blog/stripe-credit-card-processing-fees", "label": "Frais de carte Stripe" },
+      { "context": "Pas encore de CSV ?", "href": "/stripe-balance-csv", "label": "Guide d'export CSV" },
+      { "context": "Comprendre les facteurs de frais ?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Pourquoi les frais sont plus élevés" },
+      { "context": "Frais en hausse vs le mois dernier ?", "href": "/blog/why-stripe-fees-increase", "label": "Pourquoi les frais Stripe augmentent" }
+    ],
+    "percentTake": [
+      { "context": "Estimation au tarif publié ?", "href": "/stripe-fee-calculator", "label": "Calculer les frais Stripe" },
+      { "context": "Frais réels depuis l'export ?", "href": "/analyze", "label": "Analyser les frais Stripe depuis le CSV" },
+      { "context": "Guide complet des frais carte ?", "href": "/blog/stripe-credit-card-processing-fees", "label": "Frais de carte Stripe" },
+      { "context": "Pourquoi le taux peut dépasser 2,9 % ?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Pourquoi les frais sont plus élevés" },
+      { "context": "Comparer avec Square ?", "href": "/stripe-vs-square-fees", "label": "Stripe vs Square" },
+      { "context": "Étapes d'export ?", "href": "/stripe-balance-csv", "label": "Exporter le CSV Balance Stripe" }
     ],
     "whyHigher": [
       { "context": "Créer un rapport complet de frais", "href": "/stripe-fees-report", "label": "Rapport de frais Stripe" },

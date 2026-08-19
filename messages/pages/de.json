@@ -65,12 +65,12 @@
       "ctaPrimary": "Guthaben hochladen CSV →"
     },
     "stripeFeeCalculator": {
-      "metaTitle": "Stripe Fee Calculator: Estimate Fees, Then Verify Your Real Rate",
-      "metaDescription": "Kostenloser Stripe-Gebührenrechner für monatliches Volumen, durchschnittliche Gebührenhöhe und Reverse-Fee-Berechnung. Schätzen Sie die Kosten und überprüfen Sie dann Ihren tatsächlichen effektiven Zinssatz anhand eines Guthabens CSV.",
-      "breadcrumb": "Stripe-Gebührenrechner: Schätzen Sie die Gebühren und überprüfen Sie dann Ihren tatsächlichen Tarif",
+      "metaTitle": "Stripe-Gebührenrechner (2026) — Zahlungsgebühren berechnen",
+      "metaDescription": "Berechnen Sie Stripe-Zahlungsgebühren, Netto-Auszahlung und Effektivsatz nach veröffentlichten Tarifen. Inklusive internationaler Karten, Umrechnung und Fixgebühren.",
+      "breadcrumb": "Stripe-Gebührenrechner: Zahlungsgebühren berechnen",
       "eyebrow": "Stripe Gebührenrechner",
-      "heroTitle": "Stripe-Gebührenrechner: Schätzen Sie die Gebühren und überprüfen Sie dann Ihren tatsächlichen Tarif",
-      "heroDescription": "Schätzen Sie die monatlichen Stripe-Gebühren, den effektiven Tarif und den zu berechnenden Betrag, wenn Sie einen Zielbetrag nach Abzug der Gebühren erhalten möchten. Vergleichen Sie diese Schätzung dann mit Ihrem tatsächlichen effektiven Zinssatz aus einer Balance-CSV-Datei, bei der internationale Karten, Rückerstattungen, kleine Gebühren und Add-ons den tatsächlichen Betrag in die Höhe treiben können.",
+      "heroTitle": "Stripe-Gebührenrechner: Zahlungsgebühren berechnen",
+      "heroDescription": "Schätzen Sie Stripe-Zahlungsgebühren vor einer Zahlung anhand veröffentlichter Kartentarife, Fixgebühren, internationaler Kartenanteile und Währungsumrechnung. Für bereits berechnete Gebühren nutzen Sie den separaten Balance-CSV-Audit.",
       "sections": [
         {
           "type": "note",
@@ -356,11 +356,11 @@
       }
     },
     "whatPercent": {
-      "metaTitle": "Wie viel berechnet Stripe pro Transaktion?",
-      "metaDescription": "How much does Stripe charge per transaction? For many US online cards it starts at 2.9% + $0.30. Calculate the published percentage, then check your real blended rate from a Balance CSV.",
-      "breadcrumb": "Wie viel berechnet Stripe pro Transaktion?",
-      "eyebrow": "Wie viel kostet Stripe?",
-      "heroTitle": "Wie viel berechnet Stripe pro Transaktion?",
+      "metaTitle": "Welchen Prozentsatz nimmt Stripe? (2026)",
+      "metaDescription": "Welchen Prozentsatz nimmt Stripe? Für viele US-Online-Karten beginnt es bei 2,9 % + 0,30 $. Effektiven Prozentsatz nach Betrag sehen, dann tatsächliche Gebühren per CSV prüfen.",
+      "breadcrumb": "Welchen Prozentsatz nimmt Stripe?",
+      "eyebrow": "Stripe-Prozentsatz",
+      "heroTitle": "Welchen Prozentsatz nimmt Stripe?",
       "heroDescription": "Kurze Antwort: Für viele US-amerikanische Online-Karten beginnt Stripe bei 2,9 % + 0,30 $ pro erfolgreicher Aufladung (ca. 3,20 $ bei 100 $). Der tatsächliche Prozentsatz, den Sie zahlen, kann höher sein, sobald kleine Gebühren, internationale Karten, Währungsumrechnungen, Rückerstattungen und andere Stripe-Gebührenzeilen angezeigt werden.",
       "sections": [
         {
@@ -2129,8 +2129,16 @@
       ],
       "related": [
         {
-          "href": "/blog/stripe-vs-paypal-fees",
-          "title": "Stripe vs. PayPal Gebühren: Echter Vergleich"
+          "href": "/what-percent-does-stripe-take",
+          "title": "Welchen Prozentsatz nimmt Stripe?"
+        },
+        {
+          "href": "/stripe-fee-calculator",
+          "title": "Stripe-Gebührenrechner"
+        },
+        {
+          "href": "/analyze",
+          "title": "Tatsächliche Stripe-Gebühren aus der CSV analysieren"
         },
         {
           "href": "/blog/stripe-international-card-fees",
@@ -2212,16 +2220,24 @@
       ],
       "related": [
         {
+          "href": "/what-percent-does-stripe-take",
+          "title": "Welchen Prozentsatz nimmt Stripe?"
+        },
+        {
+          "href": "/stripe-fee-calculator",
+          "title": "Stripe-Gebührenrechner"
+        },
+        {
+          "href": "/analyze",
+          "title": "Tatsächliche Stripe-Gebühren aus der CSV analysieren"
+        },
+        {
           "href": "/blog/stripe-international-card-fees",
           "title": "Stripe Internationale Kartengebühren: Warum Ihr Tarif höher ist"
         },
         {
           "href": "/blog/stripe-ach-vs-credit-card-fees",
           "title": "Stripe ACH vs. Kreditkartengebühren: Wenn ACH Geld spart"
-        },
-        {
-          "href": "/blog/stripe-fees-small-transactions",
-          "title": "Stripe-Gebühren für kleine Transaktionen: Warum Ihr Tarif höher ist"
         }
       ]
     },

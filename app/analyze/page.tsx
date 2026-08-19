@@ -1,27 +1,62 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { AppShellHeader } from "@/components/AppShellHeader";
 import { AdvertiserIdentityBanner } from "@/components/AdvertiserIdentityBanner";
+import { absoluteUrl } from "@/lib/site-url";
 import { AnalyzeClient } from "./_components/AnalyzeClient";
 import { AnalyzePageIntro } from "./_components/AnalyzePageIntro";
 
 export const metadata: Metadata = {
-  title: "Analyze Stripe Fees — Upload Balance CSV Free",
+  title: "Stripe Fee Audit — Analyze Actual Fees from Balance CSV",
   description:
-    "Upload your Stripe Balance CSV for a free fee audit: effective rate, international cards, refund leakage, and top fee drivers. No OAuth.",
+    "Analyze fees Stripe already charged from your Balance CSV. See effective rate, fee drivers, refunds, and international cards. For estimates, use the calculator.",
   alternates: { canonical: "/analyze" },
 };
 
 export default async function AnalyzePage() {
   const t = await getTranslations("analyze");
+  const pageUrl = absoluteUrl("/analyze");
+  const auditJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "@id": `${pageUrl}#audit`,
+    name: "Stripe Fee Audit",
+    description:
+      "Analyze fees Stripe already charged from an itemized Balance CSV. This is not a published-price fee calculator.",
+    url: pageUrl,
+    applicationCategory: "FinanceApplication",
+    operatingSystem: "Web",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  };
 
   return (
     <main className="min-h-screen page-canvas">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(auditJsonLd).replace(/</g, "\\u003c") }}
+      />
       <AppShellHeader />
 
       <div className="mx-auto max-w-3xl px-4 py-10">
         <AnalyzePageIntro />
         <p className="mt-2 text-sm text-gray-500">{t("metaTrust")}</p>
+        <p className="mt-3 text-sm text-gray-600">
+          {t("estimateFirst")}{" "}
+          <Link href="/stripe-fee-calculator" className="font-medium text-blue-600 underline hover:text-blue-800">
+            {t("estimateLink")}
+          </Link>
+          .
+        </p>
+        <p className="mt-2 text-sm text-gray-600">
+          <Link href="/what-percent-does-stripe-take" className="font-medium text-blue-600 underline hover:text-blue-800">
+            {t("relatedPercent")}
+          </Link>
+          <span className="px-2 text-gray-400">·</span>
+          <Link href="/blog/stripe-credit-card-processing-fees" className="font-medium text-blue-600 underline hover:text-blue-800">
+            {t("relatedArticle")}
+          </Link>
+        </p>
 
         <div className="mt-8">
           <AnalyzeClient />

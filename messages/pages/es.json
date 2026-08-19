@@ -65,12 +65,12 @@
       "ctaPrimary": "Subir saldo CSV →"
     },
     "stripeFeeCalculator": {
-      "metaTitle": "Stripe Fee Calculator: Estimate Fees, Then Verify Your Real Rate",
-      "metaDescription": "Calculadora de tarifas de Stripe gratuita para volumen mensual, tamaño de cargo promedio y cálculo de tarifas inversas. Calcule los costos y luego verifique su tasa efectiva real desde un Balance CSV.",
-      "breadcrumb": "Stripe Calculadora de tarifas: calcule las tarifas y luego verifique su tarifa real",
-      "eyebrow": "Calculadora de tarifas de franjas",
-      "heroTitle": "Stripe Calculadora de tarifas: calcule las tarifas y luego verifique su tarifa real",
-      "heroDescription": "Calcule las tarifas mensuales de Stripe, la tasa efectiva y cuánto cobrar si desea recibir un monto objetivo después de las tarifas. Luego compare esa estimación con su tasa efectiva real de un Balance CSV, donde las tarjetas internacionales, los reembolsos, los pequeños cargos y los complementos pueden aumentar el número real.",
+      "metaTitle": "Calculadora de tarifas Stripe (2026) — Comisiones de procesamiento",
+      "metaDescription": "Calcule comisiones de procesamiento de Stripe, el pago neto y la tasa efectiva con precios publicados. Incluye tarjetas internacionales, conversión y tarifas fijas.",
+      "breadcrumb": "Calculadora de tarifas Stripe: calcular comisiones",
+      "eyebrow": "Calculadora de tarifas Stripe",
+      "heroTitle": "Calculadora de tarifas Stripe: calcular comisiones",
+      "heroDescription": "Estime las comisiones de Stripe antes de un pago con precios de tarjeta publicados, tarifas fijas, cuota internacional y conversión. Para comisiones ya cobradas, use la auditoría CSV de Balance.",
       "sections": [
         {
           "type": "note",
@@ -356,11 +356,11 @@
       }
     },
     "whatPercent": {
-      "metaTitle": "¿Cuánto cobra Stripe por transacción?",
-      "metaDescription": "¿Cuánto cobra Stripe por transacción? Para muchas tarjetas en línea de EE. UU., comienza en 2,9% + $0,30. Calcule el porcentaje publicado y luego verifique su tasa combinada real desde un Balance CSV.",
-      "breadcrumb": "¿Cuánto cobra Stripe por transacción?",
-      "eyebrow": "¿Cuánto cobra Stripe?",
-      "heroTitle": "¿Cuánto cobra Stripe por transacción?",
+      "metaTitle": "¿Qué porcentaje se queda Stripe? (2026)",
+      "metaDescription": "¿Qué porcentaje se queda Stripe? En muchas tarjetas online de EE. UU. empieza en 2,9 % + 0,30 $. Ve el porcentaje efectivo por importe y audita las comisiones reales con CSV.",
+      "breadcrumb": "¿Qué porcentaje se queda Stripe?",
+      "eyebrow": "Porcentaje de Stripe",
+      "heroTitle": "¿Qué porcentaje se queda Stripe?",
       "heroDescription": "Respuesta corta: para muchas tarjetas en línea de EE. UU., Stripe comienza en 2,9% + $0,30 por cargo exitoso (alrededor de $3,20 por $100). El porcentaje real que paga puede ser mayor una vez que aparecen cargos pequeños, tarjetas internacionales, conversión de moneda, reembolsos y otras líneas de tarifas de Stripe.",
       "sections": [
         {

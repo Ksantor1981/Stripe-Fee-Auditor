@@ -12,7 +12,7 @@ const SEO_PAGES = [
   { dir: "stripe-fee-calculator", key: "stripeFeeCalculator", related: "feeCalculator", children: true },
   { dir: "stripe-balance-csv", key: "stripeBalanceCsv", related: "balanceCsv" },
   { dir: "why-stripe-fee-rate-higher-than-2-9", key: "whyHigher", related: "whyHigher", banner: true },
-  { dir: "what-percent-does-stripe-take", key: "whatPercent" },
+  { dir: "what-percent-does-stripe-take", key: "whatPercent", related: "percentTake" },
   { dir: "stripe-data-export", key: "dataExport" },
   { dir: "compare-stripe-paypal-wise", key: "comparePaypal" },
   { dir: "should-i-switch-from-stripe", key: "shouldSwitch" },
