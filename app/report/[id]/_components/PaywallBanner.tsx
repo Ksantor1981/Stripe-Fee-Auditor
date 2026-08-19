@@ -10,6 +10,7 @@ import type { FreeDiagnosis } from "@/lib/free-diagnosis";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 import { usePaywallCheckout } from "@/lib/i18n/use-paywall-checkout";
 import { useTranslatedDiagnosis } from "@/lib/i18n/report-insights";
+import { FULL_REPORTS_FREE } from "@/lib/beta-access";
 import { PaywallDetailsModal } from "./PaywallDetailsModal";
 
 interface Props {
@@ -36,6 +37,8 @@ export function PaywallBanner({
   const [open, setOpen] = useState(false);
   const hasImpact = annualImpact != null && annualImpact > 0;
   const diagnosisTitle = translatedDiagnosis?.title ?? diagnosis?.title;
+
+  if (FULL_REPORTS_FREE) return null;
 
   function goCheckout(placement: "inline_banner" | "modal") {
     unlock({

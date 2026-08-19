@@ -85,6 +85,9 @@ assert(!legalDocument.includes("Current free access"), "LegalDocument contains h
 assert(!legalDocument.includes("phaseOneLegalSections"), "LegalDocument still overwrites translated legal copy");
 assert(!waitlistForm.includes("What should FeeAuditor build next?"), "Waitlist form contains hardcoded English copy");
 assert(!calculatorWidget.includes("Calculate Stripe processing fees"), "Calculator widget contains hardcoded English copy");
+const paypalCallout = fs.readFileSync(path.join(ROOT, "components/SeoPayPalCalculatorCallout.tsx"), "utf8");
+assert(!paypalCallout.includes("PayPal fee calculator?"), "PayPal callout contains hardcoded English copy");
+assert(!fs.readFileSync(path.join(ROOT, "app/report/[id]/_components/ShareEmbedBenchmark.tsx"), "utf8").includes("html2canvas"), "Share card still uses html2canvas");
 assert(!localizedSeoPage.includes(">FAQ<"), "Localized SEO page contains hardcoded FAQ heading");
 for (const hardcoded of ["Use case", "Alternative", "Decision", "Good fit", "Poor fit", "Audit my actual Stripe CSV", "Start with a quick estimate"]) {
   assert(!seoSectionsRenderer.includes(`>${hardcoded}<`), `SEO renderer contains hardcoded English: ${hardcoded}`);

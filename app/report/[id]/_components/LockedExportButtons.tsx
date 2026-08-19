@@ -5,6 +5,7 @@ import { trackEvent } from "@/lib/analytics";
 import type { PaywallImpactSource } from "@/lib/paywall-impact";
 import type { FreeDiagnosis } from "@/lib/free-diagnosis";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
+import { FULL_REPORTS_FREE } from "@/lib/beta-access";
 import { usePaywallCheckout } from "@/lib/i18n/use-paywall-checkout";
 import { PaywallDetailsModal } from "./PaywallDetailsModal";
 
@@ -31,6 +32,7 @@ export function LockedExportButtons({
   const { tc } = useReportTranslations();
   const { unlock } = usePaywallCheckout(reportId, email);
   const [open, setOpen] = useState(false);
+  if (FULL_REPORTS_FREE) return null;
 
   function showDetails(format: "csv" | "pdf") {
     trackEvent("funnel_paywall_modal_open", { placement: "locked_export_" + format });

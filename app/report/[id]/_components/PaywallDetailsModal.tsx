@@ -3,6 +3,7 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 import { useFmtMoney } from "@/lib/report-currency";
+import { FULL_REPORTS_FREE } from "@/lib/beta-access";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 interface Props {
@@ -22,6 +23,7 @@ export function PaywallDetailsModal({
 }: Props) {
   const fmt$ = useFmtMoney();
   const { t } = useReportTranslations();
+  if (FULL_REPORTS_FREE) return null;
   const hasImpact = annualImpact != null && annualImpact > 0;
 
   const included = [

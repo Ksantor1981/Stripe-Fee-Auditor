@@ -6,13 +6,12 @@ import type { AnalysisResult } from "@/lib/fee-analyzer";
 import { trackEvent } from "@/lib/analytics";
 import { fmtPct } from "@/lib/format";
 import { periodTotalFees } from "@/lib/fee-period-copy";
-import { getSiteBaseUrl } from "@/lib/site-url";
 import {
   REGION_BENCHMARKS,
   getRegionBenchmark,
   type RegionBenchmarkId,
 } from "@/lib/region-benchmark";
-import { buildTwitterIntentUrl } from "@/lib/share-copy";
+import { createShareCardCanvas, downloadCanvasPng } from "@/lib/share-card-png";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 
 const REGION_STORAGE_KEY = "fee_auditor_region_benchmark";
@@ -31,6 +30,7 @@ export function ShareEmbedBenchmark({ embedShareUrl, result }: Props) {
   const [regionId, setRegionId] = useState<RegionBenchmarkId>("us");
   const [copiedEmbed, setCopiedEmbed] = useState(false);
   const [pngBusy, setPngBusy] = useState(false);
+  const [pngError, setPngError] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -60,23 +60,6 @@ export function ShareEmbedBenchmark({ embedShareUrl, result }: Props) {
 
   const iframeSnippet = `<iframe src="${embedShareUrl}" width="100%" height="300" style="border:0;border-radius:12px;max-width:440px;background:#fff" loading="lazy" title="Stripe Fee Auditor snapshot"></iframe>`;
 
-  const shareUrl = useMemo(() => {
-    const base = getSiteBaseUrl();
-    const marketing = `${base}/?utm_source=twitter&utm_medium=social&utm_campaign=share_snippet`;
-    const handle = process.env.NEXT_PUBLIC_TWITTER_HANDLE ?? "feeauditor";
-    return buildTwitterIntentUrl({
-      actualRatePct: displayAllInRate,
-      siteUrl: marketing,
-      twitterHandle: handle,
-      feeGradeLetter: result.feeGrade?.letter,
-    });
-  }, [displayAllInRate, result.feeGrade?.letter]);
-
-  const openTwitter = useCallback(() => {
-    trackEvent("funnel_share_x_click", { region: regionId });
-    window.open(shareUrl, "_blank", "noopener,noreferrer,width=640,height=420");
-  }, [shareUrl, regionId]);
-
   const copyEmbed = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(iframeSnippet);
@@ -89,35 +72,32 @@ export function ShareEmbedBenchmark({ embedShareUrl, result }: Props) {
   }, [iframeSnippet]);
 
   const downloadChartPng = useCallback(async () => {
-    const el =
-      document.getElementById("fee-dashboard-charts") ??
-      document.getElementById("report-share-snapshot");
-    if (!el) return;
+    setPngError(null);
     setPngBusy(true);
     try {
       trackEvent("funnel_share_chart_png", {});
-      const html2canvas = (await import("html2canvas")).default;
-      const canvas = await html2canvas(el, {
-        scale: 2,
-        backgroundColor: "#ffffff",
-        logging: false,
-        useCORS: true,
+      const canvas = createShareCardCanvas({
+        brand: t("shareEmbedBenchmark.pngBrand"),
+        allInLabel: t("shareEmbedBenchmark.pngAllIn"),
+        allInValue: fmtPct(displayAllInRate),
+        processingLabel: t("shareEmbedBenchmark.pngProcessing"),
+        processingValue: fmtPct(result.chargeRate),
+        gradeText: result.feeGrade
+          ? t("shareEmbedBenchmark.pngGrade", { grade: result.feeGrade.letter })
+          : undefined,
+        footer: t("shareEmbedBenchmark.pngFooter"),
       });
-      const blob = await new Promise<Blob | null>((resolve) =>
-        canvas.toBlob((b) => resolve(b), "image/png")
-      );
-      if (!blob) return;
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
       const reportIdMatch = embedShareUrl.match(/\/embed\/([^/?]+)/);
-      a.download = `stripe-fee-auditor-${(reportIdMatch?.[1] ?? "chart").slice(0, 8)}.png`;
-      a.click();
-      URL.revokeObjectURL(url);
+      await downloadCanvasPng(
+        canvas,
+        `stripe-fee-auditor-${(reportIdMatch?.[1] ?? "chart").slice(0, 8)}.png`,
+      );
+    } catch {
+      setPngError(t("shareEmbedBenchmark.pngError"));
     } finally {
       setPngBusy(false);
     }
-  }, [embedShareUrl]);
+  }, [displayAllInRate, embedShareUrl, result.chargeRate, result.feeGrade, t]);
 
   return (
     <div className="rounded-2xl border border-violet-100 bg-gradient-to-br from-violet-50/80 to-white p-6 shadow-sm space-y-6">
@@ -175,20 +155,11 @@ export function ShareEmbedBenchmark({ embedShareUrl, result }: Props) {
       </div>
 
       <div className="flex flex-wrap gap-2">
-        <Button
-          type="button"
-          className="bg-gray-900 hover:bg-gray-800 text-white"
-          onClick={openTwitter}
-        >
-          {t("shareEmbedBenchmark.shareTwitter")}
-        </Button>
         <Button type="button" variant="outline" disabled={pngBusy} onClick={() => void downloadChartPng()}>
           {pngBusy ? t("shareEmbedBenchmark.savingPng") : t("shareEmbedBenchmark.downloadChartPng")}
         </Button>
       </div>
-      <p className="text-[11px] text-gray-400">
-        {t("shareEmbedBenchmark.twitterHint")}
-      </p>
+      {pngError ? <p className="text-sm text-red-600">{pngError}</p> : null}
 
       <div className="rounded-xl border border-gray-100 bg-[#f0f1ee]/90 px-4 py-4">
         <p className="text-sm font-semibold text-gray-800 mb-1">{t("shareEmbedBenchmark.embedTitle")}</p>

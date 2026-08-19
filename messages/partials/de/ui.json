@@ -253,5 +253,12 @@
     "confirmBody": "Laden Sie hoch, um die Lücke zu prüfen — oder öffnen Sie zuerst einen Beispielbericht. Nur eine detaillierte <csvLink>Balance-CSV</csvLink>.",
     "sampleCta": "Beispielbericht ansehen →",
     "uploadCta": "Meine CSV hochladen →"
+  },
+  "paypalCallout": {
+    "title": "PayPal-Gebührenrechner?",
+    "body": "Solche Tools schätzen veröffentlichte PayPal-Preise. Wenn Sie auch Stripe nutzen, vergleichen Sie zuerst die Anwendungsfälle und prüfen Sie dann Ihre <strong>tatsächliche</strong> Balance-CSV — keine Schätzung einer einzelnen Transaktion.",
+    "compare": "Stripe vs PayPal vs Wise",
+    "calculator": "Stripe-Gebührenrechner",
+    "upload": "CSV hochladen"
   }
 }

@@ -253,5 +253,12 @@
     "confirmBody": "Téléversez pour vérifier l’écart — ou ouvrez d’abord un rapport d’exemple. Uniquement un <csvLink>CSV Balance</csvLink> détaillé.",
     "sampleCta": "Voir le rapport d’exemple →",
     "uploadCta": "Téléverser mon CSV →"
+  },
+  "paypalCallout": {
+    "title": "Calculateur de frais PayPal ?",
+    "body": "Ces outils estiment les tarifs PayPal publiés. Si vous utilisez aussi Stripe, comparez d’abord les cas d’usage, puis auditez votre CSV Balance <strong>réel</strong> — pas une estimation sur une seule transaction.",
+    "compare": "Stripe vs PayPal vs Wise",
+    "calculator": "Calculateur de frais Stripe",
+    "upload": "Téléverser un CSV"
   }
 }

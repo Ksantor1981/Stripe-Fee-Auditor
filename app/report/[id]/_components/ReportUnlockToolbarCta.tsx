@@ -8,6 +8,7 @@ import type { PaywallImpactSource } from "@/lib/paywall-impact";
 import type { FreeDiagnosis } from "@/lib/free-diagnosis";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
 import { usePaywallCheckout } from "@/lib/i18n/use-paywall-checkout";
+import { FULL_REPORTS_FREE } from "@/lib/beta-access";
 import { PaywallDetailsModal } from "./PaywallDetailsModal";
 
 interface Props {
@@ -34,6 +35,7 @@ export function ReportUnlockToolbarCta({
   const { unlock } = usePaywallCheckout(reportId, email);
   const [modalOpen, setModalOpen] = useState(false);
   const hasImpact = annualImpact != null && annualImpact > 0;
+  if (FULL_REPORTS_FREE) return null;
 
   function goCheckout(placement: "toolbar" | "modal") {
     unlock({

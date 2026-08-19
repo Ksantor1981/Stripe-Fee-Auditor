@@ -253,5 +253,12 @@
     "confirmBody": "Sube el archivo para verificar la brecha, o abre primero un informe de ejemplo. Solo un <csvLink>CSV de Balance</csvLink> detallado.",
     "sampleCta": "Ver informe de ejemplo →",
     "uploadCta": "Subir mi CSV →"
+  },
+  "paypalCallout": {
+    "title": "¿Calculadora de comisiones de PayPal?",
+    "body": "Esas herramientas estiman las tarifas publicadas de PayPal. Si también usas Stripe, compara primero los casos de uso y luego audita tu CSV de Balance <strong>real</strong> — no una estimación de una sola transacción.",
+    "compare": "Stripe vs PayPal vs Wise",
+    "calculator": "Calculadora de comisiones de Stripe",
+    "upload": "Subir CSV"
   }
 }

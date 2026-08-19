@@ -253,5 +253,12 @@
     "confirmBody": "Upload to verify the gap — or open a sample report first. Itemized <csvLink>Balance CSV</csvLink> only.",
     "sampleCta": "See sample report →",
     "uploadCta": "Upload my CSV →"
+  },
+  "paypalCallout": {
+    "title": "PayPal fee calculator?",
+    "body": "Those tools estimate published PayPal rates. If you also run Stripe, compare use cases first, then audit your <strong>actual</strong> Balance CSV — not a single-transaction guess.",
+    "compare": "Stripe vs PayPal vs Wise",
+    "calculator": "Stripe fee calculator",
+    "upload": "Upload CSV"
   }
 }

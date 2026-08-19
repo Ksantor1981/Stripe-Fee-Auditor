@@ -25,6 +25,7 @@ import { MonitorHistory } from "./MonitorHistory";
 import { ReportUnlockToolbarCta } from "./ReportUnlockToolbarCta";
 import { ReportCurrencyProvider } from "@/lib/report-currency";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
+import { FULL_REPORTS_FREE } from "@/lib/beta-access";
 import { paymentVolumeSegment } from "@/lib/product-analytics";
 import {
   useTranslatedPaywallLabel,
@@ -76,9 +77,9 @@ export function ReportShell({
   const reportCurrency = result.pricingProfile?.currency ?? "USD";
   const router = useRouter();
   // Paid users skip EmailGate entirely — they already provided email at checkout.
-  // Demo sample links skip the gate and show full sample insights without enabling exports.
-  const hasFullAccess = isPaid || demoFullAccess || betaFullAccess;
-  const exportsEnabled = isPaid || betaFullAccess;
+  // Demo sample links skip the gate. Phase 1 keeps complete reports (and exports) free.
+  const hasFullAccess = isPaid || demoFullAccess || betaFullAccess || FULL_REPORTS_FREE;
+  const exportsEnabled = hasFullAccess;
   const [unlocked, setUnlocked] = useState(hasFullAccess || demoSkipEmailGate || paymentPending);
   const paymentSuccessTracked = useRef(false);
   const [expectedOutlierIds, setExpectedOutlierIds] = useState<string[]>(

@@ -253,5 +253,12 @@
     "confirmBody": "अंतर जाँचने के लिए अपलोड करें — या पहले नमूना रिपोर्ट खोलें। केवल आइटमयुक्त <csvLink>Balance CSV</csvLink>।",
     "sampleCta": "नमूना रिपोर्ट देखें →",
     "uploadCta": "मेरी CSV अपलोड करें →"
+  },
+  "paypalCallout": {
+    "title": "PayPal शुल्क कैलकुलेटर?",
+    "body": "वे टूल प्रकाशित PayPal दरों का अनुमान लगाते हैं। यदि आप Stripe भी चलाते हैं, पहले उपयोग केस तुलना करें, फिर अपने <strong>वास्तविक</strong> Balance CSV का ऑडिट करें — एक लेन-देन का अनुमान नहीं।",
+    "compare": "Stripe vs PayPal vs Wise",
+    "calculator": "Stripe शुल्क कैलकुलेटर",
+    "upload": "CSV अपलोड करें"
   }
 }
