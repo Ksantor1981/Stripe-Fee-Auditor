@@ -2651,7 +2651,7 @@
         },
         {
           "href": "/blog/stripe-blended-rate-calculator",
-          "title": "Stripe Blended Rate Calculator: Find Your True Fee Rate"
+          "title": "Stripe Blended Rate: Formula and CSV Benchmarks"
         }
       ]
     },
@@ -2749,7 +2749,7 @@
         },
         {
           "href": "/blog/stripe-blended-rate-calculator",
-          "title": "Stripe Blended Rate Calculator: Find Your True Fee Rate"
+          "title": "Stripe Blended Rate: Formula and CSV Benchmarks"
         },
         {
           "href": "/blog/how-to-export-stripe-balance-csv",
@@ -2841,7 +2841,7 @@
       "related": [
         {
           "href": "/blog/stripe-blended-rate-calculator",
-          "title": "Stripe Blended Rate Calculator: Find Your True Fee Rate"
+          "title": "Stripe Blended Rate: Formula and CSV Benchmarks"
         },
         {
           "href": "/blog/how-to-export-stripe-balance-csv",
@@ -2854,9 +2854,9 @@
       ]
     },
     "stripe-blended-rate-calculator": {
-      "metaTitle": "Stripe Blended Rate Calculator: Find Your True Fee Rate",
-      "metaDescription": "What is your real Stripe blended rate? Learn the formula, use our calculator, and find out what's pushing your effective rate above 2.9%.",
-      "title": "Stripe Blended Rate Calculator: Find Your True Fee Rate",
+      "metaTitle": "Stripe Blended Rate: Formula and CSV Benchmarks",
+      "metaDescription": "Stripe blended rate is total fees divided by charge volume. Learn the formula, what pushes it above 2.9%, and how to verify it from a Balance CSV.",
+      "title": "Stripe Blended Rate: Formula and CSV Benchmarks",
       "readTime": "6 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-06-25",
@@ -2936,16 +2936,20 @@
       ],
       "related": [
         {
+          "href": "/stripe-fee-calculator",
+          "title": "Stripe fee calculator"
+        },
+        {
+          "href": "/analyze",
+          "title": "Analyze actual Stripe fees from Balance CSV"
+        },
+        {
           "href": "/blog/how-to-export-stripe-balance-csv",
           "title": "How to Export Stripe Balance CSV: Step-by-Step Guide"
         },
         {
           "href": "/blog/why-stripe-effective-rate-jumped-this-month",
           "title": "Why Did My Stripe Effective Rate Jump This Month?"
-        },
-        {
-          "href": "/blog/why-stripe-fees-increase",
-          "title": "Why Did My Stripe Fees Increase This Month?"
         }
       ]
     },
@@ -4247,7 +4251,7 @@
         },
         {
           "href": "/stripe-fee-calculator",
-          "title": "Stripe effective fee rate calculator"
+          "title": "Stripe fee calculator"
         },
         {
           "href": "/analyze?sample=1",

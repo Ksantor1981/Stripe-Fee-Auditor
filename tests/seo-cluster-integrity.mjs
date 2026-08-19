@@ -114,6 +114,7 @@ const percentPage = read("app/what-percent-does-stripe-take/page.tsx");
 assert(percentPage.includes("relatedKey=\"percentTake\""), "percent page missing relatedKey");
 assert(percentPage.includes('"Article"'), "percent missing Article JSON-LD");
 assert(!percentPage.includes("StripeFeeMiniEstimate"), "percent page embeds calculator widget");
+assert(!percentPage.includes("StripeTakeCalculator"), "percent page embeds take calculator");
 
 const analyzePage = read("app/analyze/page.tsx");
 assert(analyzePage.includes('canonical: "/analyze"'), "analyze missing canonical");

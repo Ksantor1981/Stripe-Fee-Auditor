@@ -91,7 +91,7 @@ export default async function Page() {
         relatedKey="feeCalculator"
       >
         <StripeFeeMiniEstimate />
-        <SeoPayPalCalculatorCallout className="mt-8" />
+        <SeoPayPalCalculatorCallout className="mt-8" hideStripeCalculatorLink />
       </LocalizedSeoPage>
     </MarketingShell>
   );

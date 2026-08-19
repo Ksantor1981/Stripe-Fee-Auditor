@@ -82,7 +82,7 @@ function renderSection(section: Section, index: number, labels: SeoSectionLabels
       return (
         <SectionBlock key={index}>
           {section.heading ? <h2 className="text-lg font-semibold text-gray-900 mb-6">{String(section.heading)}</h2> : null}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
             {items.map((d) => (
               <div
                 key={d.label}
@@ -360,6 +360,9 @@ function renderSection(section: Section, index: number, labels: SeoSectionLabels
               </tbody>
             </table>
           </div>
+          {section.footnote ? (
+            <p className="mt-3 text-xs text-gray-500">{renderInlineLinks(String(section.footnote))}</p>
+          ) : null}
         </SectionBlock>
       );
     }

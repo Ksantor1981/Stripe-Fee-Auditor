@@ -119,11 +119,11 @@ export const FEE_BLOG_ENTRIES: BlogIndexEntry[] = [
   {
     slug: "stripe-blended-rate-calculator",
     path: "/blog/stripe-blended-rate-calculator",
-    title: "Stripe Blended Rate Calculator: Find Your True Fee Rate",
-    desc: "Formula for blended rate, what pushes it above 2.9%, and how to verify from your CSV.",
+    title: "Stripe Blended Rate: Formula and CSV Benchmarks",
+    desc: "Stripe blended rate is total fees divided by charge volume. Learn the formula and verify it from a Balance CSV.",
     time: "6 min",
     publishedAt: "2026-05-16",
-    updatedAt: "2026-07-19",
+    updatedAt: "2026-08-19",
     sitemapPriority: 0.71,
   },
   {

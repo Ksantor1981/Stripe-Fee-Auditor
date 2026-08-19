@@ -78,7 +78,7 @@ export const SEO_RELATED_WHY_HIGHER: SeoRelatedLink[] = [
   {
     context: "Estimate published fees first",
     href: "/stripe-fee-calculator",
-    label: "Stripe fees calculator",
+    label: "Stripe fee calculator",
   },
   {
     context: "Next: how to export the file",
@@ -106,7 +106,7 @@ export const SEO_RELATED_BALANCE_CSV: SeoRelatedLink[] = [
   {
     context: "Estimate fees before you export?",
     href: "/stripe-fee-calculator",
-    label: "Stripe fees calculator",
+    label: "Stripe fee calculator",
   },
   {
     context: "Why is the rate above 2.9%?",
