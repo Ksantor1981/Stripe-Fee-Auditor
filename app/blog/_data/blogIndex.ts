@@ -261,11 +261,11 @@ export const SEO_LANDING_ENTRIES: BlogIndexEntry[] = [
   {
     slug: "stripe-vs-square-fees",
     path: "/stripe-vs-square-fees",
-    title: "Square vs Stripe Fees: Which Is Cheaper?",
-    desc: "Square vs Stripe fees by use case (SaaS, POS, low-ticket). Audit your real Stripe rate before switching processors.",
+    title: "Is Square or Stripe Cheaper? Fees Compared",
+    desc: "Compare Stripe and Square for SaaS, POS, in-person payments, and small charges. Audit your real Stripe rate before switching.",
     time: "6 min",
     publishedAt: "2026-07-13",
-    updatedAt: "2026-07-16",
+    updatedAt: "2026-08-19",
     sitemapPriority: 0.72,
   },
   {

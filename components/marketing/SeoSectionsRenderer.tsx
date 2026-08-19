@@ -3,12 +3,21 @@ import { TrackedLink } from "@/components/TrackedLink";
 import { renderInlineLinks } from "@/lib/i18n/page-helpers";
 
 type Section = Record<string, unknown>;
+export type SeoSectionLabels = {
+  useCase: string;
+  alternative: string;
+  decision: string;
+  goodFit: string;
+  poorFit: string;
+  auditCsv: string;
+  quickEstimate: string;
+};
 
 function SectionBlock({ children, className = "mb-14" }: { children: React.ReactNode; className?: string }) {
   return <div className={className}>{children}</div>;
 }
 
-function renderSection(section: Section, index: number) {
+function renderSection(section: Section, index: number, labels: SeoSectionLabels) {
   const type = section.type as string;
 
   switch (type) {
@@ -218,10 +227,10 @@ function renderSection(section: Section, index: number) {
             <table className="min-w-full text-sm">
               <thead className="bg-gray-50 text-left text-gray-600">
                 <tr>
-                  <th className="px-4 py-3">Use case</th>
+                  <th className="px-4 py-3">{labels.useCase}</th>
                   <th className="px-4 py-3">Stripe</th>
-                  <th className="px-4 py-3">Alternative</th>
-                  <th className="px-4 py-3">Decision</th>
+                  <th className="px-4 py-3">{labels.alternative}</th>
+                  <th className="px-4 py-3">{labels.decision}</th>
                 </tr>
               </thead>
               <tbody>
@@ -245,7 +254,7 @@ function renderSection(section: Section, index: number) {
       return (
         <SectionBlock key={index} className="mb-14 grid gap-6 md:grid-cols-2">
           <div>
-            <h3 className="text-sm font-semibold text-green-700 mb-3">Good fit</h3>
+            <h3 className="text-sm font-semibold text-green-700 mb-3">{labels.goodFit}</h3>
             <div className="space-y-3">
               {goodFit.map((c) => (
                 <div key={c.title} className="rounded-xl border border-green-100 bg-green-50/50 p-4">
@@ -256,7 +265,7 @@ function renderSection(section: Section, index: number) {
             </div>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-amber-700 mb-3">Poor fit</h3>
+            <h3 className="text-sm font-semibold text-amber-700 mb-3">{labels.poorFit}</h3>
             <div className="space-y-3">
               {badFit.map((c) => (
                 <div key={c.title} className="rounded-xl border border-amber-100 bg-amber-50/50 p-4">
@@ -789,11 +798,17 @@ type ProviderScenario = {
   decision: string;
 };
 
-export function SeoSectionsRenderer({ sections }: { sections: Section[] }) {
-  return <>{sections.map((section, index) => renderSection(section, index))}</>;
+export function SeoSectionsRenderer({ sections, labels }: { sections: Section[]; labels: SeoSectionLabels }) {
+  return <>{sections.map((section, index) => renderSection(section, index, labels))}</>;
 }
 
-export function ComparisonHeroActions({ ctaCampaign }: { ctaCampaign: string }) {
+export function ComparisonHeroActions({
+  ctaCampaign,
+  labels,
+}: {
+  ctaCampaign: string;
+  labels: SeoSectionLabels;
+}) {
   return (
     <div className="mt-7 flex flex-col gap-3 sm:flex-row">
       <TrackedLink
@@ -803,13 +818,13 @@ export function ComparisonHeroActions({ ctaCampaign }: { ctaCampaign: string }) 
         funnelProps={{ placement: `${ctaCampaign}_hero` }}
         className="inline-flex justify-center rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
       >
-        Audit my actual Stripe CSV
+        {labels.auditCsv}
       </TrackedLink>
       <Link
         href="/stripe-fee-calculator"
         className="inline-flex justify-center rounded-xl border border-gray-200 px-6 py-3 text-sm font-semibold text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50"
       >
-        Start with a quick estimate
+        {labels.quickEstimate}
       </Link>
     </div>
   );

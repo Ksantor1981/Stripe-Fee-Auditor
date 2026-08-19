@@ -34,7 +34,14 @@
     "faqHeading": "Questions fréquentes",
     "blogFaqHeading": "Questions fréquentes",
     "sourcesHeading": "Sources officielles",
-    "sourcesIntro": "Les tarifs et règles de paiement peuvent changer. Utilisez la documentation officielle comme référence actuelle, puis comparez-la à votre propre export Stripe."
+    "sourcesIntro": "Les tarifs et règles de paiement peuvent changer. Utilisez la documentation officielle comme référence actuelle, puis comparez-la à votre propre export Stripe.",
+    "comparisonUseCase": "Cas d’usage",
+    "comparisonAlternative": "Alternative",
+    "comparisonDecision": "Décision",
+    "comparisonGoodFit": "Bien adapté",
+    "comparisonPoorFit": "Peu adapté",
+    "comparisonAuditCsv": "Auditer mon CSV Stripe réel",
+    "comparisonQuickEstimate": "Commencer par une estimation rapide"
   },
   "blogHub": {
     "metaTitle": "Guide des frais Stripe : frais cachés, audits et économies | Blog FeeAuditor",

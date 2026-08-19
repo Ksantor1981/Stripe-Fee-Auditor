@@ -34,7 +34,14 @@
     "faqHeading": "Häufige Fragen",
     "blogFaqHeading": "Häufige Fragen",
     "sourcesHeading": "Offizielle Quellen",
-    "sourcesIntro": "Preise und Zahlungsregeln können sich ändern. Nutzen Sie offizielle Dokumentation als aktuelle Referenz und vergleichen Sie sie mit Ihrem eigenen Stripe-Export."
+    "sourcesIntro": "Preise und Zahlungsregeln können sich ändern. Nutzen Sie offizielle Dokumentation als aktuelle Referenz und vergleichen Sie sie mit Ihrem eigenen Stripe-Export.",
+    "comparisonUseCase": "Anwendungsfall",
+    "comparisonAlternative": "Alternative",
+    "comparisonDecision": "Entscheidung",
+    "comparisonGoodFit": "Gut geeignet",
+    "comparisonPoorFit": "Weniger geeignet",
+    "comparisonAuditCsv": "Meine tatsächliche Stripe-CSV prüfen",
+    "comparisonQuickEstimate": "Mit einer schnellen Schätzung starten"
   },
   "blogHub": {
     "metaTitle": "Stripe-Gebühren-Leitfaden: versteckte Gebühren, Audits & Einsparungen | FeeAuditor Blog",

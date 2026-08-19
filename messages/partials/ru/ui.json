@@ -34,7 +34,14 @@
     "faqHeading": "Частые вопросы",
     "blogFaqHeading": "Частые вопросы",
     "sourcesHeading": "Официальные источники",
-    "sourcesIntro": "Тарифы и правила платежей могут меняться. Используйте официальную документацию как актуальный ориентир, затем сравните с собственным экспортом Stripe."
+    "sourcesIntro": "Тарифы и правила платежей могут меняться. Используйте официальную документацию как актуальный ориентир, затем сравните с собственным экспортом Stripe.",
+    "comparisonUseCase": "Сценарий",
+    "comparisonAlternative": "Альтернатива",
+    "comparisonDecision": "Решение",
+    "comparisonGoodFit": "Подходит",
+    "comparisonPoorFit": "Не лучший вариант",
+    "comparisonAuditCsv": "Проверить мой реальный Stripe CSV",
+    "comparisonQuickEstimate": "Начать с быстрой оценки"
   },
   "blogHub": {
     "metaTitle": "Гид по комиссиям Stripe: скрытые сборы, аудиты и экономия | Блог FeeAuditor",

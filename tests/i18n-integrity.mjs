@@ -74,7 +74,28 @@ for (const [group, base, loadLocalized] of groups) {
 
 const chromePage = fs.readFileSync(path.join(ROOT, "app/chrome-extension/page.tsx"), "utf8");
 const pricingPage = fs.readFileSync(path.join(ROOT, "app/pricing/page.tsx"), "utf8");
+const localizedSeoPage = fs.readFileSync(path.join(ROOT, "components/marketing/LocalizedSeoPage.tsx"), "utf8");
+const seoSectionsRenderer = fs.readFileSync(path.join(ROOT, "components/marketing/SeoSectionsRenderer.tsx"), "utf8");
 assert(!chromePage.includes("When the Chrome helper is useful"), "Chrome page contains hardcoded English copy");
 assert(!pricingPage.includes("FeeAuditor is currently free."), "Pricing page contains hardcoded English copy");
+assert(!localizedSeoPage.includes(">FAQ<"), "Localized SEO page contains hardcoded FAQ heading");
+for (const hardcoded of ["Use case", "Alternative", "Decision", "Good fit", "Poor fit", "Audit my actual Stripe CSV", "Start with a quick estimate"]) {
+  assert(!seoSectionsRenderer.includes(`>${hardcoded}<`), `SEO renderer contains hardcoded English: ${hardcoded}`);
+}
+
+const extensionEnglish = readJson("chrome-extension/_locales/en/messages.json");
+for (const locale of LOCALES) {
+  const localized = readJson(`chrome-extension/_locales/${locale}/messages.json`);
+  assert.deepEqual(
+    Object.keys(localized).sort(),
+    Object.keys(extensionEnglish).sort(),
+    `chrome-extension/${locale}: locale key set differs from English`,
+  );
+  for (const [key, entry] of Object.entries(localized)) {
+    assert.equal(typeof entry?.message, "string", `chrome-extension/${locale}.${key}: missing message`);
+    assert.notEqual(entry.message.trim(), "", `chrome-extension/${locale}.${key}: empty message`);
+    assert(!/__PH\d+__|ZZFA\d+ZZ|ZZZZFEESPLIT/.test(entry.message), `chrome-extension/${locale}.${key}: leaked token`);
+  }
+}
 
 console.log("i18n integrity tests passed");

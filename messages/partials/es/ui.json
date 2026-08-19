@@ -34,7 +34,14 @@
     "faqHeading": "Preguntas frecuentes",
     "blogFaqHeading": "Preguntas frecuentes",
     "sourcesHeading": "Fuentes oficiales",
-    "sourcesIntro": "Los precios y las reglas de pago pueden cambiar. Usa la documentación oficial como referencia actual y compárala con tu propia exportación de Stripe."
+    "sourcesIntro": "Los precios y las reglas de pago pueden cambiar. Usa la documentación oficial como referencia actual y compárala con tu propia exportación de Stripe.",
+    "comparisonUseCase": "Caso de uso",
+    "comparisonAlternative": "Alternativa",
+    "comparisonDecision": "Decisión",
+    "comparisonGoodFit": "Buena opción",
+    "comparisonPoorFit": "Opción poco adecuada",
+    "comparisonAuditCsv": "Auditar mi CSV real de Stripe",
+    "comparisonQuickEstimate": "Empezar con una estimación rápida"
   },
   "blogHub": {
     "metaTitle": "Guía de comisiones de Stripe: comisiones ocultas, auditorías y ahorros | Blog de FeeAuditor",

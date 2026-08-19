@@ -34,7 +34,14 @@
     "faqHeading": "Common questions",
     "blogFaqHeading": "Common questions",
     "sourcesHeading": "Official sources",
-    "sourcesIntro": "Pricing and payment rules can change. Use official docs as the current reference, then compare them with your own Stripe export."
+    "sourcesIntro": "Pricing and payment rules can change. Use official docs as the current reference, then compare them with your own Stripe export.",
+    "comparisonUseCase": "Use case",
+    "comparisonAlternative": "Alternative",
+    "comparisonDecision": "Decision",
+    "comparisonGoodFit": "Good fit",
+    "comparisonPoorFit": "Poor fit",
+    "comparisonAuditCsv": "Audit my actual Stripe CSV",
+    "comparisonQuickEstimate": "Start with a quick estimate"
   },
   "blogHub": {
     "metaTitle": "Stripe Fees Guide: Hidden Fees, Audits & Savings | FeeAuditor Blog",

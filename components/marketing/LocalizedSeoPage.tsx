@@ -26,6 +26,16 @@ export async function LocalizedSeoPage({
 }: Props) {
   const t = await getTranslations(`seo.${contentKey}`);
   const tb = await getTranslations("breadcrumbs");
+  const ts = await getTranslations("seoShell");
+  const sectionLabels = {
+    useCase: ts("comparisonUseCase"),
+    alternative: ts("comparisonAlternative"),
+    decision: ts("comparisonDecision"),
+    goodFit: ts("comparisonGoodFit"),
+    poorFit: ts("comparisonPoorFit"),
+    auditCsv: ts("comparisonAuditCsv"),
+    quickEstimate: ts("comparisonQuickEstimate"),
+  };
   const sections = (t.raw("sections") as Record<string, unknown>[] | undefined) ?? [];
   const faq = (t.raw("faq") as FaqItem[] | undefined) ?? [];
   const cta = t.raw("cta") as CtaCopy | undefined;
@@ -48,10 +58,10 @@ export async function LocalizedSeoPage({
               {t("heroTitle")}
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-relaxed text-gray-600">{t("heroDescription")}</p>
-            <ComparisonHeroActions ctaCampaign={ctaCampaign} />
+            <ComparisonHeroActions ctaCampaign={ctaCampaign} labels={sectionLabels} />
           </div>
           {sections[0]?.type === "heroCard" ? (
-            <div>{sections.slice(0, 1).map((s, i) => <SeoSectionsRenderer key={i} sections={[s]} />)}</div>
+            <div>{sections.slice(0, 1).map((s, i) => <SeoSectionsRenderer key={i} sections={[s]} labels={sectionLabels} />)}</div>
           ) : null}
         </section>
       ) : (
@@ -64,11 +74,14 @@ export async function LocalizedSeoPage({
 
       {children}
 
-      <SeoSectionsRenderer sections={variant === "comparison" && sections[0]?.type === "heroCard" ? sections.slice(1) : sections} />
+      <SeoSectionsRenderer
+        sections={variant === "comparison" && sections[0]?.type === "heroCard" ? sections.slice(1) : sections}
+        labels={sectionLabels}
+      />
 
       {faq.length > 0 ? (
         <div className="mb-14 space-y-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">FAQ</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">{ts("faqHeading")}</h2>
           {faq.map((item) => (
             <div key={item.q} className="border border-gray-200 rounded-xl p-5">
               <h3 className="font-medium text-gray-900 text-sm mb-1">{item.q}</h3>

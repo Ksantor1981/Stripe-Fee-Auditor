@@ -34,7 +34,14 @@
     "faqHeading": "सामान्य प्रश्न",
     "blogFaqHeading": "सामान्य प्रश्न",
     "sourcesHeading": "आधिकारिक स्रोत",
-    "sourcesIntro": "मूल्य निर्धारण और भुगतान नियम बदल सकते हैं। वर्तमान संदर्भ के लिए आधिकारिक दस्तावेज़ उपयोग करें, फिर अपने Stripe एक्सपोर्ट से तुलना करें।"
+    "sourcesIntro": "मूल्य निर्धारण और भुगतान नियम बदल सकते हैं। वर्तमान संदर्भ के लिए आधिकारिक दस्तावेज़ उपयोग करें, फिर अपने Stripe एक्सपोर्ट से तुलना करें।",
+    "comparisonUseCase": "उपयोग का मामला",
+    "comparisonAlternative": "विकल्प",
+    "comparisonDecision": "निर्णय",
+    "comparisonGoodFit": "अच्छा विकल्प",
+    "comparisonPoorFit": "कम उपयुक्त",
+    "comparisonAuditCsv": "मेरे वास्तविक Stripe CSV का ऑडिट करें",
+    "comparisonQuickEstimate": "त्वरित अनुमान से शुरू करें"
   },
   "blogHub": {
     "metaTitle": "Stripe फी गाइड: छिपी फी, ऑडिट और बचत | FeeAuditor ब्लॉग",
