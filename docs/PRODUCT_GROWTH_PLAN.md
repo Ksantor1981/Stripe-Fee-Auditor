@@ -67,7 +67,7 @@
 | L.13 | GA4 + Plausible → `next/script` `afterInteractive` | P2 | **done** (Aug 8) | ↓ TBT / render delay на mobile |
 | L.14 | Убрать `fetchPriority="high"` у sample PNG (LCP = H1) | P2 | **done** (Aug 8) | — |
 | L.15 | WebP/AVIF для `report-preview` + `sizes` + lazy | P2 | **done** (Aug 8) | 80→31 KB 1x, lazy below fold |
-| L.16 | Перезапустить PSI desktop + mobile после деплоя | ops | **monitor** | Baseline Aug 8: mobile perf **87**, LCP **3.3s**, a11y **100**; desktop ~97→100 (lab). См. **M.1–M.2** |
+| L.16 | Перезапустить PSI desktop + mobile после деплоя | ops | **monitor** | Aug 19 PSI mobile: render-block CSS ~150ms, legacy JS ~14KiB, **report-preview@2x on mobile ~73KiB waste** → fixed width srcset + mobile 1x-only (`LandingSampleTabs`). Baseline Aug 8: perf **87**, LCP **3.3s**. См. **M.1–M.2** |
 | L.17 | Hero server CTAs (`FunnelAnchor` + delegate), dynamic Nav/FAQ | P1 | **done** (Aug 8) | perf 70→87, LCP 5.5→3.3s |
 | L.18 | Nav at end of DOM; hero first; analytics lazyOnload | P2 | **superseded** | Заменено L.19: nav shell сверху + idle hydrate (desktop SI) |
 | L.19 | Nav shell top + `LandingNavHydrate`; GA off `/`; `FunnelClickDelegate` idle; browserslist | P2 | **done** (Aug 9) | **M.7** после деплоя |

@@ -50,6 +50,9 @@ const CSP_EMBED = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  experimental: {
+    optimizePackageImports: ["lucide-react", "recharts"],
+  },
   async redirects() {
     return [
       ...LEGACY_BLOG_REDIRECTS.map((r) => ({
@@ -79,6 +82,10 @@ const nextConfig: NextConfig = {
       {
         source: "/api/:path*",
         headers: [{ key: "Cache-Control", value: "no-store" }],
+      },
+      {
+        source: "/screenshots/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       },
       {
         source: "/(.*)",

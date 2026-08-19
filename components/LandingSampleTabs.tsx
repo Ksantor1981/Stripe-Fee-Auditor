@@ -21,6 +21,9 @@ const REPORT_IMG = {
   png2x: "/screenshots/report-preview@2x.png",
 };
 
+/** Mobile: always 1x (~32 KiB). Desktop: width srcset caps at 1024px container. */
+const REPORT_IMG_SIZES = "(max-width: 768px) calc(100vw - 3rem), 1024px";
+
 const CASE_STUDY_HREF = "/blog/how-i-found-1400-in-hidden-stripe-fees";
 
 export function LandingSampleTabs() {
@@ -96,14 +99,20 @@ export function LandingSampleTabs() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <picture>
             <source
+              media="(max-width: 768px)"
               type="image/webp"
-              srcSet={`${REPORT_IMG.webp1x} 1x, ${REPORT_IMG.webp2x} 2x`}
-              sizes="(max-width: 1024px) 100vw, 1024px"
+              srcSet={REPORT_IMG.webp1x}
             />
+            <source
+              type="image/webp"
+              srcSet={`${REPORT_IMG.webp1x} 1024w, ${REPORT_IMG.webp2x} 2048w`}
+              sizes={REPORT_IMG_SIZES}
+            />
+            <source media="(max-width: 768px)" srcSet={REPORT_IMG.png1x} />
             <img
               src={REPORT_IMG.png1x}
-              srcSet={`${REPORT_IMG.png1x} 1x, ${REPORT_IMG.png2x} 2x`}
-              sizes="(max-width: 1024px) 100vw, 1024px"
+              srcSet={`${REPORT_IMG.png1x} 1024w, ${REPORT_IMG.png2x} 2048w`}
+              sizes={REPORT_IMG_SIZES}
               alt={active.imageAlt}
               width={1024}
               height={616}
