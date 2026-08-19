@@ -42,20 +42,49 @@ def collect_pairs(en_obj, existing_obj, key: str | None, todo: dict[str, str]) -
             collect_pairs(v, ex_dict.get(k), k, todo)
 
 
-def apply_map(en_obj, mapping: dict[str, str], key: str | None = None):
+def apply_map(en_obj, existing_obj, mapping: dict[str, str], key: str | None = None):
     if isinstance(en_obj, str):
         if should_skip(key, en_obj):
             return en_obj
-        return mapping.get(en_obj, en_obj)
+        if en_obj in mapping:
+            return mapping[en_obj]
+        if isinstance(existing_obj, str) and existing_obj != en_obj:
+            return existing_obj
+        return en_obj
     if isinstance(en_obj, list):
-        return [apply_map(x, mapping, key) for x in en_obj]
+        existing_list = existing_obj if isinstance(existing_obj, list) else []
+        return [
+            apply_map(item, existing_list[index] if index < len(existing_list) else None, mapping, key)
+            for index, item in enumerate(en_obj)
+        ]
     if isinstance(en_obj, dict):
-        return {k: apply_map(v, mapping, k) for k, v in en_obj.items()}
+        existing_dict = existing_obj if isinstance(existing_obj, dict) else {}
+        return {k: apply_map(v, existing_dict.get(k), mapping, k) for k, v in en_obj.items()}
     return en_obj
 
 
+def protect_text(text: str) -> tuple[str, list[tuple[str, str]]]:
+    protected: list[tuple[str, str]] = []
+
+    def replace(match: re.Match[str]) -> str:
+        token = f"ZZFA{len(protected)}ZZ"
+        protected.append((token, match.group(0)))
+        return token
+
+    work = text
+    for pattern in (
+        r"https?://[^\s)]+",
+        r"\{[^{}]+\}",
+        r"\$[\d.,]+(?:/[A-Za-z]+)?",
+        r"\b(?:Stripe|PayPal|Wise|OAuth|CSV|ACH|FX|SaaS|Fee Auditor|FeeAuditor)\b",
+    ):
+        work = re.sub(pattern, replace, work)
+    return work, protected
+
+
 def translate_one(text: str, translator: GoogleTranslator) -> str:
-    chunks = [text[i : i + 4000] for i in range(0, max(len(text), 1), 4000)] if len(text) > 4500 else [text]
+    work, protected = protect_text(text)
+    chunks = [work[i : i + 4000] for i in range(0, max(len(work), 1), 4000)] if len(work) > 4500 else [work]
     parts: list[str] = []
     for chunk in chunks:
         for attempt in range(6):
@@ -69,7 +98,43 @@ def translate_one(text: str, translator: GoogleTranslator) -> str:
                 time.sleep(wait)
         else:
             parts.append(chunk)
-    return " ".join(parts)
+    translated = " ".join(parts)
+    for token, original in protected:
+        translated = translated.replace(token, original)
+    return translated
+
+
+def translate_many(texts: list[str], translator: GoogleTranslator) -> dict[str, str]:
+    mapping: dict[str, str] = {}
+    batches: list[list[str]] = []
+    current: list[str] = []
+    current_chars = 0
+    for text in texts:
+        if current and (len(current) >= 18 or current_chars + len(text) > 3200):
+            batches.append(current)
+            current = []
+            current_chars = 0
+        current.append(text)
+        current_chars += len(text)
+    if current:
+        batches.append(current)
+
+    delimiter = "\nZZZZFEESPLITZZZZ\n"
+    for batch_index, batch in enumerate(batches, 1):
+        protected_batch = [protect_text(text) for text in batch]
+        payload = delimiter.join(work for work, _ in protected_batch)
+        translated_payload = translate_one(payload, translator)
+        translated_parts = translated_payload.split("ZZZZFEESPLITZZZZ")
+        if len(translated_parts) != len(batch):
+            translated_parts = [translate_one(work, translator) for work, _ in protected_batch]
+        for original, translated, (_, protected) in zip(batch, translated_parts, protected_batch):
+            restored = translated.strip()
+            for token, protected_value in protected:
+                restored = restored.replace(token, protected_value)
+            mapping[original] = restored or original
+        if batch_index % 10 == 0 or batch_index == len(batches):
+            print(f"  batches: {batch_index}/{len(batches)}", flush=True)
+    return mapping
 
 
 def translate_locale(en: dict, code: str, google_code: str) -> dict:
@@ -83,12 +148,8 @@ def translate_locale(en: dict, code: str, google_code: str) -> dict:
         return existing or en
 
     translator = GoogleTranslator(source="en", target=google_code)
-    mapping = dict(todo)
-    for i, text in enumerate(texts, 1):
-        if i % 20 == 0 or i == len(texts):
-            print(f"  {code}: {i}/{len(texts)}", flush=True)
-        mapping[text] = translate_one(text, translator)
-    return apply_map(en, mapping)
+    mapping = translate_many(texts, translator)
+    return apply_map(en, existing, mapping)
 
 
 def main() -> None:

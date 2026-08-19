@@ -240,6 +240,83 @@ for (const [key, content] of Object.entries(pagesMessages.seo ?? {})) {
 }
 ok("Validated localized runtime titles, descriptions, article copy, dates, and related links");
 
+console.log("\n🌍 locale fallback integrity");
+function isAllowedLocalizedIdentity(currentPath, value) {
+  if (/\.columns\[\d+\]\.(name|description)$/.test(currentPath) && /^[a-z0-9_]+$/.test(value)) {
+    return true;
+  }
+  if (/\.sources\[\d+\]\.title$/.test(currentPath)) return true;
+  if (value === "Stripe Fee Auditor · Chrome" || value === "Stripe vs PayPal vs Wise") return true;
+  return false;
+}
+
+function collectEnglishFallbacks(base, localized, currentPath = "", hits = []) {
+  if (typeof base === "string") {
+    if (
+      typeof localized === "string" &&
+      localized === base &&
+      base.length >= 20 &&
+      !/^(https?:\/\/|\/|[A-Z0-9_. /+%&-]+$)/.test(base) &&
+      !isAllowedLocalizedIdentity(currentPath, base)
+    ) {
+      hits.push(currentPath);
+    }
+    return hits;
+  }
+  if (Array.isArray(base)) {
+    if (!Array.isArray(localized)) return hits;
+    base.forEach((item, index) =>
+      collectEnglishFallbacks(item, localized[index], `${currentPath}[${index}]`, hits),
+    );
+    return hits;
+  }
+  if (base && typeof base === "object") {
+    const localizedObject = localized && typeof localized === "object" ? localized : {};
+    for (const [key, value] of Object.entries(base)) {
+      collectEnglishFallbacks(value, localizedObject[key], currentPath ? `${currentPath}.${key}` : key, hits);
+    }
+  }
+  return hits;
+}
+let localeFallbacks = 0;
+for (const locale of ["es", "de", "fr", "hi", "ru"]) {
+  const localizedPath = path.join(ROOT, "messages", "pages", `${locale}.json`);
+  const localizedMessages = JSON.parse(readText(localizedPath));
+  const fallbacks = collectEnglishFallbacks(pagesMessages, localizedMessages);
+  if (fallbacks.length > 0) {
+    localeFallbacks += fallbacks.length;
+    fail(`${locale} contains ${fallbacks.length} long English fallback(s): ${fallbacks.join(", ")}`);
+  }
+  if (/ZZFA|ZZZZFEESPLIT/.test(readText(localizedPath))) {
+    fail(`${locale} contains leaked translation protection tokens`);
+  }
+}
+const additionalLocaleGroups = [
+  ["core", path.join(ROOT, "messages", "en.json"), (locale) => path.join(ROOT, "messages", `${locale}.json`)],
+  ...["ui", "report", "legal", "chromeExtension"].map((group) => [
+    group,
+    path.join(ROOT, "messages", "partials", "en", `${group}.json`),
+    (locale) => path.join(ROOT, "messages", "partials", locale, `${group}.json`),
+  ]),
+];
+for (const [group, basePath, localizedPathFor] of additionalLocaleGroups) {
+  const baseMessages = JSON.parse(readText(basePath));
+  for (const locale of ["es", "de", "fr", "hi", "ru"]) {
+    const localizedPath = localizedPathFor(locale);
+    const localizedMessages = JSON.parse(readText(localizedPath));
+    const fallbacks = collectEnglishFallbacks(baseMessages, localizedMessages, group);
+    if (fallbacks.length > 0) {
+      localeFallbacks += fallbacks.length;
+      fail(`${group}/${locale} contains ${fallbacks.length} long English fallback(s): ${fallbacks.join(", ")}`);
+    }
+    if (/ZZFA|ZZZZFEESPLIT/.test(readText(localizedPath))) {
+      fail(`${group}/${locale} contains leaked translation protection tokens`);
+    }
+  }
+}
+if (localeFallbacks === 0) {
+  ok("No long English fallbacks or translation tokens in any ES/DE/FR/HI/RU message bundle");
+}
 console.log("\n🗺️  sitemap source");
 const sitemapPath = path.join(APP_DIR, "sitemap.ts");
 if (!fs.existsSync(sitemapPath)) {

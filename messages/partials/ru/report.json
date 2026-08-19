@@ -73,7 +73,7 @@
       "saveLinkBody": "— приватный отчёт доступен 30 дней. Если отправка писем настроена, ссылка также придёт на вашу почту.",
       "monitorActiveBanner": "Fee Monitor активен.",
       "monitorActiveBody": "Отчёт открыт по подписке. В следующем месяце загрузите свежий Balance CSV, чтобы сравнить изменение ставки и причины комиссий.",
-      "betaFreeBanner": "The complete report is free. Save this private link - it stays available for up to 30 days.",
+      "betaFreeBanner": "Полный отчёт предоставляется бесплатно. Сохраните эту приватную ссылку — она будет доступна до 30 дней.",
       "multiCurrencyWarning": "В экспорте несколько валют ({currencies}). Суммы показаны без конвертации, поэтому итоги могут быть несопоставимы. Для точного результата экспортируйте период в одной валюте.",
       "monitorActiveEyebrow": "Fee Monitor активен",
       "monitorActiveTitle": "Ежемесячный мониторинг привязан к этому email",
