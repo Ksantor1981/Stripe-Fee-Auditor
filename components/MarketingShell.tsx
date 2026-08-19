@@ -1,4 +1,5 @@
 import { LandingNav } from "@/components/LandingNav";
+import { SiteFooter } from "@/components/SiteFooter";
 
 type Props = {
   children: React.ReactNode;
@@ -13,6 +14,7 @@ export function MarketingShell({ children, className = "min-h-screen page-canvas
         <LandingNav />
       </div>
       {children}
+      <SiteFooter />
     </div>
   );
 }

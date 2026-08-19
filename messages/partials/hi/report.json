@@ -73,7 +73,7 @@
       "saveLinkBody": "— निजी रिपोर्ट 30 दिन उपलब्ध। ईमेल delivery कॉन्फ़िगर हो तो वहाँ भी भेजा।",
       "monitorActiveBanner": "Fee Monitor सक्रिय।",
       "monitorActiveBody": "यह रिपोर्ट subscription से अनलॉक। अगले महीने ताज़ा Balance CSV अपलोड कर rate drift और fee drivers तुलना करें।",
-      "betaFreeBanner": "Beta में पूर्ण रिपोर्ट मुफ़्त। निजी लिंक सहेजें — 30 दिन तक उपलब्ध।",
+      "betaFreeBanner": "The complete report is free. Save this private link - it stays available for up to 30 days.",
       "multiCurrencyWarning": "निर्यात में कई मुद्राएँ ({currencies})। राशि बिना conversion — कुल सीधे तुलनीय नहीं। एक मुद्रा अवधि export करें।",
       "monitorActiveEyebrow": "Fee Monitor सक्रिय",
       "monitorActiveTitle": "मासिक ट्रैकिंग इस ईमेल से जुड़ी",

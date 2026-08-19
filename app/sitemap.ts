@@ -5,7 +5,7 @@ import {
 } from "./blog/_data/blogIndex";
 
 const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://feeauditor.com";
-const CORE_UPDATED_AT = "2026-07-28";
+const CORE_UPDATED_AT = "2026-08-19";
 
 function date(value: string): Date {
   return new Date(`${value}T00:00:00.000Z`);
@@ -39,5 +39,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: entry.sitemapPriority,
   }));
 
-  return [...staticCore, ...blogAndLandings];
+  const entries = [...staticCore, ...blogAndLandings];
+  return Array.from(new Map(entries.map((entry) => [entry.url, entry])).values());
 }

@@ -73,7 +73,7 @@
       "saveLinkBody": "— Ihr privater Bericht ist 30 Tage verfügbar. Wir haben ihn auch per E-Mail gesendet, falls der Versand konfiguriert ist.",
       "monitorActiveBanner": "Fee Monitor ist aktiv.",
       "monitorActiveBody": "Dieser Bericht ist durch Ihr Abo freigeschaltet. Laden Sie nächsten Monat eine frische Stripe-Balance-CSV hoch, um Ratenabweichungen und Gebührentreiber zu vergleichen.",
-      "betaFreeBanner": "Der Vollbericht ist während der Beta kostenlos. Speichern Sie diesen privaten Link — er bleibt bis zu 30 Tage verfügbar.",
+      "betaFreeBanner": "The complete report is free. Save this private link - it stays available for up to 30 days.",
       "multiCurrencyWarning": "Ihr Export enthält mehrere Währungen ({currencies}). Beträge werden ohne Umrechnung angezeigt — Summen sind ggf. nicht direkt vergleichbar. Exportieren Sie für beste Ergebnisse einen Zeitraum in einer Währung.",
       "monitorActiveEyebrow": "Fee Monitor aktiv",
       "monitorActiveTitle": "Monatliches Tracking ist mit dieser E-Mail verbunden",

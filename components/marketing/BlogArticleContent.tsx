@@ -150,12 +150,15 @@ function BlogSections({ sections }: { sections: Section[] }) {
 
 export async function BlogArticleContent({ contentKey, path, namespace = "blog" }: Props) {
   const t = await getTranslations(`${namespace}.${contentKey}`);
-  const intro = (t.raw("intro") as string[] | undefined) ?? [];
-  const sections = (t.raw("sections") as Section[] | undefined) ?? [];
-  const faq = (t.raw("faq") as FaqItem[] | undefined) ?? [];
-  const sources = (t.raw("sources") as SourceItem[] | undefined) ?? [];
-  const related = (t.raw("related") as RelatedItem[] | undefined) ?? [];
-  const table = t.raw("table") as TableData | undefined;
+  // next-intl returns an error value for a missing raw message. Guard every
+  // optional content block so incomplete copy can never turn an article into
+  // a 500 response (and cascade into sitemap/internal-link audit failures).
+  const intro = t.has("intro") ? (t.raw("intro") as string[]) : [];
+  const sections = t.has("sections") ? (t.raw("sections") as Section[]) : [];
+  const faq = t.has("faq") ? (t.raw("faq") as FaqItem[]) : [];
+  const sources = t.has("sources") ? (t.raw("sources") as SourceItem[]) : [];
+  const related = t.has("related") ? (t.raw("related") as RelatedItem[]) : [];
+  const table = t.has("table") ? (t.raw("table") as TableData) : undefined;
   const readTimeLabel = await blogReadTimeLabel(contentKey, namespace);
 
   const title = t("title");

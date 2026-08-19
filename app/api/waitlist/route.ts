@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { consumeIpRequest, insertMonitorWaitlistSignup } from "@/lib/db";
+import { consumeIpRequest, insertEarlyAccessInterest } from "@/lib/db";
 import { sendWaitlistConfirmationEmail, sendWaitlistNotifyEmail } from "@/lib/email";
 import { logFunnelServer } from "@/lib/funnel-log";
 import { getTrustedClientIp } from "@/lib/request-ip";
@@ -52,10 +52,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const payload = body as { email?: string; reportId?: string; source?: string };
+  const payload = body as {
+    email?: string;
+    reportId?: string;
+    source?: string;
+    paymentVolumeSegment?: string;
+  };
   const email = normalizeWaitlistEmail(asTrimmedString(payload.email));
   const reportId = asTrimmedString(payload.reportId);
-  const source = asTrimmedString(payload.source) || "report";
+  const source = asTrimmedString(payload.source);
+  const paymentVolumeSegment = asTrimmedString(payload.paymentVolumeSegment);
 
   if (!isValidWaitlistEmail(email)) {
     return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
@@ -65,19 +71,33 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid report ID" }, { status: 400 });
   }
 
-  if (source.length > 64) {
-    return NextResponse.json({ error: "Invalid source" }, { status: 400 });
+  if (source !== "monitoring_interest" && source !== "cfo_interest") {
+    return NextResponse.json({ error: "Invalid interest type" }, { status: 400 });
   }
 
-  const result = await insertMonitorWaitlistSignup({
+  const allowedSegments = new Set([
+    "under_10k",
+    "10k_50k",
+    "50k_250k",
+    "250k_1m",
+    "1m_plus",
+  ]);
+  if (paymentVolumeSegment && !allowedSegments.has(paymentVolumeSegment)) {
+    return NextResponse.json({ error: "Invalid payment volume segment" }, { status: 400 });
+  }
+
+  const result = await insertEarlyAccessInterest({
     email,
+    interestType: source,
     reportId: reportId || null,
-    source,
+    paymentVolumeSegment: paymentVolumeSegment || null,
     attribution: readAttributionFromRequest(req),
   });
 
   if (result === "inserted") {
-    logFunnelServer("waitlist_signup", { source });
+    logFunnelServer(source, {
+      payment_volume_segment: paymentVolumeSegment || "unknown",
+    });
 
     try {
       await sendWaitlistNotifyEmail({ email, reportId: reportId || null, source });

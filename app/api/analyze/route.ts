@@ -14,7 +14,6 @@ import { getTrustedClientIp } from "@/lib/request-ip";
 import { SAMPLE_CSV } from "@/lib/sampleData";
 import { MAX_CSV_ROWS, sanitizeColumnMapping, parseCsvWithRowLimit } from "@/lib/analyze-input";
 import { prepareStripeCsvRows } from "@/lib/stripe-csv-import";
-import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { appendReportAccessCookie } from "@/lib/report-access-cookie";
 import { logOpsError, logOpsInfo } from "@/lib/ops-log";
 import {
@@ -22,6 +21,7 @@ import {
   type StripeAccountCountry,
 } from "@/lib/stripe-country-fees";
 import { validateSettlementCurrency } from "@/lib/settlement-currency";
+import { hasMaterialFinding, paymentVolumeSegment } from "@/lib/product-analytics";
 
 export const maxDuration = 30;
 
@@ -234,6 +234,8 @@ export async function POST(req: NextRequest) {
     // ── Analyze ────────────────────────────────────────────────────────────────
     failureStage = "calculation";
     const result = analyze(normalized, { accountCountry });
+    const volumeSegment = paymentVolumeSegment(result);
+    const materialFinding = hasMaterialFinding(result);
     const storedResult = redactAnalysisResultForStorage(result);
     const accessToken = createReportAccessToken();
     failureStage = "token_encryption";
@@ -248,7 +250,7 @@ export async function POST(req: NextRequest) {
         result: storedResult,
         accessTokenHash: hashReportAccessToken(accessToken),
         accessTokenCiphertext,
-        retention: FULL_REPORTS_FREE_DURING_BETA && !isDemo ? "beta_full_access" : "free_preview",
+        retention: !isDemo ? "beta_full_access" : "free_preview",
         attribution: isDemo ? undefined : readAttributionFromRequest(req),
         clientId: typeof body.clientId === "string" ? body.clientId : null,
       });
@@ -263,6 +265,28 @@ export async function POST(req: NextRequest) {
       mode: result.mode,
       is_demo: isDemo,
     });
+
+    const attribution = isDemo ? {} : readAttributionFromRequest(req);
+    logFunnelServer("analysis_completed", {
+      mode: result.mode,
+      is_demo: isDemo,
+      account_country: accountCountry,
+      payment_volume_segment: volumeSegment,
+      effective_rate: result.allInRate,
+      transaction_count: result.chargeCount ?? 0,
+      total_fees: result.allInFees,
+      has_international: (result.geographySummary?.internationalCount ?? 0) > 0,
+      has_refunds: (result.refundSummary?.count ?? 0) > 0,
+      traffic_source: attribution.utm_source ?? (attribution.referrer ? "referral" : "direct_or_organic"),
+      landing_page: attribution.landing_path ?? "unknown",
+    });
+    if (materialFinding) {
+      logFunnelServer("material_issue_found", {
+        mode: result.mode,
+        is_demo: isDemo,
+        payment_volume_segment: volumeSegment,
+      });
+    }
 
     const res = NextResponse.json({
       reportId,
@@ -280,6 +304,8 @@ export async function POST(req: NextRequest) {
         periodDelta: result.periodDelta,
         monthCount: result.monthly.length,
         anomalyCount: result.anomalyCount ?? result.anomalies.length,
+        paymentVolumeSegment: volumeSegment,
+        materialFinding,
       },
     });
     failureStage = "access_cookie";

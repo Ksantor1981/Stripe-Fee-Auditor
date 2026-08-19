@@ -33,10 +33,10 @@ const LandingSampleTabs = dynamic(
 
 const HOME_TITLE = "Free Stripe Fee Auditor — See Your Real Effective Rate";
 const HOME_DESCRIPTION =
-  "Upload your Stripe Balance CSV. See effective rate, international-card uplift, refund fee drag, and other fee drivers. Free diagnosis, no signup, no OAuth. Raw CSV is not stored.";
+  "Upload your Stripe Balance CSV to see effective rate, international-card uplift, refund drag, and other fee drivers. Free audit, no signup, card, OAuth, or stored raw CSV.";
 const HOME_OG_IMAGE = buildOgImageUrl({
   title: "See your real Stripe effective rate",
-  eyebrow: "Fee Auditor · free diagnosis",
+  eyebrow: "Fee Auditor - free Stripe fee audit",
 });
 
 export const metadata: Metadata = {
@@ -97,9 +97,9 @@ const FAQ_JSON_LD_ITEMS = [
     ],
   },
   {
-    q: "Is the $12 full report worth it after beta?",
+    q: "Is the full Stripe fee audit really free?",
     text: [
-      "It depends on your volume. If you process only a few small payments, the preview or a spreadsheet may be enough. If you process meaningful monthly volume, have international customers, refunds, or many low-ticket charges, the full report is designed to show the rows and actions behind the headline rate.",
+      "Yes. The complete current report is free, including high-fee rows, cost drivers, anomalies, recommendations, and exports. No signup or credit card is required.",
     ],
   },
   {
@@ -129,37 +129,6 @@ const FAQ_JSON_LD = {
   })),
 };
 
-const SOFTWARE_JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "Stripe Fee Auditor",
-  applicationCategory: "FinanceApplication",
-  operatingSystem: "Web",
-  url: absoluteUrl("/"),
-  description: HOME_DESCRIPTION,
-  offers: [
-    {
-      "@type": "Offer",
-      name: "Full report",
-      price: "12",
-      priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
-    },
-    {
-      "@type": "Offer",
-      name: "Fee Monitor",
-      price: "9",
-      priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
-      priceSpecification: {
-        "@type": "UnitPriceSpecification",
-        price: "9",
-        priceCurrency: "USD",
-        unitText: "MONTH",
-      },
-    },
-  ],
-};
 
 const ORGANIZATION_JSON_LD = {
   "@context": "https://schema.org",
@@ -185,10 +154,6 @@ export default async function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD).replace(/</g, "\\u003c") }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(SOFTWARE_JSON_LD).replace(/</g, "\\u003c") }}
       />
       <script
         type="application/ld+json"

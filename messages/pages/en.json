@@ -1,11 +1,11 @@
 {
   "seo": {
     "stripeFeesReport": {
-      "metaTitle": "Stripe Fees Report: What to Include Beyond Dashboard Totals",
+      "metaTitle": "Stripe Fees Report: Beyond Dashboard Totals",
       "metaDescription": "A useful Stripe fees report shows processing rate, all-in cost, refund drag, international uplift, and high-fee rows — not just a CSV sum. Export Balance transactions, then audit.",
       "breadcrumb": "Stripe fees report",
       "eyebrow": "Stripe fees report",
-      "heroTitle": "Stripe Fees Report: What to Include Beyond Dashboard Totals",
+      "heroTitle": "Stripe Fees Report: Beyond Dashboard Totals",
       "heroDescription": "A useful Stripe fees report shows processing rate, all-in cost, refund drag, international uplift, and high-fee rows — not just a CSV sum. Export Balance transactions, then audit.",
       "dashboardTitle": "Dashboard export",
       "dashboardItems": [
@@ -61,11 +61,11 @@
         }
       ],
       "ctaTitle": "Turn your export into a fees report",
-      "ctaDescription": "Free preview from your Balance CSV — full report adds high-fee rows, savings checks, and exports.",
+      "ctaDescription": "Complete free audit from your Balance CSV - high-fee rows, cost drivers, recommendations, and exports included.",
       "ctaPrimary": "Upload Balance CSV →"
     },
     "stripeFeeCalculator": {
-      "metaTitle": "Stripe Fee Calculator: Estimate Fees, Then Verify Your Real Rate",
+      "metaTitle": "Stripe Fee Calculator: Estimate and Verify Your Rate",
       "metaDescription": "Free Stripe fee calculator for monthly volume, average charge size, and reverse fee math. Estimate costs, then verify your real effective rate from a Balance CSV.",
       "breadcrumb": "Stripe Fee Calculator: Estimate Fees, Then Verify Your Real Rate",
       "eyebrow": "Stripe fees calculator",
@@ -357,7 +357,7 @@
     },
     "whatPercent": {
       "metaTitle": "How Much Does Stripe Charge Per Transaction?",
-      "metaDescription": "How much does Stripe charge per transaction? For many US online cards it starts at 2.9% + $0.30. Calculate the published percentage, then check your real blended rate from a Balance CSV.",
+      "metaDescription": "For many US online cards, Stripe starts at 2.9% + $0.30 per transaction. Calculate the published fee, then verify your real blended rate from a Balance CSV.",
       "breadcrumb": "How Much Does Stripe Charge Per Transaction?",
       "eyebrow": "How much does Stripe charge",
       "heroTitle": "How Much Does Stripe Charge Per Transaction?",
@@ -435,7 +435,7 @@
       }
     },
     "dataExport": {
-      "metaTitle": "Stripe Export Paths: CSV vs JSON, Tableau, Postgres | Fee Auditor",
+      "metaTitle": "Stripe Export Paths: CSV vs JSON, Tableau, Postgres",
       "metaDescription": "Need Stripe data in CSV, JSON, Tableau, Power BI, or PostgreSQL? Choose the right export path, then use Balance CSV for Stripe fee reconciliation.",
       "breadcrumb": "Export Stripe Data to CSV, JSON, Tableau, or PostgreSQL",
       "eyebrow": "Stripe data export",
@@ -550,7 +550,7 @@
       }
     },
     "comparePaypal": {
-      "metaTitle": "Stripe vs PayPal vs Wise Fees: Compare Before Switching | Fee Auditor",
+      "metaTitle": "Stripe vs PayPal vs Wise Fees: Compare Before Switching",
       "metaDescription": "Compare Stripe, PayPal, and Wise fees by payment use case, then audit your real Stripe Balance CSV before moving checkout volume.",
       "breadcrumb": "Stripe vs PayPal vs Wise Fees: Compare Before Switching",
       "eyebrow": "Payment fee comparison",
@@ -660,7 +660,7 @@
       }
     },
     "shouldSwitch": {
-      "metaTitle": "Should I Switch From Stripe? Audit Fees First | Fee Auditor",
+      "metaTitle": "Should I Switch From Stripe? Audit Fees First",
       "metaDescription": "Before switching from Stripe, audit your real fee driver: international cards, small charges, refunds, ACH opportunities, checkout conversion, or tax operations.",
       "breadcrumb": "Should I Switch From Stripe? Audit Fees First",
       "eyebrow": "Payment decision guide",
@@ -872,7 +872,7 @@
       ],
       "cta": {
         "title": "Check your actual Stripe rate from a Balance CSV",
-        "description": "Free preview first. No Stripe OAuth, no API keys, and raw CSV files are not stored as files.",
+        "description": "Complete free audit. No signup, card, Stripe OAuth, or stored raw CSV file.",
         "primaryLabel": "Analyze My CSV"
       }
     },
@@ -974,24 +974,24 @@
       }
     },
     "monitor": {
-      "metaTitle": "Fee Monitor — Catch Stripe Rate Drift Before It Becomes Normal",
+      "metaTitle": "Automatic Stripe Cost Monitoring - Early Access",
       "metaDescription": "Catch rate drift, refund leakage, and one-off anomalies before they become normal. Monthly CSV reminders — no permanent Stripe OAuth. $9/month.",
       "breadcrumb": "Fee Monitor",
       "eyebrow": "Fee Monitor · $9/mo",
       "heroTitle": "Build a monthly Stripe fee-check habit before drift becomes invisible.",
-      "heroDescription": "$12 = one CSV audit with a 30-day link. $9/mo = a monthly reminder, fresh full report, and private rate-drift history across uploads. No permanent Stripe OAuth; automatic sync and proactive alerts are not included.",
+      "heroDescription": "$12 = one CSV check (this export, 30 days). $9/mo = a monthly reminder + fresh full report. It is a manual check today; report history and automatic drift alerts come only after they ship. No permanent Stripe OAuth — you stay in control of every export.",
       "sections": [
         {
           "type": "pricingCard",
           "price": "$9",
           "period": "/ month",
-          "body": "For founders who want a repeatable monthly check: each upload becomes a full report and joins a private 13-month comparison history. Upload remains manual; there is no live Stripe sync.",
+          "body": "Compared to a one-time $12 investigation: Monitor is for founders who want a reminder to repeat the check. It is not yet automatic monitoring or a historical dashboard.",
           "included": [
             "Monthly reminder to upload the latest Stripe Balance CSV",
             "Catch rate drift before a bad month becomes your new baseline",
             "Refund leakage and high-fee / one-off anomaly prompts",
             "Processing rate vs all-in Stripe cost every month",
-            "Private report history with processing-rate and all-in-rate deltas"
+            "First access to private report history as it ships"
           ]
         },
         {
@@ -1003,7 +1003,7 @@
             },
             {
               "title": "History",
-              "body": "Private history is live: compare processing rate, all-in cost, volume, and fees across uploads."
+              "body": "Report history is planned; today, save each private report link."
             },
             {
               "title": "Alerts later",
@@ -1014,7 +1014,7 @@
         {
           "type": "why",
           "heading": "The useful question is not just \"what is my rate?\"",
-          "body": "It is \"did my rate get worse, why, and what should I inspect first?\" Monitor now keeps a private comparison history for your uploads. Automatic Stripe sync and proactive alerts are still not included.",
+          "body": "It is \"did my rate get worse, why, and what should I inspect first?\" Today Monitor creates the recurring check-in habit; comparison history and automatic drift detection are future functionality, not a promise already delivered.",
           "steps": [
             [
               "1",
@@ -1023,8 +1023,8 @@
             ],
             [
               "2",
-              "Compare the change",
-              "See processing rate, all-in cost, volume, and fees against your previous uploads."
+              "Keep your report links",
+              "Compare the new report with your prior export manually until in-product history ships."
             ],
             [
               "3",
@@ -1040,7 +1040,7 @@
             "Catch rate drift before a bad month becomes your new baseline",
             "Refund leakage and high-fee / one-off anomaly prompts",
             "Processing rate vs all-in Stripe cost every month",
-            "Private report history with processing-rate and all-in-rate deltas"
+            "First access to private report history as it ships"
           ],
           "notYet": [
             "No live Stripe OAuth connection in the first version",
@@ -1125,7 +1125,7 @@
     },
     "chromeExtension": {
       "metaTitle": "Stripe Fee Auditor — CSV Fee Check Helper",
-      "metaDescription": "Install the free Chrome helper: open Stripe Balance export, audit your real fee rate on FeeAuditor.com, optional monthly CSV reminder. No OAuth or API keys. Does not read Stripe pages.",
+      "metaDescription": "Install the free Chrome helper to open Stripe Balance export and audit your real fee rate. Optional monthly CSV reminder; no OAuth, API keys, or Stripe page access.",
       "breadcrumb": "Stripe Fee Auditor — CSV Fee Check Helper",
       "eyebrow": "Chrome helper · free on Web Store",
       "heroTitle": "Stripe Fee Auditor — CSV helper for your real fee rate",
@@ -1631,12 +1631,39 @@
   },
   "blog": {
     "how-i-found-1400-in-hidden-stripe-fees": {
-      "metaTitle": "How I Found ~$1,400/Year in Hidden Stripe Fee Opportunities",
+      "metaTitle": "Stripe Fee Case Study: ~$1,400/Year Found",
       "metaDescription": "A real Stripe Balance CSV case study: $3,597.77 in fees over four months, a 3.82% processing rate, a 4.02% all-in Stripe cost, and the fee drivers worth checking.",
       "title": "How I Found ~$1,400/Year in Hidden Stripe Fee Opportunities",
       "readTime": "6 min",
       "publishedAt": "2026-06-25",
-      "updatedAt": null,
+      "updatedAt": "2026-06-25",
+      "sections": [
+        {
+          "type": "section",
+          "heading": "The important distinction",
+          "paragraphs": [
+            "The report separates card processing rate from all-in Stripe cost. That matters because not every Stripe fee is a normal card processing fee. If you mix every fee line into one number, you can end up chasing the wrong problem."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "What pushed the rate up?",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "Why this is better than a calculator",
+          "paragraphs": [
+            "A Stripe fee calculator estimates what should happen. A Balance CSV shows what actually happened. The calculator cannot see whether this month had more international cards, more refunds, smaller charges, or extra fee lines. Your export can.",
+            "That is why the most useful question is not \"does Stripe charge 2.9%?\" It is \"what did Stripe charge on my actual mix, and which segment should I look at first?\""
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "How to check your own account",
+          "paragraphs": []
+        }
+      ],
       "faq": [
         {
           "question": "Is the ~$1,400/year number guaranteed savings?",
@@ -1664,6 +1691,20 @@
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
           "title": "Stripe balance transaction types"
         }
+      ],
+      "related": [
+        {
+          "href": "/blog/cross-border-stripe-fees-migration-2026",
+          "title": "Cross-Border Stripe Fees: Why Your Rate Rises"
+        },
+        {
+          "href": "/blog/stripe-fee-audit-checklist-for-saas-founders",
+          "title": "Stripe Fee Audit Checklist for SaaS Founders"
+        },
+        {
+          "href": "/blog/stripe-fee-leakage-report-may-2026",
+          "title": "Stripe Fee Leakage Report: Who Is Safe?"
+        }
       ]
     },
     "cross-border-stripe-fees-migration-2026": {
@@ -1672,17 +1713,108 @@
       "title": "Cross-Border Stripe Fees: Why Your Rate Rises",
       "readTime": "10 min",
       "publishedAt": "2026-06-22",
-      "updatedAt": null,
+      "updatedAt": "2026-06-22",
+      "sections": [
+        {
+          "type": "section",
+          "heading": "What changed in the world (and why SaaS founders should care)",
+          "paragraphs": [
+            "The UN's World Migration Report 2026 puts international migrants at roughly 304 million by mid-2024 — about 3.7% of the global population, with migrant workers and remittance flows still climbing. Cross-border movement is not a niche edge case anymore; it is structural.",
+            "Parallel to that, remote work went mainstream. Industry surveys commonly cite tens of millions of digital nomads globally and roughly 60 countries now offering remote-work or digital-nomad visa pathways — up from essentially zero in 2019. Exact counts vary by definition, but the direction is clear: more people live, work, and spend outside their home banking jurisdiction.",
+            "For a SaaS or subscription business on Stripe, that macro trend shows up as micro data: a German employee paying from Portugal, a US founder billing in USD while customers spread across the EU and APAC, a PLG signup surge from countries you never marketed to. Stripe still charges you based on card issuer geography and currency path — not where your customer says they live on a form."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "The fee math: from 2.9% headline to 5%+ reality",
+          "paragraphs": [
+            "Stripe's advertised US online card rate is a floor, not a ceiling. Cross-border layers are additive. Numbers below use typical US published pricing; your account country and contract may differ — always verify on stripe.com/pricing .",
+            "On low-ticket subscriptions, the fixed $0.30 makes the pain worse: a $10 international charge can land near 6–9% effective rate even before other fee lines (Billing, Radar, disputes). See our small-transaction fee guide ."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Three 2026 patterns we see in Stripe CSV audits",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "Signals to monitor monthly",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "What founders are doing about it",
+          "paragraphs": [
+            "Deeper dives: international card fees why your rate jumped this month how to reduce Stripe fees"
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "FAQ",
+          "paragraphs": [
+            "Sources & methodology",
+            "Migration figures reference the IOM / UN World Migration Report 2026 global overview (international migrant stock estimates). Remote-work visa counts are industry compilations and vary by definition (typically ~58–66 countries in 2026 reports). Stripe fee examples use published US online card pricing plus documented cross-border and currency conversion surcharges; verify against your Stripe Dashboard and contract. This article is informational, not tax or legal advice.",
+            "See if cross-border fees are raising your rate",
+            "Upload your Balance CSV — no OAuth, no raw file stored."
+          ]
+        }
+      ],
       "faq": [],
-      "sources": []
+      "sources": [],
+      "related": [
+        {
+          "href": "/blog/stripe-fee-audit-checklist-for-saas-founders",
+          "title": "Stripe Fee Audit Checklist for SaaS Founders"
+        },
+        {
+          "href": "/blog/stripe-fee-leakage-report-may-2026",
+          "title": "Stripe Fee Leakage Report: Who Is Safe?"
+        },
+        {
+          "href": "/blog/stripe-alternatives-2026",
+          "title": "Stripe Alternatives in 2026: Check Fees Before Switching"
+        }
+      ]
     },
     "stripe-fee-audit-checklist-for-saas-founders": {
       "metaTitle": "Stripe Fee Audit Checklist for SaaS Founders",
       "metaDescription": "A practical monthly Stripe fee audit checklist for SaaS founders: effective rate, Balance CSV, international cards, refunds, small charges, ACH, and month-over-month monitoring.",
       "title": "Stripe Fee Audit Checklist for SaaS Founders",
       "readTime": "8 min",
-      "publishedAt": null,
-      "updatedAt": null,
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-05-16",
+      "intro": [
+        "Stripe's dashboard is good at showing gross volume. It is less direct when you want a plain-English answer to \"why did my fees move this month?\" That is where a small monthly audit helps. It turns one export into a habit: check the rate, find the driver, decide whether action is worth it.",
+        "This checklist is written for SaaS founders, indie hackers, agencies, and subscription businesses using Stripe. It is not tax advice, and it will not replace your accountant. It is the practical review I would run before assuming the headline 2.9% + $0.30 rate is the whole story."
+      ],
+      "sections": [
+        {
+          "type": "section",
+          "heading": "The monthly scorecard",
+          "paragraphs": [
+            "Start with the same six numbers every month. They are simple enough to track in a spreadsheet, and strong enough to explain most Stripe fee changes."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "The checklist",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "What I would not over-optimize yet",
+          "paragraphs": [
+            "It is tempting to turn every fee row into a project. I would avoid that early. If your Stripe volume is still tiny, the first audit may be enough. If your customers are mostly domestic and high-ticket, a 3.1%-3.4% rate might be boringly normal.",
+            "The useful threshold is usually repetition. If the same driver shows up two months in a row - international cards, refund leakage, low-ticket plans, or B2B invoices paid by card - then it becomes worth changing pricing, payment methods, or checkout defaults."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "A simple monthly workflow",
+          "paragraphs": []
+        }
+      ],
       "faq": [
         {
           "question": "How often should I audit Stripe fees?",
@@ -1710,6 +1842,20 @@
           "href": "https://stripe.com/pricing",
           "title": "Stripe pricing"
         }
+      ],
+      "related": [
+        {
+          "href": "/blog/stripe-fee-leakage-report-may-2026",
+          "title": "Stripe Fee Leakage Report: Who Is Safe?"
+        },
+        {
+          "href": "/blog/stripe-alternatives-2026",
+          "title": "Stripe Alternatives in 2026: Check Fees Before Switching"
+        },
+        {
+          "href": "/blog/stripe-credit-card-processing-fees",
+          "title": "Stripe Processing Fees: Card Rates vs Real Cost"
+        }
       ]
     },
     "stripe-fee-leakage-report-may-2026": {
@@ -1717,8 +1863,67 @@
       "metaDescription": "A May 2026 diagnostic model for Stripe fee leakage: compare safe SaaS payment profiles with the low-ticket, global, refund-heavy profiles that should audit fees now.",
       "title": "Stripe Fee Leakage Report: Who Is Safe?",
       "readTime": "9 min",
-      "publishedAt": null,
-      "updatedAt": null,
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-05-16",
+      "sections": [
+        {
+          "type": "section",
+          "heading": "The short version",
+          "paragraphs": [
+            "If you sell high-ticket subscriptions to mostly domestic customers, Stripe fees are usually boring. If you sell low-priced monthly plans to a global audience, your real payment cost can quietly become a meaningful margin leak."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Fee leakage by business profile",
+          "paragraphs": [
+            "The right benchmark depends on your customer mix. A 4.5% effective rate can be alarming for a domestic B2B SaaS company and completely unsurprising for a global, low-ticket subscription app."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Why small monthly plans leak first",
+          "paragraphs": [
+            "The fixed $0.30 fee is harmless on a $150 invoice and brutal on a $5 subscription. This is why founders often discover the problem only after adding a low-tier plan or running a discount-heavy launch.",
+            "Effective cost of 2.9% + $0.30 by charge size"
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "The cross-border stack",
+          "paragraphs": [
+            "Stripe lists the domestic online card rate, then separate add-ons for international cards and currency conversion. On a $100 charge, that stack changes the story quickly. Always verify the current pricing for your country and plan, especially if you have custom pricing.",
+            "Approximate fee on a $100 card payment under common US-listed rates",
+            "Source logic: domestic card baseline plus international card and currency conversion add-ons where applicable. Stripe pricing varies by country and may differ under custom agreements."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "The safe zone",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "The bleeding zone",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "How to read your own report",
+          "paragraphs": [
+            "Do not stop at one blended number. The blended rate tells you there is a problem; the segment view tells you what to do next."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Methodology and limits",
+          "paragraphs": [
+            "This report is intentionally conservative. It uses public fee components, simple SaaS payment profiles, and common account patterns. It does not know your custom Stripe pricing, your exact card country mix, your negotiated Billing plan, or your local tax setup.",
+            "That is why the best next step is not arguing about the benchmark. It is exporting your own Balance CSV and calculating the real effective rate from your actual rows.",
+            "Reference: Stripe's public pricing page lists the domestic card baseline plus additional charges such as international card and currency conversion add-ons. Always confirm the live rate for your account country and pricing agreement."
+          ]
+        }
+      ],
       "faq": [
         {
           "question": "What is Stripe fee leakage?",
@@ -1746,15 +1951,74 @@
           "href": "https://docs.stripe.com/disputes",
           "title": "Stripe disputes documentation"
         }
+      ],
+      "related": [
+        {
+          "href": "/blog/stripe-alternatives-2026",
+          "title": "Stripe Alternatives in 2026: Check Fees Before Switching"
+        },
+        {
+          "href": "/blog/stripe-credit-card-processing-fees",
+          "title": "Stripe Processing Fees: Card Rates vs Real Cost"
+        },
+        {
+          "href": "/blog/stripe-vs-paypal-fees",
+          "title": "Stripe vs PayPal Fees: Real Comparison"
+        }
       ]
     },
     "stripe-alternatives-2026": {
       "metaTitle": "Stripe Alternatives in 2026: Check Fees Before Switching",
-      "metaDescription": "Looking for Stripe alternatives in 2026? Before switching processors, audit your real Stripe effective rate and identify whether fees, payment mix, or checkout strategy is the real problem.",
+      "metaDescription": "Compare Stripe alternatives only after auditing your real effective rate, payment mix, and checkout costs, so you switch for the right reason.",
       "title": "Stripe Alternatives in 2026: Check Fees Before Switching",
       "readTime": "8 min",
       "publishedAt": "2026-06-25",
-      "updatedAt": null,
+      "updatedAt": "2026-06-25",
+      "sections": [
+        {
+          "type": "section",
+          "heading": "The best Stripe alternative depends on the problem",
+          "paragraphs": [
+            "\"Stripe alternative\" is too broad. A founder leaving because of card fees needs a different answer than a founder leaving because of tax compliance, fraud, chargebacks, payout timing, or in-person payments.",
+            "Start by separating your complaint into two buckets: payment cost and payment operations. Fee Auditor helps with the first bucket by showing your actual processing rate and all-in Stripe cost from the Balance CSV."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Common alternatives and the real question",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "When switching may make sense",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "When switching probably will not fix the issue",
+          "paragraphs": [
+            "If your problem is low-ticket card payments, any provider with a fixed per-transaction fee can still produce a high effective rate. If your problem is international buyers, another card processor may still charge cross-border or FX costs. If your problem is refunds, payment processors often still keep some fees.",
+            "In those cases, the better move may be changing plan structure, offering annual billing, adding ACH or local payment methods, or adjusting checkout defaults."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "A simple pre-switch checklist",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "Official pricing sources",
+          "paragraphs": [
+            "Pricing changes by country, product, and plan. Use these official pages as the current reference before changing processors."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Related guides",
+          "paragraphs": []
+        }
+      ],
       "faq": [],
       "sources": [
         {
@@ -1777,6 +2041,20 @@
           "href": "https://www.adyen.com/pricing",
           "title": "Adyen pricing"
         }
+      ],
+      "related": [
+        {
+          "href": "/blog/stripe-credit-card-processing-fees",
+          "title": "Stripe Processing Fees: Card Rates vs Real Cost"
+        },
+        {
+          "href": "/blog/stripe-vs-paypal-fees",
+          "title": "Stripe vs PayPal Fees: Real Comparison"
+        },
+        {
+          "href": "/blog/stripe-international-card-fees",
+          "title": "Stripe International Card Fees: Why Your Rate Is Higher"
+        }
       ]
     },
     "stripe-credit-card-processing-fees": {
@@ -1786,6 +2064,56 @@
       "readTime": "6 min",
       "publishedAt": "2026-06-25",
       "updatedAt": "2026-07-16",
+      "intro": [
+        "Stripe's published card rate is a useful starting point, but it is not the same as the effective rate on your account. Fixed fees, card geography, currency conversion, refunds, disputes, and paid Stripe products can change the amount you actually lose to processing costs.",
+        "Use the published price to estimate a transaction, then use an itemized Balance CSV to measure the period as a whole. That comparison separates normal card processing from other Stripe fee lines and shows which cost driver is worth investigating first."
+      ],
+      "sections": [
+        {
+          "type": "section",
+          "heading": "Published card pricing vs your real Stripe cost",
+          "paragraphs": [
+            "For a single charge, the fixed component matters more as the ticket gets smaller. Across a month, the mix matters too: international cards, conversion, refunds, disputes, Billing, Radar, and other products can move the all-in rate away from the headline card price.",
+            "A useful fee review keeps two numbers separate: charge processing fees divided by charge volume, and all Stripe fee lines divided by the same volume. The gap between them is evidence, not noise - it points to costs outside ordinary card processing."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "The simple formula",
+          "paragraphs": [
+            "This is different from your all-in Stripe cost rate. All-in cost can include other fee lines such as dispute fees, payout fees, Billing, Radar, currency conversion, and refund-related leakage."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "What pushes the rate higher?",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "Estimate vs actual",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "How to check your Stripe card fees",
+          "paragraphs": [
+            "Pricing changes. Always verify current rates on the official Stripe pricing page and in your own Stripe Dashboard before making pricing or migration decisions."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Official Stripe sources",
+          "paragraphs": [
+            "Use Stripe's current pricing and report documentation as the source of truth, then compare those public rates with your own Balance CSV."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Related guides",
+          "paragraphs": []
+        }
+      ],
       "faq": [],
       "sources": [
         {
@@ -1800,6 +2128,20 @@
           "href": "https://docs.stripe.com/reports",
           "title": "Stripe reports documentation"
         }
+      ],
+      "related": [
+        {
+          "href": "/blog/stripe-vs-paypal-fees",
+          "title": "Stripe vs PayPal Fees: Real Comparison"
+        },
+        {
+          "href": "/blog/stripe-international-card-fees",
+          "title": "Stripe International Card Fees: Why Your Rate Is Higher"
+        },
+        {
+          "href": "/blog/stripe-ach-vs-credit-card-fees",
+          "title": "Stripe ACH vs Credit Card Fees: When ACH Saves Money"
+        }
       ]
     },
     "stripe-vs-paypal-fees": {
@@ -1808,7 +2150,53 @@
       "title": "Stripe vs PayPal Fees: Real Comparison",
       "readTime": "7 min",
       "publishedAt": "2026-06-25",
-      "updatedAt": null,
+      "updatedAt": "2026-06-25",
+      "sections": [
+        {
+          "type": "section",
+          "heading": "The simple answer",
+          "paragraphs": [
+            "If a customer would pay either way, Stripe often wins on developer workflow and predictable card processing. PayPal can win when wallet checkout improves conversion or when your customers strongly prefer PayPal.",
+            "But for an existing Stripe business, the first question is not \"Is PayPal cheaper?\" It is \"What am I actually paying Stripe today?\""
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Stripe vs PayPal: what actually matters",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "Do not compare only one $100 payment",
+          "paragraphs": [
+            "Most comparison pages calculate a single $100 sale. That misses the real SaaS problem: your month includes low-ticket charges, international cards, upgrades, refunds, failed payments, subscription add-ons, and sometimes other Stripe fee lines."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "When PayPal may be worth adding",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "Before switching, audit your Stripe baseline",
+          "paragraphs": [
+            "If your Stripe all-in cost is around 4% or higher, the cause may not be \"Stripe is bad.\" It may be international card mix, small charges, refunds, Billing fees, or currency conversion. Switching providers without identifying the driver can move the same cost problem to a new checkout."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Official pricing sources",
+          "paragraphs": [
+            "Published rates vary by country, payment method, and product. Confirm current pricing on the official pages before changing checkout strategy."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Related guides",
+          "paragraphs": []
+        }
+      ],
       "faq": [],
       "sources": [
         {
@@ -1823,6 +2211,20 @@
           "href": "https://developer.paypal.com/braintree/articles/guides/payment-methods/paypal",
           "title": "Braintree PayPal docs"
         }
+      ],
+      "related": [
+        {
+          "href": "/blog/stripe-international-card-fees",
+          "title": "Stripe International Card Fees: Why Your Rate Is Higher"
+        },
+        {
+          "href": "/blog/stripe-ach-vs-credit-card-fees",
+          "title": "Stripe ACH vs Credit Card Fees: When ACH Saves Money"
+        },
+        {
+          "href": "/blog/stripe-fees-small-transactions",
+          "title": "Stripe Fees for Small Transactions: Why Your Rate Is Higher"
+        }
       ]
     },
     "stripe-international-card-fees": {
@@ -1832,6 +2234,54 @@
       "readTime": "6 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-07-19",
+      "sections": [
+        {
+          "type": "callout",
+          "title": "Short answer",
+          "body": "An international card fee is the extra Stripe cost applied when the customer's card was issued outside your Stripe account country. Currency conversion is a separate cost and can stack on top."
+        },
+        {
+          "type": "section",
+          "heading": "What is the Stripe international card fee?",
+          "paragraphs": [
+            "When a customer pays with a card issued by a bank outside the US (or outside your Stripe account's country), Stripe charges an additional 1.5% cross-border fee on top of the standard processing rate.",
+            "An international card fee is the extra Stripe cost applied when the customer's card was issued outside your Stripe account country. Currency conversion is a separate cost and can stack on top.",
+            "For a US account, a domestic card is typically 2.9% + $0.30. An international card adds 1.5% cross-border on top — before any currency conversion. The $0.30 fixed fee stays the same.",
+            "Example: $100 payment"
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "What counts as an \"international\" card?",
+          "paragraphs": [
+            "The fee applies when the card-issuing bank is in a different country than your Stripe account. For a US Stripe account:",
+            "The determining factor is where the card was issued, not where the customer is currently located or what currency they're paying in."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "How to find international card charges in your data",
+          "paragraphs": [
+            "In your Stripe Balance CSV export, international card transactions are identified by the text [international] appearing in the description field. For example:",
+            "To quantify the impact manually: filter your CSV for rows containing \"[international]\", sum the fee column for those rows, and compare to what the fee would have been at the domestic rate. The difference is your annual international card surcharge cost.",
+            "feeauditor.com does this automatically — it identifies high-fee international card charges, calculates the excess fee, and estimates your annual savings opportunity if you shifted those transactions to cheaper payment methods."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "How much is this actually costing you?",
+          "paragraphs": [
+            "It depends on what percentage of your customers are international. Some rough math:",
+            "Annual extra cost on $100k/year processing volume",
+            "At $500k/year volume, multiply by 5. At $1M/year, multiply by 10."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "How to reduce international card fees",
+          "paragraphs": []
+        }
+      ],
       "faq": [
         {
           "question": "What is Stripe's international card fee?",
@@ -1859,6 +2309,20 @@
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
           "title": "Stripe balance transaction types"
         }
+      ],
+      "related": [
+        {
+          "href": "/blog/stripe-ach-vs-credit-card-fees",
+          "title": "Stripe ACH vs Credit Card Fees: When ACH Saves Money"
+        },
+        {
+          "href": "/blog/stripe-fees-small-transactions",
+          "title": "Stripe Fees for Small Transactions: Why Your Rate Is Higher"
+        },
+        {
+          "href": "/blog/stripe-blended-rate-calculator",
+          "title": "Stripe Blended Rate Calculator: Find Your True Fee Rate"
+        }
       ]
     },
     "stripe-ach-vs-credit-card-fees": {
@@ -1868,6 +2332,58 @@
       "readTime": "7 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-06-25",
+      "sections": [
+        {
+          "type": "callout",
+          "title": "Short answer",
+          "body": "ACH is usually cheaper for large US bank payments, especially B2B invoices and annual plans. Cards are usually faster and easier for checkout conversion."
+        },
+        {
+          "type": "section",
+          "heading": "The fee comparison",
+          "paragraphs": [
+            "ACH is usually cheaper for large US bank payments, especially B2B invoices and annual plans. Cards are usually faster and easier for checkout conversion.",
+            "ACH is US-only. Stripe also supports SEPA Direct Debit for Europe (0.8%, capped at €5) and BECS for Australia (1.75%, capped at A$3.50).",
+            "Stripe Billing: pay-as-you-go is about 0.7% of billing volume on top of card or ACH processing; fixed annual plans start around $620/month instead — confirm your plan on stripe.com/pricing."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "When ACH is clearly better",
+          "paragraphs": [
+            "Under the common US-listed rates below, there is no positive transaction amount where a standard domestic card becomes cheaper than ACH. ACH has the lower percentage rate, no $0.30 fixed fee, and then a $5 cap.",
+            "The useful threshold is the ACH cap: at $625, ACH reaches $5 and stays there, while card fees keep rising. The trade-off is not price — it is settlement speed, failure risk, customer friction, and whether ACH fits the buyer.",
+            "Fee comparison by transaction size"
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "The right use cases for ACH",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "The downsides of ACH",
+          "paragraphs": [
+            "ACH isn't always the right choice. The main limitations:"
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "How to enable ACH on Stripe",
+          "paragraphs": [
+            "ACH Direct Debit is available on all Stripe accounts. To enable it:"
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "How to find which of your transactions should be ACH",
+          "paragraphs": [
+            "Look at your Stripe Balance CSV for large card transactions — specifically charges over $200 from US business customers. These are your best ACH candidates.",
+            "feeauditor.com automatically identifies transactions where ACH would have been significantly cheaper and calculates your estimated annual savings from switching those specific transactions to ACH. This gives you a concrete dollar figure to justify the implementation effort."
+          ]
+        }
+      ],
       "faq": [
         {
           "question": "Is Stripe ACH cheaper than credit cards?",
@@ -1895,15 +2411,75 @@
           "href": "https://docs.stripe.com/payments/payment-methods",
           "title": "Stripe payment methods"
         }
+      ],
+      "related": [
+        {
+          "href": "/blog/stripe-fees-small-transactions",
+          "title": "Stripe Fees for Small Transactions: Why Your Rate Is Higher"
+        },
+        {
+          "href": "/blog/stripe-blended-rate-calculator",
+          "title": "Stripe Blended Rate Calculator: Find Your True Fee Rate"
+        },
+        {
+          "href": "/blog/how-to-export-stripe-balance-csv",
+          "title": "How to Export Stripe Balance CSV: Step-by-Step Guide"
+        }
       ]
     },
     "stripe-fees-small-transactions": {
-      "metaTitle": "Stripe Fees for Small Transactions: Why Your Rate Is Higher",
+      "metaTitle": "Stripe Fees on Small Transactions: Cost Guide",
       "metaDescription": "The fixed $0.30 Stripe fee hits small transactions hard: a $5 charge can cost about 9%. See the math, margin impact, and ways to reduce micro-payment drag.",
       "title": "Stripe Fees for Small Transactions: Why Your Rate Is Higher",
       "readTime": "5 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-07-19",
+      "sections": [
+        {
+          "type": "callout",
+          "title": "Short answer",
+          "body": "Stripe fees feel high on small payments because the fixed per-transaction fee does not shrink with the charge amount. The smaller the charge, the larger that fixed fee becomes as a percentage of revenue."
+        },
+        {
+          "type": "section",
+          "heading": "The math: how the $0.30 fixed fee works",
+          "paragraphs": [
+            "The percentage fee (2.9%) scales with the transaction amount. The $0.30 fixed fee does not — it applies to every transaction regardless of size. On small transactions, the fixed fee becomes the dominant cost.",
+            "Stripe fees feel high on small payments because the fixed per-transaction fee does not shrink with the charge amount. The smaller the charge, the larger that fixed fee becomes as a percentage of revenue.",
+            "For a $5 transaction, the $0.30 fixed fee alone represents 6% of the transaction value — before the 2.9% percentage fee even applies.",
+            "Manual card entry: If your team keys in card numbers (phone orders, invoices paid over the phone), Stripe adds +0.5% on top of standard card pricing — another lift on top of the fixed $0.30, separate from transaction size."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Which businesses are most affected",
+          "paragraphs": [
+            "The fixed fee impact is most significant for businesses where small transactions make up a meaningful portion of volume:",
+            "Even if your average transaction is healthy, a significant number of small transactions can drag up your overall blended rate by 0.3–0.5 percentage points."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "How to identify if this is affecting you",
+          "paragraphs": [
+            "Export your Stripe Balance CSV and filter for charge rows with amounts under $20. Sum the fees for those rows and compare to the fees you'd pay at a hypothetical \"no fixed fee\" rate. The difference is the excess you're paying due to small transaction fixed fees.",
+            "feeauditor.com does this automatically — it flags transactions where the fixed fee is disproportionate to the charge amount and shows you your effective rate broken down by transaction size bucket."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "What you can do about it",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "When to consider specialized micropayment processors",
+          "paragraphs": [
+            "For transactions consistently under $2, standard card processors like Stripe may not be economical regardless of strategy. Some specialized processors offer micropayment-optimized pricing (e.g., $0.05 + 5% instead of $0.30 + 2.9%).",
+            "The break-even between Stripe's standard rate and a micropayment rate of $0.05 + 5% is approximately $8.33 — below that amount, the micropayment processor is cheaper; above it, Stripe wins. This only makes sense if the majority of your transactions are under $8."
+          ]
+        }
+      ],
       "faq": [
         {
           "question": "Why are Stripe fees so high on small transactions?",
@@ -1931,6 +2507,20 @@
           "href": "https://docs.stripe.com/reports",
           "title": "Stripe reports documentation"
         }
+      ],
+      "related": [
+        {
+          "href": "/blog/stripe-blended-rate-calculator",
+          "title": "Stripe Blended Rate Calculator: Find Your True Fee Rate"
+        },
+        {
+          "href": "/blog/how-to-export-stripe-balance-csv",
+          "title": "How to Export Stripe Balance CSV: Step-by-Step Guide"
+        },
+        {
+          "href": "/blog/why-stripe-effective-rate-jumped-this-month",
+          "title": "Why Did My Stripe Effective Rate Jump This Month?"
+        }
       ]
     },
     "stripe-blended-rate-calculator": {
@@ -1940,6 +2530,52 @@
       "readTime": "6 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-06-25",
+      "sections": [
+        {
+          "type": "section",
+          "heading": "What is a blended rate?",
+          "paragraphs": [
+            "Your blended rate (also called effective rate) is the total fees you paid divided by your total charge volume over a period. It's a single number that captures everything — percentage fees, fixed fees, international surcharges, currency conversion, and any other charges.",
+            "Unlike the advertised rate, which applies to one idealized transaction type, your blended rate reflects your actual mix of customers, card types, geographies, and transaction sizes.",
+            "Stripe blended rate is the real percentage of processed volume paid in Stripe fees: total fees divided by total charge volume. It is usually more useful than the advertised card rate when you want to understand an actual month of payments."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "The formula",
+          "paragraphs": [
+            "vs. advertised 2.9% — this business is paying 10% more than the stated rate."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "How to calculate it manually",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "What inflates your blended rate",
+          "paragraphs": [
+            "Multiple factors push your real rate above the advertised 2.9%:"
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "What's a healthy blended rate?",
+          "paragraphs": [
+            "There's no universal benchmark — it depends on your customer mix and transaction sizes:",
+            "If your rate is above the expected range for your profile, something specific is driving it — usually international cards or small transactions. Both are identifiable from your Balance CSV."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Month-by-month tracking matters",
+          "paragraphs": [
+            "Your blended rate isn't static. A spike in one month usually has a specific cause: a marketing campaign that drove international traffic, a product launch with small intro-priced transactions, or a batch of refunds.",
+            "Tracking month-by-month lets you diagnose these spikes and respond — either by adjusting payment methods for affected customers, or at minimum understanding why your fees increased so you're not surprised at tax time."
+          ]
+        }
+      ],
       "faq": [
         {
           "question": "What is a Stripe blended rate?",
@@ -1967,6 +2603,20 @@
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
           "title": "Stripe balance transaction types"
         }
+      ],
+      "related": [
+        {
+          "href": "/blog/how-to-export-stripe-balance-csv",
+          "title": "How to Export Stripe Balance CSV: Step-by-Step Guide"
+        },
+        {
+          "href": "/blog/why-stripe-effective-rate-jumped-this-month",
+          "title": "Why Did My Stripe Effective Rate Jump This Month?"
+        },
+        {
+          "href": "/blog/why-stripe-fees-increase",
+          "title": "Why Did My Stripe Fees Increase This Month?"
+        }
       ]
     },
     "how-to-export-stripe-balance-csv": {
@@ -1976,6 +2626,55 @@
       "readTime": "4 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-07-19",
+      "sections": [
+        {
+          "type": "callout",
+          "title": "Short answer",
+          "body": "Use Stripe's Itemized Balance CSV when you want to calculate real fees. It includes transaction-level rows with amounts, fees, currencies, timestamps, and categories."
+        },
+        {
+          "type": "section",
+          "heading": "For fee analysis, use Itemized, not Summary",
+          "paragraphs": [
+            "Use Stripe's Itemized Balance CSV when you want to calculate real fees. It includes transaction-level rows with amounts, fees, currencies, timestamps, and categories.",
+            "Stripe offers two Balance export types. Make sure you choose the right one:",
+            "The Itemized export is what feeauditor.com and most analysis tools expect. The Summary CSV does not contain enough detail for per-transaction fee analysis."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Balance CSV vs Payment CSV vs Payout report",
+          "paragraphs": [
+            "Stripe exports several CSVs. They sound similar, but they answer different questions."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Step-by-step: export from Balance History",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "Key columns in the Itemized CSV",
+          "paragraphs": [
+            "The Itemized Balance CSV contains many columns. These are the most important for fee analysis:",
+            "Note: amounts are in the smallest currency unit (cents for USD). A $100 charge appears as 10000 in the amount column."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Common mistakes to avoid",
+          "paragraphs": []
+        },
+        {
+          "type": "section",
+          "heading": "What to do with the CSV once you have it",
+          "paragraphs": [
+            "The raw CSV is the starting point. What most businesses want to know from it:",
+            "You can do all of this manually in a spreadsheet — or upload the CSV to feeauditor.com and usually get the full analysis in under 30 seconds."
+          ]
+        }
+      ],
       "faq": [
         {
           "question": "Which Stripe CSV export should I use for fee analysis?",
@@ -2007,6 +2706,20 @@
           "href": "https://dashboard.stripe.com/reports",
           "title": "Stripe Dashboard reports"
         }
+      ],
+      "related": [
+        {
+          "href": "/blog/why-stripe-effective-rate-jumped-this-month",
+          "title": "Why Did My Stripe Effective Rate Jump This Month?"
+        },
+        {
+          "href": "/blog/why-stripe-fees-increase",
+          "title": "Why Did My Stripe Fees Increase This Month?"
+        },
+        {
+          "href": "/blog/how-to-reduce-stripe-fees",
+          "title": "How to Reduce Your Stripe Fees"
+        }
       ]
     },
     "why-stripe-effective-rate-jumped-this-month": {
@@ -2016,6 +2729,54 @@
       "readTime": "8 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-06-25",
+      "intro": [
+        "A blended effective rate spike almost always has one of six causes. The challenge is that Stripe's dashboard doesn't surface the month-over-month comparison in a way that makes the cause obvious — you see total fees and total volume, but not what changed in the mix."
+      ],
+      "sections": [
+        {
+          "type": "callout",
+          "title": "Short answer",
+          "body": "A Stripe effective rate jump usually means the mix changed: more international cards, more small charges, refund leakage, currency conversion, add-on fees, or disputes. The Balance CSV shows which one changed month over month."
+        },
+        {
+          "type": "section",
+          "heading": "Short answer",
+          "paragraphs": [
+            "A Stripe effective rate jump usually means the mix changed: more international cards, more small charges, refund leakage, currency conversion, add-on fees, or disputes. The Balance CSV shows which one changed month over month.",
+            "The good news: each cause leaves a specific fingerprint in your Balance CSV export. Here's how to read them."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "",
+          "paragraphs": [
+            "How to check in your CSV"
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "When multiple causes stack",
+          "paragraphs": [
+            "Rate spikes often have more than one cause simultaneously. A product launch that brings in international customers at a low price point combines causes 1 and 2 — the international surcharge and the fixed-fee dominance both apply to those transactions. The combined effect can push effective rate up by 2–3 percentage points in a single month.",
+            "When diagnosing, start with the highest-severity causes first. International cards are responsible for rate spikes more often than any other single factor, especially for SaaS with any global distribution."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "What a normal month-over-month variation looks like",
+          "paragraphs": [
+            "For a typical SaaS with mixed domestic and international customers, a variation of ±0.2 percentage points month-over-month is normal — it reflects small shifts in customer mix and transaction size distribution. Anything above ±0.5 percentage points usually has a specific cause worth investigating.",
+            "A jump from 3.1% to 4.2% in a single month (1.1 percentage points) is almost certainly caused by something specific — not random variation. The most likely culprits in order: international volume surge, new low-priced product, or a batch of refunds."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "The fastest way to diagnose",
+          "paragraphs": [
+            "Export your Stripe Balance CSV for the past 3–4 months (Itemized export from Reports → Balance summary → Export). Upload it to feeauditor.com . The monthly breakdown shows your effective rate for each month with the delta vs the previous period, and the anomaly breakdown shows which transaction categories are above baseline — which tells you directly which of the six causes above applies to your account."
+          ]
+        }
+      ],
       "faq": [
         {
           "question": "Why did my Stripe effective rate jump this month?",
@@ -2043,6 +2804,20 @@
           "href": "https://docs.stripe.com/disputes",
           "title": "Stripe disputes documentation"
         }
+      ],
+      "related": [
+        {
+          "href": "/blog/why-stripe-fees-increase",
+          "title": "Why Did My Stripe Fees Increase This Month?"
+        },
+        {
+          "href": "/blog/how-to-reduce-stripe-fees",
+          "title": "How to Reduce Your Stripe Fees"
+        },
+        {
+          "href": "/blog/stripe-effective-fee-rate-explained",
+          "title": "What Is Your Stripe Effective Fee Rate?"
+        }
       ]
     },
     "why-stripe-fees-increase": {
@@ -2052,6 +2827,74 @@
       "readTime": "5 min",
       "publishedAt": "2026-05-16",
       "updatedAt": "2026-07-19",
+      "intro": [
+        "If your Stripe effective fee rate has climbed over the past few months, you're not alone. Many businesses notice a gradual increase without a clear reason. Here are the most common causes."
+      ],
+      "sections": [
+        {
+          "type": "callout",
+          "title": "Short answer",
+          "body": "Your Stripe fees usually increase because your transaction mix changed, not because one obvious setting changed. International cards, smaller charges, refunds, disputes, currency conversion, and add-on products can all raise the effective rate."
+        },
+        {
+          "type": "section",
+          "heading": "Short answer",
+          "paragraphs": [
+            "Your Stripe fees usually increase because your transaction mix changed, not because one obvious setting changed. International cards, smaller charges, refunds, disputes, currency conversion, and add-on products can all raise the effective rate."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "1. More International Cards",
+          "paragraphs": [
+            "Stripe charges an additional 1.5% for international cards (cards issued outside your country). If the charge currency differs from your settlement currency, conversion fees (often around 1%) stack on top — a common worst-case mix can approach ~5.7% of the charge before fixed fees on a $100 example (see our international fees guide and the cross-border fee migration briefing ). If your customer mix has shifted toward international buyers, your effective rate rises."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "2. More American Express Transactions",
+          "paragraphs": [
+            "Amex cards have higher interchange fees. Standard Stripe rate for Amex is 2.9% + $0.30, same as Visa/Mastercard — but the underlying interchange is higher, which can affect your costs if you're on a custom pricing plan."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "3. Smaller Average Transaction Size",
+          "paragraphs": [
+            "The fixed $0.30 per transaction matters more for small payments. A $5 charge has an effective rate of 8.9% (2.9% + $0.30 = $0.445 on $5.00), while a $100 charge is just 3.2%. If your average order value dropped, your effective rate went up."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "4. Increased Dispute Rate",
+          "paragraphs": [
+            "Each dispute costs $15. Even a small increase in dispute frequency can meaningfully raise total fees, especially if your average transaction size is moderate."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "5. Currency Conversion",
+          "paragraphs": [
+            "Stripe adds roughly a 1% conversion fee when charging in a currency other than your settlement currency. If you recently started selling globally, this is likely contributing — especially alongside international cards."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "6. Stripe Billing Usage",
+          "paragraphs": [
+            "If you use Stripe's Billing product for subscriptions and invoicing, pay-as-you-go pricing commonly adds about 0.7% of billing volume on top of card or ACH processing. Fixed annual Billing plans start around $620/month instead of that percentage — growing recurring revenue raises costs differently depending on which model you chose."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "How to Diagnose Your Fees",
+          "paragraphs": [
+            "The fastest way to find the cause is to analyze your Stripe Balance CSV. Export it from Stripe → Reports → Balance, and upload it to Stripe Fee Auditor for an instant breakdown of your effective rate and top cost drivers.",
+            "If you do not have the file yet, start with the Stripe Balance CSV export guide , then come back and run the audit.",
+            "Related guides: Why your fee rate can be higher than 2.9% Effective fee rate calculator walkthrough How to export Balance CSV for a fee audit"
+          ]
+        }
+      ],
       "faq": [
         {
           "question": "Why did my Stripe fees increase?",
@@ -2118,7 +2961,21 @@
             "Review refund rows and retained fees"
           ]
         ]
-      }
+      },
+      "related": [
+        {
+          "href": "/blog/how-to-reduce-stripe-fees",
+          "title": "How to Reduce Your Stripe Fees"
+        },
+        {
+          "href": "/blog/stripe-effective-fee-rate-explained",
+          "title": "What Is Your Stripe Effective Fee Rate?"
+        },
+        {
+          "href": "/blog/why-stripe-effective-rate-higher-than-2-9-percent",
+          "title": "Why Is My Stripe Effective Rate Higher Than 2.9%?"
+        }
+      ]
     },
     "how-to-reduce-stripe-fees": {
       "metaTitle": "How to Reduce Your Stripe Fees",
@@ -2252,7 +3109,21 @@
             "Best when non-charge fee rows are growing"
           ]
         ]
-      }
+      },
+      "related": [
+        {
+          "href": "/blog/stripe-effective-fee-rate-explained",
+          "title": "What Is Your Stripe Effective Fee Rate?"
+        },
+        {
+          "href": "/blog/why-stripe-effective-rate-higher-than-2-9-percent",
+          "title": "Why Is My Stripe Effective Rate Higher Than 2.9%?"
+        },
+        {
+          "href": "/blog/how-i-found-1400-in-hidden-stripe-fees",
+          "title": "How I Found ~$1,400/Year in Hidden Stripe Fee Opportunities"
+        }
+      ]
     },
     "stripe-effective-fee-rate-explained": {
       "metaTitle": "What Is Your Stripe Effective Fee Rate?",
@@ -2330,6 +3201,20 @@
           "href": "https://docs.stripe.com/reports/balance-transaction-types",
           "title": "Stripe balance transaction types"
         }
+      ],
+      "related": [
+        {
+          "href": "/blog/why-stripe-effective-rate-higher-than-2-9-percent",
+          "title": "Why Is My Stripe Effective Rate Higher Than 2.9%?"
+        },
+        {
+          "href": "/blog/how-i-found-1400-in-hidden-stripe-fees",
+          "title": "How I Found ~$1,400/Year in Hidden Stripe Fee Opportunities"
+        },
+        {
+          "href": "/blog/cross-border-stripe-fees-migration-2026",
+          "title": "Cross-Border Stripe Fees: Why Your Rate Rises"
+        }
       ]
     },
     "why-stripe-effective-rate-higher-than-2-9-percent": {
@@ -2337,15 +3222,97 @@
       "metaDescription": "Stripe advertises 2.9% + $0.30. But most businesses pay more. Here are the 4 real reasons your blended Stripe fee rate is higher than advertised.",
       "title": "Why Is My Stripe Effective Rate Higher Than 2.9%?",
       "readTime": "8 min",
-      "publishedAt": null,
-      "updatedAt": null,
+      "publishedAt": "2026-05-16",
+      "updatedAt": "2026-05-16",
+      "sections": [
+        {
+          "type": "section",
+          "heading": "What \"2.9% + $0.30\" actually means",
+          "paragraphs": [
+            "The advertised rate is the base rate for domestic US card transactions with no additional features enabled. It applies to a very specific type of payment — a US customer, paying with a US-issued standard consumer card, in USD, with no disputes, no refunds, and no premium card type.",
+            "In practice, most businesses process a mix of card types, geographies, and transaction sizes. Each variation adds to the cost. Stripe's dashboard shows you individual transaction fees clearly, but there's no screen that shows your true blended rate across all charges."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Reason 1: International cards add 1.5%",
+          "paragraphs": [
+            "When a customer pays with a card issued outside the US, Stripe adds a 1.5% cross-border fee on top of the base rate. For international businesses or any SaaS with global customers, this is often the single biggest driver of elevated fees.",
+            "A payment that should cost 2.9% ends up costing 4.4% — a 52% increase over the advertised rate. If 30% of your customers are international, your blended rate could easily be 3.3–3.5% even with everything else being normal."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Reason 2: The fixed $0.30 hits small transactions hard",
+          "paragraphs": [
+            "The $0.30 fixed fee is the same regardless of transaction size. On a $100 charge, $0.30 is 0.3% — negligible. On a $5 charge, $0.30 is 6% — before the 2.9% percentage even applies. Your total fee on that $5 charge is 8.9%.",
+            "If you sell any low-priced products or have trial periods with small charges, these transactions can significantly drag up your overall effective rate even if they're a small fraction of total volume."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Reason 3: Currency conversion adds 1–2%",
+          "paragraphs": [
+            "If a customer pays in a currency other than your settlement currency, Stripe applies a currency conversion fee of 1–2% on top of standard fees. This happens automatically when you accept payments in multiple currencies.",
+            "Many businesses don't realize this is happening until they look at the data. Stripe shows the conversion in the transaction details, but it's easy to miss in aggregate."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Reason 4: Refunds don't return the processing fee",
+          "paragraphs": [
+            "When you issue a refund, Stripe returns the payment to your customer — but keeps the original processing fee. So if you processed a $100 charge ($3.20 in fees) and then fully refunded it, you've paid $3.20 with zero net revenue.",
+            "For businesses with any meaningful refund rate, this compounds over time. A 5% refund rate effectively adds around 0.15–0.20% to your blended fee rate."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "What's a normal effective rate?",
+          "paragraphs": [
+            "Based on typical Stripe account profiles:",
+            "If your rate is above the range for your profile, there's likely a specific driver worth investigating — usually international cards or small transactions."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "How to calculate your real effective rate",
+          "paragraphs": [
+            "The formula is simple: divide total fees paid by total charge volume, then multiply by 100.",
+            "To get the numbers, export your Stripe Balance CSV from Dashboard → Reporting → Reports → Balance summary → Export → Itemized. Sum the fee column and the amount column for charge-type rows, then apply the formula.",
+            "Or use feeauditor.com — upload the CSV and get your real rate, broken down by month, card type, and transaction anomalies, in about 30 seconds."
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "What can you actually do about it?",
+          "paragraphs": [
+            "Once you know where the extra fees are coming from, you have real options:",
+            "Find out your real Stripe effective rate",
+            "Export your Stripe Balance CSV and upload it to feeauditor.com. You'll see your blended rate, month-by-month trends, and which specific transactions are driving it up. No account needed."
+          ]
+        }
+      ],
       "faq": [],
-      "sources": []
+      "sources": [],
+      "related": [
+        {
+          "href": "/blog/how-i-found-1400-in-hidden-stripe-fees",
+          "title": "How I Found ~$1,400/Year in Hidden Stripe Fee Opportunities"
+        },
+        {
+          "href": "/blog/cross-border-stripe-fees-migration-2026",
+          "title": "Cross-Border Stripe Fees: Why Your Rate Rises"
+        },
+        {
+          "href": "/blog/stripe-fee-audit-checklist-for-saas-founders",
+          "title": "Stripe Fee Audit Checklist for SaaS Founders"
+        }
+      ]
     }
   },
   "privacy": {
     "why-i-wont-connect-my-stripe-account-to-third-party-tools": {
-      "metaTitle": "Why I Wouldn't Connect My Stripe Account to Every Third-Party Tool",
+      "metaTitle": "Stripe Third-Party Tools: A Safer Fee Audit",
       "metaDescription": "Stripe OAuth / read-only access is a trust decision, not a login button. When you only need a fee audit, an itemized Balance CSV is enough — no persistent connection.",
       "title": "Why I Wouldn't Connect My Stripe Account to Every Third-Party Tool",
       "shortTitle": "Why I Wouldn't Connect My Stripe Account to Every Tool",
@@ -2440,7 +3407,7 @@
       ]
     },
     "what-does-stripe-oauth-read-only-access-actually-see": {
-      "metaTitle": "Stripe OAuth Read-Only Access: What Third-Party Apps Can See",
+      "metaTitle": "Stripe Read-Only OAuth: What Apps Can See",
       "metaDescription": "What “read-only” Stripe OAuth can still expose — and when a Balance CSV fee check is enough without connecting your account.",
       "title": "Stripe OAuth Read-Only Access: What Third-Party Apps Can See",
       "shortTitle": "Stripe OAuth Read-Only Access: What Apps Can See",
@@ -2594,7 +3561,7 @@
       ]
     },
     "how-to-audit-stripe-fees-without-connecting-your-account": {
-      "metaTitle": "How to Audit Your Stripe Fees Without Connecting Your Account",
+      "metaTitle": "Audit Stripe Fees Without Connecting Your Account",
       "metaDescription": "A practical guide to auditing Stripe fees from an itemized Balance Transactions CSV: blended rate formula, fee drivers, refunds, high-fee charges, and no-OAuth analysis.",
       "title": "How to Audit Your Stripe Fees Without Connecting Your Account",
       "shortTitle": "Audit Stripe Fees Without Connecting Your Account",
@@ -2726,7 +3693,7 @@
       ]
     },
     "the-stripe-data-you-share-with-analytics-tools": {
-      "metaTitle": "The Stripe Data You're Sharing With Every Analytics Tool You Connect",
+      "metaTitle": "What Stripe Data Analytics Tools Can Access",
       "metaDescription": "A practical checklist for founders connecting Stripe analytics tools: customer data, payments, subscriptions, payouts, disputes, privacy policies, retention, and alternatives.",
       "title": "The Stripe Data You're Sharing With Every Analytics Tool You Connect",
       "shortTitle": "The Stripe Data You Share With Analytics Tools",
@@ -2823,7 +3790,7 @@
       ]
     },
     "csv-vs-api-stripe-fee-analysis": {
-      "metaTitle": "CSV vs API: Two Ways to Analyze Stripe Fees, and When Each Makes Sense",
+      "metaTitle": "CSV vs API for Stripe Fee Analysis",
       "metaDescription": "A balanced comparison of CSV exports and Stripe API integrations for fee analysis, including privacy, automation, accuracy, benchmarks, and when to use each approach.",
       "title": "CSV vs API: Two Ways to Analyze Stripe Fees, and When Each Makes Sense",
       "shortTitle": "CSV vs API for Stripe Fee Analysis",

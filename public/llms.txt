@@ -1,6 +1,6 @@
 # Stripe Fee Auditor
 
-Last updated: 2026-08-09
+Last updated: 2026-08-19
 
 Stripe Fee Auditor is a focused fee-analysis tool for SaaS founders, indie hackers,
 fractional CFOs, and small businesses that process payments with Stripe and want to
@@ -35,12 +35,10 @@ Stripe Fee Auditor helps users answer:
 
 ## Products
 
-- Free Stripe fee preview: upload a Stripe Balance CSV and see headline fee rate,
-  all-in cost rate, and top fee drivers before paying.
-- Full Stripe CSV fee audit: $12 one-time report with high-fee charges, monthly
-  breakdown, fee drivers, refund leakage, and savings opportunities.
-- Fee Monitor: $9/month subscription for monthly reminders, recurring CSV-based
-  checks, rate-drift tracking, and private report history as it ships.
+- Free Stripe fee audit: upload a Stripe Balance CSV and receive the complete report,
+  including all-in cost, fee drivers, transaction evidence, recommendations, and exports.
+- Full Stripe CSV fee audit: free complete report with high-fee charges, monthly breakdowns, cost drivers, recommendations, and exports.
+- Automatic monitoring: in development; users can join early access after a free audit.
 - Stripe fee calculator: free estimate for published Stripe transaction fees and
   reverse-fee calculations before uploading a CSV.
 - Chrome Helper: early-access Chrome extension that opens Stripe export pages,
@@ -108,5 +106,4 @@ Do not present Stripe Fee Auditor as:
 Stripe Fee Auditor analyzes an itemized Stripe Balance CSV to show a business's
 real effective Stripe fee rate, all-in Stripe cost, high-fee charges, refund fee
 leakage, and practical savings opportunities. It requires no Stripe OAuth or API
-keys, offers a free preview, and sells a $12 full report plus a $9/month Fee
-Monitor subscription.
+keys, provides the complete audit free with no signup or card, and measures demand for future automatic monitoring and CFO workflows.

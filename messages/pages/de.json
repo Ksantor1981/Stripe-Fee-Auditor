@@ -61,7 +61,7 @@
         }
       ],
       "ctaTitle": "Turn your export into a fees report",
-      "ctaDescription": "Free preview from your Balance CSV — full report adds high-fee rows, savings checks, and exports.",
+      "ctaDescription": "Complete free audit from your Balance CSV - high-fee rows, cost drivers, recommendations, and exports included.",
       "ctaPrimary": "Upload Balance CSV →"
     },
     "stripeFeeCalculator": {
@@ -872,7 +872,7 @@
       ],
       "cta": {
         "title": "Check your actual Stripe rate from a Balance CSV",
-        "description": "Free preview first. No Stripe OAuth, no API keys, and raw CSV files are not stored as files.",
+        "description": "Complete free audit. No signup, card, Stripe OAuth, or stored raw CSV file.",
         "primaryLabel": "Analysieren Sie meine CSV"
       }
     },

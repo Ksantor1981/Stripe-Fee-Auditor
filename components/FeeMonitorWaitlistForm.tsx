@@ -37,7 +37,7 @@ export function FeeMonitorWaitlistForm({
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source }),
+        body: JSON.stringify({ email, source: "monitoring_interest" }),
       });
 
       if (!res.ok) {
@@ -47,6 +47,7 @@ export function FeeMonitorWaitlistForm({
       }
 
       trackEvent("waitlist_success", { source });
+      trackEvent("monitoring_interest");
       setSubmitted(true);
     } catch {
       setError("Something went wrong. Try again.");

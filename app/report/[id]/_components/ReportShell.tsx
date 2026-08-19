@@ -25,6 +25,7 @@ import { MonitorHistory } from "./MonitorHistory";
 import { ReportUnlockToolbarCta } from "./ReportUnlockToolbarCta";
 import { ReportCurrencyProvider } from "@/lib/report-currency";
 import { useReportTranslations } from "@/lib/i18n/use-report-translations";
+import { paymentVolumeSegment } from "@/lib/product-analytics";
 import {
   useTranslatedPaywallLabel,
   useTranslatedSavingsOpportunity,
@@ -187,6 +188,10 @@ export function ReportShell({
       demo_access: demoFullAccess,
       beta_full_access: betaFullAccess,
       monitor_full_access: monitorFullAccess,
+    });
+    trackEvent("report_viewed", {
+      mode: result.mode,
+      payment_volume_segment: paymentVolumeSegment(result),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps -- once per mount; token/report identity must not leak to analytics
   }, []);
@@ -391,7 +396,10 @@ export function ReportShell({
               </a>
             </div>
           ) : showUnlockToolbar ? null : (
-            <MonitorWaitlistForm reportId={reportId} showWaitlist={!isPaid} />
+            <MonitorWaitlistForm
+              reportId={reportId}
+              paymentVolumeSegment={paymentVolumeSegment(result)}
+            />
           )}
           {isPaid && <FeedbackForm reportId={reportId} />}
           {hasFullAccess && !demoFullAccess && (

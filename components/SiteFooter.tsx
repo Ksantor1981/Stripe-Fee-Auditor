@@ -24,7 +24,17 @@ export async function SiteFooter() {
         { href: "/blog", label: tn("blog") },
         { href: "/#faq", label: ts("faqHeading") },
         { href: "/stripe-balance-csv", label: tn("balanceCsvGuide") },
+        { href: "/stripe-fee-analysis-tools", label: "Fee analysis tools" },
+        { href: "/stripe-data-export", label: "Stripe data export" },
         { href: "/how-it-works", label: tn("howItWorks") },
+      ],
+    },
+    {
+      title: "Compare",
+      links: [
+        { href: "/stripe-vs-square-fees", label: "Stripe vs Square" },
+        { href: "/stripe-vs-gocardless", label: "Stripe vs GoCardless" },
+        { href: "/stripe-vs-paddle-fees", label: "Stripe vs Paddle" },
       ],
     },
     {
@@ -40,7 +50,7 @@ export async function SiteFooter() {
 
   return (
     <footer className="border-t border-gray-200 bg-[var(--page-band)]/60 px-4 py-10 text-sm text-gray-600">
-      <div className="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-5">
         <div>
           <Link href="/" className="text-base font-bold text-gray-950 hover:text-gray-700">
             Fee Auditor

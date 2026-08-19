@@ -17,6 +17,10 @@ function parseFunnelProps(raw: string | null): Record<string, FunnelPropValue> |
 /** One listener for all [data-funnel-event] links — avoids per-CTA client components. */
 export function FunnelClickDelegate() {
   useEffect(() => {
+    const visitorKey = "feeauditor_visited";
+    const visitorType = window.localStorage.getItem(visitorKey) ? "returning" : "new";
+    window.localStorage.setItem(visitorKey, "1");
+    trackEvent("landing_view", { visitor_type: visitorType });
     let removeListener: (() => void) | undefined;
 
     const attach = () => {

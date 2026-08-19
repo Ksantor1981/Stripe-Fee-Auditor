@@ -8,6 +8,7 @@ export async function seoPageMetadata(contentKey: string, canonical: string) {
   const t = await getTranslations(`seo.${contentKey}`);
   const title = t("metaTitle");
   const description = t("metaDescription");
+  const ogImage = buildOgImageUrl({ title, eyebrow: "Fee Auditor" });
   return {
     title: `${title} | Fee Auditor`,
     description,
@@ -17,12 +18,14 @@ export async function seoPageMetadata(contentKey: string, canonical: string) {
       description,
       url: canonical,
       siteName: "Stripe Fee Auditor",
+      images: [{ url: ogImage, width: 1200, height: 630, alt: title }],
       type: "article" as const,
     },
     twitter: {
-      card: "summary" as const,
+      card: "summary_large_image" as const,
       title,
       description,
+      images: [ogImage],
     },
     robots: {
       index: true,

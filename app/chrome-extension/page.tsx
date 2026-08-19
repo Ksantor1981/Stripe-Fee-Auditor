@@ -6,6 +6,7 @@ import {
   hasChromeWebStoreDetailUrl,
 } from "@/lib/chrome-extension";
 import { buildOgImageUrl } from "@/lib/seo-og";
+import { absoluteUrl } from "@/lib/site-url";
 
 const pagePath = "/chrome-extension";
 
@@ -78,14 +79,15 @@ export default async function ChromeExtensionPage() {
   const pageDescription = t("metaDescription");
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": "WebPage",
     name: t("metaTitle"),
-    applicationCategory: "BrowserApplication",
-    operatingSystem: "Chrome",
-    url: CHROME_EXTENSION_STORE_URL,
-    downloadUrl: CHROME_EXTENSION_STORE_URL,
+    url: absoluteUrl("/chrome-extension"),
     description: pageDescription,
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Fee Auditor",
+      url: absoluteUrl("/"),
+    },
   };
 
   return (
@@ -155,6 +157,19 @@ export default async function ChromeExtensionPage() {
           >
             {t("webAppCta")}
           </Link>
+        </section>
+
+        <section className="mt-12 border-t border-gray-200 pt-10">
+          <h2 className="text-lg font-semibold text-gray-900">When the Chrome helper is useful</h2>
+          <p className="mt-3 text-sm leading-relaxed text-gray-600">
+            Use the helper when you already work in Stripe Dashboard and want a shorter path to the
+            correct Balance export and FeeAuditor upload. It does not replace the web report or run
+            a background Stripe integration; the CSV audit still starts only when you choose a file.
+          </p>
+          <p className="mt-3 text-sm leading-relaxed text-gray-600">
+            If you prefer not to install an extension, use the web app directly. Both paths keep the
+            same no-OAuth workflow and the same analysis of effective rate, fee drivers, and costly rows.
+          </p>
         </section>
 
         <section className="mt-12 rounded-2xl bg-gray-900 px-6 py-8 text-center text-white">

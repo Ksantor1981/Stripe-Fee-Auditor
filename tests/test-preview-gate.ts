@@ -1,5 +1,5 @@
 /**
- * Preview / paywall data gate — ensures unpaid tier does not receive paid-only fields.
+ * Phase 1 free-access policy plus dormant legacy preview redaction helpers.
  * Run: npx tsx tests/test-preview-gate.ts
  */
 
@@ -7,7 +7,12 @@ import Papa from "papaparse";
 import { validateColumns, normalizeRow, type RawRow } from "../lib/csv-parser";
 import { analyze } from "../lib/fee-analyzer";
 import { toPreviewResult, PREVIEW_STRIPPED_KEYS } from "../lib/report-preview";
-import { isBetaFlagEnabled, isBetaFullAccessEnabled } from "../lib/beta-access";
+import {
+  FULL_REPORTS_FREE,
+  isBetaFlagEnabled,
+  isBetaFullAccessEnabled,
+} from "../lib/beta-access";
+import { hasMaterialFinding, paymentVolumeSegment } from "../lib/product-analytics";
 
 let passed = 0;
 let failed = 0;
@@ -140,7 +145,21 @@ test("preview does not leak paid fields via JSON roundtrip", () => {
   assert(!json.includes('"geographySummary"'), "no geography in JSON");
 });
 
-console.log("\n📋 beta-access / post-beta default");
+console.log("\nphase-one free access / product analytics");
+
+test("production product policy keeps complete reports free", () => {
+  assert(FULL_REPORTS_FREE === true, "full reports must stay free in production");
+});
+
+test("computed monthly volume is segmented without asking the user", () => {
+  assert(paymentVolumeSegment(full) === "under_10k", "fixture should be under $10k/month");
+});
+
+test("high-fee fixture produces a material finding", () => {
+  assert(hasMaterialFinding(full) === true, "fee spike should be material");
+});
+
+console.log("\nlegacy beta flag helpers retained for dormant billing infrastructure");
 
 test("FULL_REPORTS_FREE_DURING_BETA defaults closed", () => {
   assert(isBetaFlagEnabled(undefined) === false, "unset = false");

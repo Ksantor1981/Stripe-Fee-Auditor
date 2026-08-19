@@ -90,17 +90,16 @@ export function LowVolumeReport({
         <div className="flex items-start gap-3 mb-4">
           <Badge variant="outline" className="text-xs text-gray-500">{t("lowVolumeReport.badge")}</Badge>
         </div>
-        <h1 className="text-2xl font-bold text-gray-900">
+        <p className="text-sm font-semibold text-gray-600">
           {isSampleReport ? t("lowVolumeReport.titleSample") : t("lowVolumeReport.titleYour")}
-        </h1>
-        <p className="text-sm text-gray-400 mt-1">
+          {" - "}
           {t("lowVolumeReport.chargesAnalyzed", { count: totalCharges })}
         </p>
-        <p className="mt-3 text-sm text-gray-700 leading-snug">
+        <h1 className="mt-2 text-2xl font-bold text-gray-900">
           {isSampleReport ? tc("thisSampleShows") : tc("youPaid")}{" "}
-          <span className="font-semibold text-gray-900">{fmt$(periodFees)}</span> {tc("inStripeFees")}{" "}
+          <span className="text-blue-600">{fmt$(periodFees)}</span> {tc("inStripeFees")}{" "}
           {periodTail}
-        </p>
+        </h1>
         <p className="mt-1 text-sm text-gray-600">
           {tc("thats")}{" "}
           <span className="font-semibold text-gray-900">{fmt$(yearlyAtThisRate)}</span>

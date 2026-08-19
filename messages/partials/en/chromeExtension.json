@@ -1,7 +1,7 @@
 {
   "chromeExtension": {
     "metaTitle": "Stripe Fee Auditor — CSV Fee Check Helper",
-    "metaDescription": "Install the free Chrome helper: open Stripe Balance export, audit your real fee rate on FeeAuditor.com, optional monthly CSV reminder. No OAuth or API keys. Does not read Stripe pages.",
+    "metaDescription": "Install the free Chrome helper to open Stripe Balance export and audit your real fee rate. Optional monthly CSV reminder; no OAuth, API keys, or Stripe page access.",
     "heroTitle": "Stripe Fee Auditor — CSV helper for your real fee rate",
     "heroDescription": "Estimate published fees in the popup, jump to Stripe Balance export, and audit your CSV on FeeAuditor.com — no OAuth, no API keys, no reading Stripe Dashboard pages.",
     "installCta": "Install from Chrome Web Store",

@@ -41,6 +41,12 @@ const PLAUSIBLE_GOALS: Record<string, string | string[]> = {
   waitlist_view: "Waitlist View",
   waitlist_submit: "Waitlist Submit",
   waitlist_success: "Waitlist Success",
+  landing_view: "Landing View",
+  upload_started: "Upload Started",
+  upload_completed: "Upload Completed",
+  report_viewed: "Report Viewed",
+  monitoring_interest: "Monitoring Interest",
+  cfo_interest: "CFO Interest",
 };
 
 function plausibleProps(props: Record<string, FunnelPropValue>): Record<string, string | number | boolean> {

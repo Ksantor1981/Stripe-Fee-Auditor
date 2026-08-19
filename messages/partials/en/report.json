@@ -73,7 +73,7 @@
       "saveLinkBody": "— your private report is available for 30 days. We also sent it to your email if delivery is configured.",
       "monitorActiveBanner": "Fee Monitor is active.",
       "monitorActiveBody": "This report is unlocked by your subscription. Upload a fresh Stripe Balance CSV next month to compare rate drift and fee drivers.",
-      "betaFreeBanner": "Full report is free during beta. Save this private link — it stays available for up to 30 days.",
+      "betaFreeBanner": "The complete report is free. Save this private link - it stays available for up to 30 days.",
       "multiCurrencyWarning": "Your export contains multiple currencies ({currencies}). Amounts are shown as-is without conversion — totals may not be directly comparable. For best results, export a single-currency period.",
       "monitorActiveEyebrow": "Fee Monitor active",
       "monitorActiveTitle": "Monthly tracking is connected to this email",

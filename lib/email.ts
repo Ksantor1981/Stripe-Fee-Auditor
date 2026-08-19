@@ -146,7 +146,7 @@ export async function sendFollowUpEmail(
           You analyzed ${feeLine} 2 days ago.
         </h1>
         <p style="color:#555;font-size:14px;margin:0 0 12px">
-          The free preview showed your headline rate. The full report adds:
+          Your complete free report includes:
         </p>
         <ul style="color:#555;font-size:14px;margin:0 0 20px;padding-left:20px;line-height:1.6">
           <li>Every high-fee transaction with an explanation</li>
@@ -157,7 +157,7 @@ export async function sendFollowUpEmail(
         ${expiryLine}
         <a href="${reportUrl.toString()}"
            style="display:inline-block;padding:12px 24px;background:#2563eb;color:#fff;border-radius:8px;font-weight:600;text-decoration:none;font-size:14px">
-          View Full Report — $12 one-time →
+          View Your Full Report - Free
         </a>
         <p style="color:#888;font-size:12px;margin-top:24px;line-height:1.5">
           Stripe Fee Auditor · Not affiliated with Stripe, Inc.<br>
@@ -287,7 +287,7 @@ export async function sendMonitorWelcomeEmail(to: string): Promise<void> {
   await getResend().emails.send({
     from,
     to,
-    subject: "You're subscribed to Fee Monitor — here's your monthly workflow",
+    subject: "Your legacy monitoring access is active",
     replyTo: process.env.EMAIL_REPLY_TO,
     html: `
       <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px">
@@ -295,7 +295,7 @@ export async function sendMonitorWelcomeEmail(to: string): Promise<void> {
           Fee Monitor
         </p>
         <h1 style="font-size:20px;color:#111;margin:0 0 12px">
-          You're subscribed — $9/month
+          Your legacy monitoring access is active
         </h1>
         <p style="color:#555;font-size:14px;line-height:1.6;margin:0 0 16px">
           Thanks for joining Fee Monitor. No Stripe OAuth, no API keys — just a monthly CSV check

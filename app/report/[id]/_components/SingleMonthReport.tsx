@@ -97,15 +97,15 @@ export function SingleMonthReport({
         <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">
           {t("singleMonthReport.eyebrow")}
         </p>
-        <h1 className="text-2xl font-bold text-gray-900">
+        <p className="text-sm font-semibold text-gray-600">
           {isSampleReport ? t("singleMonthReport.titleSample") : t("singleMonthReport.titleYour")}
           <span className="text-blue-600">{month ? fmtMonth(month.month, locale) : t("singleMonthReport.thisPeriod")}</span>
-        </h1>
-        <p className="mt-2 text-sm text-gray-700 leading-snug">
-          {isSampleReport ? tc("thisSampleShows") : tc("youPaid")}{" "}
-          <span className="font-semibold text-gray-900">{fmt$(periodFees)}</span> {tc("inStripeFees")}{" "}
-          {stripeFeesPeriodTail(1)}
         </p>
+        <h1 className="mt-2 text-2xl font-bold text-gray-900">
+          {isSampleReport ? tc("thisSampleShows") : tc("youPaid")}{" "}
+          <span className="text-blue-600">{fmt$(periodFees)}</span> {tc("inStripeFees")}{" "}
+          {stripeFeesPeriodTail(1)}
+        </h1>
         <p className="mt-1 text-sm text-gray-600">
           {tc("thats")}{" "}
           <span className="font-semibold text-gray-900">{fmt$(yearlyAtThisRate)}</span>

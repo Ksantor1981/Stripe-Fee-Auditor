@@ -126,6 +126,7 @@ export function UploadZone({ autoLoadSample }: Props) {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     if (!file) return;
+    trackEvent("upload_started", { sample: false });
     setError(null);
     setParsed(null);
     setFormatNotice(null);
@@ -208,6 +209,7 @@ export function UploadZone({ autoLoadSample }: Props) {
         });
         setMapping(autoDetect(headers));
         trackEvent("funnel_csv_loaded", { sample: false });
+        trackEvent("upload_completed", { sample: false, row_count: totalRows });
       },
       error: () => setError(t("errorParseFailed")),
     });

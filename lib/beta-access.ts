@@ -12,8 +12,10 @@ export function isBetaFullAccessEnabled(
   return nodeEnv !== "production" && isBetaFlagEnabled(value);
 }
 
-// Development-only convenience for previewing the full report without payment.
-export const FULL_REPORTS_FREE_DURING_BETA = isBetaFullAccessEnabled(
-  process.env.FULL_REPORTS_FREE_DURING_BETA,
-  process.env.NODE_ENV
-);
+/**
+ * Phase 1 product policy: every audit receives the complete report in every
+ * environment. Keep the legacy export name while billing infrastructure is
+ * dormant so it can be reused later for a separate monitoring product.
+ */
+export const FULL_REPORTS_FREE = true;
+export const FULL_REPORTS_FREE_DURING_BETA = FULL_REPORTS_FREE;

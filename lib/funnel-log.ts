@@ -44,12 +44,23 @@ export function sanitizeFunnelProps(raw: unknown): Record<string, FunnelPropValu
 const EVENT_RE = /^funnel_[a-z0-9_]{1,48}$/;
 const FREE_DIAGNOSIS_EVENT_RE = /^free_diagnosis_(view|cta_click)$/;
 const WAITLIST_EVENT_RE = /^waitlist_(view|submit|success)$/;
+const PHASE_ONE_EVENTS = new Set([
+  "landing_view",
+  "upload_started",
+  "upload_completed",
+  "analysis_completed",
+  "material_issue_found",
+  "report_viewed",
+  "monitoring_interest",
+  "cfo_interest",
+]);
 
 export function isValidFunnelEventName(name: unknown): name is string {
   return typeof name === "string" && (
     EVENT_RE.test(name) ||
     FREE_DIAGNOSIS_EVENT_RE.test(name) ||
-    WAITLIST_EVENT_RE.test(name)
+    WAITLIST_EVENT_RE.test(name) ||
+    PHASE_ONE_EVENTS.has(name)
   );
 }
 

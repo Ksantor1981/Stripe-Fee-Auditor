@@ -32,11 +32,11 @@
     "openMenu": "Open menu"
   },
   "home": {
-    "heroTitleBefore": "Stripe advertises 2.9%. Your real all-in rate is often",
-    "heroTitleHighlight": "much higher.",
-    "heroSubtitle": "See which charges, refunds, and international payments pushed your rate up.",
-    "heroMeta": "Balance CSV · no OAuth · 0.5 pp on $1M/year ≈ $5,000 extra",
-    "heroCta": "Audit my Stripe fees — free",
+    "heroTitleBefore": "Find out what Stripe is",
+    "heroTitleHighlight": "really costing you.",
+    "heroSubtitle": "Upload your Stripe export and see your real effective rate, what is driving your fees, and which transactions cost you the most.",
+    "heroMeta": "Free Stripe Fee Audit - no signup - no credit card",
+    "heroCta": "Analyze My Stripe Fees - Free",
     "previewScenarios": "Preview scenarios first",
     "exportGuide": "Export guide",
     "feeCalculator": "Fee calculator",
@@ -105,7 +105,7 @@
     "logicOnGitHub": "Logic on GitHub"
   },
   "analyze": {
-    "metaTrust": "No OAuth · raw CSV is not stored · independent tool",
+    "metaTrust": "Your Stripe data stays private - no OAuth - raw CSV is not stored - no AI reads your financial data",
     "title": "See your real Stripe fee rate",
     "subtitle": "Upload your Balance CSV or run the sample report first.",
     "sampleTitle": "See a sample Stripe fee report",
@@ -123,7 +123,7 @@
     "samplePrefix": "Sample data · ",
     "readyAnalyze": "Stripe CSV recognized — ready to analyze.",
     "privacySample": "This is sample data for demonstration purposes.",
-    "privacyUpload": "Your file is processed in memory only. Report links expire automatically.",
+    "privacyUpload": "Processed in memory. Raw CSV is not stored or used to train AI. Computed reports expire automatically.",
     "ctaIdle": "Analyze My Fees →",
     "ctaUploading": "Reading file…",
     "ctaAnalyzing": "Analyzing…",

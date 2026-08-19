@@ -146,7 +146,7 @@ for (const file of pageFiles) {
       titles.set(title, route);
     }
     if (title.length < 20 || title.length > 70) {
-      if (!title.startsWith("blog:") && !title.startsWith("seo:") && !title.startsWith("legal:") && !title.startsWith("dynamic:")) {
+      if (!title.startsWith("blog:") && !title.startsWith("seo:") && !title.startsWith("legal:") && !title.startsWith("dynamic:") && title !== "chromeExtension") {
         warn(`Title length ${title.length} on ${route} (aim 20–70)`);
       }
     }
@@ -160,7 +160,7 @@ for (const file of pageFiles) {
     } else {
       descriptions.set(description, route);
     }
-    if (description.length < 80 || description.length > 180) {
+    if (!description.startsWith("i18n-description:") && (description.length < 80 || description.length > 180)) {
       warn(`Description length ${description.length} on ${route} (aim 80–180)`);
     }
   }
@@ -190,7 +190,8 @@ for (const file of pageFiles) {
     const hasOg =
       source.includes("buildOgImageUrl") ||
       source.includes("openGraph:") ||
-      source.includes("blogPageMetadata(");
+      source.includes("blogPageMetadata(") ||
+      source.includes("seoPageMetadata(");
     if (!hasOg) {
       warn(`Marketing article without OG image helper: ${route}`);
     }
@@ -205,6 +206,39 @@ for (const indexPath of indexPaths) {
   }
 }
 ok(`Checked ${indexPaths.length} indexed paths`);
+
+console.log("\n🧱 runtime content integrity");
+const pagesMessages = JSON.parse(readText(path.join(ROOT, "messages", "pages", "en.json")));
+const titleSuffixLength = " | Fee Auditor".length;
+for (const namespace of ["blog", "privacy"]) {
+  for (const [slug, content] of Object.entries(pagesMessages[namespace] ?? {})) {
+    const label = `${namespace}.${slug}`;
+    const runtimeTitleLength = String(content.metaTitle ?? "").length + titleSuffixLength;
+    if (runtimeTitleLength > 70) fail(`${label} runtime title is ${runtimeTitleLength} characters`);
+    const descriptionLength = String(content.metaDescription ?? "").length;
+    if (descriptionLength < 80 || descriptionLength > 180) {
+      fail(`${label} meta description is ${descriptionLength} characters`);
+    }
+    const articleWordCount = JSON.stringify({ intro: content.intro ?? [], sections: content.sections ?? [], faq: content.faq ?? [] })
+      .split(/\s+/)
+      .filter(Boolean).length;
+    if (articleWordCount < 150) fail(`${label} has only ${articleWordCount} content words`);
+    if (!Array.isArray(content.sections) || content.sections.length === 0) fail(`${label} has no article sections`);
+    if (!Array.isArray(content.related) || content.related.length < 2) fail(`${label} has fewer than two related links`);
+    for (const field of ["publishedAt", "updatedAt"]) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(String(content[field] ?? ""))) fail(`${label} has invalid ${field}`);
+    }
+  }
+}
+for (const [key, content] of Object.entries(pagesMessages.seo ?? {})) {
+  const runtimeTitleLength = String(content.metaTitle ?? "").replace(/ \| Fee Auditor$/, "").length + titleSuffixLength;
+  if (runtimeTitleLength > 70) fail(`seo.${key} runtime title is ${runtimeTitleLength} characters`);
+  const descriptionLength = String(content.metaDescription ?? "").length;
+  if (descriptionLength < 80 || descriptionLength > 180) {
+    fail(`seo.${key} meta description is ${descriptionLength} characters`);
+  }
+}
+ok("Validated localized runtime titles, descriptions, article copy, dates, and related links");
 
 console.log("\n🗺️  sitemap source");
 const sitemapPath = path.join(APP_DIR, "sitemap.ts");

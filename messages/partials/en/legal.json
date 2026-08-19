@@ -2,7 +2,7 @@
   "legal": {
     "privacy": {
       "title": "Privacy Policy",
-      "metaDescription": "Privacy Policy for Stripe Fee Auditor — how we handle your data.",
+      "metaDescription": "Learn how Stripe Fee Auditor processes CSV uploads, stores derived reports, uses service providers, protects access links, and handles deletion requests.",
       "updated": "Last updated: August 10, 2026",
       "sections": [
         {
@@ -133,7 +133,7 @@
     },
     "terms": {
       "title": "Terms of Service",
-      "metaDescription": "Terms of Service for Stripe Fee Auditor.",
+      "metaDescription": "Terms for using Stripe Fee Auditor, including permitted use, report limitations, account security, payments, intellectual property, and liability.",
       "updated": "Last updated: May 11, 2026",
       "sections": [
         {
@@ -229,7 +229,7 @@
     },
     "refund": {
       "title": "Refund Policy",
-      "metaDescription": "Refund Policy for Stripe Fee Auditor paid reports.",
+      "metaDescription": "Refund terms for Stripe Fee Auditor paid services, including eligibility, duplicate charges, technical failures, subscription cancellation, and request steps.",
       "updated": "Last updated: May 11, 2026",
       "sections": [
         {

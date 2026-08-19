@@ -750,6 +750,67 @@ export async function insertMonitorWaitlistSignup(params: {
   return rows.length > 0 ? "inserted" : "duplicate";
 }
 
+
+let earlyAccessInterestTableReady = false;
+
+async function ensureEarlyAccessInterestTable(): Promise<void> {
+  if (earlyAccessInterestTableReady) return;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS early_access_interest (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      email TEXT NOT NULL,
+      interest_type TEXT NOT NULL,
+      report_id UUID REFERENCES reports(id) ON DELETE SET NULL,
+      payment_volume_segment TEXT,
+      utm_source TEXT,
+      utm_medium TEXT,
+      utm_campaign TEXT,
+      utm_content TEXT,
+      landing_path TEXT,
+      referrer TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      UNIQUE (email, interest_type)
+    )
+  `;
+
+  await sql`
+    CREATE INDEX IF NOT EXISTS early_access_interest_created_at_idx
+    ON early_access_interest (created_at DESC)
+  `;
+
+  earlyAccessInterestTableReady = true;
+}
+
+export async function insertEarlyAccessInterest(params: {
+  email: string;
+  interestType: "monitoring_interest" | "cfo_interest";
+  reportId?: string | null;
+  paymentVolumeSegment?: string | null;
+  attribution?: Attribution;
+}): Promise<WaitlistInsertResult> {
+  await ensureEarlyAccessInterestTable();
+
+  const attr = params.attribution ?? {};
+  const rows = await sql`
+    INSERT INTO early_access_interest (
+      email, interest_type, report_id, payment_volume_segment,
+      utm_source, utm_medium, utm_campaign, utm_content, landing_path, referrer
+    )
+    VALUES (
+      ${params.email}, ${params.interestType}, ${params.reportId ?? null},
+      ${params.paymentVolumeSegment ?? null},
+      ${attr.utm_source ?? null}, ${attr.utm_medium ?? null},
+      ${attr.utm_campaign ?? null}, ${attr.utm_content ?? null},
+      ${attr.landing_path ?? null}, ${attr.referrer ?? null}
+    )
+    ON CONFLICT (email, interest_type) DO NOTHING
+    RETURNING id
+  `;
+
+  return rows.length > 0 ? "inserted" : "duplicate";
+}
+
 let newsletterSubscribersTableReady = false;
 
 async function ensureNewsletterSubscribersTable(): Promise<void> {

@@ -61,7 +61,7 @@
         }
       ],
       "ctaTitle": "Превратите свой экспорт в отчет о комиссиях",
-      "ctaDescription": "Бесплатный предварительный просмотр с вашего баланса CSV — полный отчет добавляет строки с высокой комиссией, проверки сбережений и экспорт.",
+      "ctaDescription": "Полный бесплатный аудит по Balance CSV: дорогие операции, причины комиссий, рекомендации и экспорт включены.",
       "ctaPrimary": "Загрузить баланс CSV →"
     },
     "stripeFeeCalculator": {
@@ -872,7 +872,7 @@
       ],
       "cta": {
         "title": "Check your actual Stripe rate from a Balance CSV",
-        "description": "Free preview first. No Stripe OAuth, no API keys, and raw CSV files are not stored as files.",
+        "description": "Complete free audit. No signup, card, Stripe OAuth, or stored raw CSV file.",
         "primaryLabel": "Analyze My CSV"
       }
     },

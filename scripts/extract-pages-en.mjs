@@ -116,6 +116,10 @@ function extractProseRegion(source) {
   const markers = [
     '<div className="prose',
     '<div className="mt-8 space-y-5',
+    '<div className="mt-8 prose',
+    '<div className="mt-10 space-y-10',
+    '<div className="mt-10 space-y-6',
+    '<div className="mt-10 space-y-5',
   ];
   let start = -1;
   for (const m of markers) {
@@ -178,6 +182,20 @@ function normalizeBlogFaq(items) {
   }));
 }
 
+const BLOG_META_TITLE_OVERRIDES = {
+  "how-i-found-1400-in-hidden-stripe-fees": "Stripe Fee Case Study: ~$1,400/Year Found",
+  "stripe-fees-small-transactions": "Stripe Fees on Small Transactions: Cost Guide",
+  "csv-vs-api-stripe-fee-analysis": "CSV vs API for Stripe Fee Analysis",
+  "how-to-audit-stripe-fees-without-connecting-your-account": "Audit Stripe Fees Without Connecting Your Account",
+  "the-stripe-data-you-share-with-analytics-tools": "What Stripe Data Analytics Tools Can Access",
+  "what-does-stripe-oauth-read-only-access-actually-see": "Stripe Read-Only OAuth: What Apps Can See",
+  "why-i-wont-connect-my-stripe-account-to-third-party-tools": "Stripe Third-Party Tools: A Safer Fee Audit",
+};
+
+const BLOG_META_DESCRIPTION_OVERRIDES = {
+  "stripe-alternatives-2026": "Compare Stripe alternatives only after auditing your real effective rate, payment mix, and checkout costs, so you switch for the right reason.",
+};
+
 function parseBlogPage(slug) {
   const snapshotPath = `scripts/blog-sources/${slug}.page.tsx`;
   const livePath = `app/blog/${slug}/page.tsx`;
@@ -209,17 +227,32 @@ function parseBlogPage(slug) {
   const { intro, sections } = extractBlocksFromProse(proseRegion);
 
   const result = {
-    metaTitle: pageTitle,
-    metaDescription: pageDescription,
+    metaTitle: BLOG_META_TITLE_OVERRIDES[slug] ?? pageTitle,
+    metaDescription: BLOG_META_DESCRIPTION_OVERRIDES[slug] ?? pageDescription,
     title: pageTitle,
     readTime,
-    publishedAt: published,
-    updatedAt: updated,
+    publishedAt: published || "2026-05-16",
+    updatedAt: updated || published || "2026-05-16",
     intro: intro.length ? intro : undefined,
     sections: sections.length ? sections : undefined,
     faq,
     sources,
   };
+
+  if (slug === "stripe-credit-card-processing-fees") {
+    result.intro = [
+      "Stripe's published card rate is a useful starting point, but it is not the same as the effective rate on your account. Fixed fees, card geography, currency conversion, refunds, disputes, and paid Stripe products can change the amount you actually lose to processing costs.",
+      "Use the published price to estimate a transaction, then use an itemized Balance CSV to measure the period as a whole. That comparison separates normal card processing from other Stripe fee lines and shows which cost driver is worth investigating first.",
+    ];
+    result.sections.unshift({
+      type: "section",
+      heading: "Published card pricing vs your real Stripe cost",
+      paragraphs: [
+        "For a single charge, the fixed component matters more as the ticket gets smaller. Across a month, the mix matters too: international cards, conversion, refunds, disputes, Billing, Radar, and other products can move the all-in rate away from the headline card price.",
+        "A useful fee review keeps two numbers separate: charge processing fees divided by charge volume, and all Stripe fee lines divided by the same volume. The gap between them is evidence, not noise - it points to costs outside ordinary card processing.",
+      ],
+    });
+  }
 
   if (tactics) {
     result.table = { headers: ["Tactic", "Potential", "Best fit"], rows: tactics };
@@ -281,7 +314,7 @@ function buildSeoPages() {
 
   {
     const s = readPageSource("stripe-fees-report");
-    const pageTitle = extractStringConst(s, "pageTitle") ?? "Stripe Fees Report: What to Include Beyond Dashboard Totals";
+    const pageTitle = "Stripe Fees Report: Beyond Dashboard Totals";
     const pageDescription =
       extractStringConst(s, "pageDescription") ??
       "A useful Stripe fees report shows processing rate, all-in cost, refund drag, international uplift, and high-fee rows — not just a CSV sum. Export Balance transactions, then audit.";
@@ -328,7 +361,7 @@ function buildSeoPages() {
           ],
       ctaTitle: "Turn your export into a fees report",
       ctaDescription:
-        "Free preview from your Balance CSV — full report adds high-fee rows, savings checks, and exports.",
+        "Complete free audit from your Balance CSV - high-fee rows, cost drivers, recommendations, and exports included.",
       ctaPrimary: "Upload Balance CSV →",
     };
   }
@@ -336,7 +369,7 @@ function buildSeoPages() {
   {
     const s = readPageSource("stripe-fee-calculator");
     seo.stripeFeeCalculator = {
-      metaTitle: extractStringConst(s, "pageTitle"),
+      metaTitle: "Stripe Fee Calculator: Estimate and Verify Your Rate",
       metaDescription: extractStringConst(s, "pageDescription"),
       breadcrumb: extractStringConst(s, "pageTitle"),
       eyebrow: "Stripe fees calculator",
@@ -411,7 +444,7 @@ function buildSeoPages() {
     const s = readPageSource("what-percent-does-stripe-take");
     seo.whatPercent = {
       metaTitle: extractStringConst(s, "pageTitle"),
-      metaDescription: extractStringConst(s, "pageDescription"),
+      metaDescription: "For many US online cards, Stripe starts at 2.9% + $0.30 per transaction. Calculate the published fee, then verify your real blended rate from a Balance CSV.",
       breadcrumb: extractStringConst(s, "pageTitle"),
       eyebrow: "How much does Stripe charge",
       heroTitle: extractStringConst(s, "pageTitle"),
@@ -435,7 +468,7 @@ function buildSeoPages() {
   {
     const s = readPageSource("stripe-data-export");
     seo.dataExport = {
-      metaTitle: "Stripe Export Paths: CSV vs JSON, Tableau, Postgres | Fee Auditor",
+      metaTitle: "Stripe Export Paths: CSV vs JSON, Tableau, Postgres",
       metaDescription: extractStringConst(s, "pageDescription"),
       breadcrumb: extractStringConst(s, "pageTitle"),
       eyebrow: "Stripe data export",
@@ -460,7 +493,7 @@ function buildSeoPages() {
   {
     const s = readPageSource("compare-stripe-paypal-wise");
     seo.comparePaypal = {
-      metaTitle: `${extractStringConst(s, "pageTitle")} | Fee Auditor`,
+      metaTitle: extractStringConst(s, "pageTitle"),
       metaDescription: extractStringConst(s, "pageDescription"),
       breadcrumb: extractStringConst(s, "pageTitle"),
       eyebrow: "Payment fee comparison",
@@ -485,7 +518,7 @@ function buildSeoPages() {
   {
     const s = readPageSource("should-i-switch-from-stripe");
     seo.shouldSwitch = {
-      metaTitle: `${extractStringConst(s, "pageTitle")} | Fee Auditor`,
+      metaTitle: extractStringConst(s, "pageTitle"),
       metaDescription: extractStringConst(s, "pageDescription"),
       breadcrumb: extractStringConst(s, "pageTitle"),
       eyebrow: "Payment decision guide",
@@ -525,7 +558,7 @@ function buildSeoPages() {
       faq: normalizeFaq(evalConstLiteral(s, "faqItems")),
       cta: {
         title: "Check your actual Stripe rate from a Balance CSV",
-        description: "Free preview first. No Stripe OAuth, no API keys, and raw CSV files are not stored as files.",
+        description: "Complete free audit. No signup, card, Stripe OAuth, or stored raw CSV file.",
         primaryLabel: "Analyze My CSV",
       },
     };
@@ -556,7 +589,7 @@ function buildSeoPages() {
   {
     const s = readPageSource("monitor");
     seo.monitor = {
-      metaTitle: "Fee Monitor — Catch Stripe Rate Drift Before It Becomes Normal",
+      metaTitle: "Automatic Stripe Cost Monitoring - Early Access",
       metaDescription: "Catch rate drift, refund leakage, and one-off anomalies before they become normal. Monthly CSV reminders — no permanent Stripe OAuth. $9/month.",
       breadcrumb: "Fee Monitor",
       eyebrow: "Fee Monitor · $9/mo",
@@ -666,6 +699,19 @@ function buildBlog() {
     if (parsed) blog[slug] = parsed;
     else console.warn("Missing blog:", slug);
   }
+  // Give every fee article several contextual incoming links. This prevents
+  // sitemap-only/orphan pages and helps crawlers discover the whole cluster.
+  for (const [index, slug] of BLOG_SLUGS.entries()) {
+    const entry = blog[slug];
+    if (!entry) continue;
+    entry.related = [1, 2, 3].map((offset) => {
+      const relatedSlug = BLOG_SLUGS[(index + offset) % BLOG_SLUGS.length];
+      return {
+        href: `/blog/${relatedSlug}`,
+        title: blog[relatedSlug]?.title ?? relatedSlug,
+      };
+    });
+  }
   console.log("buildBlog done", Object.keys(blog).length);
   return blog;
 }
@@ -681,7 +727,7 @@ function buildPrivacy() {
   const articles = vm.runInNewContext(`(${slice.slice(arrStart, arrEnd + 1)})`, {}, { timeout: 10000 });
   for (const a of articles || []) {
     privacy[a.slug] = {
-      metaTitle: a.title,
+      metaTitle: BLOG_META_TITLE_OVERRIDES[a.slug] ?? a.title,
       metaDescription: a.description,
       title: a.title,
       shortTitle: a.shortTitle,

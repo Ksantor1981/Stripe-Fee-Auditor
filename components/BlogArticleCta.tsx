@@ -15,7 +15,7 @@ export function BlogArticleCta({
   title = "See your real Stripe fee rate from your CSV",
   body = "Upload a Stripe Balance Transactions export — no OAuth, no account. Get processing vs all-in rate, benchmark context, and fee drivers.",
   primaryHref = "/analyze",
-  primaryLabel = "Analyze My Fees",
+  primaryLabel = "Check My Actual Stripe Rate - Free",
   utmCampaign = "blog_article",
 }: Props) {
   const analyzeHref = appendUtmToPath(primaryHref, {
