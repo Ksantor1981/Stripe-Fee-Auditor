@@ -48,9 +48,6 @@ export async function GET() {
   return NextResponse.json(
     {
       status: healthy ? "ok" : "degraded",
-      service: "stripe-fee-auditor",
-      checks,
-      version: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? null,
       ts: new Date().toISOString(),
     },
     {

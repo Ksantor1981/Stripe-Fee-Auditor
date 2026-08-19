@@ -35,7 +35,7 @@ const checks = [
   },
   {
     path: "/api/health",
-    contains: ['"status":"ok"', '"database":"ok"'],
+    contains: ['"status":"ok"'],
   },
 ];
 

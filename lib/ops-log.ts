@@ -1,5 +1,7 @@
 /** Structured ops logs for Vercel — grep `ops_event` or filter `level":"error"`. */
 
+import { redactOpsProps } from "@/lib/redact-pii";
+
 export type OpsLevel = "info" | "warn" | "error";
 
 export type OpsEventPayload = Record<string, string | number | boolean | null | undefined>;
@@ -9,13 +11,7 @@ export function opsLogLine(
   level: OpsLevel,
   data: OpsEventPayload = {}
 ): string {
-  const props: Record<string, string | number | boolean> = {};
-  for (const [k, v] of Object.entries(data)) {
-    if (v === undefined || v === null) continue;
-    if (typeof v === "string" || typeof v === "number" || typeof v === "boolean") {
-      props[k] = v;
-    }
-  }
+  const props = redactOpsProps(data);
   return JSON.stringify({
     type: "ops_event",
     level,

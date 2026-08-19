@@ -49,6 +49,7 @@ const CSP_EMBED = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  poweredByHeader: false,
   async redirects() {
     return [
       ...LEGACY_BLOG_REDIRECTS.map((r) => ({

@@ -11,9 +11,9 @@ if (!res.ok) {
 
 const body = await res.json();
 
-if (body.status !== "ok" || body.checks?.database !== "ok") {
+if (body.status !== "ok") {
   console.error("Health check failed:", JSON.stringify(body, null, 2));
   process.exit(1);
 }
 
-console.log(`Health OK — database=${body.checks.database} version=${body.version ?? "n/a"}`);
+console.log(`Health OK — ts=${body.ts ?? "n/a"}`);

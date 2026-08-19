@@ -1,6 +1,7 @@
 import { Resend } from "resend";
 import { buildBillingPortalUrl } from "@/lib/billing-token";
 import { buildNewsletterUnsubscribeUrl } from "@/lib/newsletter-token";
+import { redactEmail } from "@/lib/redact-pii";
 import type { MonthlyReminderAudience } from "@/lib/db";
 
 const DEFAULT_BASE_URL = "https://feeauditor.com";
@@ -22,7 +23,7 @@ export async function sendReportEmail(
   totalFeesCents?: number
 ): Promise<void> {
   if (!process.env.RESEND_API_KEY) {
-    console.log(`[email] RESEND_API_KEY not set, skipping email to ${to}`);
+    console.log(`[email] RESEND_API_KEY not set, skipping email to ${redactEmail(to)}`);
     return;
   }
 
@@ -97,7 +98,7 @@ export async function sendFollowUpEmail(
   expiresAt?: Date
 ): Promise<void> {
   if (!process.env.RESEND_API_KEY) {
-    console.log(`[email] RESEND_API_KEY not set, skipping follow-up to ${to}`);
+    console.log(`[email] RESEND_API_KEY not set, skipping follow-up to ${redactEmail(to)}`);
     return;
   }
 
@@ -175,7 +176,7 @@ export async function sendWaitlistNotifyEmail(params: {
   source?: string;
 }): Promise<void> {
   if (!process.env.RESEND_API_KEY) {
-    console.log(`[email] RESEND_API_KEY not set, skipping waitlist notify for ${params.email}`);
+    console.log(`[email] RESEND_API_KEY not set, skipping waitlist notify for ${redactEmail(params.email)}`);
     return;
   }
 
@@ -222,7 +223,7 @@ export async function sendWaitlistConfirmationEmail(params: {
   status?: "inserted" | "duplicate";
 }): Promise<void> {
   if (!process.env.RESEND_API_KEY) {
-    console.log(`[email] RESEND_API_KEY not set, skipping waitlist confirmation for ${params.email}`);
+    console.log(`[email] RESEND_API_KEY not set, skipping waitlist confirmation for ${redactEmail(params.email)}`);
     return;
   }
 
@@ -268,7 +269,7 @@ export async function sendWaitlistConfirmationEmail(params: {
 
 export async function sendMonitorWelcomeEmail(to: string): Promise<void> {
   if (!process.env.RESEND_API_KEY) {
-    console.log(`[email] RESEND_API_KEY not set, skipping monitor welcome to ${to}`);
+    console.log(`[email] RESEND_API_KEY not set, skipping monitor welcome to ${redactEmail(to)}`);
     return;
   }
 
@@ -330,7 +331,7 @@ export async function sendMonitorWelcomeEmail(to: string): Promise<void> {
 
 export async function sendBillingPortalEmail(to: string): Promise<void> {
   if (!process.env.RESEND_API_KEY) {
-    console.log(`[email] RESEND_API_KEY not set, skipping billing portal email to ${to}`);
+    console.log(`[email] RESEND_API_KEY not set, skipping billing portal email to ${redactEmail(to)}`);
     return;
   }
 
@@ -376,7 +377,7 @@ export async function sendMonitorRateAlertEmail(params: {
   priorAllInRate: number;
 }): Promise<void> {
   if (!process.env.RESEND_API_KEY) {
-    console.log(`[email] RESEND_API_KEY not set, skipping monitor rate alert to ${params.to}`);
+    console.log(`[email] RESEND_API_KEY not set, skipping monitor rate alert to ${redactEmail(params.to)}`);
     return;
   }
 
@@ -426,7 +427,7 @@ export async function sendMonthlyCsvReminderEmail(params: {
   reminderCount?: number;
 }): Promise<void> {
   if (!process.env.RESEND_API_KEY) {
-    console.log(`[email] RESEND_API_KEY not set, skipping monthly reminder to ${params.to}`);
+    console.log(`[email] RESEND_API_KEY not set, skipping monthly reminder to ${redactEmail(params.to)}`);
     return;
   }
 

@@ -12,6 +12,7 @@ import {
 } from "../lib/report-access-cookie";
 import { encryptSecretPayload, decryptSecretPayload } from "../lib/token-crypto";
 import { opsLogLine } from "../lib/ops-log";
+import { redactEmail } from "../lib/redact-pii";
 import { isValidWaitlistEmail, normalizeWaitlistEmail } from "../lib/waitlist";
 import { isValidFunnelEventName } from "../lib/funnel-log";
 import { getTrustedClientIp } from "../lib/request-ip";
@@ -60,6 +61,17 @@ test("serializes ops_event JSON", () => {
   assert(parsed.type === "ops_event", "type ops_event");
   assert(parsed.level === "error", "level error");
   assert(parsed.event === "test_event", "event name");
+});
+
+test("redacts email fields in ops logs", () => {
+  const line = opsLogLine("test_event", "info", { email: "alice@example.com", report_id: "abc" });
+  const parsed = JSON.parse(line) as { props: { email: string; report_id: string } };
+  assert(parsed.props.email === "a***@example.com", "email redacted");
+  assert(parsed.props.report_id === "abc", "non-pii preserved");
+});
+
+test("redactEmail hides local part", () => {
+  assert(redactEmail("bob@test.io") === "b***@test.io", "redact format");
 });
 
 console.log("\n📋 cron-bearer / verifyCronBearer");

@@ -1,5 +1,7 @@
 # Fee Auditor — план роста (PMF + конверсия)
 
+**Политика продукта (Aug 2026):** `FULL_REPORTS_FREE = true` — полный аудит бесплатно для всех; billing/Polar остаётся для будущего **Fee Monitor**. Фокус: **SEO**, **стабильность**, **безопасность**.
+
 Основа: аналитический отчёт (май 2026) + GSC/PH сигнал (Jul 2026). **Проблема — охват и трение CSV**, не отсутствие боли. SEO avg position ~26 = канал ещё не «созрел» для оценки; не плодить статьи.
 
 ## Позиционирование (Jul 2026)
@@ -98,7 +100,24 @@
 | R.9 | Merge duplicate workspace panels (low/single volume) | **done** | follow-up Aug 12 |
 | R.10 | SEO `messages/pages/*` (~1248 EN strings) | backlog | **не** bulk autotranslate |
 
-**Следующий приоритет (не landing-decor):** post-beta smoke (#9), validation sprint (10–15 audits), M.1 PSI после деплоя.
+**Следующий приоритет (не landing-decor):** SEO harvest (5973304), validation sprint, M.1 PSI. **Security P1** — см. ниже.
+
+### Security — Aug 2026
+
+| # | Задача | Статус | Коммит / примечание |
+|---|--------|--------|---------------------|
+| S.1 | Monitor: не выдавать доступ по email без session | **done** | `2efa2d9`, `lib/monitor-session.ts` |
+| S.2 | `/api/clients` только с verified session + rate/body limits | **done** | `2efa2d9` |
+| S.3 | clientId ownership при create/link report | **done** | `2efa2d9` |
+| S.4 | Next.js 16.3.1, prod npm audit 0, shadcn → devDeps | **done** | `2efa2d9` |
+| S.5 | Test: forged monitor cookie rejected | **done** | `security-monitor-session.ts` |
+| S.6 | Public `/api/health` minimal (status + ts only) | **done** | P1 follow-up |
+| S.7 | PII redaction in ops/email skip logs | **done** | `lib/redact-pii.ts` |
+| S.8 | `poweredByHeader: false` | **done** | `next.config.ts` |
+| S.9 | DB spot-check script (cross-owner clients) | **done** | `scripts/security-monitor-spotcheck.mjs` |
+| S.10 | Turnstile/CAPTCHA on analyze | backlog | P2 |
+| S.11 | CSP nonce (remove unsafe-inline) | backlog | after Next CSP work |
+| S.12 | Audit Neon for pre-patch cross-tenant rows | **ops** | run S.9 locally |
 
 ### Периодический мониторинг — не срочно, но обязательно
 
@@ -120,7 +139,7 @@
 | **M.6** | `public/llms.txt` + positioning vs hero/H1 | после смены первого экрана / **1×/кв** | Agent browsing PSI 3/3; дата в файле актуальна |
 | **M.7** | Prod vs local: L.19 (nav hydrate, GA off `/`) | **сразу после деплоя** L.19 | View-source `/`: nav shell в начале `<main>`; на `/` нет `googletagmanager.com` в Network до навигации |
 
-**Статус на 2026-08-12:** Report workspace + paywall pass (**R.1–R.9**) в prod. Landing laconic (**L.29**, pricing off hero). **Следующий P1:** post-beta smoke, validation sprint, L.4 side-by-side. **Ops:** M.1–M.2, M.6–M.7 после деплоя.
+**Статус на 2026-08-19:** Free full audit для всех. P0 security в prod (`2efa2d9`). P1 hardening (health, log redaction). **Следующее:** SEO harvest, run `security-monitor-spotcheck.mjs`, validation sprint.
 
 ### Фаза 2 — Снижение барьера CSV (2–4 недели)
 
