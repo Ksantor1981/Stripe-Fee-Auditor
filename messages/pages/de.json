@@ -2208,7 +2208,7 @@
           "title": "PayPal Händlergebühren"
         },
         {
-          "href": "https://developer.paypal.com/braintree/articles/guides/payment-methods/paypal",
+          "href": "https://developer.paypal.com/docs/checkout/payment-methods/paypal/",
           "title": "Braintree PayPal-Dokumente"
         }
       ],

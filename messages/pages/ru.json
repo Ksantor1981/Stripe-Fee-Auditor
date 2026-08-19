@@ -2208,7 +2208,7 @@
           "title": "PayPal комиссия продавца"
         },
         {
-          "href": "https://developer.paypal.com/braintree/articles/guides/payment-methods/paypal",
+          "href": "https://developer.paypal.com/docs/checkout/payment-methods/paypal/",
           "title": "Документы Брейнтри PayPal"
         }
       ],

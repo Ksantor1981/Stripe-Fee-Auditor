@@ -139,7 +139,31 @@
 | **M.6** | `public/llms.txt` + positioning vs hero/H1 | после смены первого экрана / **1×/кв** | Agent browsing PSI 3/3; дата в файле актуальна |
 | **M.7** | Prod vs local: L.19 (nav hydrate, GA off `/`) | **сразу после деплоя** L.19 | View-source `/`: nav shell в начале `<main>`; на `/` нет `googletagmanager.com` в Network до навигации |
 
-**Статус на 2026-08-19:** Free full audit для всех. P0 security в prod (`2efa2d9`). P1 hardening (health, log redaction). **Следующее:** SEO harvest, run `security-monitor-spotcheck.mjs`, validation sprint.
+**Статус на 2026-08-19:** Free full audit для всех. P0 security в prod (`2efa2d9`). P1 hardening (health, log redaction). **GSC 3 мес:** 30 кликов / 11,6k показов / CTR **0,3%** / avg pos **30** (Semrush Site Health **95%**). **Следующее:** GSC harvest sprint (ниже), PSI M.1, validation sprint.
+
+### GSC harvest sprint — Aug 19 2026 (данные Search Console + Semrush)
+
+**Сигнал:** показы растут с Jul (до ~400/день), но avg pos просел **29 → 47** (12–17 Aug) — не паниковать, окно 2–4 нед; приоритет **CTR на URL с impressions**, не новые статьи.
+
+| # | Задача | GSC / Semrush | Приоритет | Статус |
+|---|--------|---------------|-----------|--------|
+| G.1 | CTR harvest: export cluster (`/stripe-data-export`, `/stripe-balance-csv`, blog how-to-export) — title/meta под «export stripe data» | 1752+1102+678 imp, CTR ≤0,18% | **P0** | **in progress** |
+| G.2 | CTR harvest: fees cluster (credit-card, international, small-tx blogs) | 1092+1091+1325 imp, 0% CTR | **P0** | **in progress** |
+| G.3 | `/analyze` title + UTM → clean URL (301) | 222 imp, Semrush «too many params» | **P0** | **in progress** |
+| G.4 | Fix broken external link (PayPal Braintree 404) | Semrush warning | **P0** | **in progress** |
+| G.5 | Internal links: `/stripe-data-export` related block + blog cross-link | 6 pages «1 incoming link» | **P1** | **in progress** |
+| G.6 | Request indexing в GSC после harvest | post-deploy | **P1** | ops |
+| G.7 | PSI M.1 после deploy | Aug 8 baseline 87/3.3s | **P1** | ops |
+| G.8 | Semrush «low text-HTML ratio» (52 pp) | Next.js boilerplate | **skip** | не блокер |
+| G.9 | Position Tracking Semrush — только 1 kw / UAE | misconfigured | **P2** | перенастроить на US + 20–30 kw |
+
+**Winners (не трогать hero):** `/blog/why-stripe-fees-increase` — 11 clk, pos **10.5**, CTR 1,77%; `/blog/what-does-stripe-oauth…` — pos **9.3**.
+
+**Query clusters → URL:**
+- **Export:** export stripe data (187), stripe export (66), how to export… (104) → G.1
+- **International:** stripe international fees (126) → `/blog/stripe-international-card-fees`
+- **Credit card:** stripe credit card fees (62), processing fees (75) → credit-card blog
+- **Fee increase:** stripe fee increase (18), pos **7.7** → why-stripe-fees-increase (уже лидер)
 
 ### Фаза 2 — Снижение барьера CSV (2–4 недели)
 

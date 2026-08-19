@@ -28,6 +28,7 @@ export default async function Page() {
       <BreadcrumbJsonLd crumbs={breadcrumbCrumbs} />
       <LocalizedSeoPage
         contentKey="dataExport"
+        relatedKey="dataExport"
       >
       </LocalizedSeoPage>
     </MarketingShell>

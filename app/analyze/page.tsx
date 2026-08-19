@@ -6,9 +6,9 @@ import { AnalyzeClient } from "./_components/AnalyzeClient";
 import { AnalyzePageIntro } from "./_components/AnalyzePageIntro";
 
 export const metadata: Metadata = {
-  title: "Analyze My Stripe Fees — Fee Auditor",
+  title: "Analyze Stripe Fees — Upload Balance CSV Free",
   description:
-    "Upload an itemized Stripe Balance CSV for a free fee-rate diagnosis. No OAuth. Raw CSV is not stored. Independent tool — not affiliated with Stripe.",
+    "Upload your Stripe Balance CSV for a free fee audit: effective rate, international cards, refund leakage, and top fee drivers. No OAuth.",
   alternates: { canonical: "/analyze" },
 };
 

@@ -130,11 +130,45 @@ export const SEO_RELATED_BALANCE_CSV: SeoRelatedLink[] = [
   },
 ];
 
+export const SEO_RELATED_DATA_EXPORT: SeoRelatedLink[] = [
+  {
+    context: "Need the fee-audit CSV?",
+    href: "/stripe-balance-csv",
+    label: "Balance CSV export guide",
+  },
+  {
+    context: "Step-by-step blog walkthrough?",
+    href: "/blog/how-to-export-stripe-balance-csv",
+    label: "How to export Stripe data",
+  },
+  {
+    context: "Export done — audit fees?",
+    href: "/analyze",
+    label: "Analyze my CSV",
+  },
+  {
+    context: "Why is the rate above 2.9%?",
+    href: "/why-stripe-fee-rate-higher-than-2-9",
+    label: "Why fees run higher",
+  },
+  {
+    context: "International card fees?",
+    href: "/blog/stripe-international-card-fees",
+    label: "Stripe international fees",
+  },
+  {
+    context: "Estimate before exporting?",
+    href: "/stripe-fee-calculator",
+    label: "Stripe fee calculator",
+  },
+];
+
 const SEO_RELATED_FALLBACKS = {
   feesReport: SEO_RELATED_FEES_REPORT,
   feeCalculator: SEO_RELATED_FEE_CALCULATOR,
   whyHigher: SEO_RELATED_WHY_HIGHER,
   balanceCsv: SEO_RELATED_BALANCE_CSV,
+  dataExport: SEO_RELATED_DATA_EXPORT,
 } as const;
 
 export type SeoRelatedKey = keyof typeof SEO_RELATED_FALLBACKS;

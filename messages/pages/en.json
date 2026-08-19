@@ -182,11 +182,11 @@
       }
     },
     "stripeBalanceCsv": {
-      "metaTitle": "Export Stripe Balance CSV & Transactions | Fee Auditor",
-      "metaDescription": "Export the itemized Stripe Balance CSV to audit real Stripe effective rate, refund fee leakage, and international card costs. Not a Tableau, Qlik, or PostgreSQL export guide.",
-      "breadcrumb": "Stripe Balance CSV Export Guide for Fee Analysis and Rate Audit",
+      "metaTitle": "Export Stripe Data: Balance CSV Guide for Fee Audit",
+      "metaDescription": "How to export Stripe data as an itemized Balance CSV — with fees per transaction. Step-by-step from Dashboard. Then audit effective rate, refunds, and international cards.",
+      "breadcrumb": "Export Stripe Data (Balance CSV)",
       "eyebrow": "Quick export guide · ~5 minutes",
-      "heroTitle": "Stripe Balance CSV Export Guide for Fee Analysis and Rate Audit",
+      "heroTitle": "How to Export Stripe Data (Balance CSV for Fee Audit)",
       "heroDescription": "This guide is for Stripe users who want to understand their real processing costs: effective rate, payout differences, refund fee leakage, and international card mix. It is not for developers building data pipelines to Tableau, PostgreSQL, Qlik, Power BI, or JSON warehouses.",
       "sections": [
         {
@@ -472,11 +472,11 @@
       }
     },
     "dataExport": {
-      "metaTitle": "Stripe Export Paths: CSV vs JSON, Tableau, Postgres",
-      "metaDescription": "Need Stripe data in CSV, JSON, Tableau, Power BI, or PostgreSQL? Choose the right export path, then use Balance CSV for Stripe fee reconciliation.",
-      "breadcrumb": "Export Stripe Data to CSV, JSON, Tableau, or PostgreSQL",
+      "metaTitle": "How to Export Stripe Data (CSV, JSON, Tableau & More)",
+      "metaDescription": "Export Stripe data for accounting, BI, or fee audits. Compare CSV, JSON, Tableau, PostgreSQL, and Power BI paths — then reconcile fees from Balance CSV.",
+      "breadcrumb": "How to Export Stripe Data",
       "eyebrow": "Stripe data export",
-      "heroTitle": "Export Stripe Data to CSV, JSON, Tableau, or PostgreSQL",
+      "heroTitle": "How to Export Stripe Data (CSV, JSON, Tableau & More)",
       "heroDescription": "The right Stripe export depends on the job. JSON, Tableau, Power BI, and PostgreSQL usually mean an API or data-pipeline workflow. Fee reconciliation is different: use the itemized Stripe Balance CSV so you can see transaction-level fees, refunds, and payout differences.",
       "sections": [
         {
@@ -2225,9 +2225,9 @@
       ]
     },
     "stripe-credit-card-processing-fees": {
-      "metaTitle": "Stripe Credit Card Processing Fees: Rates & Real Cost",
-      "metaDescription": "Stripe credit card processing fees often start at 2.9% + $0.30 in the US. See examples, effective percentages, extra costs, and how to audit your real rate.",
-      "title": "Stripe Credit Card Processing Fees: Rates and Real Cost",
+      "metaTitle": "Stripe Credit Card Fees: 2.9% + $0.30 & Your Real Rate",
+      "metaDescription": "Stripe credit card fees start at 2.9% + $0.30 — most businesses pay more. See effective rate by charge size and audit your real cost from Balance CSV.",
+      "title": "Stripe Credit Card Fees: 2.9% + $0.30 & Your Real Rate",
       "shortTitle": "Stripe Credit Card Processing Fees",
       "readTime": "8 min",
       "publishedAt": "2026-06-25",
@@ -2452,8 +2452,8 @@
           "title": "PayPal merchant fees"
         },
         {
-          "href": "https://developer.paypal.com/braintree/articles/guides/payment-methods/paypal",
-          "title": "Braintree PayPal docs"
+          "href": "https://developer.paypal.com/docs/checkout/payment-methods/paypal/",
+          "title": "PayPal Checkout docs"
         }
       ],
       "related": [
@@ -2472,12 +2472,12 @@
       ]
     },
     "stripe-international-card-fees": {
-      "metaTitle": "Stripe International Card Fees: Why Your Rate Is Higher",
-      "metaDescription": "Stripe international card fees add about 1.5% on cross-border cards — a common reason your effective rate and payout feel worse than 2.9%. How to find it in your Balance CSV.",
-      "title": "Stripe International Card Fees: Why Your Rate Is Higher",
+      "metaTitle": "Stripe International Fees: Cross-Border Costs",
+      "metaDescription": "Stripe international fees add ~1.5% on cross-border cards — a top reason effective rate exceeds 2.9%. Find international fee drag in your Balance CSV.",
+      "title": "Stripe International Fees: Cross-Border Card Costs Explained",
       "readTime": "6 min",
       "publishedAt": "2026-05-16",
-      "updatedAt": "2026-07-19",
+      "updatedAt": "2026-08-19",
       "sections": [
         {
           "type": "callout",
@@ -2672,12 +2672,12 @@
       ]
     },
     "stripe-fees-small-transactions": {
-      "metaTitle": "Stripe Fees on Small Transactions: Cost Guide",
-      "metaDescription": "The fixed $0.30 Stripe fee hits small transactions hard: a $5 charge can cost about 9%. See the math, margin impact, and ways to reduce micro-payment drag.",
-      "title": "Stripe Fees for Small Transactions: Why Your Rate Is Higher",
+      "metaTitle": "Stripe Fees on Small Transactions: Why $5 Costs ~9%",
+      "metaDescription": "Stripe fees on small transactions: the $0.30 fixed fee dominates micro-payments. See the math and audit small-ticket drag in your Balance CSV.",
+      "title": "Stripe Fees on Small Transactions: Why $5 Costs ~9%",
       "readTime": "5 min",
       "publishedAt": "2026-05-16",
-      "updatedAt": "2026-07-19",
+      "updatedAt": "2026-08-19",
       "sections": [
         {
           "type": "callout",
@@ -2864,12 +2864,12 @@
       ]
     },
     "how-to-export-stripe-balance-csv": {
-      "metaTitle": "How to Export Stripe Balance CSV: Step-by-Step Guide",
-      "metaDescription": "Step-by-step: export the Itemized Stripe Balance CSV, avoid Summary and payout mistakes, get the right columns, and check your real fee rate.",
-      "title": "How to Export Stripe Balance CSV: Step-by-Step Guide",
+      "metaTitle": "How to Export Stripe Data from Dashboard (Balance CSV)",
+      "metaDescription": "Export Stripe data step-by-step: Itemized Balance CSV with per-transaction fees. Avoid Summary/Payout mistakes. Then check your real effective rate.",
+      "title": "How to Export Stripe Data from Dashboard (Balance CSV)",
       "readTime": "4 min",
       "publishedAt": "2026-05-16",
-      "updatedAt": "2026-07-19",
+      "updatedAt": "2026-08-19",
       "sections": [
         {
           "type": "callout",
@@ -2952,6 +2952,14 @@
         }
       ],
       "related": [
+        {
+          "href": "/stripe-data-export",
+          "title": "How to Export Stripe Data (CSV, JSON, Tableau & More)"
+        },
+        {
+          "href": "/stripe-balance-csv",
+          "title": "Export Stripe Data (Balance CSV Guide)"
+        },
         {
           "href": "/blog/why-stripe-effective-rate-jumped-this-month",
           "title": "Why Did My Stripe Effective Rate Jump This Month?"

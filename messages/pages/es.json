@@ -2208,7 +2208,7 @@
           "title": "Tarifas comerciales de PayPal"
         },
         {
-          "href": "https://developer.paypal.com/braintree/articles/guides/payment-methods/paypal",
+          "href": "https://developer.paypal.com/docs/checkout/payment-methods/paypal/",
           "title": "Documentos de PayPal de Braintree"
         }
       ],

@@ -98,6 +98,14 @@
       { "context": "Need the short percentage answer?", "href": "/what-percent-does-stripe-take", "label": "What percent Stripe takes" },
       { "context": "Fees jumped month over month?", "href": "/blog/why-stripe-fees-increase", "label": "Why Stripe fees increase" },
       { "context": "Other export formats?", "href": "/stripe-data-export", "label": "Stripe data export options" }
+    ],
+    "dataExport": [
+      { "context": "Need the fee-audit CSV?", "href": "/stripe-balance-csv", "label": "Balance CSV export guide" },
+      { "context": "Step-by-step blog walkthrough?", "href": "/blog/how-to-export-stripe-balance-csv", "label": "How to export Stripe data" },
+      { "context": "Export done — audit fees?", "href": "/analyze", "label": "Analyze my CSV" },
+      { "context": "Why is the rate above 2.9%?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Why fees run higher" },
+      { "context": "International card fees?", "href": "/blog/stripe-international-card-fees", "label": "Stripe international fees" },
+      { "context": "Estimate before exporting?", "href": "/stripe-fee-calculator", "label": "Stripe fee calculator" }
     ]
   },
   "faq": {
