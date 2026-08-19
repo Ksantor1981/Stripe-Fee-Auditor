@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { trackEvent } from "@/lib/analytics";
 import type { PaymentVolumeSegment } from "@/lib/product-analytics";
 
@@ -16,6 +17,7 @@ type CardProps = {
 };
 
 function InterestCard({ type, reportId, paymentVolumeSegment, title, body, cta }: CardProps) {
+  const t = useTranslations("waitlist");
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -34,13 +36,13 @@ function InterestCard({ type, reportId, paymentVolumeSegment, title, body, cta }
       });
       if (!response.ok) {
         const data = (await response.json().catch(() => null)) as { error?: string } | null;
-        setError(data?.error ?? "Something went wrong. Try again.");
+        setError(data?.error ?? t("error"));
         return;
       }
       trackEvent(type, { payment_volume_segment: paymentVolumeSegment });
       setSubmitted(true);
     } catch {
-      setError("Something went wrong. Try again.");
+      setError(t("error"));
     } finally {
       setLoading(false);
     }
@@ -52,7 +54,7 @@ function InterestCard({ type, reportId, paymentVolumeSegment, title, body, cta }
       <p className="mt-2 text-sm leading-relaxed text-gray-600">{body}</p>
       {submitted ? (
         <p className="mt-4 rounded-xl bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">
-          Thanks - you are on the list.
+          {t("thanks")}
         </p>
       ) : (
         <form onSubmit={submit} className="mt-4 flex flex-col gap-2 sm:flex-row">
@@ -61,7 +63,7 @@ function InterestCard({ type, reportId, paymentVolumeSegment, title, body, cta }
             required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            placeholder="you@company.com"
+            placeholder={t("emailPlaceholder")}
             autoComplete="email"
             className="min-w-0 flex-1 rounded-xl border border-gray-200 px-3 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:border-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-200"
           />
@@ -70,7 +72,7 @@ function InterestCard({ type, reportId, paymentVolumeSegment, title, body, cta }
             disabled={loading || !email.trim()}
             className="h-11 rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:bg-gray-200 disabled:text-gray-400"
           >
-            {loading ? "Joining..." : cta}
+            {loading ? t("joining") : cta}
           </button>
         </form>
       )}
@@ -86,6 +88,8 @@ export function MonitorWaitlistForm({
   reportId: string;
   paymentVolumeSegment: PaymentVolumeSegment;
 }) {
+  const t = useTranslations("waitlist");
+
   useEffect(() => {
     trackEvent("waitlist_view", {
       source: "post_report_early_access",
@@ -96,28 +100,28 @@ export function MonitorWaitlistForm({
   return (
     <section className="rounded-2xl border border-blue-100 bg-blue-50/60 p-5 sm:p-6">
       <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">
-        What should FeeAuditor build next?
+        {t("eyebrow")}
       </p>
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
         <InterestCard
           type="monitoring_interest"
           reportId={reportId}
           paymentVolumeSegment={paymentVolumeSegment}
-          title="Want FeeAuditor to watch this automatically?"
-          body="We are working on automatic Stripe cost monitoring. Get notified when your effective rate changes or new cost issues appear."
-          cta="Join Early Access"
+          title={t("monitorTitle")}
+          body={t("monitorBody")}
+          cta={t("monitorCta")}
         />
         <InterestCard
           type="cfo_interest"
           reportId={reportId}
           paymentVolumeSegment={paymentVolumeSegment}
-          title="Manage Stripe for multiple companies?"
-          body="We are exploring FeeAuditor for fractional CFOs and finance professionals. Join the pilot list - this is demand research, not a product signup."
-          cta="Join CFO Pilot"
+          title={t("cfoTitle")}
+          body={t("cfoBody")}
+          cta={t("cfoCta")}
         />
       </div>
       <p className="mt-4 text-center text-xs text-gray-500">
-        No card. No subscription. We will only email you about the option you choose.
+        {t("disclaimer")}
       </p>
     </section>
   );

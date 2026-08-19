@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import {
   STRIPE_ACCOUNT_COUNTRIES,
@@ -19,8 +20,8 @@ function parsePct(raw: string) {
   return Math.min(100, Math.max(0, value));
 }
 
-function formatMoney(value: number, currency = "USD") {
-  return new Intl.NumberFormat("en-US", {
+function formatMoney(value: number, locale: string, currency = "USD") {
+  return new Intl.NumberFormat(locale, {
     style: "currency",
     currency,
     minimumFractionDigits: 2,
@@ -38,6 +39,8 @@ interface Props {
 }
 
 export function StripeFeeMiniEstimate({ compact = false }: Props) {
+  const t = useTranslations("feeCalculatorWidget");
+  const locale = useLocale();
   const [volumeRaw, setVolumeRaw] = useState("50000");
   const [averageChargeRaw, setAverageChargeRaw] = useState("50");
   const [intlShareRaw, setIntlShareRaw] = useState("15");
@@ -99,22 +102,18 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
     : "mb-14 rounded-2xl border border-blue-100 bg-blue-50/40 p-6";
 
   const domesticPct = (estimate.profile.domesticPercent * 100).toFixed(2);
-  const fixedFee = formatMoney(estimate.profile.domesticFixed, estimate.profile.currency);
+  const fixedFee = formatMoney(estimate.profile.domesticFixed, locale, estimate.profile.currency);
+  const money = (value: number) => formatMoney(value, locale, estimate.profile.currency);
 
   return (
     <section className={shellClass} id="instant-estimate">
-      <h2 className="text-lg font-semibold text-gray-900 mb-1">
-        Calculate Stripe processing fees
-      </h2>
-      <p className="text-sm text-gray-500 mb-5">
-        No CSV required. This Stripe fees calculator uses published pricing. For fees Stripe already
-        charged, use the Balance CSV audit.
-      </p>
+      <h2 className="text-lg font-semibold text-gray-900 mb-1">{t("title")}</h2>
+      <p className="text-sm text-gray-500 mb-5">{t("intro")}</p>
 
       <div className="grid gap-4 md:grid-cols-[1fr_1.2fr]">
         <div className="space-y-4">
           <label className="block">
-            <span className="text-xs font-medium text-gray-600">Stripe account country</span>
+            <span className="text-xs font-medium text-gray-600">{t("accountCountry")}</span>
             <select
               value={accountCountry}
               onChange={(event) => setAccountCountry(event.target.value as StripeAccountCountry)}
@@ -122,13 +121,13 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
             >
               {STRIPE_ACCOUNT_COUNTRIES.map((country) => (
                 <option key={country.id} value={country.id}>
-                  {country.label}
+                  {t(`country.${country.id}`)}
                 </option>
               ))}
             </select>
           </label>
           <label className="block">
-            <span className="text-xs font-medium text-gray-600">Monthly card volume (USD)</span>
+            <span className="text-xs font-medium text-gray-600">{t("monthlyVolume")}</span>
             <input
               type="number"
               min={0}
@@ -139,7 +138,7 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
             />
           </label>
           <label className="block">
-            <span className="text-xs font-medium text-gray-600">Average charge amount (USD)</span>
+            <span className="text-xs font-medium text-gray-600">{t("averageCharge")}</span>
             <input
               type="number"
               min={0.01}
@@ -150,7 +149,7 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
             />
           </label>
           <label className="block">
-            <span className="text-xs font-medium text-gray-600">I want to receive after fees</span>
+            <span className="text-xs font-medium text-gray-600">{t("targetNet")}</span>
             <input
               type="number"
               min={0}
@@ -161,7 +160,7 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
             />
           </label>
           <label className="block">
-            <span className="text-xs font-medium text-gray-600">International card share (%)</span>
+            <span className="text-xs font-medium text-gray-600">{t("intlShare")}</span>
             <input
               type="number"
               min={0}
@@ -173,7 +172,7 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
             />
           </label>
           <label className="block">
-            <span className="text-xs font-medium text-gray-600">Volume requiring currency conversion (%)</span>
+            <span className="text-xs font-medium text-gray-600">{t("fxShare")}</span>
             <input
               type="number"
               min={0}
@@ -185,107 +184,115 @@ export function StripeFeeMiniEstimate({ compact = false }: Props) {
             />
           </label>
           <p className="text-xs leading-relaxed text-gray-500">
-            ~{estimate.chargeCount.toLocaleString("en-US")} charges/month. Smaller averages make the
-            fixed fee matter more; international share adds ~{(estimate.profile.crossBorderPercent * 100).toFixed(1)}% uplift on that volume.
+            {t("chargesHint", {
+              count: estimate.chargeCount.toLocaleString(locale),
+              uplift: (estimate.profile.crossBorderPercent * 100).toFixed(1),
+            })}
           </p>
         </div>
 
         <div className="rounded-xl border border-gray-200 bg-white p-4">
           <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
-            Estimated card-processing rate
+            {t("estimatedRate")}
           </p>
           <p className="mt-2 text-3xl font-extrabold tracking-tight text-gray-900">
             {estimate.monthlyVolume > 0 ? formatRate(estimate.estimatedRate) : "—"}
           </p>
           <p className="mt-1 text-sm text-gray-500">
-            Published pricing estimate for {estimate.profile.label}, including the international-card and
-            currency-conversion shares entered above.
+            {t("publishedEstimateFor", { country: t(`country.${estimate.profile.id}`) })}
           </p>
 
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <div>
               <p className="text-xs text-gray-500">
-                Published {domesticPct}% + {fixedFee}
+                {t("publishedRate", { percent: domesticPct, fixedFee })}
               </p>
               <p className="text-lg font-bold text-gray-900">
-                {estimate.monthlyVolume > 0 ? formatMoney(estimate.publishedFee, estimate.profile.currency) : "-"}
-                <span className="ml-1 text-xs font-medium text-gray-400">/mo</span>
+                {estimate.monthlyVolume > 0 ? money(estimate.publishedFee) : "-"}
+                <span className="ml-1 text-xs font-medium text-gray-400">{t("perMonth")}</span>
               </p>
               <p className="mt-0.5 text-xs text-gray-500">
-                Effective: {(estimate.publishedRate * 100).toFixed(2)}%
+                {t("effective", { rate: (estimate.publishedRate * 100).toFixed(2) })}
               </p>
             </div>
             <div className="rounded-lg bg-blue-50 px-3 py-3">
-              <p className="text-xs text-blue-700">Estimated processing fees</p>
+              <p className="text-xs text-blue-700">{t("estimatedFees")}</p>
               <p className="text-lg font-bold text-blue-950">
-                {estimate.monthlyVolume > 0 ? formatMoney(estimate.estimatedFee, estimate.profile.currency) : "-"}
-                <span className="ml-1 text-xs font-medium text-blue-700/70">/mo</span>
+                {estimate.monthlyVolume > 0 ? money(estimate.estimatedFee) : "-"}
+                <span className="ml-1 text-xs font-medium text-blue-700/70">{t("perMonth")}</span>
               </p>
               <p className="mt-0.5 text-xs text-blue-700">
                 {estimate.gapVsPublished > 0
-                  ? `${formatMoney(estimate.gapVsPublished)} above published`
-                  : "Close to published mix"}
+                  ? t("abovePublished", { amount: money(estimate.gapVsPublished) })
+                  : t("closeToPublished")}
               </p>
             </div>
           </div>
 
           <div className="mt-3 rounded-lg border border-gray-100 bg-gray-50 px-3 py-3">
             <p className="text-xs text-gray-500">
-              To receive {formatMoney(estimate.targetNet, estimate.profile.currency)} on one domestic charge
+              {t("toReceive", { amount: money(estimate.targetNet) })}
             </p>
             <p className="mt-0.5 text-lg font-bold text-gray-900">
-              Ask for {estimate.targetNet > 0 ? formatMoney(estimate.reverseGross, estimate.profile.currency) : "-"}
+              {t("askFor", { amount: estimate.targetNet > 0 ? money(estimate.reverseGross) : "-" })}
             </p>
             <p className="mt-0.5 text-xs text-gray-500">
-              Stripe fee about {estimate.targetNet > 0 ? formatMoney(estimate.reverseFee, estimate.profile.currency) : "-"}
-              {estimate.targetNet > 0 ? ` (${formatRate(estimate.reverseEffectiveRate)})` : ""}
+              {t("stripeFeeAbout", {
+                amount: estimate.targetNet > 0 ? money(estimate.reverseFee) : "-",
+                rate: estimate.targetNet > 0 ? ` (${formatRate(estimate.reverseEffectiveRate)})` : "",
+              })}
             </p>
           </div>
 
           <p className="mt-4 text-xs leading-relaxed text-gray-500">
             {estimate.monthlyVolume > 0 && estimate.estimatedRate > estimate.publishedRate
-              ? `Your estimate (${formatRate(estimate.estimatedRate)}) is above the domestic-only rate (${(estimate.publishedRate * 100).toFixed(2)}%) because of the international and conversion shares entered. `
-              : "Published list pricing only — confirm your contract in Dashboard → Settings → Plans and fees. "}
-            Refunds, disputes, Billing, Radar, and other Stripe products are not added to this estimate.
+              ? t("aboveDomestic", {
+                  estimated: formatRate(estimate.estimatedRate),
+                  published: (estimate.publishedRate * 100).toFixed(2),
+                })
+              : t("publishedOnly")}
+            {t("exclusions")}
           </p>
           <p className="mt-3 text-xs leading-relaxed text-gray-500">
-            Rates checked August 19, 2026. Verify the current schedule on{" "}
-            <a
-              href="https://stripe.com/pricing"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 underline hover:text-blue-800"
-            >
-              Stripe&apos;s official pricing page
-            </a>
-            .
+            {t.rich("ratesChecked", {
+              stripePricing: (chunks) => (
+                <a
+                  href="https://stripe.com/pricing"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline hover:text-blue-800"
+                >
+                  {chunks}
+                </a>
+              ),
+            })}
           </p>
         </div>
       </div>
 
       <div className="mt-5 rounded-xl border border-blue-200 bg-white px-4 py-4 sm:px-5">
-        <p className="text-sm font-semibold text-gray-900">
-          Confirm the real rate from your Balance CSV
-        </p>
+        <p className="text-sm font-semibold text-gray-900">{t("confirmTitle")}</p>
         <p className="mt-1 text-sm text-gray-500">
-          Upload to verify the gap — or open a sample report first. Itemized{" "}
-          <Link href="/stripe-balance-csv" className="text-blue-600 underline hover:text-blue-800">
-            Balance CSV
-          </Link>{" "}
-          only.
+          {t.rich("confirmBody", {
+            csvLink: (chunks) => (
+              <Link href="/stripe-balance-csv" className="text-blue-600 underline hover:text-blue-800">
+                {chunks}
+              </Link>
+            ),
+          })}
         </p>
         <div className="mt-3 flex flex-col gap-2 sm:flex-row">
           <Link
             href="/analyze?sample=1"
             className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
           >
-            See sample report →
+            {t("sampleCta")}
           </Link>
           <Link
             href="/analyze"
             className="inline-flex items-center justify-center rounded-xl border border-blue-200 bg-blue-50 px-5 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-100 transition-colors"
           >
-            Upload my CSV →
+            {t("uploadCta")}
           </Link>
         </div>
       </div>

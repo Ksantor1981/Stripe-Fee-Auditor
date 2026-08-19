@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function PrivacyPage() {
-  const placeholders = buildLegalPlaceholders();
+  const placeholders = await buildLegalPlaceholders();
 
   return (
     <MarketingShell>

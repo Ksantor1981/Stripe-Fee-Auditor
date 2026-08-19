@@ -13,42 +13,36 @@
           ]
         },
         {
-          "heading": "2. Daten, die wir erheben",
+          "heading": "2. Welche Daten wir erheben",
           "paragraphs": [
-            "CSV-Dateiinhalt (verarbeitet, nicht als Datei gespeichert): Wenn Sie eine Stripe-Balance-CSV hochladen, wird die Datei über eine verschlüsselte HTTPS-Verbindung an unseren Server übertragen, für diese Anfrage im Arbeitsspeicher verarbeitet, um Ihre Analyse zu erzeugen, und nicht als Roh-CSV-Datei auf Festplatte, Objektspeicher oder als dauerhaftes Blob gespeichert. Wir speichern nur das berechnete Analyseergebnis (JSON-Aggregate wie Summen, Sätze, Gebührenmix und ausgewählte Charge-Felder für den Bericht). Ein Stripe-Balance-Export enthält typischerweise Transaktionsbeträge und Gebühren — keine vollständigen Kartennummern — und gilt nach PCI-DSS-Kartenaufbewahrungsregeln nicht als Karteninhaberdaten; dennoch minimieren wir, was wir nach der Analyse behalten (einschließlich Entfernung von Freitextbeschreibungen, wo nicht nötig).",
-            "Berechnetes Analyseergebnis: Die berechnete Analyse (Gebührensummen, Sätze, High-Fee-Charge-Flags, monatliche Aufschlüsselungen usw.) wird in unserer Datenbank gespeichert und mit einer zufälligen Berichts-ID plus privatem Zugriffstoken verknüpft. Die Aufbewahrung hängt davon ab, ob der Bericht eine unbezahlte Vorschau ist, Sie einen E-Mail-Link speichern, Beta-Vollzugriff gilt oder Sie bezahlen — siehe Abschnitt 6.",
-            "E-Mail-Adresse: E-Mail ist optional für die Vorschau (Sie können ohne fortfahren). Wenn Sie Ihre E-Mail angeben (Report-Gate, Checkout, Fee Monitor, Warteliste oder monatliche Tipps), bitten Sie uns, sie für den von Ihnen gewählten Zweck zu speichern: privater Berichtslink / Transaktionsnachrichten, Zahlungsnachverfolgung, monatliche CSV-Erinnerungen, Wartelisten-Updates oder Newsletter. Marketing- oder Newsletter-E-Mails werden nur bei ausdrücklicher Anmeldung versendet. Wir verkaufen Ihre E-Mail oder personenbezogenen Daten nicht.",
-            "UTM- und Attributionsparameter: Wenn vorhanden, können wir Kampagnenattribution mit der Berichtszeile speichern — z. B. utm_source, utm_medium, utm_campaign, utm_content, Landing-Pfad und HTTP-Referrer — um zu verstehen, welche Seiten oder Kampagnen zu einem Upload führten. Das sind Marketing-Analysefelder, nicht der Inhalt Ihrer CSV.",
-            "IP-Adresse: Wir protokollieren Ihre IP-Adresse zur Ratenbegrenzung (Missbrauchsprävention). Ratenlimit-Einträge werden nach etwa 2 Tagen gelöscht.",
-            "Betriebsprotokolle: Unsere Hosting- und Infrastrukturanbieter können begrenzte technische Protokolle wie Anfragezeitstempel, IP-Adressen, URLs, Fehlertraces und User-Agent-Daten verarbeiten, damit der Dienst sicher und zuverlässig läuft.",
-            "Analytik: Wir nutzen Plausible Analytics (EU-gehostet, datenschutzorientiert, standardmäßig ohne Cookies) für aggregierten Traffic. First-Party-Funnel-Events können serverseitig ohne Roh-CSV oder vollständige Berichtspayloads protokolliert werden. Wenn Google Analytics 4 konfiguriert ist, dient es nur der Produktanalytik, nicht Werbe-Retargeting. Wir nutzen kein cookie-basiertes Verhaltenswerbung von Drittanbietern."
+            "Die rohe Stripe-CSV wird per HTTPS übertragen, im Speicher für die Analyseanfrage verarbeitet und nicht als Datei gespeichert oder an einen KI-Anbieter gesendet. Wir behalten nur die berechneten Berichtsdaten, die für Summen, Sätze, Gebührentreiber und ausgewählte Transaktionsnachweise nötig sind.",
+            "Ein Bericht ist mit einer zufälligen ID und einem privaten Zugriffstoken verknüpft und wird bis zu 30 Tage aufbewahrt. Eine E-Mail-Adresse speichern wir nur, wenn Sie sich ausdrücklich für Monitoring-Early-Access, den CFO-Pilot oder eine andere optionale Liste anmelden.",
+            "Wir können First-Touch-Attribution, aggregierte Funnel-Ereignisse und eine IP-Adresse zur Missbrauchsprävention speichern. Diese Analysen enthalten nicht die Roh-CSV."
           ]
         },
         {
           "heading": "3. Wie wir Ihre Daten nutzen",
           "paragraphs": [
-            "Wir nutzen Ihre Finanzdaten nicht für Werbung, Profiling oder andere Zwecke außerhalb der Bereitstellung des Dienstes."
+            "Wir verwenden Ihre Finanzdaten nicht für Werbung, Profiling oder Zwecke außerhalb der Bereitstellung des Dienstes."
           ],
           "bullets": [
-            "Zur Erstellung Ihres Gebührenanalyseberichts",
-            "Zum Versand transaktionaler Nachrichten über Ihren Bericht (wenn E-Mail angegeben und ein Mail-Provider konfiguriert ist)",
-            "Zur Bereitstellung von Fee-Monitor-Erinnerungen und abonnementbezogenen Nachrichten bei Abonnement",
-            "Zum Versand monatlicher Stripe-Gebührentipps nur bei ausdrücklicher Anmeldung",
-            "Zur Durchsetzung von Ratenlimits und Missbrauchsprävention",
-            "Zur Abwicklung von Zahlungen und Freischaltung bezahlter Funktionen",
-            "Zum Verständnis aggregierten Traffics und zur Verbesserung des Dienstes (via Plausible Analytics — siehe Abschnitt 2)"
+            "Den vollständigen kostenlosen Gebührenaudit erstellen und anzeigen",
+            "Die aggregierte Produktnutzung messen und den Dienst verbessern",
+            "Optionales Interesse an Monitoring oder dem CFO-Pilot erfassen",
+            "Rate Limits durchsetzen, Missbrauch verhindern und Fehler debuggen",
+            "Updates nur zu der Option senden, die Sie gewählt haben"
           ]
         },
         {
           "heading": "4. Rechtsgrundlagen",
           "paragraphs": [
-            "Wo das Datenschutzrecht eine Rechtsgrundlage verlangt, stützen wir uns auf:"
+            "Soweit das Datenschutzrecht eine Rechtsgrundlage verlangt, stützen wir uns auf:"
           ],
           "bullets": [
-            "Vertrag — zur Verarbeitung Ihrer CSV, Erstellung von Berichten, Freischaltung bezahlten Zugangs und Versand transaktionaler Berichtsnachrichten.",
-            "Berechtigte Interessen — zur Missbrauchsprävention, Absicherung des Dienstes, Fehlerbehebung, minimalen Betriebsprotokollen und Messung aggregierter Website-Nutzung.",
-            "Rechtliche Verpflichtungen — wo Zahlungs-, Steuer-, Buchhaltungs-, Streit- oder Verbraucherschutzunterlagen aufbewahrt werden müssen.",
-            "Einwilligung — wo wir sie ausdrücklich einholen (z. B. optionales Marketing)."
+            "Vertrag – um die CSV zu verarbeiten und den angeforderten Bericht bereitzustellen",
+            "Berechtigte Interessen – um den Dienst zu sichern, zu debuggen und die aggregierte Nutzung zu messen",
+            "Einwilligung – für optionale Early-Access-, Pilot- oder Marketingnachrichten",
+            "Rechtliche Pflichten – soweit einschlägige Aufzeichnungen aufbewahrt werden müssen"
           ]
         },
         {
@@ -67,21 +61,14 @@
           ]
         },
         {
-          "heading": "6. Datenaufbewahrung",
+          "heading": "6. Speicherdauer",
           "bullets": [
-            "Roh-CSV-Datei — Nicht als Datei gespeichert; nur im Arbeitsspeicher für die Anfrage verarbeitet",
-            "Berechnetes Ergebnis (unbezahlte Vorschau, keine E-Mail) — Etwa 1 Stunde nach Erstellung (kann während Checkout kurz verlängert werden)",
-            "Berechnetes Ergebnis (unbezahlt, nach E-Mail-Speicherung) — Verlängert auf etwa 72 Stunden ab E-Mail-Speicherung, damit Sie den privaten Link wieder öffnen können",
-            "Berechnetes Ergebnis (nach erfolgreicher Zahlung) — Bis zu 30 Tage ab Zahlung, dann automatisch gelöscht",
-            "Berechnetes Ergebnis (aktives Fee-Monitor-Abonnement) — Bis zu 400 Tage ab dem letzten verknüpften Upload für einen privaten 13-Monats-Vergleich; auf verifizierte Anfrage früher gelöscht, soweit rechtlich möglich",
-            "Berechnetes Ergebnis (Beta-Vollzugriff) — Bis zu 30 Tage ab Berichtserstellung solange Beta-Flag aktiv ist",
-            "UTM-/Attributionsfelder — Mit der Berichtszeile gelöscht bei Ablauf oder auf verifizierte Löschanfrage",
-            "Checkout-Sitzungs-Link-Status — Kurzlebig serverseitiger Checkout-Status läuft nach etwa 24 Stunden ab",
-            "Payment-Webhook-Event-IDs — Bis zu 90 Tage aufbewahrt zur Vermeidung doppelter Zahlungsverarbeitung",
-            "Fee-Monitor-Abonnement-E-Mail — Solange Abonnement aktiv oder bis Löschanfrage wo rechtlich möglich; Zahlungsaufzeichnungen behält Polar gemäß deren Richtlinie",
-            "E-Mail-Adresse (Bericht / Listen) — Berichts-E-Mails solange entsprechende Berichtszeile existiert; Newsletter- und Wartelisten-E-Mails bis Abmeldung, Löschanfrage oder Listenbereinigung",
-            "IP-Adresse (Ratenlimit) — Nach etwa 2 Tagen gelöscht",
-            "Site-Analytik (Plausible) — Von Plausible gemäß deren Aufbewahrungsrichtlinie verarbeitet; wir senden dort keine Roh-CSV oder Berichtsinhalte"
+            "Roh-CSV-Datei – nicht als Datei gespeichert; nur im Speicher für die Anfrage verarbeitet",
+            "Berechneter kostenloser Bericht – bis zu 30 Tage ab Erstellung",
+            "Early-Access- oder CFO-Pilot-E-Mail – bis zum Löschantrag oder zur Listenbereinigung",
+            "Attributionsfelder – werden mit der zugehörigen Berichtszeile gelöscht",
+            "IP-Rate-Limit-Einträge – etwa 2 Tage",
+            "Aggregierte Analysen – gemäß der Richtlinie des konfigurierten Analyseanbieters"
           ]
         },
         {
@@ -129,7 +116,9 @@
             "Für datenschutzbezogene Fragen oder Datenanfragen kontaktieren Sie uns unter: {contactEmail}"
           ]
         }
-      ]
+      ],
+      "termsLink": "Nutzungsbedingungen",
+      "refundLink": "Rückerstattungsrichtlinie"
     },
     "terms": {
       "title": "Nutzungsbedingungen",
@@ -190,9 +179,9 @@
           ]
         },
         {
-          "heading": "7. Zahlungen und Erstattungen",
+          "heading": "7. Kostenloser Zugang und frühere Abrechnung",
           "paragraphs": [
-            "Bezahlte Berichte und Fee-Monitor-Abonnements werden über Polar abgewickelt, das je nach Checkout-Konfiguration und Ihrem Standort als Zahlungsanbieter, Wiederverkäufer oder Merchant of Record fungieren kann. Während einer Werbe-Beta können wir vollen Berichtszugang unentgeltlich gemäß unserer Datenschutzerklärung gewähren. Digitale Lieferung eines gekauften Berichtsunlocks gilt als abgeschlossen, wenn Ihr Bericht freigeschaltet ist. Fee Monitor ist ein monatliches Abonnement für Erinnerungen, Produktzugang und Monitoring-Workflow-Updates; Kündigung und Abrechnung erfolgen über Polar, wo verfügbar. Wenn der Dienst Unlock oder Zugang wegen eines Fehlers unsererseits nicht liefert, kontaktieren Sie uns innerhalb von 7 Tagen; wir arbeiten in gutem Glauben mit Ihnen (einschließlich Erstattungen wo angemessen). Andere Erstattungsanfragen werden fallweise geprüft und können Polar-Richtlinien unterliegen. Nichts in diesen Bedingungen schränkt zwingende Verbraucherrechte ein, die Ihnen zustehen."
+            "Der aktuelle Stripe-Gebührenaudit wird für 0 $ ohne Karte oder Checkout bereitgestellt. Automatisches Monitoring und der Multi-Company-CFO-Workflow sind Forschungskonzepte, keine bezahlten Produkte. Frühere Abrechnungsinfrastruktur kann im Dienst inaktiv bleiben und nur wiederverwendet werden, wenn später ein separates kostenpflichtiges Produkt mit klaren Bedingungen angeboten wird."
           ]
         },
         {
@@ -229,50 +218,20 @@
     },
     "refund": {
       "title": "Erstattungsrichtlinie",
-      "metaDescription": "Erstattungsbedingungen für kostenpflichtige Dienste von Stripe Fee Auditor und Kontaktweg bei Zahlungsproblemen.",
+      "metaDescription": "Rückerstattungsbedingungen für Stripe Fee Auditor. Der vollständige Gebührenaudit ist derzeit kostenlos, daher gibt es keine Audit-Gebühr zu erstatten.",
       "updated": "Zuletzt aktualisiert: 11. Mai 2026",
       "sections": [
         {
-          "heading": "1. Was Sie kaufen",
+          "heading": "Aktueller kostenloser Zugang",
           "paragraphs": [
-            "Stripe Fee Auditor verkauft einmaligen digitalen Zugang zu einer automatisierten Gebührenanalyse basierend auf der von Ihnen hochgeladenen Stripe-Balance-CSV, wenn Sie nach der Beta einen Vollbericht-Unlock kaufen oder Checkout angeboten wird. Während unserer Werbe-Beta kann dieselbe Analyse unentgeltlich gemäß unserer Datenschutzerklärung bereitgestellt werden. Bei bezahlten Unlocks ist die Lieferung abgeschlossen, wenn Ihr Bericht im Produkt freigeschaltet ist (einschließlich CSV-Export / Druckansicht wo zutreffend)."
-          ]
-        },
-        {
-          "heading": "2. Erstattungen — allgemein",
-          "paragraphs": [
-            "Da die Leistung digital ist und unmittelbar nach Zahlung erzeugt wird, sind alle Verkäufe nach Beginn des Zugangs grundsätzlich endgültig, außer wo zwingendes Verbraucherrecht anderes verlangt oder wir nach Ermessen eine Erstattung gewähren (z. B. Doppelbelastungen oder ein von uns nachgewiesenes Versagen beim Freischalten Ihres Berichts). Wenn das Recht Ihres Wohnsitzlandes Widerrufs- oder Erstattungsrechte gewährt, die nicht abbedungen werden können, schränkt diese Richtlinie diese Rechte nicht ein."
-          ]
-        },
-        {
-          "heading": "3. Wann wir erstatten",
-          "bullets": [
-            "Sie wurden mehr als einmal für denselben Unlock-Versuch belastet.",
-            "Zahlung war erfolgreich, aber der Bericht wurde wegen eines uns zurechenbaren technischen Fehlers nicht freigeschaltet — kontaktieren Sie uns innerhalb von 7 Tagen nach Zahlung mit Ihrer Bestell-/Belegreferenz.",
-            "Ihre gesetzlichen Rechte (z. B. nach EU/UK-Verbraucherrecht bei fehlerhaftem digitalen Inhalt) werden durch diese Richtlinie nicht eingeschränkt."
-          ]
-        },
-        {
-          "heading": "4. Wann wir typischerweise nicht erstatten",
-          "bullets": [
-            "Sie sind mit dem Inhalt der Analyse unzufrieden (Zahlen hängen von Ihrer CSV ab; siehe Bedingungen — keine Genauigkeitsgarantie).",
-            "Sie haben die falsche Datei hochgeladen, Aufbewahrungsfenster überschritten oder Ihren Berichtslink verloren.",
-            "Sie haben einen Chargeback statt uns zuerst zu kontaktieren eingereicht — wir können ungültige Ansprüche bestreiten."
-          ]
-        },
-        {
-          "heading": "5. So beantragen Sie eine Erstattung",
-          "paragraphs": [
-            "E-Mail an {contactEmail} mit Ihrer Bestell- oder Belegreferenz (aus Ihrer Zahlungsbestätigung), der beim Checkout verwendeten E-Mail und einer kurzen Problembeschreibung. Wir antworten innerhalb von 3 Werktagen. Genehmigte Erstattungen werden über Polar oder den jeweiligen Zahlungsanbieter gemäß dessen Standardfristen abgewickelt."
-          ]
-        },
-        {
-          "heading": "6. Verwandte Richtlinien",
-          "paragraphs": [
-            "Checkout-Seiten können von uns oder von von uns genutzten Drittanbieter-Zahlungsdiensten gebrandet sein. Für weitergehende Bedingungen siehe unsere Nutzungsbedingungen und Datenschutzerklärung."
+            "Der vollständige Stripe-Gebührenaudit wird derzeit für 0 $ bereitgestellt. Es sind keine Anmeldung, Karte, Checkout oder Kauf nötig, daher gibt es keine Audit-Gebühr zu erstatten.",
+            "Wenn Sie eine unerwartete historische Belastung sehen oder glauben, fälschlich belastet worden zu sein, kontaktieren Sie {contactEmail}. Nichts hier schränkt Verbraucherrechte ein, die für einen früheren Kauf gelten."
           ]
         }
       ]
+    },
+    "common": {
+      "defaultOperatorName": "der Betreiber von Stripe Fee Auditor"
     }
   }
 }

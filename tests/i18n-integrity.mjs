@@ -78,6 +78,13 @@ const localizedSeoPage = fs.readFileSync(path.join(ROOT, "components/marketing/L
 const seoSectionsRenderer = fs.readFileSync(path.join(ROOT, "components/marketing/SeoSectionsRenderer.tsx"), "utf8");
 assert(!chromePage.includes("When the Chrome helper is useful"), "Chrome page contains hardcoded English copy");
 assert(!pricingPage.includes("FeeAuditor is currently free."), "Pricing page contains hardcoded English copy");
+const legalDocument = fs.readFileSync(path.join(ROOT, "components/LegalDocument.tsx"), "utf8");
+const waitlistForm = fs.readFileSync(path.join(ROOT, "app/report/[id]/_components/MonitorWaitlistForm.tsx"), "utf8");
+const calculatorWidget = fs.readFileSync(path.join(ROOT, "components/stripe-fee-mini-estimate.tsx"), "utf8");
+assert(!legalDocument.includes("Current free access"), "LegalDocument contains hardcoded English legal copy");
+assert(!legalDocument.includes("phaseOneLegalSections"), "LegalDocument still overwrites translated legal copy");
+assert(!waitlistForm.includes("What should FeeAuditor build next?"), "Waitlist form contains hardcoded English copy");
+assert(!calculatorWidget.includes("Calculate Stripe processing fees"), "Calculator widget contains hardcoded English copy");
 assert(!localizedSeoPage.includes(">FAQ<"), "Localized SEO page contains hardcoded FAQ heading");
 for (const hardcoded of ["Use case", "Alternative", "Decision", "Good fit", "Poor fit", "Audit my actual Stripe CSV", "Start with a quick estimate"]) {
   assert(!seoSectionsRenderer.includes(`>${hardcoded}<`), `SEO renderer contains hardcoded English: ${hardcoded}`);

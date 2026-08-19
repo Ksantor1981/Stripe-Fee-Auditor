@@ -15,40 +15,34 @@
         {
           "heading": "2. Données que nous collectons",
           "paragraphs": [
-            "Contenu du fichier CSV (traité, non conservé comme fichier) : Lorsque vous téléversez un CSV Balance Stripe, le fichier est transmis à notre serveur via une connexion HTTPS chiffrée, traité en mémoire pour cette requête afin de générer votre analyse, et n'est pas stocké comme fichier CSV brut sur disque, stockage objet ou blob durable. Nous ne stockons que le résultat d'analyse calculé (agrégats JSON tels que totaux, taux, mix de frais et champs de charge sélectionnés nécessaires au rapport). Une exportation Balance Stripe contient généralement des montants de transactions et des frais — pas de numéros de carte complets — et n'est pas traitée comme des données de titulaire de carte selon les règles PCI DSS ; nous minimisons néanmoins ce que nous conservons après analyse (y compris la suppression des descriptions en texte libre lorsqu'elles ne sont pas nécessaires).",
-            "Résultat d'analyse calculé : L'analyse calculée (totaux de frais, taux, indicateurs de charges à frais élevés, ventilations mensuelles, etc.) est stockée dans notre base de données et liée à un ID de rapport aléatoire plus un jeton d'accès privé. La conservation dépend du fait que le rapport soit un aperçu non payé, que vous enregistriez un lien e-mail, que l'accès complet bêta s'applique ou que vous payiez — voir section 6.",
-            "Adresse e-mail : L'e-mail est optionnel pour voir un aperçu (vous pouvez continuer sans). Si vous choisissez de soumettre votre e-mail (portail du rapport, checkout, Fee Monitor, liste d'attente ou conseils mensuels), vous nous demandez de le stocker pour la finalité choisie : lien privé du rapport / messages transactionnels, suivi de paiement, rappels CSV mensuels, mises à jour de liste d'attente ou newsletter. Les e-mails marketing ou newsletter ne sont envoyés que si vous vous abonnez explicitement. Nous ne vendons pas votre e-mail ni vos informations personnelles.",
-            "Paramètres UTM et d'attribution : Lorsqu'ils sont présents, nous pouvons stocker l'attribution de campagne avec la ligne du rapport — par exemple utm_source, utm_medium, utm_campaign, utm_content, chemin d'atterrissage et référent HTTP — pour comprendre quelles pages ou campagnes ont mené à un téléversement. Ce sont des champs d'analytique marketing, pas le contenu de votre CSV.",
-            "Adresse IP : Nous enregistrons votre adresse IP pour la limitation de débit (prévention des abus). Les enregistrements de limite de débit sont supprimés après environ 2 jours.",
-            "Journaux opérationnels : Nos hébergeurs et fournisseurs d'infrastructure peuvent traiter des journaux techniques limités tels que horodatages de requêtes, adresses IP, URL, traces d'erreur et données user-agent pour que le Service fonctionne de manière sûre et fiable.",
-            "Analytique : Nous utilisons Plausible Analytics (hébergé UE, axé confidentialité, sans cookies par défaut) pour mesurer le trafic agrégé. Des événements d'entonnoir first-party peuvent aussi être journalisés côté serveur sans CSV brut ni charges complètes de rapport. Si Google Analytics 4 est configuré, il sert à l'analytique produit, pas au reciblage publicitaire. Nous n'utilisons pas de publicité comportementale basée sur des cookies tiers."
+            "Le CSV Stripe brut est transmis en HTTPS, traité en mémoire pour l’analyse, et n’est ni stocké comme fichier ni envoyé à un fournisseur d’IA. Nous ne conservons que les données calculées nécessaires aux totaux, taux, facteurs de frais et preuves de transactions sélectionnées.",
+            "Un rapport est lié à un identifiant aléatoire et à un jeton d’accès privé, et est conservé jusqu’à 30 jours. Une adresse e-mail n’est stockée que si vous rejoignez explicitement l’accès anticipé au monitoring, le pilote CFO ou une autre liste optionnelle.",
+            "Nous pouvons conserver l’attribution first-touch, des événements de funnel agrégés et une adresse IP pour prévenir les abus. Ces analyses ne contiennent pas le CSV brut."
           ]
         },
         {
           "heading": "3. Comment nous utilisons vos données",
           "paragraphs": [
-            "Nous n'utilisons pas vos données financières pour la publicité, le profilage ou toute finalité au-delà de la fourniture du Service."
+            "Nous n’utilisons pas vos données financières pour la publicité, le profilage ou un usage autre que la fourniture du Service."
           ],
           "bullets": [
-            "Pour générer votre rapport d'analyse de frais",
-            "Pour envoyer des messages transactionnels concernant votre rapport (lorsqu'un e-mail est fourni et qu'un fournisseur de messagerie est configuré)",
-            "Pour fournir des rappels Fee Monitor et des messages liés à l'abonnement lorsque vous vous abonnez",
-            "Pour envoyer des conseils mensuels sur les frais Stripe uniquement lorsque vous vous abonnez explicitement",
-            "Pour appliquer les limites de débit et prévenir les abus",
-            "Pour gérer les paiements et débloquer les fonctionnalités payantes",
-            "Pour comprendre le trafic agrégé et améliorer le Service (via Plausible Analytics — voir section 2)"
+            "Générer et afficher l’audit de frais gratuit complet",
+            "Mesurer l’usage agrégé du produit et améliorer le Service",
+            "Enregistrer un intérêt optionnel pour le monitoring ou le pilote CFO",
+            "Appliquer des limites de débit, prévenir les abus et déboguer les erreurs",
+            "Envoyer des mises à jour uniquement pour l’option que vous choisissez"
           ]
         },
         {
           "heading": "4. Bases juridiques",
           "paragraphs": [
-            "Lorsque la loi sur la protection des données exige une base juridique, nous nous fondons sur :"
+            "Lorsque le droit de la protection des données exige une base juridique, nous nous appuyons sur :"
           ],
           "bullets": [
-            "Contrat — pour traiter votre CSV, générer des rapports, débloquer l'accès payant et envoyer des messages transactionnels de rapport.",
-            "Intérêts légitimes — pour prévenir les abus, sécuriser le Service, déboguer les erreurs, conserver des journaux opérationnels minimaux et mesurer l'utilisation agrégée du site.",
-            "Obligations légales — lorsque des registres de paiement, fiscalité, comptabilité, litige ou protection des consommateurs doivent être conservés.",
-            "Consentement — lorsque nous le demandons spécifiquement (par exemple marketing optionnel)."
+            "Le contrat — pour traiter le CSV et fournir le rapport demandé",
+            "Les intérêts légitimes — pour sécuriser, déboguer et mesurer l’usage agrégé du Service",
+            "Le consentement — pour les messages optionnels d’accès anticipé, de pilote ou marketing",
+            "Les obligations légales — lorsque des enregistrements applicables doivent être conservés"
           ]
         },
         {
@@ -69,19 +63,12 @@
         {
           "heading": "6. Conservation des données",
           "bullets": [
-            "Fichier CSV brut — Non stocké comme fichier ; traité en mémoire pour la requête uniquement",
-            "Résultat calculé (aperçu non payé, sans e-mail) — Environ 1 heure après création (peut être brièvement prolongé pendant le checkout)",
-            "Résultat calculé (non payé, après enregistrement d'un e-mail) — Prolongé à environ 72 heures à partir de l'enregistrement de l'e-mail, pour rouvrir le lien privé",
-            "Résultat calculé (après paiement réussi) — Jusqu'à 30 jours après paiement, puis supprimé automatiquement",
-            "Résultat calculé (abonnement Fee Monitor actif) — Jusqu'à 400 jours après le dernier import associé pour un historique privé de comparaison sur 13 mois ; supprimé plus tôt sur demande vérifiée lorsque la loi le permet",
-            "Résultat calculé (accès complet bêta) — Jusqu'à 30 jours après création du rapport tant que le flag bêta est activé",
-            "Champs UTM / attribution — Supprimés avec la ligne du rapport à expiration ou sur demande de suppression vérifiée",
-            "État du lien de session checkout — État checkout côté serveur de courte durée expire après environ 24 heures",
-            "ID d'événements webhook de paiement — Conservés jusqu'à 90 jours pour éviter le traitement double des paiements",
-            "E-mail d'abonnement Fee Monitor — Conservé tant que l'abonnement est actif ou jusqu'à demande de suppression lorsque légalement possible ; les registres de paiement sont conservés par Polar selon leur politique",
-            "Adresse e-mail (rapport / listes) — E-mails de rapport conservés tant que la ligne de rapport correspondante existe ; e-mails newsletter et liste d'attente jusqu'à désabonnement, demande de suppression ou nettoyage de liste",
-            "Adresse IP (limite de débit) — Supprimée après environ 2 jours",
-            "Analytique du site (Plausible) — Traitée par Plausible selon leur politique de conservation ; nous n'y envoyons pas de CSV brut ni de contenus de rapport"
+            "Fichier CSV brut — non stocké comme fichier ; traité en mémoire uniquement pour la requête",
+            "Rapport gratuit calculé — jusqu’à 30 jours après création",
+            "E-mail d’accès anticipé ou de pilote CFO — jusqu’à demande de suppression ou nettoyage de liste",
+            "Champs d’attribution — supprimés avec la ligne de rapport associée",
+            "Enregistrements de limitation d’IP — environ 2 jours",
+            "Analytique agrégée — selon la politique du fournisseur d’analytique configuré"
           ]
         },
         {
@@ -129,7 +116,9 @@
             "Pour les questions liées à la confidentialité ou les demandes de données, contactez-nous à : {contactEmail}"
           ]
         }
-      ]
+      ],
+      "termsLink": "Conditions d’utilisation",
+      "refundLink": "Politique de remboursement"
     },
     "terms": {
       "title": "Conditions d'utilisation",
@@ -190,9 +179,9 @@
           ]
         },
         {
-          "heading": "7. Paiements et remboursements",
+          "heading": "7. Accès gratuit et facturation héritée",
           "paragraphs": [
-            "Les rapports payants et les abonnements Fee Monitor sont traités via Polar, qui peut agir comme fournisseur de paiement, revendeur ou merchant of record selon la configuration du checkout et votre localisation. Lors d'une bêta promotionnelle, nous pouvons fournir un accès complet au rapport sans frais selon les termes de notre Politique de confidentialité. La livraison numérique d'un déblocage de rapport acheté est considérée comme complète lorsque votre rapport est débloqué. Fee Monitor est un abonnement mensuel pour rappels, accès produit et mises à jour du flux de surveillance ; l'annulation et la gestion de facturation passent par Polar lorsque disponible. Si le Service ne livre pas le déblocage ou l'accès en raison d'une erreur de notre part, contactez-nous sous 7 jours ; nous travaillerons avec vous de bonne foi (y compris remboursements le cas échéant). Les autres demandes de remboursement sont évaluées au cas par cas et peuvent être soumises aux politiques de Polar. Rien dans ces Conditions ne limite les droits obligatoires des consommateurs qui s'appliquent à vous."
+            "L’audit de frais Stripe actuel est fourni pour 0 $ sans carte ni checkout. Le monitoring automatique et le flux CFO multi-entreprises sont des concepts de recherche, pas des produits payants. L’infrastructure de facturation héritée peut rester inactive dans le Service et n’être réutilisée que si un produit payant distinct est proposé plus tard avec des conditions claires."
           ]
         },
         {
@@ -229,50 +218,20 @@
     },
     "refund": {
       "title": "Politique de remboursement",
-      "metaDescription": "Conditions de remboursement des services payants de Stripe Fee Auditor et procédure à suivre en cas de problème de paiement.",
+      "metaDescription": "Conditions de remboursement de Stripe Fee Auditor. L’audit de frais complet est actuellement gratuit, il n’y a donc aucun frais d’audit à rembourser.",
       "updated": "Dernière mise à jour : 11 mai 2026",
       "sections": [
         {
-          "heading": "1. Ce que vous achetez",
+          "heading": "Accès gratuit actuel",
           "paragraphs": [
-            "Stripe Fee Auditor vend un accès numérique unique à une analyse automatisée de frais basée sur le CSV Balance Stripe que vous téléversez, lorsque vous achetez un déblocage de rapport complet après la bêta ou lorsque le checkout est proposé. Lors de notre bêta promotionnelle, la même analyse peut être fournie sans paiement selon les termes de notre Politique de confidentialité. Pour les déblocages payants, la livraison est complète lorsque votre rapport est débloqué dans le produit (y compris export CSV / vue impression le cas échéant)."
-          ]
-        },
-        {
-          "heading": "2. Remboursements — général",
-          "paragraphs": [
-            "Comme le produit est numérique et produit instantanément après paiement, toutes les ventes sont généralement définitives une fois l'accès commencé, sauf si la loi obligatoire des consommateurs exige autrement ou si nous approuvons un remboursement à notre discrétion (par exemple doubles prélèvements ou échec vérifié de notre part à débloquer votre rapport). Si la loi de votre pays vous accorde des droits de rétractation ou de remboursement non renonçables, cette politique ne limite pas ces droits."
-          ]
-        },
-        {
-          "heading": "3. Quand nous rembourserons",
-          "bullets": [
-            "Vous avez été débité plus d'une fois pour la même tentative de déblocage.",
-            "Le paiement a réussi mais le rapport n'a pas été débloqué en raison d'une erreur technique qui nous est imputable — contactez-nous sous 7 jours après paiement avec votre référence commande/reçu.",
-            "Vos droits légaux (par exemple sous le droit des consommateurs UE/Royaume-Uni pour contenu numérique défectueux) ne sont pas limités par cette politique."
-          ]
-        },
-        {
-          "heading": "4. Quand nous ne remboursons généralement pas",
-          "bullets": [
-            "Vous n'êtes pas satisfait du fond de l'analyse (les chiffres dépendent de votre CSV ; voir Conditions — aucune garantie d'exactitude).",
-            "Vous avez téléversé le mauvais fichier, dépassé les fenêtres de conservation ou perdu votre lien de rapport.",
-            "Vous avez initié une rétrofacturation au lieu de nous contacter d'abord — nous pouvons contester des réclamations invalides."
-          ]
-        },
-        {
-          "heading": "5. Comment demander un remboursement",
-          "paragraphs": [
-            "E-mail à {contactEmail} avec votre référence commande ou reçu (de votre confirmation de paiement), l'e-mail utilisé au checkout et une brève description du problème. Nous visons à répondre sous 3 jours ouvrables. Les remboursements approuvés sont traités via Polar ou le fournisseur de paiement applicable selon ses délais standards."
-          ]
-        },
-        {
-          "heading": "6. Politiques connexes",
-          "paragraphs": [
-            "Les pages de checkout peuvent être brandées par nous ou par des services de paiement tiers que nous utilisons. Pour des conditions plus larges, consultez nos Conditions d'utilisation et Politique de confidentialité."
+            "L’audit complet des frais Stripe est actuellement fourni pour 0 $. Aucune inscription, carte, checkout ni achat n’est requis, donc il n’y a pas de frais d’audit à rembourser.",
+            "Si vous voyez un débit historique inattendu ou pensez avoir été facturé par erreur, contactez {contactEmail}. Rien ici ne limite les droits des consommateurs applicables à un achat antérieur."
           ]
         }
       ]
+    },
+    "common": {
+      "defaultOperatorName": "l’opérateur de Stripe Fee Auditor"
     }
   }
 }

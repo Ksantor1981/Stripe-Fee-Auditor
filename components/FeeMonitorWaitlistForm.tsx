@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 
 import { trackEvent } from "@/lib/analytics";
 
@@ -11,13 +12,15 @@ type Props = {
 
 export function FeeMonitorWaitlistForm({
   source = "monitor_page",
-  ctaLabel = "Join early list",
+  ctaLabel,
 }: Props) {
+  const t = useTranslations("waitlist");
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const viewTracked = useRef(false);
+  const resolvedCta = ctaLabel ?? t("monitorFormCta");
 
   useEffect(() => {
     if (viewTracked.current) return;
@@ -42,7 +45,7 @@ export function FeeMonitorWaitlistForm({
 
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        setError(data?.error ?? "Something went wrong. Try again.");
+        setError(data?.error ?? t("error"));
         return;
       }
 
@@ -50,7 +53,7 @@ export function FeeMonitorWaitlistForm({
       trackEvent("monitoring_interest");
       setSubmitted(true);
     } catch {
-      setError("Something went wrong. Try again.");
+      setError(t("error"));
     } finally {
       setLoading(false);
     }
@@ -59,9 +62,9 @@ export function FeeMonitorWaitlistForm({
   if (submitted) {
     return (
       <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-6 text-center">
-        <p className="font-semibold text-emerald-950">You are on the Fee Monitor updates list.</p>
+        <p className="font-semibold text-emerald-950">{t("monitorFormThanksTitle")}</p>
         <p className="mt-1 text-sm leading-relaxed text-emerald-700">
-          Check your inbox for confirmation. We will send occasional fee tips and material Fee Monitor updates.
+          {t("monitorFormThanksBody")}
         </p>
       </div>
     );
@@ -75,7 +78,7 @@ export function FeeMonitorWaitlistForm({
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@company.com"
+          placeholder={t("emailPlaceholder")}
           autoComplete="email"
           className="flex-1 rounded-xl border border-gray-200 px-3 py-3 text-sm text-gray-700 placeholder-gray-400 focus:border-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-200"
         />
@@ -84,12 +87,12 @@ export function FeeMonitorWaitlistForm({
           disabled={loading || !email.trim()}
           className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:bg-gray-200 disabled:text-gray-400"
         >
-          {loading ? "Joining..." : ctaLabel}
+          {loading ? t("joining") : resolvedCta}
         </button>
       </div>
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
       <p className="mt-3 text-xs leading-relaxed text-gray-500">
-        No spam. This is only for Fee Monitor updates and early access.
+        {t("monitorFormDisclaimer")}
       </p>
     </form>
   );

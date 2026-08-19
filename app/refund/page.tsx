@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RefundPage() {
-  const placeholders = buildLegalPlaceholders();
+  const placeholders = await buildLegalPlaceholders();
 
   return (
     <MarketingShell>
