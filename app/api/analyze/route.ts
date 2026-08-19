@@ -7,6 +7,7 @@ import {
   createReport,
   createReportAccessToken,
   hashReportAccessToken,
+  isActiveMonitorSubscriber,
 } from "@/lib/db";
 import { encryptSecretPayload } from "@/lib/token-crypto";
 import { readAttributionFromRequest } from "@/lib/attribution";
@@ -15,6 +16,7 @@ import { SAMPLE_CSV } from "@/lib/sampleData";
 import { MAX_CSV_ROWS, sanitizeColumnMapping, parseCsvWithRowLimit } from "@/lib/analyze-input";
 import { prepareStripeCsvRows } from "@/lib/stripe-csv-import";
 import { appendReportAccessCookie } from "@/lib/report-access-cookie";
+import { getMonitorSessionEmail } from "@/lib/monitor-session";
 import { logOpsError, logOpsInfo } from "@/lib/ops-log";
 import {
   isStripeAccountCountry,
@@ -241,6 +243,9 @@ export async function POST(req: NextRequest) {
     failureStage = "token_encryption";
     const accessTokenCiphertext = encryptSecretPayload(accessToken);
 
+    const monitorEmail = getMonitorSessionEmail(req);
+    const clientOwnerEmail = monitorEmail && await isActiveMonitorSubscriber(monitorEmail) ? monitorEmail : null;
+
     let reportId: string;
     try {
       failureStage = "report_storage";
@@ -253,6 +258,7 @@ export async function POST(req: NextRequest) {
         retention: !isDemo ? "beta_full_access" : "free_preview",
         attribution: isDemo ? undefined : readAttributionFromRequest(req),
         clientId: typeof body.clientId === "string" ? body.clientId : null,
+        clientOwnerEmail,
       });
     } catch (err) {
       if (err instanceof Error && err.message === "Invalid clientId") {

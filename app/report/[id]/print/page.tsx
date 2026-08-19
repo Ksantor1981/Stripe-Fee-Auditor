@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { getReportWithAccess, isActiveMonitorSubscriber } from "@/lib/db";
 import { resolveReportAccessToken } from "@/lib/report-access-cookie";
+import { getMonitorSessionEmailFromCookies } from "@/lib/monitor-session";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { fmt$, fmtPct, fmtMonth, fmtDate } from "@/lib/format";
 import { annualRunRate, periodTotalFees, stripeFeesPeriodTail } from "@/lib/fee-period-copy";
@@ -25,13 +26,15 @@ export default async function ReportPrintPage({ params, searchParams }: Props) {
   const t = await getTranslations("report");
   const tc = await getTranslations("report.common");
 
+  const cookieStore = await cookies();
   const token = resolveReportAccessToken(id, {
-    cookieStore: await cookies(),
+    cookieStore,
     queryToken,
   });
 
   const report = await getReportWithAccess(id, token);
-  const monitorFullAccess = await isActiveMonitorSubscriber(report?.email);
+  const sessionEmail = getMonitorSessionEmailFromCookies(cookieStore);
+  const monitorFullAccess = Boolean(report?.email && sessionEmail === report.email.toLowerCase() && await isActiveMonitorSubscriber(sessionEmail));
   const isDemoSample = report?.session_id === "demo-sample";
   if (
     !report?.result ||

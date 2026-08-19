@@ -5,6 +5,7 @@ import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { resolveReportAccessToken } from "@/lib/report-access-cookie";
 import { getSiteBaseUrl } from "@/lib/site-url";
 import { toPreviewResult } from "@/lib/report-preview";
+import { getMonitorSessionEmailFromCookies } from "@/lib/monitor-session";
 import { ReportShell } from "./_components/ReportShell";
 
 interface Props {
@@ -53,7 +54,10 @@ export default async function ReportPage({ params, searchParams }: Props) {
   const rawResult = report.result;
   const demoFullAccess = demoSkipGate && report.session_id === "demo-sample";
   const betaFullAccess = FULL_REPORTS_FREE_DURING_BETA && !demoFullAccess;
-  const monitorFullAccess = await isActiveMonitorSubscriber(report.email);
+  const sessionEmail = getMonitorSessionEmailFromCookies(cookieStore);
+  const monitorFullAccess = Boolean(
+    report.email && sessionEmail === report.email.toLowerCase() && await isActiveMonitorSubscriber(sessionEmail)
+  );
   const clientId = report.client_id ?? null;
   const clients =
     monitorFullAccess && report.email ? await listClientsForEmail(report.email) : [];

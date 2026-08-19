@@ -3,6 +3,7 @@ import Papa from "papaparse";
 import { getReportWithAccess, isActiveMonitorSubscriber } from "@/lib/db";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { resolveReportAccessFromRequest } from "@/lib/report-access-cookie";
+import { getMonitorSessionEmail } from "@/lib/monitor-session";
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -33,7 +34,10 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Report not found or expired" }, { status: 404 });
   }
 
-  const monitorFullAccess = await isActiveMonitorSubscriber(report.email);
+  const sessionEmail = getMonitorSessionEmail(req);
+  const monitorFullAccess = Boolean(
+    report.email && sessionEmail === report.email.toLowerCase() && await isActiveMonitorSubscriber(sessionEmail)
+  );
   if (!report.is_paid && !monitorFullAccess && !FULL_REPORTS_FREE_DURING_BETA) {
     return NextResponse.json({ error: "Report not found or expired" }, { status: 404 });
   }

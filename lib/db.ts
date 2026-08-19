@@ -149,6 +149,7 @@ export async function createReport(params: {
   retention?: ReportRetention;
   attribution?: Attribution;
   clientId?: string | null;
+  clientOwnerEmail?: string | null;
 }): Promise<string> {
   await ensureReportsColumns();
   await ensureClientsTable();
@@ -156,7 +157,9 @@ export async function createReport(params: {
   const attr = params.attribution ?? {};
   const clientId = params.clientId?.trim() || null;
   if (clientId) {
-    const clients = await sql`SELECT id FROM clients WHERE id = ${clientId} LIMIT 1`;
+    const ownerEmail = params.clientOwnerEmail?.trim().toLowerCase();
+    if (!ownerEmail) throw new Error("Invalid clientId");
+    const clients = await sql`SELECT id FROM clients WHERE id = ${clientId} AND lower(owner_email) = ${ownerEmail} LIMIT 1`;
     if (clients.length === 0) {
       throw new Error("Invalid clientId");
     }

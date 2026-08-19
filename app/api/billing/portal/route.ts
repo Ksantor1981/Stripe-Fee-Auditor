@@ -3,6 +3,7 @@ import { verifyBillingPortalToken } from "@/lib/billing-token";
 import { buildCustomerPortalUrlForEmail } from "@/lib/polar";
 import { isValidWaitlistEmail, normalizeWaitlistEmail } from "@/lib/waitlist";
 import { logOpsError } from "@/lib/ops-log";
+import { appendMonitorSessionCookie } from "@/lib/monitor-session";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 15;
@@ -86,7 +87,9 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    return NextResponse.redirect(portalUrl);
+    const response = NextResponse.redirect(portalUrl);
+    appendMonitorSessionCookie(response, email);
+    return response;
   } catch (err) {
     logOpsError("billing_portal_open_failed", {
       message: err instanceof Error ? err.message.slice(0, 200) : "unknown",

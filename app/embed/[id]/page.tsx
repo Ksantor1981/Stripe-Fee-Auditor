@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getReportWithAccess, isActiveMonitorSubscriber } from "@/lib/db";
 import { FULL_REPORTS_FREE_DURING_BETA } from "@/lib/beta-access";
 import { resolveReportAccessToken } from "@/lib/report-access-cookie";
+import { getMonitorSessionEmailFromCookies } from "@/lib/monitor-session";
 import { fmt$, fmtPct } from "@/lib/format";
 import { periodTotalFees } from "@/lib/fee-period-copy";
 import { getSiteBaseUrl } from "@/lib/site-url";
@@ -29,14 +30,16 @@ export default async function EmbedReportPage({ params, searchParams }: Props) {
 
   if (!UUID_V4.test(id)) notFound();
 
+  const cookieStore = await cookies();
   const token = resolveReportAccessToken(id, {
-    cookieStore: await cookies(),
+    cookieStore,
     queryToken,
   });
 
   const report = await getReportWithAccess(id, token);
   if (!report?.result) notFound();
-  const monitorFullAccess = await isActiveMonitorSubscriber(report.email);
+  const sessionEmail = getMonitorSessionEmailFromCookies(cookieStore);
+  const monitorFullAccess = Boolean(report.email && sessionEmail === report.email.toLowerCase() && await isActiveMonitorSubscriber(sessionEmail));
   if (!report.is_paid && !monitorFullAccess && !FULL_REPORTS_FREE_DURING_BETA) notFound();
 
   const r = report.result;

@@ -11,6 +11,7 @@ import { getSucceededCheckout, isMonitorProductId } from "@/lib/polar";
 import { logOpsError, logOpsWarn } from "@/lib/ops-log";
 import { appendReportAccessCookie } from "@/lib/report-access-cookie";
 import { getTrustedClientIp } from "@/lib/request-ip";
+import { appendMonitorSessionCookie } from "@/lib/monitor-session";
 
 export const dynamic = "force-dynamic";
 
@@ -31,12 +32,14 @@ function sanitizeReturnPath(value: string | null): string {
 function redirectTo(
   req: NextRequest,
   path: string,
-  reportSession?: { reportId: string; accessToken: string } | null
+  reportSession?: { reportId: string; accessToken: string } | null,
+  monitorEmail?: string | null
 ): NextResponse {
   const response = NextResponse.redirect(new URL(path, req.url));
   if (reportSession) {
     appendReportAccessCookie(response, reportSession.reportId, reportSession.accessToken);
   }
+  if (monitorEmail) appendMonitorSessionCookie(response, monitorEmail);
   return response;
 }
 
@@ -116,7 +119,7 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    return redirectTo(req, "/monitor?payment=success", reportSession);
+    return redirectTo(req, "/monitor?payment=success", reportSession, checkout.email);
   } catch (err) {
     logOpsError("monitor_checkout_success_failed", {
       checkoutId: checkoutId.slice(0, 16),

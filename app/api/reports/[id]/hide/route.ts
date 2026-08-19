@@ -4,6 +4,7 @@ import {
   softHideMonitorReport,
 } from "@/lib/db";
 import { resolveReportAccessFromRequest } from "@/lib/report-access-cookie";
+import { getMonitorSessionEmail } from "@/lib/monitor-session";
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -17,14 +18,13 @@ export async function POST(
     return NextResponse.json({ error: "Invalid report ID" }, { status: 400 });
   }
 
-  let body: { email?: string };
   try {
-    body = await req.json();
+    await req.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const email = body.email?.trim().toLowerCase() ?? "";
+  const email = getMonitorSessionEmail(req) ?? "";
   if (!EMAIL_RE.test(email)) {
     return NextResponse.json({ error: "Valid email required" }, { status: 400 });
   }

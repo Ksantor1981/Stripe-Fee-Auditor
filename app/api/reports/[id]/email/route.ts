@@ -15,6 +15,7 @@ import {
 } from "@/lib/monitor-history";
 import { getTrustedClientIp } from "@/lib/request-ip";
 import { resolveReportAccessFromRequest } from "@/lib/report-access-cookie";
+import { getMonitorSessionEmail } from "@/lib/monitor-session";
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -64,7 +65,9 @@ export async function POST(
     return NextResponse.json({ error: "Report not found or expired" }, { status: 404 });
   }
 
-  const monitorFullAccess = await isActiveMonitorSubscriber(normalizedEmail);
+  const sessionEmail = getMonitorSessionEmail(req);
+  const monitorFullAccess =
+    sessionEmail === normalizedEmail && await isActiveMonitorSubscriber(sessionEmail);
 
   if (report.email?.toLowerCase() === normalizedEmail) {
     if (monitorFullAccess) {
