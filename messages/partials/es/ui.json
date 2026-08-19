@@ -4,7 +4,13 @@
     "disclaimer": "Fee Auditor (feeauditor.com) es una herramienta SaaS independiente. No está afiliada, respaldada ni forma parte de Stripe, Inc. «Stripe» es una marca registrada de Stripe, Inc.",
     "privacyPolicy": "Política de privacidad",
     "termsOfService": "Términos del servicio",
-    "refundPolicy": "Política de reembolsos"
+    "refundPolicy": "Política de reembolsos",
+    "feeAnalysisTools": "Herramientas de análisis de comisiones",
+    "stripeDataExport": "Exportación de datos Stripe",
+    "compare": "Comparar",
+    "stripeVsSquare": "Stripe y Square",
+    "stripeVsGoCardless": "Stripe y GoCardless",
+    "stripeVsPaddle": "Stripe y Paddle"
 },
   "breadcrumbs": {
     "home": "Inicio"
@@ -98,6 +104,14 @@
       { "context": "¿Necesitas la respuesta breve en porcentaje?", "href": "/what-percent-does-stripe-take", "label": "Qué porcentaje cobra Stripe" },
       { "context": "¿Comisiones disparadas mes a mes?", "href": "/blog/why-stripe-fees-increase", "label": "Por qué suben las comisiones de Stripe" },
       { "context": "¿Otros formatos de exportación?", "href": "/stripe-data-export", "label": "Opciones de exportación de datos de Stripe" }
+    ],
+    "dataExport": [
+      { "context": "¿Necesitas el CSV para auditar comisiones?", "href": "/stripe-balance-csv", "label": "Exportar Balance CSV" },
+      { "context": "¿Guía paso a paso?", "href": "/blog/how-to-export-stripe-balance-csv", "label": "Cómo exportar datos Stripe" },
+      { "context": "¿Exportación lista?", "href": "/analyze", "label": "Analizar mi CSV" },
+      { "context": "¿Por qué la tasa supera el 2,9 %?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Por qué suben las comisiones" },
+      { "context": "¿Comisiones de tarjetas internacionales?", "href": "/blog/stripe-international-card-fees", "label": "Comisiones internacionales Stripe" },
+      { "context": "¿Estimar antes de exportar?", "href": "/stripe-fee-calculator", "label": "Calculadora de comisiones Stripe" }
     ]
   },
   "faq": {
@@ -155,5 +169,18 @@
       "q": "¿Puedo calcular esto yo mismo en Excel?",
       "a": "Sí. La tasa combinada básica es simplemente el total de comisiones de cobros dividido por el volumen total de cobros. Fee Auditor es útil cuando quieres la capa siguiente: cambios mensuales, cobros de alta comisión, fugas por comisiones de reembolso, contexto de benchmark, exportaciones y oportunidades de ahorro concretas sin reconstruir la hoja de cálculo cada vez."
     }
+  },
+  "monitorPage": {
+    "successEyebrow": "Fee Monitor activo",
+    "successTitle": "Suscripción activa: este es tu flujo mensual",
+    "successIntro": "El correo de bienvenida está en camino. Cada Balance CSV que subas se convierte en un informe completo y se añade a tu historial privado.",
+    "step1": "Sube el Stripe Balance CSV de este mes para establecer la referencia.",
+    "step2": "Revisa la tasa de procesamiento, el coste total y los factores de comisión.",
+    "step3": "Cuando termine el mes siguiente, vuelve a subirlo para comparar la evolución.",
+    "uploadCta": "Subir Balance CSV →",
+    "sampleCta": "Ver primero el informe de ejemplo",
+    "billingHeading": "Gestionar suscripción",
+    "pendingTitle": "Confirmando tu suscripción…",
+    "pendingBody": "Polar aún procesa el pago. Actualiza la página en un minuto o comprueba el correo de bienvenida."
   }
 }

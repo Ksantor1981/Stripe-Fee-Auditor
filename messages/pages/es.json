@@ -1193,16 +1193,16 @@
       }
     },
     "vsSquare": {
-      "metaTitle": "Tarifas de Stripe vs Square: compare antes de cambiar",
-      "metaDescription": "Compare Stripe y Square por caso de uso: pago SaaS, pagos en persona, facturas, cargos reducidos y qué auditar antes de cambiar.",
-      "breadcrumb": "Tarifas de Stripe vs Square: compare antes de cambiar",
-      "eyebrow": "Raya vs Cuadrado",
-      "heroTitle": "Tarifas de Stripe vs Square: compare el modelo de negocio antes de cambiar.",
+      "metaTitle": "¿Square o Stripe es más barato? Comparación de comisiones",
+      "metaDescription": "Compara Stripe y Square para SaaS, POS, pagos pequeños y ventas presenciales. Audita tu tasa real de Stripe antes de cambiar.",
+      "breadcrumb": "¿Square o Stripe es más barato?",
+      "eyebrow": "Stripe y Square",
+      "heroTitle": "¿Square o Stripe es más barato? Compara comisiones y uso.",
       "heroDescription": "Tanto Stripe como Square pueden procesar pagos, pero a menudo se adaptan a trabajos diferentes. Stripe es sólido para SaaS en línea y pago personalizado. Square suele ser más fuerte cuando son importantes los pagos en persona, los POS, las citas o los servicios locales.",
       "sections": [
         {
           "type": "heroCard",
-          "title": "Square no es sólo un Stripe más barato.",
+          "title": "La opción más barata depende de cómo cobras.",
           "body": "Si su problema con Stripe son tarjetas internacionales, reembolsos o pequeños cargos de suscripción, es posible que cambiar a Square no solucione la causa raíz. Primero mida qué está impulsando su tarifa real de Stripe."
         },
         {
@@ -1213,18 +1213,18 @@
               "useCase": "Suscripciones SaaS",
               "stripe": "Generalmente es el valor predeterminado para la lógica de suscripción, facturas, API y flujos de pago personalizados.",
               "alternative": "Puede funcionar para pagos en línea más simples, pero generalmente es menos nativo de SaaS que Stripe.",
-              "decision": "Audite Stripe primero; Si las tarifas son altas debido a la combinación de tarjetas, cambie los métodos de pago antes de cambiar de plataforma."
+              "decision": "Audita Stripe primero. Si las comisiones son altas por la combinación de tarjetas, prueba otros métodos de pago antes de cambiar de plataforma."
             },
             {
-              "useCase": "servicios presenciales",
+              "useCase": "Servicios presenciales",
               "stripe": "Funciona en línea, pero puede que no sea la opción más sencilla para las empresas que priorizan los puntos de venta.",
               "alternative": "A menudo es más adecuado para lectores de tarjetas, puntos de venta, citas y flujos de trabajo de servicios locales.",
               "decision": "Si la mayoría de los pagos se realizan en persona, compare el flujo de trabajo de pago con la tarifa."
             },
             {
-              "useCase": "Cargos bajos",
+              "useCase": "Pagos pequeños",
               "stripe": "Las tarifas fijas por cargo pueden dominar las transacciones pequeñas y aumentar la tasa efectiva.",
-              "alternative": "También tiene economía por transacción; Las matemáticas de bajo costo todavía necesitan ser revisadas.",
+              "alternative": "Square también cobra por transacción; hay que comparar por separado el coste de los pagos pequeños.",
               "decision": "Pruebe con paquetes, cargos mínimos o facturas mensuales antes de asumir que el problema es el procesador."
             },
             {
@@ -2019,7 +2019,6 @@
           "paragraphs": []
         }
       ],
-      "faq": [],
       "sources": [
         {
           "href": "https://stripe.com/pricing",
@@ -2114,7 +2113,6 @@
           "paragraphs": []
         }
       ],
-      "faq": [],
       "sources": [
         {
           "href": "https://stripe.com/pricing",

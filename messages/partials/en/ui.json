@@ -4,7 +4,13 @@
     "disclaimer": "Fee Auditor (feeauditor.com) is an independent SaaS tool. Not affiliated with, endorsed by, or part of Stripe, Inc. \"Stripe\" is a trademark of Stripe, Inc.",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
-    "refundPolicy": "Refund Policy"
+    "refundPolicy": "Refund Policy",
+    "feeAnalysisTools": "Fee analysis tools",
+    "stripeDataExport": "Stripe data export",
+    "compare": "Compare",
+    "stripeVsSquare": "Stripe vs Square",
+    "stripeVsGoCardless": "Stripe vs GoCardless",
+    "stripeVsPaddle": "Stripe vs Paddle"
 },
   "breadcrumbs": {
     "home": "Home"

@@ -1193,16 +1193,16 @@
       }
     },
     "vsSquare": {
-      "metaTitle": "Stripe vs. Square-Gebühren: Vergleichen Sie vor dem Wechsel",
-      "metaDescription": "Vergleichen Sie Stripe und Square nach Anwendungsfall: SaaS-Checkout, persönliche Zahlungen, Rechnungen, Low-Ticket-Gebühren und was vor dem Wechsel überprüft werden muss.",
-      "breadcrumb": "Stripe vs. Square-Gebühren: Vergleichen Sie vor dem Wechsel",
-      "eyebrow": "Stripe gegen Square",
-      "heroTitle": "Stripe vs. Square-Gebühren: Vergleichen Sie das Geschäftsmodell vor dem Wechsel.",
+      "metaTitle": "Ist Square oder Stripe günstiger? Gebührenvergleich",
+      "metaDescription": "Vergleichen Sie Stripe und Square für SaaS, POS, kleine Zahlungen und Vor-Ort-Verkäufe. Prüfen Sie vor einem Wechsel Ihre reale Stripe-Rate.",
+      "breadcrumb": "Ist Square oder Stripe günstiger?",
+      "eyebrow": "Stripe und Square",
+      "heroTitle": "Ist Square oder Stripe günstiger? Gebühren und Einsatz vergleichen.",
       "heroDescription": "Sowohl Stripe als auch Square können Zahlungen verarbeiten, sie eignen sich jedoch häufig für unterschiedliche Aufgaben. Stripe ist stark für Online-SaaS und benutzerdefinierten Checkout. Square ist oft am stärksten, wenn es auf persönliche Zahlungen, POS, Termine oder lokale Dienstleistungen ankommt.",
       "sections": [
         {
           "type": "heroCard",
-          "title": "Square ist nicht nur ein billigeres Stripe.",
+          "title": "Was günstiger ist, hängt von Ihrem Zahlungsablauf ab.",
           "body": "Wenn Ihr Stripe-Problem internationale Karten, Rückerstattungen oder geringe Abonnementgebühren betrifft, kann ein Wechsel zu Square die Ursache möglicherweise nicht beheben. Messen Sie zunächst, was Ihre tatsächliche Stripe-Rate antreibt."
         },
         {
@@ -1216,15 +1216,15 @@
               "decision": "Überprüfen Sie zuerst Stripe. Wenn die Gebühren aufgrund des Kartenmixes hoch sind, ändern Sie die Zahlungsmethoden, bevor Sie die Plattform wechseln."
             },
             {
-              "useCase": "Persönliche Dienstleistungen",
+              "useCase": "Dienstleistungen vor Ort",
               "stripe": "Funktioniert online, ist jedoch möglicherweise nicht die einfachste Option für POS-First-Unternehmen.",
               "alternative": "Oft besser geeignet für Kartenleser, POS, Termine und lokale Service-Workflows.",
               "decision": "Wenn die meisten Zahlungen persönlich erfolgen, vergleichen Sie den Checkout-Workflow und die Gebührensätze."
             },
             {
-              "useCase": "Niedrige Ticketpreise",
-              "stripe": "Feste Gebühren pro Ladung können bei kleinen Transaktionen dominieren und den effektiven Zinssatz in die Höhe treiben.",
-              "alternative": "Hat auch Ökonomie pro Transaktion; Low-Ticket-Mathematik muss noch überprüft werden.",
+              "useCase": "Kleine Zahlungen",
+              "stripe": "Feste Gebühren pro Transaktion können kleine Zahlungen dominieren und die effektive Rate erhöhen.",
+              "alternative": "Auch Square berechnet pro Transaktion; die Kosten kleiner Zahlungen müssen separat verglichen werden.",
               "decision": "Versuchen Sie es mit Bündelung, Mindestgebühren oder monatlichen Rechnungen, bevor Sie davon ausgehen, dass der Prozessor das Problem ist."
             },
             {
@@ -2019,7 +2019,6 @@
           "paragraphs": []
         }
       ],
-      "faq": [],
       "sources": [
         {
           "href": "https://stripe.com/pricing",
@@ -2114,7 +2113,6 @@
           "paragraphs": []
         }
       ],
-      "faq": [],
       "sources": [
         {
           "href": "https://stripe.com/pricing",

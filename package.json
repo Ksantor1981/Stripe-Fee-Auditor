@@ -13,7 +13,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint app components lib scripts tests next.config.ts --max-warnings 0",
-    "test": "tsx tests/test-algorithm.ts && tsx tests/test-integration.ts && tsx tests/test-preview-gate.ts && tsx tests/test-time-since-load.ts && tsx tests/security-input.ts && tsx tests/security-monitor-session.ts",
+    "test": "tsx tests/test-algorithm.ts && tsx tests/test-integration.ts && tsx tests/test-preview-gate.ts && tsx tests/test-time-since-load.ts && tsx tests/security-input.ts && tsx tests/security-monitor-session.ts && node tests/i18n-integrity.mjs",
     "validate:seo": "node scripts/seo-validate.mjs",
     "i18n:pages:extract": "node scripts/extract-pages-en.mjs",
     "i18n:pages:translate": "python scripts/translate-pages-locales.py",

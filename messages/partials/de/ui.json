@@ -4,7 +4,13 @@
     "disclaimer": "Fee Auditor (feeauditor.com) ist ein unabhängiges SaaS-Tool. Nicht verbunden mit, unterstützt von oder Teil von Stripe, Inc. „Stripe“ ist eine Marke von Stripe, Inc.",
     "privacyPolicy": "Datenschutzrichtlinie",
     "termsOfService": "Nutzungsbedingungen",
-    "refundPolicy": "Rückerstattungsrichtlinie"
+    "refundPolicy": "Rückerstattungsrichtlinie",
+    "feeAnalysisTools": "Tools zur Gebührenanalyse",
+    "stripeDataExport": "Stripe-Datenexport",
+    "compare": "Vergleichen",
+    "stripeVsSquare": "Stripe und Square",
+    "stripeVsGoCardless": "Stripe und GoCardless",
+    "stripeVsPaddle": "Stripe und Paddle"
 },
   "breadcrumbs": {
     "home": "Startseite"
@@ -98,6 +104,14 @@
       { "context": "Kurze Prozent-Antwort benötigt?", "href": "/what-percent-does-stripe-take", "label": "Welchen Prozentsatz Stripe nimmt" },
       { "context": "Gebühren von Monat zu Monat gestiegen?", "href": "/blog/why-stripe-fees-increase", "label": "Warum Stripe-Gebühren steigen" },
       { "context": "Andere Exportformate?", "href": "/stripe-data-export", "label": "Stripe-Datenexport-Optionen" }
+    ],
+    "dataExport": [
+      { "context": "CSV für das Gebührenaudit benötigt?", "href": "/stripe-balance-csv", "label": "Balance-CSV-Export" },
+      { "context": "Schritt-für-Schritt-Anleitung?", "href": "/blog/how-to-export-stripe-balance-csv", "label": "Stripe-Daten exportieren" },
+      { "context": "Export abgeschlossen?", "href": "/analyze", "label": "Meine CSV analysieren" },
+      { "context": "Warum liegt die Rate über 2,9 %?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Warum Gebühren höher ausfallen" },
+      { "context": "Gebühren für internationale Karten?", "href": "/blog/stripe-international-card-fees", "label": "Internationale Stripe-Gebühren" },
+      { "context": "Vorher Gebühren schätzen?", "href": "/stripe-fee-calculator", "label": "Stripe-Gebührenrechner" }
     ]
   },
   "faq": {
@@ -155,5 +169,18 @@
       "q": "Kann ich das selbst in Excel berechnen?",
       "a": "Ja. Die grundlegende gemischte Rate ist einfach Gesamtgebühren geteilt durch Gesamtzahlungsvolumen. Fee Auditor ist nützlich, wenn Sie die nächste Ebene wollen: monatliche Änderungen, hochgebührenpflichtige Zahlungen, Rückerstattungs-Gebührenverlust, Benchmark-Kontext, Exporte und konkrete Einsparmöglichkeiten — ohne die Tabelle jedes Mal neu aufzubauen."
     }
+  },
+  "monitorPage": {
+    "successEyebrow": "Fee Monitor aktiv",
+    "successTitle": "Abo aktiv — so funktioniert der monatliche Ablauf",
+    "successIntro": "Die Willkommens-E-Mail ist unterwegs. Jede hochgeladene Balance-CSV wird zu einem vollständigen Bericht und ergänzt Ihren privaten Verlauf.",
+    "step1": "Laden Sie die aktuelle Stripe Balance CSV hoch, um den Ausgangswert festzulegen.",
+    "step2": "Prüfen Sie Verarbeitungsrate, Gesamtkosten und Gebührentreiber im Bericht.",
+    "step3": "Laden Sie nach Monatsende erneut hoch — wir vergleichen die Entwicklung mit dem Verlauf.",
+    "uploadCta": "Balance-CSV hochladen →",
+    "sampleCta": "Zuerst Beispielbericht ansehen",
+    "billingHeading": "Abo verwalten",
+    "pendingTitle": "Abo wird bestätigt…",
+    "pendingBody": "Polar verarbeitet die Zahlung noch. Aktualisieren Sie die Seite in einer Minute oder prüfen Sie die Willkommens-E-Mail."
   }
 }

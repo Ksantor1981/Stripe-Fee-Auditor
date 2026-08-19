@@ -2,6 +2,7 @@
   "legal": {
     "privacy": {
       "title": "Política de privacidad",
+      "metaDescription": "Cómo Stripe Fee Auditor procesa archivos CSV, guarda informes derivados, protege enlaces privados y atiende solicitudes de eliminación.",
       "updated": "Última actualización: 10 de agosto de 2026",
       "sections": [
         {
@@ -132,6 +133,7 @@
     },
     "terms": {
       "title": "Términos del servicio",
+      "metaDescription": "Condiciones de uso de Stripe Fee Auditor, límites del servicio, responsabilidades del usuario y reglas de acceso a informes.",
       "updated": "Última actualización: 11 de mayo de 2026",
       "sections": [
         {
@@ -227,6 +229,7 @@
     },
     "refund": {
       "title": "Política de reembolso",
+      "metaDescription": "Condiciones de reembolso de los servicios de pago de Stripe Fee Auditor y forma de contactar por problemas de cobro.",
       "updated": "Última actualización: 11 de mayo de 2026",
       "sections": [
         {

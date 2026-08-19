@@ -4,7 +4,13 @@
     "disclaimer": "Fee Auditor (feeauditor.com) — независимый SaaS-инструмент. Не аффилирован со Stripe, Inc., не одобрен им и не является его частью. «Stripe» — товарный знак Stripe, Inc.",
     "privacyPolicy": "Политика конфиденциальности",
     "termsOfService": "Условия использования",
-    "refundPolicy": "Политика возвратов"
+    "refundPolicy": "Политика возвратов",
+    "feeAnalysisTools": "Инструменты анализа комиссий",
+    "stripeDataExport": "Экспорт данных Stripe",
+    "compare": "Сравнение",
+    "stripeVsSquare": "Stripe и Square",
+    "stripeVsGoCardless": "Stripe и GoCardless",
+    "stripeVsPaddle": "Stripe и Paddle"
 },
   "breadcrumbs": {
     "home": "Главная"
@@ -98,6 +104,14 @@
       { "context": "Нужен краткий ответ в процентах?", "href": "/what-percent-does-stripe-take", "label": "Какой процент берёт Stripe" },
       { "context": "Комиссии резко выросли месяц к месяцу?", "href": "/blog/why-stripe-fees-increase", "label": "Почему растут комиссии Stripe" },
       { "context": "Другие форматы экспорта?", "href": "/stripe-data-export", "label": "Варианты экспорта данных Stripe" }
+    ],
+    "dataExport": [
+      { "context": "Нужен CSV для аудита комиссий?", "href": "/stripe-balance-csv", "label": "Экспорт Balance CSV" },
+      { "context": "Нужна пошаговая инструкция?", "href": "/blog/how-to-export-stripe-balance-csv", "label": "Как экспортировать данные Stripe" },
+      { "context": "Экспорт готов?", "href": "/analyze", "label": "Анализировать мой CSV" },
+      { "context": "Почему ставка выше 2,9%?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Почему комиссии выше" },
+      { "context": "Комиссии международных карт?", "href": "/blog/stripe-international-card-fees", "label": "Международные комиссии Stripe" },
+      { "context": "Сначала оценить комиссии?", "href": "/stripe-fee-calculator", "label": "Калькулятор комиссий Stripe" }
     ]
   },
   "faq": {

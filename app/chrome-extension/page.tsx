@@ -15,8 +15,8 @@ export async function generateMetadata() {
   const pageTitle = t("metaTitle");
   const pageDescription = t("metaDescription");
   const ogImage = buildOgImageUrl({
-    title: "Stripe Fee Auditor Chrome Extension",
-    eyebrow: "CSV helper · no OAuth",
+    title: t("ogTitle"),
+    eyebrow: t("ogEyebrow"),
   });
 
   return {
@@ -36,7 +36,7 @@ export async function generateMetadata() {
       url: pagePath,
       siteName: "Stripe Fee Auditor",
       type: "website",
-      images: [{ url: ogImage, width: 1200, height: 630, alt: "Stripe Fee Auditor Chrome Extension" }],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: t("ogAlt") }],
     },
     twitter: {
       card: "summary_large_image",
@@ -160,16 +160,9 @@ export default async function ChromeExtensionPage() {
         </section>
 
         <section className="mt-12 border-t border-gray-200 pt-10">
-          <h2 className="text-lg font-semibold text-gray-900">When the Chrome helper is useful</h2>
-          <p className="mt-3 text-sm leading-relaxed text-gray-600">
-            Use the helper when you already work in Stripe Dashboard and want a shorter path to the
-            correct Balance export and FeeAuditor upload. It does not replace the web report or run
-            a background Stripe integration; the CSV audit still starts only when you choose a file.
-          </p>
-          <p className="mt-3 text-sm leading-relaxed text-gray-600">
-            If you prefer not to install an extension, use the web app directly. Both paths keep the
-            same no-OAuth workflow and the same analysis of effective rate, fee drivers, and costly rows.
-          </p>
+          <h2 className="text-lg font-semibold text-gray-900">{t("usefulHeading")}</h2>
+          <p className="mt-3 text-sm leading-relaxed text-gray-600">{t("usefulBody1")}</p>
+          <p className="mt-3 text-sm leading-relaxed text-gray-600">{t("usefulBody2")}</p>
         </section>
 
         <section className="mt-12 rounded-2xl bg-gray-900 px-6 py-8 text-center text-white">

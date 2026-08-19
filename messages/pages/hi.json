@@ -1193,16 +1193,16 @@
       }
     },
     "vsSquare": {
-      "metaTitle": "Square vs Stripe Fees: Which Is Cheaper?",
-      "metaDescription": "Square vs Stripe fees compared by use case (SaaS, POS, low-ticket). Headline rates mislead — audit your real Stripe rate before switching.",
-      "breadcrumb": "Square vs Stripe Fees: Which Is Cheaper?",
+      "metaTitle": "Square या Stripe में कौन सस्ता है? शुल्क तुलना",
+      "metaDescription": "SaaS, POS, छोटे भुगतान और आमने-सामने बिक्री के लिए Stripe और Square की तुलना करें। बदलने से पहले अपनी वास्तविक Stripe दर जाँचें।",
+      "breadcrumb": "Square या Stripe में कौन सस्ता है?",
       "eyebrow": "Stripe बनाम स्क्वायर",
-      "heroTitle": "Square vs Stripe fees: compare the model before you switch.",
-      "heroDescription": "Stripe and Square can both process payments, but they often fit different jobs. Stripe is strong for online SaaS and custom checkout. Square is often strongest when in-person payments, POS, appointments, or local services matter. Published rates alone rarely answer “which is cheaper?”",
+      "heroTitle": "Square या Stripe में कौन सस्ता है? शुल्क और उपयोग की तुलना करें।",
+      "heroDescription": "Stripe और Square दोनों भुगतान लेते हैं, पर अलग जरूरतों के लिए बेहतर हो सकते हैं। Stripe ऑनलाइन SaaS और कस्टम checkout में मजबूत है। Square आमने-सामने भुगतान, POS, appointments और स्थानीय सेवाओं में बेहतर हो सकता है। केवल प्रकाशित दर से सस्ता विकल्प तय नहीं होता।",
       "sections": [
         {
           "type": "heroCard",
-          "title": "स्क्वायर सिर्फ एक सस्ता Stripe नहीं है।",
+          "title": "सस्ता विकल्प इस पर निर्भर है कि आप भुगतान कैसे लेते हैं।",
           "body": "यदि आपकी Stripe समस्या अंतरराष्ट्रीय कार्ड, रिफंड, या छोटे सदस्यता शुल्क से संबंधित है, तो स्क्वायर पर स्विच करने से मूल कारण ठीक नहीं हो सकता है। सबसे पहले मापें कि आपकी वास्तविक Stripe दर क्या चल रही है।"
         },
         {
@@ -1213,7 +1213,7 @@
               "useCase": "SaaS सदस्यताएँ",
               "stripe": "आमतौर पर सदस्यता तर्क, चालान, एपीआई और कस्टम चेकआउट प्रवाह के लिए डिफ़ॉल्ट।",
               "alternative": "सरल ऑनलाइन भुगतान के लिए काम कर सकता है, लेकिन यह आमतौर पर Stripe की तुलना में कम SaaS-मूल है।",
-              "decision": "पहले ऑडिट Stripe; यदि कार्ड मिश्रण के कारण शुल्क अधिक है, तो प्लेटफ़ॉर्म स्थानांतरित करने से पहले भुगतान के तरीके बदलें।"
+              "decision": "पहले Stripe का ऑडिट करें। यदि कार्ड मिश्रण के कारण शुल्क अधिक है, तो प्लेटफ़ॉर्म बदलने से पहले भुगतान विधियाँ बदलकर देखें।"
             },
             {
               "useCase": "व्यक्तिगत सेवाएँ",
@@ -1222,9 +1222,9 @@
               "decision": "यदि अधिकांश भुगतान व्यक्तिगत रूप से होते हैं, तो चेकआउट वर्कफ़्लो की तुलना शुल्क दर से करें।"
             },
             {
-              "useCase": "कम टिकट शुल्क",
-              "stripe": "निश्चित प्रति-शुल्क शुल्क छोटे लेनदेन पर हावी हो सकता है और प्रभावी दर को बढ़ा सकता है।",
-              "alternative": "प्रति-लेन-देन अर्थशास्त्र भी है; कम टिकट वाले गणित को अभी भी जांचने की जरूरत है।",
+              "useCase": "छोटे भुगतान",
+              "stripe": "प्रति-लेनदेन निश्चित शुल्क छोटे भुगतानों पर हावी होकर प्रभावी दर बढ़ा सकता है।",
+              "alternative": "Square भी प्रति लेनदेन शुल्क लेता है; छोटे भुगतानों की लागत अलग से तुलना करनी चाहिए।",
               "decision": "यह मानने से पहले कि प्रोसेसर समस्या है, बंडलिंग, न्यूनतम शुल्क या मासिक चालान का प्रयास करें।"
             },
             {
@@ -2019,7 +2019,6 @@
           "paragraphs": []
         }
       ],
-      "faq": [],
       "sources": [
         {
           "href": "https://stripe.com/pricing",
@@ -2114,7 +2113,6 @@
           "paragraphs": []
         }
       ],
-      "faq": [],
       "sources": [
         {
           "href": "https://stripe.com/pricing",

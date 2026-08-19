@@ -1235,16 +1235,16 @@
       }
     },
     "vsSquare": {
-      "metaTitle": "Stripe vs Square Fees: Compare Before Switching",
+      "metaTitle": "Is Square or Stripe Cheaper? Fees Compared",
       "metaDescription": "Compare Stripe and Square by use case: SaaS checkout, in-person payments, invoices, low-ticket charges, and what to audit before switching.",
-      "breadcrumb": "Stripe vs Square Fees: Compare Before Switching",
+      "breadcrumb": "Is Square or Stripe Cheaper? Fees Compared",
       "eyebrow": "Stripe vs Square",
-      "heroTitle": "Stripe vs Square fees: compare the business model before switching.",
+      "heroTitle": "Is Square or Stripe cheaper? Compare fees and business fit.",
       "heroDescription": "Stripe and Square can both process payments, but they often fit different jobs. Stripe is strong for online SaaS and custom checkout. Square is often strongest when in-person payments, POS, appointments, or local services matter.",
       "sections": [
         {
           "type": "heroCard",
-          "title": "Square is not just a cheaper Stripe.",
+          "title": "Cheaper depends on how you accept payments.",
           "body": "If your Stripe issue is international cards, refunds, or small subscription charges, switching to Square may not fix the root cause. First measure what is driving your actual Stripe rate."
         },
         {

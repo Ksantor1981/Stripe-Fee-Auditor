@@ -4,7 +4,13 @@
     "disclaimer": "Fee Auditor (feeauditor.com) एक स्वतंत्र SaaS टूल है। Stripe, Inc. से संबद्ध, समर्थित या उसका हिस्सा नहीं है। \"Stripe\" Stripe, Inc. का ट्रेडमार्क है।",
     "privacyPolicy": "गोपनीयता नीति",
     "termsOfService": "सेवा की शर्तें",
-    "refundPolicy": "रिफंड नीति"
+    "refundPolicy": "रिफंड नीति",
+    "feeAnalysisTools": "शुल्क विश्लेषण टूल",
+    "stripeDataExport": "Stripe डेटा निर्यात",
+    "compare": "तुलना करें",
+    "stripeVsSquare": "Stripe और Square",
+    "stripeVsGoCardless": "Stripe और GoCardless",
+    "stripeVsPaddle": "Stripe और Paddle"
 },
   "breadcrumbs": {
     "home": "होम"
@@ -98,6 +104,14 @@
       { "context": "संक्षिप्त प्रतिशत उत्तर चाहिए?", "href": "/what-percent-does-stripe-take", "label": "Stripe कितना प्रतिशत लेता है" },
       { "context": "महीने-दर-महीने फी बढ़ गई?", "href": "/blog/why-stripe-fees-increase", "label": "Stripe फी क्यों बढ़ती हैं" },
       { "context": "अन्य एक्सपोर्ट प्रारूप?", "href": "/stripe-data-export", "label": "Stripe डेटा एक्सपोर्ट विकल्प" }
+    ],
+    "dataExport": [
+      { "context": "शुल्क ऑडिट के लिए CSV चाहिए?", "href": "/stripe-balance-csv", "label": "Balance CSV निर्यात गाइड" },
+      { "context": "चरण-दर-चरण गाइड?", "href": "/blog/how-to-export-stripe-balance-csv", "label": "Stripe डेटा कैसे निर्यात करें" },
+      { "context": "निर्यात तैयार है?", "href": "/analyze", "label": "मेरा CSV विश्लेषण करें" },
+      { "context": "दर 2.9% से ऊपर क्यों?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "शुल्क अधिक क्यों है" },
+      { "context": "अंतर्राष्ट्रीय कार्ड शुल्क?", "href": "/blog/stripe-international-card-fees", "label": "Stripe अंतर्राष्ट्रीय शुल्क" },
+      { "context": "निर्यात से पहले अनुमान?", "href": "/stripe-fee-calculator", "label": "Stripe शुल्क कैलकुलेटर" }
     ]
   },
   "faq": {
@@ -155,5 +169,18 @@
       "q": "क्या मैं यह Excel में खुद गणना कर सकता हूँ?",
       "a": "हाँ। बुनियादी मिश्रित दर बस कुल शुल्क फी को कुल शुल्क वॉल्यूम से विभाजित करना है। Fee Auditor तब उपयोगी है जब अगला स्तर चाहिए: मासिक परिवर्तन, उच्च-फी शुल्क, रिफंड फी रिसाव, बेंचमार्क संदर्भ, एक्सपोर्ट और विशिष्ट बचत अवसर — हर बार स्प्रेडशीट दोबारा बनाए बिना।"
     }
+  },
+  "monitorPage": {
+    "successEyebrow": "Fee Monitor सक्रिय",
+    "successTitle": "सदस्यता सक्रिय — आपका मासिक कार्यप्रवाह",
+    "successIntro": "स्वागत ईमेल भेजा जा रहा है। हर अपलोड किया गया Balance CSV पूरी रिपोर्ट बनता है और आपके निजी इतिहास में जुड़ता है।",
+    "step1": "आधार तय करने के लिए इस महीने का Stripe Balance CSV अपलोड करें।",
+    "step2": "रिपोर्ट में processing rate, कुल लागत और शुल्क के कारण देखें।",
+    "step3": "अगला महीना पूरा होने पर फिर अपलोड करें — हम बदलाव की तुलना इतिहास से करेंगे।",
+    "uploadCta": "Balance CSV अपलोड करें →",
+    "sampleCta": "पहले नमूना रिपोर्ट देखें",
+    "billingHeading": "सदस्यता प्रबंधित करें",
+    "pendingTitle": "आपकी सदस्यता की पुष्टि हो रही है…",
+    "pendingBody": "Polar अभी भुगतान संसाधित कर रहा है। एक मिनट बाद पृष्ठ रीफ़्रेश करें या स्वागत ईमेल देखें।"
   }
 }

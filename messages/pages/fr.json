@@ -1193,16 +1193,16 @@
       }
     },
     "vsSquare": {
-      "metaTitle": "Stripe vs Square Fees : comparez avant de changer",
-      "metaDescription": "Comparez Stripe et Square par cas d'utilisation : paiement SaaS, paiements en personne, factures, frais de billet réduits et éléments à vérifier avant de changer.",
-      "breadcrumb": "Stripe vs Square Fees : comparez avant de changer",
-      "eyebrow": "Rayure vs carré",
-      "heroTitle": "Frais Stripe vs Square : comparez le modèle économique avant de changer.",
+      "metaTitle": "Square ou Stripe : lequel est moins cher ? Comparatif",
+      "metaDescription": "Comparez Stripe et Square pour le SaaS, le POS, les petits paiements et la vente en personne. Auditez votre taux Stripe réel avant de changer.",
+      "breadcrumb": "Square ou Stripe : lequel est moins cher ?",
+      "eyebrow": "Stripe et Square",
+      "heroTitle": "Square ou Stripe : lequel est moins cher ? Comparez les usages.",
       "heroDescription": "Stripe et Square peuvent tous deux traiter les paiements, mais ils correspondent souvent à des tâches différentes. Stripe est puissant pour SaaS en ligne et le paiement personnalisé. Square est souvent plus performant lorsque les paiements en personne, les points de vente, les rendez-vous ou les services locaux sont importants.",
       "sections": [
         {
           "type": "heroCard",
-          "title": "Square n'est pas seulement un Stripe moins cher.",
+          "title": "Le moins cher dépend de votre façon d’encaisser.",
           "body": "Si votre problème avec Stripe concerne les cartes internationales, les remboursements ou les petits frais d'abonnement, le passage à Square peut ne pas résoudre la cause première. Mesurez d’abord ce qui détermine votre taux Stripe réel."
         },
         {
@@ -1222,9 +1222,9 @@
               "decision": "Si la plupart des paiements s'effectuent en personne, comparez le flux de paiement autant que le taux des frais."
             },
             {
-              "useCase": "Tarifs réduits",
-              "stripe": "Les frais fixes par frais peuvent dominer les petites transactions et faire augmenter le taux effectif.",
-              "alternative": "A également une économie par transaction ; les calculs à bas prix doivent encore être vérifiés.",
+              "useCase": "Petits paiements",
+              "stripe": "Les frais fixes par transaction peuvent peser lourd sur les petits paiements et augmenter le taux effectif.",
+              "alternative": "Square facture aussi chaque transaction ; le coût des petits paiements doit être comparé séparément.",
               "decision": "Essayez le regroupement, les frais minimums ou les factures mensuelles avant de supposer que le processeur est le problème."
             },
             {
@@ -2019,7 +2019,6 @@
           "paragraphs": []
         }
       ],
-      "faq": [],
       "sources": [
         {
           "href": "https://stripe.com/pricing",
@@ -2114,7 +2113,6 @@
           "paragraphs": []
         }
       ],
-      "faq": [],
       "sources": [
         {
           "href": "https://stripe.com/pricing",

@@ -24,17 +24,17 @@ export async function SiteFooter() {
         { href: "/blog", label: tn("blog") },
         { href: "/#faq", label: ts("faqHeading") },
         { href: "/stripe-balance-csv", label: tn("balanceCsvGuide") },
-        { href: "/stripe-fee-analysis-tools", label: "Fee analysis tools" },
-        { href: "/stripe-data-export", label: "Stripe data export" },
+        { href: "/stripe-fee-analysis-tools", label: t("feeAnalysisTools") },
+        { href: "/stripe-data-export", label: t("stripeDataExport") },
         { href: "/how-it-works", label: tn("howItWorks") },
       ],
     },
     {
-      title: "Compare",
+      title: t("compare"),
       links: [
-        { href: "/stripe-vs-square-fees", label: "Stripe vs Square" },
-        { href: "/stripe-vs-gocardless", label: "Stripe vs GoCardless" },
-        { href: "/stripe-vs-paddle-fees", label: "Stripe vs Paddle" },
+        { href: "/stripe-vs-square-fees", label: t("stripeVsSquare") },
+        { href: "/stripe-vs-gocardless", label: t("stripeVsGoCardless") },
+        { href: "/stripe-vs-paddle-fees", label: t("stripeVsPaddle") },
       ],
     },
     {

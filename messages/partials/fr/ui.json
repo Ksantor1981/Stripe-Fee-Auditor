@@ -4,7 +4,13 @@
     "disclaimer": "Fee Auditor (feeauditor.com) est un outil SaaS indépendant. Non affilié, approuvé ni partie de Stripe, Inc. « Stripe » est une marque de Stripe, Inc.",
     "privacyPolicy": "Politique de confidentialité",
     "termsOfService": "Conditions d'utilisation",
-    "refundPolicy": "Politique de remboursement"
+    "refundPolicy": "Politique de remboursement",
+    "feeAnalysisTools": "Outils d’analyse des frais",
+    "stripeDataExport": "Export des données Stripe",
+    "compare": "Comparer",
+    "stripeVsSquare": "Stripe et Square",
+    "stripeVsGoCardless": "Stripe et GoCardless",
+    "stripeVsPaddle": "Stripe et Paddle"
 },
   "breadcrumbs": {
     "home": "Accueil"
@@ -98,6 +104,14 @@
       { "context": "Besoin de la réponse courte en pourcentage ?", "href": "/what-percent-does-stripe-take", "label": "Quel pourcentage Stripe prélève" },
       { "context": "Frais en forte hausse d'un mois à l'autre ?", "href": "/blog/why-stripe-fees-increase", "label": "Pourquoi les frais Stripe augmentent" },
       { "context": "Autres formats d'export ?", "href": "/stripe-data-export", "label": "Options d'export de données Stripe" }
+    ],
+    "dataExport": [
+      { "context": "Besoin du CSV pour l’audit ?", "href": "/stripe-balance-csv", "label": "Exporter le Balance CSV" },
+      { "context": "Guide pas à pas ?", "href": "/blog/how-to-export-stripe-balance-csv", "label": "Comment exporter les données Stripe" },
+      { "context": "Export terminé ?", "href": "/analyze", "label": "Analyser mon CSV" },
+      { "context": "Pourquoi le taux dépasse 2,9 % ?", "href": "/why-stripe-fee-rate-higher-than-2-9", "label": "Pourquoi les frais augmentent" },
+      { "context": "Frais des cartes internationales ?", "href": "/blog/stripe-international-card-fees", "label": "Frais internationaux Stripe" },
+      { "context": "Estimer avant l’export ?", "href": "/stripe-fee-calculator", "label": "Calculateur de frais Stripe" }
     ]
   },
   "faq": {
@@ -155,5 +169,18 @@
       "q": "Puis-je calculer cela moi-même dans Excel ?",
       "a": "Oui. Le taux mixte de base est simplement le total des frais de paiement divisé par le volume total des paiements. Fee Auditor est utile quand vous voulez la couche suivante : variations mensuelles, paiements à frais élevés, fuite de frais de remboursement, contexte benchmark, exports et opportunités d'économie concrètes sans reconstruire le tableur à chaque fois."
     }
+  },
+  "monitorPage": {
+    "successEyebrow": "Fee Monitor actif",
+    "successTitle": "Abonnement actif — voici votre parcours mensuel",
+    "successIntro": "L’e-mail de bienvenue est en route. Chaque Balance CSV importé devient un rapport complet et rejoint votre historique privé.",
+    "step1": "Importez le Stripe Balance CSV du mois pour créer votre référence.",
+    "step2": "Consultez le taux de traitement, le coût global et les facteurs de frais.",
+    "step3": "À la fin du mois suivant, importez à nouveau pour comparer l’évolution.",
+    "uploadCta": "Importer le Balance CSV →",
+    "sampleCta": "Voir d’abord le rapport exemple",
+    "billingHeading": "Gérer l’abonnement",
+    "pendingTitle": "Confirmation de votre abonnement…",
+    "pendingBody": "Polar traite encore le paiement. Actualisez dans une minute ou consultez l’e-mail de bienvenue."
   }
 }
