@@ -87,6 +87,12 @@ assert(!waitlistForm.includes("What should FeeAuditor build next?"), "Waitlist f
 assert(!calculatorWidget.includes("Calculate Stripe processing fees"), "Calculator widget contains hardcoded English copy");
 const paypalCallout = fs.readFileSync(path.join(ROOT, "components/SeoPayPalCalculatorCallout.tsx"), "utf8");
 assert(!paypalCallout.includes("PayPal fee calculator?"), "PayPal callout contains hardcoded English copy");
+const analyzeClient = fs.readFileSync(path.join(ROOT, "app/analyze/_components/AnalyzeClient.tsx"), "utf8");
+const exportInstructions = fs.readFileSync(path.join(ROOT, "app/analyze/_components/ExportInstructions.tsx"), "utf8");
+const advertiserBanner = fs.readFileSync(path.join(ROOT, "components/AdvertiserIdentityBanner.tsx"), "utf8");
+assert(!analyzeClient.includes("Don't have a CSV open right now"), "Analyze sample banner contains hardcoded English");
+assert(!exportInstructions.includes("How to export your Balance CSV"), "Export instructions contain hardcoded English");
+assert(!advertiserBanner.includes("is an independent tool"), "Advertiser identity banner contains hardcoded English");
 assert(!fs.readFileSync(path.join(ROOT, "app/report/[id]/_components/ShareEmbedBenchmark.tsx"), "utf8").includes("html2canvas"), "Share card still uses html2canvas");
 assert(!localizedSeoPage.includes(">FAQ<"), "Localized SEO page contains hardcoded FAQ heading");
 for (const hardcoded of ["Use case", "Alternative", "Decision", "Good fit", "Poor fit", "Audit my actual Stripe CSV", "Start with a quick estimate"]) {

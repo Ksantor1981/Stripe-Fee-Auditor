@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
 type Props = {
   className?: string;
@@ -10,16 +11,16 @@ type Props = {
  * Clear advertiser identity for Google Ads / brand-confusion policies.
  * States who operates the site and that it is not Stripe.
  */
-export function AdvertiserIdentityBanner({ className = "", variant = "banner" }: Props) {
-  const body = (
-    <>
-      <span className="font-semibold text-gray-900">Fee Auditor</span> (
+export async function AdvertiserIdentityBanner({ className = "", variant = "banner" }: Props) {
+  const t = await getTranslations("common");
+  const body = t.rich("independentTool", {
+    brand: (chunks) => <span className="font-semibold text-gray-900">{chunks}</span>,
+    site: (chunks) => (
       <Link href="/" className="underline underline-offset-2 hover:text-gray-800">
-        feeauditor.com
+        {chunks}
       </Link>
-      ) is an independent tool. Not affiliated with, endorsed by, or part of Stripe, Inc.
-    </>
-  );
+    ),
+  });
 
   if (variant === "inline") {
     return <p className={`text-xs leading-relaxed text-gray-500 ${className}`}>{body}</p>;
