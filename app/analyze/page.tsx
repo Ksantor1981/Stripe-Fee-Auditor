@@ -7,27 +7,44 @@ import { absoluteUrl } from "@/lib/site-url";
 import { AnalyzeClient } from "./_components/AnalyzeClient";
 import { AnalyzePageIntro } from "./_components/AnalyzePageIntro";
 
-export const metadata: Metadata = {
-  title: "Stripe Fee Audit — Analyze Actual Fees from Balance CSV",
-  description:
-    "Analyze fees Stripe already charged from your Balance CSV. See effective rate, fee drivers, refunds, and international cards. For estimates, use the calculator.",
-  alternates: { canonical: "/analyze" },
+type Props = {
+  searchParams: Promise<{ sample?: string }>;
 };
+
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  const { sample } = await searchParams;
+  const isSample = sample === "1" || sample === "true";
+  return {
+    title: "Stripe Fee Audit — Analyze Actual Fees from Balance CSV",
+    description:
+      "Analyze fees Stripe already charged from your Balance CSV. See effective rate, fee drivers, refunds, and international cards. For estimates, use the calculator.",
+    alternates: { canonical: "/analyze" },
+    robots: isSample
+      ? { index: false, follow: true }
+      : { index: true, follow: true },
+  };
+}
 
 export default async function AnalyzePage() {
   const t = await getTranslations("analyze");
   const pageUrl = absoluteUrl("/analyze");
   const auditJsonLd = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
+    "@type": "WebPage",
     "@id": `${pageUrl}#audit`,
     name: "Stripe Fee Audit",
     description:
       "Analyze fees Stripe already charged from an itemized Balance CSV. This is not a published-price fee calculator.",
     url: pageUrl,
-    applicationCategory: "FinanceApplication",
-    operatingSystem: "Web",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Fee Auditor",
+      url: absoluteUrl("/"),
+    },
+    about: {
+      "@type": "Thing",
+      name: "Stripe Balance CSV fee audit",
+    },
   };
 
   return (

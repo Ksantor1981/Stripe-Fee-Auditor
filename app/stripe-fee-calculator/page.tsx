@@ -24,14 +24,20 @@ export default async function Page() {
   const howto = (t.raw("howto") as { name?: string; steps?: { name: string; text: string }[] } | undefined) ?? null;
   const calculatorJsonLd = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
+    "@type": "WebPage",
     "@id": `${pageUrl}#calculator`,
     name: t("heroTitle"),
     description: t("metaDescription"),
     url: pageUrl,
-    applicationCategory: "FinanceApplication",
-    operatingSystem: "Web",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Fee Auditor",
+      url: absoluteUrl("/"),
+    },
+    about: {
+      "@type": "Thing",
+      name: "Stripe processing fee calculator",
+    },
   };
   const howToJsonLd =
     howto?.name && Array.isArray(howto.steps) && howto.steps.length > 0

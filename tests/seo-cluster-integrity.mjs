@@ -105,7 +105,9 @@ assert(
 
 const calculatorPage = read("app/stripe-fee-calculator/page.tsx");
 assert(calculatorPage.includes('canonical') || calculatorPage.includes("seoPageMetadata"), "calculator missing canonical helper");
-assert(calculatorPage.includes('"WebApplication"'), "calculator missing WebApplication JSON-LD");
+assert(calculatorPage.includes('"WebPage"'), "calculator missing WebPage JSON-LD");
+assert(!calculatorPage.includes('"WebApplication"'), "calculator still uses WebApplication JSON-LD");
+assert(!calculatorPage.includes('"SoftwareApplication"'), "calculator still uses SoftwareApplication JSON-LD");
 assert(calculatorPage.includes('"HowTo"'), "calculator missing HowTo JSON-LD");
 assert(calculatorPage.includes('"Article"'), "calculator missing Article JSON-LD");
 assert(!calculatorPage.includes("hreflang"), "calculator added hreflang");
@@ -118,7 +120,9 @@ assert(!percentPage.includes("StripeTakeCalculator"), "percent page embeds take 
 
 const analyzePage = read("app/analyze/page.tsx");
 assert(analyzePage.includes('canonical: "/analyze"'), "analyze missing canonical");
-assert(analyzePage.includes('"WebApplication"'), "analyze missing WebApplication JSON-LD");
+assert(analyzePage.includes('"WebPage"'), "analyze missing WebPage JSON-LD");
+assert(!analyzePage.includes('"WebApplication"'), "analyze still uses WebApplication JSON-LD");
+assert(analyzePage.includes("index: false"), "analyze sample URL should be noindex");
 assert(analyzePage.includes('href="/stripe-fee-calculator"'), "analyze missing calculator link");
 assert(analyzePage.includes('href="/what-percent-does-stripe-take"'), "analyze missing percent link");
 assert(analyzePage.includes('href="/blog/stripe-credit-card-processing-fees"'), "analyze missing article link");
