@@ -29,6 +29,7 @@ const HUB_SECTIONS: HubSectionConfig[] = [
       "/blog/stripe-international-card-fees",
       "/blog/stripe-fees-small-transactions",
       "/blog/why-stripe-effective-rate-jumped-this-month",
+      "/blog/why-stripe-fees-increase",
       "/blog/stripe-blended-rate-calculator",
       "/blog/stripe-fee-leakage-report-may-2026",
       "/blog/cross-border-stripe-fees-migration-2026",

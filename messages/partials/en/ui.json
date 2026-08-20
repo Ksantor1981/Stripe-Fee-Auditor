@@ -6,6 +6,8 @@
     "termsOfService": "Terms of Service",
     "refundPolicy": "Refund Policy",
     "feeAnalysisTools": "Fee analysis tools",
+    "feesReport": "Stripe fees report",
+    "feeMonitor": "Fee Monitor",
     "stripeDataExport": "Stripe data export",
     "compare": "Compare",
     "stripeVsSquare": "Stripe vs Square",

@@ -136,4 +136,23 @@ assert.match(blogIndex, /updatedAt: "2026-08-19"/);
 const proxy = read("proxy.ts");
 assert(!proxy.includes("hreflang"), "proxy.ts should not gain hreflang in this sprint");
 
+const paypalArticle = pages.blog["stripe-vs-paypal-fees"];
+assert(
+  paypalArticle.sources.some(
+    (source) => source.href === "https://developer.paypal.com/docs/checkout/payment-methods/",
+  ),
+  "PayPal comparison missing live checkout docs source",
+);
+assert(
+  !JSON.stringify(pages).includes("developer.paypal.com/docs/checkout/payment-methods/paypal/"),
+  "dead PayPal Checkout docs URL still present",
+);
+
+const blogHub = read("components/marketing/BlogHubContent.tsx");
+assert(blogHub.includes('"/blog/why-stripe-fees-increase"'), "blog hub missing why-stripe-fees-increase");
+
+const footer = read("components/SiteFooter.tsx");
+assert(footer.includes('href: "/monitor"'), "footer missing /monitor");
+assert(footer.includes('href: "/stripe-fees-report"'), "footer missing /stripe-fees-report");
+
 console.log("seo cluster integrity tests passed");

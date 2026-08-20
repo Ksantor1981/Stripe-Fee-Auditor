@@ -2538,7 +2538,7 @@
           "title": "PayPal merchant fees"
         },
         {
-          "href": "https://developer.paypal.com/docs/checkout/payment-methods/paypal/",
+          "href": "https://developer.paypal.com/docs/checkout/payment-methods/",
           "title": "PayPal Checkout docs"
         }
       ],

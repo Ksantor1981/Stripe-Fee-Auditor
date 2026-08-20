@@ -6,6 +6,8 @@
     "termsOfService": "Conditions d'utilisation",
     "refundPolicy": "Politique de remboursement",
     "feeAnalysisTools": "Outils d’analyse des frais",
+    "feesReport": "Rapport de frais Stripe",
+    "feeMonitor": "Fee Monitor",
     "stripeDataExport": "Export des données Stripe",
     "compare": "Comparer",
     "stripeVsSquare": "Stripe et Square",

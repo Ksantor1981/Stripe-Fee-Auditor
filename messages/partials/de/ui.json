@@ -6,6 +6,8 @@
     "termsOfService": "Nutzungsbedingungen",
     "refundPolicy": "Rückerstattungsrichtlinie",
     "feeAnalysisTools": "Tools zur Gebührenanalyse",
+    "feesReport": "Stripe-Gebührenbericht",
+    "feeMonitor": "Fee Monitor",
     "stripeDataExport": "Stripe-Datenexport",
     "compare": "Vergleichen",
     "stripeVsSquare": "Stripe und Square",

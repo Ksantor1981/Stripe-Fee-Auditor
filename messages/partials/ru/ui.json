@@ -6,6 +6,8 @@
     "termsOfService": "Условия использования",
     "refundPolicy": "Политика возвратов",
     "feeAnalysisTools": "Инструменты анализа комиссий",
+    "feesReport": "Отчёт о комиссиях Stripe",
+    "feeMonitor": "Fee Monitor",
     "stripeDataExport": "Экспорт данных Stripe",
     "compare": "Сравнение",
     "stripeVsSquare": "Stripe и Square",
