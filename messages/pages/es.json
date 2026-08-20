@@ -173,6 +173,10 @@
         {
           "q": "¿Por qué mi tarifa efectiva de Stripe puede ser mayor que la tarifa publicada?",
           "a": "Las tarjetas internacionales, la conversión de moneda, los reembolsos, los cargos de Radar, las disputas y las microtransacciones pueden hacer que su tarifa efectiva combinada supere la tarifa estándar publicada de Stripe."
+        },
+        {
+          "q": "¿Sirve también como calculadora de comisiones de tarjeta o por transacción de Stripe?",
+          "a": "Sí. Las comisiones de tarjeta y por transacción usan la misma estimación de precios publicados: porcentaje + cuota fija, más la parte internacional o de conversión que indiques. Las búsquedas de calculadora de tarifas Stripe, calcular tarifas Stripe y processing fee calculator pertenecen a esta página: no hay otra herramienta."
         }
       ],
       "cta": {

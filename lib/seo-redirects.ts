@@ -20,4 +20,29 @@ export const SEO_KEYWORD_REDIRECTS = [
     destination: "/stripe-fee-calculator",
     permanent: true,
   },
+  {
+    source: "/stripe-fees-calculator",
+    destination: "/stripe-fee-calculator",
+    permanent: true,
+  },
+  {
+    source: "/calculate-stripe-fees",
+    destination: "/stripe-fee-calculator",
+    permanent: true,
+  },
+  {
+    source: "/stripe-processing-fee-calculator",
+    destination: "/stripe-fee-calculator",
+    permanent: true,
+  },
+  {
+    source: "/stripe-credit-card-fee-calculator",
+    destination: "/stripe-fee-calculator",
+    permanent: true,
+  },
+  {
+    source: "/stripe-transaction-fee-calculator",
+    destination: "/stripe-fee-calculator",
+    permanent: true,
+  },
 ] as const;

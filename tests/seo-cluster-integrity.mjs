@@ -54,8 +54,16 @@ const routes = walkPageFiles(appDir).map((file) => {
   return parts.length === 0 ? "/" : `/${parts.join("/")}`;
 });
 
+const redirectSource = read("lib/seo-redirects.ts");
+const CALCULATOR_REDIRECTS = CALCULATOR_ALIASES.filter((alias) => alias !== "/stripe-fee-calculator-2");
+CALCULATOR_REDIRECTS.push("/stripe-credit-card-fee-calculator", "/stripe-transaction-fee-calculator");
+
 for (const alias of CALCULATOR_ALIASES) {
   assert(!routes.includes(alias), `duplicate calculator route exists: ${alias}`);
+}
+for (const alias of CALCULATOR_REDIRECTS) {
+  assert(redirectSource.includes(`source: "${alias}"`), `missing calculator 301 for ${alias}`);
+  assert(!routes.includes(alias), `calculator alias should redirect, not be a page: ${alias}`);
 }
 
 assert(routes.includes(CLUSTER.calculator), "missing calculator page");
@@ -67,6 +75,9 @@ assert.match(calculator.metaTitle, /Stripe Fee Calculator/i);
 assert.match(calculator.heroTitle, /Stripe Fee Calculator/i);
 assert.match(JSON.stringify(calculator.faq), /How do I calculate Stripe fees/);
 assert.match(JSON.stringify(calculator.faq), /Stripe processing fee calculator/);
+assert.match(JSON.stringify(calculator.faq), /Stripe fees calculator/);
+assert.match(JSON.stringify(calculator.faq), /calculate Stripe fees/);
+assert.match(JSON.stringify(calculator.faq), /credit card or transaction fee calculator/);
 assert.doesNotMatch(
   JSON.stringify(calculator.faq),
   /What file do I need to calculate my Stripe effective fee rate/,

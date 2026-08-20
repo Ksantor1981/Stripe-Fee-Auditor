@@ -233,6 +233,10 @@
         {
           "q": "How do I check actual Stripe fees after they were charged?",
           "a": "Export an itemized Stripe Balance Transactions CSV and upload it on the analyzer. That audit measures fees already charged. This calculator is only a published-price estimate."
+        },
+        {
+          "q": "Is this also a Stripe credit card or transaction fee calculator?",
+          "a": "Yes. Credit-card processing fees and per-transaction fees use the same published-price estimate on this page: percentage + fixed fee, plus any international or conversion share you enter. Queries for Stripe fees calculator, calculate Stripe fees, and Stripe processing fee calculator all belong here — there is no separate tool."
         }
       ],
       "cta": {

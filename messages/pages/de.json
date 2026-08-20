@@ -173,6 +173,10 @@
         {
           "q": "Warum kann mein effektiver Stripe-Tarif höher sein als der veröffentlichte Tarif?",
           "a": "Internationale Karten, Währungsumrechnungen, Rückerstattungen, Radargebühren, Streitigkeiten und Mikrotransaktionen können dazu führen, dass Ihr effektiver Gesamtzinssatz über den veröffentlichten Standardzinssatz von Stripe steigt."
+        },
+        {
+          "q": "Ist das auch ein Rechner für Kreditkarten- oder Transaktionsgebühren von Stripe?",
+          "a": "Ja. Kreditkarten- und Transaktionsgebühren nutzen dieselbe Schätzung nach veröffentlichten Tarifen: Prozentsatz + Fixgebühr plus internationaler oder Umrechnungsanteil. Suchen nach Stripe-Gebührenrechner, Stripe-Gebühren berechnen und Processing-Fee-Calculator gehören auf diese Seite — es gibt kein separates Tool."
         }
       ],
       "cta": {

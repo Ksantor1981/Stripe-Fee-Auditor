@@ -173,6 +173,10 @@
         {
           "q": "Pourquoi mon tarif effectif Stripe peut-il être supérieur au tarif publié ?",
           "a": "Les cartes internationales, la conversion de devises, les remboursements, les frais radar, les litiges et les microtransactions peuvent tous pousser votre taux effectif mixte au-dessus du taux standard publié de Stripe."
+        },
+        {
+          "q": "Est-ce aussi un calculateur de frais carte ou de frais par transaction Stripe ?",
+          "a": "Oui. Les frais carte et par transaction utilisent la même estimation aux tarifs publiés : pourcentage + frais fixes, plus la part internationale ou de conversion saisie. Les requêtes calculateur de frais Stripe, calculer les frais Stripe et processing fee calculator aboutissent ici — il n’y a pas d’outil séparé."
         }
       ],
       "cta": {
